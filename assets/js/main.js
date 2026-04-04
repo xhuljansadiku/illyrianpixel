@@ -16,79 +16,72 @@ document.addEventListener("DOMContentLoaded", () => {
     if (yearEl) yearEl.textContent = new Date().getFullYear();
   })();
 
-  /* Theme toggle */
-  (() => {
-    const root = document.documentElement;
-    const toggleBtn = document.getElementById("themeToggle");
-    const icon = document.getElementById("themeIcon");
-    const KEY = "theme";
-
-    const applyTheme = (theme) => {
-      root.setAttribute("data-theme", theme);
-      try { localStorage.setItem(KEY, theme); } catch (e) {}
-      if (icon) icon.textContent = theme === "dark" ? "🌙" : "☀️";
-    };
-
-    let stored = null;
-    try { stored = localStorage.getItem(KEY); } catch (e) {}
-    applyTheme(stored === "light" || stored === "dark" ? stored : "dark");
-
-    if (toggleBtn) {
-      toggleBtn.addEventListener("click", () => {
-        const current = root.getAttribute("data-theme") || "dark";
-        applyTheme(current === "dark" ? "light" : "dark");
-      });
-    }
-  })();
-
-  /* Navbar shrink ------------------------------------------------------------------------------------------------------------------*/
+  /* Lartësi navbar (fixed) → --ip-nav-offset për body padding; pa ndryshim pamjeje në scroll */
   (() => {
     const bar = qs(".ip-navbar");
     if (!bar) return;
 
-    const onScroll = () => bar.classList.toggle("ip-navbar--shrink", window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    const root = document.documentElement;
+
+    const syncNavOffset = () => {
+      const h = Math.ceil(bar.getBoundingClientRect().height);
+      root.style.setProperty("--ip-nav-offset", `${h}px`);
+    };
+
+    syncNavOffset();
+    window.addEventListener("resize", syncNavOffset, { passive: true });
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(syncNavOffset).observe(bar);
+    }
   })();
 
-  /* Active link on scroll (SAFE – ignores href="#") */
+  /* Active link on scroll (+ data-nav-section për trigger mega Shërbimet) */
   (() => {
     const nav = qs("#ipNav");
     if (!nav || typeof IntersectionObserver === "undefined") return;
 
-    const links = qsa('a.nav-link[href^="#"]', nav);
-    if (!links.length) return;
+    const anchorLinks = qsa('a.nav-link[href^="#"], a.ip-nav-link[href^="#"]', nav);
+    const sectionTriggers = qsa("[data-nav-section]", nav);
 
-    const pairs = links
-      .map(a => {
-        const href = (a.getAttribute("href") || "").trim();
-        if (!href || href === "#") return null;
-        if (!href.startsWith("#") || href.length < 2) return null;
+    const pairs = [];
 
-        let sec = null;
-        try { sec = document.querySelector(href); } catch (e) { sec = null; }
-        return sec ? { sec, a } : null;
-      })
-      .filter(Boolean);
+    anchorLinks.forEach((a) => {
+      const href = (a.getAttribute("href") || "").trim();
+      if (!href || href === "#") return;
+      if (!href.startsWith("#") || href.length < 2) return;
+      let sec = null;
+      try { sec = document.querySelector(href); } catch (e) { sec = null; }
+      if (sec) pairs.push({ sec, el: a });
+    });
+
+    sectionTriggers.forEach((el) => {
+      const href = (el.getAttribute("data-nav-section") || "").trim();
+      if (!href || href.length < 2) return;
+      let sec = null;
+      try { sec = document.querySelector(href); } catch (e) { sec = null; }
+      if (sec) pairs.push({ sec, el });
+    });
 
     if (!pairs.length) return;
 
-    const setActive = (a) => {
-      links.forEach(x => x.classList.remove("active"));
-      if (a) a.classList.add("active");
+    const allEls = pairs.map((p) => p.el);
+
+    const setActive = (activeEl) => {
+      allEls.forEach((x) => x.classList.remove("active"));
+      if (activeEl) activeEl.classList.add("active");
     };
 
     const obs = new IntersectionObserver((entries) => {
       const visible = entries
-        .filter(e => e.isIntersecting)
+        .filter((e) => e.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
       if (!visible) return;
-      const match = pairs.find(x => x.sec === visible.target);
-      if (match) setActive(match.a);
+      const match = pairs.find((x) => x.sec === visible.target);
+      if (match) setActive(match.el);
     }, { rootMargin: "-30% 0px -60% 0px", threshold: [0.12, 0.25, 0.5] });
 
-    pairs.forEach(x => obs.observe(x.sec));
+    pairs.forEach((x) => obs.observe(x.sec));
   })();
 
   /* Mobile nav close: link click + outside + ESC -----------------------------------------------------------------------------------------*/
@@ -203,71 +196,210 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
 
-  /* Testimonials tabs --------------------------------------------------------------------------------------------------------------*/
+  /* Testimonials slider ------------------------------------------------------------------------------------------------------------*/
   (() => {
     const section = qs("#testimonials");
-    if (!section || !hasBootstrap()) return;
+    if (!section) return;
 
-    const buttons = qsa(".t-tab[data-bs-toggle='pill']", section);
-    if (!buttons.length) return;
+    const slider = qs("#testimonialSlider", section);
+    const prevBtn = qs('[data-testimonial-dir="prev"]', section);
+    const nextBtn = qs('[data-testimonial-dir="next"]', section);
+    const progress = qs("#testimonialProgress", section);
+    const cards = qsa("[data-testimonial-card]", section);
+    if (!slider || cards.length < 2) return;
 
-    const KEY = "ip_testimonials_tab";
-    let idx = 0;
     let timer = null;
 
-    const showByIndex = (i, doSave = true) => {
-      const btn = buttons[i];
-      if (!btn) return;
+    const getCardStep = () => {
+      const second = cards[1];
+      if (!second) return cards[0]?.offsetWidth || 320;
+      return Math.abs(second.offsetLeft - cards[0].offsetLeft) || second.offsetWidth || 320;
+    };
 
-      window.bootstrap.Tab.getOrCreateInstance(btn).show();
-      idx = i;
+    const getActiveIndex = () => {
+      const center = slider.scrollLeft + (slider.clientWidth / 2);
+      let bestIdx = 0;
+      let bestDist = Number.POSITIVE_INFINITY;
 
-      if (doSave) {
-        const saveKey = btn.getAttribute("data-save") || String(i);
-        try { localStorage.setItem(KEY, saveKey); } catch (e) {}
+      cards.forEach((card, i) => {
+        const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+        const dist = Math.abs(cardCenter - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = i;
+        }
+      });
+
+      return bestIdx;
+    };
+
+    const syncState = () => {
+      const activeIdx = getActiveIndex();
+      cards.forEach((card, i) => {
+        card.classList.toggle("is-active", i === activeIdx);
+        card.classList.toggle("is-inactive", i !== activeIdx);
+      });
+
+      if (progress) {
+        const ratio = cards.length > 1 ? activeIdx / (cards.length - 1) : 0;
+        progress.style.transform = `translateX(${ratio * 260}%)`;
       }
     };
 
-    const loadSaved = () => {
-      try {
-        const saved = localStorage.getItem(KEY);
-        if (!saved) return false;
-
-        const byKey = buttons.findIndex(b => b.getAttribute("data-save") === saved);
-        if (byKey >= 0) { showByIndex(byKey, false); return true; }
-
-        const asNum = parseInt(saved, 10);
-        if (!Number.isNaN(asNum) && buttons[asNum]) { showByIndex(asNum, false); return true; }
-
-        return false;
-      } catch (e) {
-        return false;
-      }
+    const scrollByDir = (dir = 1) => {
+      slider.scrollBy({ left: getCardStep() * dir, behavior: "smooth" });
     };
 
     const start = () => {
       stop();
-      timer = setInterval(() => showByIndex((idx + 1) % buttons.length, true), 5200);
+      timer = setInterval(() => scrollByDir(1), 5200);
     };
 
     const stop = () => { if (timer) clearInterval(timer); timer = null; };
 
-    buttons.forEach((btn, i) => btn.addEventListener("click", () => showByIndex(i, true)));
+    prevBtn?.addEventListener("click", () => scrollByDir(-1));
+    nextBtn?.addEventListener("click", () => scrollByDir(1));
 
-    if (!loadSaved()) {
-      const activeIdx = buttons.findIndex(b => b.classList.contains("active"));
-      showByIndex(activeIdx >= 0 ? activeIdx : 0, false);
-    } else {
-      idx = buttons.findIndex(b => b.classList.contains("active"));
-      if (idx < 0) idx = 0;
-    }
+    slider.addEventListener("scroll", syncState, { passive: true });
+    window.addEventListener("resize", syncState, { passive: true });
 
     section.addEventListener("mouseenter", stop);
     section.addEventListener("mouseleave", start);
     section.addEventListener("focusin", stop);
     section.addEventListener("focusout", start);
 
+    syncState();
     start();
+  })();
+
+  /* FAQ chat ------------------------------------------------------------------------------------------------------------*/
+  (() => {
+    const section = qs("#faq");
+    if (!section) return;
+
+    const chatWindow = qs("#faqChatWindow", section);
+    const form = qs("#faqChatForm", section);
+    const input = qs("#faqChatInput", section);
+    const suggestions = qsa(".faq-suggestion", section);
+
+    if (!chatWindow || !form || !input) return;
+
+    const cannedAnswers = [
+      {
+        match: ["website", "faqe", "kushton", "cmim", "çmim"],
+        tag: "Website",
+        answer: "Për website standard, ndërtimi nis nga €300. Nëse do edhe kujdes mujor, mirëmbajtja fillon nga €100 në muaj me update, siguri dhe suport."
+      },
+      {
+        match: ["kohe", "kohë", "zgjas", "afat"],
+        tag: "Afat",
+        answer: "Website standard zakonisht mbyllet brenda 3–7 ditësh, ndërsa projektet më të plota planifikohen sipas strukturës, materialeve dhe feedback-ut."
+      },
+      {
+        match: ["seo", "google", "ads"],
+        tag: "SEO",
+        answer: "Po. Përfshijmë SEO bazë teknik, performance, meta dhe analytics. Për rritje më agresive me Google Ads ose strategji afatgjatë, ndërtojmë plan të dedikuar."
+      },
+      {
+        match: ["e-commerce", "dyqan", "shop", "checkout", "pagesa"],
+        tag: "E-commerce",
+        answer: "Po ndërtojmë dyqane online me katalog, kategori, checkout dhe integrime pagesash. Çmimi zakonisht lëviz nga €900 deri në €1500 sipas kompleksitetit."
+      },
+      {
+        match: ["foto", "fotografi", "produkte", "product"],
+        tag: "Fotografi",
+        answer: "Po. Realizojmë fotografi premium për produkte, social dhe katalog, me editim profesional dhe delivery gati për web."
+      },
+      {
+        match: ["mirembajt", "mirëmbajt", "support", "backup", "update"],
+        tag: "Mirëmbajtje",
+        answer: "Mirëmbajtja përfshin update, backup, monitorim performance, rregullime të vogla dhe suport të vazhdueshëm që faqja të mbetet stabile dhe e sigurt."
+      }
+    ];
+
+    const scrollToBottom = () => {
+      requestAnimationFrame(() => {
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      });
+    };
+
+    const revealMessage = (el) => {
+      requestAnimationFrame(() => el.classList.add("is-visible"));
+      scrollToBottom();
+    };
+
+    const createMessage = ({ type = "ai", text = "", tag = "", typing = false }) => {
+      const wrap = document.createElement("div");
+      wrap.className = `faq-msg faq-msg--${type}`;
+
+      if (type === "ai") {
+        wrap.innerHTML = `
+          <div class="faq-msg-avatar">
+            <i class="bi bi-stars" aria-hidden="true"></i>
+          </div>
+          <div class="faq-msg-bubble">
+            ${tag ? `<span class="faq-msg-tag">${tag}</span>` : ""}
+            ${typing ? `<div class="faq-typing" aria-label="Duke shkruar"><span></span><span></span><span></span></div>` : `<p>${text}</p>`}
+          </div>
+        `;
+      } else {
+        wrap.innerHTML = `
+          <div class="faq-msg-bubble">
+            <p>${text}</p>
+          </div>
+        `;
+      }
+
+      chatWindow.appendChild(wrap);
+      revealMessage(wrap);
+      return wrap;
+    };
+
+    const findAnswer = (question) => {
+      const normalized = String(question || "").toLowerCase();
+      const hit = cannedAnswers.find((item) => item.match.some((token) => normalized.includes(token)));
+      return hit || {
+        tag: "Kontakt",
+        answer: "Për këtë pyetje ia vlen të flasim shkurt për projektin tënd. Më shkruaj te kontakti dhe të kthejmë përgjigje të qartë me drejtim dhe buxhet orientues."
+      };
+    };
+
+    const sendQuestion = (question, preset = null) => {
+      const cleanQuestion = String(question || "").trim();
+      if (!cleanQuestion) return;
+
+      createMessage({ type: "user", text: cleanQuestion });
+
+      const typingEl = createMessage({ type: "ai", typing: true });
+      const reply = preset || findAnswer(cleanQuestion);
+
+      window.setTimeout(() => {
+        typingEl.remove();
+        createMessage({ type: "ai", text: reply.answer, tag: reply.tag });
+      }, 720);
+    };
+
+    suggestions.forEach((button) => {
+      button.addEventListener("click", () => {
+        const question = button.dataset.faqQuestion || button.textContent || "";
+        const answer = button.dataset.faqAnswer || "";
+        const tag = button.dataset.faqTag || "";
+
+        input.value = question;
+        sendQuestion(question, { answer, tag });
+        input.value = "";
+        input.focus();
+      });
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+
+      sendQuestion(question);
+      input.value = "";
+    });
   })();
 
   /* Contact wizard + submit (front-end only) -----------------------------------------------------------------------------------------*/
@@ -281,10 +413,152 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnBack = qsa(".cf-back", form);
 
   const serviceSelect = qs("#cService", form);
+  const budgetSelect = qs("#cBudget", form);
+  const projectDesc = qs("#cProjectDesc", form);
+  const smartCard = qs("#cfSmartCard", form);
+  const smartLoading = qs("#cfSmartLoading", form);
+  const smartBody = qs("#cfSmartBody", form);
+  const smartBudget = qs("#cfSmartBudget", form);
+  const smartTime = qs("#cfSmartTime", form);
+  const smartText = qs("#cfSmartText", form);
+  const smartApply = qs("#cfSmartApply", form);
   const status = qs("#contactStatus", form);
   const submitBtn = qs("#contactSubmit", form);
 
   let step = 1;
+  let smartTimer = null;
+  let smartSelection = null;
+  const customSelects = [];
+
+  const closeCustomSelects = (exceptWrap = null) => {
+    customSelects.forEach((entry) => {
+      if (entry.wrap === exceptWrap) return;
+      entry.wrap.classList.remove("is-open");
+      entry.trigger.setAttribute("aria-expanded", "false");
+    });
+  };
+
+  const enhanceContactSelects = () => {
+    qsa("select.form-select", form).forEach((select, index) => {
+      if (select.dataset.enhanced === "true") return;
+
+      select.dataset.enhanced = "true";
+      select.classList.add("cf-native-select");
+
+      const wrap = document.createElement("div");
+      wrap.className = "cf-select";
+
+      const trigger = document.createElement("button");
+      trigger.type = "button";
+      trigger.className = "cf-select-trigger";
+      trigger.setAttribute("aria-haspopup", "listbox");
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.setAttribute("aria-controls", `cfSelectMenu-${index}`);
+
+      const menu = document.createElement("div");
+      menu.className = "cf-select-menu";
+      menu.id = `cfSelectMenu-${index}`;
+      menu.setAttribute("role", "listbox");
+
+      const options = Array.from(select.options);
+      const placeholderOption = options.find((opt) => opt.disabled) || null;
+
+      options.forEach((opt) => {
+        if (opt.disabled) return;
+
+        const optionBtn = document.createElement("button");
+        optionBtn.type = "button";
+        optionBtn.className = "cf-select-option";
+        optionBtn.textContent = opt.textContent || "";
+        optionBtn.dataset.value = opt.value;
+        optionBtn.setAttribute("role", "option");
+
+        optionBtn.addEventListener("click", () => {
+          select.value = opt.value;
+          select.dispatchEvent(new Event("change", { bubbles: true }));
+          select.dispatchEvent(new Event("input", { bubbles: true }));
+          closeCustomSelects();
+          trigger.focus();
+        });
+
+        menu.appendChild(optionBtn);
+      });
+
+      const sync = () => {
+        const selected = options.find((opt) => opt.value === select.value);
+        const label = selected?.textContent?.trim() || placeholderOption?.textContent?.trim() || "Zgjidh";
+        trigger.textContent = label;
+        trigger.classList.toggle("is-placeholder", !select.value);
+        trigger.setAttribute("aria-expanded", wrap.classList.contains("is-open") ? "true" : "false");
+
+        qsa(".cf-select-option", menu).forEach((btn) => {
+          const isSelected = btn.dataset.value === select.value;
+          btn.classList.toggle("is-selected", isSelected);
+          btn.setAttribute("aria-selected", isSelected ? "true" : "false");
+        });
+      };
+
+      trigger.addEventListener("click", () => {
+        const willOpen = !wrap.classList.contains("is-open");
+        closeCustomSelects(willOpen ? wrap : null);
+        wrap.classList.toggle("is-open", willOpen);
+        trigger.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      });
+
+      trigger.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          closeCustomSelects();
+          wrap.classList.add("is-open");
+          trigger.setAttribute("aria-expanded", "true");
+          qsa(".cf-select-option", menu)[0]?.focus();
+        }
+        if (e.key === "Escape") {
+          wrap.classList.remove("is-open");
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      menu.addEventListener("keydown", (e) => {
+        const items = qsa(".cf-select-option", menu);
+        const currentIndex = items.indexOf(document.activeElement);
+
+        if (e.key === "Escape") {
+          e.preventDefault();
+          wrap.classList.remove("is-open");
+          trigger.setAttribute("aria-expanded", "false");
+          trigger.focus();
+        }
+
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          items[(currentIndex + 1) % items.length]?.focus();
+        }
+
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          items[(currentIndex - 1 + items.length) % items.length]?.focus();
+        }
+      });
+
+      select.insertAdjacentElement("afterend", wrap);
+      wrap.append(trigger, menu);
+
+      select.addEventListener("change", sync);
+      sync();
+
+      customSelects.push({ wrap, trigger, menu, sync });
+    });
+
+    document.addEventListener("click", (e) => {
+      customSelects.forEach((entry) => {
+        if (!entry.wrap.contains(e.target) && e.target !== entry.trigger) {
+          entry.wrap.classList.remove("is-open");
+          entry.trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  };
 
   const setStatus = (msg, type = "muted") => {
     if (!status) return;
@@ -318,7 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const topEl = document.querySelector("#contact .section-title") || document.querySelector("#contact");
     if (!topEl) return;
 
-    const nav = document.querySelector(".ip-navbar.sticky-top, .navbar.sticky-top");
+    const nav = document.querySelector(".ip-navbar");
     const navH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
     const y = topEl.getBoundingClientRect().top + window.pageYOffset - (navH + 16);
 
@@ -346,6 +620,107 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const activeService = () => (serviceSelect?.value || "").trim();
 
+  enhanceContactSelects();
+
+  const smartRules = {
+    website: {
+      budgetText: "€300 – €600",
+      timeText: "3–7 ditë",
+      budgetValue: "lt-500",
+      explain: "Bazuar në përshkrimin tuaj, kjo duket si një website standard me strukturë të qartë dhe funksionalitete bazë."
+    },
+    ecom: {
+      budgetText: "€900 – €1500",
+      timeText: "7–14 ditë",
+      budgetValue: "1000-2500",
+      explain: "Ky projekt kërkon setup më të plotë për katalog, checkout dhe pagesa, ndaj hyn në një gamë e-commerce më serioze."
+    },
+    seo: {
+      budgetText: "€200 – €500 / muaj",
+      timeText: "2–4 javë",
+      budgetValue: "500-1000",
+      explain: "Bazuar në fokusin te SEO ose marketingu, sugjerimi më i përshtatshëm është një plan mujor optimizimi dhe rritjeje."
+    },
+    photo: {
+      budgetText: "€250 – €700",
+      timeText: "2–5 ditë",
+      budgetValue: "500-1000",
+      explain: "Kjo duket si një set fotografie me editim dhe delivery gati për web ose social, me buxhet të moderuar."
+    },
+    maint: {
+      budgetText: "€100 – €200 / muaj",
+      timeText: "Mujor",
+      budgetValue: "lt-500",
+      explain: "Për mirëmbajtje dhe suport të vazhdueshëm, forma më efikase është një plan mujor me update dhe monitorim."
+    },
+    brand: {
+      budgetText: "€300 – €900",
+      timeText: "4–10 ditë",
+      budgetValue: "500-1000",
+      explain: "Për identitet vizual bazë ose rifreskim, ky interval mbulon logo, drejtim vizual dhe materiale fillestare."
+    }
+  };
+
+  const hideSmartEstimate = () => {
+    if (!smartCard || !smartLoading || !smartBody) return;
+    window.clearTimeout(smartTimer);
+    smartCard.hidden = true;
+    smartLoading.hidden = true;
+    smartBody.hidden = true;
+    smartSelection = null;
+  };
+
+  const getSmartEstimate = () => {
+    const service = activeService();
+    const desc = String(projectDesc?.value || "").toLowerCase();
+    const text = `${service} ${desc}`;
+
+    if (!service && !desc.trim()) return null;
+
+    if (/(e-?commerce|shop|dyqan|checkout|pagesa|katalog)/.test(text) || service === "ecom") return smartRules.ecom;
+    if (/(seo|marketing|ads|google)/.test(text)) return smartRules.seo;
+    if (/(foto|fotografi|produkt|shoot)/.test(text) || service === "photo") return smartRules.photo;
+    if (/(mir[ëe]mbajt|update|backup|support|suport)/.test(text) || service === "maint") return smartRules.maint;
+    if (/(brand|logo|identitet|template)/.test(text) || service === "brand") return smartRules.brand;
+    if (/(website|faqe|landing|portfolio|rezervim|menu)/.test(text) || service === "website" || service === "ux" || service === "other") return smartRules.website;
+
+    return smartRules.website;
+  };
+
+  const renderSmartEstimate = (estimate) => {
+    if (!smartCard || !smartLoading || !smartBody || !smartBudget || !smartTime || !smartText) return;
+    if (!estimate) {
+      hideSmartEstimate();
+      return;
+    }
+
+    smartSelection = estimate;
+    smartCard.hidden = false;
+    smartLoading.hidden = false;
+    smartBody.hidden = true;
+
+    window.clearTimeout(smartTimer);
+    smartTimer = window.setTimeout(() => {
+      smartBudget.textContent = estimate.budgetText;
+      smartTime.textContent = estimate.timeText;
+      smartText.textContent = estimate.explain;
+      smartLoading.hidden = true;
+      smartBody.hidden = false;
+    }, 380);
+  };
+
+  const scheduleSmartEstimate = () => {
+    const desc = String(projectDesc?.value || "").trim();
+    const service = activeService();
+
+    if (!desc && !service) {
+      hideSmartEstimate();
+      return;
+    }
+
+    renderSmartEstimate(getSmartEstimate());
+  };
+
   // cf-group mund të jetë në çdo step => shfaq vetëm grupet brenda panelit aktiv
   const showServiceGroup = () => {
     const sv = activeService();
@@ -366,6 +741,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!on) el.classList.remove("is-invalid", "is-valid");
       });
     });
+
+    scheduleSmartEstimate();
   };
 
   const validateStep = (n) => {
@@ -400,8 +777,19 @@ document.addEventListener("DOMContentLoaded", () => {
   showPanel(1, false);
 
   serviceSelect?.addEventListener("change", () => {
-    // nëse je në një panel që ka grupe, rifreskoje
     showServiceGroup();
+    scheduleSmartEstimate();
+  });
+
+  projectDesc?.addEventListener("input", () => {
+    window.clearTimeout(smartTimer);
+    smartTimer = window.setTimeout(scheduleSmartEstimate, 360);
+  });
+
+  smartApply?.addEventListener("click", () => {
+    if (!smartSelection || !budgetSelect) return;
+    budgetSelect.value = smartSelection.budgetValue;
+    showPanel(3, true);
   });
 
   btnNext.forEach(b => b.addEventListener("click", () => {
@@ -448,6 +836,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setStatus("U dërgua. Do të kthej përgjigje sa më shpejt.", "ok");
       form.reset();
+      hideSmartEstimate();
 
       panels.forEach(p => qsa(".is-valid,.is-invalid", p).forEach(x => x.classList.remove("is-valid", "is-invalid")));
       showPanel(1, true);
@@ -470,7 +859,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = qs(id);
     if (!target) return;
 
-    const nav = qs(".navbar.sticky-top, .ip-navbar.sticky-top");
+    const nav = qs(".ip-navbar");
     const navH = nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
     const y = target.getBoundingClientRect().top + window.pageYOffset - (navH + 12);
     window.scrollTo({ top: y, behavior: "smooth" });

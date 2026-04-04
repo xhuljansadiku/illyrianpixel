@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="sq" data-theme="dark">
+<html lang="sq">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Illyrian Pixel – Web, E-Commerce & Photography Studio</title>
-  <meta name="description" content="Illyrian Pixel – Web design, web development, e-commerce dhe fotografi. Faqe të shpejta, të pastra dhe të optimizuara për rezultate reale." />
-  <meta name="theme-color" content="#0b0f19" />
+  <title>Illyrian Pixel – Website, E-commerce & Studio Fotografie</title>
+  <meta name="description" content="Illyrian Pixel – Website, e-commerce dhe fotografi për biznese që kërkojnë prezencë premium, performancë dhe rezultate reale." />
+  <meta name="theme-color" content="#d5cea3" />
 
   <link rel="icon" href="./assets/img/favicon.png" type="image/png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Germania+One&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Pixelify+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Vendor CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -23,8 +23,8 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Illyrian Pixel – Web, E-Commerce & Photography Studio" />
-  <meta property="og:description" content="Web design, web development, e-commerce dhe fotografi. Faqe të shpejta, të pastra dhe të optimizuara për rezultate reale." />
+  <meta property="og:title" content="Illyrian Pixel – Website, E-commerce & Studio Fotografie" />
+  <meta property="og:description" content="Website, e-commerce dhe fotografi për biznese që kërkojnë prezencë premium, performancë dhe rezultate reale." />
   <meta property="og:type" content="website" />
   <!-- Tip: vendose absolute URL kur ta kesh domain -->
   <meta property="og:image" content="./assets/img/og-image.jpg" />
@@ -36,22 +36,23 @@
 
 <body>
 
-<!-- NAV (Upgraded: active links, shrink, mega a11y, better CTA, mobile quick actions) -->
-<nav class="navbar navbar-expand-lg ip-navbar sticky-top" id="ipNavbar">
-  <div class="container ip-nav-wrap">
+<!-- ========== NAVBAR (premium — vetëm struktura + mega menu; ngjyrat nga :root) ========== -->
+<nav class="navbar navbar-expand-lg ip-navbar" id="ipNavbar" aria-label="Navigacion kryesor">
+  <div class="container ip-nav-wrap position-lg-relative">
 
-    <!-- Brand -->
-    <a class="navbar-brand ip-brand d-flex align-items-center gap-3" href="#top" aria-label="Illyrian Pixel – Home">
-      <img class="brand-logo" src="./assets/img/logo-light.png" alt="Illyrian Pixel" />
-      <span class="brand-text">Illyrian Pixel</span>
+    <!-- Brand (majtas) -->
+    <a class="navbar-brand ip-brand d-flex align-items-center gap-3 z-lg-1" href="#top" aria-label="Illyrian Pixel – Kryefaqja">
+      <img class="brand-logo" src="./assets/img/logo.png" alt="" width="804" height="720" />
+      <span class="brand-text">
+        <span class="brand-text-illyrian">Illyrian</span>
+        <span class="brand-text-pixel" aria-label="Pixel">
+          <span class="brand-pixel-char" aria-hidden="true">P</span><span class="brand-pixel-char" aria-hidden="true">I</span><span class="brand-pixel-char" aria-hidden="true">X</span><span class="brand-pixel-char" aria-hidden="true">E</span><span class="brand-pixel-char" aria-hidden="true">L</span>
+        </span>
+      </span>
     </a>
 
-    <!-- Right actions -->
-    <div class="ip-actions d-flex align-items-center ms-auto order-lg-2">
-      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ndrysho temën">
-        <span id="themeIcon" class="theme-icon" aria-hidden="true">🌙</span>
-      </button>
-
+    <!-- Hamburger (mobile) -->
+    <div class="ip-actions d-flex align-items-center ms-auto ms-lg-0 z-lg-1">
       <button
         class="navbar-toggler ip-toggler"
         type="button"
@@ -59,21 +60,21 @@
         data-bs-target="#ipNav"
         aria-controls="ipNav"
         aria-expanded="false"
-        aria-label="Menu"
+        aria-label="Hap menynë"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" aria-hidden="true"></span>
       </button>
     </div>
 
-    <!-- Menu -->
-    <div class="collapse navbar-collapse order-lg-1 ms-lg-auto ip-collapse" id="ipNav">
+    <!-- Links + mega + CTA -->
+    <div class="collapse navbar-collapse ip-collapse" id="ipNav">
       <div class="ip-mobile-panel">
 
         <div class="ip-mobile-head d-lg-none">
-          <span class="ip-mobile-title">Menu</span>
+          <span class="ip-mobile-title">Menyja</span>
           <button
-            class="ip-close"
             type="button"
+            class="ip-close"
             data-bs-toggle="collapse"
             data-bs-target="#ipNav"
             aria-controls="ipNav"
@@ -81,81 +82,181 @@
           >✕</button>
         </div>
 
-        <ul class="navbar-nav ms-lg-auto align-items-lg-center ip-navlist">
- 
-          <!-- Normal links -->
-          <li class="nav-item"><a class="nav-link" href="#services">Shërbimet</a></li>
-          <li class="nav-item"><a class="nav-link" href="#work">Punët</a></li>
-          <li class="nav-item"><a class="nav-link" href="#process">Procesi</a></li>
-          <li class="nav-item"><a class="nav-link" href="#pricing">Çmimet</a></li>
-          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
-
-          <!-- CTA mobile -->
-          <li class="nav-item d-lg-none mt-2">
-            <a class="btn btn-danger w-100" href="#contact">Kërko ofertë</a>
+        <!-- Nav qendror (desktop: absolute center) -->
+        <ul class="navbar-nav ip-navlist align-items-lg-center">
+          <!-- Mega: Shërbimet -->
+          <li class="nav-item dropdown ip-mega position-static d-none d-lg-block">
+            <button
+              type="button"
+              class="nav-link ip-nav-link dropdown-toggle border-0 bg-transparent w-100 w-lg-auto text-start text-lg-center"
+              id="megaServices"
+              data-bs-toggle="dropdown"
+              data-bs-display="static"
+              data-bs-auto-close="outside"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="megaMenu"
+              data-nav-section="#services"
+            >
+              Shërbimet
+            </button>
+            <div class="dropdown-menu ip-mega-menu border-0" id="megaMenu" aria-labelledby="megaServices" role="region" aria-label="Shërbimet">
+              <div class="ip-mega-inner">
+                <div class="row g-4 g-lg-4">
+                  <div class="col-md-4">
+                    <p class="ip-mega-group-title">Zhvillim</p>
+                    <a class="ip-mega-link" href="website.html">
+                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-layout-text-window-reverse"></i></span>
+                      <span class="ip-mega-link-body">
+                        <span class="ip-mega-link-title">Zhvillim Website</span>
+                        <span class="ip-mega-link-desc">Website i shpejtë dhe i optimizuar për biznesin tuaj</span>
+                      </span>
+                    </a>
+                    <a class="ip-mega-link" href="ecommerce.html">
+                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-bag-check"></i></span>
+                      <span class="ip-mega-link-body">
+                        <span class="ip-mega-link-title">Zhvillim E-commerce</span>
+                        <span class="ip-mega-link-desc">Dyqan online i ndërtuar për shitje dhe rritje</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-4">
+                    <p class="ip-mega-group-title">Rritje</p>
+                    <a class="ip-mega-link" href="marketing.html">
+                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-graph-up-arrow"></i></span>
+                      <span class="ip-mega-link-body">
+                        <span class="ip-mega-link-title">Optimizim SEO</span>
+                        <span class="ip-mega-link-desc">Rritje e dukshmërisë dhe trafikut organik</span>
+                      </span>
+                    </a>
+                    <a class="ip-mega-link" href="marketing.html">
+                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-badge-ad"></i></span>
+                      <span class="ip-mega-link-body">
+                        <span class="ip-mega-link-title">Google Ads</span>
+                        <span class="ip-mega-link-desc">Fushata të targetuara për konvertime</span>
+                      </span>
+                    </a>
+                    <a class="ip-mega-link" href="marketing.html">
+                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-share"></i></span>
+                      <span class="ip-mega-link-body">
+                        <span class="ip-mega-link-title">Menaxhim Social Media</span>
+                        <span class="ip-mega-link-desc">Përmbajtje dhe prezencë e qëndrueshme</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-md-4">
+                    <p class="ip-mega-group-title">Kreativitet</p>
+                    <a class="ip-mega-link" href="photography.html">
+                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-camera"></i></span>
+                      <span class="ip-mega-link-body">
+                        <span class="ip-mega-link-title">Fotografi</span>
+                        <span class="ip-mega-link-desc">Vizuale premium për brandin tuaj</span>
+                      </span>
+                    </a>
+                    <a class="ip-mega-link" href="marketing.html">
+                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-megaphone"></i></span>
+                      <span class="ip-mega-link-body">
+                        <span class="ip-mega-link-title">Marketing Dixhital</span>
+                        <span class="ip-mega-link-desc">Strategji për rritje në kanale online</span>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+                <div class="ip-mega-footer d-none d-lg-block">
+                  <a class="ip-mega-all" href="services.html">Të gjitha shërbimet <span aria-hidden="true">→</span></a>
+                </div>
+              </div>
+            </div>
           </li>
 
-          <!-- Mobile quick actions -->
-          <li class="nav-item d-lg-none mt-2">
-            <div class="d-flex gap-2">
-              <a class="btn btn-outline-primary w-50" href="mailto:info@illyrianpixel.com">Email</a>
-              <a class="btn btn-outline-success w-50" href="https://wa.me/491234567890" target="_blank" rel="noopener">WhatsApp</a>
+          <!-- Mobile: Shërbimet accordion -->
+          <li class="nav-item d-lg-none">
+            <button
+              type="button"
+              class="ip-mobile-dd"
+              data-bs-toggle="collapse"
+              data-bs-target="#ipMobileServices"
+              aria-expanded="false"
+              aria-controls="ipMobileServices"
+            >
+              Shërbimet
+              <i class="bi bi-chevron-down ip-mobile-dd-icon" aria-hidden="true"></i>
+            </button>
+            <div class="collapse ip-mobile-services" id="ipMobileServices">
+              <div class="ip-submenu" role="list">
+                <a class="ip-sub-link" href="website.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-layout-text-window-reverse"></i></span> Zhvillim Website</a>
+                <a class="ip-sub-link" href="ecommerce.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-bag-check"></i></span> Zhvillim E-commerce</a>
+                <a class="ip-sub-link" href="marketing.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-graph-up-arrow"></i></span> Optimizim SEO</a>
+                <a class="ip-sub-link" href="marketing.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-badge-ad"></i></span> Google Ads</a>
+                <a class="ip-sub-link" href="marketing.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-share"></i></span> Menaxhim Social Media</a>
+                <a class="ip-sub-link" href="photography.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-camera"></i></span> Fotografi</a>
+                <a class="ip-sub-link" href="marketing.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-megaphone"></i></span> Marketing Dixhital</a>
+              </div>
             </div>
+          </li>
+
+          <li class="nav-item"><a class="nav-link ip-nav-link" href="work.html">Punët</a></li>
+          <li class="nav-item"><a class="nav-link ip-nav-link" href="process.html">Procesi</a></li>
+          <li class="nav-item"><a class="nav-link ip-nav-link" href="pricing.html">Çmimet</a></li>
+          <li class="nav-item"><a class="nav-link ip-nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link ip-nav-link ip-nav-link--display" href="contact.html">Kontakt</a></li>
+
+          <!-- CTA — vetëm një, dominues (mobile) -->
+          <li class="nav-item d-lg-none mt-3 px-1">
+            <a class="hero-btn hero-btn--primary w-100 text-center ip-nav-cta-mobile" href="contact.html">KËRKO OFERTË</a>
           </li>
         </ul>
 
-        <!-- CTA desktop (2 buttons) -->
-        <div class="ip-nav-cta ms-lg-3 d-none d-lg-flex gap-2 p-2">
-          <a class="btn btn-danger btn-sm" href="#contact">Kërko ofertë</a>
-          <a class="btn btn-outline-secondary btn-sm" href="#pricing">Paketat</a>
+        <!-- CTA desktop (djathtas) -->
+        <div class="ip-nav-cta d-none d-lg-flex align-items-center">
+          <a class="hero-btn hero-btn--primary ip-nav-cta-btn text-center" href="contact.html">KËRKO OFERTË</a>
         </div>
 
       </div>
     </div>
-
   </div>
 </nav>
+<!-- ========== /NAVBAR ========== -->
 
-<!-- HERO -->
+<!-- HERO — high-end agency typography -->
 <header id="top" class="hero">
-  <div class="container py-5">
-    <div class="row align-items-center gy-5">
+  <div class="container py-5 hero-container">
+    <div class="row align-items-center gy-5 gx-lg-5">
 
-      <!-- LEFT: CONTENT -->
-      <div class="col-12 col-lg-7 text-center text-lg-start">
+      <div class="col-12 col-lg-6 hero-copy">
+        <p class="hero-kicker">Strategji // Dizajn // Zhvillim</p>
 
-        <div class="d-flex justify-content-center justify-content-lg-start mb-3">
-          <span class="hero-brandtag">
-            Web · E-Commerce · UI/UX · Photo
+        <h1 class="hero-title">
+          <span class="hero-title-illyrian">Illyrian</span>
+          <span class="hero-title-pixel" aria-label="Pixel">
+            <span class="brand-pixel-char" aria-hidden="true">P</span><span class="brand-pixel-char" aria-hidden="true">I</span><span class="brand-pixel-char" aria-hidden="true">X</span><span class="brand-pixel-char" aria-hidden="true">E</span><span class="brand-pixel-char" aria-hidden="true">L</span>
           </span>
-        </div>
+        </h1>
 
-        <h1 class="hero-title mb-2">ILLYRIAN PIXEL</h1>
-        <h2 class="hero-subtitle mb-3">Partneri juaj i besuar.</h2>
+        <p class="hero-subhead">Krijojmë prezencë dixhitale me peshë</p>
 
-        <p class="hero-lead mx-auto mx-lg-0 mb-4">
-          Ofrrojmë zgjidhje web dhe e-commerce të shpejta dhe të optimizuara,
-          së bashku me fotografi dhe content që forcojnë identitetin e brandit.
+        <p class="hero-body">
+          Zgjidhje të personalizuara për qartësi, besueshmëri dhe ndikim, ku strategjia takohet me ekzekutimin vizual në çdo hap.<br />
+          Punojmë me biznese dhe brande që kërkojnë më shumë: prezencë të rafinuar, komunikim të qartë dhe rezultate që ndihen.
         </p>
 
-        <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start mb-4">
-          <a class="btn btn-danger px-4" href="#contact">Kërko ofertë</a>
-          <a class="btn btn-hero-secondary px-4" href="#work">Shiko punët</a>
-        </div>
-
-        <div class="small opacity-75">
-          EU &amp; International · Remote Worldwide
+        <div class="hero-actions">
+          <a class="hero-btn hero-btn--primary" href="contact.html">Nis një projekt</a>
+          <a class="hero-btn hero-btn--ghost" href="work.html">Punët tona</a>
         </div>
       </div>
 
-      <!-- RIGHT: LOGO -->
-      <div class="col-12 col-lg-5 d-flex justify-content-center justify-content-lg-end">
-        <img
-          src="./assets/img/bg.png"
-          class="img-fluid hero-logo-big"
-          alt="Illyrian Pixel"
-        />
+      <div class="col-12 col-lg-6 hero-visual d-flex justify-content-center justify-content-lg-end align-items-lg-end">
+        <div class="hero-visual-shell">
+          <img
+            src="./assets/img/hero-bg-3.png"
+            class="hero-logo-big"
+            alt="Illyrian Pixel"
+            width="1536"
+            height="1024"
+            decoding="async"
+          />
+        </div>
       </div>
 
     </div>
@@ -170,7 +271,18 @@
 
       <div class="col-6 col-lg-3">
         <div class="stat-card h-100">
-          <div class="stat-icon" aria-hidden="true">🗂️</div>
+          <div class="stat-icon" aria-hidden="true">
+            <!-- Projekte: dosje + linja blueprint -->
+            <svg class="stat-icon__svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path opacity=".35" d="M6 10h8M6 10v8M9 13h3M9 16h3"/>
+                <path opacity=".45" d="M22 12l-4 4v14h20V16l-4-4h-8l-2-2h-6z"/>
+                <path d="M18 14h8l2 2h10v16H18V14z"/>
+                <path opacity=".55" d="M26 10l-2 2h-8l-2-2"/>
+                <path d="M12 22h6M12 26h10M12 30h8"/>
+              </g>
+            </svg>
+          </div>
           <div class="stat-value">150+</div>
           <div class="stat-label">Projekte</div>
         </div>
@@ -178,7 +290,18 @@
 
       <div class="col-6 col-lg-3">
         <div class="stat-card h-100">
-          <div class="stat-icon stat-icon--purple" aria-hidden="true">🤝</div>
+          <div class="stat-icon" aria-hidden="true">
+            <!-- Klientë: duar / unazë bashkëpunimi + mburojë -->
+            <svg class="stat-icon__svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path opacity=".5" d="M10 30c0-6 5-11 11-11 3 0 5.5 1.2 7 3.2"/>
+                <path d="M38 30c0-6-5-11-11-11-3 0-5.5 1.2-7 3.2"/>
+                <path d="M12 22c2.5-5 6.5-8 12-8s9.5 3 12 8"/>
+                <path opacity=".4" d="M24 12v6"/>
+                <path fill="currentColor" fill-opacity=".14" stroke-width="1" d="M24 19.5l2.4 3.5h-4.8l2.4-3.5z"/>
+              </g>
+            </svg>
+          </div>
           <div class="stat-value">50+</div>
           <div class="stat-label">Klientë të kënaqur</div>
         </div>
@@ -186,7 +309,16 @@
 
       <div class="col-6 col-lg-3">
         <div class="stat-card h-100">
-          <div class="stat-icon stat-icon--orange" aria-hidden="true">⭐</div>
+          <div class="stat-icon" aria-hidden="true">
+            <!-- Përvojë: yll me faceta -->
+            <svg class="stat-icon__svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path fill="currentColor" fill-opacity=".1" d="M24 8l4.4 13.5h14.2L30.8 30l4.5 13.8L24 36.2 12.7 43.8 17.2 30 9.4 21.5h14.2L24 8z"/>
+                <path d="M24 8l4.4 13.5h14.2L30.8 30l4.5 13.8L24 36.2 12.7 43.8 17.2 30 9.4 21.5h14.2L24 8z"/>
+                <path opacity=".42" d="M24 8v10.5M13.5 22.5l10.5 7.5M34.5 22.5l-10.5 7.5M17.2 35.2l6.8-4.9M30.8 35.2l-6.8-4.9"/>
+              </g>
+            </svg>
+          </div>
           <div class="stat-value">5+</div>
           <div class="stat-label">Vite përvoje</div>
         </div>
@@ -194,7 +326,19 @@
 
       <div class="col-6 col-lg-3">
         <div class="stat-card h-100">
-          <div class="stat-icon stat-icon--yellow" aria-hidden="true">📞</div>
+          <div class="stat-icon" aria-hidden="true">
+            <!-- Mbështetje: telefon + valë të dhënash -->
+            <svg class="stat-icon__svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 10c-2 0-3 1.8-3 4v20c0 2.2 1 4 3 4h8c2 0 3-1.8 3-4V14c0-2.2-1-4-3-4h-8z"/>
+                <path d="M11 16h14M11 32h14"/>
+                <path d="M18 36h4" opacity=".5"/>
+                <path opacity=".55" d="M28 18h2v2h-2zm4 3h2v4h-2zm4-2h2v6h-2zm4 1h2v3h-2"/>
+                <path d="M28 26c2 2 4 3 8 3 1 0 2-.2 3-.5" opacity=".75"/>
+                <circle cx="39" cy="28" r="1.2" fill="currentColor" fill-opacity=".35" stroke="none"/>
+              </g>
+            </svg>
+          </div>
           <div class="stat-value">24/7</div>
           <div class="stat-label">Mbështetje</div>
         </div>
@@ -206,350 +350,294 @@
 
 
 <!-- SERVICES -->
-<section id="services" class="py-5">
-  <div class="container">
+<section id="services" class="py-5 ip-services-section">
+  <div class="container position-relative">
 
     <div class="row justify-content-center text-center">
-      <div class="col-12 col-lg-8">
-        <h2 class="section-title mt-2">Shërbimet</h2>
+      <div class="col-12 col-lg-9">
+        <h2 class="ip-services-hero-title mt-2">Shërbimet avangardë</h2>
         <p class="section-subtitle mx-auto mt-3">
-          Nga ideja fillestare deri te zbatimi përfundimtar. <br>
-          Ne ofrojmë shërbime gjithëpërfshirëse dixhitale për suksesin tuaj.
+          Nga ideja fillestare deri te zbatimi përfundimtar — strukturë e qartë në tre shtylla: zhvillim, rritje, kreativitet.
         </p>
       </div>
     </div>
 
-    <div class="row mt-4 g-4">
+    <!-- Bento — tre shtylla editoriale (përputhet me navbar / mega menu) -->
+    <div class="row mt-4 g-3 g-lg-4 justify-content-center ip-services-bento">
+      <div class="col-12 col-md-6 col-xl-4">
+        <article class="ip-bento-card h-100">
+          <p class="ip-bento-kicker">Zhvillim</p>
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-window"></i></span>
+            <span class="ip-bento-ic"><i class="bi bi-cpu"></i></span>
+          </div>
+          <h3 class="ip-bento-title">Website &amp; E-commerce</h3>
+          <p class="ip-bento-desc">Website i shpejtë dhe i optimizuar për biznesin tuaj. Dyqan online i ndërtuar për shitje dhe rritje.</p>
+          <a class="ip-card-link" href="services.html">Shih shërbimet <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <div class="col-12 col-md-6 col-xl-4">
+        <article class="ip-bento-card h-100">
+          <p class="ip-bento-kicker">Rritje</p>
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-graph-up-arrow"></i></span>
+            <span class="ip-bento-ic"><i class="bi bi-bullseye"></i></span>
+          </div>
+          <h3 class="ip-bento-title">SEO &amp; marketing dixhital</h3>
+          <p class="ip-bento-desc">Optimizim SEO, Google Ads dhe menaxhim social — rritje dukshmërie dhe konvertimesh.</p>
+          <a class="ip-card-link" href="marketing.html">Shih shërbimin <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <div class="col-12 col-md-6 col-xl-4">
+        <article class="ip-bento-card h-100">
+          <p class="ip-bento-kicker">Kreativitet</p>
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-camera"></i></span>
+            <span class="ip-bento-ic"><i class="bi bi-pen"></i></span>
+          </div>
+          <h3 class="ip-bento-title">Fotografi &amp; marketing dixhital</h3>
+          <p class="ip-bento-desc">Vizuale premium për brandin tuaj. Strategji për rritje në kanale online.</p>
+          <a class="ip-card-link" href="photography.html">Shih shërbimin <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </div>
+
+    <p class="text-center small fw-semibold mt-5 mb-2 ip-services-detail-label">Detaje shërbimesh</p>
+
+    <div class="row mt-2 g-3 g-lg-4">
       <!-- Website -->
       <div class="col-md-6 col-lg-4">
-        <article class="service-card p-4 h-100">
-          <div class="service-icon">
-            <i class="bi bi-window-stack" aria-hidden="true"></i>
+        <article class="ip-bento-card ip-bento-card--detail h-100">
+          <span class="ip-bento-badge">Më i kërkuari</span>
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-window-stack"></i></span>
           </div>
-          <h3 class="h5 mb-2">Website</h3>
-          <p class="service-text small mb-3">Website i pastër dhe i shpejtë për biznesin tënd.</p>
-          <ul class="service-list">
-            <li>One-page ose multi-page</li>
-            <li>Responsive</li>
+          <h3 class="ip-bento-title">Website</h3>
+          <p class="ip-bento-desc">Website i pastër, i shpejtë dhe bindës për biznesin tuaj.</p>
+          <ul class="ip-bento-list">
+            <li>Faqe e vetme ose me disa nënfaqe</li>
+            <li>Përshtatet në çdo ekran</li>
             <li>SEO bazë</li>
-            <li>Form + WhatsApp</li>
+            <li>Formë kontakti + WhatsApp</li>
           </ul>
+          <div class="ip-card-actions">
+            <a class="hero-btn hero-btn--ghost ip-card-btn" href="website.html">Mëso më shumë</a>
+          </div>
         </article>
       </div>
 
-      <!-- E-commerce (featured) -->
+      <!-- E-commerce -->
       <div class="col-md-6 col-lg-4">
-        <article class="service-card service-featured p-4 h-100">
-          <span class="service-badge">Most requested</span>
-          <div class="service-icon">
-            <i class="bi bi-bag-check" aria-hidden="true"></i>
+        <article class="ip-bento-card ip-bento-card--detail h-100">
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-bag-check"></i></span>
           </div>
-          <h3 class="h5 mb-2">E-commerce</h3>
-          <p class="service-text small mb-3">Dyqan online me fokus te checkout dhe shitjet.</p>
-          <ul class="service-list">
+          <h3 class="ip-bento-title">E-commerce</h3>
+          <p class="ip-bento-desc">Dyqan online me fokus te porositë, menaxhimi dhe shitjet.</p>
+          <ul class="ip-bento-list">
             <li>Katalog + kategori</li>
-            <li>Pagesa &amp; checkout</li>
-            <li>Email automations</li>
+            <li>Pagesa &amp; porosi</li>
+            <li>Automatizime me email</li>
             <li>Menaxhim i thjeshtë</li>
           </ul>
+          <div class="ip-card-actions">
+            <a class="hero-btn hero-btn--ghost ip-card-btn" href="ecommerce.html">Mëso më shumë</a>
+          </div>
         </article>
       </div>
 
       <!-- UI/UX -->
       <div class="col-md-6 col-lg-4">
-        <article class="service-card p-4 h-100">
-          <div class="service-icon">
-            <i class="bi bi-speedometer2" aria-hidden="true"></i>
+        <article class="ip-bento-card ip-bento-card--detail h-100">
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-speedometer2"></i></span>
           </div>
-          <h3 class="h5 mb-2">UI/UX &amp; optimizim</h3>
-          <p class="service-text small mb-3">Rregullime që e bëjnë faqen më të qartë dhe më të shpejtë.</p>
-          <ul class="service-list">
+          <h3 class="ip-bento-title">UI/UX &amp; optimizim</h3>
+          <p class="ip-bento-desc">Rregullime që e bëjnë faqen më të qartë dhe më të shpejtë.</p>
+          <ul class="ip-bento-list">
             <li>Strukturë &amp; navigim</li>
-            <li>Speed &amp; performance</li>
+            <li>Shpejtësi &amp; performancë</li>
             <li>SEO bazë</li>
             <li>Audit + rekomandime</li>
           </ul>
+          <div class="ip-card-actions">
+            <a class="hero-btn hero-btn--ghost ip-card-btn" href="marketing.html">Mëso më shumë</a>
+          </div>
         </article>
       </div>
 
       <!-- Fotografi -->
       <div class="col-md-6 col-lg-4">
-        <article class="service-card p-4 h-100">
-          <div class="service-icon">
-            <i class="bi bi-camera" aria-hidden="true"></i>
+        <article class="ip-bento-card ip-bento-card--detail h-100">
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-camera"></i></span>
           </div>
-          <h3 class="h5 mb-2">Fotografi</h3>
-          <p class="service-text small mb-3">Foto që e bëjnë brandin të duket premium.</p>
-          <ul class="service-list">
+          <h3 class="ip-bento-title">Fotografi</h3>
+          <p class="ip-bento-desc">Foto që e bëjnë brandin të duket më i fortë dhe më premium.</p>
+          <ul class="ip-bento-list">
             <li>Produkt &amp; e-commerce</li>
-            <li>Portret &amp; lifestyle</li>
+            <li>Portrete &amp; stil jete</li>
             <li>Editim profesional</li>
-            <li>Delivery për web/social</li>
+            <li>Dorëzim gati për web dhe social</li>
           </ul>
+          <div class="ip-card-actions">
+            <a class="hero-btn hero-btn--ghost ip-card-btn" href="photography.html">Mëso më shumë</a>
+          </div>
         </article>
       </div>
 
       <!-- Mirëmbajtje -->
       <div class="col-md-6 col-lg-4">
-        <article class="service-card p-4 h-100">
-          <div class="service-icon">
-            <i class="bi bi-wrench-adjustable" aria-hidden="true"></i>
+        <article class="ip-bento-card ip-bento-card--detail h-100">
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-wrench-adjustable"></i></span>
           </div>
-          <h3 class="h5 mb-2">Mirëmbajtje</h3>
-          <p class="service-text small mb-3">Kujdes mujor që faqja të jetë gjithmonë ok.</p>
-          <ul class="service-list">
-            <li>Ndryshime &amp; update</li>
-            <li>Backup &amp; security</li>
-            <li>Monitorim performance</li>
+          <h3 class="ip-bento-title">Mirëmbajtje</h3>
+          <p class="ip-bento-desc">Kujdes mujor që faqja të jetë gjithmonë stabile dhe e përditësuar.</p>
+          <ul class="ip-bento-list">
+            <li>Ndryshime &amp; përditësime</li>
+            <li>Backup &amp; siguri</li>
+            <li>Monitorim i performancës</li>
             <li>Raport mujor</li>
           </ul>
+          <div class="ip-card-actions">
+            <a class="hero-btn hero-btn--ghost ip-card-btn" href="maintenance.html">Mëso më shumë</a>
+          </div>
         </article>
       </div>
 
       <!-- Brand -->
       <div class="col-md-6 col-lg-4">
-        <article class="service-card p-4 h-100">
-          <div class="service-icon">
-            <i class="bi bi-palette2" aria-hidden="true"></i>
+        <article class="ip-bento-card ip-bento-card--detail h-100">
+          <div class="ip-bento-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-palette2"></i></span>
           </div>
-          <h3 class="h5 mb-2">Brand</h3>
-          <p class="service-text small mb-3">Identitet vizual për një start të fortë.</p>
-          <ul class="service-list">
+          <h3 class="ip-bento-title">Brand</h3>
+          <p class="ip-bento-desc">Identitet vizual për një start të fortë.</p>
+          <ul class="ip-bento-list">
             <li>Logo + ngjyra</li>
             <li>Tipografi</li>
-            <li>Template për postime</li>
+            <li>Shabllone për postime</li>
             <li>Mini brand guide</li>
           </ul>
+          <div class="ip-card-actions">
+            <a class="hero-btn hero-btn--ghost ip-card-btn" href="branding.html">Mëso më shumë</a>
+          </div>
         </article>
       </div>
     </div>
 
   </div>
 </section>
-
-
- <!-- PLANS / PRICING -->
-<section id="plans" class="py-5">
+<!-- PRICING -->
+<section id="pricing" class="py-5 bg-soft">
   <div class="container">
 
     <div class="row justify-content-center text-center">
       <div class="col-12 col-lg-8">
-        <h2 class="section-title mt-2">Planet</h2>
-        <p class="section-subtitle mx-auto mt-3">
-          Zgjidh periudhën: mujor ose vjetor. Çmimet ndryshojnë live.
+        <h2 class="section-title">Çmimet / Planet</h2>
+        <p class="section-subtitle mx-auto">
+          Paketa të qarta, me strukturë premium dhe çmime realiste për website, e-commerce dhe rritje.
         </p>
-
-        <div class="pricing-toggle mt-3" role="group" aria-label="Zgjidh periudhën">
-          <button type="button" class="toggle-btn is-active" data-billing="monthly" aria-pressed="true">Mujor</button>
-          <button type="button" class="toggle-btn" data-billing="yearly" aria-pressed="false">Vjetor</button>
-        </div>
       </div>
     </div>
 
-    <div class="row mt-4 g-4">
-
-      <!-- Website Care -->
-      <div class="col-md-6 col-lg-4">
-        <article class="service-card plan-card p-4 h-100">
-          <div class="plan-header">
-            <div class="plan-header-left">
-              <div class="service-icon plan-icon">
-                <i class="bi bi-globe2" aria-hidden="true"></i>
-              </div>
-
-              <div class="plan-header-text">
-                <h3 class="h5 mb-1">Website Care</h3>
-                <p class="plan-subtitle mb-0">Website + mirëmbajtje e rregullt me update &amp; siguri.</p>
-              </div>
-            </div>
+    <div class="row mt-4 g-3 g-lg-4 align-items-stretch" id="pricingGrid">
+      <div class="col-12 col-md-6 col-xl-4 pricing-item">
+        <article class="ip-bento-card ip-pricing-card h-100">
+          <div class="ip-bento-icons ip-pricing-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-window-stack"></i></span>
           </div>
-
-          <!-- UNIFORM PRICE GRID (2 boxes) -->
-          <div class="plan-prices">
-            <!-- Setup -->
-            <div class="plan-box plan-box--setup">
-              <div class="plan-box-top">
-                <span class="plan-box-label">Ndërtimi</span>
-                <span class="plan-box-badge">One-time</span>
-              </div>
-              <div class="plan-box-amount">
-                <span class="plan-currency">€</span><span class="plan-number plan-number--sm">0</span>
-              </div>
-              <div class="plan-box-note">Pa pagesë ndërtimi</div>
-            </div>
-
-            <!-- Subscription -->
-            <div class="plan-box plan-box--price plan-price"
-                 data-monthly="49" data-yearly="499"
-                 data-currency="€"
-                 data-suffix-monthly="/ muaj" data-suffix-yearly="/ vit">
-              <div class="plan-box-top">
-                <span class="plan-box-label">Abonimi</span>
-                <span class="plan-suffix">/ muaj</span>
-              </div>
-
-              <div class="plan-box-amount">
-                <span class="plan-currency">€</span><span class="plan-number">49</span>
-              </div>
-
-              <div class="plan-note">
-                <span class="plan-alt-label">Opsion vjetor:</span>
-                <span class="plan-alt">€499 / vit</span>
-              </div>
-            </div>
+          <h3 class="ip-bento-title">Website</h3>
+          <p class="ip-bento-desc">Website profesional i optimizuar për shpejtësi, qartësi dhe konvertime.</p>
+          <div class="ip-pricing-price-wrap">
+            <div class="ip-pricing-price">Nga €300</div>
+            <div class="ip-pricing-price-note">Pagesë njëherëshe</div>
           </div>
-
-          <ul class="service-list">
-            <li>Update &amp; ndryshime mujore</li>
-            <li>Backup &amp; security</li>
-            <li>Monitorim performance</li>
-            <li>Support bazë</li>
+          <div class="ip-pricing-meta">
+            <span class="ip-pricing-meta-label">Mirëmbajtje</span>
+            <span class="ip-pricing-meta-value">€100 / muaj</span>
+          </div>
+          <ul class="ip-bento-list ip-pricing-list">
+            <li>Dizajn modern &amp; i përshtatshëm për çdo ekran</li>
+            <li>SEO bazë</li>
+            <li>Formë kontakti</li>
+            <li>Integrim WhatsApp</li>
+            <li>Performancë e optimizuar</li>
           </ul>
-
-          <a href="#contact" class="btn btn-danger w-100">Zgjidh planin</a>
+          <div class="ip-pricing-actions">
+            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="website.html">Zgjidh planin</a>
+          </div>
         </article>
       </div>
 
-      <!-- E-commerce Pro -->
-      <div class="col-md-6 col-lg-4">
-        <article class="service-card service-featured plan-card p-4 h-100">
-
-          <div class="plan-header">
-            <div class="plan-header-left">
-              <div class="service-icon plan-icon">
-                <i class="bi bi-bag-check" aria-hidden="true"></i>
-              </div>
-
-              <div class="plan-header-text">
-                <h3 class="h5 mb-1">E-commerce Pro</h3>
-                <p class="plan-subtitle mb-0">Ndërtim dyqani + mirëmbajtje.</p>
-              </div>
-            </div>
-
- 
+      <div class="col-12 col-md-6 col-xl-4 pricing-item">
+        <article class="ip-bento-card ip-pricing-card h-100">
+          <div class="ip-bento-icons ip-pricing-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-bag-check"></i></span>
           </div>
-
-          <!-- UNIFORM PRICE GRID (2 boxes) -->
-          <div class="plan-prices">
-            <!-- Setup -->
-            <div class="plan-box plan-box--setup">
-              <div class="plan-box-top">
-                <span class="plan-box-label">Ndërtimi</span>
-                <span class="plan-box-badge">One-time</span>
-              </div>
-              <div class="plan-box-amount">
-                <span class="plan-currency">€</span><span class="plan-number plan-number--sm">1000</span>
-              </div>
-              <div class="plan-box-note">Setup &amp; konfigurim</div>
-            </div>
-
-            <!-- Subscription -->
-            <div class="plan-box plan-box--price plan-price"
-                 data-monthly="99" data-yearly="999"
-                 data-currency="€"
-                 data-suffix-monthly="/ muaj" data-suffix-yearly="/ vit">
-              <div class="plan-box-top">
-                <span class="plan-box-label">Abonimi</span>
-                <span class="plan-suffix">/ muaj</span>
-              </div>
-
-              <div class="plan-box-amount">
-                <span class="plan-currency">€</span><span class="plan-number">99</span>
-              </div>
-
-              <div class="plan-note">
-                <span class="plan-alt-label">Opsion vjetor:</span>
-                <span class="plan-alt">€999 / vit</span>
-              </div>
-            </div>
+          <h3 class="ip-bento-title">E-commerce</h3>
+          <p class="ip-bento-desc">Dyqan online i ndërtuar për shitje dhe rritje.</p>
+          <div class="ip-pricing-price-wrap">
+            <div class="ip-pricing-price">Nga €900 - €1500</div>
+            <div class="ip-pricing-price-note">Sipas kompleksitetit dhe funksionaliteteve</div>
           </div>
-
-          <ul class="service-list">
-            <li>Katalog + kategori</li>
-            <li>Checkout + pagesa</li>
-            <li>Update &amp; security</li>
-            <li>Support prioritar</li>
+          <div class="ip-pricing-meta">
+            <span class="ip-pricing-meta-label">Mirëmbajtje</span>
+            <span class="ip-pricing-meta-value">€150-200 / muaj</span>
+          </div>
+          <ul class="ip-bento-list ip-pricing-list">
+            <li>Katalog &amp; kategori</li>
+            <li>Checkout &amp; pagesa</li>
+            <li>Integrim pagesash</li>
+            <li>SEO bazë</li>
+            <li>Automatizime me email</li>
+            <li>Panel menaxhimi</li>
           </ul>
-
-          <a href="#contact" class="btn btn-danger w-100">Fillo dyqanin</a>
+          <div class="ip-pricing-actions">
+            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="ecommerce.html">Fillo dyqanin</a>
+          </div>
         </article>
       </div>
 
-      <!-- Social Growth -->
-      <div class="col-md-6 col-lg-4">
-        <article class="service-card plan-card p-4 h-100">
-          <div class="plan-header">
-            <div class="plan-header-left">
-              <div class="service-icon plan-icon">
-                <i class="bi bi-megaphone" aria-hidden="true"></i>
-              </div>
-
-              <div class="plan-header-text">
-                <h3 class="h5 mb-1">Social Growth</h3>
-                <p class="plan-subtitle mb-0">Marketing strategjik në mediat sociale për rritje dhe angazhim.</p>
-              </div>
-            </div>
+      <div class="col-12 col-md-6 col-xl-4 pricing-item">
+        <article class="ip-bento-card ip-pricing-card h-100">
+          <div class="ip-bento-icons ip-pricing-icons" aria-hidden="true">
+            <span class="ip-bento-ic"><i class="bi bi-graph-up-arrow"></i></span>
           </div>
-
-          <!-- UNIFORM PRICE GRID (2 boxes) -->
-          <div class="plan-prices">
-            <!-- Setup -->
-            <div class="plan-box plan-box--setup">
-              <div class="plan-box-top">
-                <span class="plan-box-label">Ndërtimi</span>
-                <span class="plan-box-badge">One-time</span>
-              </div>
-              <div class="plan-box-amount">
-                <span class="plan-currency">€</span><span class="plan-number plan-number--sm">0</span>
-              </div>
-              <div class="plan-box-note">Pa setup fee</div>
-            </div>
-
-            <!-- Subscription -->
-            <div class="plan-box plan-box--price plan-price"
-                 data-monthly="39" data-yearly="399"
-                 data-currency="€"
-                 data-suffix-monthly="/ muaj" data-suffix-yearly="/ vit">
-              <div class="plan-box-top">
-                <span class="plan-box-label">Abonimi</span>
-                <span class="plan-suffix">/ muaj</span>
-              </div>
-
-              <div class="plan-box-amount">
-                <span class="plan-currency">€</span><span class="plan-number">39</span>
-              </div>
-
-              <div class="plan-note">
-                <span class="plan-alt-label">Opsion vjetor:</span>
-                <span class="plan-alt">€399 / vit</span>
-              </div>
-            </div>
+          <h3 class="ip-bento-title">Marketing &amp; Rritje</h3>
+          <p class="ip-bento-desc">Strategji dhe ekzekutim për rritje të qëndrueshme të biznesit.</p>
+          <div class="ip-pricing-price-wrap">
+            <div class="ip-pricing-price">Nga €250 / muaj</div>
+            <div class="ip-pricing-price-note">Model mujor për optimizim të vazhdueshëm</div>
           </div>
-
-          <ul class="service-list">
-            <li>Krijimi i përmbajtjes</li>
-            <li>Menaxhimi i komunitetit</li>
-            <li>Reklamim me pagesë</li>
-            <li>Analitika</li>
+          <ul class="ip-bento-list ip-pricing-list">
+            <li>Menaxhim social media</li>
+            <li>Google Ads</li>
+            <li>Strategji marketingu</li>
+            <li>Analizë &amp; raportim</li>
+            <li>Optimizim i vazhdueshëm</li>
           </ul>
-
-          <a href="#contact" class="btn btn-outline-danger w-100">Diskuto planin</a>
+          <div class="ip-pricing-actions">
+            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="marketing.html">Diskuto planin</a>
+          </div>
         </article>
       </div>
-
     </div>
+
+    <div class="pricing-cta mt-4 text-center">
+      <div class="pricing-note-2">Për një ofertë të personalizuar, ju kthejmë përgjigje brenda 24 orësh.</div>
+    </div>
+
   </div>
 </section>
-
-
- 
   <!-- WORK -->
   <section id="work" class="py-5 bg-soft">
     <div class="container">
 
       <div class="row justify-content-center text-center">
         <div class="col-12 col-lg-8">
-          <h2 class="section-title">Punë të zgjedhura</h2>
+          <h2 class="section-title">Punë të përzgjedhura</h2>
           <p class="section-subtitle mx-auto">
             Disa nga projektet ku dizajni dhe funksionaliteti punojnë bashkë.
           </p>
@@ -561,7 +649,7 @@
         <div class="col-md-6 col-lg-4">
         <article class="work-card h-100 work-featured">
 
-            <a class="work-link" href="https://example.com" target="_blank" rel="noopener">
+            <a class="work-link" href="website.html">
       <div class="portfolio-thumb">
               <img
                 src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80"
@@ -571,7 +659,7 @@
                 height="800"
               />
  
-            <span class="work-hover-cta">View live </span>
+            <span class="work-hover-cta">Shih projektin</span>
       </div>
 
             </a>
@@ -579,7 +667,7 @@
             <div class="work-body text-center text-lg-start">
               <div class="work-tags justify-content-center justify-content-lg-start">
                 <span class="badge-soft">Website</span>
-                <span class="badge-outline">Speed</span>
+                <span class="badge-outline">Shpejtësi</span>
               </div>
               <h3 class="h6 mt-2 mb-1">Website për biznes lokal</h3>
               <p class="small text-muted mb-0">Dizajn i pastër, CTA të qarta dhe strukturë për konvertime.</p>
@@ -590,7 +678,7 @@
 
         <div class="col-md-6 col-lg-4">
           <article class="work-card h-100">
-            <a class="work-link" href="https://example.com" target="_blank" rel="noopener">
+            <a class="work-link" href="ecommerce.html">
               <div class="portfolio-thumb">
                 <img
                   src="https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=1200&q=80"
@@ -599,42 +687,42 @@
                   width="1200"
                   height="800"
                 />
-                      <span class="work-hover-cta">View live </span>
+                      <span class="work-hover-cta">Shih projektin</span>
               </div>
             </a>
 
             <div class="work-body text-center text-lg-start">
               <div class="work-tags justify-content-center justify-content-lg-start">
                 <span class="badge-soft">E-commerce</span>
-                <span class="badge-outline">Checkout</span>
+                <span class="badge-outline">Konvertime</span>
               </div>
               <h3 class="h6 mt-2 mb-1">Dyqan online për brand</h3>
-              <p class="small text-muted mb-0">Katalog i qartë dhe checkout i thjeshtë.</p>
+              <p class="small text-muted mb-0">Katalog i qartë dhe proces i thjeshtë porosie.</p>
             </div>
           </article>
         </div>
 
         <div class="col-md-6 col-lg-4">
           <article class="work-card h-100">
-            <a class="work-link" href="https://example.com" target="_blank" rel="noopener">
+            <a class="work-link" href="photography.html">
               <div class="portfolio-thumb">
                 <img
                   src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80"
-                  alt="Photography portfolio"
+                  alt="Portofol fotografie"
                   loading="lazy"
                   width="1200"
                   height="800"
                 />
-                      <span class="work-hover-cta">View live </span>
+                      <span class="work-hover-cta">Shih projektin</span>
               </div>
             </a>
 
             <div class="work-body text-center text-lg-start">
               <div class="work-tags justify-content-center justify-content-lg-start">
-                <span class="badge-soft">Photo</span>
-                <span class="badge-outline">Portfolio</span>
+                <span class="badge-soft">Fotografi</span>
+                <span class="badge-outline">Portofol</span>
               </div>
-              <h3 class="h6 mt-2 mb-1">Portfolio fotografi</h3>
+              <h3 class="h6 mt-2 mb-1">Portofol fotografie</h3>
               <p class="small text-muted mb-0">Fokus te imazhi dhe storytelling vizual.</p>
             </div>
           </article>
@@ -642,25 +730,25 @@
 
         <div class="col-md-6 col-lg-4">
           <article class="work-card h-100">
-            <a class="work-link" href="https://example.com" target="_blank" rel="noopener">
+            <a class="work-link" href="website.html">
               <div class="portfolio-thumb">
                 <img
                   src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80"
-                  alt="Landing page design"
+                  alt="Dizajn për faqe uljeje"
                   loading="lazy"
                   width="1200"
                   height="800"
                 />
-                      <span class="work-hover-cta">View live </span>
+                      <span class="work-hover-cta">Shih projektin</span>
               </div>
             </a>
 
             <div class="work-body text-center text-lg-start">
               <div class="work-tags justify-content-center justify-content-lg-start">
-                <span class="badge-soft">Landing</span>
+                <span class="badge-soft">Faqe uljeje</span>
                 <span class="badge-outline">UI/UX</span>
               </div>
-              <h3 class="h6 mt-2 mb-1">Landing page për shërbime</h3>
+              <h3 class="h6 mt-2 mb-1">Faqe uljeje për shërbime</h3>
               <p class="small text-muted mb-0">Mesazh i qartë + seksione që bindin.</p>
             </div>
           </article>
@@ -668,7 +756,7 @@
 
         <div class="col-md-6 col-lg-4">
           <article class="work-card h-100">
-            <a class="work-link" href="https://example.com" target="_blank" rel="noopener">
+            <a class="work-link" href="photography.html">
               <div class="portfolio-thumb">
                 <img
                   src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80"
@@ -677,14 +765,14 @@
                   width="1200"
                   height="800"
                 />
-                      <span class="work-hover-cta">View live </span>
+                      <span class="work-hover-cta">Shih projektin</span>
               </div>
             </a>
 
             <div class="work-body text-center text-lg-start">
               <div class="work-tags justify-content-center justify-content-lg-start">
-                <span class="badge-soft">Product</span>
-                <span class="badge-outline">Photo</span>
+                <span class="badge-soft">Produkt</span>
+                <span class="badge-outline">Fotografi</span>
               </div>
               <h3 class="h6 mt-2 mb-1">Foto për produkt</h3>
               <p class="small text-muted mb-0">Ndriçim i pastër dhe detaj për e-commerce.</p>
@@ -694,7 +782,7 @@
 
         <div class="col-md-6 col-lg-4">
           <article class="work-card h-100">
-            <a class="work-link" href="https://example.com" target="_blank" rel="noopener">
+            <a class="work-link" href="process.html">
               <div class="portfolio-thumb">
                 <img
                   src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"
@@ -703,14 +791,14 @@
                   width="1200"
                   height="800"
                 />
-                      <span class="work-hover-cta">View live </span>
+                      <span class="work-hover-cta">Shih projektin</span>
               </div>
             </a>
 
             <div class="work-body text-center text-lg-start">
               <div class="work-tags justify-content-center justify-content-lg-start">
-                <span class="badge-soft">Process</span>
-                <span class="badge-outline">Delivery</span>
+                <span class="badge-soft">Proces</span>
+                <span class="badge-outline">Dorëzim</span>
               </div>
               <h3 class="h6 mt-2 mb-1">Proces i qartë</h3>
               <p class="small text-muted mb-0">Nga ideja te lansimi: pa konfuzion, pa vonesa.</p>
@@ -722,7 +810,7 @@
   <article class="work-card h-100 work-nda">
     <div class="portfolio-thumb">
       <div class="nda-thumb">
-        <span class="nda-badge">Client NDA</span>
+        <span class="nda-badge">Projekt NDA</span>
         <h3 class="nda-title">Projekt në zhvillim</h3>
         <p class="nda-text">
           Ky projekt nuk mund të shfaqet publikisht për arsye konfidencialiteti.
@@ -737,7 +825,7 @@
       </div>
       <h3 class="h6 mt-2 mb-1">Brand privat (NDA)</h3>
       <p class="small text-muted mb-0">
-        Dizajn + zhvillim i plotë, me fokus në performance dhe konvertime.
+        Dizajn + zhvillim i plotë, me fokus në performancë dhe konvertime.
       </p>
     </div>
   </article>
@@ -763,44 +851,64 @@
           </div>
         </div>
 
-        <div class="row mt-4 g-4 justify-content-center">
+        <div class="row mt-4 g-3 g-lg-4 justify-content-center process-grid">
 
           <div class="col-md-6 col-lg-3">
-            <article class="step-card p-4 h-100 text-center text-lg-start">
-              <div class="step-num mx-auto mx-lg-0">01</div>
-              <h3 class="h6 mb-2">Konsultim</h3>
-              <p class="small text-muted mb-0">
-                Qëllimet, audienca dhe drejtimi i projektit.
+            <article class="ip-bento-card step-card h-100 text-center text-lg-start">
+              <div class="step-card-top">
+                <div class="step-num mx-auto mx-lg-0">01</div>
+                <div class="ip-bento-icons step-icons justify-content-center justify-content-lg-start" aria-hidden="true">
+                  <span class="ip-bento-ic"><i class="bi bi-chat-square-text"></i></span>
+                </div>
+              </div>
+              <h3 class="ip-bento-title mb-2">Konsultim</h3>
+              <p class="ip-bento-desc mb-0">
+                Qëllimet, audienca dhe strategjia e projektit.
               </p>
             </article>
           </div>
 
           <div class="col-md-6 col-lg-3">
-            <article class="step-card p-4 h-100 text-center text-lg-start">
-              <div class="step-num mx-auto mx-lg-0">02</div>
-              <h3 class="h6 mb-2">Strukturë &amp; dizajn</h3>
-              <p class="small text-muted mb-0">
-              Strukturë e qartë dhe dizajn modern. Feedback i shpejtë.
+            <article class="ip-bento-card step-card h-100 text-center text-lg-start">
+              <div class="step-card-top">
+                <div class="step-num mx-auto mx-lg-0">02</div>
+                <div class="ip-bento-icons step-icons justify-content-center justify-content-lg-start" aria-hidden="true">
+                  <span class="ip-bento-ic"><i class="bi bi-bezier2"></i></span>
+                </div>
+              </div>
+              <h3 class="ip-bento-title mb-2">Strukturë &amp; Dizajn</h3>
+              <p class="ip-bento-desc mb-0">
+                Strukturë fillestare, UI/UX dhe komente të shpejta.
               </p>
             </article>
           </div>
 
           <div class="col-md-6 col-lg-3">
-            <article class="step-card p-4 h-100 text-center text-lg-start">
-              <div class="step-num mx-auto mx-lg-0">03</div>
-              <h3 class="h6 mb-2">Zhvillim</h3>
-              <p class="small text-muted mb-0">
-              Kod i pastër, performancë dhe testime.
+            <article class="ip-bento-card step-card h-100 text-center text-lg-start">
+              <div class="step-card-top">
+                <div class="step-num mx-auto mx-lg-0">03</div>
+                <div class="ip-bento-icons step-icons justify-content-center justify-content-lg-start" aria-hidden="true">
+                  <span class="ip-bento-ic"><i class="bi bi-code-slash"></i></span>
+                </div>
+              </div>
+              <h3 class="ip-bento-title mb-2">Zhvillim</h3>
+              <p class="ip-bento-desc mb-0">
+                Kod i pastër, performancë dhe optimizim.
               </p>
             </article>
           </div>
 
           <div class="col-md-6 col-lg-3">
-            <article class="step-card p-4 h-100 text-center text-lg-start">
-              <div class="step-num mx-auto mx-lg-0">04</div>
-              <h3 class="h6 mb-2">Lansim</h3>
-              <p class="small text-muted mb-0">
-              Faqja publikohet live dhe dorëzohet gati për përdorim.
+            <article class="ip-bento-card step-card h-100 text-center text-lg-start">
+              <div class="step-card-top">
+                <div class="step-num mx-auto mx-lg-0">04</div>
+                <div class="ip-bento-icons step-icons justify-content-center justify-content-lg-start" aria-hidden="true">
+                  <span class="ip-bento-ic"><i class="bi bi-rocket-takeoff"></i></span>
+                </div>
+              </div>
+              <h3 class="ip-bento-title mb-2">Lansim</h3>
+              <p class="ip-bento-desc mb-0">
+                Publikim live dhe dorëzim i plotë.
               </p>
             </article>
           </div>
@@ -808,217 +916,6 @@
         </div>
       </div>
     </section>
-
-
- <!-- PRICING -->
-<section id="pricing" class="py-5 bg-soft">
-  <div class="container">
-
-    <div class="row justify-content-center text-center">
-      <div class="col-12 col-lg-8">
-        <h2 class="section-title">Çmime orientuese</h2>
-        <p class="section-subtitle mx-auto">
-          Çmimet varen nga kompleksiteti.<br />
-          Këto janë orientuese, për ofertë të saktë na shkruaj.
-        </p>
-      </div>
-    </div>
-
-
-    <!-- GRID -->
-    <div class="row mt-3 g-4" id="pricingGrid">
-
-      <!-- WEB -->
-      <div class="col-md-6 col-lg-4 pricing-item" data-cat="web">
-        <div class="price-card p-4 h-100">
-          <div class="price-top">
-            <div class="price-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></div>
-            <div class="flex-grow-1">
-              <h3 class="h5 mb-1">Website</h3>
-              <div class="price-kicker">Për biznese lokale & shërbime</div>
-            </div>
-          </div>
-
-          <div class="price-amount">€399+</div>
-          <p class="small text-muted mb-3">Website prezantues i pastër, i shpejtë dhe me CTA të qarta.</p>
-
-          <ul class="price-list mb-3">
-            <li>One-page ose multi-page</li>
-            <li>Responsive + kontakt</li>
-            <li>SEO bazë + speed</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ECOM FEATURED -->
-      <div class="col-md-6 col-lg-4 pricing-item" data-cat="ecom">
-        <div class="price-card price-featured p-4 h-100 position-relative">
-          <div class="price-badge">Most requested</div>
-
-          <div class="price-top">
-            <div class="price-icon"><i class="bi bi-bag-check" aria-hidden="true"></i></div>
-            <div class="flex-grow-1">
-              <h3 class="h5 mb-1">E-commerce</h3>
-              <div class="price-kicker">Shop + checkout + pagesa</div>
-            </div>
-          </div>
-
-          <div class="price-amount">€1490+</div>
-          <p class="small text-muted mb-3">Dyqan online me fokus te konvertimi dhe flows.</p>
-
-          <ul class="price-list mb-3">
-            <li>Produkte + kategori</li>
-            <li>Pagesa &amp; checkout</li>
-            <li>Email flows</li>
-          </ul>
- 
-        </div>
-      </div>
-
-      <!-- UX -->
-      <div class="col-md-6 col-lg-4 pricing-item" data-cat="ux">
-        <div class="price-card p-4 h-100">
-          <div class="price-top">
-            <div class="price-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></div>
-            <div class="flex-grow-1">
-              <h3 class="h5 mb-1">UI/UX &amp; optimizim</h3>
-              <div class="price-kicker">Audit + përmirësime</div>
-            </div>
-          </div>
-
-          <div class="price-amount">€249+</div>
-          <p class="small text-muted mb-3">Rregullime që e bëjnë faqen më të qartë dhe më të shpejtë.</p>
-
-          <ul class="price-list mb-3">
-            <li>Audit i shpejtë</li>
-            <li>Ristrukturim UI</li>
-            <li>Speed &amp; SEO bazë</li>
-          </ul>
- 
-        </div>
-      </div>
-
-      <!-- PHOTO -->
-      <div class="col-md-6 col-lg-4 pricing-item" data-cat="photo">
-        <div class="price-card p-4 h-100">
-          <div class="price-top">
-            <div class="price-icon"><i class="bi bi-camera" aria-hidden="true"></i></div>
-            <div class="flex-grow-1">
-              <h3 class="h5 mb-1">Fotografi</h3>
-              <div class="price-kicker">Produkt, brand, lifestyle</div>
-            </div>
-          </div>
-
-          <div class="price-amount">€199+</div>
-          <p class="small text-muted mb-3">Foto të pastra, gati për web &amp; social.</p>
-
-          <ul class="price-list mb-3">
-            <li>Produkt / lifestyle</li>
-            <li>Editim profesional</li>
-            <li>Delivery për web</li>
-          </ul>
- 
-        </div>
-      </div>
-
-      <!-- MAINT -->
-      <div class="col-md-6 col-lg-4 pricing-item" data-cat="maint">
-        <div class="price-card p-4 h-100">
-          <div class="price-top">
-            <div class="price-icon"><i class="bi bi-wrench-adjustable" aria-hidden="true"></i></div>
-            <div class="flex-grow-1">
-              <h3 class="h5 mb-1">Mirëmbajtje</h3>
-              <div class="price-kicker">Support mujor</div>
-            </div>
-          </div>
-
-          <div class="price-amount">€49/mo+</div>
-          <p class="small text-muted mb-3">Update, stabilitet dhe rregullime të vogla.</p>
-
-          <ul class="price-list mb-3">
-            <li>Updates + ndryshime</li>
-            <li>Backup &amp; security</li>
-            <li>Monitorim basic</li>
-          </ul>
- 
-        </div>
-      </div>
-
-      <!-- BRAND -->
-      <div class="col-md-6 col-lg-4 pricing-item" data-cat="brand">
-        <div class="price-card p-4 h-100">
-          <div class="price-top">
-            <div class="price-icon"><i class="bi bi-palette2" aria-hidden="true"></i></div>
-            <div class="flex-grow-1">
-              <h3 class="h5 mb-1">Brand</h3>
-              <div class="price-kicker">Identitet vizual</div>
-            </div>
-          </div>
-
-          <div class="price-amount">€149+</div>
-          <p class="small text-muted mb-3">Bazat e brandit: e thjeshtë, e qartë, e përdorshme.</p>
-
-          <ul class="price-list mb-3">
-            <li>Ngjyra + tipografi</li>
-            <li>Template postimesh</li>
-            <li>Mini brand guide</li>
-          </ul>
- 
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ADDONS + CTA -->
-    <div class="row mt-5 justify-content-center">
-      <div class="col-12 col-lg-10">
-
-        <div class="addons-card p-4">
-          <div class="addons-head">
-            <h3 class="h6 mb-0">Add-ons</h3>
-            <span class="addons-note">Shtesa opsionale sipas projektit</span>
-          </div>
-
-          <div class="addons-grid mt-3">
-            <div class="addon">
-              <div class="addon-title">Copywriting (tekste)</div>
-              <div class="addon-price">€79+</div>
-            </div>
-            <div class="addon">
-              <div class="addon-title">Setup Domain/Hosting</div>
-              <div class="addon-price">€49+</div>
-            </div>
-            <div class="addon">
-              <div class="addon-title">Extra faqe</div>
-              <div class="addon-price">€59/page</div>
-            </div>
-            <div class="addon">
-              <div class="addon-title">Analytics + tracking</div>
-              <div class="addon-price">€39+</div>
-            </div>
-            <div class="addon">
-              <div class="addon-title">Foto produktesh</div>
-              <div class="addon-price">€19/foto</div>
-            </div>
-            <div class="addon">
-              <div class="addon-title">SEO paketë</div>
-              <div class="addon-price">€149+</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pricing-cta mt-4 text-center">
-          <a class="pricing-cta-strong" href="#contact">Kontakto Tani →</a>
-          <div class="pricing-note-2 mt-2">Përgjigje brenda 24h. Pa spam.</div>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
   <!-- TESTIMONIALS -->
   <section id="testimonials" class="py-5">
     <div class="container">
@@ -1027,257 +924,145 @@
         <div class="col-12 col-lg-8">
           <h2 class="section-title">Çfarë thonë klientët</h2>
           <p class="section-subtitle mx-auto">
-            Review të shkurtra nga projekte reale. Zëvendëso tekstin kur t’i kesh.
+            Komente të shkurtra nga projekte reale, me fokus te qartësia, shpejtësia dhe rezultati.
           </p>
         </div>
       </div>
 
-      <div class="row mt-4 g-4 align-items-stretch">
-
-        <div class="col-lg-5">
-          <div class="t-tabs p-2 p-sm-3 h-100">
-            <div class="nav nav-pills flex-lg-column gap-2" id="tTabs" role="tablist">
-
-              <button
-                class="nav-link t-tab active"
-                id="t-web-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#t-web"
-                type="button"
-                role="tab"
-                aria-controls="t-web"
-                aria-selected="true"
-                data-save="web"
-              >
-                <span class="t-tab-ava" aria-hidden="true">KS</span>
-                <span class="t-tab-copy">
-                  <span class="t-tab-title">Website</span>
-                  <span class="t-tab-sub">Speed + strukturë</span>
-                </span>
-                <span class="t-tab-ic" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-              </button>
-
-              <button
-                class="nav-link t-tab"
-                id="t-ecom-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#t-ecom"
-                type="button"
-                role="tab"
-                aria-controls="t-ecom"
-                aria-selected="false"
-                data-save="ecom"
-              >
-                <span class="t-tab-ava" aria-hidden="true">EL</span>
-                <span class="t-tab-copy">
-                  <span class="t-tab-title">E-commerce</span>
-                  <span class="t-tab-sub">Checkout më i mirë</span>
-                </span>
-                <span class="t-tab-ic" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-              </button>
-
-              <button
-                class="nav-link t-tab"
-                id="t-ux-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#t-ux"
-                type="button"
-                role="tab"
-                aria-controls="t-ux"
-                aria-selected="false"
-                data-save="ux"
-              >
-                <span class="t-tab-ava" aria-hidden="true">AR</span>
-                <span class="t-tab-copy">
-                  <span class="t-tab-title">UI/UX</span>
-                  <span class="t-tab-sub">Ristrukturim</span>
-                </span>
-                <span class="t-tab-ic" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-              </button>
-
-              <button
-                class="nav-link t-tab"
-                id="t-photo-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#t-photo"
-                type="button"
-                role="tab"
-                aria-controls="t-photo"
-                aria-selected="false"
-                data-save="photo"
-              >
-                <span class="t-tab-ava" aria-hidden="true">NR</span>
-                <span class="t-tab-copy">
-                  <span class="t-tab-title">Fotografi</span>
-                  <span class="t-tab-sub">Premium look</span>
-                </span>
-                <span class="t-tab-ic" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-              </button>
-
-              <button
-                class="nav-link t-tab"
-                id="t-maint-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#t-maint"
-                type="button"
-                role="tab"
-                aria-controls="t-maint"
-                aria-selected="false"
-                data-save="maint"
-              >
-                <span class="t-tab-ava" aria-hidden="true">BT</span>
-                <span class="t-tab-copy">
-                  <span class="t-tab-title">Mirëmbajtje</span>
-                  <span class="t-tab-sub">Update pa stres</span>
-                </span>
-                <span class="t-tab-ic" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-              </button>
-
-            </div>
+      <div class="t-slider-shell mt-4">
+        <div class="t-slider-head">
+          <p class="t-slider-kicker mb-0">Raste reale</p>
+          <div class="t-slider-controls" aria-label="Navigimi i komenteve">
+            <button class="t-slider-btn" type="button" data-testimonial-dir="prev" aria-label="Komenti i mëparshëm">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <button class="t-slider-btn" type="button" data-testimonial-dir="next" aria-label="Komenti i radhës">
+              <i class="bi bi-arrow-right"></i>
+            </button>
           </div>
         </div>
 
-        <div class="col-lg-7">
-          <div class="tab-content h-100" id="tTabsContent">
-
-            <div class="tab-pane fade show active h-100" id="t-web" role="tabpanel" aria-labelledby="t-web-tab">
-              <div class="t-panel p-4 p-md-5 h-100">
-                <div class="t-panel-top">
-                  <div class="t-panel-badge"><i class="bi bi-window-stack" aria-hidden="true"></i> Website</div>
-                  <div class="t-stars" aria-label="5 stars">
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  </div>
-                </div>
-
-                <p class="t-panel-quote">
-                  “Faqja doli super e pastër dhe shumë e shpejtë. Brenda javës së parë patëm më shumë kontakte.”
-                </p>
-
-                <div class="t-panel-foot">
-                  <div class="t-panel-ava" aria-hidden="true">KS</div>
-                  <div>
-                    <div class="t-panel-name">Klient</div>
-                    <div class="t-panel-role">Business website</div>
-                  </div>
-                </div>
+        <div class="t-slider" id="testimonialSlider" aria-label="Komentet e klientëve">
+          <article class="ip-bento-card t-slide t-slide--featured" data-testimonial-card>
+            <div class="t-slide-top">
+              <span class="t-slide-tag"><i class="bi bi-bag-check"></i> E-commerce</span>
+              <div class="t-stars" aria-label="5 yje">
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
               </div>
             </div>
-
-            <div class="tab-pane fade h-100" id="t-ecom" role="tabpanel" aria-labelledby="t-ecom-tab">
-              <div class="t-panel p-4 p-md-5 h-100">
-                <div class="t-panel-top">
-                  <div class="t-panel-badge"><i class="bi bi-bag-check" aria-hidden="true"></i> E-commerce</div>
-                  <div class="t-stars" aria-label="5 stars">
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  </div>
-                </div>
-
-                <p class="t-panel-quote">
-                  “Checkout u thjeshtua shumë. Menaxhimi i produkteve është i lehtë dhe porositë vijnë rregullisht.”
-                </p>
-
-                <div class="t-panel-foot">
-                  <div class="t-panel-ava" aria-hidden="true">EL</div>
-                  <div>
-                    <div class="t-panel-name">Klient</div>
-                    <div class="t-panel-role">E-commerce</div>
-                  </div>
-                </div>
+            <div class="t-slide-featured-badge">Rezultati më i fortë</div>
+            <p class="t-slide-quote">
+              “Checkout u thjeshtua shumë. Menaxhimi i produkteve është i lehtë dhe porositë vijnë rregullisht. Brenda pak javësh ndjemë ndryshim real në ritmin e shitjeve.”
+            </p>
+            <div class="t-slide-meta">
+              <div class="t-slide-avatar" aria-hidden="true">EL</div>
+              <div>
+                <div class="t-slide-name">Klient real</div>
+                <div class="t-slide-role">E-commerce</div>
               </div>
             </div>
+          </article>
 
-            <div class="tab-pane fade h-100" id="t-ux" role="tabpanel" aria-labelledby="t-ux-tab">
-              <div class="t-panel p-4 p-md-5 h-100">
-                <div class="t-panel-top">
-                  <div class="t-panel-badge"><i class="bi bi-speedometer2" aria-hidden="true"></i> UI/UX</div>
-                  <div class="t-stars" aria-label="5 stars">
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  </div>
-                </div>
-
-                <p class="t-panel-quote">
-                  “Struktura u bë shumë më e qartë. Vizitorët gjejnë shpejt info dhe CTA-të konvertojnë më mirë.”
-                </p>
-
-                <div class="t-panel-foot">
-                  <div class="t-panel-ava" aria-hidden="true">AR</div>
-                  <div>
-                    <div class="t-panel-name">Klient</div>
-                    <div class="t-panel-role">UI/UX</div>
-                  </div>
-                </div>
+          <article class="ip-bento-card t-slide" data-testimonial-card>
+            <div class="t-slide-top">
+              <span class="t-slide-tag"><i class="bi bi-window-stack"></i> Website</span>
+              <div class="t-stars" aria-label="5 yje">
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
               </div>
             </div>
-
-            <div class="tab-pane fade h-100" id="t-photo" role="tabpanel" aria-labelledby="t-photo-tab">
-              <div class="t-panel p-4 p-md-5 h-100">
-                <div class="t-panel-top">
-                  <div class="t-panel-badge"><i class="bi bi-camera" aria-hidden="true"></i> Fotografi</div>
-                  <div class="t-stars" aria-label="5 stars">
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  </div>
-                </div>
-
-                <p class="t-panel-quote">
-                  “Fotot duken premium dhe janë gati për shop. Produktet tani duken shumë më të besueshme.”
-                </p>
-
-                <div class="t-panel-foot">
-                  <div class="t-panel-ava" aria-hidden="true">NR</div>
-                  <div>
-                    <div class="t-panel-name">Klient</div>
-                    <div class="t-panel-role">Product photos</div>
-                  </div>
-                </div>
+            <p class="t-slide-quote">
+              “Faqja doli super e pastër dhe shumë e shpejtë. Brenda javës së parë patëm më shumë kontakte dhe prezantimi i brandit u ndje shumë më serioz.”
+            </p>
+            <div class="t-slide-meta">
+              <div class="t-slide-avatar" aria-hidden="true">KS</div>
+              <div>
+                <div class="t-slide-name">Klient real</div>
+                <div class="t-slide-role">Website biznesi</div>
               </div>
             </div>
+          </article>
 
-            <div class="tab-pane fade h-100" id="t-maint" role="tabpanel" aria-labelledby="t-maint-tab">
-              <div class="t-panel p-4 p-md-5 h-100">
-                <div class="t-panel-top">
-                  <div class="t-panel-badge"><i class="bi bi-wrench-adjustable" aria-hidden="true"></i> Mirëmbajtje</div>
-                  <div class="t-stars" aria-label="5 stars">
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                    <i class="bi bi-star-fill" aria-hidden="true"></i>
-                  </div>
-                </div>
-
-                <p class="t-panel-quote">
-                  “Gjithmonë rregullohet shpejt. Update-t dhe ndryshimet bëhen pa stres, faqja është stabile.”
-                </p>
-
-                <div class="t-panel-foot">
-                  <div class="t-panel-ava" aria-hidden="true">BT</div>
-                  <div>
-                    <div class="t-panel-name">Klient</div>
-                    <div class="t-panel-role">Maintenance</div>
-                  </div>
-                </div>
+          <article class="ip-bento-card t-slide" data-testimonial-card>
+            <div class="t-slide-top">
+              <span class="t-slide-tag"><i class="bi bi-speedometer2"></i> UI/UX</span>
+              <div class="t-stars" aria-label="5 yje">
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
               </div>
             </div>
+            <p class="t-slide-quote">
+              “Struktura u bë shumë më e qartë. Vizitorët gjejnë shpejt informacionin dhe CTA-të konvertojnë më mirë pa e komplikuar eksperiencën.”
+            </p>
+            <div class="t-slide-meta">
+              <div class="t-slide-avatar" aria-hidden="true">AR</div>
+              <div>
+                <div class="t-slide-name">Klient real</div>
+                <div class="t-slide-role">UI/UX &amp; optimizim</div>
+              </div>
+            </div>
+          </article>
 
-          </div>
+          <article class="ip-bento-card t-slide" data-testimonial-card>
+            <div class="t-slide-top">
+              <span class="t-slide-tag"><i class="bi bi-camera"></i> Fotografi</span>
+              <div class="t-stars" aria-label="5 yje">
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+              </div>
+            </div>
+            <p class="t-slide-quote">
+              “Fotot duken premium dhe janë gati për shop. Produktet tani duken shumë më të besueshme dhe prezantimi vizual na ngriti nivelin menjëherë.”
+            </p>
+            <div class="t-slide-meta">
+              <div class="t-slide-avatar" aria-hidden="true">NR</div>
+              <div>
+                <div class="t-slide-name">Klient real</div>
+                <div class="t-slide-role">Foto produktesh</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="ip-bento-card t-slide" data-testimonial-card>
+            <div class="t-slide-top">
+              <span class="t-slide-tag"><i class="bi bi-wrench-adjustable"></i> Mirëmbajtje</span>
+              <div class="t-stars" aria-label="5 yje">
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+              </div>
+            </div>
+            <p class="t-slide-quote">
+              “Gjithmonë rregullohet shpejt. Update-t dhe ndryshimet bëhen pa stres, faqja është stabile dhe e kemi shumë më të lehtë të fokusohemi te biznesi.”
+            </p>
+            <div class="t-slide-meta">
+              <div class="t-slide-avatar" aria-hidden="true">BT</div>
+              <div>
+                <div class="t-slide-name">Klient real</div>
+                <div class="t-slide-role">Mirëmbajtje</div>
+              </div>
+            </div>
+          </article>
         </div>
 
+        <div class="t-slider-progress" aria-hidden="true">
+          <span class="t-slider-progress-bar" id="testimonialProgress"></span>
+        </div>
       </div>
     </div>
   </section>
@@ -1285,259 +1070,87 @@
   <!-- FAQ -->
   <section id="faq" class="py-5 bg-soft">
     <div class="container">
-
-      <div class="row justify-content-center text-center">
-        <div class="col-12 col-lg-8">
-          <h2 class="section-title">FAQ</h2>
-          <p class="section-subtitle mx-auto">
-            Pyetjet më të shpeshta, të organizuara sipas shërbimeve.
-          </p>
+      <div class="faq-chat-shell">
+        <div class="faq-chat-top">
+          <div>
+            <span class="faq-chat-kicker">Asistenti AI</span>
+            <h2 class="section-title mb-2">Pyetje të shpeshta</h2>
+            <p class="section-subtitle mb-0">
+              Një mënyrë më e qartë për të marrë përgjigje të shpejta rreth website, e-commerce, SEO, fotografisë dhe mirëmbajtjes.
+            </p>
+          </div>
+          <div class="faq-chat-status" aria-hidden="true">
+            <span class="faq-chat-status-dot"></span>
+            Online tani
+          </div>
         </div>
-      </div>
 
-
-      <div class="row justify-content-center mt-4">
-        <div class="col-12 col-lg-10">
-
-          <div class="accordion faq-acc" id="faqAcc">
-
-            <div class="accordion-item faq-item" data-cat="website">
-              <h2 class="accordion-header" id="fq1">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa1"
-                  aria-expanded="false"
-                  aria-controls="fa1"
-                >
-                  <span class="faq-q">
-                    Sa kohë merr një website?
-                    <span class="faq-badge" data-badge="website">
-                      <i class="bi bi-window-stack" aria-hidden="true"></i> Website
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa1" class="accordion-collapse collapse" aria-labelledby="fq1" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Zakonisht 7–14 ditë për një website standard. Varet nga numri i faqeve, materialet dhe feedback-u.
-                </div>
-              </div>
+        <div class="faq-chat-window" id="faqChatWindow" aria-live="polite">
+          <div class="faq-msg faq-msg--ai is-visible">
+            <div class="faq-msg-avatar">
+              <i class="bi bi-stars" aria-hidden="true"></i>
             </div>
-
-            <div class="accordion-item faq-item" data-cat="website">
-              <h2 class="accordion-header" id="fq2">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa2"
-                  aria-expanded="false"
-                  aria-controls="fa2"
-                >
-                  <span class="faq-q">
-                    Çfarë duhet të sjell para fillimit?
-                    <span class="faq-badge" data-badge="website">
-                      <i class="bi bi-window-stack" aria-hidden="true"></i> Website
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa2" class="accordion-collapse collapse" aria-labelledby="fq2" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Logo (nëse ke), tekste bazë, shërbimet, kontaktet dhe disa shembuj faqesh që të pëlqejnë.
-                  Nëse s’i ke, i ndërtojmë bashkë.
-                </div>
-              </div>
+            <div class="faq-msg-bubble">
+              <span class="faq-msg-label">Asistenti Illyrian</span>
+              <p>Përshëndetje. Më pyet për çmime, afate, SEO, fotografi ose mirëmbajtje dhe do të marrësh menjëherë një përgjigje të qartë.</p>
             </div>
-
-            <div class="accordion-item faq-item" data-cat="ecom">
-              <h2 class="accordion-header" id="fq3">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa3"
-                  aria-expanded="false"
-                  aria-controls="fa3"
-                >
-                  <span class="faq-q">
-                    A bëni pagesa online dhe checkout?
-                    <span class="faq-badge" data-badge="ecom">
-                      <i class="bi bi-bag-check" aria-hidden="true"></i> E-commerce
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa3" class="accordion-collapse collapse" aria-labelledby="fq3" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Po. Vendosim pagesa sipas shtetit (Stripe/PayPal etj.) dhe e bëjmë checkout sa më të thjeshtë për konvertime.
-                </div>
-              </div>
-            </div>
-
-            <div class="accordion-item faq-item" data-cat="ecom">
-              <h2 class="accordion-header" id="fq4">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa4"
-                  aria-expanded="false"
-                  aria-controls="fa4"
-                >
-                  <span class="faq-q">
-                    Sa produkte mund të shtoj?
-                    <span class="faq-badge" data-badge="ecom">
-                      <i class="bi bi-bag-check" aria-hidden="true"></i> E-commerce
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa4" class="accordion-collapse collapse" aria-labelledby="fq4" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Sa të duash. Zakonisht fillojmë me një set bazë dhe pastaj e menaxhon vetë ose e bëjmë si shërbim.
-                </div>
-              </div>
-            </div>
-
-            <div class="accordion-item faq-item" data-cat="ux">
-              <h2 class="accordion-header" id="fq5">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa5"
-                  aria-expanded="false"
-                  aria-controls="fa5"
-                >
-                  <span class="faq-q">
-                    A mund ta përmirësoni faqen ekzistuese?
-                    <span class="faq-badge" data-badge="ux">
-                      <i class="bi bi-speedometer2" aria-hidden="true"></i> UI/UX
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa5" class="accordion-collapse collapse" aria-labelledby="fq5" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Po. Bëjmë audit (strukturë, UI, shpejtësi, SEO bazë) dhe pastaj rregullime me prioritet te rezultatet.
-                </div>
-              </div>
-            </div>
-
-            <div class="accordion-item faq-item" data-cat="ux">
-              <h2 class="accordion-header" id="fq6">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa6"
-                  aria-expanded="false"
-                  aria-controls="fa6"
-                >
-                  <span class="faq-q">
-                    A bëni SEO?
-                    <span class="faq-badge" data-badge="ux">
-                      <i class="bi bi-speedometer2" aria-hidden="true"></i> UI/UX
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa6" class="accordion-collapse collapse" aria-labelledby="fq6" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Bëj bazat: headings, meta tags, shpejtësi, sitemap (kur duhet) dhe setup analytics.
-                  Për SEO të avancuar, bëjmë plan të veçantë.
-                </div>
-              </div>
-            </div>
-
-            <div class="accordion-item faq-item" data-cat="photo">
-              <h2 class="accordion-header" id="fq7">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa7"
-                  aria-expanded="false"
-                  aria-controls="fa7"
-                >
-                  <span class="faq-q">
-                    A bëni fotografi për produkte?
-                    <span class="faq-badge" data-badge="photo">
-                      <i class="bi bi-camera" aria-hidden="true"></i> Fotografi
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa7" class="accordion-collapse collapse" aria-labelledby="fq7" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Po. Foto për shop, social dhe katalog, me editim profesional dhe formatet gati për web.
-                </div>
-              </div>
-            </div>
-
-            <div class="accordion-item faq-item" data-cat="maint">
-              <h2 class="accordion-header" id="fq8">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa8"
-                  aria-expanded="false"
-                  aria-controls="fa8"
-                >
-                  <span class="faq-q">
-                    Çfarë përfshin mirëmbajtja?
-                    <span class="faq-badge" data-badge="maint">
-                      <i class="bi bi-wrench-adjustable" aria-hidden="true"></i> Mirëmbajtje
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa8" class="accordion-collapse collapse" aria-labelledby="fq8" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Update, backup, rregullime, monitorim performance dhe suport për ndryshime të vogla sipas paketës.
-                </div>
-              </div>
-            </div>
-
-            <div class="accordion-item faq-item" data-cat="brand">
-              <h2 class="accordion-header" id="fq9">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#fa9"
-                  aria-expanded="false"
-                  aria-controls="fa9"
-                >
-                  <span class="faq-q">
-                    A mund të më bëni edhe brand-in?
-                    <span class="faq-badge" data-badge="brand">
-                      <i class="bi bi-palette2" aria-hidden="true"></i> Brand
-                    </span>
-                  </span>
-                </button>
-              </h2>
-              <div id="fa9" class="accordion-collapse collapse" aria-labelledby="fq9" data-bs-parent="#faqAcc">
-                <div class="accordion-body">
-                  Po. Logo bazë, ngjyra, tipografi dhe template për postime, plus mini brand guide që të jesh consistent.
-                </div>
-              </div>
-            </div>
-
           </div>
 
-          <div class="faq-empty" id="faqEmpty" hidden>
-            S’gjetëm asgjë. Provo një fjalë tjetër ose zgjidh “Të gjitha”.
+          <div class="faq-msg faq-msg--user is-visible">
+            <div class="faq-msg-bubble">
+              <p>Sa kohë merr një website?</p>
+            </div>
           </div>
 
-          <div class="faq-cta mt-4 text-center">
-            <a class="faq-cta-link" href="#contact">S’e gjete përgjigjen? Shkruaj →</a>
+          <div class="faq-msg faq-msg--ai is-visible">
+            <div class="faq-msg-avatar">
+              <i class="bi bi-stars" aria-hidden="true"></i>
+            </div>
+            <div class="faq-msg-bubble">
+              <span class="faq-msg-tag">Website</span>
+              <p>Zakonisht 3–7 ditë për një website standard, në varësi të kompleksitetit, materialeve dhe ritmit të komenteve.</p>
+            </div>
           </div>
 
+          <div class="faq-msg faq-msg--user is-visible">
+            <div class="faq-msg-bubble">
+              <p>A bëni SEO?</p>
+            </div>
+          </div>
+
+          <div class="faq-msg faq-msg--ai is-visible">
+            <div class="faq-msg-avatar">
+              <i class="bi bi-stars" aria-hidden="true"></i>
+            </div>
+            <div class="faq-msg-bubble">
+              <span class="faq-msg-tag">SEO</span>
+              <p>Po. Mbulojmë SEO bazë në strukturë, meta, performancë dhe analitikë, ndërsa për rritje më të thellë ndërtojmë plan të dedikuar.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-suggestions" aria-label="Pyetje të shpejta">
+          <button type="button" class="faq-suggestion" data-faq-question="Sa kushton një website?" data-faq-tag="Website" data-faq-answer="Një website nis nga €300 për ndërtim një herë, ndërsa mirëmbajtja mujore fillon nga €100 kur kërkon përditësime, siguri dhe kujdes të vazhdueshëm.">Sa kushton një website?</button>
+          <button type="button" class="faq-suggestion" data-faq-question="Sa kohë zgjat?" data-faq-tag="Website" data-faq-answer="Për website standard zakonisht 3–7 ditë, ndërsa projektet me më shumë faqe ose strukturë të avancuar zgjasin sipas kompleksitetit.">Sa kohë zgjat?</button>
+          <button type="button" class="faq-suggestion" data-faq-question="A bëni SEO?" data-faq-tag="SEO" data-faq-answer="Po. Përfshijmë optimizim bazë teknik, strukturë të qartë, meta, shpejtësi dhe konfigurim të analitikës, me mundësi zgjerimi në plan rritjeje.">A bëni SEO?</button>
+          <button type="button" class="faq-suggestion" data-faq-question="A mund të përmirësoni faqen time?" data-faq-tag="Optimizim" data-faq-answer="Po. Fillojmë me analizë të qartë për strukturë, UI/UX, performancë dhe SEO bazë, pastaj propozojmë rregullimet me ndikimin më të lartë.">A mund të përmirësoni faqen time?</button>
+          <button type="button" class="faq-suggestion" data-faq-question="A bëni fotografi për produkte?" data-faq-tag="Fotografi" data-faq-answer="Po. Realizojmë fotografi premium për produkte, rrjete sociale dhe katalog, me editim profesional dhe formate gati për web.">A bëni fotografi për produkte?</button>
+          <button type="button" class="faq-suggestion" data-faq-question="Çfarë përfshin mirëmbajtja?" data-faq-tag="Mirëmbajtje" data-faq-answer="Mirëmbajtja përfshin përditësime, kopje rezervë, monitorim të performancës, rregullime të vogla dhe mbështetje të vazhdueshme sipas planit që zgjedh.">Çfarë përfshin mirëmbajtja?</button>
+        </div>
+
+        <form class="faq-chat-input" id="faqChatForm" novalidate>
+          <div class="faq-chat-input-wrap">
+            <i class="bi bi-chat-text" aria-hidden="true"></i>
+            <input type="text" id="faqChatInput" class="faq-chat-field" placeholder="Shkruaj pyetjen tënde..." autocomplete="off" />
+          </div>
+          <button type="submit" class="faq-chat-send" aria-label="Dërgo pyetjen">
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+          </button>
+        </form>
+
+        <div class="faq-chat-footer">
+          <span class="faq-chat-note">Për pyetje më specifike, vazhdojmë te kontakti me propozim të qartë.</span>
+          <a class="faq-cta-link" href="#contact">Shkruaj për projektin →</a>
         </div>
       </div>
     </div>
@@ -1552,7 +1165,7 @@
           <h2 class="section-title">Kontakt</h2>
           <p class="section-subtitle mx-auto">
             Na trego shkurt çfarë projekti ke në mendje. <br />
-            Të kthejmë përgjigje shpejt me ide dhe buxhet orientues.
+            Të kthejmë përgjigje shpejt me drejtim të qartë dhe buxhet orientues.
           </p>
         </div>
       </div>
@@ -1654,10 +1267,10 @@
             <label class="form-label" for="wType">Lloji i website</label>
             <select id="wType" name="website_type" class="form-select" data-required>
               <option value="" selected disabled>Zgjidh</option>
-              <option value="onepage">One-page</option>
-              <option value="multipage">Multi-page</option>
-              <option value="landing">Landing page</option>
-              <option value="portfolio">Portfolio</option>
+              <option value="onepage">Faqe e vetme</option>
+              <option value="multipage">Me disa faqe</option>
+              <option value="landing">Faqe uljeje</option>
+              <option value="portfolio">Portofol</option>
             </select>
             <div class="invalid-feedback">Zgjidh llojin e website.</div>
           </div>
@@ -1698,7 +1311,7 @@
         <div class="cf-group" data-service="ecom" hidden>
           <div class="col-12">
             <div class="cf-title">Detaje për E-commerce</div>
-            <div class="cf-sub">Sa më shumë info, aq më saktë për checkout & setup.</div>
+            <div class="cf-sub">Sa më shumë informacion, aq më i saktë vlerësimi për porositë dhe konfigurimin.</div>
           </div>
 
           <div class="col-md-6">
@@ -1719,7 +1332,7 @@
               <option value="" selected disabled>Zgjidh</option>
               <option value="stripe">Stripe</option>
               <option value="paypal">PayPal</option>
-              <option value="cod">Cash on delivery</option>
+              <option value="cod">Pagesë në dorëzim</option>
               <option value="mixed">Kombinim</option>
             </select>
             <div class="invalid-feedback">Zgjidh pagesën.</div>
@@ -1731,7 +1344,7 @@
               <option value="" selected disabled>Zgjidh</option>
               <option value="local">Lokale</option>
               <option value="eu">EU</option>
-              <option value="world">Worldwide</option>
+              <option value="world">Ndërkombëtare</option>
             </select>
           </div>
 
@@ -1741,7 +1354,7 @@
               <option value="" selected disabled>Zgjidh</option>
               <option value="shopify">Shopify</option>
               <option value="woo">WooCommerce</option>
-              <option value="custom">Custom</option>
+              <option value="custom">E personalizuar</option>
               <option value="not_sure">S’jam i sigurt</option>
             </select>
           </div>
@@ -1786,7 +1399,7 @@
         <div class="cf-group" data-service="photo" hidden>
           <div class="col-12">
             <div class="cf-title">Detaje për Fotografi</div>
-            <div class="cf-sub">Për të kuptuar setin dhe delivery.</div>
+            <div class="cf-sub">Për të kuptuar më qartë setin dhe dorëzimin.</div>
           </div>
 
           <div class="col-md-6">
@@ -1795,7 +1408,7 @@
               <option value="" selected disabled>Zgjidh</option>
               <option value="product">Produkt</option>
               <option value="portrait">Portret</option>
-              <option value="lifestyle">Lifestyle</option>
+              <option value="lifestyle">Stil jete</option>
               <option value="event">Event</option>
             </select>
             <div class="invalid-feedback">Zgjidh llojin e fotos.</div>
@@ -1839,8 +1452,8 @@
             <label class="form-label" for="mNeed">Çfarë përfshin?</label>
             <select id="mNeed" name="maint_need" class="form-select" data-required>
               <option value="" selected disabled>Zgjidh</option>
-              <option value="updates">Update & siguri</option>
-              <option value="content">Ndryshime content</option>
+              <option value="updates">Përditësime & siguri</option>
+              <option value="content">Ndryshime në përmbajtje</option>
               <option value="both">Të dyja</option>
             </select>
             <div class="invalid-feedback">Zgjidh një opsion.</div>
@@ -1894,8 +1507,48 @@
           </div>
           <div class="col-12">
             <label class="form-label" for="oWhat">Çfarë shërbimi?</label>
-            <input id="oWhat" name="other_what" type="text" class="form-control" placeholder="p.sh. landing, redesign, setup..." data-required />
+            <input id="oWhat" name="other_what" type="text" class="form-control" placeholder="p.sh. faqe uljeje, rifreskim dizajni, konfigurim..." data-required />
             <div class="invalid-feedback">Shkruaj çfarë të duhet.</div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label" for="cProjectDesc">Përshkrimi i projektit</label>
+          <textarea id="cProjectDesc" name="project_description" class="form-control" rows="4" placeholder="p.sh. Dua një website për restorant me menu dhe rezervime..."></textarea>
+          <div class="form-text">Shkruaj 1–2 fjali dhe do të marrësh menjëherë një sugjerim orientues për buxhetin.</div>
+        </div>
+
+        <div class="col-12">
+          <div class="cf-smart-card" id="cfSmartCard" hidden aria-live="polite">
+            <div class="cf-smart-head">
+              <div>
+                <span class="cf-smart-kicker">Vlerësim automatik</span>
+                <div class="cf-smart-title">Sugjerim për projektin tuaj</div>
+              </div>
+              <div class="cf-smart-badge">
+                <i class="bi bi-stars" aria-hidden="true"></i>
+                Smart Assist
+              </div>
+            </div>
+
+            <div class="cf-smart-loading" id="cfSmartLoading" hidden>
+              <span></span><span></span><span></span>
+            </div>
+
+            <div class="cf-smart-body" id="cfSmartBody" hidden>
+              <div class="cf-smart-metrics">
+                <div class="cf-smart-metric">
+                  <span class="cf-smart-label">Buxheti i sugjeruar</span>
+                  <strong id="cfSmartBudget">€300 – €600</strong>
+                </div>
+                <div class="cf-smart-metric">
+                  <span class="cf-smart-label">Koha e vlerësuar</span>
+                  <strong id="cfSmartTime">3–7 ditë</strong>
+                </div>
+              </div>
+              <p class="cf-smart-text" id="cfSmartText">Bazuar në përshkrimin tuaj, kjo është një faqe standard me funksionalitete bazë.</p>
+              <button type="button" class="btn btn-danger cf-smart-apply" id="cfSmartApply">Përdor këtë buxhet</button>
+            </div>
           </div>
         </div>
 
@@ -1987,8 +1640,8 @@
           <div class="contact-side p-4 h-100 text-center text-lg-start">
 
             <div class="contact-side-head mb-3">
-              <div class="contact-side-title">Info</div>
-              <div class="contact-side-sub">EU &amp; International · Remote Worldwide</div>
+              <div class="contact-side-title">Të dhënat</div>
+              <div class="contact-side-sub">Evropë &amp; ndërkombëtarisht · Punë në distancë</div>
             </div>
 
             <div class="contact-list">
@@ -2004,7 +1657,7 @@
               <div class="contact-item">
                 <div class="contact-ic"><i class="bi bi-geo-alt" aria-hidden="true"></i></div>
                 <div class="contact-meta">
-                  <div class="contact-meta-label">Location</div>
+                  <div class="contact-meta-label">Vendndodhja</div>
                   <div class="contact-meta-value">Weiden i.d. OPf · Gjermani</div>
                 </div>
               </div>
@@ -2048,21 +1701,26 @@
 
       <!-- Brand -->
       <div class="col-12 col-md-4">
-        <a class="footer-brand d-inline-flex align-items-center gap-2 mb-3" href="#top">
-  <img class="footer-logo" src="./assets/img/logo-light.png" alt="Illyrian Pixel logo" />
-  <span class="footer-brand-text">Illyrian Pixel</span>
+        <a class="footer-brand d-inline-flex align-items-center gap-2 mb-3" href="index.html" aria-label="Illyrian Pixel – Home">
+  <img class="footer-logo" src="./assets/img/logo.png" alt="Illyrian Pixel logo" width="804" height="720" />
+  <span class="footer-brand-text">
+    <span class="brand-text-illyrian">Illyrian</span>
+    <span class="brand-text-pixel" aria-label="Pixel">
+      <span class="brand-pixel-char" aria-hidden="true">P</span><span class="brand-pixel-char" aria-hidden="true">I</span><span class="brand-pixel-char" aria-hidden="true">X</span><span class="brand-pixel-char" aria-hidden="true">E</span><span class="brand-pixel-char" aria-hidden="true">L</span>
+    </span>
+  </span>
 </a>
 
 
         <p class="footer-text small mb-3">
-          Web, e-commerce &amp; photography studio. <br> Projekte të pastra, të shpejta dhe të menduara për rezultat.
+          Studio për web, e-commerce &amp; fotografi. <br> Projekte të pastra, të shpejta dhe të menduara për rezultat.
         </p>
 
         <div class="footer-social d-flex justify-content-center justify-content-md-start gap-2" aria-label="Social links">
-          <a class="footer-social-btn" href="https://instagram.com/NDERRRO_KETU" target="_blank" rel="noopener" aria-label="Instagram">
+          <a class="footer-social-btn" href="contact.html" aria-label="Instagram">
             <i class="bi bi-instagram" aria-hidden="true"></i>
           </a>
-          <a class="footer-social-btn" href="https://tiktok.com/@NDERRRO_KETU" target="_blank" rel="noopener" aria-label="TikTok">
+          <a class="footer-social-btn" href="contact.html" aria-label="TikTok">
             <i class="bi bi-tiktok" aria-hidden="true"></i>
           </a>
           <a class="footer-social-btn" href="mailto:info@illyrianpixel.com" aria-label="Email">
@@ -2075,11 +1733,11 @@
       <div class="col-6 col-md-2">
         <h6 class="footer-title">Menu</h6>
         <ul class="footer-links list-unstyled mb-0">
-          <li><a class="footer-link" href="#services">Shërbimet</a></li>
-          <li><a class="footer-link" href="#work">Punët</a></li>
-          <li><a class="footer-link" href="#pricing">Çmimet</a></li>
-          <li><a class="footer-link" href="#faq">FAQ</a></li>
-          <li><a class="footer-link" href="#contact">Kontakt</a></li>
+          <li><a class="footer-link" href="services.html">Shërbimet</a></li>
+          <li><a class="footer-link" href="work.html">Punët</a></li>
+          <li><a class="footer-link" href="pricing.html">Çmimet</a></li>
+          <li><a class="footer-link" href="faq.html">FAQ</a></li>
+          <li><a class="footer-link" href="contact.html">Kontakt</a></li>
         </ul>
       </div>
 
@@ -2087,12 +1745,12 @@
       <div class="col-6 col-md-3">
         <h6 class="footer-title">Shërbime</h6>
         <ul class="footer-links list-unstyled mb-0">
-          <li><a class="footer-link" href="#services" data-service="website">Website prezantues</a></li>
-          <li><a class="footer-link" href="#services" data-service="ecom">E-commerce</a></li>
-          <li><a class="footer-link" href="#services" data-service="ux">UI/UX &amp; optimizim</a></li>
-          <li><a class="footer-link" href="#services" data-service="photo">Fotografi</a></li>
-          <li><a class="footer-link" href="#services" data-service="maint">Mirëmbajtje</a></li>
-          <li><a class="footer-link" href="#services" data-service="brand">Brand</a></li>
+          <li><a class="footer-link" href="website.html">Website prezantues</a></li>
+          <li><a class="footer-link" href="ecommerce.html">E-commerce</a></li>
+          <li><a class="footer-link" href="marketing.html">UI/UX &amp; optimizim</a></li>
+          <li><a class="footer-link" href="photography.html">Fotografi</a></li>
+          <li><a class="footer-link" href="maintenance.html">Mirëmbajtje</a></li>
+          <li><a class="footer-link" href="branding.html">Brand</a></li>
         </ul>
       </div>
 
@@ -2106,12 +1764,12 @@
             <a class="footer-link" href="mailto:info@illyrianpixel.com">info@illyrianpixel.com</a>
           </li>
           <li class="mt-2">
-            <span class="footer-muted">Location</span><br />
+            <span class="footer-muted">Vendndodhja</span><br />
             <span class="footer-text small">Weiden i.d. OPf · Gjermani</span>
           </li>
         </ul>
 
-        <a class="btn btn-danger btn-sm w-100 footer-cta" href="#contact">
+        <a class="hero-btn hero-btn--primary w-100 text-center footer-cta" href="contact.html">
           Na shkruaj
         </a>
       </div>
@@ -2122,10 +1780,10 @@
 
     <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
       <div class="small footer-copy">
-        © <span id="year"></span> Illyrian Pixel. All rights reserved.
+        © <span id="year"></span> Illyrian Pixel. Të gjitha të drejtat e rezervuara.
       </div>
       <div class="small footer-copy">
-        Operated by <strong>Xhuljan Sadiku</strong>
+        Operuar nga <strong>Xhuljan Sadiku</strong>
       </div>
     </div>
 
@@ -2143,64 +1801,6 @@
   <!-- App JS -->
   <script src="./assets/js/main.js"></script>
 
- <script>
-(function () {
-  const root = document.getElementById('plans');
-  if (!root) return;
-
-  const toggleBtns = root.querySelectorAll('.toggle-btn');
-  const priceBlocks = root.querySelectorAll('.plan-price');
-
-  function setBilling(mode) {
-    toggleBtns.forEach(btn => {
-      const active = btn.dataset.billing === mode;
-      btn.classList.toggle('is-active', active);
-      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-
-    priceBlocks.forEach(block => {
-      const currency = block.dataset.currency || '€';
-      const monthly = block.dataset.monthly;
-      const yearly  = block.dataset.yearly;
-      const suffixMonthly = block.dataset.suffixMonthly || '/ muaj';
-      const suffixYearly  = block.dataset.suffixYearly  || '/ vit';
-
-      const numberEl = block.querySelector('.plan-number');
-      const currencyEl = block.querySelector('.plan-currency');
-      const suffixEl = block.querySelector('.plan-suffix');
-      const altLabelEl = block.querySelector('.plan-alt-label');
-      const altEl = block.querySelector('.plan-alt');
-
-      if (!numberEl || !currencyEl || !suffixEl) return;
-
-      currencyEl.textContent = currency;
-
-      if (mode === 'yearly') {
-        numberEl.textContent = yearly;
-        suffixEl.textContent = suffixYearly;
-        if (altLabelEl) altLabelEl.textContent = 'Opsion mujor:';
-        if (altEl) altEl.textContent = `${currency}${monthly} ${suffixMonthly}`;
-      } else {
-        numberEl.textContent = monthly;
-        suffixEl.textContent = suffixMonthly;
-        if (altLabelEl) altLabelEl.textContent = 'Opsion vjetor:';
-        if (altEl) altEl.textContent = `${currency}${yearly} ${suffixYearly}`;
-      }
-    });
-  }
-
-  toggleBtns.forEach(btn => btn.addEventListener('click', () => setBilling(btn.dataset.billing)));
-
-  // persist choice (optional but nice)
-  const saved = localStorage.getItem('plansBilling');
-  setBilling(saved === 'yearly' ? 'yearly' : 'monthly');
-
-  toggleBtns.forEach(btn => {
-    btn.addEventListener('click', () => localStorage.setItem('plansBilling', btn.dataset.billing));
-  });
-})();
-</script>
-
-
 </body>
 </html>
+
