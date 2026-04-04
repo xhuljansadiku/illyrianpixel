@@ -10,6 +10,137 @@ const hasBootstrap = () => typeof window.bootstrap !== "undefined";
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* Follower: pikë + unazë të zeza, lerp; kursori i sistemit mbetet (jo cursor:none) */
+  (() => {
+    const fine = window.matchMedia("(pointer: fine)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!fine.matches || reduce.matches) return;
+
+    const dot = document.createElement("div");
+    const ring = document.createElement("div");
+    dot.className = "ip-cursor-dot";
+    ring.className = "ip-cursor-ring";
+    dot.setAttribute("aria-hidden", "true");
+    ring.setAttribute("aria-hidden", "true");
+    document.body.appendChild(ring);
+    document.body.appendChild(dot);
+
+    let tx = -100;
+    let ty = -100;
+    let rx = tx;
+    let ry = ty;
+    let rafId = 0;
+    const lerp = 0.16;
+    let visible = false;
+
+    const isTextField = (el) => {
+      if (!el || el.nodeType !== 1) return false;
+      const t = el.tagName;
+      if (t === "TEXTAREA" || t === "SELECT") return true;
+      if (t === "INPUT") {
+        const type = (el.getAttribute("type") || "text").toLowerCase();
+        const nonText = new Set([
+          "button", "submit", "reset", "checkbox", "radio", "range", "file", "hidden", "image",
+        ]);
+        return !nonText.has(type);
+      }
+      return el.getAttribute("contenteditable") === "true";
+    };
+
+    const walkTextHost = (start) => {
+      let n = start;
+      while (n && n !== document.documentElement) {
+        if (isTextField(n)) return n;
+        n = n.parentElement;
+      }
+      return null;
+    };
+
+    const isHoverTarget = (start) => {
+      if (!start || start.nodeType !== 1) return false;
+      const el = start.closest(
+        "a[href], button, .btn, [role='button'], input, label, select, summary, .nav-link, .ip-nav-link",
+      );
+      if (!el) return false;
+      if (isTextField(el)) return false;
+      if (el.tagName === "INPUT") {
+        const type = (el.getAttribute("type") || "").toLowerCase();
+        if (type === "hidden") return false;
+      }
+      return true;
+    };
+
+    const setHoverUi = (e) => {
+      const under = document.elementFromPoint(e.clientX, e.clientY);
+      const textHost = walkTextHost(under);
+      document.body.classList.toggle("ip-cursor--text", Boolean(textHost));
+      const hover = !textHost && isHoverTarget(under);
+      ring.classList.toggle("is-hover", hover);
+    };
+
+    const loop = () => {
+      rx += (tx - rx) * lerp;
+      ry += (ty - ry) * lerp;
+      dot.style.transform = `translate3d(${tx}px, ${ty}px, 0) translate(-50%, -50%)`;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+      if (Math.abs(tx - rx) > 0.2 || Math.abs(ty - ry) > 0.2) {
+        rafId = requestAnimationFrame(loop);
+      } else {
+        rafId = 0;
+        rx = tx;
+        ry = ty;
+        ring.style.transform = dot.style.transform;
+      }
+    };
+
+    const queueFrame = () => {
+      if (!rafId) rafId = requestAnimationFrame(loop);
+    };
+
+    document.addEventListener(
+      "mousemove",
+      (e) => {
+        tx = e.clientX;
+        ty = e.clientY;
+        if (!visible) {
+          visible = true;
+          dot.classList.add("is-visible");
+          ring.classList.add("is-visible");
+        }
+        setHoverUi(e);
+        queueFrame();
+      },
+      { passive: true },
+    );
+
+    document.addEventListener("mousedown", () => {
+      dot.classList.add("is-down");
+      ring.classList.add("is-down");
+    });
+    document.addEventListener("mouseup", () => {
+      dot.classList.remove("is-down");
+      ring.classList.remove("is-down");
+    });
+
+    document.documentElement.addEventListener("mouseleave", () => {
+      visible = false;
+      dot.classList.remove("is-visible");
+      ring.classList.remove("is-visible");
+      document.body.classList.remove("ip-cursor--text");
+      ring.classList.remove("is-hover");
+    }, { passive: true });
+
+    window.addEventListener(
+      "blur",
+      () => {
+        visible = false;
+        dot.classList.remove("is-visible");
+        ring.classList.remove("is-visible");
+      },
+      { passive: true },
+    );
+  })();
+
   /* Hero helmet — parallax + liquid vars (respekt për reduced-motion) */
   (() => {
     const stage = qs("#heroHelmetStage");
@@ -19,6 +150,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (reduce.matches) return;
 
     let ticking = false;
+    let activeT = 0;
+    const kickLiquid = () => {
+      stage.classList.add("hero-helmet-stage--active");
+      window.clearTimeout(activeT);
+      activeT = window.setTimeout(() => {
+        stage.classList.remove("hero-helmet-stage--active");
+      }, 240);
+    };
+
     const paint = (clientX, clientY) => {
       const r = stage.getBoundingClientRect();
       if (r.width < 1 || r.height < 1) return;
@@ -38,11 +178,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ticking = true;
       requestAnimationFrame(() => {
         paint(e.clientX, e.clientY);
+        kickLiquid();
         ticking = false;
       });
     }, { passive: true });
 
     stage.addEventListener("mouseleave", () => {
+      window.clearTimeout(activeT);
+      stage.classList.remove("hero-helmet-stage--active");
       stage.style.setProperty("--hx", "50%");
       stage.style.setProperty("--hy", "42%");
       if (img) img.style.transform = "";
@@ -53,6 +196,50 @@ document.addEventListener("DOMContentLoaded", () => {
   (() => {
     const yearEl = document.getElementById("year");
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+  })();
+
+  /* Footer luxe: scroll reveal + subtle parallax */
+  (() => {
+    const footer = qs("footer#footer.ip-footer-luxe");
+    if (!footer) return;
+
+    const parallax = qs(".ip-footer-luxe__parallax", footer);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (!reduce.matches && typeof IntersectionObserver !== "undefined") {
+      footer.classList.add("will-animate");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) footer.classList.add("is-revealed");
+          });
+        },
+        { threshold: 0.06, rootMargin: "0px 0px 12% 0px" }
+      );
+      io.observe(footer);
+      requestAnimationFrame(() => {
+        const r = footer.getBoundingClientRect();
+        if (r.top < (window.innerHeight || 0) * 0.92) footer.classList.add("is-revealed");
+      });
+    }
+
+    if (reduce.matches || !parallax) return;
+
+    let raf = 0;
+    const sync = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = footer.getBoundingClientRect();
+        const vh = window.innerHeight || 1;
+        const visible = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.85)));
+        const shift = (visible - 0.35) * 22;
+        parallax.style.setProperty("--ip-ft-shift", `${shift}px`);
+      });
+    };
+
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync, { passive: true });
+    sync();
   })();
 
   /* Lartësi navbar (fixed) → --ip-nav-offset për body padding; pa ndryshim pamjeje në scroll */
@@ -71,6 +258,18 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", syncNavOffset, { passive: true });
     if (typeof ResizeObserver !== "undefined") {
       new ResizeObserver(syncNavOffset).observe(bar);
+    }
+
+    if (bar.classList.contains("ip-navbar--luxe")) {
+      let scrolledRaf = 0;
+      const syncScrolled = () => {
+        cancelAnimationFrame(scrolledRaf);
+        scrolledRaf = requestAnimationFrame(() => {
+          bar.classList.toggle("ip-navbar--scrolled", window.scrollY > 16);
+        });
+      };
+      syncScrolled();
+      window.addEventListener("scroll", syncScrolled, { passive: true });
     }
   })();
 
@@ -121,6 +320,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { rootMargin: "-30% 0px -60% 0px", threshold: [0.12, 0.25, 0.5] });
 
     pairs.forEach((x) => obs.observe(x.sec));
+  })();
+
+  /*
+   * Mobile hamburger: një toggle i vetëm. Data API e Bootstrap-it (click në document)
+   * bashkë me CSS të rëndë të collapse mund të dyfishojë toggle-in → menuja “nuk hapet”.
+   * Capture + stopPropagation: vetëm Collapse.toggle() nga këtu nën 992px.
+   */
+  (() => {
+    const nav = qs("#ipNav");
+    const toggler = qs('[data-bs-target="#ipNav"]');
+    if (!nav || !toggler || !hasBootstrap()) return;
+
+    const isMobileNav = () => window.matchMedia("(max-width: 991.98px)").matches;
+
+    toggler.addEventListener(
+      "click",
+      (e) => {
+        if (!isMobileNav()) return;
+        e.preventDefault();
+        e.stopPropagation();
+        window.bootstrap.Collapse.getOrCreateInstance(nav).toggle();
+      },
+      true,
+    );
   })();
 
   /* Mobile nav close: link click + outside + ESC -----------------------------------------------------------------------------------------*/
@@ -337,7 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         match: ["seo", "google", "ads"],
         tag: "SEO",
-        answer: "Po. Përfshijmë SEO bazë teknik, performance, meta dhe analytics. Për rritje më agresive me Google Ads ose strategji afatgjatë, ndërtojmë plan të dedikuar."
+        answer: "Po, përfshijmë SEO bazë dhe ofrojmë plane të avancuara për rritje afatgjatë."
       },
       {
         match: ["e-commerce", "dyqan", "shop", "checkout", "pagesa"],
@@ -372,21 +595,47 @@ document.addEventListener("DOMContentLoaded", () => {
       wrap.className = `faq-msg faq-msg--${type}`;
 
       if (type === "ai") {
-        wrap.innerHTML = `
-          <div class="faq-msg-avatar">
-            <i class="bi bi-stars" aria-hidden="true"></i>
-          </div>
-          <div class="faq-msg-bubble">
-            ${tag ? `<span class="faq-msg-tag">${tag}</span>` : ""}
-            ${typing ? `<div class="faq-typing" aria-label="Duke shkruar"><span></span><span></span><span></span></div>` : `<p>${text}</p>`}
-          </div>
-        `;
+        const avatar = document.createElement("div");
+        avatar.className = "faq-msg-avatar";
+        avatar.setAttribute("aria-hidden", "true");
+        avatar.innerHTML = "<i class=\"bi bi-stars\" aria-hidden=\"true\"></i>";
+
+        const bubble = document.createElement("div");
+        bubble.className = "faq-msg-bubble";
+
+        const label = document.createElement("span");
+        label.className = "faq-msg-label";
+        label.textContent = "Asistenti Illyrian";
+        bubble.appendChild(label);
+
+        if (tag) {
+          const tagEl = document.createElement("span");
+          tagEl.className = "faq-msg-tag";
+          tagEl.textContent = tag;
+          bubble.appendChild(tagEl);
+        }
+
+        if (typing) {
+          const typingDiv = document.createElement("div");
+          typingDiv.className = "faq-typing";
+          typingDiv.setAttribute("aria-label", "Duke shkruar");
+          for (let i = 0; i < 3; i += 1) typingDiv.appendChild(document.createElement("span"));
+          bubble.appendChild(typingDiv);
+        } else {
+          const p = document.createElement("p");
+          p.textContent = text;
+          bubble.appendChild(p);
+        }
+
+        wrap.appendChild(avatar);
+        wrap.appendChild(bubble);
       } else {
-        wrap.innerHTML = `
-          <div class="faq-msg-bubble">
-            <p>${text}</p>
-          </div>
-        `;
+        const bubble = document.createElement("div");
+        bubble.className = "faq-msg-bubble";
+        const p = document.createElement("p");
+        p.textContent = text;
+        bubble.appendChild(p);
+        wrap.appendChild(bubble);
       }
 
       chatWindow.appendChild(wrap);
@@ -414,8 +663,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       window.setTimeout(() => {
         typingEl.remove();
-        createMessage({ type: "ai", text: reply.answer, tag: reply.tag });
-      }, 720);
+        createMessage({ type: "ai", text: reply.answer, tag: reply.tag || "" });
+        scrollToBottom();
+      }, 900);
     };
 
     suggestions.forEach((button) => {
@@ -424,9 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const answer = button.dataset.faqAnswer || "";
         const tag = button.dataset.faqTag || "";
 
-        input.value = question;
-        sendQuestion(question, { answer, tag });
-        input.value = "";
+        sendQuestion(question, answer ? { answer, tag } : null);
         input.focus();
       });
     });
@@ -439,6 +687,8 @@ document.addEventListener("DOMContentLoaded", () => {
       sendQuestion(question);
       input.value = "";
     });
+
+    scrollToBottom();
   })();
 
   /* Contact wizard + submit (front-end only) -----------------------------------------------------------------------------------------*/
@@ -454,7 +704,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const serviceSelect = qs("#cService", form);
   const msHost = qs("#cServiceMs", form);
   const msInd = qs("[data-ms-indicator]", form);
-  const budgetSelect = qs("#cBudget", form);
   const projectDesc = qs("#cProjectDesc", form);
   const smartCard = qs("#cfSmartCard", form);
   const smartLoading = qs("#cfSmartLoading", form);
@@ -465,6 +714,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const smartApply = qs("#cfSmartApply", form);
   const status = qs("#contactStatus", form);
   const submitBtn = qs("#contactSubmit", form);
+  const msgHidden = qs("#cMsgHidden", form);
+  const contactSuccess = qs("#contactSuccess", form);
+  const cfProgressFill = qs("#cfProgressFill", form);
+  const cfSummaryServices = qs("#cfSummaryServices", form);
+  const cfSummaryDetails = qs("#cfSummaryDetails", form);
+  const cfSummaryBudget = qs("#cfSummaryBudget", form);
+  const cfSummaryTimeline = qs("#cfSummaryTimeline", form);
+  const cfSummaryTimelineWrap = qs("#cfSummaryTimelineWrap", form);
 
   let step = 1;
   let smartTimer = null;
@@ -612,7 +869,7 @@ document.addEventListener("DOMContentLoaded", () => {
     submitBtn.disabled = loading;
     submitBtn.innerHTML = loading
       ? `<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Duke dërguar...`
-      : `Dërgo`;
+      : `Dërgo kërkesën <span aria-hidden="true">→</span>`;
   };
 
   const isValidEmail = (email) =>
@@ -630,7 +887,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.activeElement.blur();
     }
 
-    const topEl = document.querySelector("#contact .section-title") || document.querySelector("#contact");
+    const topEl = document.querySelector("#contact-heading") || document.querySelector("#contact .section-title") || document.querySelector("#contact");
     if (!topEl) return;
 
     const nav = document.querySelector(".ip-navbar");
@@ -653,14 +910,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setStatus("");
 
+    if (cfProgressFill) cfProgressFill.style.width = `${(n / 4) * 100}%`;
+
     // shfaq grupet në panelin aktiv
     showServiceGroup();
+
+    if (n === 4) refreshSummary();
 
     if (doScroll) scrollToContactTop();
   };
 
   const selectedServices = () =>
     (serviceSelect ? Array.from(serviceSelect.selectedOptions).map((o) => o.value) : []);
+
+  const refreshSummary = () => {
+    if (!cfSummaryServices || !serviceSelect) return;
+    const labels = selectedServices().map((v) => {
+      const opt = Array.from(serviceSelect.options).find((o) => o.value === v);
+      return opt?.textContent?.trim() || v;
+    });
+    cfSummaryServices.textContent = labels.length ? labels.join(", ") : "—";
+
+    const name = qs("#cName", form)?.value?.trim() || "";
+    const email = qs("#cEmail", form)?.value?.trim() || "";
+    const desc = String(projectDesc?.value || "").trim();
+    if (cfSummaryDetails) {
+      const parts = [name || "—", email || "—"];
+      if (desc) parts.push(desc.length > 240 ? `${desc.slice(0, 240)}…` : desc);
+      cfSummaryDetails.textContent = parts.join("\n");
+    }
+
+    const bud = form.querySelector('input[name="budget"]:checked');
+    const budLabel = bud?.closest(".cf-budget-card")?.querySelector(".cf-budget-card__range")?.textContent?.trim();
+    if (cfSummaryBudget) cfSummaryBudget.textContent = budLabel || "—";
+
+    const tl = form.querySelector('input[name="timeline"]:checked');
+    const tlMap = { urgent: "Urgjent", normal: "Normal", flexible: "Fleksibël" };
+    const tlText = tl ? tlMap[tl.value] || tl.value : "";
+    if (cfSummaryTimelineWrap && cfSummaryTimeline) {
+      if (tlText) {
+        cfSummaryTimeline.textContent = tlText;
+        cfSummaryTimelineWrap.hidden = false;
+      } else {
+        cfSummaryTimelineWrap.hidden = true;
+      }
+    }
+  };
 
   const activeService = () => selectedServices()[0] || "";
 
@@ -754,39 +1049,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const smartRules = {
     website: {
-      budgetText: "€300 – €600",
+      budgetText: "€300 – €800",
       timeText: "3–7 ditë",
-      budgetValue: "lt-500",
+      budgetValue: "300-800",
       explain: "Bazuar në përshkrimin tuaj, kjo duket si një website standard me strukturë të qartë dhe funksionalitete bazë."
     },
     ecom: {
-      budgetText: "€900 – €1500",
+      budgetText: "€1500 – €3000",
       timeText: "7–14 ditë",
-      budgetValue: "1000-2500",
+      budgetValue: "1500-3000",
       explain: "Ky projekt kërkon setup më të plotë për katalog, checkout dhe pagesa, ndaj hyn në një gamë e-commerce më serioze."
     },
     seo: {
-      budgetText: "€200 – €500 / muaj",
+      budgetText: "€800 – €1500",
       timeText: "2–4 javë",
-      budgetValue: "500-1000",
-      explain: "Bazuar në fokusin te SEO ose marketingu, sugjerimi më i përshtatshëm është një plan mujor optimizimi dhe rritjeje."
+      budgetValue: "800-1500",
+      explain: "Bazuar në fokusin te SEO ose marketingu, sugjerimi më i përshtatshëm është optimizim i strukturuar me buxhet të përshtatshëm."
     },
     photo: {
-      budgetText: "€250 – €700",
+      budgetText: "€800 – €1500",
       timeText: "2–5 ditë",
-      budgetValue: "500-1000",
+      budgetValue: "800-1500",
       explain: "Kjo duket si një set fotografie me editim dhe delivery gati për web ose social, me buxhet të moderuar."
     },
     maint: {
-      budgetText: "€100 – €200 / muaj",
+      budgetText: "€300 – €800",
       timeText: "Mujor",
-      budgetValue: "lt-500",
+      budgetValue: "300-800",
       explain: "Për mirëmbajtje dhe suport të vazhdueshëm, forma më efikase është një plan mujor me update dhe monitorim."
     },
     brand: {
-      budgetText: "€300 – €900",
+      budgetText: "€800 – €1500",
       timeText: "4–10 ditë",
-      budgetValue: "500-1000",
+      budgetValue: "800-1500",
       explain: "Për identitet vizual bazë ose rifreskim, ky interval mbulon logo, drejtim vizual dhe materiale fillestare."
     }
   };
@@ -862,8 +1157,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const groups = qsa(".cf-group", panel);
 
-    // nëse ky panel s’ka grupe, mos bëj gjë
-    if (!groups.length) return;
+    if (!groups.length) {
+      scheduleSmartEstimate();
+      return;
+    }
 
     groups.forEach(g => {
       const on = svs.includes(g.dataset.service);
@@ -888,6 +1185,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fields.forEach(el => {
       if (el.disabled || el.type === "hidden") return;
+      if (el.type === "radio" && el.name === "budget") return;
+      if (el.type === "radio" && el.name === "timeline") return;
       if (el.classList.contains("cf-service-native")) {
         el.classList.remove("is-invalid", "is-valid");
       }
@@ -901,7 +1200,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (el.tagName === "SELECT") {
         bad = el.multiple ? el.selectedOptions.length === 0 : !el.value;
       } else if (el.type === "email") bad = !el.value.trim() || !isValidEmail(el.value);
-      else bad = !String(el.value || "").trim();
+      else if (el.tagName === "TEXTAREA" && el.id === "cProjectDesc") {
+        bad = String(el.value || "").trim().length < 2;
+      } else bad = !String(el.value || "").trim();
 
       mark(el, bad);
       if (el === serviceSelect && el.multiple && msHost) {
@@ -915,6 +1216,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (bad) ok = false;
     });
+
+    if (n === 3) {
+      const wrap = qs("[data-cf-budget-wrap]", panel);
+      const checked = panel.querySelector('input[name="budget"]:checked');
+      if (!checked) {
+        ok = false;
+        wrap?.classList.add("is-invalid");
+      } else {
+        wrap?.classList.remove("is-invalid");
+      }
+    }
 
     return ok;
   };
@@ -934,9 +1246,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   smartApply?.addEventListener("click", () => {
-    if (!smartSelection || !budgetSelect) return;
-    budgetSelect.value = smartSelection.budgetValue;
+    if (!smartSelection) return;
+    const r = form.querySelector(`input[name="budget"][value="${smartSelection.budgetValue}"]`);
+    if (r) r.checked = true;
     showPanel(3, true);
+  });
+
+  form.addEventListener("change", (e) => {
+    const t = e.target;
+    if (t && t.name === "budget") {
+      qs("[data-cf-budget-wrap]", form)?.classList.remove("is-invalid");
+    }
   });
 
   btnNext.forEach(b => b.addEventListener("click", () => {
@@ -970,6 +1290,8 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     setStatus("");
 
+    if (msgHidden && projectDesc) msgHidden.value = projectDesc.value.trim();
+
     if (!validateStep(4)) {
       setStatus("Kontrollo fushat e shënuara.", "err");
       return;
@@ -981,21 +1303,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
       await new Promise(r => setTimeout(r, 900));
 
-      setStatus("U dërgua. Do të kthej përgjigje sa më shpejt.", "ok");
-      form.reset();
-      hideSmartEstimate();
-      syncMsUi();
-      qsa(".cf-field-indicator", form).forEach((ind) => {
-        ind.classList.remove("is-pending", "is-ok", "is-bad");
-        ind.classList.add("is-idle");
-      });
-      if (msInd) {
-        msInd.classList.remove("is-ok", "is-bad", "is-pending");
-        msInd.classList.add("is-idle");
+      if (contactSuccess) {
+        contactSuccess.hidden = false;
+        requestAnimationFrame(() => contactSuccess.classList.add("is-visible"));
       }
+      setStatus("");
 
-      panels.forEach(p => qsa(".is-valid,.is-invalid", p).forEach(x => x.classList.remove("is-valid", "is-invalid")));
-      showPanel(1, true);
+      window.setTimeout(() => {
+        if (contactSuccess) {
+          contactSuccess.classList.remove("is-visible");
+          contactSuccess.hidden = true;
+        }
+        form.reset();
+        hideSmartEstimate();
+        syncMsUi();
+        qsa(".cf-field-indicator", form).forEach((ind) => {
+          ind.classList.remove("is-pending", "is-ok", "is-bad");
+          ind.classList.add("is-idle");
+        });
+        if (msInd) {
+          msInd.classList.remove("is-ok", "is-bad", "is-pending");
+          msInd.classList.add("is-idle");
+        }
+
+        panels.forEach(p => qsa(".is-valid,.is-invalid", p).forEach(x => x.classList.remove("is-valid", "is-invalid")));
+        qs("[data-cf-budget-wrap]", form)?.classList.remove("is-invalid");
+        showPanel(1, false);
+      }, 2600);
     } catch (err) {
       setStatus("S’funksionoi. Provo përsëri ose më shkruaj në email.", "err");
     } finally {
@@ -1019,6 +1353,40 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   io.observe(stage);
+})();
+
+/* Process: scroll-in steps + line fill */
+(() => {
+  const root = qs("[data-ip-proc]");
+  if (!root || typeof IntersectionObserver === "undefined") return;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) root.classList.add("ip-proc--visible");
+      });
+    },
+    { threshold: 0.16, rootMargin: "0px 0px -6% 0px" }
+  );
+
+  io.observe(root);
+})();
+
+/* Testimonials: fade-in shell on scroll */
+(() => {
+  const root = qs("[data-ip-testi]");
+  if (!root || typeof IntersectionObserver === "undefined") return;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) root.classList.add("ip-testi--visible");
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -5% 0px" }
+  );
+
+  io.observe(root);
 })();
 
 /* Footer: smooth scroll + deep-link service */
