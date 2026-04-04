@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="sq">
 <head>
   <meta charset="utf-8" />
@@ -236,8 +236,7 @@
         <p class="hero-subhead">Krijojmë prezencë dixhitale me peshë</p>
 
         <p class="hero-body">
-          Zgjidhje të personalizuara për qartësi, besueshmëri dhe ndikim, ku strategjia takohet me ekzekutimin vizual në çdo hap.<br />
-          Punojmë me biznese dhe brande që kërkojnë më shumë: prezencë të rafinuar, komunikim të qartë dhe rezultate që ndihen.
+          Strategji, dizajn dhe zhvillim që kthejnë vizitorë në klientë — pa zhurmë, me rezultat të matshëm.
         </p>
 
         <div class="hero-actions">
@@ -247,15 +246,19 @@
       </div>
 
       <div class="col-12 col-lg-6 hero-visual d-flex justify-content-center justify-content-lg-end align-items-lg-end">
-        <div class="hero-visual-shell">
-          <img
-            src="./assets/img/hero-bg-3.png"
-            class="hero-logo-big"
-            alt="Illyrian Pixel"
-            width="1536"
-            height="1024"
-            decoding="async"
-          />
+        <div class="hero-visual-shell hero-helmet-stage" id="heroHelmetStage" aria-hidden="true">
+          <div class="hero-helmet-parallax">
+            <img
+              src="./assets/img/hero-bg-3.png"
+              class="hero-logo-big hero-helmet-img"
+              alt=""
+              width="1536"
+              height="1024"
+              decoding="async"
+            />
+          </div>
+          <div class="hero-helmet-liquid"></div>
+          <div class="hero-helmet-shine"></div>
         </div>
       </div>
 
@@ -530,7 +533,132 @@
   </div>
 </section>
 <!-- PRICING -->
-<section id="pricing" class="py-5 bg-soft">
+<section id="pricing" class="py-5 bg-soft ip-pricing-luxe" data-pricing-stage>
+  <div class="container">
+    <div class="ip-pricing-stage">
+      <span class="ip-pricing-orb ip-pricing-orb--gold" aria-hidden="true"></span>
+      <span class="ip-pricing-orb ip-pricing-orb--violet" aria-hidden="true"></span>
+      <div class="ip-pricing-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="row justify-content-center text-center">
+        <div class="col-12 col-lg-8">
+          <span class="ip-pricing-kicker">Premium Packages</span>
+          <h2 class="section-title">Çmimet / Planet</h2>
+          <p class="section-subtitle mx-auto">
+            Platforma dixhitale të ndërtuara për autoritet, <br> konvertime dhe rritje të qëndrueshme.
+          </p>
+        </div>
+      </div>
+
+      <div class="row mt-4 g-3 g-xl-4 align-items-stretch ip-pricing-cards-row">
+        <div class="col-12 col-lg-4 pricing-item">
+          <article class="ip-pricing-platform">
+            <div class="ip-pricing-shell">
+              <div class="ip-pricing-topline">
+                <span class="ip-pricing-marker" aria-hidden="true"></span>
+                <span class="ip-pricing-label">Website</span>
+              </div>
+              <div class="ip-pricing-head">
+                <h3 class="ip-pricing-title">Website</h3>
+                <p class="ip-pricing-copy">Platformë elegante për prezencë, <br> performancë dhe konvertime.</p>
+              </div>
+              <div class="ip-pricing-pricewrap">
+                <div class="ip-pricing-price">Nga €300</div>
+                <div class="ip-pricing-note">Ndërtim një herë</div>
+              </div>
+              <ul class="ip-pricing-features">
+                <li><span class="ip-pricing-check"></span>Dizajn modern dhe responsive</li>
+                <li><span class="ip-pricing-check"></span>SEO bazë dhe strukturë e qartë</li>
+                <li><span class="ip-pricing-check"></span>Formë kontakti dhe integrim WhatsApp</li>
+                <li><span class="ip-pricing-check"></span>Performancë e optimizuar</li>
+              </ul>
+              <div class="ip-pricing-footer">
+                <div class="ip-pricing-meta">
+                  <span>Mirëmbajtje</span>
+                  <strong>€100 / muaj</strong>
+                </div>
+                <a class="ip-pricing-btn-luxe" href="website.html">Zgjidh planin</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-lg-4 pricing-item">
+          <article class="ip-pricing-platform ip-pricing-platform--featured">
+            <div class="ip-pricing-shell">
+              <span class="ip-pricing-popular">Most Popular</span>
+              <div class="ip-pricing-topline">
+                <span class="ip-pricing-marker" aria-hidden="true"></span>
+                <span class="ip-pricing-label">E-commerce</span>
+              </div>
+              <div class="ip-pricing-head">
+                <h3 class="ip-pricing-title">E-commerce</h3>
+                <p class="ip-pricing-copy">Dyqan premium për shitje, pagesa dhe automatizim të rafinuar.</p>
+              </div>
+              <div class="ip-pricing-pricewrap">
+                <div class="ip-pricing-price">€900 - €1500</div>
+                <div class="ip-pricing-note">Sipas kompleksitetit</div>
+              </div>
+              <ul class="ip-pricing-features">
+                <li><span class="ip-pricing-check"></span>Katalog, kategori dhe produkte të kuruara</li>
+                <li><span class="ip-pricing-check"></span>Checkout, pagesa dhe integrime operacionale</li>
+                <li><span class="ip-pricing-check"></span>SEO bazë dhe email automation</li>
+                <li><span class="ip-pricing-check"></span>Panel menaxhimi për rritje të kontrolluar</li>
+              </ul>
+              <div class="ip-pricing-footer">
+                <div class="ip-pricing-meta">
+                  <span>Mirëmbajtje</span>
+                  <strong>€150 - €200 / muaj</strong>
+                </div>
+                <a class="ip-pricing-btn-luxe" href="ecommerce.html">Fillo dyqanin</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-lg-4 pricing-item">
+          <article class="ip-pricing-platform">
+            <div class="ip-pricing-shell">
+              <div class="ip-pricing-topline">
+                <span class="ip-pricing-marker" aria-hidden="true"></span>
+                <span class="ip-pricing-label">Growth</span>
+              </div>
+              <div class="ip-pricing-head">
+                <h3 class="ip-pricing-title">Growth</h3>
+                <p class="ip-pricing-copy">Sistem mujor për dukshmëri,<br> optimizim dhe ritëm të vazhdueshëm.</p>
+              </div>
+              <div class="ip-pricing-pricewrap">
+                <div class="ip-pricing-price">Nga €250</div>
+                <div class="ip-pricing-note">Retainer mujor</div>
+              </div>
+              <ul class="ip-pricing-features">
+                <li><span class="ip-pricing-check"></span>Menaxhim social media dhe Google Ads</li>
+                <li><span class="ip-pricing-check"></span>Strategji marketingu me ekzekutim editorial</li>
+                <li><span class="ip-pricing-check"></span>Analizë, raportim dhe vendime të matshme</li>
+                <li><span class="ip-pricing-check"></span>Optimizim i vazhdueshëm për rritje reale</li>
+              </ul>
+              <div class="ip-pricing-footer">
+                <div class="ip-pricing-meta">
+                  <span>Cadence</span>
+                  <strong>Plan mujor</strong>
+                </div>
+                <a class="ip-pricing-btn-luxe" href="marketing.html">Diskuto planin</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="pricing-cta mt-4 text-center">
+        <div class="pricing-note-2">Për konfigurime të personalizuara, përgatisim ofertë të qartë brenda 24 orësh.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="pricing-legacy" class="py-5 bg-soft" hidden>
   <div class="container">
 
     <div class="row justify-content-center text-center">
@@ -959,7 +1087,9 @@
               “Checkout u thjeshtua shumë. Menaxhimi i produkteve është i lehtë dhe porositë vijnë rregullisht. Brenda pak javësh ndjemë ndryshim real në ritmin e shitjeve.”
             </p>
             <div class="t-slide-meta">
-              <div class="t-slide-avatar" aria-hidden="true">EL</div>
+              <div class="t-slide-logo" aria-hidden="true">
+                <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect x="2" y="8" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M38 14h36v3H38zm0 9h28v3H38zm0 9h22v3H38z" fill="currentColor" opacity=".9"/></svg>
+              </div>
               <div>
                 <div class="t-slide-name">Klient real</div>
                 <div class="t-slide-role">E-commerce</div>
@@ -982,7 +1112,9 @@
               “Faqja doli super e pastër dhe shumë e shpejtë. Brenda javës së parë patëm më shumë kontakte dhe prezantimi i brandit u ndje shumë më serioz.”
             </p>
             <div class="t-slide-meta">
-              <div class="t-slide-avatar" aria-hidden="true">KS</div>
+              <div class="t-slide-logo" aria-hidden="true">
+                <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" focusable="false"><circle cx="16" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M36 12l8 16 8-16h6l-11 22h-6L30 12h6zm52 0v20h-5V12h5zm12 0c6 0 10 4 10 10s-4 10-10 10-10-4-10-10 4-10 10-10zm0 4c-3.3 0-5 2.4-5 6s1.7 6 5 6 5-2.4 5-6-1.7-6-5-6z" fill="currentColor" opacity=".88"/></svg>
+              </div>
               <div>
                 <div class="t-slide-name">Klient real</div>
                 <div class="t-slide-role">Website biznesi</div>
@@ -1005,7 +1137,9 @@
               “Struktura u bë shumë më e qartë. Vizitorët gjejnë shpejt informacionin dhe CTA-të konvertojnë më mirë pa e komplikuar eksperiencën.”
             </p>
             <div class="t-slide-meta">
-              <div class="t-slide-avatar" aria-hidden="true">AR</div>
+              <div class="t-slide-logo" aria-hidden="true">
+                <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M4 28V12l14 8-14 8zm22-16h52l6 8-6 8H26V12zm58 0h28v4H84v16h28v4H80V12h4z" fill="currentColor" opacity=".85"/></svg>
+              </div>
               <div>
                 <div class="t-slide-name">Klient real</div>
                 <div class="t-slide-role">UI/UX &amp; optimizim</div>
@@ -1028,7 +1162,9 @@
               “Fotot duken premium dhe janë gati për shop. Produktet tani duken shumë më të besueshme dhe prezantimi vizual na ngriti nivelin menjëherë.”
             </p>
             <div class="t-slide-meta">
-              <div class="t-slide-avatar" aria-hidden="true">NR</div>
+              <div class="t-slide-logo" aria-hidden="true">
+                <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M8 20 L20 8 L32 20 L20 32 Z M8 20 L32 20 M20 8 L20 32" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M44 14h52v3H44zm0 9h40v3H44zm0 9h46v3H44z" fill="currentColor" opacity=".82"/></svg>
+              </div>
               <div>
                 <div class="t-slide-name">Klient real</div>
                 <div class="t-slide-role">Foto produktesh</div>
@@ -1051,7 +1187,9 @@
               “Gjithmonë rregullohet shpejt. Update-t dhe ndryshimet bëhen pa stres, faqja është stabile dhe e kemi shumë më të lehtë të fokusohemi te biznesi.”
             </p>
             <div class="t-slide-meta">
-              <div class="t-slide-avatar" aria-hidden="true">BT</div>
+              <div class="t-slide-logo" aria-hidden="true">
+                <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect x="4" y="10" width="28" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M44 12h8v16h-8zm12 4h36v3H56zm0 8h28v3H56z" fill="currentColor" opacity=".86"/></svg>
+              </div>
               <div>
                 <div class="t-slide-name">Klient real</div>
                 <div class="t-slide-role">Mirëmbajtje</div>
@@ -1204,20 +1342,38 @@
 
         <div class="col-md-6">
           <label class="form-label" for="cName">Emri</label>
-          <input id="cName" name="name" type="text" class="form-control" placeholder="Emri yt" required />
+          <div class="cf-field" data-cf-field>
+            <div class="cf-field-input-wrap">
+              <input id="cName" name="name" type="text" class="form-control cf-field-control" placeholder="Emri yt" required autocomplete="name" />
+              <span class="cf-field-indicator" aria-hidden="true">
+                <span class="cf-ind cf-ind--pending"></span>
+                <span class="cf-ind cf-ind--ok"><svg viewBox="0 0 16 16" width="15" height="15" focusable="false"><path fill="currentColor" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+                <span class="cf-ind cf-ind--bad">!</span>
+              </span>
+            </div>
+          </div>
           <div class="invalid-feedback">Shkruaj emrin.</div>
         </div>
 
         <div class="col-md-6">
           <label class="form-label" for="cEmail">Email</label>
-          <input id="cEmail" name="email" type="email" class="form-control" placeholder="email@shembull.com" required />
+          <div class="cf-field" data-cf-field>
+            <div class="cf-field-input-wrap">
+              <input id="cEmail" name="email" type="email" class="form-control cf-field-control" placeholder="email@shembull.com" required autocomplete="email" />
+              <span class="cf-field-indicator" aria-hidden="true">
+                <span class="cf-ind cf-ind--pending"></span>
+                <span class="cf-ind cf-ind--ok"><svg viewBox="0 0 16 16" width="15" height="15" focusable="false"><path fill="currentColor" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+                <span class="cf-ind cf-ind--bad">!</span>
+              </span>
+            </div>
+          </div>
           <div class="invalid-feedback">Shkruaj një email të saktë.</div>
         </div>
 
         <div class="col-12">
-          <label class="form-label" for="cService">Zgjidh shërbimin</label>
-          <select id="cService" name="service" class="form-select" required>
-            <option value="" selected disabled>Zgjidh shërbimin</option>
+          <label class="form-label" id="cServiceMsLabel">Zgjidh shërbimin</label>
+          <p class="cf-ms-hint small mb-2">Mund të zgjedhësh një ose më shumë — kliko për të aktivizuar.</p>
+          <select id="cService" name="services[]" class="cf-service-native" multiple required size="7" aria-hidden="true" tabindex="-1">
             <option value="website">Website</option>
             <option value="ecom">E-commerce</option>
             <option value="ux">UI/UX &amp; optimizim</option>
@@ -1226,7 +1382,15 @@
             <option value="brand">Brand</option>
             <option value="other">Tjetër</option>
           </select>
-          <div class="invalid-feedback">Zgjidh një shërbim.</div>
+          <div class="cf-ms-wrap">
+            <div class="cf-multiselect" id="cServiceMs" role="group" aria-labelledby="cServiceMsLabel"></div>
+            <span class="cf-field-indicator cf-field-indicator--ms is-idle" data-ms-indicator aria-hidden="true">
+              <span class="cf-ind cf-ind--pending"></span>
+              <span class="cf-ind cf-ind--ok"><svg viewBox="0 0 16 16" width="15" height="15" focusable="false"><path fill="currentColor" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+              <span class="cf-ind cf-ind--bad">!</span>
+            </span>
+          </div>
+          <div class="invalid-feedback cf-ms-feedback">Zgjidh të paktën një shërbim.</div>
         </div>
 
         <div class="col-12">
@@ -1514,7 +1678,16 @@
 
         <div class="col-12">
           <label class="form-label" for="cProjectDesc">Përshkrimi i projektit</label>
-          <textarea id="cProjectDesc" name="project_description" class="form-control" rows="4" placeholder="p.sh. Dua një website për restorant me menu dhe rezervime..."></textarea>
+          <div class="cf-field" data-cf-field>
+            <div class="cf-field-input-wrap cf-field-input-wrap--textarea">
+              <textarea id="cProjectDesc" name="project_description" class="form-control cf-field-control" rows="4" placeholder="p.sh. Dua një website për restorant me menu dhe rezervime..."></textarea>
+              <span class="cf-field-indicator" aria-hidden="true">
+                <span class="cf-ind cf-ind--pending"></span>
+                <span class="cf-ind cf-ind--ok"><svg viewBox="0 0 16 16" width="15" height="15" focusable="false"><path fill="currentColor" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+                <span class="cf-ind cf-ind--bad">!</span>
+              </span>
+            </div>
+          </div>
           <div class="form-text">Shkruaj 1–2 fjali dhe do të marrësh menjëherë një sugjerim orientues për buxhetin.</div>
         </div>
 
@@ -1603,9 +1776,18 @@
       <div class="row g-3 text-start">
         <div class="col-12">
           <label class="form-label" for="cMsg">Mesazhi</label>
-          <textarea id="cMsg" name="message" class="form-control" rows="4"
-            placeholder="2–3 fjali: çfarë biznesi, çfarë do, dhe çdo detaj që s’u përfshi më lart."
-            required></textarea>
+          <div class="cf-field" data-cf-field>
+            <div class="cf-field-input-wrap cf-field-input-wrap--textarea">
+              <textarea id="cMsg" name="message" class="form-control cf-field-control" rows="4"
+                placeholder="2–3 fjali: çfarë biznesi, çfarë do, dhe çdo detaj që s’u përfshi më lart."
+                required></textarea>
+              <span class="cf-field-indicator" aria-hidden="true">
+                <span class="cf-ind cf-ind--pending"></span>
+                <span class="cf-ind cf-ind--ok"><svg viewBox="0 0 16 16" width="15" height="15" focusable="false"><path fill="currentColor" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+                <span class="cf-ind cf-ind--bad">!</span>
+              </span>
+            </div>
+          </div>
           <div class="invalid-feedback">Shkruaj mesazhin.</div>
         </div>
 

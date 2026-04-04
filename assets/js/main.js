@@ -10,6 +10,45 @@ const hasBootstrap = () => typeof window.bootstrap !== "undefined";
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* Hero helmet — parallax + liquid vars (respekt për reduced-motion) */
+  (() => {
+    const stage = qs("#heroHelmetStage");
+    if (!stage) return;
+    const img = qs(".hero-helmet-img", stage);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduce.matches) return;
+
+    let ticking = false;
+    const paint = (clientX, clientY) => {
+      const r = stage.getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) return;
+      const x = Math.max(8, Math.min(92, ((clientX - r.left) / r.width) * 100));
+      const y = Math.max(8, Math.min(92, ((clientY - r.top) / r.height) * 100));
+      stage.style.setProperty("--hx", `${x}%`);
+      stage.style.setProperty("--hy", `${y}%`);
+      if (img) {
+        const px = ((clientX - r.left) / r.width - 0.5) * 14;
+        const py = ((clientY - r.top) / r.height - 0.5) * 12;
+        img.style.transform = `translate3d(${px}px, ${py}px, 0)`;
+      }
+    };
+
+    stage.addEventListener("mousemove", (e) => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        paint(e.clientX, e.clientY);
+        ticking = false;
+      });
+    }, { passive: true });
+
+    stage.addEventListener("mouseleave", () => {
+      stage.style.setProperty("--hx", "50%");
+      stage.style.setProperty("--hy", "42%");
+      if (img) img.style.transform = "";
+    });
+  })();
+
   /* Footer year */
   (() => {
     const yearEl = document.getElementById("year");
@@ -413,6 +452,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnBack = qsa(".cf-back", form);
 
   const serviceSelect = qs("#cService", form);
+  const msHost = qs("#cServiceMs", form);
+  const msInd = qs("[data-ms-indicator]", form);
   const budgetSelect = qs("#cBudget", form);
   const projectDesc = qs("#cProjectDesc", form);
   const smartCard = qs("#cfSmartCard", form);
@@ -618,9 +659,98 @@ document.addEventListener("DOMContentLoaded", () => {
     if (doScroll) scrollToContactTop();
   };
 
-  const activeService = () => (serviceSelect?.value || "").trim();
+  const selectedServices = () =>
+    (serviceSelect ? Array.from(serviceSelect.selectedOptions).map((o) => o.value) : []);
+
+  const activeService = () => selectedServices()[0] || "";
+
+  const syncMsUi = () => {
+    if (!msHost || !serviceSelect) return;
+    qsa(".cf-ms-chip", msHost).forEach((chip) => {
+      const v = chip.dataset.value;
+      const opt = Array.from(serviceSelect.options).find((o) => o.value === v);
+      const on = !!(opt && opt.selected);
+      chip.classList.toggle("is-selected", on);
+      chip.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    const n = selectedServices().length;
+    if (msInd) {
+      msInd.classList.remove("is-ok", "is-bad", "is-pending", "is-idle");
+      if (n === 0) msInd.classList.add("is-idle");
+      else msInd.classList.add("is-ok");
+    }
+    msHost.classList.remove("is-invalid");
+  };
+
+  const initServiceMultiselect = () => {
+    if (!serviceSelect || !msHost || serviceSelect.dataset.cfMs === "1") return;
+    serviceSelect.dataset.cfMs = "1";
+    Array.from(serviceSelect.options).forEach((opt, idx) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cf-ms-chip";
+      b.style.animationDelay = `${idx * 55}ms`;
+      b.textContent = opt.textContent || "";
+      b.dataset.value = opt.value;
+      b.setAttribute("aria-pressed", opt.selected ? "true" : "false");
+      if (opt.selected) b.classList.add("is-selected");
+      b.addEventListener("click", () => {
+        opt.selected = !opt.selected;
+        serviceSelect.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+      msHost.appendChild(b);
+    });
+    syncMsUi();
+  };
+
+  initServiceMultiselect();
 
   enhanceContactSelects();
+
+  /* Indikatorë real-time për fushat kryesore */
+  (() => {
+    qsa(".cf-field-control", form).forEach((input) => {
+      const ind = input.closest(".cf-field")?.querySelector(".cf-field-indicator");
+      if (!ind) return;
+
+      const setInd = (state) => {
+        ind.classList.remove("is-idle", "is-pending", "is-ok", "is-bad");
+        ind.classList.add(`is-${state}`);
+      };
+
+      let t = null;
+      const run = () => {
+        const v = String(input.value || "").trim();
+        if (!v) {
+          setInd("idle");
+          return;
+        }
+        if (input.type === "email") {
+          setInd(isValidEmail(input.value) ? "ok" : "bad");
+          return;
+        }
+        if (input.tagName === "TEXTAREA" || input.type === "text") {
+          setInd(v.length >= 2 ? "ok" : "bad");
+        }
+      };
+
+      input.addEventListener("input", () => {
+        const v = String(input.value || "").trim();
+        if (!v) {
+          setInd("idle");
+          return;
+        }
+        setInd("pending");
+        window.clearTimeout(t);
+        t = window.setTimeout(run, 320);
+      });
+
+      input.addEventListener("blur", () => {
+        window.clearTimeout(t);
+        run();
+      });
+    });
+  })();
 
   const smartRules = {
     website: {
@@ -671,18 +801,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const getSmartEstimate = () => {
-    const service = activeService();
+    const svs = selectedServices();
+    const service = svs[0] || "";
     const desc = String(projectDesc?.value || "").toLowerCase();
-    const text = `${service} ${desc}`;
+    const text = `${svs.join(" ")} ${desc}`;
 
-    if (!service && !desc.trim()) return null;
+    if (!svs.length && !desc.trim()) return null;
 
-    if (/(e-?commerce|shop|dyqan|checkout|pagesa|katalog)/.test(text) || service === "ecom") return smartRules.ecom;
+    const has = (v) => svs.includes(v);
+
+    if (/(e-?commerce|shop|dyqan|checkout|pagesa|katalog)/.test(text) || has("ecom")) return smartRules.ecom;
     if (/(seo|marketing|ads|google)/.test(text)) return smartRules.seo;
-    if (/(foto|fotografi|produkt|shoot)/.test(text) || service === "photo") return smartRules.photo;
-    if (/(mir[ëe]mbajt|update|backup|support|suport)/.test(text) || service === "maint") return smartRules.maint;
-    if (/(brand|logo|identitet|template)/.test(text) || service === "brand") return smartRules.brand;
-    if (/(website|faqe|landing|portfolio|rezervim|menu)/.test(text) || service === "website" || service === "ux" || service === "other") return smartRules.website;
+    if (/(foto|fotografi|produkt|shoot)/.test(text) || has("photo")) return smartRules.photo;
+    if (/(mir[ëe]mbajt|update|backup|support|suport)/.test(text) || has("maint")) return smartRules.maint;
+    if (/(brand|logo|identitet|template)/.test(text) || has("brand")) return smartRules.brand;
+    if (/(website|faqe|landing|portfolio|rezervim|menu)/.test(text) || has("website") || has("ux") || has("other")) return smartRules.website;
 
     return smartRules.website;
   };
@@ -711,9 +844,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const scheduleSmartEstimate = () => {
     const desc = String(projectDesc?.value || "").trim();
-    const service = activeService();
+    const n = selectedServices().length;
 
-    if (!desc && !service) {
+    if (!desc && n === 0) {
       hideSmartEstimate();
       return;
     }
@@ -723,7 +856,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // cf-group mund të jetë në çdo step => shfaq vetëm grupet brenda panelit aktiv
   const showServiceGroup = () => {
-    const sv = activeService();
+    const svs = selectedServices();
     const panel = panels.find(p => p.classList.contains("is-active"));
     if (!panel) return;
 
@@ -733,7 +866,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!groups.length) return;
 
     groups.forEach(g => {
-      const on = g.dataset.service === sv;
+      const on = svs.includes(g.dataset.service);
       g.hidden = !on;
 
       qsa("[data-required]", g).forEach(el => {
@@ -755,6 +888,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fields.forEach(el => {
       if (el.disabled || el.type === "hidden") return;
+      if (el.classList.contains("cf-service-native")) {
+        el.classList.remove("is-invalid", "is-valid");
+      }
 
       if (!el.required) {
         el.classList.remove("is-invalid");
@@ -762,11 +898,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       let bad = false;
-      if (el.tagName === "SELECT") bad = !el.value;
-      else if (el.type === "email") bad = !el.value.trim() || !isValidEmail(el.value);
+      if (el.tagName === "SELECT") {
+        bad = el.multiple ? el.selectedOptions.length === 0 : !el.value;
+      } else if (el.type === "email") bad = !el.value.trim() || !isValidEmail(el.value);
       else bad = !String(el.value || "").trim();
 
       mark(el, bad);
+      if (el === serviceSelect && el.multiple && msHost) {
+        msHost.classList.toggle("is-invalid", bad);
+      }
+      if (el === serviceSelect && el.multiple && msInd && bad) {
+        msInd.classList.remove("is-idle", "is-ok", "is-pending");
+        msInd.classList.add("is-bad");
+      } else if (el === serviceSelect && el.multiple && msInd && !bad) {
+        syncMsUi();
+      }
       if (bad) ok = false;
     });
 
@@ -777,6 +923,7 @@ document.addEventListener("DOMContentLoaded", () => {
   showPanel(1, false);
 
   serviceSelect?.addEventListener("change", () => {
+    syncMsUi();
     showServiceGroup();
     scheduleSmartEstimate();
   });
@@ -837,6 +984,15 @@ document.addEventListener("DOMContentLoaded", () => {
       setStatus("U dërgua. Do të kthej përgjigje sa më shpejt.", "ok");
       form.reset();
       hideSmartEstimate();
+      syncMsUi();
+      qsa(".cf-field-indicator", form).forEach((ind) => {
+        ind.classList.remove("is-pending", "is-ok", "is-bad");
+        ind.classList.add("is-idle");
+      });
+      if (msInd) {
+        msInd.classList.remove("is-ok", "is-bad", "is-pending");
+        msInd.classList.add("is-idle");
+      }
 
       panels.forEach(p => qsa(".is-valid,.is-invalid", p).forEach(x => x.classList.remove("is-valid", "is-invalid")));
       showPanel(1, true);
@@ -849,6 +1005,21 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 });
 
+/* Pricing: activate particles on view */
+(() => {
+  const stage = qs("[data-pricing-stage]");
+  if (!stage || typeof IntersectionObserver === "undefined") return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      stage.classList.toggle("is-active", entry.isIntersecting && entry.intersectionRatio > 0.35);
+    });
+  }, {
+    threshold: [0.35, 0.6]
+  });
+
+  io.observe(stage);
+})();
 
 /* Footer: smooth scroll + deep-link service */
 (() => {

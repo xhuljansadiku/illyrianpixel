@@ -15,9 +15,12 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
+<!-- ========== NAVBAR (premium — vetëm struktura + mega menu; ngjyrat nga :root) ========== -->
 <nav class="navbar navbar-expand-lg ip-navbar" id="ipNavbar" aria-label="Navigacion kryesor">
   <div class="container ip-nav-wrap position-lg-relative">
-    <a class="navbar-brand ip-brand d-flex align-items-center gap-3 z-lg-1" href="index.html" aria-label="Illyrian Pixel � Kryefaqja">
+
+    <!-- Brand (majtas) -->
+    <a class="navbar-brand ip-brand d-flex align-items-center gap-3 z-lg-1" href="index.html" aria-label="Illyrian Pixel – Kryefaqja">
       <img class="brand-logo" src="./assets/img/logo.png" alt="" width="804" height="720" />
       <span class="brand-text">
         <span class="brand-text-illyrian">Illyrian</span>
@@ -27,25 +30,56 @@
       </span>
     </a>
 
+    <!-- Hamburger (mobile) -->
     <div class="ip-actions d-flex align-items-center ms-auto ms-lg-0 z-lg-1">
-      <button class="navbar-toggler ip-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ipNav" aria-controls="ipNav" aria-expanded="false" aria-label="Hap menyn�">
+      <button
+        class="navbar-toggler ip-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#ipNav"
+        aria-controls="ipNav"
+        aria-expanded="false"
+        aria-label="Hap menynë"
+      >
         <span class="navbar-toggler-icon" aria-hidden="true"></span>
       </button>
     </div>
 
+    <!-- Links + mega + CTA -->
     <div class="collapse navbar-collapse ip-collapse" id="ipNav">
       <div class="ip-mobile-panel">
+
         <div class="ip-mobile-head d-lg-none">
           <span class="ip-mobile-title">Menyja</span>
-          <button type="button" class="ip-close" data-bs-toggle="collapse" data-bs-target="#ipNav" aria-controls="ipNav" aria-label="Mbyll menyn�">?</button>
+          <button
+            type="button"
+            class="ip-close"
+            data-bs-toggle="collapse"
+            data-bs-target="#ipNav"
+            aria-controls="ipNav"
+            aria-label="Mbyll menynë"
+          >✕</button>
         </div>
 
+        <!-- Nav qendror (desktop: absolute center) -->
         <ul class="navbar-nav ip-navlist align-items-lg-center">
+          <!-- Mega: Shërbimet -->
           <li class="nav-item dropdown ip-mega position-static d-none d-lg-block">
-            <button type="button" class="nav-link ip-nav-link dropdown-toggle border-0 bg-transparent w-100 w-lg-auto text-start text-lg-center" id="megaServices" data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="outside" aria-expanded="false" aria-haspopup="true" aria-controls="megaMenu">
-              Sh�rbimet
+            <button
+              type="button"
+              class="nav-link ip-nav-link dropdown-toggle border-0 bg-transparent w-100 w-lg-auto text-start text-lg-center"
+              id="megaServices"
+              data-bs-toggle="dropdown"
+              data-bs-display="static"
+              data-bs-auto-close="outside"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="megaMenu"
+              data-nav-section="#services"
+            >
+              Shërbimet
             </button>
-            <div class="dropdown-menu ip-mega-menu border-0" id="megaMenu" aria-labelledby="megaServices" role="region" aria-label="Sh�rbimet">
+            <div class="dropdown-menu ip-mega-menu border-0" id="megaMenu" aria-labelledby="megaServices" role="region" aria-label="Shërbimet">
               <div class="ip-mega-inner">
                 <div class="row g-4 g-lg-4">
                   <div class="col-md-4">
@@ -54,14 +88,14 @@
                       <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-layout-text-window-reverse"></i></span>
                       <span class="ip-mega-link-body">
                         <span class="ip-mega-link-title">Zhvillim Website</span>
-                        <span class="ip-mega-link-desc">Website i shpejt� dhe i optimizuar p�r biznesin tuaj</span>
+                        <span class="ip-mega-link-desc">Website i shpejtë dhe i optimizuar për biznesin tuaj</span>
                       </span>
                     </a>
                     <a class="ip-mega-link" href="ecommerce.html">
                       <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-bag-check"></i></span>
                       <span class="ip-mega-link-body">
                         <span class="ip-mega-link-title">Zhvillim E-commerce</span>
-                        <span class="ip-mega-link-desc">Dyqan online i nd�rtuar p�r shitje dhe rritje</span>
+                        <span class="ip-mega-link-desc">Dyqan online i ndërtuar për shitje dhe rritje</span>
                       </span>
                     </a>
                   </div>
@@ -71,21 +105,21 @@
                       <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-graph-up-arrow"></i></span>
                       <span class="ip-mega-link-body">
                         <span class="ip-mega-link-title">Optimizim SEO</span>
-                        <span class="ip-mega-link-desc">Rritje e dukshm�ris� dhe trafikut organik</span>
+                        <span class="ip-mega-link-desc">Rritje e dukshmërisë dhe trafikut organik</span>
                       </span>
                     </a>
                     <a class="ip-mega-link" href="marketing.html">
                       <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-badge-ad"></i></span>
                       <span class="ip-mega-link-body">
                         <span class="ip-mega-link-title">Google Ads</span>
-                        <span class="ip-mega-link-desc">Fushata t� targetuara p�r konvertime</span>
+                        <span class="ip-mega-link-desc">Fushata të targetuara për konvertime</span>
                       </span>
                     </a>
                     <a class="ip-mega-link" href="marketing.html">
                       <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-share"></i></span>
                       <span class="ip-mega-link-body">
                         <span class="ip-mega-link-title">Menaxhim Social Media</span>
-                        <span class="ip-mega-link-desc">P�rmbajtje dhe prezenc� e q�ndrueshme</span>
+                        <span class="ip-mega-link-desc">Përmbajtje dhe prezencë e qëndrueshme</span>
                       </span>
                     </a>
                   </div>
@@ -95,28 +129,36 @@
                       <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-camera"></i></span>
                       <span class="ip-mega-link-body">
                         <span class="ip-mega-link-title">Fotografi</span>
-                        <span class="ip-mega-link-desc">Vizuale premium p�r brandin tuaj</span>
+                        <span class="ip-mega-link-desc">Vizuale premium për brandin tuaj</span>
                       </span>
                     </a>
                     <a class="ip-mega-link" href="marketing.html">
                       <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-megaphone"></i></span>
                       <span class="ip-mega-link-body">
                         <span class="ip-mega-link-title">Marketing Dixhital</span>
-                        <span class="ip-mega-link-desc">Strategji p�r rritje n� kanale online</span>
+                        <span class="ip-mega-link-desc">Strategji për rritje në kanale online</span>
                       </span>
                     </a>
                   </div>
                 </div>
                 <div class="ip-mega-footer d-none d-lg-block">
-                  <a class="ip-mega-all" href="services.html">T� gjitha sh�rbimet <span aria-hidden="true">?</span></a>
+                  <a class="ip-mega-all" href="services.html">Të gjitha shërbimet <span aria-hidden="true">→</span></a>
                 </div>
               </div>
             </div>
           </li>
 
+          <!-- Mobile: Shërbimet accordion -->
           <li class="nav-item d-lg-none">
-            <button type="button" class="ip-mobile-dd" data-bs-toggle="collapse" data-bs-target="#ipMobileServices" aria-expanded="false" aria-controls="ipMobileServices">
-              Sh�rbimet
+            <button
+              type="button"
+              class="ip-mobile-dd"
+              data-bs-toggle="collapse"
+              data-bs-target="#ipMobileServices"
+              aria-expanded="false"
+              aria-controls="ipMobileServices"
+            >
+              Shërbimet
               <i class="bi bi-chevron-down ip-mobile-dd-icon" aria-hidden="true"></i>
             </button>
             <div class="collapse ip-mobile-services" id="ipMobileServices">
@@ -132,24 +174,28 @@
             </div>
           </li>
 
-          <li class="nav-item"><a class="nav-link ip-nav-link" href="work.html">Pun�t</a></li>
+          <li class="nav-item"><a class="nav-link ip-nav-link" href="work.html">Punët</a></li>
           <li class="nav-item"><a class="nav-link ip-nav-link" href="process.html">Procesi</a></li>
-          <li class="nav-item"><a class="nav-link ip-nav-link" href="pricing.html">�mimet</a></li>
+          <li class="nav-item"><a class="nav-link ip-nav-link" href="pricing.html">Çmimet</a></li>
           <li class="nav-item"><a class="nav-link ip-nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link ip-nav-link ip-nav-link--display" href="contact.html">Kontakt</a></li>
 
+          <!-- CTA — vetëm një, dominues (mobile) -->
           <li class="nav-item d-lg-none mt-3 px-1">
-            <a class="hero-btn hero-btn--primary w-100 text-center ip-nav-cta-mobile" href="contact.html">K�RKO OFERT�</a>
+            <a class="hero-btn hero-btn--primary w-100 text-center ip-nav-cta-mobile" href="contact.html">KËRKO OFERTË</a>
           </li>
         </ul>
 
+        <!-- CTA desktop (djathtas) -->
         <div class="ip-nav-cta d-none d-lg-flex align-items-center">
-          <a class="hero-btn hero-btn--primary ip-nav-cta-btn text-center" href="contact.html">K�RKO OFERT�</a>
+          <a class="hero-btn hero-btn--primary ip-nav-cta-btn text-center" href="contact.html">KËRKO OFERTË</a>
         </div>
+
       </div>
     </div>
   </div>
 </nav>
+<!-- ========== /NAVBAR ========== -->
 <main>
   <section class="ip-page-hero">
     <div class="container">
@@ -209,22 +255,29 @@
     </div>
   </section>
 </main>
+<!-- FOOTER -->
 <footer class="footer ip-footer" id="footer">
   <div class="container">
+
     <div class="row gy-4 align-items-start text-center text-md-start">
+
+      <!-- Brand -->
       <div class="col-12 col-md-4">
-        <a class="footer-brand d-inline-flex align-items-center gap-2 mb-3" href="index.html" aria-label="Illyrian Pixel � Home">
-          <img class="footer-logo" src="./assets/img/logo.png" alt="Illyrian Pixel logo" width="804" height="720" />
-          <span class="footer-brand-text">
-            <span class="brand-text-illyrian">Illyrian</span>
-            <span class="brand-text-pixel" aria-label="Pixel">
-              <span class="brand-pixel-char" aria-hidden="true">P</span><span class="brand-pixel-char" aria-hidden="true">I</span><span class="brand-pixel-char" aria-hidden="true">X</span><span class="brand-pixel-char" aria-hidden="true">E</span><span class="brand-pixel-char" aria-hidden="true">L</span>
-            </span>
-          </span>
-        </a>
+        <a class="footer-brand d-inline-flex align-items-center gap-2 mb-3" href="index.html" aria-label="Illyrian Pixel – Home">
+  <img class="footer-logo" src="./assets/img/logo.png" alt="Illyrian Pixel logo" width="804" height="720" />
+  <span class="footer-brand-text">
+    <span class="brand-text-illyrian">Illyrian</span>
+    <span class="brand-text-pixel" aria-label="Pixel">
+      <span class="brand-pixel-char" aria-hidden="true">P</span><span class="brand-pixel-char" aria-hidden="true">I</span><span class="brand-pixel-char" aria-hidden="true">X</span><span class="brand-pixel-char" aria-hidden="true">E</span><span class="brand-pixel-char" aria-hidden="true">L</span>
+    </span>
+  </span>
+</a>
+
+
         <p class="footer-text small mb-3">
-          Studio p�r web, e-commerce &amp; fotografi. <br> Projekte t� pastra, t� shpejta dhe t� menduara p�r rezultat.
+          Studio për web, e-commerce &amp; fotografi. <br> Projekte të pastra, të shpejta dhe të menduara për rezultat.
         </p>
+
         <div class="footer-social d-flex justify-content-center justify-content-md-start gap-2" aria-label="Social links">
           <a class="footer-social-btn" href="contact.html" aria-label="Instagram">
             <i class="bi bi-instagram" aria-hidden="true"></i>
@@ -238,31 +291,35 @@
         </div>
       </div>
 
+      <!-- Menu -->
       <div class="col-6 col-md-2">
         <h6 class="footer-title">Menu</h6>
         <ul class="footer-links list-unstyled mb-0">
-          <li><a class="footer-link" href="services.html">Sh�rbimet</a></li>
-          <li><a class="footer-link" href="work.html">Pun�t</a></li>
-          <li><a class="footer-link" href="pricing.html">�mimet</a></li>
+          <li><a class="footer-link" href="services.html">Shërbimet</a></li>
+          <li><a class="footer-link" href="work.html">Punët</a></li>
+          <li><a class="footer-link" href="pricing.html">Çmimet</a></li>
           <li><a class="footer-link" href="faq.html">FAQ</a></li>
           <li><a class="footer-link" href="contact.html">Kontakt</a></li>
         </ul>
       </div>
 
+      <!-- Services (deep-link me filter) -->
       <div class="col-6 col-md-3">
-        <h6 class="footer-title">Sh�rbime</h6>
+        <h6 class="footer-title">Shërbime</h6>
         <ul class="footer-links list-unstyled mb-0">
           <li><a class="footer-link" href="website.html">Website prezantues</a></li>
           <li><a class="footer-link" href="ecommerce.html">E-commerce</a></li>
           <li><a class="footer-link" href="marketing.html">UI/UX &amp; optimizim</a></li>
           <li><a class="footer-link" href="photography.html">Fotografi</a></li>
-          <li><a class="footer-link" href="maintenance.html">Mir�mbajtje</a></li>
+          <li><a class="footer-link" href="maintenance.html">Mirëmbajtje</a></li>
           <li><a class="footer-link" href="branding.html">Brand</a></li>
         </ul>
       </div>
 
+      <!-- Contact -->
       <div class="col-12 col-md-3">
         <h6 class="footer-title">Kontakt</h6>
+
         <ul class="footer-links list-unstyled mb-3">
           <li>
             <span class="footer-muted">Email</span><br />
@@ -270,25 +327,28 @@
           </li>
           <li class="mt-2">
             <span class="footer-muted">Vendndodhja</span><br />
-            <span class="footer-text small">Weiden i.d. OPf � Gjermani</span>
+            <span class="footer-text small">Weiden i.d. OPf · Gjermani</span>
           </li>
         </ul>
+
         <a class="hero-btn hero-btn--primary w-100 text-center footer-cta" href="contact.html">
           Na shkruaj
         </a>
       </div>
+
     </div>
 
     <div class="footer-divider my-4"></div>
 
     <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
       <div class="small footer-copy">
-        � <span id="year"></span> Illyrian Pixel. T� gjitha t� drejtat e rezervuara.
+        © <span id="year"></span> Illyrian Pixel. Të gjitha të drejtat e rezervuara.
       </div>
       <div class="small footer-copy">
         Operuar nga <strong>Xhuljan Sadiku</strong>
       </div>
     </div>
+
   </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="./assets/js/main.js"></script>
