@@ -333,6 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!nav || !toggler || !hasBootstrap()) return;
 
     const isMobileNav = () => window.matchMedia("(max-width: 991.98px)").matches;
+    const collapse = () => window.bootstrap.Collapse.getOrCreateInstance(nav, { toggle: false });
 
     toggler.addEventListener(
       "click",
@@ -340,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!isMobileNav()) return;
         e.preventDefault();
         e.stopPropagation();
-        window.bootstrap.Collapse.getOrCreateInstance(nav).toggle();
+        collapse().toggle();
       },
       true,
     );
