@@ -36,13 +36,10 @@
 
 <body>
 
-<!-- ========== NAVBAR (luxury dark glass) ========== -->
-<nav class="navbar navbar-expand-lg navbar-dark ip-navbar ip-navbar--luxe" id="ipNavbar" aria-label="Navigacion kryesor">
+<nav class="ip-navbar ip-navbar--rebuilt" id="ipNavbar" aria-label="Navigacion kryesor">
   <div class="ip-navbar__glow" aria-hidden="true"></div>
-  <div class="container ip-nav-wrap position-lg-relative">
-
-    <!-- Brand (majtas) -->
-    <a class="navbar-brand ip-brand ip-navbar__brand d-flex align-items-center gap-3 z-lg-1" href="#top" aria-label="Illyrian Pixel – Kryefaqja">
+  <div class="container ip-nav-wrap">
+    <a class="ip-brand ip-navbar__brand d-flex align-items-center gap-3" href="#top" aria-label="Illyrian Pixel – Kryefaqja">
       <img class="brand-logo" src="./assets/img/logo.png" alt="" width="804" height="720" />
       <span class="brand-text">
         <span class="brand-text-illyrian">Illyrian</span>
@@ -52,65 +49,27 @@
       </span>
     </a>
 
-    <!-- Hamburger (mobile) -->
-    <div class="ip-actions d-flex align-items-center ms-auto ms-lg-0 z-lg-1">
-      <button
-        class="navbar-toggler ip-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#ipNav"
-        aria-controls="ipNav"
-        aria-expanded="false"
-        aria-label="Hap menynë"
-      >
-        <span class="navbar-toggler-icon" aria-hidden="true"></span>
-      </button>
-    </div>
+    <button class="ip-nav-toggle-btn d-lg-none" type="button" aria-controls="ipNav" aria-expanded="false" aria-label="Hap menynë">
+      <span class="ip-nav-toggle-box" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
 
-    <!-- Links + mega + CTA -->
-    <div class="collapse navbar-collapse ip-collapse" id="ipNav">
-      <div class="ip-nav-mobile-shell">
-        <button
-          type="button"
-          class="ip-nav-backdrop d-lg-none"
-          data-bs-toggle="collapse"
-          data-bs-target="#ipNav"
-          aria-controls="ipNav"
-          tabindex="-1"
-          aria-label="Mbyll menynë"
-        ></button>
-        <div class="ip-mobile-panel">
+    <div class="ip-nav-panel" id="ipNav">
+      <button type="button" class="ip-nav-overlay d-lg-none" aria-label="Mbyll menynë"></button>
 
-        <div class="ip-mobile-head d-lg-none">
-          <span class="ip-mobile-title">Menyja</span>
-          <button
-            type="button"
-            class="ip-close"
-            data-bs-toggle="collapse"
-            data-bs-target="#ipNav"
-            aria-controls="ipNav"
-            aria-label="Mbyll menynë"
-          >✕</button>
+      <div class="ip-nav-drawer">
+        <div class="ip-nav-mobile-head d-lg-none">
+          <span class="ip-nav-mobile-title">Menyja</span>
+          <button type="button" class="ip-nav-dismiss" aria-label="Mbyll menynë">✕</button>
         </div>
 
-        <div class="ip-mobile-status d-lg-none" role="status">
-          <span class="ip-nav-status ip-nav-status--mobile" aria-label="Status: Online">
-            <span class="ip-nav-status-dot" aria-hidden="true"></span>
-            <span class="ip-nav-status-label">Status: Online</span>
-          </span>
-        </div>
-
-        <!-- Nav qendror (desktop: absolute center) -->
-        <ul class="navbar-nav ip-navlist align-items-lg-center">
-          <!-- Mega: Shërbimet -->
-          <li class="nav-item dropdown ip-mega position-static d-none d-lg-block">
+        <ul class="ip-navlist">
+          <li class="ip-nav-item ip-mega d-none d-lg-flex">
             <button
               type="button"
-              class="nav-link ip-nav-link dropdown-toggle border-0 bg-transparent w-100 w-lg-auto text-start text-lg-center"
+              class="ip-nav-link ip-nav-link--btn"
               id="megaServices"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              data-bs-auto-close="outside"
               aria-expanded="false"
               aria-haspopup="true"
               aria-controls="megaMenu"
@@ -118,66 +77,24 @@
             >
               Shërbimet
             </button>
-            <div class="dropdown-menu ip-mega-menu border-0" id="megaMenu" aria-labelledby="megaServices" role="region" aria-label="Shërbimet">
+            <div class="ip-mega-menu" id="megaMenu" aria-labelledby="megaServices" role="region" aria-label="Shërbimet">
               <div class="ip-mega-inner">
                 <div class="row g-4 g-lg-4">
                   <div class="col-md-4">
                     <p class="ip-mega-group-title">Zhvillim</p>
-                    <a class="ip-mega-link" href="website.html">
-                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-layout-text-window-reverse"></i></span>
-                      <span class="ip-mega-link-body">
-                        <span class="ip-mega-link-title">Zhvillim Website</span>
-                        <span class="ip-mega-link-desc">Website i shpejtë dhe i optimizuar për biznesin tuaj</span>
-                      </span>
-                    </a>
-                    <a class="ip-mega-link" href="ecommerce.html">
-                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-bag-check"></i></span>
-                      <span class="ip-mega-link-body">
-                        <span class="ip-mega-link-title">Zhvillim E-commerce</span>
-                        <span class="ip-mega-link-desc">Dyqan online i ndërtuar për shitje dhe rritje</span>
-                      </span>
-                    </a>
+                    <a class="ip-mega-link" href="website.html"><span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-layout-text-window-reverse"></i></span><span class="ip-mega-link-body"><span class="ip-mega-link-title">Zhvillim Website</span><span class="ip-mega-link-desc">Website i shpejtë dhe i optimizuar për biznesin tuaj</span></span></a>
+                    <a class="ip-mega-link" href="ecommerce.html"><span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-bag-check"></i></span><span class="ip-mega-link-body"><span class="ip-mega-link-title">Zhvillim E-commerce</span><span class="ip-mega-link-desc">Dyqan online i ndërtuar për shitje dhe rritje</span></span></a>
                   </div>
                   <div class="col-md-4">
                     <p class="ip-mega-group-title">Rritje</p>
-                    <a class="ip-mega-link" href="marketing.html">
-                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-graph-up-arrow"></i></span>
-                      <span class="ip-mega-link-body">
-                        <span class="ip-mega-link-title">Optimizim SEO</span>
-                        <span class="ip-mega-link-desc">Rritje e dukshmërisë dhe trafikut organik</span>
-                      </span>
-                    </a>
-                    <a class="ip-mega-link" href="marketing.html">
-                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-badge-ad"></i></span>
-                      <span class="ip-mega-link-body">
-                        <span class="ip-mega-link-title">Google Ads</span>
-                        <span class="ip-mega-link-desc">Fushata të targetuara për konvertime</span>
-                      </span>
-                    </a>
-                    <a class="ip-mega-link" href="marketing.html">
-                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-share"></i></span>
-                      <span class="ip-mega-link-body">
-                        <span class="ip-mega-link-title">Menaxhim Social Media</span>
-                        <span class="ip-mega-link-desc">Përmbajtje dhe prezencë e qëndrueshme</span>
-                      </span>
-                    </a>
+                    <a class="ip-mega-link" href="marketing.html"><span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-graph-up-arrow"></i></span><span class="ip-mega-link-body"><span class="ip-mega-link-title">Optimizim SEO</span><span class="ip-mega-link-desc">Rritje e dukshmërisë dhe trafikut organik</span></span></a>
+                    <a class="ip-mega-link" href="marketing.html"><span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-badge-ad"></i></span><span class="ip-mega-link-body"><span class="ip-mega-link-title">Google Ads</span><span class="ip-mega-link-desc">Fushata të targetuara për konvertime</span></span></a>
+                    <a class="ip-mega-link" href="marketing.html"><span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-share"></i></span><span class="ip-mega-link-body"><span class="ip-mega-link-title">Menaxhim Social Media</span><span class="ip-mega-link-desc">Përmbajtje dhe prezencë e qëndrueshme</span></span></a>
                   </div>
                   <div class="col-md-4">
                     <p class="ip-mega-group-title">Kreativitet</p>
-                    <a class="ip-mega-link" href="photography.html">
-                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-camera"></i></span>
-                      <span class="ip-mega-link-body">
-                        <span class="ip-mega-link-title">Fotografi</span>
-                        <span class="ip-mega-link-desc">Vizuale premium për brandin tuaj</span>
-                      </span>
-                    </a>
-                    <a class="ip-mega-link" href="marketing.html">
-                      <span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-megaphone"></i></span>
-                      <span class="ip-mega-link-body">
-                        <span class="ip-mega-link-title">Marketing Dixhital</span>
-                        <span class="ip-mega-link-desc">Strategji për rritje në kanale online</span>
-                      </span>
-                    </a>
+                    <a class="ip-mega-link" href="photography.html"><span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-camera"></i></span><span class="ip-mega-link-body"><span class="ip-mega-link-title">Fotografi</span><span class="ip-mega-link-desc">Vizuale premium për brandin tuaj</span></span></a>
+                    <a class="ip-mega-link" href="marketing.html"><span class="ip-mega-ic" aria-hidden="true"><i class="bi bi-megaphone"></i></span><span class="ip-mega-link-body"><span class="ip-mega-link-title">Marketing Dixhital</span><span class="ip-mega-link-desc">Strategji për rritje në kanale online</span></span></a>
                   </div>
                 </div>
                 <div class="ip-mega-footer d-none d-lg-block">
@@ -187,20 +104,12 @@
             </div>
           </li>
 
-          <!-- Mobile: Shërbimet accordion -->
-          <li class="nav-item d-lg-none">
-            <button
-              type="button"
-              class="ip-mobile-dd"
-              data-bs-toggle="collapse"
-              data-bs-target="#ipMobileServices"
-              aria-expanded="false"
-              aria-controls="ipMobileServices"
-            >
+          <li class="ip-nav-item d-lg-none">
+            <button type="button" class="ip-mobile-dd" aria-expanded="false" aria-controls="ipMobileServices">
               Shërbimet
               <i class="bi bi-chevron-down ip-mobile-dd-icon" aria-hidden="true"></i>
             </button>
-            <div class="collapse ip-mobile-services" id="ipMobileServices">
+            <div class="ip-mobile-services" id="ipMobileServices" hidden>
               <div class="ip-submenu" role="list">
                 <a class="ip-sub-link" href="website.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-layout-text-window-reverse"></i></span> Zhvillim Website</a>
                 <a class="ip-sub-link" href="ecommerce.html" role="listitem"><span class="ip-sub-ic"><i class="bi bi-bag-check"></i></span> Zhvillim E-commerce</a>
@@ -213,25 +122,15 @@
             </div>
           </li>
 
-          <li class="nav-item"><a class="nav-link ip-nav-link" href="work.html">Punët</a></li>
-          <li class="nav-item"><a class="nav-link ip-nav-link" href="process.html">Procesi</a></li>
-          <li class="nav-item"><a class="nav-link ip-nav-link" href="pricing.html">Çmimet</a></li>
-          <li class="nav-item"><a class="nav-link ip-nav-link" href="faq.html">FAQ</a></li>
-          <li class="nav-item">
-            <a class="nav-link ip-nav-link" href="contact.html">Kontakt</a>
-          </li>
-
-          <!-- CTA — mobile -->
-          <li class="nav-item d-lg-none mt-3 px-1">
-            <a class="ip-navbar__cta ip-navbar__cta--block w-100 text-center" href="contact.html">Kërko ofertë <span aria-hidden="true">→</span></a>
-          </li>
+          <li class="ip-nav-item"><a class="ip-nav-link" href="work.html">Punët</a></li>
+          <li class="ip-nav-item"><a class="ip-nav-link" href="process.html">Procesi</a></li>
+          <li class="ip-nav-item"><a class="ip-nav-link" href="pricing.html">Çmimet</a></li>
+          <li class="ip-nav-item"><a class="ip-nav-link" href="faq.html">FAQ</a></li>
+          <li class="ip-nav-item"><a class="ip-nav-link" href="contact.html">Kontakt</a></li>
         </ul>
 
-        <!-- CTA desktop (djathtas) -->
-        <div class="ip-nav-cta d-none d-lg-flex align-items-center gap-3 flex-shrink-0">
+        <div class="ip-nav-cta">
           <a class="ip-navbar__cta" href="contact.html">Kërko ofertë <span aria-hidden="true">→</span></a>
-        </div>
-
         </div>
       </div>
     </div>

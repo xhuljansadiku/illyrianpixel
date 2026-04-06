@@ -322,42 +322,42 @@ document.addEventListener("DOMContentLoaded", () => {
     pairs.forEach((x) => obs.observe(x.sec));
   })();
 
-  /*
-   * Mobile hamburger: një toggle i vetëm. Data API e Bootstrap-it (click në document)
-   * bashkë me CSS të rëndë të collapse mund të dyfishojë toggle-in → menuja “nuk hapet”.
-   * Capture + stopPropagation: vetëm Collapse.toggle() nga këtu nën 992px.
-   */
+  /* Mobile nav: custom drawer state (stable on mobile) ----------------------------------------------------------------------------------*/
   (() => {
+    const bar = qs("#ipNavbar");
     const nav = qs("#ipNav");
-    const toggler = qs('[data-bs-target="#ipNav"]');
-    if (!nav || !toggler || !hasBootstrap()) return;
+    if (!bar || !nav) return;
 
-    const isMobileNav = () => window.matchMedia("(max-width: 991.98px)").matches;
-    const collapse = () => window.bootstrap.Collapse.getOrCreateInstance(nav, { toggle: false });
-
-    toggler.addEventListener(
-      "click",
-      (e) => {
-        if (!isMobileNav()) return;
-        e.preventDefault();
-        e.stopPropagation();
-        collapse().toggle();
-      },
-      true,
-    );
-  })();
-
-  /* Mobile nav close: link click + outside + ESC -----------------------------------------------------------------------------------------*/
-  (() => {
-    const nav = qs("#ipNav");
-    if (!nav || !hasBootstrap()) return;
-
-    const toggler = qs('[data-bs-target="#ipNav"]');
-    const panel = qs(".ip-mobile-panel", nav) || nav;
+    const toggler = qs(".ip-toggler", bar);
+    const backdrop = qs(".ip-nav-backdrop", nav);
+    const closeBtn = qs(".ip-close", nav);
 
     const isMobile = () => window.matchMedia("(max-width: 991.98px)").matches;
-    const isOpen = () => nav.classList.contains("show");
-    const collapse = () => window.bootstrap.Collapse.getOrCreateInstance(nav, { toggle: false });
+    const isOpen = () => bar.classList.contains("ip-nav-open");
+    const syncAria = () => toggler?.setAttribute("aria-expanded", isOpen() ? "true" : "false");
+    const open = () => {
+      bar.classList.add("ip-nav-open");
+      document.body.classList.add("ip-nav-open");
+      syncAria();
+    };
+    const close = () => {
+      bar.classList.remove("ip-nav-open");
+      document.body.classList.remove("ip-nav-open");
+      syncAria();
+    };
+    const toggle = () => (isOpen() ? close() : open());
+
+    window.ipOpenNav = open;
+    window.ipCloseNav = close;
+    window.ipToggleNav = toggle;
+
+    toggler?.addEventListener("click", (e) => {
+      if (!isMobile()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+      toggle();
+    }, true);
 
     nav.addEventListener("click", (e) => {
       const a = e.target.closest("a");
@@ -370,74 +370,32 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isDropdownToggle) return;
       if (!isMobile() || !isOpen()) return;
 
-      collapse().hide();
+      close();
     });
 
-    document.addEventListener("click", (e) => {
+    backdrop?.addEventListener("click", (e) => {
       if (!isMobile() || !isOpen()) return;
-      const clickedInside = panel.contains(e.target);
-      const clickedToggler = toggler && toggler.contains(e.target);
-      if (!clickedInside && !clickedToggler) collapse().hide();
+      e.preventDefault();
+      e.stopPropagation();
+      close();
+    });
+
+    closeBtn?.addEventListener("click", (e) => {
+      if (!isMobile() || !isOpen()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      close();
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && isMobile() && isOpen()) collapse().hide();
+      if (e.key === "Escape" && isMobile() && isOpen()) close();
     });
-  })();
 
-  /* Mega menu hover (desktop) – requires #megaMenu id in HTML ----------------------------------------------------------------------*/
-  (() => {
-    if (!hasBootstrap()) return;
+    window.addEventListener("resize", () => {
+      if (!isMobile()) close();
+    }, { passive: true });
 
-    const mq = window.matchMedia("(min-width: 992px)");
-    const megaItem = qs(".ip-mega");
-    const trigger = qs("#megaServices");
-    const menu = qs("#megaMenu");
-    if (!megaItem || !trigger || !menu) return;
-
-    let dd = null;
-    let openTimer = null;
-    let closeTimer = null;
-    let bound = false;
-
-    const init = () => {
-      dd = window.bootstrap.Dropdown.getOrCreateInstance(trigger, {
-        autoClose: "outside",
-        popperConfig: { strategy: "fixed" }
-      });
-    };
-
-    const open = () => {
-      clearTimeout(closeTimer);
-      openTimer = setTimeout(() => dd && dd.show(), 80);
-    };
-
-    const close = () => {
-      clearTimeout(openTimer);
-      closeTimer = setTimeout(() => dd && dd.hide(), 180);
-    };
-
-    const bind = () => {
-      if (bound) return;
-      bound = true;
-
-      init();
-      trigger.addEventListener("mouseenter", open);
-      menu.addEventListener("mouseenter", () => clearTimeout(closeTimer));
-      megaItem.addEventListener("mouseleave", close);
-
-      trigger.addEventListener("shown.bs.dropdown", () => trigger.setAttribute("aria-expanded", "true"));
-      trigger.addEventListener("hidden.bs.dropdown", () => trigger.setAttribute("aria-expanded", "false"));
-    };
-
-    const unbind = () => {
-      clearTimeout(openTimer);
-      clearTimeout(closeTimer);
-      bound = false;
-    };
-
-    if (mq.matches) bind();
-    mq.addEventListener("change", (e) => (e.matches ? bind() : unbind()));
+    syncAria();
   })();
 
   /* Back to top ------------------------------------------------------------------------------------------------------------------*/
@@ -1422,4 +1380,186 @@ document.addEventListener("DOMContentLoaded", () => {
 
     scrollToId(href);
   });
+})();
+
+/* Stable mobile nav fallback */
+(() => {
+  const initStableMobileNav = () => {
+    if (window.__ipStableNavInit) return;
+
+    const bar = document.querySelector("#ipNavbar");
+    const nav = document.querySelector("#ipNav");
+    const toggler = bar?.querySelector(".ip-toggler");
+    const backdrop = nav?.querySelector(".ip-nav-backdrop");
+    const closeBtn = nav?.querySelector(".ip-close");
+
+    if (!bar || !nav || !toggler) return;
+    window.__ipStableNavInit = true;
+
+    const isMobile = () => window.matchMedia("(max-width: 991.98px)").matches;
+    const isOpen = () => bar.classList.contains("ip-nav-open");
+    const syncAria = () => toggler.setAttribute("aria-expanded", isOpen() ? "true" : "false");
+
+    const open = () => {
+      if (!isMobile()) return;
+      bar.classList.add("ip-nav-open");
+      document.body.classList.add("ip-nav-open");
+      syncAria();
+    };
+
+    const close = () => {
+      bar.classList.remove("ip-nav-open");
+      document.body.classList.remove("ip-nav-open");
+      syncAria();
+    };
+
+    const toggle = () => (isOpen() ? close() : open());
+
+    window.ipOpenNav = open;
+    window.ipCloseNav = close;
+    window.ipToggleNav = toggle;
+
+    toggler.addEventListener("click", (e) => {
+      if (!isMobile()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      toggle();
+    });
+
+    backdrop?.addEventListener("click", (e) => {
+      e.preventDefault();
+      close();
+    });
+
+    closeBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      close();
+    });
+
+    nav.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link || !isMobile() || !isOpen()) return;
+      close();
+    });
+
+    window.addEventListener("resize", () => {
+      if (!isMobile()) close();
+    }, { passive: true });
+
+    syncAria();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initStableMobileNav, { once: true });
+  } else {
+    initStableMobileNav();
+  }
+})();
+
+/* Rebuilt navbar */
+(() => {
+  const initRebuiltNav = () => {
+    const bar = document.querySelector("#ipNavbar.ip-navbar--rebuilt");
+    if (!bar) return;
+
+    const toggleBtn = bar.querySelector(".ip-nav-toggle-btn");
+    const overlay = bar.querySelector(".ip-nav-overlay");
+    const dismiss = bar.querySelector(".ip-nav-dismiss");
+    const navLinks = Array.from(bar.querySelectorAll(".ip-nav-panel a"));
+    const mobileServicesBtn = bar.querySelector(".ip-mobile-dd");
+    const mobileServices = bar.querySelector("#ipMobileServices");
+    const mega = bar.querySelector(".ip-mega");
+    const megaBtn = bar.querySelector("#megaServices");
+    const megaMenu = bar.querySelector("#megaMenu");
+    const desktopMq = window.matchMedia("(min-width: 992px)");
+
+    const isMobile = () => !desktopMq.matches;
+    const isOpen = () => bar.classList.contains("ip-nav-open");
+    const syncAria = () => toggleBtn?.setAttribute("aria-expanded", isOpen() ? "true" : "false");
+    const openNav = () => {
+      if (!isMobile()) return;
+      bar.classList.add("ip-nav-open");
+      document.body.classList.add("ip-nav-open");
+      syncAria();
+    };
+    const closeNav = () => {
+      bar.classList.remove("ip-nav-open");
+      document.body.classList.remove("ip-nav-open");
+      syncAria();
+    };
+
+    toggleBtn?.addEventListener("click", (e) => {
+      if (!isMobile()) return;
+      e.preventDefault();
+      isOpen() ? closeNav() : openNav();
+    });
+
+    overlay?.addEventListener("click", closeNav);
+    dismiss?.addEventListener("click", closeNav);
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (isMobile()) closeNav();
+      });
+    });
+
+    mobileServicesBtn?.addEventListener("click", () => {
+      const expanded = mobileServicesBtn.getAttribute("aria-expanded") === "true";
+      mobileServicesBtn.setAttribute("aria-expanded", expanded ? "false" : "true");
+      if (mobileServices) mobileServices.hidden = expanded;
+    });
+
+    const openMega = () => {
+      if (!desktopMq.matches || !mega || !megaBtn) return;
+      mega.classList.add("is-open");
+      megaBtn.classList.add("is-open");
+      megaBtn.setAttribute("aria-expanded", "true");
+    };
+    const closeMega = () => {
+      if (!mega || !megaBtn) return;
+      mega.classList.remove("is-open");
+      megaBtn.classList.remove("is-open");
+      megaBtn.setAttribute("aria-expanded", "false");
+    };
+
+    megaBtn?.addEventListener("click", (e) => {
+      if (!desktopMq.matches) return;
+      e.preventDefault();
+      mega?.classList.contains("is-open") ? closeMega() : openMega();
+    });
+
+    mega?.addEventListener("mouseenter", openMega);
+    mega?.addEventListener("mouseleave", closeMega);
+
+    document.addEventListener("click", (e) => {
+      if (!desktopMq.matches || !mega) return;
+      if (!mega.contains(e.target)) closeMega();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeMega();
+        closeNav();
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (desktopMq.matches) {
+        closeNav();
+        if (mobileServicesBtn && mobileServices) {
+          mobileServicesBtn.setAttribute("aria-expanded", "false");
+          mobileServices.hidden = true;
+        }
+      }
+    }, { passive: true });
+
+    if (mobileServices) mobileServices.hidden = true;
+    syncAria();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initRebuiltNav, { once: true });
+  } else {
+    initRebuiltNav();
+  }
 })();
