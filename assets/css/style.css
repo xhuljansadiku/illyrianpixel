@@ -881,10 +881,10 @@ code, kbd, pre, samp{
   position:fixed;
   z-index:1040;
   border-bottom:1px solid rgba(200,155,46,.16);
-  background:color-mix(in srgb, rgba(14,16,22,.78) 72%, transparent);
-  backdrop-filter:blur(18px) saturate(1.2);
-  -webkit-backdrop-filter:blur(18px) saturate(1.2);
-  box-shadow:0 1px 0 rgba(255,248,230,.04) inset;
+  background:color-mix(in srgb, rgba(14,16,22,.56) 62%, transparent);
+  backdrop-filter:blur(16px) saturate(1.15);
+  -webkit-backdrop-filter:blur(16px) saturate(1.15);
+  box-shadow:0 1px 0 rgba(255,248,230,.05) inset, 0 10px 28px rgba(0,0,0,.10);
   transition:
     background .35s ease,
     border-color .35s ease,
@@ -927,11 +927,11 @@ code, kbd, pre, samp{
 }
 
 .ip-navbar.ip-navbar--luxe.ip-navbar--scrolled{
-  background:color-mix(in srgb, rgba(10,11,16,.94) 92%, transparent);
+  background:color-mix(in srgb, rgba(10,11,16,.72) 78%, transparent);
   border-bottom-color:rgba(200,155,46,.22);
   box-shadow:
     0 1px 0 rgba(255,248,230,.05) inset,
-    0 12px 40px rgba(0,0,0,.28);
+    0 12px 40px rgba(0,0,0,.18);
 }
 
 .ip-navbar.ip-navbar--luxe.ip-navbar--scrolled .ip-nav-wrap{
@@ -977,8 +977,9 @@ code, kbd, pre, samp{
 
 .ip-navbar.ip-navbar--luxe .ip-nav-link,
 .ip-navbar.ip-navbar--luxe .nav-link.ip-nav-link{
-  color:rgba(248,245,236,.72) !important;
-  font-weight:550;
+  color:rgba(255,249,236,.9) !important;
+  font-weight:700;
+  text-shadow:0 1px 10px rgba(0,0,0,.18);
   cursor:pointer;
 }
 
@@ -1072,7 +1073,7 @@ code, kbd, pre, samp{
   color:#141008 !important;
   border:1px solid rgba(200,155,46,.38);
   background:linear-gradient(135deg, #e8c868, var(--brand-illyrian), var(--accent-2));
-  box-shadow:0 8px 26px rgba(200,155,46,.32), 0 0 0 1px rgba(255,255,255,.12) inset;
+  box-shadow:0 8px 26px rgba(200,155,46,.28), 0 0 0 1px rgba(255,255,255,.12) inset;
   cursor:pointer;
   transition:transform .28s ease, box-shadow .28s ease, filter .28s ease;
 }
@@ -1353,11 +1354,12 @@ code, kbd, pre, samp{
 .hero-kicker{
   font-family:var(--font-ui);
   font-size:10pt;
-  font-weight:300;
+  font-weight:700;
   line-height:1.45;
   letter-spacing:.3em;
   text-transform:uppercase;
-  color:var(--hero-text);
+  color:color-mix(in srgb, var(--hero-text) 78%, #7a5e18);
+  text-shadow:0 1px 10px rgba(0,0,0,.12);
   margin:0 0 clamp(1.25rem, 3vw, 1.85rem);
 }
 
@@ -1437,10 +1439,11 @@ code, kbd, pre, samp{
 }
 .hero-body--lead{
   font-size:clamp(1.02rem, 2.1vw, 1.18rem);
-  font-weight:500;
+  font-weight:600;
   line-height:1.78;
   letter-spacing:.015em;
   color:color-mix(in srgb, var(--hero-text) 72%, var(--hero-muted));
+  text-shadow:0 1px 12px rgba(0,0,0,.08);
   max-width:36rem;
 }
 
@@ -1498,11 +1501,12 @@ code, kbd, pre, samp{
   border-radius:999px;
   font-family:var(--font-ui);
   font-size:.68rem;
-  font-weight:600;
+  font-weight:700;
   letter-spacing:.16em;
   text-transform:uppercase;
   text-decoration:none;
   border:1px solid transparent;
+  text-shadow:0 1px 0 rgba(255,255,255,.12);
   transition:transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 
@@ -1523,16 +1527,18 @@ code, kbd, pre, samp{
 }
 
 .hero-btn--ghost{
-  background:transparent;
-  border-color:rgba(200,155,46,.65);
-  color:#9a7520;
+  background:rgba(255,247,224,.18);
+  border-color:rgba(184,138,42,.78);
+  color:#7b5e15;
+  box-shadow:0 8px 20px rgba(26,24,16,.08), 0 0 0 1px rgba(255,248,230,.3) inset;
 }
 
 .hero-btn--ghost:hover{
   transform:translateY(-2px);
   border-color:#C89B2E;
-  color:#7a5e18;
-  background:rgba(200,155,46,.14);
+  color:#5e460e;
+  background:rgba(200,155,46,.24);
+  box-shadow:0 12px 24px rgba(26,24,16,.1), 0 0 0 1px rgba(255,248,230,.22) inset;
 }
 
 .hero-btn:focus-visible{
@@ -1808,17 +1814,74 @@ code, kbd, pre, samp{
 }
 
 .stat-card{
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,.12)),
+    radial-gradient(circle at top left, rgba(255,250,236,.28), transparent 58%),
+    radial-gradient(circle at bottom right, rgba(200,155,46,.1), transparent 48%);
+  border: 1px solid rgba(255,248,232,.38);
+  border-radius: 18px;
   padding: 28px 18px;
   text-align: center;
-  box-shadow: var(--shadow-soft);
-  transition: transform .2s ease, box-shadow .2s ease;
+  backdrop-filter:blur(20px) saturate(1.1);
+  -webkit-backdrop-filter:blur(20px) saturate(1.1);
+  box-shadow:
+    0 20px 44px rgba(26,24,16,.08),
+    0 0 0 1px rgba(255,255,255,.18) inset,
+    0 10px 30px rgba(255,248,232,.08) inset;
+  animation:statCardFloat 5.8s ease-in-out infinite;
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease, background .28s ease, filter .28s ease;
+}
+
+.stat-card::before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.26), rgba(255,255,255,.04)),
+    radial-gradient(circle at 22% 16%, rgba(255,255,255,.34), transparent 26%);
+  opacity:.95;
+  z-index:-1;
+}
+
+.stat-card::after{
+  content:"";
+  position:absolute;
+  top:-140%;
+  left:-55%;
+  width:42%;
+  height:280%;
+  pointer-events:none;
+  background:linear-gradient(115deg, transparent 0%, rgba(255,255,255,.04) 28%, rgba(255,255,255,.48) 50%, rgba(255,255,255,.1) 72%, transparent 100%);
+  transform:rotate(18deg) translateX(0);
+  opacity:.82;
+  animation:statGlassShine 7.4s cubic-bezier(.22,1,.36,1) infinite;
 }
 
 .stat-card:hover{
-  transform: translateY(-3px);
+  transform: translateY(-6px);
+  border-color:rgba(255,248,232,.56);
+  box-shadow:
+    0 26px 54px rgba(26,24,16,.11),
+    0 0 0 1px rgba(255,255,255,.24) inset,
+    0 12px 34px rgba(255,248,232,.12) inset;
+  filter:saturate(1.03);
+}
+
+.stats-section .col-6:nth-child(2) .stat-card{
+  animation-delay:-1.2s;
+}
+
+.stats-section .col-6:nth-child(3) .stat-card{
+  animation-delay:-2.4s;
+}
+
+.stats-section .col-6:nth-child(4) .stat-card{
+  animation-delay:-3.6s;
 }
 
 /* Ikona SVG â€” artÃ« premium, vijÃ« e hollÃ« + glow i lehtÃ« */
@@ -1858,6 +1921,43 @@ code, kbd, pre, samp{
   font-size: 18px;
   font-weight: 600;
   color: var(--muted);
+}
+
+@keyframes statGlassShine{
+  0%, 16%{
+    transform:rotate(18deg) translateX(-18%);
+    opacity:0;
+  }
+  24%{
+    opacity:.82;
+  }
+  46%{
+    transform:rotate(18deg) translateX(270%);
+    opacity:.12;
+  }
+  100%{
+    transform:rotate(18deg) translateX(270%);
+    opacity:0;
+  }
+}
+
+@keyframes statCardFloat{
+  0%, 100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .stat-card{
+    animation:none;
+  }
+  .stat-card::after{
+    animation:none;
+    opacity:.18;
+  }
 }
 
 /* Responsive */
@@ -1925,6 +2025,9 @@ code, kbd, pre, samp{
 
 /* Tre kartat kryesore — minimal, luxury (zi / ari / bardhë) */
 .ip-svc-luxe{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -1932,24 +2035,58 @@ code, kbd, pre, samp{
   min-height:100%;
   padding:clamp(2rem, 4.5vw, 2.65rem) clamp(1.35rem, 3vw, 1.75rem) clamp(1.75rem, 3vw, 2.15rem);
   border-radius:20px;
-  background:linear-gradient(165deg, #fdfcfa 0%, #f7f4ee 100%);
-  border:1px solid rgba(26,24,16,.08);
+  background:
+    linear-gradient(165deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.12) 100%),
+    radial-gradient(circle at top left, rgba(255,250,236,.26), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(200,155,46,.1), transparent 48%);
+  border:1px solid rgba(255,248,232,.38);
+  backdrop-filter:blur(18px) saturate(1.08);
+  -webkit-backdrop-filter:blur(18px) saturate(1.08);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.9) inset,
-    0 12px 32px rgba(26,24,16,.05);
+    0 1px 0 rgba(255,255,255,.55) inset,
+    0 18px 42px rgba(26,24,16,.07),
+    0 10px 28px rgba(255,248,232,.08) inset;
+  animation:ipCardFloat 6s ease-in-out infinite;
   transition:
     transform .32s cubic-bezier(.22,1,.36,1),
     box-shadow .32s ease,
-    border-color .32s ease;
+    border-color .32s ease,
+    background .32s ease;
+}
+.ip-svc-luxe::before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.04)),
+    radial-gradient(circle at 22% 14%, rgba(255,255,255,.32), transparent 24%);
+  opacity:.95;
+  z-index:-1;
+}
+.ip-svc-luxe::after{
+  content:"";
+  position:absolute;
+  top:-145%;
+  left:-56%;
+  width:42%;
+  height:285%;
+  pointer-events:none;
+  background:linear-gradient(115deg, transparent 0%, rgba(255,255,255,.04) 28%, rgba(255,255,255,.46) 50%, rgba(255,255,255,.08) 72%, transparent 100%);
+  transform:rotate(18deg) translateX(0);
+  opacity:.8;
+  animation:ipCardShine 7.6s cubic-bezier(.22,1,.36,1) infinite;
 }
 .ip-svc-luxe:hover{
   transform:translateY(-6px);
-  border-color:color-mix(in srgb, var(--brand-illyrian) 42%, rgba(26,24,16,.12));
+  border-color:rgba(255,248,232,.56);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.95) inset,
-    0 20px 48px rgba(26,24,16,.08),
-    0 0 0 1px color-mix(in srgb, var(--brand-illyrian) 18%, transparent),
-    0 0 28px color-mix(in srgb, var(--brand-illyrian) 12%, transparent);
+    0 1px 0 rgba(255,255,255,.64) inset,
+    0 24px 52px rgba(26,24,16,.1),
+    0 0 0 1px rgba(255,255,255,.14),
+    0 0 30px rgba(200,155,46,.12),
+    0 12px 34px rgba(255,248,232,.12) inset;
 }
 .ip-svc-luxe__icons{
   display:flex;
@@ -2119,6 +2256,8 @@ code, kbd, pre, samp{
 }
 #services .ip-dcard{
   position:relative;
+  overflow:hidden;
+  isolation:isolate;
   display:flex;
   flex-direction:column;
   min-height:100%;
@@ -2126,15 +2265,20 @@ code, kbd, pre, samp{
   text-align:left;
   padding:1.35rem 1.35rem 1.25rem;
   border-radius:20px;
-  background:linear-gradient(165deg,
-    color-mix(in srgb, #fff 96%, var(--brand-illyrian) 4%) 0%,
-    color-mix(in srgb, #faf9f6 88%, #0c0b09 12%) 100%);
-  border:1px solid color-mix(in srgb, var(--brand-illyrian) 38%, rgba(255,255,255,.12));
+  background:
+    linear-gradient(165deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.12) 100%),
+    radial-gradient(circle at top left, rgba(255,250,236,.26), transparent 56%),
+    radial-gradient(circle at bottom right, rgba(200,155,46,.1), transparent 48%);
+  border:1px solid rgba(255,248,232,.36);
+  backdrop-filter:blur(18px) saturate(1.08);
+  -webkit-backdrop-filter:blur(18px) saturate(1.08);
   box-shadow:
-    0 0 0 0.5px color-mix(in srgb, var(--brand-illyrian) 12%, transparent),
-    0 18px 44px color-mix(in srgb, var(--text) 6%, transparent),
-    inset 0 1px 0 rgba(255,255,255,.72);
-  transition:border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+    0 0 0 0.5px rgba(255,248,232,.2),
+    0 18px 44px color-mix(in srgb, var(--text) 7%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.52),
+    0 10px 28px rgba(255,248,232,.08) inset;
+  animation:ipCardFloat 6.4s ease-in-out infinite;
+  transition:border-color .25s ease, box-shadow .25s ease, transform .25s ease, background .25s ease;
 }
 #services .ip-dcard::after{
   content:"";
@@ -2142,18 +2286,90 @@ code, kbd, pre, samp{
   inset:0;
   border-radius:inherit;
   pointer-events:none;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);
-  opacity:.85;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);
+  opacity:.9;
+}
+#services .ip-dcard::before{
+  content:"";
+  position:absolute;
+  top:-145%;
+  left:-56%;
+  width:42%;
+  height:285%;
+  pointer-events:none;
+  background:linear-gradient(115deg, transparent 0%, rgba(255,255,255,.04) 28%, rgba(255,255,255,.46) 50%, rgba(255,255,255,.08) 72%, transparent 100%);
+  transform:rotate(18deg) translateX(0);
+  opacity:.8;
+  animation:ipCardShine 8.2s cubic-bezier(.22,1,.36,1) infinite;
 }
 #services .ip-dcard:hover{
-  border-color:color-mix(in srgb, var(--brand-illyrian) 52%, rgba(255,255,255,.18));
+  border-color:rgba(255,248,232,.54);
   box-shadow:
-    0 0 0 0.5px color-mix(in srgb, var(--brand-illyrian) 22%, transparent),
-    0 22px 52px color-mix(in srgb, var(--text) 8%, transparent),
-    inset 0 1px 0 rgba(255,255,255,.8);
-  transform:translateY(-2px);
+    0 0 0 0.5px rgba(255,248,232,.24),
+    0 24px 54px color-mix(in srgb, var(--text) 9%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.6),
+    0 12px 34px rgba(255,248,232,.12) inset;
+  transform:translateY(-4px);
 }
+#services .ip-services-detail-grid > [class*="col-"]:nth-child(2) .ip-dcard,
+.ip-svc-trio > [class*="col-"]:nth-child(2) .ip-svc-luxe{
+  animation-delay:-1.3s;
+}
+
+#services .ip-services-detail-grid > [class*="col-"]:nth-child(3) .ip-dcard,
+.ip-svc-trio > [class*="col-"]:nth-child(3) .ip-svc-luxe{
+  animation-delay:-2.6s;
+}
+
+#services .ip-services-detail-grid > [class*="col-"]:nth-child(4) .ip-dcard{
+  animation-delay:-3.9s;
+}
+
+#services .ip-services-detail-grid > [class*="col-"]:nth-child(5) .ip-dcard{
+  animation-delay:-5.2s;
+}
+
+#services .ip-services-detail-grid > [class*="col-"]:nth-child(6) .ip-dcard{
+  animation-delay:-6.5s;
+}
+
+@keyframes ipCardShine{
+  0%, 16%{
+    transform:rotate(18deg) translateX(-18%);
+    opacity:0;
+  }
+  24%{
+    opacity:.8;
+  }
+  46%{
+    transform:rotate(18deg) translateX(270%);
+    opacity:.12;
+  }
+  100%{
+    transform:rotate(18deg) translateX(270%);
+    opacity:0;
+  }
+}
+
+@keyframes ipCardFloat{
+  0%, 100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-4px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce){
+  .ip-svc-luxe,
+  #services .ip-dcard{
+    animation:none;
+  }
+  .ip-svc-luxe::after,
+  #services .ip-dcard::before{
+    animation:none;
+    opacity:.18;
+  }
   #services .ip-dcard{
     transition:none;
   }
@@ -4878,8 +5094,9 @@ code, kbd, pre, samp{
   position:relative;
   overflow:hidden;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -5%, color-mix(in srgb, var(--brand-illyrian) 11%, transparent) 0%, transparent 48%),
-    linear-gradient(180deg, #faf7f1 0%, #f4efe7 45%, #f9f6f0 100%);
+    radial-gradient(ellipse 80% 50% at 50% -5%, color-mix(in srgb, var(--brand-illyrian) 10%, transparent) 0%, transparent 48%),
+    radial-gradient(ellipse 120% 90% at 50% 25%, rgba(255,244,214,.16) 0%, transparent 54%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 95%, #fff 5%) 0%, color-mix(in srgb, var(--bg) 98%, #fff 2%) 46%, color-mix(in srgb, var(--bg) 96%, #fff 4%) 100%);
 }
 
 #testimonials.ip-testi-luxe .ip-testi-luxe__bg{
@@ -4887,8 +5104,9 @@ code, kbd, pre, samp{
   inset:0;
   pointer-events:none;
   background:
-    radial-gradient(circle at 12% 35%, color-mix(in srgb, var(--brand-illyrian) 7%, transparent) 0%, transparent 40%),
-    radial-gradient(circle at 88% 65%, color-mix(in srgb, var(--brand-illyrian) 5%, transparent) 0%, transparent 38%);
+    radial-gradient(circle at 12% 35%, color-mix(in srgb, var(--brand-illyrian) 6%, transparent) 0%, transparent 40%),
+    radial-gradient(circle at 88% 65%, color-mix(in srgb, var(--brand-illyrian) 5%, transparent) 0%, transparent 38%),
+    linear-gradient(115deg, transparent 0%, rgba(255,255,255,.12) 48%, transparent 100%);
 }
 
 #testimonials.ip-testi-luxe .container{
@@ -4915,8 +5133,8 @@ code, kbd, pre, samp{
 
 #testimonials.ip-testi-luxe .ip-testi-luxe__shell{
   opacity:0;
-  transform:translateY(26px);
-  transition:opacity .65s ease, transform .65s ease;
+  transform:translateY(22px);
+  transition:opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1);
 }
 
 #testimonials.ip-testi-luxe.ip-testi--visible .ip-testi-luxe__shell{
@@ -4941,20 +5159,22 @@ code, kbd, pre, samp{
   width:48px;
   height:48px;
   border-radius:50%;
-  border:1px solid color-mix(in srgb, var(--brand-illyrian) 26%, var(--border));
-  background:color-mix(in srgb, #fff 88%, var(--brand-illyrian) 12%);
-  box-shadow:0 8px 22px color-mix(in srgb, var(--text) 5%, transparent);
+  border:1px solid rgba(255,248,232,.44);
+  background:linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.12));
+  backdrop-filter:blur(14px) saturate(1.06);
+  -webkit-backdrop-filter:blur(14px) saturate(1.06);
+  box-shadow:0 10px 26px color-mix(in srgb, var(--text) 6%, transparent), 0 0 0 1px rgba(255,255,255,.12) inset;
   transition:transform .3s ease, background-color .3s ease, border-color .3s ease, box-shadow .3s ease, color .3s ease;
 }
 
 #testimonials.ip-testi-luxe .t-slider-btn:hover{
-  transform:translateY(-3px);
-  background:linear-gradient(145deg, #fff8e8 0%, color-mix(in srgb, var(--brand-illyrian) 42%, #f0e0b0) 100%);
-  border-color:color-mix(in srgb, var(--brand-illyrian) 48%, var(--border));
+  transform:translateY(-2px);
+  background:linear-gradient(180deg, rgba(255,255,255,.36), rgba(255,255,255,.16));
+  border-color:rgba(255,248,232,.58);
   color:color-mix(in srgb, var(--text) 20%, #1a1408);
   box-shadow:
     0 14px 32px color-mix(in srgb, var(--text) 8%, transparent),
-    0 0 24px color-mix(in srgb, var(--brand-illyrian) 18%, transparent);
+    0 0 24px color-mix(in srgb, var(--brand-illyrian) 10%, transparent);
 }
 
 #testimonials.ip-testi-luxe .t-slider-btn:focus-visible{
@@ -4981,16 +5201,52 @@ code, kbd, pre, samp{
   text-decoration:none;
   color:inherit;
   cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
   border-radius:18px;
-  overflow:visible;
-  border:1px solid color-mix(in srgb, var(--brand-illyrian) 18%, var(--border));
-  background:color-mix(in srgb, #fff 94%, var(--brand-illyrian) 6%);
+  border:1px solid rgba(255,248,232,.38);
+  background:
+    linear-gradient(165deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,.12) 100%),
+    radial-gradient(circle at top left, rgba(255,250,236,.24), transparent 56%),
+    radial-gradient(circle at bottom right, rgba(200,155,46,.1), transparent 48%);
+  backdrop-filter:blur(18px) saturate(1.08);
+  -webkit-backdrop-filter:blur(18px) saturate(1.08);
   box-shadow:
-    0 0 0 0.5px color-mix(in srgb, var(--brand-illyrian) 8%, transparent),
-    0 16px 40px color-mix(in srgb, var(--text) 5%, transparent);
+    0 0 0 0.5px rgba(255,248,232,.2),
+    0 18px 42px color-mix(in srgb, var(--text) 6%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.5),
+    0 10px 28px rgba(255,248,232,.08) inset;
   padding:1.35rem 1.3rem 1.25rem;
   min-height:100%;
-  transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease, opacity .3s ease;
+  transition:transform .42s cubic-bezier(.22,1,.36,1), box-shadow .42s ease, border-color .42s ease, opacity .42s ease, background .42s ease, filter .42s ease;
+}
+
+#testimonials.ip-testi-luxe .t-slide.t-slide--link::before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.04)),
+    radial-gradient(circle at 22% 14%, rgba(255,255,255,.3), transparent 24%);
+  opacity:.95;
+  z-index:-1;
+}
+
+#testimonials.ip-testi-luxe .t-slide.t-slide--link::after{
+  content:"";
+  position:absolute;
+  top:-145%;
+  left:-56%;
+  width:42%;
+  height:285%;
+  pointer-events:none;
+  background:linear-gradient(115deg, transparent 0%, rgba(255,255,255,.04) 28%, rgba(255,255,255,.44) 50%, rgba(255,255,255,.08) 72%, transparent 100%);
+  transform:rotate(18deg) translateX(-18%);
+  opacity:.72;
+  animation:testiCardShine 8.4s cubic-bezier(.22,1,.36,1) infinite;
 }
 
 @media (min-width:992px){
@@ -5003,24 +5259,25 @@ code, kbd, pre, samp{
   outline:none;
   box-shadow:
     0 0 0 3px color-mix(in srgb, var(--brand-illyrian) 35%, transparent),
-    0 16px 40px color-mix(in srgb, var(--text) 6%, transparent);
+    0 18px 42px color-mix(in srgb, var(--text) 6%, transparent);
 }
 
 #testimonials.ip-testi-luxe .t-slide.is-inactive{
-  opacity:.9;
+  opacity:.86;
   filter:none;
 }
 
 #testimonials.ip-testi-luxe .t-slide.is-active{
   position:relative;
   z-index:2;
-  transform:scale(1.03);
+  transform:translateY(-4px) scale(1.018);
   opacity:1;
-  border-color:color-mix(in srgb, var(--brand-illyrian) 32%, var(--border));
+  border-color:rgba(255,248,232,.56);
   box-shadow:
-    0 0 0 0.5px color-mix(in srgb, var(--brand-illyrian) 22%, transparent),
+    0 0 0 0.5px rgba(255,248,232,.24),
     0 24px 52px color-mix(in srgb, var(--text) 9%, transparent),
-    0 0 40px color-mix(in srgb, var(--brand-illyrian) 12%, transparent);
+    0 0 34px color-mix(in srgb, var(--brand-illyrian) 10%, transparent),
+    0 12px 34px rgba(255,248,232,.12) inset;
 }
 
 #testimonials.ip-testi-luxe .t-slide.is-active::before{
@@ -5029,27 +5286,28 @@ code, kbd, pre, samp{
   inset:-12px;
   z-index:-1;
   border-radius:24px;
-  background:radial-gradient(ellipse 70% 65% at 50% 45%, color-mix(in srgb, var(--brand-illyrian) 22%, transparent) 0%, transparent 68%);
-  filter:blur(18px);
-  opacity:.85;
+  background:radial-gradient(ellipse 70% 65% at 50% 45%, color-mix(in srgb, var(--brand-illyrian) 16%, transparent) 0%, transparent 68%);
+  filter:blur(20px);
+  opacity:.72;
   pointer-events:none;
 }
 
 #testimonials.ip-testi-luxe .t-slide.t-slide--link:hover{
-  border-color:color-mix(in srgb, var(--brand-illyrian) 42%, var(--border));
+  border-color:rgba(255,248,232,.54);
   box-shadow:
-    0 0 0 0.5px color-mix(in srgb, var(--brand-illyrian) 28%, transparent),
+    0 0 0 0.5px rgba(255,248,232,.24),
     0 22px 48px color-mix(in srgb, var(--text) 10%, transparent),
-    0 0 32px color-mix(in srgb, var(--brand-illyrian) 16%, transparent);
+    0 0 30px color-mix(in srgb, var(--brand-illyrian) 10%, transparent),
+    0 12px 32px rgba(255,248,232,.1) inset;
 }
 
 #testimonials.ip-testi-luxe .t-slide.is-active.t-slide--link:hover{
-  transform:translateY(-6px) scale(1.03);
+  transform:translateY(-6px) scale(1.018);
 }
 
 #testimonials.ip-testi-luxe .t-slide.is-inactive.t-slide--link:hover{
-  transform:translateY(-6px);
-  opacity:.98;
+  transform:translateY(-4px);
+  opacity:.94;
 }
 
 #testimonials.ip-testi-luxe .t-slide-top{
@@ -5060,8 +5318,10 @@ code, kbd, pre, samp{
   font-size:.74rem;
   font-weight:800;
   padding:.28rem .62rem;
-  background:transparent;
-  border:1px solid color-mix(in srgb, var(--brand-illyrian) 30%, var(--border));
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,248,232,.34);
+  backdrop-filter:blur(10px) saturate(1.04);
+  -webkit-backdrop-filter:blur(10px) saturate(1.04);
 }
 
 #testimonials.ip-testi-luxe .t-stars{
@@ -5099,7 +5359,7 @@ code, kbd, pre, samp{
 #testimonials.ip-testi-luxe .t-slide-meta{
   margin-top:1rem;
   padding-top:1rem;
-  border-top:1px solid color-mix(in srgb, var(--brand-illyrian) 14%, var(--border));
+  border-top:1px solid rgba(255,248,232,.34);
   align-items:center;
 }
 
@@ -5121,6 +5381,24 @@ code, kbd, pre, samp{
 #testimonials.ip-testi-luxe .t-slide-role{
   font-size:.82rem;
   color:color-mix(in srgb, var(--muted) 88%, var(--text));
+}
+
+@keyframes testiCardShine{
+  0%, 18%{
+    transform:rotate(18deg) translateX(-18%);
+    opacity:0;
+  }
+  26%{
+    opacity:.72;
+  }
+  48%{
+    transform:rotate(18deg) translateX(270%);
+    opacity:.1;
+  }
+  100%{
+    transform:rotate(18deg) translateX(270%);
+    opacity:0;
+  }
 }
 
 #testimonials.ip-testi-luxe .t-slide-cta{
@@ -5199,6 +5477,10 @@ code, kbd, pre, samp{
   #testimonials.ip-testi-luxe .t-stars,
   #testimonials.ip-testi-luxe .t-slider-btn{
     transition:none !important;
+  }
+  #testimonials.ip-testi-luxe .t-slide.t-slide--link::after{
+    animation:none;
+    opacity:.16;
   }
   #testimonials.ip-testi-luxe .ip-testi-luxe__shell{
     opacity:1;
@@ -8212,4 +8494,3 @@ code, kbd, pre, samp{
     transform:none;
   }
 }
-
