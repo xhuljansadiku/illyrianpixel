@@ -827,8 +827,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!submitBtn) return;
     submitBtn.disabled = loading;
     submitBtn.innerHTML = loading
-      ? `<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Duke dërguar...`
-      : `Dërgo kërkesën <span aria-hidden="true">→</span>`;
+      ? `<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Po hapim email-in...`
+      : `Dergo kerkesen <span aria-hidden="true">-></span>`;
   };
 
   const isValidEmail = (email) =>
@@ -856,6 +856,36 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
+  const buildMailtoLink = () => {
+    const name = qs("#cName", form)?.value?.trim() || "";
+    const email = qs("#cEmail", form)?.value?.trim() || "";
+    const service = serviceSelect?.selectedOptions?.[0]?.textContent?.trim() || "";
+    const details = projectDesc?.value?.trim() || "";
+    const budget = qs("#cBudget", form)?.selectedOptions?.[0]?.textContent?.trim() || "";
+    const timeline = qs("#cTimeline", form)?.selectedOptions?.[0]?.textContent?.trim() || "";
+    const message = qs("#cMessage", form)?.value?.trim() || "";
+    const subject = `Kerkese e re nga website - ${service || "Projekt i ri"}`;
+    const body = [
+      "Pershendetje Illyrian Pixel,",
+      "",
+      "Po ju kontaktoj nga website-i.",
+      "",
+      `Emri: ${name || "-"}`,
+      `Email: ${email || "-"}`,
+      `Sherbimi: ${service || "-"}`,
+      `Buxheti: ${budget || "-"}`,
+      `Afati: ${timeline || "-"}`,
+      "",
+      "Detajet e projektit:",
+      details || "-",
+      "",
+      "Mesazhi final:",
+      message || "-",
+    ].join("\n");
+
+    return `mailto:info@illyrianpixel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   const showPanel = (n, doScroll = true) => {
     step = n;
 
@@ -866,7 +896,6 @@ document.addEventListener("DOMContentLoaded", () => {
       s.classList.toggle("is-active", idx === n);
       s.classList.toggle("is-done", idx < n);
     });
-
     setStatus("");
 
     if (cfProgressFill) cfProgressFill.style.width = `${(n / 4) * 100}%`;
@@ -1258,15 +1287,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       setLoading(true);
-      setStatus("Po e dërgojmë...", "muted");
+      setStatus("Po hapim email-in me kerkesen tende...", "muted");
 
-      await new Promise(r => setTimeout(r, 900));
+      const mailtoLink = buildMailtoLink();
+      window.location.href = mailtoLink;
 
       if (contactSuccess) {
         contactSuccess.hidden = false;
         requestAnimationFrame(() => contactSuccess.classList.add("is-visible"));
       }
-      setStatus("");
+      setStatus("Nese email-i nuk hapet automatikisht, na shkruaj te info@illyrianpixel.com.", "ok");
 
       window.setTimeout(() => {
         if (contactSuccess) {
@@ -1290,7 +1320,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showPanel(1, false);
       }, 2600);
     } catch (err) {
-      setStatus("S’funksionoi. Provo përsëri ose më shkruaj në email.", "err");
+      setStatus("Nuk arritem ta hapim email-in. Na shkruaj direkt te info@illyrianpixel.com.", "err");
     } finally {
       setLoading(false);
     }
@@ -1572,11 +1602,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* Desktop: vetëm klik hap/mban dropdown; mbyll kur miu del nga zona .ip-mega (buton + urë + panel) */
-    mega?.addEventListener("mouseleave", () => {
-      if (!desktopMq.matches) return;
-      closeMega();
-    });
-
     document.addEventListener(
       "click",
       (e) => {
