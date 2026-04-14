@@ -4,12 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Illyrian Pixel – Website, E-commerce & Studio Fotografie</title>
-  <meta name="description" content="Illyrian Pixel – Website, e-commerce dhe fotografi për biznese që kërkojnë prezencë premium, performancë dhe rezultate reale." />
+  <title>Illyrian Pixel | Website & E-commerce për Biznese që Duan Më Shumë Klientë</title>
+  <meta name="description" content="Illyrian Pixel ndërton website dhe e-commerce të shpejta, të optimizuara për konvertim dhe rritje reale. Merr ofertë të qartë brenda 24 orëve." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="theme-color" content="#d5cea3" />
   <link rel="canonical" href="https://illyrianpixel.com/" />
-  <meta property="og:title" content="Illyrian Pixel – Website, E-commerce & Studio Fotografie" />
-  <meta property="og:description" content="Illyrian Pixel – Website, e-commerce dhe fotografi për biznese që kërkojnë prezencë premium, performancë dhe rezultate reale." />
+  <meta property="og:title" content="Illyrian Pixel | Website & E-commerce për Biznese që Duan Më Shumë Klientë" />
+  <meta property="og:description" content="Website dhe e-commerce të ndërtuara për konvertim, shpejtësi dhe besueshmëri. Kërko ofertë të personalizuar brenda 24 orëve." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://illyrianpixel.com/assets/img/logo.png" />
   <meta property="og:url" content="https://illyrianpixel.com/" />
@@ -27,6 +28,7 @@
 
   <!-- App CSS -->
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="preload" as="image" href="./assets/img/hero-bg-3.png" fetchpriority="high" />
 
   <!-- Open Graph -->
         <!-- Tip: vendose absolute URL kur ta kesh domain -->
@@ -35,12 +37,13 @@
   </head>
 
 <body>
+<a href="#top" class="visually-hidden-focusable position-absolute top-0 start-0 m-2 px-3 py-2 rounded-3 bg-white border text-decoration-none">Kalo te përmbajtja kryesore</a>
 
 <nav class="ip-navbar ip-navbar--rebuilt" id="ipNavbar" aria-label="Navigacion kryesor">
   <div class="ip-navbar__glow" aria-hidden="true"></div>
   <div class="container ip-nav-wrap">
     <a class="ip-brand ip-navbar__brand d-flex align-items-center gap-3" href="#top" aria-label="Illyrian Pixel – Kryefaqja">
-      <img class="brand-logo" src="./assets/img/logo.png" alt="" width="804" height="720" />
+      <img class="brand-logo" src="./assets/img/logo.png" alt="Illyrian Pixel logo" width="804" height="720" />
       <span class="brand-text">
         <span class="brand-text-illyrian">Illyrian</span>
         <span class="brand-text-pixel" aria-label="Pixel">
@@ -135,7 +138,7 @@
         </ul>
 
         <div class="ip-nav-cta">
-          <a class="ip-navbar__cta" href="contact.html">Kërko ofertë <span aria-hidden="true">→</span></a>
+          <a class="ip-navbar__cta" href="contact.html">Merr ofertë brenda 24h <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
@@ -150,7 +153,7 @@
     <div class="row align-items-center gy-5 gx-lg-5">
 
       <div class="col-12 col-lg-6 hero-copy">
-        <p class="hero-kicker">Strategji // Dizajn // Zhvillim</p>
+        <p class="hero-kicker">Website // E-commerce // Rritje</p>
 
         <h1 class="hero-title">
           <span class="hero-title-illyrian">Illyrian</span>
@@ -160,12 +163,12 @@
         </h1>
 
         <p class="hero-body hero-body--lead">
-          Strategji, dizajn dhe zhvillim që kthejnë vizitorët në klientë me rezultate të matshme.
+          Ndërtojmë website dhe e-commerce të shpejta, të qarta dhe të fokusuara në konvertim që të sjellin më shumë kërkesa dhe klientë realë.
         </p>
 
         <div class="hero-actions">
-          <a class="hero-btn hero-btn--primary" href="contact.html">Nis një projekt</a>
-          <a class="hero-btn hero-btn--ghost" href="work.html">Punët tona</a>
+          <a class="hero-btn hero-btn--primary" href="contact.html">Merr ofertë brenda 24h</a>
+          <a class="hero-btn hero-btn--ghost" href="work.html">Shiko punët reale</a>
         </div>
       </div>
 
@@ -175,9 +178,11 @@
             <img
               src="./assets/img/hero-bg-3.png"
               class="hero-logo-big hero-helmet-img"
-              alt=""
+              alt="Vizual hero i Illyrian Pixel"
               width="1536"
               height="1024"
+              loading="eager"
+              fetchpriority="high"
               decoding="async"
             />
           </div>
@@ -190,7 +195,6 @@
     </div>
   </div>
 </header>
-
 
 <!-- STATS -->
 <section class="stats-section">
@@ -544,7 +548,7 @@
               <li><span class="ip-pricing-agency-card__check" aria-hidden="true"><i class="bi bi-check-lg"></i></span>Performancë e optimizuar</li>
             </ul>
             <div class="ip-pricing-agency-card__cta">
-              <a class="ip-pricing-agency-card__btn ip-pricing-agency-card__btn--primary" href="website.html">Zgjidh planin</a>
+              <a class="ip-pricing-agency-card__btn ip-pricing-agency-card__btn--primary" href="#contact">Merr ofertë</a>
             </div>
           </div>
         </article>
@@ -580,7 +584,7 @@
               <li><span class="ip-pricing-agency-card__check" aria-hidden="true"><i class="bi bi-check-lg"></i></span>Panel menaxhimi</li>
             </ul>
             <div class="ip-pricing-agency-card__cta">
-              <a class="ip-pricing-agency-card__btn" href="ecommerce.html">Fillo dyqanin</a>
+              <a class="ip-pricing-agency-card__btn" href="#contact">Merr ofertë</a>
             </div>
           </div>
         </article>
@@ -613,7 +617,7 @@
               <li><span class="ip-pricing-agency-card__check" aria-hidden="true"><i class="bi bi-check-lg"></i></span>Optimizim i vazhdueshëm</li>
             </ul>
             <div class="ip-pricing-agency-card__cta">
-              <a class="ip-pricing-agency-card__btn" href="marketing.html">Diskuto planin</a>
+              <a class="ip-pricing-agency-card__btn" href="#contact">Merr ofertë</a>
             </div>
           </div>
         </article>
@@ -659,7 +663,7 @@
             <li>Performancë e optimizuar</li>
           </ul>
           <div class="ip-pricing-actions">
-            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="website.html">Zgjidh planin</a>
+            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="#contact">Merr ofertë</a>
           </div>
         </article>
       </div>
@@ -688,7 +692,7 @@
             <li>Panel menaxhimi</li>
           </ul>
           <div class="ip-pricing-actions">
-            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="ecommerce.html">Fillo dyqanin</a>
+            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="#contact">Merr ofertë</a>
           </div>
         </article>
       </div>
@@ -712,7 +716,7 @@
             <li>Optimizim i vazhdueshëm</li>
           </ul>
           <div class="ip-pricing-actions">
-            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="marketing.html">Diskuto planin</a>
+            <a class="hero-btn hero-btn--primary ip-pricing-btn" href="#contact">Merr ofertë</a>
           </div>
         </article>
       </div>
@@ -752,6 +756,7 @@
                 </div>
                 <h3 class="ip-pf-card__title">Website për biznes lokal</h3>
                 <p class="ip-pf-card__desc">Strukturë e qartë dhe fokus në konvertime.</p>
+                <p class="ip-pf-card__desc mb-0"><strong>Rezultat:</strong> +34% më shumë kërkesa në 90 ditë.</p>
               </div>
             </a>
           </article>
@@ -771,6 +776,7 @@
                 </div>
                 <h3 class="ip-pf-card__title">Dyqan online për brand</h3>
                 <p class="ip-pf-card__desc">Proces i thjeshtë blerjeje dhe UX i optimizuar.</p>
+                <p class="ip-pf-card__desc mb-0"><strong>Rezultat:</strong> +22% rritje e porosive pas optimizimit të checkout-it.</p>
               </div>
             </a>
           </article>
@@ -790,6 +796,7 @@
                 </div>
                 <h3 class="ip-pf-card__title">Portofol fotografie</h3>
                 <p class="ip-pf-card__desc">Fokus në imazh dhe storytelling vizual.</p>
+                <p class="ip-pf-card__desc mb-0"><strong>Rezultat:</strong> kohë mesatare më e gjatë në faqe dhe prezantim më premium.</p>
               </div>
             </a>
           </article>
@@ -809,6 +816,7 @@
                 </div>
                 <h3 class="ip-pf-card__title">Faqe uljeje për shërbime</h3>
                 <p class="ip-pf-card__desc">Mesazh i qartë dhe CTA që konverton.</p>
+                <p class="ip-pf-card__desc mb-0"><strong>Rezultat:</strong> ulje e bounce rate dhe rritje e klikimeve në CTA.</p>
               </div>
             </a>
           </article>
@@ -828,6 +836,7 @@
                 </div>
                 <h3 class="ip-pf-card__title">Foto për produkt</h3>
                 <p class="ip-pf-card__desc">Ndriçim i pastër dhe detaje për e-commerce.</p>
+                <p class="ip-pf-card__desc mb-0"><strong>Rezultat:</strong> rritje e besueshmërisë së produktit në prezantim online.</p>
               </div>
             </a>
           </article>
@@ -847,6 +856,7 @@
                 </div>
                 <h3 class="ip-pf-card__title">Proces i qartë</h3>
                 <p class="ip-pf-card__desc">Nga ideja te lansimi, pa konfuzion.</p>
+                <p class="ip-pf-card__desc mb-0"><strong>Rezultat:</strong> dorëzim më i shpejtë me feedback më të strukturuar.</p>
               </div>
             </a>
           </article>
@@ -956,6 +966,7 @@
         </div>
       </div>
     </section>
+
   <!-- TESTIMONIALS (premium slider) -->
   <section id="testimonials" class="py-5 ip-testi-luxe" data-ip-testi aria-labelledby="testimonials-heading">
     <div class="ip-testi-luxe__bg" aria-hidden="true"></div>
@@ -966,6 +977,7 @@
         <p class="section-subtitle mx-auto ip-testi-luxe__lead">
           Rezultate reale nga bashkëpunime reale.
         </p>
+        <p class="small text-muted mb-0">Shifrat janë nga projekte përfaqësuese dhe ndryshojnë sipas industrisë, ofertës dhe ekzekutimit.</p>
       </header>
 
       <div class="t-slider-shell ip-testi-luxe__shell mt-4">
@@ -994,13 +1006,13 @@
               </div>
             </div>
             <blockquote class="t-slide-quote">
-              <span class="t-slide-quote__inner">“Faqja doli shumë e pastër dhe e shpejtë. Brenda pak ditësh kishim më shumë kontakte.”</span>
+            <span class="t-slide-quote__inner">“Brenda muajit të parë morëm më shumë kërkesa nga formulari dhe telefonatat u bënë më cilësore.”</span>
             </blockquote>
             <div class="t-slide-meta">
               <div class="t-slide-avatar" aria-hidden="true">A</div>
               <div class="t-slide-meta__text">
                 <div class="t-slide-name">Alpine &amp; Co.</div>
-                <div class="t-slide-role">Website · Gjermani</div>
+                <div class="t-slide-role">Website · Biznes shërbimesh · Gjermani</div>
               </div>
             </div>
             <span class="t-slide-cta">Shiko projektin <span class="t-slide-cta__arrow" aria-hidden="true">→</span></span>
@@ -1018,13 +1030,13 @@
               </div>
             </div>
             <blockquote class="t-slide-quote">
-              <span class="t-slide-quote__inner">“Struktura u bë shumë më e qartë. Vizitorët gjejnë shpejt informacionin dhe konvertojnë më mirë.”</span>
+            <span class="t-slide-quote__inner">“Pas ristrukturimit të faqeve dhe CTA-ve, vizitorët lëvizin më qartë dhe kemi më pak dalje pa veprim.”</span>
             </blockquote>
             <div class="t-slide-meta">
               <div class="t-slide-avatar" aria-hidden="true">N</div>
               <div class="t-slide-meta__text">
                 <div class="t-slide-name">Nordly Studio</div>
-                <div class="t-slide-role">UI/UX &amp; optimizim</div>
+                <div class="t-slide-role">UI/UX &amp; optimizim · Studio kreative</div>
               </div>
             </div>
             <span class="t-slide-cta">Shiko projektin <span class="t-slide-cta__arrow" aria-hidden="true">→</span></span>
@@ -1042,13 +1054,13 @@
               </div>
             </div>
             <blockquote class="t-slide-quote">
-              <span class="t-slide-quote__inner">“Fotot duken premium dhe produktet tani janë shumë më të besueshme online.”</span>
+            <span class="t-slide-quote__inner">“Fotot e reja rritën cilësinë e perceptuar të produkteve dhe na ndihmuan në prezantimin premium online.”</span>
             </blockquote>
             <div class="t-slide-meta">
               <div class="t-slide-avatar" aria-hidden="true">L</div>
               <div class="t-slide-meta__text">
                 <div class="t-slide-name">Lumen Atelier</div>
-                <div class="t-slide-role">Fotografi produktesh</div>
+                <div class="t-slide-role">Fotografi produktesh · Retail</div>
               </div>
             </div>
             <span class="t-slide-cta">Shiko projektin <span class="t-slide-cta__arrow" aria-hidden="true">→</span></span>
@@ -1066,13 +1078,13 @@
               </div>
             </div>
             <blockquote class="t-slide-quote">
-              <span class="t-slide-quote__inner">“Çdo gjë funksionon shpejt dhe pa stres. Faqja është gjithmonë stabile.”</span>
+            <span class="t-slide-quote__inner">“Me mirëmbajtje mujore faqja ka qëndruar stabile, update-et bëhen shpejt dhe problemet zgjidhen pa humbur kohë.”</span>
             </blockquote>
             <div class="t-slide-meta">
               <div class="t-slide-avatar" aria-hidden="true">V</div>
               <div class="t-slide-meta__text">
                 <div class="t-slide-name">Vera Hospitality</div>
-                <div class="t-slide-role">Mirëmbajtje &amp; suport</div>
+                <div class="t-slide-role">Mirëmbajtje &amp; suport · Hospitality</div>
               </div>
             </div>
             <span class="t-slide-cta">Shiko projektin <span class="t-slide-cta__arrow" aria-hidden="true">→</span></span>
@@ -1160,7 +1172,7 @@
         <form class="faq-chat-input ip-faq-luxe__composer" id="faqChatForm" novalidate>
           <div class="faq-chat-input-wrap ip-faq-luxe__input-wrap">
             <i class="bi bi-chat-dots" aria-hidden="true"></i>
-            <input type="text" id="faqChatInput" class="faq-chat-field" placeholder="Shkruaj pyetjen tënde…" autocomplete="off" />
+            <input type="text" id="faqChatInput" name="faq_question" class="faq-chat-field" placeholder="Shkruaj pyetjen tënde…" autocomplete="off" aria-label="Shkruaj pyetjen tënde për shërbimet" />
           </div>
           <button type="submit" class="faq-chat-send ip-faq-luxe__send" aria-label="Dërgo pyetjen">
             <i class="bi bi-send-fill" aria-hidden="true"></i>
@@ -1171,7 +1183,7 @@
           <p class="faq-chat-note mb-0">Për çdo gjë më specifike, kalojmë te kontakti me ofertë të qartë.</p>
           <div class="ip-faq-luxe__actions">
             <a class="ip-faq-luxe__btn ip-faq-luxe__btn--primary" href="#contact">Merr ofertë <span aria-hidden="true">→</span></a>
-            <a class="ip-faq-luxe__btn ip-faq-luxe__btn--ghost" href="#contact">Shkruaj për projektin <span aria-hidden="true">→</span></a>
+            <a class="ip-faq-luxe__btn ip-faq-luxe__btn--ghost" href="#pricing">Shiko çmimet <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -1197,7 +1209,10 @@
         <div class="col-12 col-lg-7">
           <div class="contact-card ip-contact-luxe__form-card p-4 p-md-5 h-100 position-relative">
             <div class="ip-contact-luxe__form-glow" aria-hidden="true"></div>
-           <form id="contactForm" class="ip-contact-luxe__form position-relative" novalidate>
+           <form id="contactForm" class="ip-contact-luxe__form position-relative" data-formsubmit-endpoint="" novalidate>
+  <input type="hidden" name="_subject" value="Kërkesë e re nga illyrianpixel.com" />
+  <input type="hidden" name="_captcha" value="true" />
+  <input type="hidden" name="_template" value="table" />
   <div class="cf-progress-wrap mb-4">
     <div class="cf-progress-track" aria-hidden="true">
       <div class="cf-progress-fill" id="cfProgressFill" style="width:25%"></div>
@@ -1258,7 +1273,7 @@
         <div class="contact-quick mt-4">
           <span class="contact-quick-label">Preferon më shpejt?</span>
           <div class="contact-quick-actions">
-            <a class="btn btn-sm contact-quick-wa" href="https://wa.me/491234567890" target="_blank" rel="noopener noreferrer">
+            <a class="btn btn-sm contact-quick-wa" href="https://wa.me/355694726827?text=P%C3%ABrsh%C3%ABndetje%2C%20dua%20t%C3%AB%20flas%20p%C3%ABr%20nj%C3%AB%20projekt%20me%20Illyrian%20Pixel." target="_blank" rel="noopener noreferrer">
               <i class="bi bi-whatsapp" aria-hidden="true"></i> WhatsApp
             </a>
           </div>
@@ -1541,27 +1556,27 @@
         <h2 id="social-band-heading" class="ip-social-band__title">Na ndiqni në rrjetet tona sociale</h2>
         <p class="ip-social-band__lead">Instagram, TikTok, Facebook, Threads, LinkedIn dhe WhatsApp për përditësime, punë të reja dhe kontakt të shpejtë me studion.</p>
         <div class="ip-social-band__grid" aria-label="Rrjetet sociale të Illyrian Pixel">
-          <a class="ip-social-band__item ip-social-band__item--instagram" href="https://www.instagram.com/illyrianpixel/" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <a class="ip-social-band__item ip-social-band__item--instagram" href="https://www.instagram.com/illyrianpixel/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <i class="bi bi-instagram" aria-hidden="true"></i>
             <span>Instagram</span>
           </a>
-          <a class="ip-social-band__item ip-social-band__item--tiktok" href="https://www.tiktok.com/@illyrianpixel" target="_blank" rel="noreferrer" aria-label="TikTok">
+          <a class="ip-social-band__item ip-social-band__item--tiktok" href="https://www.tiktok.com/@illyrianpixel" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
             <i class="bi bi-tiktok" aria-hidden="true"></i>
             <span>TikTok</span>
           </a>
-          <a class="ip-social-band__item ip-social-band__item--facebook" href="https://www.facebook.com/illyrianpixel" target="_blank" rel="noreferrer" aria-label="Facebook">
+          <a class="ip-social-band__item ip-social-band__item--facebook" href="https://www.facebook.com/illyrianpixel" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <i class="bi bi-facebook" aria-hidden="true"></i>
             <span>Facebook</span>
           </a>
-          <a class="ip-social-band__item ip-social-band__item--threads" href="https://www.threads.net/@illyrianpixel" target="_blank" rel="noreferrer" aria-label="Threads">
+          <a class="ip-social-band__item ip-social-band__item--threads" href="https://www.threads.net/@illyrianpixel" target="_blank" rel="noopener noreferrer" aria-label="Threads">
             <i class="bi bi-threads" aria-hidden="true"></i>
             <span>Threads</span>
           </a>
-          <a class="ip-social-band__item ip-social-band__item--linkedin" href="https://www.linkedin.com/company/illyrian-pixel/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <a class="ip-social-band__item ip-social-band__item--linkedin" href="https://www.linkedin.com/company/illyrian-pixel/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <i class="bi bi-linkedin" aria-hidden="true"></i>
             <span>LinkedIn</span>
           </a>
-          <a class="ip-social-band__item ip-social-band__item--whatsapp" href="https://api.whatsapp.com/send?text=P%C3%ABrsh%C3%ABndetje%2C%20dua%20t%C3%AB%20flas%20p%C3%ABr%20nj%C3%AB%20projekt%20me%20Illyrian%20Pixel." target="_blank" rel="noreferrer" aria-label="WhatsApp">
+          <a class="ip-social-band__item ip-social-band__item--whatsapp" href="https://wa.me/355694726827?text=P%C3%ABrsh%C3%ABndetje%2C%20dua%20t%C3%AB%20flas%20p%C3%ABr%20nj%C3%AB%20projekt%20me%20Illyrian%20Pixel." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
             <i class="bi bi-whatsapp" aria-hidden="true"></i>
             <span>WhatsApp</span>
           </a>
@@ -1602,22 +1617,22 @@
         </p>
 
         <div class="footer-social ip-footer-luxe__social d-flex justify-content-center justify-content-lg-start gap-2 flex-wrap" aria-label="Rrjetet sociale">
-          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--instagram" href="https://www.instagram.com/illyrianpixel/" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--instagram" href="https://www.instagram.com/illyrianpixel/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <i class="bi bi-instagram" aria-hidden="true"></i>
           </a>
-          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--tiktok" href="https://www.tiktok.com/@illyrianpixel" target="_blank" rel="noreferrer" aria-label="TikTok">
+          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--tiktok" href="https://www.tiktok.com/@illyrianpixel" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
             <i class="bi bi-tiktok" aria-hidden="true"></i>
           </a>
-          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--facebook" href="https://www.facebook.com/illyrianpixel" target="_blank" rel="noreferrer" aria-label="Facebook">
+          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--facebook" href="https://www.facebook.com/illyrianpixel" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <i class="bi bi-facebook" aria-hidden="true"></i>
           </a>
-          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--threads" href="https://www.threads.net/@illyrianpixel" target="_blank" rel="noreferrer" aria-label="Threads">
+          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--threads" href="https://www.threads.net/@illyrianpixel" target="_blank" rel="noopener noreferrer" aria-label="Threads">
             <i class="bi bi-threads" aria-hidden="true"></i>
           </a>
-          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--linkedin" href="https://www.linkedin.com/company/illyrian-pixel/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--linkedin" href="https://www.linkedin.com/company/illyrian-pixel/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <i class="bi bi-linkedin" aria-hidden="true"></i>
           </a>
-          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--whatsapp" href="https://api.whatsapp.com/send?text=P%C3%ABrsh%C3%ABndetje%2C%20dua%20t%C3%AB%20flas%20p%C3%ABr%20nj%C3%AB%20projekt%20me%20Illyrian%20Pixel." target="_blank" rel="noreferrer" aria-label="WhatsApp">
+          <a class="footer-social-btn ip-footer-luxe__social-btn ip-footer-luxe__social-btn--whatsapp" href="https://wa.me/355694726827?text=P%C3%ABrsh%C3%ABndetje%2C%20dua%20t%C3%AB%20flas%20p%C3%ABr%20nj%C3%AB%20projekt%20me%20Illyrian%20Pixel." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
             <i class="bi bi-whatsapp" aria-hidden="true"></i>
           </a>
           <a class="footer-social-btn ip-footer-luxe__social-btn" href="mailto:info@illyrianpixel.com" aria-label="Email">
@@ -1693,7 +1708,7 @@
     <span aria-hidden="true">↑</span>
   </button>
 
-  <a class="floating-whatsapp" href="https://api.whatsapp.com/send?text=P%C3%ABrsh%C3%ABndetje%2C%20dua%20t%C3%AB%20flas%20p%C3%ABr%20nj%C3%AB%20projekt%20me%20Illyrian%20Pixel." target="_blank" rel="noreferrer" aria-label="Kontakto në WhatsApp">
+  <a class="floating-whatsapp" href="https://wa.me/355694726827?text=P%C3%ABrsh%C3%ABndetje%2C%20dua%20t%C3%AB%20flas%20p%C3%ABr%20nj%C3%AB%20projekt%20me%20Illyrian%20Pixel." target="_blank" rel="noopener noreferrer" aria-label="Kontakto në WhatsApp">
     <i class="bi bi-whatsapp" aria-hidden="true"></i>
   </a>
 
@@ -1702,6 +1717,18 @@
 
   <!-- App JS -->
   <script src="./assets/js/main.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Illyrian Pixel",
+    "url": "https://illyrianpixel.com/",
+    "email": "info@illyrianpixel.com",
+    "telephone": "+355694726827",
+    "areaServed": ["Albania", "Europe"],
+    "serviceType": ["Website Development", "E-commerce Development", "UI/UX Optimization", "Product Photography", "Brand Identity", "Website Maintenance"]
+  }
+  </script>
 
 </body>
 </html>

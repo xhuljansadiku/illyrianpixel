@@ -681,6 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cfSummaryBudget = qs("#cfSummaryBudget", form);
   const cfSummaryTimeline = qs("#cfSummaryTimeline", form);
   const cfSummaryTimelineWrap = qs("#cfSummaryTimelineWrap", form);
+  const formSubmitEndpoint = (form.getAttribute("data-formsubmit-endpoint") || "").trim();
 
   let step = 1;
   let smartTimer = null;
@@ -828,7 +829,7 @@ document.addEventListener("DOMContentLoaded", () => {
     submitBtn.disabled = loading;
     submitBtn.innerHTML = loading
       ? `<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Po hapim email-in...`
-      : `Dergo kerkesen <span aria-hidden="true">-></span>`;
+      : `Dërgo kërkesën <span aria-hidden="true">→</span>`;
   };
 
   const isValidEmail = (email) =>
@@ -859,11 +860,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const buildMailtoLink = () => {
     const name = qs("#cName", form)?.value?.trim() || "";
     const email = qs("#cEmail", form)?.value?.trim() || "";
-    const service = serviceSelect?.selectedOptions?.[0]?.textContent?.trim() || "";
+    const services = selectedServices()
+      .map((v) => {
+        const opt = Array.from(serviceSelect?.options || []).find((o) => o.value === v);
+        return opt?.textContent?.trim() || v;
+      })
+      .filter(Boolean);
     const details = projectDesc?.value?.trim() || "";
-    const budget = qs("#cBudget", form)?.selectedOptions?.[0]?.textContent?.trim() || "";
-    const timeline = qs("#cTimeline", form)?.selectedOptions?.[0]?.textContent?.trim() || "";
-    const message = qs("#cMessage", form)?.value?.trim() || "";
+    const budgetChecked = form.querySelector('input[name="budget"]:checked');
+    const budgetFromCards =
+      budgetChecked?.closest(".cf-budget-card")?.querySelector(".cf-budget-card__range")?.textContent?.trim() || "";
+    const budgetFromSelect = qs("#cBudget", form)?.selectedOptions?.[0]?.textContent?.trim() || "";
+    const budget = budgetFromCards || budgetFromSelect;
+
+    const timelineChecked = form.querySelector('input[name="timeline"]:checked');
+    const timelineMap = { urgent: "Urgjent", normal: "Normal", flexible: "Fleksibël" };
+    const timelineFromChips = timelineChecked ? (timelineMap[timelineChecked.value] || timelineChecked.value) : "";
+    const timelineFromSelect = qs("#cTimeline", form)?.selectedOptions?.[0]?.textContent?.trim() || "";
+    const timeline = timelineFromChips || timelineFromSelect;
+    const message = qs("#cMessage", form)?.value?.trim() || msgHidden?.value?.trim() || details;
+    const service = services[0] || "";
     const subject = `Kerkese e re nga website - ${service || "Projekt i ri"}`;
     const body = [
       "Pershendetje Illyrian Pixel,",
@@ -872,7 +888,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "",
       `Emri: ${name || "-"}`,
       `Email: ${email || "-"}`,
-      `Sherbimi: ${service || "-"}`,
+      `Sherbimet: ${services.length ? services.join(", ") : "-"}`,
       `Buxheti: ${budget || "-"}`,
       `Afati: ${timeline || "-"}`,
       "",
@@ -1207,8 +1223,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (n === 3) {
       const wrap = qs("[data-cf-budget-wrap]", panel);
-      const checked = panel.querySelector('input[name="budget"]:checked');
-      if (!checked) {
+      const budgetSelect = qs("#cBudget", panel) || qs("#cBudget", form);
+      const budgetRadio = panel.querySelector('input[name="budget"]:checked');
+
+      if (budgetSelect) {
+        const bad = !String(budgetSelect.value || "").trim();
+        mark(budgetSelect, bad);
+        if (bad) ok = false;
+      } else if (!budgetRadio) {
         ok = false;
         wrap?.classList.add("is-invalid");
       } else {
@@ -1287,16 +1309,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       setLoading(true);
-      setStatus("Po hapim email-in me kerkesen tende...", "muted");
+      const hasFormSubmit = /^https:\/\/formsubmit\.co\/.+/i.test(formSubmitEndpoint);
 
-      const mailtoLink = buildMailtoLink();
-      window.location.href = mailtoLink;
+      if (hasFormSubmit) {
+        setStatus("Duke dërguar kërkesën...", "muted");
+        const payload = new FormData(form);
+
+        const selectedServiceLabels = selectedServices()
+          .map((v) => {
+            const opt = Array.from(serviceSelect?.options || []).find((o) => o.value === v);
+            return opt?.textContent?.trim() || v;
+          })
+          .filter(Boolean);
+        payload.set("services_readable", selectedServiceLabels.join(", "));
+
+        const budgetChecked = form.querySelector('input[name="budget"]:checked');
+        const budgetLabel =
+          budgetChecked?.closest(".cf-budget-card")?.querySelector(".cf-budget-card__range")?.textContent?.trim() || "";
+        if (budgetLabel) payload.set("budget_readable", budgetLabel);
+
+        const timelineChecked = form.querySelector('input[name="timeline"]:checked');
+        const timelineMap = { urgent: "Urgjent", normal: "Normal", flexible: "Fleksibël" };
+        const timelineLabel = timelineChecked ? (timelineMap[timelineChecked.value] || timelineChecked.value) : "";
+        if (timelineLabel) payload.set("timeline_readable", timelineLabel);
+
+        const resp = await fetch(formSubmitEndpoint, {
+          method: "POST",
+          body: payload,
+          headers: { Accept: "application/json" },
+        });
+
+        if (!resp.ok) throw new Error("FormSubmit request failed");
+      } else {
+        setStatus("FormSubmit nuk është konfiguruar ende. Po hapim email-in...", "muted");
+        const mailtoLink = buildMailtoLink();
+        window.location.href = mailtoLink;
+      }
 
       if (contactSuccess) {
         contactSuccess.hidden = false;
         requestAnimationFrame(() => contactSuccess.classList.add("is-visible"));
       }
-      setStatus("Nese email-i nuk hapet automatikisht, na shkruaj te info@illyrianpixel.com.", "ok");
+      setStatus(
+        hasFormSubmit
+          ? "Kërkesa u dërgua me sukses. Do të të kontaktojmë sa më shpejt."
+          : "Nëse email-i nuk hapet automatikisht, na shkruaj te info@illyrianpixel.com.",
+        "ok"
+      );
 
       window.setTimeout(() => {
         if (contactSuccess) {
