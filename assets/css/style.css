@@ -87,6 +87,24 @@ body{
   -moz-osx-font-smoothing:grayscale;
 }
 
+/* Keep default text links on brand gold (not browser blue). */
+a{
+  color:var(--brand-illyrian);
+  text-decoration-color:color-mix(in srgb, var(--brand-illyrian) 72%, transparent);
+  text-underline-offset:.14em;
+  transition:color .18s ease, text-decoration-color .18s ease;
+}
+
+a:visited{
+  color:color-mix(in srgb, var(--brand-illyrian) 86%, #6e5318);
+}
+
+a:hover,
+a:focus-visible{
+  color:var(--primary-hover);
+  text-decoration-color:currentColor;
+}
+
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior:auto; }
 }
