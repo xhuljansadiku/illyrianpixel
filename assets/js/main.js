@@ -522,8 +522,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!backToTop) return;
 
     const onScroll = () => {
-      const y = window.scrollY || document.documentElement.scrollTop;
+      const doc = document.documentElement;
+      const y = window.scrollY || doc.scrollTop;
+      const max = Math.max((doc.scrollHeight || 0) - window.innerHeight, 1);
+      const p = Math.min(1, Math.max(0, y / max));
       backToTop.classList.toggle("is-visible", y > 520);
+      backToTop.style.setProperty("--bt-progress", String(p));
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
