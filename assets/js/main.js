@@ -1674,6 +1674,35 @@ document.addEventListener("DOMContentLoaded", () => {
   io.observe(root);
 })();
 
+/* Pricing page: filterable tier groups (3 packages per category) */
+(() => {
+  const section = qs("#ipPricingPackages");
+  if (!section) return;
+
+  const filters = Array.from(section.querySelectorAll("[data-pkg-filter]"));
+  const groups = Array.from(section.querySelectorAll("[data-pkg-group]"));
+  if (!filters.length || !groups.length) return;
+
+  const apply = (key) => {
+    filters.forEach((btn) => {
+      const on = (btn.getAttribute("data-pkg-filter") || "all") === key;
+      btn.classList.toggle("is-active", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    groups.forEach((g) => {
+      const tag = g.getAttribute("data-pkg-group") || "";
+      const show = key === "all" || tag === key;
+      g.classList.toggle("d-none", !show);
+    });
+  };
+
+  filters.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      apply(btn.getAttribute("data-pkg-filter") || "all");
+    });
+  });
+})();
+
 /* Process: scroll-in steps + line fill */
 (() => {
   const root = qs("[data-ip-proc]");

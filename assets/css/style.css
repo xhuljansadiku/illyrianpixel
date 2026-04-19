@@ -4490,6 +4490,8 @@ a.hero-btn.hero-btn--ghost:focus-visible{
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card{
   position:relative;
+  z-index:0;
+  isolation:isolate;
   display:flex;
   flex-direction:column;
   min-height:100%;
@@ -4531,6 +4533,7 @@ a.hero-btn.hero-btn--ghost:focus-visible{
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__inner{
   position:relative;
+  z-index:1;
   display:flex;
   flex-direction:column;
   height:100%;
@@ -4542,6 +4545,8 @@ a.hero-btn.hero-btn--ghost:focus-visible{
     0 1px 0 color-mix(in srgb, #fff 88%, transparent) inset,
     0 22px 48px color-mix(in srgb, var(--text) 5%, transparent);
   transition:transform .32s cubic-bezier(.2,.8,.2,1), box-shadow .32s ease, border-color .32s ease;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card:hover .ip-pricing-agency-card__inner{
@@ -4571,11 +4576,16 @@ a.hero-btn.hero-btn--ghost:focus-visible{
   }
 }
 
+/* pricing.html: kartat pa foto — padding uniforme (thumb më nuk mbivendoset mbi kartë) */
+[data-ip-page="pricing"] #pricing.ip-pricing-agency .ip-pricing-agency-card--featured .ip-pricing-agency-card__inner{
+  padding:1.65rem 1.45rem 1.5rem;
+}
+
 #pricing.ip-pricing-agency .ip-pricing-agency-card__ribbon{
   position:absolute;
   top:1rem;
   right:-2.25rem;
-  z-index:2;
+  z-index:4;
   padding:.38rem 2.6rem;
   font-family:var(--font-ui);
   font-size:var(--ip-fs-caption);
@@ -4584,9 +4594,12 @@ a.hero-btn.hero-btn--ghost:focus-visible{
   text-transform:uppercase;
   color:#1a1408;
   background:linear-gradient(90deg, #e8c96a, var(--brand-illyrian), #d4a82a);
-  box-shadow:0 10px 22px color-mix(in srgb, var(--brand-illyrian) 28%, transparent);
-  transform:rotate(32deg);
+  border:1px solid color-mix(in srgb, #fff 42%, rgba(70,54,16,.28));
+  box-shadow:0 8px 18px color-mix(in srgb, var(--brand-illyrian) 22%, transparent);
+  transform:rotate(32deg) translateZ(0);
   pointer-events:none;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
 }
 
 @media (max-width:767.98px){
@@ -4604,16 +4617,19 @@ a.hero-btn.hero-btn--ghost:focus-visible{
   justify-content:center;
   width:3rem;
   height:3rem;
-  margin-bottom:1.1rem;
+  margin-bottom:1.05rem;
   border-radius:14px;
   border:1px solid color-mix(in srgb, var(--brand-illyrian) 28%, var(--border));
   background:color-mix(in srgb, #fff 92%, var(--brand-illyrian) 8%);
   color:color-mix(in srgb, var(--brand-illyrian) 88%, #3a3018);
   font-size:1.25rem;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent),
+    0 6px 14px color-mix(in srgb, var(--text) 5%, transparent);
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__title{
-  margin:0 0 .55rem;
+  margin:0 0 .5rem;
   font-family:var(--font-ui);
   font-size:1.28rem;
   font-weight:700;
@@ -4622,15 +4638,15 @@ a.hero-btn.hero-btn--ghost:focus-visible{
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__desc{
-  margin:0 0 1.25rem;
+  margin:0 0 1.2rem;
   font-size:.94rem;
-  line-height:1.65;
+  line-height:1.62;
   color:color-mix(in srgb, var(--text) 72%, var(--muted));
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__price-block{
-  margin-bottom:1rem;
-  padding-bottom:1.1rem;
+  margin-bottom:1.05rem;
+  padding-bottom:1.05rem;
   border-bottom:1px solid color-mix(in srgb, var(--brand-illyrian) 18%, var(--border));
 }
 
@@ -4648,11 +4664,12 @@ a.hero-btn.hero-btn--ghost:focus-visible{
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__price-from{
   width:100%;
-  font-size:var(--ip-fs-caption);
+  font-size:var(--ip-fs-ui);
   font-weight:700;
-  letter-spacing:.2em;
+  letter-spacing:.18em;
   text-transform:uppercase;
-  color:color-mix(in srgb, var(--muted) 92%, var(--text));
+  color:color-mix(in srgb, var(--muted) 88%, var(--text));
+  margin-bottom:.12rem;
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__price-eur{
@@ -4687,43 +4704,59 @@ a.hero-btn.hero-btn--ghost:focus-visible{
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__price-note{
-  margin:.55rem 0 0;
+  margin:.5rem 0 0;
   font-size:var(--ip-fs-ui);
   font-weight:600;
-  line-height:1.45;
+  line-height:1.42;
   color:color-mix(in srgb, var(--text) 52%, var(--muted));
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__maint{
-  display:flex;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
   align-items:center;
-  justify-content:space-between;
-  gap:.75rem;
+  column-gap:.85rem;
+  row-gap:.2rem;
   margin-bottom:1.1rem;
-  padding:.72rem .95rem;
-  border-radius:14px;
-  border:1px solid color-mix(in srgb, var(--brand-illyrian) 16%, var(--border));
-  background:color-mix(in srgb, #fff 86%, var(--brand-illyrian) 6%);
+  padding:.68rem 1rem;
+  border-radius:12px;
+  border:1px solid color-mix(in srgb, var(--brand-illyrian) 18%, var(--border));
+  background:color-mix(in srgb, #fff 88%, var(--brand-illyrian) 5%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 75%, transparent),
+    0 1px 0 color-mix(in srgb, var(--brand-illyrian) 8%, transparent);
+  overflow:hidden;
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__maint--accent{
-  border-color:color-mix(in srgb, var(--brand-illyrian) 28%, var(--border));
-  background:color-mix(in srgb, var(--brand-illyrian) 10%, #fff);
+  border-color:color-mix(in srgb, var(--brand-illyrian) 30%, var(--border));
+  background:linear-gradient(
+    165deg,
+    color-mix(in srgb, #fff 92%, var(--brand-illyrian) 8%) 0%,
+    color-mix(in srgb, var(--brand-illyrian) 9%, #fff) 100%
+  );
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__maint-label{
   font-size:var(--ip-fs-caption);
   font-weight:700;
-  letter-spacing:.14em;
+  letter-spacing:.12em;
   text-transform:uppercase;
   color:var(--muted);
+  white-space:nowrap;
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__maint-val{
-  font-size:.88rem;
+  justify-self:end;
+  min-width:0;
+  font-size:clamp(.78rem, 1.85vw, .86rem);
   font-weight:700;
+  line-height:1.35;
   color:#1a1610;
   text-align:right;
+  white-space:normal;
+  word-break:normal;
+  overflow-wrap:anywhere;
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__list{
@@ -4780,22 +4813,26 @@ a.hero-btn.hero-btn--ghost:focus-visible{
   font-family:var(--font-ui);
   font-size:var(--ip-fs-caption);
   font-weight:700;
-  letter-spacing:.18em;
+  letter-spacing:.16em;
   text-transform:uppercase;
   text-decoration:none;
   text-align:center;
-  color:#141008;
-  border:1px solid color-mix(in srgb, var(--brand-illyrian) 45%, #9a7420);
-  background:color-mix(in srgb, #fff 40%, var(--brand-illyrian) 60%);
-  box-shadow:0 12px 26px color-mix(in srgb, var(--brand-illyrian) 22%, transparent);
-  transition:transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
+  color:#120e06;
+  border:1px solid color-mix(in srgb, var(--brand-illyrian) 48%, #7a5c18);
+  background:linear-gradient(145deg, #f0e0b0, #d8b24a, #b89228);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    0 10px 24px color-mix(in srgb, var(--brand-illyrian) 20%, transparent);
+  transition:transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease, filter .22s ease;
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__btn:hover{
   transform:translateY(-2px);
-  background:color-mix(in srgb, var(--brand-illyrian) 78%, #e8c868);
-  border-color:color-mix(in srgb, var(--brand-illyrian) 62%, #7a5c18);
-  box-shadow:0 18px 36px color-mix(in srgb, var(--brand-illyrian) 30%, transparent);
+  filter:brightness(1.04);
+  border-color:color-mix(in srgb, var(--brand-illyrian) 58%, #5c4510);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 50%, transparent),
+    0 16px 34px color-mix(in srgb, var(--brand-illyrian) 28%, transparent);
   color:#0f0c06;
 }
 
@@ -4805,13 +4842,16 @@ a.hero-btn.hero-btn--ghost:focus-visible{
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__btn--primary{
-  background:linear-gradient(145deg, #edd078, var(--brand-illyrian), #b8891f);
-  border-color:color-mix(in srgb, var(--brand-illyrian) 55%, #6e5210);
-  color:#120e06;
+  background:linear-gradient(145deg, #edd078, var(--brand-illyrian), #a67818);
+  border-color:color-mix(in srgb, var(--brand-illyrian) 58%, #5c4510);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 48%, transparent),
+    0 12px 30px color-mix(in srgb, var(--brand-illyrian) 26%, transparent);
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency-card__btn--primary:hover{
-  background:linear-gradient(145deg, #f0d78a, #c89b2e, #a67c1e);
+  background:linear-gradient(145deg, #f0d78a, #c89b2e, #946a16);
+  filter:brightness(1.05);
 }
 
 #pricing.ip-pricing-agency .ip-pricing-agency__footnote{
@@ -11489,4 +11529,266 @@ body{
     transform:none;
     opacity:1;
   }
+}
+
+/* Pricing page: packages grid + filters (not navbar) */
+[data-ip-page="pricing"] #ipPricingPackages.ip-pkg-section{
+  background:color-mix(in srgb, var(--surface-elevated, #faf8f3) 88%, transparent);
+  border-block:1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-filter-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:1.75rem;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+  justify-content:center;
+  max-width:100%;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-filter{
+  appearance:none;
+  cursor:pointer;
+  font-family:var(--font-ui, inherit);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.03em;
+  text-transform:none;
+  border-radius:999px;
+  padding:.45rem .95rem;
+  line-height:1.2;
+  border:1px solid color-mix(in srgb, var(--text) 12%, var(--border));
+  background:color-mix(in srgb, #fff 65%, transparent);
+  color:var(--text);
+  transition:
+    background .16s ease,
+    border-color .16s ease,
+    color .16s ease,
+    box-shadow .16s ease;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-filter:hover{
+  border-color:color-mix(in srgb, var(--brand-illyrian) 45%, var(--border));
+  background:#fff;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-filter.is-active{
+  color:#1a1408;
+  border-color:color-mix(in srgb, var(--brand-illyrian) 55%, #8a6a1f);
+  background:linear-gradient(
+    118deg,
+    color-mix(in srgb, var(--brand-illyrian) 88%, #fff),
+    color-mix(in srgb, var(--accent, #c9a227) 82%, #fff)
+  );
+  box-shadow:0 4px 14px color-mix(in srgb, var(--matte-gold, #b89b4a) 35%, transparent);
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-filter:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--brand-illyrian) 30%, transparent);
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-groups{
+  max-width:1180px;
+  margin-inline:auto;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-group__intro a{
+  font-weight:600;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-sub:not(:last-child){
+  border-bottom:1px solid color-mix(in srgb, var(--text) 10%, var(--border));
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier{
+  position:relative;
+  isolation:isolate;
+  display:flex;
+  flex-direction:column;
+  min-height:100%;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__inner{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  padding:1.35rem 1.25rem 1.25rem;
+  border-radius:1.15rem;
+  background:linear-gradient(165deg, #fffef9 0%, #faf6ee 100%);
+  border:1px solid color-mix(in srgb, var(--brand-illyrian) 18%, rgba(26,22,16,.08));
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 88%, transparent) inset,
+    0 14px 36px color-mix(in srgb, var(--text) 4%, transparent);
+  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier:hover .ip-pkg-tier__inner{
+  transform:translateY(-4px);
+  border-color:color-mix(in srgb, var(--brand-illyrian) 34%, var(--border));
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 80%, transparent) inset,
+    0 22px 48px color-mix(in srgb, var(--text) 7%, transparent);
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier--featured .ip-pkg-tier__inner{
+  border-color:color-mix(in srgb, var(--brand-illyrian) 38%, var(--border));
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 88%, transparent) inset,
+    0 18px 44px color-mix(in srgb, var(--brand-illyrian) 14%, transparent);
+}
+@media (min-width:992px){
+  [data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier--featured .ip-pkg-tier__inner{
+    transform:scale(1.02);
+    padding-top:1.5rem;
+  }
+  [data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier--featured:hover .ip-pkg-tier__inner{
+    transform:scale(1.02) translateY(-4px);
+  }
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__ribbon{
+  position:absolute;
+  top:.85rem;
+  right:-1.85rem;
+  z-index:2;
+  padding:.32rem 2.2rem;
+  font-family:var(--font-ui, inherit);
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#1a1408;
+  background:linear-gradient(90deg, #e8c96a, var(--brand-illyrian), #d4a82a);
+  border:1px solid color-mix(in srgb, #fff 42%, rgba(70,54,16,.28));
+  box-shadow:0 6px 14px color-mix(in srgb, var(--brand-illyrian) 20%, transparent);
+  transform:rotate(28deg);
+  pointer-events:none;
+}
+@media (max-width:575.98px){
+  [data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__ribbon{
+    top:.55rem;
+    right:-1.5rem;
+    font-size:.58rem;
+    padding:.28rem 1.8rem;
+  }
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__label{
+  margin:0 0 .2rem;
+  font-size:.68rem;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:color-mix(in srgb, var(--brand-illyrian) 55%, var(--muted));
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__name{
+  margin:0 0 .35rem;
+  font-family:var(--font-display, inherit);
+  font-size:1.12rem;
+  font-weight:600;
+  letter-spacing:-0.02em;
+  color:#1a1610;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__tagline{
+  margin:0 0 1rem;
+  font-size:.84rem;
+  line-height:1.45;
+  color:color-mix(in srgb, var(--text) 58%, var(--muted));
+  min-height:2.6rem;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__price-block{
+  margin-bottom:1rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid color-mix(in srgb, var(--text) 8%, transparent);
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__price{
+  margin:0;
+  font-family:var(--font-display, inherit);
+  font-weight:600;
+  font-size:1.65rem;
+  letter-spacing:-0.03em;
+  color:#1a1610;
+  line-height:1.1;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__from{
+  font-family:var(--font-ui, inherit);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:color-mix(in srgb, var(--text) 48%, var(--muted));
+  margin-right:.15rem;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__eur{
+  font-size:.85em;
+  opacity:.88;
+  margin-right:.08rem;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__suffix{
+  font-family:var(--font-ui, inherit);
+  font-size:.55em;
+  font-weight:700;
+  letter-spacing:.04em;
+  color:color-mix(in srgb, var(--text) 50%, var(--muted));
+  margin-left:.12rem;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__note{
+  margin:.35rem 0 0;
+  font-size:.78rem;
+  color:color-mix(in srgb, var(--text) 52%, var(--muted));
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__list{
+  flex:1 1 auto;
+  margin:0 0 1.15rem;
+  padding:0;
+  font-size:.84rem;
+  line-height:1.45;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__list li{
+  display:flex;
+  gap:.5rem;
+  align-items:flex-start;
+  margin-bottom:.45rem;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__list li:last-child{
+  margin-bottom:0;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__check{
+  flex:0 0 auto;
+  margin-top:.12rem;
+  color:color-mix(in srgb, #15803d 85%, var(--brand-illyrian));
+  font-size:.95rem;
+  line-height:1;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:auto;
+  width:100%;
+  padding:.62rem 1rem;
+  border-radius:999px;
+  font-family:var(--font-ui, inherit);
+  font-size:.82rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-decoration:none;
+  text-align:center;
+  border:1px solid color-mix(in srgb, var(--text) 14%, var(--border));
+  color:color-mix(in srgb, var(--text) 78%, #000);
+  background:color-mix(in srgb, #fff 70%, transparent);
+  transition:background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__btn:hover{
+  background:#fff;
+  border-color:color-mix(in srgb, var(--brand-illyrian) 42%, var(--border));
+  color:#1a1408;
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__btn--primary{
+  color:#1a1408;
+  border-color:color-mix(in srgb, var(--brand-illyrian) 50%, #8a6a1f);
+  background:linear-gradient(
+    118deg,
+    color-mix(in srgb, var(--brand-illyrian) 88%, #fff),
+    color-mix(in srgb, var(--accent, #c9a227) 82%, #fff)
+  );
+  box-shadow:0 6px 16px color-mix(in srgb, var(--matte-gold, #b89b4a) 28%, transparent);
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__btn--primary:hover{
+  filter:brightness(1.03);
+}
+[data-ip-page="pricing"] #ipPricingPackages .ip-pkg-tier__btn:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--brand-illyrian) 28%, transparent);
 }
