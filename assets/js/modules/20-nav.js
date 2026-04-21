@@ -121,3 +121,5 @@ const initNavModule = () => {
 };
 initNavModule();
 
+});
+

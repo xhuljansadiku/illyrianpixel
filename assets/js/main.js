@@ -1476,6 +1476,8 @@ initContactModule();
   (() => {
     const LS = "ip_cookie_consent";
     const root = document.documentElement;
+    const params = new URLSearchParams(window.location.search);
+    const forceCookieTest = params.get("cookie-test") === "1";
 
     const loadGa = () => {
       const id =
@@ -1500,6 +1502,10 @@ initContactModule();
       if (mode === "analytics") loadGa();
     };
 
+    if (forceCookieTest) {
+      localStorage.removeItem(LS);
+    }
+
     const existing = localStorage.getItem(LS);
     if (existing === "analytics" || existing === "essential") {
       apply(existing);
@@ -1518,27 +1524,29 @@ initContactModule();
         <div class="ip-cookie-bar__accent" aria-hidden="true"></div>
         <div class="ip-cookie-bar__container">
           <div class="ip-cookie-bar__row">
-            <div class="ip-cookie-bar__text-block">
-              <div class="ip-cookie-bar__head">
-                <span class="ip-cookie-bar__cookie-ic" aria-hidden="true"><i class="bi bi-cookie"></i></span>
-                <h2 id="ipCookieTitle" class="ip-cookie-bar__title">Përdorimi i cookies</h2>
-              </div>
+            <header class="ip-cookie-bar__head">
+              <span class="ip-cookie-bar__cookie-ic" aria-hidden="true"><i class="bi bi-cookie"></i></span>
+              <h2 id="ipCookieTitle" class="ip-cookie-bar__title">Përdorimi i cookies</h2>
+            </header>
+
+            <div class="ip-cookie-bar__body">
               <p class="ip-cookie-bar__copy">
-                Përdorim cookies teknike për funksionimin e sigurt të sajtit. Me pëlqimin tuaj lejohet edhe analitikë e përmbledhur e vizitave;
-                pa të, aktivizohen vetëm cookies e domosdoshme.
+                Ky sajt përdor cookies thelbësore për funksionim të sigurt dhe performancë bazë.<br class="ip-cookie-bar__line-break" />
+                Me pëlqimin tuaj, mund të aktivizojmë edhe cookies analitike për të kuptuar përdorimin e faqes dhe për të përmirësuar përvojën tuaj.
               </p>
               <p class="ip-cookie-bar__more">
                 Më shumë: <a href="/legal/privacy/">Politika e privatësisë</a>.
               </p>
             </div>
-            <div class="ip-cookie-bar__actions">
+
+            <footer class="ip-cookie-bar__actions">
               <button type="button" class="ip-cookie-bar__btn ip-cookie-bar__btn--secondary" data-ip-cookie="essential" aria-label="Refuzo statistikat, vetëm cookies të nevojshme">
                 Refuzo
               </button>
               <button type="button" class="ip-cookie-bar__btn ip-cookie-bar__btn--primary" data-ip-cookie="analytics" aria-label="Prano cookies dhe statistika">
                 Prano
               </button>
-            </div>
+            </footer>
           </div>
         </div>
       </div>`;
@@ -1594,7 +1602,6 @@ initContactModule();
       });
     }
   })();
-});
 
 /* Module: pricing-particles */
 const initPricingParticlesModule = () => {
@@ -1868,3 +1875,5 @@ const initNavModule = () => {
   }
 };
 initNavModule();
+
+});
