@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* =========================
    THEME TOKENS
    ========================= */
@@ -901,45 +902,68 @@ code, kbd, pre, samp {
   margin: 0 0 clamp(1.25rem, 3vw, 1.85rem);
 }
 
-/* Main heading  Illyrian #C89B2E; Pixel si logo (flex + space-between) */
-.hero-title {
+/* Brand lockup hero: serif + gold texture (Illyrian) / pixel (PIXEL) */
+.hero-brand-lockup {
   font-family: var(--font-ui);
-  font-size: clamp(2.85rem, 7vw, 4.5rem);
-  font-weight: 700;
   line-height: 1.02;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   text-wrap: balance;
-  margin: 0 0 clamp(0.85rem, 2vw, 1.1rem);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: fit-content;
+  margin: 0 0 clamp(1rem, 2.2vw, 1.35rem);
+  /* Kolona 1 = gjerësia e "Illyrian"; kolona 2 = 0 → "PIXEL" spanon vetëm sa titulli (edhe mobile). */
+  display: inline-grid;
+  grid-template-columns: max-content 0;
+  grid-template-rows: auto auto;
+  row-gap: 0.1em;
+  column-gap: 0;
   max-width: 100%;
-  gap: 0.08em;
 }
 
-.hero-title-illyrian {
+.hero-brand-lockup .hero-title-illyrian {
   display: block;
-  width: 100%;
-  letter-spacing: 0.22em;
-  color: #C89B2E;
-  text-shadow: 0 0.02em 0.04em rgba(0, 0, 0, 0.22), 0 0.05em 0.14em rgba(0, 0, 0, 0.12);
+  grid-column: 1;
+  grid-row: 1;
+  width: max-content;
+  max-width: 100%;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: clamp(2.55rem, 6.2vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #f2dd9a 0%, #d4ad3e 38%, #c89b2e 58%, #8f6c18 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: #c89b2e;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 14px rgba(200, 155, 46, 0.28));
 }
 
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero-brand-lockup .hero-title-illyrian {
+    background: none;
+    color: #c89b2e;
+    -webkit-text-fill-color: #c89b2e;
+    filter: none;
+    text-shadow: 0 0.02em 0.04em rgba(0, 0, 0, 0.2), 0 0.05em 0.12em rgba(0, 0, 0, 0.1);
+  }
+}
 /* I njejti model si .brand-text-pixel ne nav */
 .hero-title-pixel {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  width: 100%;
+  grid-column: 1/-1;
+  grid-row: 2;
+  width: auto;
+  min-width: 0;
+  justify-self: stretch;
   box-sizing: border-box;
   font-family: var(--font-pixel);
   font-weight: 700;
   font-size: 0.95em;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   line-height: 1;
-  margin-top: 0.02em;
+  margin-top: 0;
   text-align: left;
   text-transform: uppercase;
   color: var(--brand-pixel);
@@ -953,6 +977,7 @@ code, kbd, pre, samp {
   font-weight: 700;
   font-variant-ligatures: none;
   color: var(--brand-pixel);
+  letter-spacing: 0;
 }
 
 /* Sub-headline  clean sans */
@@ -988,6 +1013,57 @@ code, kbd, pre, samp {
   max-width: 36rem;
 }
 
+/* Headline + lead (hero hierarchy) */
+.hero-headline {
+  font-family: var(--font-ui);
+  font-size: clamp(1.28rem, 2.35vw + 0.55rem, 1.85rem);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.015em;
+  color: #1a1810;
+  text-wrap: balance;
+  max-width: 38rem;
+  margin: 0 0 clamp(0.85rem, 2vw, 1.15rem);
+}
+
+.hero-lead {
+  font-family: var(--font-ui);
+  font-size: clamp(1rem, 1.1vw + 0.82rem, 1.12rem);
+  font-weight: 400;
+  line-height: 1.72;
+  letter-spacing: 0.01em;
+  color: #1a1810;
+  max-width: 36rem;
+  margin: 0 0 clamp(1.65rem, 3.5vw, 2.25rem);
+}
+
+.hero-social-proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.85rem;
+  margin: clamp(1.35rem, 3vw, 1.85rem) 0 0;
+  max-width: 36rem;
+  font-family: var(--font-ui);
+  font-size: clamp(0.8125rem, 0.45vw + 0.72rem, 0.9rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, #1a1810 58%, var(--brand-illyrian));
+}
+
+.hero-social-proof__stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18rem;
+  color: color-mix(in srgb, var(--brand-illyrian) 62%, rgba(26, 24, 16, 0.35));
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.hero-social-proof__text {
+  line-height: 1.35;
+}
+
 /* Pill CTAs */
 .hero-actions {
   display: flex;
@@ -1006,22 +1082,27 @@ code, kbd, pre, samp {
   .hero-kicker {
     text-align: center;
   }
-  .hero-title {
+  .hero-brand-lockup {
     align-items: center;
     margin-left: auto;
     margin-right: auto;
   }
-  .hero-title-illyrian {
+  .hero-brand-lockup .hero-title-illyrian {
     text-align: center;
   }
-  .hero-title-pixel {
-    justify-content: center;
-    gap: 0.28em;
+  .hero-brand-lockup .hero-title-pixel {
+    justify-content: space-between;
     width: auto;
+    min-width: 0;
     max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .hero-headline,
+  .hero-lead {
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
   }
   .hero-body,
   .hero-body--lead {
@@ -1031,6 +1112,12 @@ code, kbd, pre, samp {
   }
   .hero-actions {
     justify-content: center;
+  }
+  .hero-social-proof {
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 .hero-btn {
@@ -1109,6 +1196,50 @@ a.hero-btn.hero-btn--ghost:focus-visible {
   color: #2a2008;
 }
 
+/* Hero home — CTA spec (gold #C89B2E, ghost accent outline, premium shadow) */
+.hero .hero-btn--hero-primary,
+a.hero-btn.hero-btn--hero-primary,
+a.hero-btn.hero-btn--hero-primary:visited {
+  background: #C89B2E;
+  color: #120f08;
+  border-color: color-mix(in srgb, #C89B2E 62%, rgba(26, 24, 16, 0.28));
+  box-shadow: 0 10px 28px rgba(26, 24, 16, 0.07), 0 0 28px rgba(200, 155, 46, 0.34), 0 1px 0 rgba(255, 250, 232, 0.5) inset;
+}
+
+.hero .hero-btn--hero-primary:hover,
+a.hero-btn.hero-btn--hero-primary:hover {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--primary-hover) 88%, #2a2008);
+  border-color: color-mix(in srgb, var(--primary-hover) 58%, rgba(26, 24, 16, 0.32));
+  color: #0a0805;
+  box-shadow: 0 12px 32px rgba(26, 24, 16, 0.08), 0 0 24px rgba(200, 155, 46, 0.26);
+}
+
+.hero .hero-btn--hero-ghost,
+a.hero-btn.hero-btn--hero-ghost,
+a.hero-btn.hero-btn--hero-ghost:visited {
+  background: rgba(255, 247, 224, 0.16);
+  border-color: var(--accent);
+  border-width: 1.5px;
+  color: #1a1810;
+  box-shadow: 0 10px 28px rgba(26, 24, 16, 0.06);
+}
+
+.hero .hero-btn--hero-ghost:hover,
+a.hero-btn.hero-btn--hero-ghost:hover {
+  border-color: color-mix(in srgb, var(--accent) 78%, #3d2f0a);
+  background: rgba(255, 252, 236, 0.5);
+  color: #141008;
+}
+
+a.hero-btn.hero-btn--hero-primary:focus-visible {
+  color: #0a0805;
+}
+
+a.hero-btn.hero-btn--hero-ghost:focus-visible {
+  color: #141008;
+}
+
 /* ===== Layout ===== */
 .hero-split {
   min-height: 86vh;
@@ -1127,6 +1258,7 @@ a.hero-btn.hero-btn--ghost:focus-visible {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  filter: drop-shadow(0 20px 36px rgba(26, 24, 16, 0.1));
 }
 
 @media (min-width: 992px) {
@@ -1349,8 +1481,11 @@ a.hero-btn.hero-btn--ghost:focus-visible {
     opacity: 0.12;
     background-size: 52px 52px;
   }
-  .hero-title {
-    font-size: clamp(2.35rem, 10vw, 3.2rem);
+  .hero-brand-lockup .hero-title-illyrian {
+    font-size: clamp(2.05rem, 9vw, 2.85rem);
+  }
+  .hero-headline {
+    font-size: clamp(1.12rem, 4.5vw, 1.48rem);
   }
   .hero-kicker {
     font-size: clamp(0.8125rem, 0.65vw + 0.64rem, 0.9rem);
@@ -2117,6 +2252,115 @@ a.hero-btn.hero-btn--ghost:focus-visible {
   opacity: 0.85;
 }
 
+/* Homepage #services — 3 core cards + secondary CTA */
+.ip-svc-core-trio {
+  position: relative;
+  z-index: 1;
+}
+
+.ip-svc-luxe__ic .bi {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.ip-svc-core-foot {
+  max-width: 44rem;
+  margin-top: clamp(2.25rem, 5vw, 3.25rem);
+  padding-top: clamp(0.25rem, 1.5vw, 0.5rem);
+  position: relative;
+  z-index: 1;
+}
+
+/* Homepage — E-commerce / Shopify upsell (para kontaktit) */
+.ip-ecom-upsell-band {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(3rem, 7vw, 4.5rem) !important;
+  background: radial-gradient(95% 70% at 50% 0%, color-mix(in srgb, var(--brand-illyrian) 14%, transparent), transparent 58%), linear-gradient(165deg, color-mix(in srgb, var(--text) 5%, var(--bg)) 0%, var(--bg) 42%, color-mix(in srgb, var(--brand-illyrian) 6%, var(--bg)) 100%);
+  border-block: 1px solid color-mix(in srgb, var(--border) 80%, var(--brand-illyrian));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 18px 44px color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+.ip-ecom-upsell-band__glow {
+  position: absolute;
+  inset: -20% -10% auto;
+  height: min(70%, 420px);
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--matte-gold-strong) 42%, transparent), transparent 72%);
+  opacity: 0.55;
+}
+
+.ip-ecom-upsell-band .container {
+  position: relative;
+  z-index: 1;
+}
+
+.ip-ecom-upsell-band__icon-wrap {
+  width: fit-content;
+}
+
+.ip-ecom-upsell-band__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.35rem;
+  height: 3.35rem;
+  border-radius: 999px;
+  font-size: 1.35rem;
+  color: color-mix(in srgb, var(--brand-illyrian) 92%, #3d2f0a);
+  background: color-mix(in srgb, #fff 55%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--brand-illyrian) 28%, rgba(26, 24, 16, 0.1));
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+.ip-ecom-upsell-band__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 1.1vw + 1.2rem, 2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.18;
+  color: var(--text);
+  margin: 0;
+}
+
+.ip-ecom-upsell-band__lead {
+  font-size: clamp(1.02rem, 0.35vw + 0.95rem, 1.15rem);
+  font-weight: 600;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--text) 88%, var(--muted));
+  max-width: 34rem;
+}
+
+.ip-ecom-upsell-band__desc {
+  font-size: var(--ip-fs-body);
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--text) 72%, var(--muted));
+  max-width: 30rem;
+}
+
+.ip-ecom-upsell-band__hint {
+  color: color-mix(in srgb, var(--text) 55%, var(--muted));
+  max-width: 26rem;
+}
+
+.ip-ecom-upsell-band__cta {
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--brand-illyrian) 22%, transparent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.ip-ecom-upsell-band__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--brand-illyrian) 28%, transparent);
+  filter: brightness(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ip-ecom-upsell-band__cta,
+  .ip-ecom-upsell-band__cta:hover {
+    transform: none;
+    transition: none;
+  }
+}
 #services .ip-services-detail-grid {
   --bs-gutter-y:1.35rem;
 }
@@ -7985,20 +8229,48 @@ a.hero-btn.hero-btn--ghost:focus-visible {
   position: fixed;
   right: 18px;
   bottom: 96px;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 999px;
-  border: 1px solid rgba(37, 211, 102, 0.36);
-  background: linear-gradient(135deg, rgba(37, 211, 102, 0.98), rgba(24, 170, 82, 0.96));
+  border: 1px solid rgba(18, 140, 126, 0.35);
+  background: #25D366;
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: clamp(1.35rem, 3.5vw, 1.625rem);
+  font-size: 1.5rem;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 18px 46px rgba(37, 211, 102, 0.26), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 10px 28px rgba(26, 24, 16, 0.1), 0 10px 26px rgba(37, 211, 102, 0.28);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
   z-index: 10900;
+  overflow: visible;
+}
+
+.floating-whatsapp::before {
+  content: "Na pyet tani";
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  padding: 0.42rem 0.7rem;
+  border-radius: 10px;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: #fff;
+  background: rgba(26, 24, 16, 0.9);
+  box-shadow: 0 8px 20px rgba(26, 24, 16, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.floating-whatsapp:hover::before,
+.floating-whatsapp:focus-visible::before {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 .floating-whatsapp i {
@@ -8007,8 +8279,8 @@ a.hero-btn.hero-btn--ghost:focus-visible {
 
 .floating-whatsapp:hover {
   transform: translateY(-2px) scale(1.03);
-  filter: brightness(1.04);
-  box-shadow: 0 22px 52px rgba(37, 211, 102, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.14) inset;
+  filter: brightness(1.03);
+  box-shadow: 0 12px 32px rgba(26, 24, 16, 0.1), 0 14px 32px rgba(37, 211, 102, 0.32);
 }
 
 .floating-whatsapp:active {
@@ -8017,7 +8289,7 @@ a.hero-btn.hero-btn--ghost:focus-visible {
 
 .floating-whatsapp:focus {
   outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(37, 211, 102, 0.2), 0 18px 46px rgba(37, 211, 102, 0.26);
+  box-shadow: 0 0 0 0.22rem rgba(37, 211, 102, 0.28), 0 10px 28px rgba(26, 24, 16, 0.1);
 }
 
 @media (max-width: 575.98px) {
@@ -8030,9 +8302,12 @@ a.hero-btn.hero-btn--ghost:focus-visible {
   .floating-whatsapp {
     right: 14px;
     bottom: 84px;
-    width: 58px;
-    height: 58px;
-    font-size: 24px;
+    width: 54px;
+    height: 54px;
+    font-size: 1.45rem;
+  }
+  .floating-whatsapp::before {
+    display: none;
   }
 }
 /* =========================
@@ -9822,7 +10097,7 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
   background: color-mix(in srgb, var(--bg) 94%, #fff 6%);
   backdrop-filter: blur(14px) saturate(1.08);
   -webkit-backdrop-filter: blur(14px) saturate(1.08);
-  border-bottom: 1px solid color-mix(in srgb, var(--brand-illyrian) 22%, var(--border));
+  border-bottom: none;
   box-shadow: 0 1px 0 rgba(255, 252, 240, 0.65) inset, 0 10px 32px rgba(26, 24, 16, 0.07);
 }
 
@@ -9941,8 +10216,8 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
   display: inline-block;
   font-size: 0.72em;
   line-height: 1;
-  opacity: 0.88;
-  color: color-mix(in srgb, var(--text) 78%, var(--muted)) !important;
+  opacity: 1;
+  color: var(--accent) !important;
   text-shadow: none;
   transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, color 0.2s ease;
 }
@@ -9950,12 +10225,18 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
 .ip-navbar.ip-navbar--rebuilt #megaServices.is-open .ip-nav-dd-caret {
   transform: rotate(180deg);
   opacity: 1;
-  color: var(--text) !important;
+  color: color-mix(in srgb, var(--accent) 55%, var(--accent-2)) !important;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-nav-link--btn:hover .ip-nav-dd-caret,
 .ip-navbar.ip-navbar--rebuilt .ip-nav-link--btn:focus-visible .ip-nav-dd-caret {
-  color: var(--text) !important;
+  color: color-mix(in srgb, var(--accent) 72%, var(--text)) !important;
+}
+
+.ip-navbar.ip-navbar--rebuilt .ip-mobile-dd-icon {
+  color: var(--accent);
+  opacity: 0.95;
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-navbar__cta {
@@ -9963,7 +10244,7 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
   align-items: center;
   justify-content: center;
   align-self: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   min-height: 44px;
   padding: 0.55rem 1.25rem;
   border-radius: 999px;
@@ -9979,13 +10260,23 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
   background: linear-gradient(135deg, #f2dc98 0%, #d4a82a 42%, #b88924 100%);
   box-shadow: 0 6px 22px rgba(200, 155, 46, 0.22), 0 1px 0 rgba(255, 252, 240, 0.55) inset;
   cursor: pointer;
-  transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.ip-navbar.ip-navbar--rebuilt .ip-navbar__cta-arrow {
+  flex-shrink: 0;
+  width: 0.92em;
+  height: 0.92em;
+  margin-top: 0.06em;
+  display: block;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-navbar__cta:hover {
   transform: scale(1.03);
-  filter: brightness(1.07);
-  box-shadow: 0 12px 36px rgba(200, 155, 46, 0.45), 0 0 28px rgba(200, 155, 46, 0.22);
+  filter: none;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--primary-hover) 88%, #f5e6bc) 0%, var(--primary-hover) 46%, color-mix(in srgb, var(--primary-hover) 82%, #3d2f0a) 100%) !important;
+  border-color: color-mix(in srgb, var(--primary-hover) 62%, rgba(26, 24, 16, 0.28));
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--primary-hover) 35%, transparent), 0 1px 0 rgba(255, 252, 230, 0.42) inset;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-navbar__cta:focus-visible {
@@ -9994,40 +10285,58 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
 }
 
 /* Ure e padukshme midis butonit dhe panelit qe mouseleave te mos mbylle kur kalon miu ne hapesiren bosh */
+.ip-navbar.ip-navbar--rebuilt .ip-mega {
+  position: relative;
+}
+
 .ip-navbar.ip-navbar--rebuilt .ip-mega.is-open::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   top: 100%;
-  height: 0.85rem;
+  height: 0.45rem;
   z-index: 1599;
   pointer-events: auto;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega-menu {
   position: absolute;
-  top: calc(100% + 0.8rem);
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(960px, 100vw - 2rem);
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: auto;
+  transform: none;
+  width: min(16.75rem, 100vw - 1.25rem);
+  max-width: calc(100vw - 1.25rem);
   z-index: 1600;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  border-radius: 26px;
-  transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease;
+  border-radius: 12px;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega.is-open .ip-mega-menu {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: none;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega-inner {
-  padding: 1.4rem;
+  padding: 0.45rem 0.5rem 0.4rem;
+}
+
+/* Mega kompakt: një kolonë, poshtë butonit “Shërbimet” */
+.ip-navbar.ip-navbar--rebuilt .ip-mega-inner .row > [class*=col-] {
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+.ip-navbar.ip-navbar--rebuilt .ip-mega-footer {
+  margin-top: 0.35rem;
+  padding-top: 0.35rem;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-nav-overlay,
@@ -10245,8 +10554,21 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
 .ip-navbar.ip-navbar--rebuilt {
   --ip-nav-h:88px !important;
   background: color-mix(in srgb, #f2ead1 86%, rgba(255, 255, 255, 0.96)) !important;
-  border-bottom: 1px solid rgba(130, 102, 38, 0.24) !important;
+  border-bottom: none !important;
   box-shadow: 0 8px 20px rgba(24, 20, 10, 0.12), 0 1px 0 rgba(255, 255, 255, 0.62) inset !important;
+}
+
+.ip-navbar.ip-navbar--rebuilt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--brand-underline);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-nav-wrap {
@@ -10292,22 +10614,31 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
   line-height: 1.15 !important;
   border-radius: 999px !important;
   box-shadow: 0 6px 22px rgba(200, 155, 46, 0.24) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega-menu {
-  top: calc(100% + 0.55rem) !important;
-  width: min(960px, 100vw - 2.4rem) !important;
-  border-radius: 18px !important;
+  top: calc(100% + 0.35rem) !important;
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
+  width: min(16.75rem, 100vw - 1.25rem) !important;
+  max-width: calc(100vw - 1.25rem) !important;
+  border-radius: 12px !important;
   border: 1px solid rgba(130, 102, 38, 0.22) !important;
   background: linear-gradient(180deg, rgba(252, 247, 232, 0.97), rgba(245, 236, 212, 0.96)) !important;
-  box-shadow: 0 18px 42px rgba(24, 20, 10, 0.16), 0 1px 0 rgba(255, 255, 255, 0.72) inset !important;
+  box-shadow: 0 10px 24px rgba(24, 20, 10, 0.1), 0 1px 0 rgba(255, 255, 255, 0.72) inset !important;
   backdrop-filter: blur(8px) saturate(1.06);
   -webkit-backdrop-filter: blur(8px) saturate(1.06);
-  max-height: min(82vh, 700px);
+  max-height: min(70vh, 420px);
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
+}
+
+.ip-navbar.ip-navbar--rebuilt .ip-mega.is-open .ip-mega-menu {
+  transform: none !important;
 }
 
 @media (min-width: 1200px) {
@@ -10317,7 +10648,7 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
   }
 }
 .ip-navbar.ip-navbar--rebuilt .ip-mega-inner {
-  padding: 1rem 1rem 0.85rem !important;
+  padding: 0.45rem 0.5rem 0.4rem !important;
 }
 
 /* Desktop mega menu readability fix */
@@ -10331,12 +10662,18 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega-link {
-  background: rgba(255, 255, 255, 0.62) !important;
-  border: 1px solid rgba(130, 102, 38, 0.16) !important;
-  border-radius: 12px !important;
-  padding: 0.58rem 0.66rem !important;
-  margin-bottom: 0.36rem !important;
-  box-shadow: 0 6px 14px rgba(24, 20, 10, 0.06) !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(130, 102, 38, 0.14) !important;
+  border-radius: 10px !important;
+  padding: 0.34rem 0.52rem 0.34rem 0.68rem !important;
+  margin-bottom: 0.2rem !important;
+  box-shadow: 0 2px 8px rgba(24, 20, 10, 0.05) !important;
+}
+
+.ip-navbar.ip-navbar--rebuilt .ip-mega-inner .row > [class*=col-]:last-child .ip-mega-link {
+  margin-bottom: 0 !important;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega-link-title {
@@ -10355,20 +10692,25 @@ html[data-ip-page=guide-pricing] .ip-page-hero ~ section .section-title.h3 {
 .ip-navbar.ip-navbar--rebuilt .ip-mega-all {
   color: #6e520f !important;
   font-weight: 700 !important;
+  font-size: var(--ip-fs-ui) !important;
   letter-spacing: 0.06em !important;
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega-link:hover,
 .ip-navbar.ip-navbar--rebuilt .ip-mega-link:focus-visible {
-  background: rgba(245, 231, 192, 0.72) !important;
-  border-color: rgba(130, 102, 38, 0.32) !important;
-  transform: translateY(-1px);
+  background: rgba(245, 231, 192, 0.78) !important;
+  border-color: rgba(130, 102, 38, 0.28) !important;
+  transform: translateY(-0.5px);
 }
 
 .ip-navbar.ip-navbar--rebuilt .ip-mega-ic {
-  background: rgba(200, 155, 46, 0.16) !important;
+  width: 1.95rem !important;
+  height: 1.95rem !important;
+  font-size: 1.1rem !important;
+  border-radius: 9px !important;
+  background: rgba(200, 155, 46, 0.14) !important;
   color: #6f5313 !important;
-  border: 1px solid rgba(130, 102, 38, 0.18) !important;
+  border: 1px solid rgba(130, 102, 38, 0.16) !important;
 }
 
 @media (max-width: 991.98px) {
@@ -10460,12 +10802,16 @@ body {
   line-height: 1.14 !important;
 }
 
-.hero-title,
 .ip-page-title {
   font-family: var(--font-display) !important;
   font-weight: 700 !important;
   letter-spacing: -0.014em !important;
   line-height: 1.08 !important;
+}
+
+.hero-headline,
+.hero-lead {
+  font-family: var(--font-ui) !important;
 }
 
 .section-subtitle {
@@ -10691,6 +11037,10 @@ body {
 
 .ip-navbar.ip-navbar--rebuilt .ip-navbar__cta.ip-magnetic:hover {
   transform: translate3d(var(--mag-x), var(--mag-y), 0) scale(1.03);
+  filter: none;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--primary-hover) 88%, #f5e6bc) 0%, var(--primary-hover) 46%, color-mix(in srgb, var(--primary-hover) 82%, #3d2f0a) 100%) !important;
+  border-color: color-mix(in srgb, var(--primary-hover) 62%, rgba(26, 24, 16, 0.28));
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--primary-hover) 35%, transparent), 0 1px 0 rgba(255, 252, 230, 0.42) inset;
 }
 
 /* Hero "PIXEL" - polish i bute (jo glitch) */

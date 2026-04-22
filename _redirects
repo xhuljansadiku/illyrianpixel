@@ -1,6 +1,7 @@
 /services.html /services/ 301
 /website.html /services/website/ 301
-/ecommerce.html /services/ecommerce/ 301
+/ecommerce.html /ecommerce/ 301
+/services/ecommerce/ /ecommerce/ 301
 /marketing.html /services/marketing/ 301
 /photography.html /services/photography/ 301
 /branding.html /services/branding/ 301
