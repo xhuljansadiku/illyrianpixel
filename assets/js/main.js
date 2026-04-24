@@ -219,6 +219,102 @@ document.addEventListener("DOMContentLoaded", () => {
     const fine = window.matchMedia("(pointer: fine)");
 
     (() => {
+      if (reduce.matches || !fine.matches) return;
+
+      let current = window.scrollY || window.pageYOffset || 0;
+      let target = current;
+      let raf = 0;
+      const ease = 0.12;
+      const margin = 50;
+
+      const maxScroll = () =>
+        Math.max((document.documentElement.scrollHeight || 0) - window.innerHeight, 0);
+
+      const clamp = (v) => Math.max(0, Math.min(maxScroll(), v));
+      const setTarget = (v) => {
+        target = clamp(v);
+      };
+
+      const step = () => {
+        current += (target - current) * ease;
+        if (Math.abs(target - current) < 0.25) current = target;
+        window.scrollTo(0, current);
+        if (current !== target) {
+          raf = requestAnimationFrame(step);
+        } else {
+          raf = 0;
+        }
+      };
+
+      const run = () => {
+        if (!raf) raf = requestAnimationFrame(step);
+      };
+
+      const shouldIgnoreWheel = (el) => {
+        if (!el) return false;
+        return Boolean(
+          el.closest(
+            "input, textarea, select, [contenteditable='true'], .t-slider, [data-native-scroll], .cf-panel",
+          ),
+        );
+      };
+
+      window.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.ctrlKey || e.metaKey || shouldIgnoreWheel(e.target)) return;
+          e.preventDefault();
+          setTarget(target + e.deltaY);
+          run();
+        },
+        { passive: false },
+      );
+
+      window.addEventListener(
+        "keydown",
+        (e) => {
+          if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) return;
+          const page = window.innerHeight * 0.9;
+          if (e.key === "PageDown") {
+            e.preventDefault();
+            setTarget(target + page);
+            run();
+          } else if (e.key === "PageUp") {
+            e.preventDefault();
+            setTarget(target - page);
+            run();
+          } else if (e.key === "Home") {
+            e.preventDefault();
+            setTarget(0);
+            run();
+          } else if (e.key === "End") {
+            e.preventDefault();
+            setTarget(maxScroll());
+            run();
+          } else if (e.key === " " && !e.shiftKey) {
+            e.preventDefault();
+            setTarget(target + page);
+            run();
+          } else if (e.key === " " && e.shiftKey) {
+            e.preventDefault();
+            setTarget(target - page);
+            run();
+          }
+        },
+        { passive: false },
+      );
+
+      window.addEventListener(
+        "resize",
+        () => {
+          current = clamp(current);
+          setTarget(target);
+        },
+        { passive: true },
+      );
+    })();
+
+    (() => {
       if (reduce.matches) return;
       const doc = document.documentElement;
       if (doc.scrollHeight <= window.innerHeight * 1.12) return;
@@ -243,12 +339,30 @@ document.addEventListener("DOMContentLoaded", () => {
     })();
 
     (() => {
-      const els = qsa(".ip-reveal");
+      const candidates = qsa("section, h1, h2, p, button, .btn, .ip-reveal");
+      const els = candidates.filter((el) => {
+        if (!(el instanceof HTMLElement)) return false;
+        if (el.closest(".ip-navbar, .ip-cookie-bar")) return false;
+        if (el.classList.contains("ip-no-reveal")) return false;
+        return true;
+      });
       if (!els.length) return;
 
       const reveal = (el) => {
         el.classList.add("is-inview");
       };
+
+      const byParent = new Map();
+      els.forEach((el) => {
+        if (!el.classList.contains("ip-reveal")) el.classList.add("ip-auto-reveal");
+        const parent = el.parentElement || el;
+        const idx = byParent.get(parent) || 0;
+        if (!el.classList.contains("ip-reveal")) {
+          const delay = Math.min(idx * 0.1, 0.7);
+          el.style.setProperty("--ip-reveal-delay", `${delay.toFixed(2)}s`);
+          byParent.set(parent, idx + 1);
+        }
+      });
 
       if (reduce.matches || typeof IntersectionObserver === "undefined") {
         els.forEach(reveal);
@@ -282,20 +396,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     (() => {
       if (reduce.matches || !fine.matches) return;
-      const cards = qsa(".ip-spotlight-card");
+      const cards = qsa(
+        ".ip-spotlight-card, .ip-pricing-agency-card, .ip-pf-card, .t-slide, .contact-item, .ip-contact-luxe__info-card, .ip-proof-luxe__item, .ip-proc-card, .cf-budget-card__body, .cf-timeline-chip span, .ip-social-band__item, .ip-footer-luxe__col",
+      );
       if (!cards.length) return;
 
       cards.forEach((card) => {
+        card.classList.add("ip-gold-pulse");
+        if (!qs(".ip-gold-pulse__glow", card)) {
+          const glow = document.createElement("span");
+          glow.className = "ip-gold-pulse__glow";
+          glow.setAttribute("aria-hidden", "true");
+          card.appendChild(glow);
+        }
         const onMove = (e) => {
           if (!(e instanceof PointerEvent)) return;
           const r = card.getBoundingClientRect();
           if (r.width < 1) return;
           card.style.setProperty("--spot-x", `${e.clientX - r.left}px`);
           card.style.setProperty("--spot-y", `${e.clientY - r.top}px`);
+          card.style.setProperty("--pulse-x", `${e.clientX - r.left}px`);
+          card.style.setProperty("--pulse-y", `${e.clientY - r.top}px`);
+          card.classList.add("is-pulse-active");
         };
         const onLeave = () => {
           card.style.removeProperty("--spot-x");
           card.style.removeProperty("--spot-y");
+          card.style.removeProperty("--pulse-x");
+          card.style.removeProperty("--pulse-y");
+          card.classList.remove("is-pulse-active");
         };
         card.addEventListener("pointermove", onMove, { passive: true });
         card.addEventListener("pointerleave", onLeave, { passive: true });
@@ -304,30 +433,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
     (() => {
       if (reduce.matches || !fine.matches) return;
-      const btns = qsa(".ip-magnetic");
+      const btns = qsa(
+        ".ip-magnetic, .hero-btn--primary, .cf-btn--primary, .ip-footer-luxe__cta, .ip-navbar__cta, .floating-whatsapp",
+      );
       if (!btns.length) return;
 
-      const strength = 0.13;
+      const uniqueBtns = Array.from(new Set(btns));
+      const strength = 0.18;
       const maxPx = 10;
+      const distance = 50;
 
-      btns.forEach((btn) => {
+      uniqueBtns.forEach((btn) => {
         if (btn.classList.contains("hero-btn--outline")) return;
-        const move = (e) => {
+        btn.classList.add("ip-magnetic-target");
+        btn.style.setProperty("--mag-x", "0px");
+        btn.style.setProperty("--mag-y", "0px");
+      });
+
+      const onMove = (e) => {
+        uniqueBtns.forEach((btn) => {
+          if (!btn.classList.contains("ip-magnetic-target")) return;
           const r = btn.getBoundingClientRect();
+          const inRange =
+            e.clientX >= r.left - distance &&
+            e.clientX <= r.right + distance &&
+            e.clientY >= r.top - distance &&
+            e.clientY <= r.bottom + distance;
+
+          if (!inRange) {
+            btn.style.setProperty("--mag-x", "0px");
+            btn.style.setProperty("--mag-y", "0px");
+            btn.classList.remove("ip-magnetic-active");
+            return;
+          }
+
           const dx = (e.clientX - (r.left + r.width / 2)) * strength;
           const dy = (e.clientY - (r.top + r.height / 2)) * strength;
           const mx = Math.max(-maxPx, Math.min(maxPx, dx));
           const my = Math.max(-maxPx, Math.min(maxPx, dy));
-          btn.style.setProperty("--mag-x", `${mx}px`);
-          btn.style.setProperty("--mag-y", `${my}px`);
-        };
-        const reset = () => {
+          btn.style.setProperty("--mag-x", `${mx.toFixed(2)}px`);
+          btn.style.setProperty("--mag-y", `${my.toFixed(2)}px`);
+          btn.classList.add("ip-magnetic-active");
+        });
+      };
+
+      const resetAll = () => {
+        uniqueBtns.forEach((btn) => {
           btn.style.setProperty("--mag-x", "0px");
           btn.style.setProperty("--mag-y", "0px");
-        };
-        btn.addEventListener("pointermove", move, { passive: true });
-        btn.addEventListener("pointerleave", reset, { passive: true });
-        btn.addEventListener("blur", reset);
+          btn.classList.remove("ip-magnetic-active");
+        });
+      };
+
+      window.addEventListener("pointermove", onMove, { passive: true });
+      window.addEventListener("pointerleave", resetAll, { passive: true });
+      window.addEventListener("blur", resetAll);
+      uniqueBtns.forEach((btn) => {
+        btn.addEventListener("blur", resetAll);
       });
     })();
   };
