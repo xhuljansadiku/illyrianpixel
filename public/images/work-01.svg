@@ -1,0 +1,22 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" fill="#0D0D0C"/>
+  <rect width="1200" height="900" fill="url(#grain)" opacity="0.18"/>
+  <circle cx="262" cy="240" r="220" fill="#C89B2E" fill-opacity="0.22"/>
+  <circle cx="922" cy="694" r="290" fill="#F5F5F0" fill-opacity="0.14"/>
+  <rect x="176" y="166" width="848" height="568" rx="28" fill="#141413" stroke="#3D3420" stroke-width="2"/>
+  <rect x="226" y="222" width="748" height="456" rx="20" fill="url(#panel)"/>
+  <rect x="262" y="258" width="244" height="308" rx="12" fill="#171714" stroke="#54421A"/>
+  <rect x="534" y="258" width="390" height="146" rx="12" fill="#171714" stroke="#54421A"/>
+  <rect x="534" y="428" width="390" height="138" rx="12" fill="#171714" stroke="#54421A"/>
+  <defs>
+    <linearGradient id="panel" x1="226" y1="222" x2="974" y2="678" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#181816"/>
+      <stop offset="1" stop-color="#121210"/>
+    </linearGradient>
+    <pattern id="grain" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect width="8" height="8" fill="transparent"/>
+      <circle cx="1" cy="1" r="1" fill="white" fill-opacity="0.25"/>
+      <circle cx="5" cy="6" r="1" fill="white" fill-opacity="0.15"/>
+    </pattern>
+  </defs>
+</svg>
