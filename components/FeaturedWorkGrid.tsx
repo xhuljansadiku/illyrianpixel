@@ -8,10 +8,10 @@ import SectionMark from "@/components/SectionMark";
 import { caseStudies, type CaseStudy } from "@/lib/caseStudies";
 
 function resultPills(project: CaseStudy): string[] {
-  const fromTags = project.tags.slice(0, 3);
-  if (fromTags.length >= 3) return fromTags;
+  const fromTags = project.tags.slice(0, 4);
+  if (fromTags.length >= 4) return fromTags;
   const extra = project.metrics.filter((m) => !fromTags.includes(m));
-  return [...fromTags, ...extra].slice(0, 3);
+  return [...fromTags, ...extra].slice(0, 4);
 }
 
 export default function FeaturedWorkGrid() {
@@ -115,15 +115,13 @@ export default function FeaturedWorkGrid() {
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.025] [background-image:repeating-radial-gradient(circle_at_0_0,rgba(255,255,255,0.4)_0_1px,transparent_1px_4px)]" />
 
       <div className="section-wrap featured-chapters-intro">
-        <SectionMark label={"PROJEKTET E P\u00cbRZGJEDHURA"} />
+        <SectionMark label="PROJEKTET" />
         <h2 className="section-title mt-3 max-w-4xl">
-          {"Website q\u00eb sjellin klient\u00eb."}
-          <br />
-          {"Biznese q\u00eb "}
-          <span className="text-accent">rriten realisht</span>.
+          {"Projekte q\u00eb sjellin "}
+          <span className="text-accent">{"klient\u00eb real\u00eb"}</span>
         </h2>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-primary/65 md:text-lg">
-          {"Jo thjesht projekte, por sisteme q\u00eb gjenerojn\u00eb klient\u00eb."}
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/55 md:text-lg">
+          {"Nd\u00ebrtuar p\u00ebr performanc\u00eb dhe rritje t\u00eb biznesit."}
         </p>
       </div>
 

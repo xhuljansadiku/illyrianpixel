@@ -24,14 +24,14 @@ export const caseStudies: CaseStudy[] = [
     flagCodes: ["it"],
     year: "2026",
     intro:
-      "Një kompani serioze meriton një website të tillë.\nE puanuam ESM Group nga zero me një strukturë e qartë,\nmesazh i fortë, klientë që kuptojnë menjëherë me kë po flasin.",
+      "Sistem i plotë dixhital për një kompani industriale serioze.\nNdërtuam identitetin e brandit, strukturën e përmbajtjes dhe një website të qartë që komunikon vlerën menjëherë.\n\nPrezencë profesionale që krijon besim dhe tërheq klientë të duhur.",
     problem:
       "Oferta dhe eksperienca e kompanisë nuk pasqyroheshin qartë online, duke krijuar paqartësi në llojin e projekteve dhe ritmin e kontakteve hyrëse.",
     solution:
       "Ndërtuam strukturë të pastër me seksione service-first, proof konkret dhe flow navigimi që e çon përdoruesin drejt kërkesës pa friction.",
     result: "Klientët e duhur, mesazhi i duhur e bëmë website-in të flasë për ta.",
     metrics: ["Mesazh B2B i strukturuar", "Navigim pa friction", "Kërkesa industriale cilësore"],
-    tags: ["Industrial", "Corporate", "B2B"],
+    tags: ["Branding", "Content (IT/EN)", "Website"],
     heroImage: "/images/projects/esm-group.png",
     liveUrl: "https://esm-group.eu/"
   },
@@ -39,18 +39,18 @@ export const caseStudies: CaseStudy[] = [
     slug: "bardhi-wellness",
     title: "Bardhi Wellness",
     category: "Brand Personal",
-    location: "Prishtinë, Kosovë & Köln, Gjermani",
+    location: "Prishtinë & Köln",
     flagCodes: ["xk", "de"],
     year: "2026",
     intro:
-      "Një trajner i mirë meriton një website që shet për të.\nStrukturuam paketat, thjeshtëzuam rrugën e klientit.\nRezultati: më pak pyetje, më shumë blerje.",
+      "Sistem i plotë për shitje online për një brand personal në fitness.\nNdërtuam identitetin, strukturën e ofertës dhe një website me pagesa të integruara për një proces të thjeshtë dhe të qartë.\n\nMë pak pyetje, më shumë blerje – një eksperiencë që kthen vizitorët në klientë.",
     problem:
       "Informacioni ekzistonte, por hierarkia e përmbajtjes dhe narrativa e ofertës nuk e mbështesnin plotësisht perceptimin profesional të brandit.",
     solution:
       "Organizuam përmbajtjen sipas intentit të përdoruesit, qartësuam paketat dhe forcuam seksionet që ndërtojnë besim para kontaktit.",
     result: "Vizitorët kuptojnë, vendosin dhe kontaktojnë më shpejt.",
     metrics: ["Ofertë e qartë dhe e strukturuar", "Brand me autoritet personal", "Vendimmarrje pa hezitim"],
-    tags: ["Fitness", "Branding", "Conversion UX"],
+    tags: ["Branding", "Content", "Website", "Payments (Stripe/PayPal)"],
     heroImage: "/images/projects/bardhi-wellness.png",
     liveUrl: "https://www.bardhiwellness.com/"
   },
@@ -77,18 +77,18 @@ export const caseStudies: CaseStudy[] = [
     slug: "palushi-brothers",
     title: "Palushi Brothers Construction",
     category: "Website për Kompani Ndërtimi",
-    location: "Londër, Mbretëria e Bashkuar",
+    location: "Londër, UK",
     flagCodes: ["gb"],
     year: "2026",
     intro:
-      "Klientët e ndërtimit nuk kontaktojnë nëse nuk besojnë.\nE bëmë website-in të flasë për ta shërbime të qarta, rezultate reale, kontakt i lehtë.",
+      "Sistem i plotë për gjenerim kontaktesh për një kompani ndërtimi në Londër.\nNdërtuam identitetin, strukturën e përmbajtjes dhe një website të optimizuar për besim, i mbështetur me Google Ads për të sjellë klientë të rinj.\n\nNjë prezencë që krijon besim dhe gjeneron kërkesa reale nga klientë të duhur.",
     problem:
       "Vizitorët vinin me pritshmëri të ndryshme dhe pa një kuadër të qartë të shërbimeve, gjë që e bënte më të vështirë filtrimin e kërkesave.",
     solution:
       "Riorganizuam seksionet e ofertës, proof-it dhe kontaktit për të vendosur një rrjedhë më bindëse nga interesi te kërkesa.",
     result: "Vizitorët besojnë dhe nisin bisedë serioze, jo hezitim.",
     metrics: ["Proof social i dukshëm", "Shërbime të kuptueshme", "Biseda hyrëse cilësore"],
-    tags: ["Construction", "Trust Signals", "Lead Gen"],
+    tags: ["Branding", "Content", "Website", "Google Ads"],
     heroImage: "/images/projects/palushi-brothers.png",
     liveUrl: "https://www.palushibrothers.co.uk/"
   },

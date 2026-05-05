@@ -53,7 +53,7 @@ export default function ServiceOverviewLuxCard({
         {
           className:
             "relative z-[6] row-start-1 block w-full min-w-0 overflow-hidden whitespace-nowrap pr-12 font-ui font-bold leading-[1.2] tracking-[1px] text-accent transition-all duration-300 ease-out group-hover:text-accentLight group-hover:[text-shadow:0_0_20px_rgba(171,131,57,0.18)] md:pr-14",
-          style: { fontSize: "clamp(0.78rem, 2.8vw, 1.1rem)" },
+          style: { fontSize: "clamp(0.78rem, 2.8vw, 1.1rem)", fontWeight: 700 },
         },
         service.title
       )}
@@ -69,12 +69,6 @@ export default function ServiceOverviewLuxCard({
       <div className="relative z-[6] row-start-4 mt-6 flex min-h-[3.5rem] w-full items-end border-t border-white/[0.09] pt-6">
         <span className="inline-flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/88 transition-colors duration-300 ease-out group-hover:text-[#D4AF37]">
           {service.cta}
-          <span
-            className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-sm font-normal leading-none text-white/70 transition-[transform,border-color,background-color,color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1 group-hover:border-[#D4AF37]/35 group-hover:bg-[#D4AF37]/10 group-hover:text-[#D4AF37]"
-            aria-hidden
-          >
-            →
-          </span>
         </span>
       </div>
     </Link>
