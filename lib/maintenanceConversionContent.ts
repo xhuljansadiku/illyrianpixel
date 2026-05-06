@@ -67,23 +67,23 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
   process: [
     {
       step: "01",
-      title: "Auditim",
-      desc: "Analizojmë gjendjen aktuale.\nSiguri, shpejtësi dhe probleme teknike.",
+      title: "Auditim i plotë i website-it",
+      desc: "Identifikojmë problemet kritike — siguri, shpejtësi dhe stabilitet — para se të kthehen në humbje klientësh.",
     },
     {
       step: "02",
-      title: "Konfigurimi",
-      desc: "Vendosim monitorim, backup dhe siguri.\nGjithçka gati brenda 24 orëve.",
+      title: "Setup i plotë teknik",
+      desc: "Vendosim monitorim, backup dhe mbrojtje — website-i juaj bëhet i sigurt brenda 24 orëve.",
     },
     {
       step: "03",
-      title: "Mirëmbajtje aktive",
-      desc: "Përditësime, optimizim dhe skanim.\nCdo muaj, pa ndërhyrje tuajën.",
+      title: "Mirëmbajtje aktive çdo muaj",
+      desc: "Përditësime, optimizim dhe kontroll i vazhdueshëm — pa ndërprerje, pa surpriza.",
     },
     {
       step: "04",
-      title: "Raportim",
-      desc: "Raport mujor me gjendjen e faqes.\nTransparencë e plotë mbi çdo ndërhyrje.",
+      title: "Transparencë totale",
+      desc: "Raport mujor i qartë — çfarë është bërë, çfarë është përmirësuar dhe çfarë vjen më pas.",
     },
   ],
   portfolioSlugs: ["esm-group", "bardhi-wellness", "hauswerk-niederbayern"],
