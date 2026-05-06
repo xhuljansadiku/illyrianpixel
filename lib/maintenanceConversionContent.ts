@@ -63,7 +63,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       },
     ],
   },
-  processHeadline: "Katër hapa. Faqja juaj gjithmonë e sigurt.",
+  processHeadline: "Ju fokusoheni te biznesi. Ne mbajmë website-in online.",
   process: [
     {
       step: "01",
