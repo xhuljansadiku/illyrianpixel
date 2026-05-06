@@ -479,11 +479,11 @@ export const serviceCategories: ServiceCategory[] = [
     ctaSecondary: "Shiko Paketat",
     trustLine: "0 kosto konsultimi · Aktivizim brenda 24h · Pa obligim",
     subServices: [
-      "Monitorim 24/7",
-      "Siguri & backup",
-      "Shpejtësi & optimizim",
-      "Përditësime të rregullta",
-      "Support prioritar",
+      "24/7 monitoring pa ndërprerje",
+      "Backup ditor i sigurt",
+      "Website i shpejtë në çdo moment",
+      "Siguri aktive & mbrojtje",
+      "Reagim i menjëhershëm",
     ],
     packages: [
       {
