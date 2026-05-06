@@ -367,12 +367,6 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
       <section className="relative z-[1] border-b border-white/[0.07]">
         <div className="section-wrap py-20 md:py-28">
           <div className="svc-reveal-heading">
-            {data.feedbackBadge && (
-              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/[0.07] px-3.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[#D4AF37]/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]/70" aria-hidden />
-                {data.feedbackBadge}
-              </span>
-            )}
             <SectionMark
               label={data.feedbackLabel ?? "Feedback"}
               eyebrowClassName="tracking-[0.22em]"
