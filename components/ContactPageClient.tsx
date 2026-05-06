@@ -117,10 +117,10 @@ export default function ContactPageClient() {
             <article className={CARD}>
               <div className="p-6 md:p-7">
                 <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-[#ab8339]/70">
-                  rezervo takim
+                  Rezervo konsultë falas (30 min)
                 </p>
                 <p className="font-ui mt-1.5 text-[13px] font-light tracking-[0.3px] text-[#A0A0A0]">
-                  Zgjidh orën që të përshtatet — 30 minuta, pa kosto.
+                  Diskutojmë projektin, qëllimet dhe si ta kthejmë në klientë realë.
                 </p>
               </div>
               <div className="mx-6 mb-6 overflow-hidden rounded-xl border border-[#262626] md:mx-7 md:mb-7">
