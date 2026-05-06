@@ -97,7 +97,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
   },
   feedbackLabel: "ÇFARË THONË KLIENTËT",
   feedbackHeadline: "Faqe të qëndrueshme. Biznese pa stres teknik.",
-  feedbackSubline: "Monitorim aktiv. Reagim i menjëhershëm. Paqe mendore.",
+  feedbackSubline: undefined,
   testimonials: [
     {
       quote: "Që kur filluan mirëmbajtjen, nuk kam pasur asnjë problem. Nëse ndodh diçka, e marr njoftim para se ta kuptoj vetë.",
