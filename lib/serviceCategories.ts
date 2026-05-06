@@ -467,9 +467,9 @@ export const serviceCategories: ServiceCategory[] = [
   {
     slug: "mirembajtja",
     title: "Mirëmbajtja",
-    headline: "Website juaj gjithmonë online, i sigurt dhe i shpejtë.",
+    headline: "Website juaj nuk duhet të ndalet kurrë.",
     subheadline:
-      "Mirëmbajtje aktive me monitorim 24/7, përditësime të vazhdueshme dhe support prioritar — kështu ju fokusoheni te biznesi, jo te problemet teknike.",
+      "Ne sigurojmë që ai të punojë për ju, çdo sekondë.",
     short:
       "Mirëmbajtje profesionale e website dhe e-commerce: monitorim 24/7, siguri, shpejtësi dhe përditësime — për bizneset që nuk mund të përballojnë ndërprerje.",
     description:
