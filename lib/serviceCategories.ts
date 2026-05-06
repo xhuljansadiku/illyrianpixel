@@ -17,7 +17,7 @@ export type ServicePackage = {
 };
 
 export type ServiceCategory = {
-  slug: "website" | "ecommerce" | "marketing-growth" | "branding-content" | "smm";
+  slug: "website" | "ecommerce" | "marketing-growth" | "branding-content" | "smm" | "mirembajtja";
   title: string;
   headline: string;
   subheadline?: string;
@@ -458,6 +458,96 @@ export const serviceCategories: ServiceCategory[] = [
           { emphasis: "Të gjitha platformat", detail: "IG, FB, TikTok, LinkedIn — i njëjti standard kudo." },
           { emphasis: "Ads bazë", detail: "boost dhe fushata Meta / TikTok për rritje të shpejtë audiencë." },
           { emphasis: "Partneritet strategjik", detail: "call mujor + raport javor — gjithmonë të informuar." },
+        ],
+      },
+    ],
+  },
+
+  // ─── 6. MIRËMBAJTJA ────────────────────────────────────────────────────────
+  {
+    slug: "mirembajtja",
+    title: "Mirëmbajtja",
+    headline: "Website juaj gjithmonë online, i sigurt dhe i shpejtë.",
+    subheadline:
+      "Mirëmbajtje aktive me monitorim 24/7, përditësime të vazhdueshme dhe support prioritar — kështu ju fokusoheni te biznesi, jo te problemet teknike.",
+    short:
+      "Mirëmbajtje profesionale e website dhe e-commerce: monitorim 24/7, siguri, shpejtësi dhe përditësime — për bizneset që nuk mund të përballojnë ndërprerje.",
+    description:
+      "Çdo orë që faqja juaj është jashtë linje ose e ngadaltë, humbni klientë dhe besueshmëri. Ne marrim kujdesin e plotë teknik — nga sigurinë dhe backup-et te optimizimi i shpejtësisë dhe përditësimet e rregullta.",
+    icon: "◈",
+    ctaPrimary: "Fillo Mirëmbajtjen",
+    ctaSecondary: "Shiko Paketat",
+    trustLine: "0 kosto konsultimi · Aktivizim brenda 24h · Pa obligim",
+    subServices: [
+      "Monitorim 24/7",
+      "Siguri & backup",
+      "Shpejtësi & optimizim",
+      "Përditësime të rregullta",
+      "Support prioritar",
+    ],
+    packages: [
+      {
+        name: "Basic",
+        price: "€49",
+        priceNote: "/ muaj",
+        tagline: "Mbrojtje bazë",
+        ideal: "Monitorim aktiv, backup javor dhe përditësime bazë — faqja juaj mbetet online dhe e mbrojtur pa kosto të lartë.",
+        features: [
+          "Monitorim uptime 24/7 me njoftime",
+          "Backup javor i plotë",
+          "Përditësime CMS, plugin dhe tema",
+          "Raport mujor i shëndetit të faqes",
+          "Support email me përgjigje brenda 48h",
+        ],
+        featureBullets: [
+          { emphasis: "Monitorim 24/7", detail: "njoftim i menjëhershëm kur faqja bie — jo pas orësh." },
+          { emphasis: "Backup javor", detail: "kopje e plotë çdo javë — faqja rikthehet shpejt nëse ndodh diçka." },
+          { emphasis: "Përditësime", detail: "CMS, plugin dhe tema — gjithmonë të sigurt dhe funksionalë." },
+          { emphasis: "Raport mujor", detail: "gjendja e faqes, problemet e zgjidhura dhe hapat e radhës." },
+        ],
+      },
+      {
+        name: "Pro",
+        price: "€99",
+        priceNote: "/ muaj",
+        tagline: "Mirëmbajtje e plotë",
+        ideal: "Backup ditor, optimizim shpejtësie, siguri e avancuar dhe support prioritar — për bizneset që nuk tolerojnë ndërprerje.",
+        features: [
+          "Monitorim uptime 24/7 me SMS dhe email",
+          "Backup ditor i automatizuar",
+          "Sigurim SSL, firewall dhe skanim malware",
+          "Optimizim cache dhe shpejtësi çdo muaj",
+          "Ndërhyrje teknike deri 2 orë/muaj",
+          "Support prioritar me përgjigje brenda 4h",
+        ],
+        featureBullets: [
+          { emphasis: "Backup ditor", detail: "çdo ditë — nëse ndodh diçka, humbet maksimum 24 orë punë." },
+          { emphasis: "Siguri e avancuar", detail: "firewall aktiv, skanim malware dhe SSL — faqja e mbrojtur si duhet." },
+          { emphasis: "Optimizim shpejtësie", detail: "cache dhe performancë të optimizuara çdo muaj — jo vetëm njëherë." },
+          { emphasis: "2h ndërhyrje/muaj", detail: "ndryshime, rregullime ose shtesa të vogla pa kosto shtesë." },
+        ],
+        featured: true,
+      },
+      {
+        name: "Premium",
+        price: "€199",
+        priceNote: "/ muaj",
+        tagline: "Partner teknik i plotë",
+        ideal: "Monitorim i avancuar, ndërhyrje pa limit, optimizim i vazhdueshëm dhe raportim javor — për bizneset me trafik të lartë ose e-commerce aktiv.",
+        features: [
+          "Monitorim avancuar me alarme në kohë reale",
+          "Backup ditor + backup javor off-site",
+          "Siguri enterprise: WAF, anti-DDoS, skanim ditor",
+          "Optimizim i vazhdueshëm Core Web Vitals",
+          "Ndërhyrje teknike pa limit",
+          "Support prioritar me përgjigje brenda 1h",
+          "Raport javor i performancës dhe sigurisë",
+        ],
+        featureBullets: [
+          { emphasis: "Ndërhyrje pa limit", detail: "çdo ndryshim teknik, rregullim ose shtesë — pa faturë shtesë." },
+          { emphasis: "Siguri enterprise", detail: "WAF, anti-DDoS dhe skanim ditor — mbrojtje si platformat e mëdha." },
+          { emphasis: "Core Web Vitals", detail: "optimizim i vazhdueshëm — Google ju shpërblen me pozicion më të lartë." },
+          { emphasis: "Përgjigje brenda 1h", detail: "problemi nuk pret — as zgjidhja jonë." },
         ],
       },
     ],

@@ -10,6 +10,7 @@ import ConversionLandingSections from "@/components/ConversionLandingSections";
 import { brandingConversionLandingData } from "@/lib/brandingContentConversionContent";
 import { ecommerceConversionLandingData } from "@/lib/ecommerceConversionContent";
 import { smmConversionLandingData } from "@/lib/smmConversionContent";
+import { maintenanceConversionLandingData } from "@/lib/maintenanceConversionContent";
 import type { ConversionLandingData } from "@/lib/conversionLandingShared";
 import { marketingConversionLandingData } from "@/lib/marketingGrowthConversionContent";
 import type { ServiceCategory } from "@/lib/serviceCategories";
@@ -30,6 +31,8 @@ function conversionLandingForSlug(slug: ServiceCategory["slug"]): ConversionLand
       return brandingConversionLandingData;
     case "smm":
       return smmConversionLandingData;
+    case "mirembajtja":
+      return maintenanceConversionLandingData;
     default:
       return null;
   }
@@ -159,7 +162,8 @@ export default function ServiceCategoryDetailPage({
                   isWebPackages ||
                   category.slug === "marketing-growth" ||
                   category.slug === "branding-content" ||
-                  category.slug === "smm"
+                  category.slug === "smm" ||
+                  category.slug === "mirembajtja"
                     ? "svc-web-hero-cta-pulse"
                     : ""
                 }`}
@@ -173,7 +177,9 @@ export default function ServiceCategoryDetailPage({
                         ? (category.ctaPrimary ?? "Transformo përshtypjen")
                         : category.slug === "smm"
                           ? (category.ctaPrimary ?? "Fillo Tani — Pa Kosto")
-                          : "Merr ofertë falas"
+                          : category.slug === "mirembajtja"
+                            ? (category.ctaPrimary ?? "Fillo Mirëmbajtjen")
+                            : "Merr ofertë falas"
                   : "Rezervo Tani"}
               </Link>
               <a
@@ -186,7 +192,9 @@ export default function ServiceCategoryDetailPage({
                         ? "#realiteti"
                         : category.slug === "smm"
                           ? "#situata"
-                          : "#cmimet"
+                          : category.slug === "mirembajtja"
+                            ? "#situata"
+                            : "#cmimet"
                 }
                 className="luxury-link"
               >
@@ -206,6 +214,10 @@ export default function ServiceCategoryDetailPage({
                   <>
                     Shiko si punojmë <span aria-hidden>→</span>
                   </>
+                ) : category.slug === "mirembajtja" ? (
+                  <>
+                    {category.ctaSecondary ?? "Shiko Paketat"} <span aria-hidden>→</span>
+                  </>
                 ) : (
                   <>
                     Shiko çmimet <span aria-hidden>→</span>
@@ -223,7 +235,9 @@ export default function ServiceCategoryDetailPage({
                       ? (category.trustLine ?? "Konsultë strategjike pa obligim · përgjigje brenda 24 orëve")
                       : category.slug === "smm"
                         ? (category.trustLine ?? "0 kosto · 0 obligim · Plan konkret brenda 24 orësh")
-                        : "Pa obligim · përgjigje brenda 24h"}
+                        : category.slug === "mirembajtja"
+                          ? (category.trustLine ?? "0 kosto konsultimi · Aktivizim brenda 24h · Pa obligim")
+                          : "Pa obligim · përgjigje brenda 24h"}
               </p>
             )}
 

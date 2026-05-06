@@ -10,6 +10,7 @@ const SERVICE_SLUGS = [
   "marketing-growth",
   "branding-content",
   "smm",
+  "mirembajtja",
 ] as const;
 
 type RouteParams = { slug: string };
@@ -40,6 +41,10 @@ const SEO: Record<(typeof SERVICE_SLUGS)[number], { title: string; desc: string 
     title: "Social Media Marketing Premium — Instagram, Facebook, TikTok",
     desc: "Menaxhim i plotë strategjik i rrjeteve sociale: content editorial, dizajn premium, posting i optimizuar dhe angazhim real. Ndërtojmë komunitet, jo vetëm followerë.",
   },
+  mirembajtja: {
+    title: "Mirëmbajtje Website & E-Commerce — Monitorim 24/7 & Siguri",
+    desc: "Mirëmbajtje profesionale e faqes suaj: monitorim 24/7, backup ditor, siguri aktive dhe optimizim i vazhdueshëm. Faqja juaj gjithmonë online dhe e shpejtë.",
+  },
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -55,6 +60,7 @@ const SERVICE_LABELS: Record<(typeof SERVICE_SLUGS)[number], string> = {
   "marketing-growth": "Marketing & Growth",
   "branding-content": "Branding & Content",
   smm: "Social Media",
+  mirembajtja: "Mirëmbajtja",
 };
 
 export default async function ServiceDetailPage({ params }: Props) {
