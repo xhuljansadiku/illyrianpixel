@@ -6,7 +6,7 @@ import {
 export const maintenanceConversionLandingData: ConversionLandingData = {
   trustStats: {
     ...conversionTrustStatsDefault,
-    reachLabel: "Website të mbrojtura, të shpejta dhe gjithmonë online",
+    reachLabel: "Website që nuk ndalet — i shpejtë, i sigurt dhe gjithmonë online.",
   },
   painSection: {
     anchorId: "situata",
