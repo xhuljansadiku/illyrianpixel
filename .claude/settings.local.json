@@ -6,7 +6,14 @@
       "PowerShell(Stop-Process -Name \"node\" -Force -ErrorAction SilentlyContinue)",
       "Bash(git checkout *)",
       "Bash(xargs grep *)",
-      "Bash(node -e \"const fs = require\\('fs'\\); let c = fs.readFileSync\\('lib/caseStudies.ts', 'utf8'\\); c = c.replace\\('blerje — një', 'blerje – një'\\); fs.writeFileSync\\('lib/caseStudies.ts', c, 'utf8'\\); console.log\\('done'\\);\")"
+      "Bash(node -e \"const fs = require\\('fs'\\); let c = fs.readFileSync\\('lib/caseStudies.ts', 'utf8'\\); c = c.replace\\('blerje — një', 'blerje – një'\\); fs.writeFileSync\\('lib/caseStudies.ts', c, 'utf8'\\); console.log\\('done'\\);\")",
+      "Bash(npm run *)",
+      "Bash(node -e ' *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\xsadi\\\\OneDrive\\\\Desktop\\\\illyrianpixel\\\\app\" -Recurse -Filter \"*.tsx\")",
+      "Bash(Select-Object FullName)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
