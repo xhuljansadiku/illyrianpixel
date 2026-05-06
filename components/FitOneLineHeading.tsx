@@ -104,7 +104,7 @@ export default function FitOneLineHeading({
     const ro = new ResizeObserver(fit);
     if (parent) ro.observe(parent);
     return () => ro.disconnect();
-  }, [children, minRem, maxRem]);
+  }, [children, minRem, maxRem, forceOneLine]);
 
   const style: CSSProperties =
     mode === "one"

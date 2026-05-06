@@ -33,20 +33,20 @@ export const heroVariantPremium: WebHeroVariant = {
 // Tone: Blunt, urgent, loss-aversion-driven. Every second costs them clients.
 // Competitor framing, real-time FOMO, hard close.
 export const heroVariantAggressive: WebHeroVariant = {
-  headline: "Biznesi nuk pret. Por ti po.",
+  headline: "Website që punon për biznesin tuaj.",
   subheadline:
-    "Ne ndërtojmë sistemin dixhital që punon 24/7.",
+    "Jo vetëm dizajn — një sistem që tërheq klientë dhe ndërton besim që në vizitën e parë.",
   description:
-    'Çdo muaj pa sistemin e duhur dixhital, humbet para reale, jo "mundësi". Dhjetëra biznese shqiptare nga Tirana, Prishtina si edhe nga diaspora e kthyen faqen e tyre në burim të vazhdueshëm klientësh. Tani radhë jote.',
-  ctaPrimary: "Fillo Tani, Pa Kosto",
-  ctaSecondary: "Pse Ne?",
-  trustLine: "0 kosto · 0 obligim · Strategji reale brenda 24 orësh",
+    "Website me strukturë të qartë, mesazh të fortë dhe fokus te konvertimi.\nÇdo faqe udhëheq vizitorin drejt veprimit.",
+  ctaPrimary: "Merr ofertë falas",
+  ctaSecondary: "Shiko Projektet",
+  trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24 orëve",
   subServices: [
-    "Klientë organikë çdo javë",
-    "Dyqan që shet 24/7",
-    "3× më shpejt se konkurrenti",
-    "Dominon në çdo ekran",
-    "Ndërtim 100% Custom",
+    "Website premium",
+    "SEO që sjell klientë",
+    "Shpejtësi e lartë",
+    "Dizajn custom",
+    "CMS i thjeshtë",
   ],
 };
 

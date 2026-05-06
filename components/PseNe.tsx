@@ -239,13 +239,10 @@ export default function PseNe() {
               className="relative font-display text-[clamp(2rem,3.8vw,3.5rem)] font-normal leading-[1.1] tracking-[-0.025em] text-white"
             >
               <span className="block overflow-hidden">
-                <span className="psene-line-inner block">Pse bizneset na zgjedhin</span>
-              </span>
-              <span className="block overflow-hidden">
                 <span className="psene-line-inner block">
-                  për më shumë{" "}
+                  {"Rritje reale për "}
                   <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">
-                    klientë
+                    {"biznesin tuaj."}
                   </span>
                 </span>
               </span>
@@ -294,7 +291,6 @@ export default function PseNe() {
                     <span className="font-mono text-[10px] tracking-[0.22em] text-accent/50">{panel.number}</span>
                     <h3 className="font-display mt-2 text-[0.9375rem] font-bold leading-[1.25] tracking-[-0.01em] transition-colors duration-300" style={{ color: hoveredPanel === i ? "rgb(200,155,46)" : "rgba(255,255,255,0.9)" }}>{panel.title}</h3>
                     <p className="font-body mt-2 text-[0.78rem] font-light leading-relaxed text-white/50">{panel.body}</p>
-                    <span className="mt-2 inline-block text-[11px] transition-all duration-300" style={{ opacity: hoveredPanel === i ? 0.65 : 0, transform: hoveredPanel === i ? "translateX(4px)" : "translateX(0)" }} aria-hidden>→</span>
                   </div>
                 </div>
               ))}

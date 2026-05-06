@@ -175,15 +175,6 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
 
   return (
     <>
-      <section
-        aria-label="Besim dhe përvojë"
-        className="relative z-[1] border-b border-[#D4AF37]/15 bg-[linear-gradient(180deg,rgba(212,175,55,0.04)_0%,rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.015)_100%)] shadow-[inset_0_1px_0_rgba(212,175,55,0.07)]"
-      >
-        <div className="section-wrap py-10 md:py-12">
-          <ConversionTrustBar stats={data.trustStats} />
-        </div>
-      </section>
-
       {data.painSection ? <TextCardSection data={data.painSection} /> : null}
       {data.solutionSection ? <TextCardSection data={data.solutionSection} /> : null}
       {data.outcomesSection ? <TextCardSection data={data.outcomesSection} /> : null}
@@ -200,7 +191,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
               {data.whyUs.headingBefore}{" "}
               <span className="text-[#D4AF37]">{data.whyUs.headingAccent}</span>
             </h2>
-            <p className="mt-5 max-w-[56ch] text-[14px] leading-relaxed text-white/56 md:text-[15px]">
+            <p className="mt-5 max-w-[56ch] whitespace-pre-line text-[14px] leading-relaxed text-white/56 md:text-[15px]">
               {data.whyUs.intro}
             </p>
           </div>
@@ -224,6 +215,15 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section
+        aria-label="Besim dhe përvojë"
+        className="relative z-[1] border-b border-[#D4AF37]/15 bg-[linear-gradient(180deg,rgba(212,175,55,0.04)_0%,rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.015)_100%)] shadow-[inset_0_1px_0_rgba(212,175,55,0.07)]"
+      >
+        <div className="section-wrap py-10 md:py-12">
+          <ConversionTrustBar stats={data.trustStats} />
         </div>
       </section>
 
@@ -253,7 +253,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                 <span className="font-display text-[2rem] leading-none text-accentLight/70">{p.step}</span>
                 <div>
                   <h3 className="font-display text-[1.05rem] tracking-[-0.015em] text-white">{p.title}</h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-white/48">{p.desc}</p>
+                  <p className="mt-2 whitespace-pre-line text-[13px] leading-relaxed text-white/48">{p.desc}</p>
                 </div>
               </li>
             ))}
@@ -267,8 +267,9 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
             <div>
               <SectionMark label="Projekte" eyebrowClassName="tracking-[0.22em]" />
               <h2 className="mt-1 max-w-xl font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
-                Rezultate në{" "}
-                <span className="text-[#D4AF37]">biznese reale.</span>
+                {"Rezultate reale"}
+                <br />
+                <span className="text-[#D4AF37]">{"për biznese reale."}</span>
               </h2>
             </div>
             <Link href="/projektet" className="luxury-link shrink-0 text-[12px]">
@@ -372,6 +373,11 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                 </>
               )}
             </h2>
+            {data.feedbackSubline && (
+              <p className="mt-3 font-body text-[0.88rem] font-light tracking-[0.04em] text-white/38">
+                {data.feedbackSubline}
+              </p>
+            )}
           </div>
 
           <div className="mt-14 grid gap-5 sm:grid-cols-2">

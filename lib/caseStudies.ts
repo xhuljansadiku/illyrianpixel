@@ -43,7 +43,7 @@ export const caseStudies: CaseStudy[] = [
     flagCodes: ["xk", "de"],
     year: "2026",
     intro:
-      "Sistem i plotë për shitje online për një brand personal në fitness.\nNdërtuam identitetin, strukturën e ofertës dhe një website me pagesa të integruara për një proces të thjeshtë dhe të qartë.\n\nMë pak pyetje, më shumë blerje – një eksperiencë që kthen vizitorët në klientë.",
+      "Sistem i plotë për shitje online për një brand personal në fitness.\nNdërtuam identitetin, strukturën e ofertës dhe një website me pagesa të integruara për një proces të thjeshtë dhe të qartë.\n\nMë pak pyetje, më shumë blerje, një eksperiencë që kthen vizitorët në klientë.",
     problem:
       "Informacioni ekzistonte, por hierarkia e përmbajtjes dhe narrativa e ofertës nuk e mbështesnin plotësisht perceptimin profesional të brandit.",
     solution:
@@ -77,7 +77,7 @@ export const caseStudies: CaseStudy[] = [
     slug: "palushi-brothers",
     title: "Palushi Brothers Construction",
     category: "Website për Kompani Ndërtimi",
-    location: "Londër, UK",
+    location: "Londër, Angli",
     flagCodes: ["gb"],
     year: "2026",
     intro:

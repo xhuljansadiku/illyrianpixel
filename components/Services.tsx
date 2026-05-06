@@ -82,7 +82,6 @@ export default function Services() {
                 cardRefs.current[idx] = node;
               }}
               headingAs="h3"
-              headingMaxRem={1.1}
             />
           ))}
         </div>

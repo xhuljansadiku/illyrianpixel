@@ -10,48 +10,37 @@ const processSteps = [
     duration: "3–5 ditë",
     title: "Plani",
     points: [
-      "Analizojmë qëllimet e biznesit tuaj.",
-      "Identifikojmë klientët që synoni të arrini.",
-      "Studiojmë konkurrencën për t'u dalluar në treg.",
-      "Hartojmë strukturën dhe hapat e projektit."
+      "Kuptojmë biznesin dhe ndërtojmë strategjinë.",
+      "Përcaktojmë klientët që synoni dhe mënyrën si do t'i tërheqim."
     ],
-    result: "Në fund keni: një plan të qartë dhe një strukturë gati për ekzekutim."
+    result: "Në fund keni: një plan të qartë për rritje dhe strukturë të gatshme për ekzekutim."
   },
   {
     label: "FAZA 02",
     duration: "5–7 ditë",
     title: "Dizajni",
     points: [
-      "Krijojmë stilin vizual, ngjyrat, shkronjat, fotot.",
-      "Ndërtojmë skicat e para për të parë si funksionon.",
-      "Sigurojmë që mesazhi juaj të jetë i qartë dhe i fortë.",
-      "Përshtatim dizajnin që të jetë modern dhe profesional."
+      "Krijojmë një dizajn që komunikon qartë vlerën tuaj dhe ndërton besim që në sekondat e para."
     ],
-    result: "Në fund keni: dizajn të aprovuar, gati për t'u koduar."
+    result: "Në fund keni: dizajn profesional që udhëheq vizitorin drejt kontaktit."
   },
   {
     label: "FAZA 03",
     duration: "7–14 ditë",
-    title: "Kodimi",
+    title: "Zhvillimi",
     points: [
-      "Shndërrojmë dizajnin në një faqe të plotë funksionale.",
-      "Optimizojmë shpejtësinë, hapet shpejt, edhe me internet të dobët.",
-      "Testojmë çdo buton dhe link që të punojë saktë.",
-      "Përshtasim faqen për telefon, tablet dhe kompjuter."
+      "E kthejmë dizajnin në një website të shpejtë, të optimizuar dhe funksional në çdo pajisje."
     ],
-    result: "Në fund keni: faqe funksionale, të testuar dhe gati për publikim."
+    result: "Në fund keni: një faqe të gatshme për të kthyer vizitorët në klientë."
   },
   {
     label: "FAZA 04",
     duration: "1–2 ditë",
     title: "Publikimi",
     points: [
-      "Bëjmë kontrollet e fundit, asnjë gabim teknik.",
-      "Testojmë sigurinë dhe mbrojtjen e të dhënave.",
-      "Lidhim faqen me domenin dhe serverin tuaj.",
-      "E publikojmë live, gati për të pritur klientë."
+      "Publikojmë faqen dhe e bëjmë gati për të marrë klientë që nga dita e parë."
     ],
-    result: "Në fund keni: faqen tuaj live, të sigurt dhe gati për biznes."
+    result: "Në fund keni: website live, i sigurt dhe i përgatitur për rritje."
   }
 ];
 
@@ -245,9 +234,9 @@ export default function Process() {
       <div className="section-wrap">
         <SectionMark label="PROCESI" />
         <h2 ref={headingRef} className="section-title mt-3 mb-14 max-w-5xl">
-          E dini çfarë ndodh,
+          Proces i qartë, pa surpriza
           <br />
-          para se të ndodhë.
+          <span className="text-accent">Nga ideja te një website që sjell klientë</span>
         </h2>
         <div ref={timelineRef} className="process-timeline relative pb-2">
           <span className="process-line-track absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-white/14 md:block" />
@@ -292,24 +281,6 @@ export default function Process() {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-        <div className="mt-14 md:mt-16">
-          <div
-            ref={ctaRef}
-            className="relative flex flex-wrap items-center justify-between gap-8 overflow-hidden rounded-[1.1rem] border border-white/10 bg-[linear-gradient(135deg,rgba(10,10,10,0.98)_0%,rgba(16,16,16,0.98)_52%,rgba(171, 131, 57,0.16)_100%)] px-[28px] py-[40px] shadow-[0_24px_70px_rgba(0,0,0,0.38)] md:px-[48px] md:py-[56px]"
-          >
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_24%,rgba(255,255,255,0.07),transparent_38%),radial-gradient(circle_at_84%_78%,rgba(171, 131, 57,0.16),transparent_44%)]" />
-            <div className="pointer-events-none absolute -left-14 top-1/2 h-28 w-28 -translate-y-1/2 rounded-full bg-accent/20 blur-2xl" />
-            <div className="pointer-events-none absolute right-8 top-8 h-14 w-14 rounded-full bg-white/10 blur-xl" />
-            <div className="max-w-[720px]">
-              <p className="mb-[14px] text-[11px] uppercase tracking-[0.24em] text-white/35">Hapi tjetër</p>
-              <p className="mb-[10px] font-display text-[clamp(1.9rem,4.2vw,3rem)] leading-[1.08] text-white">Gati të fillojmë?</p>
-              <p className="max-w-[58ch] text-[14px] leading-[1.65] text-white/52 md:text-[15px]">Biseda e parë është falas, na tregoni çfarë keni nevojë.</p>
-            </div>
-            <a href="/contact" className="luxury-link shrink-0">
-              Na kontaktoni <span aria-hidden>→</span>
-            </a>
           </div>
         </div>
       </div>

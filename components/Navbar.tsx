@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,13 +8,12 @@ import { ensureGSAP, MOTION, useIsomorphicLayoutEffect, useReducedMotion } from 
 import MobileMenu from "@/components/MobileMenu";
 
 const navItems = [
-  { id: "hero", label: "Home", href: "/", sectionId: "hero" },
-  { id: "services", label: "Sh\u00ebrbimet", href: "/sherbimet", sectionId: "services" },
-  { id: "pse-ne", label: "Pse ne", href: "/", sectionId: "pse-ne" },
-  { id: "pricing", label: "\u00c7mimet", href: "/cmimet" },
-  { id: "featured-work", label: "Projektet", href: "/projektet", sectionId: "featured-work" },
-  { id: "blog", label: "Blog", href: "/blog" },
-  { id: "contact", label: "Kontakt", href: "/contact", sectionId: "cta" }
+  { id: "hero",          label: "Home",       href: "/" },
+  { id: "services",     label: "Sh\u00ebrbimet",  href: "/sherbimet" },
+  { id: "pricing",      label: "\u00c7mimet",     href: "/cmimet" },
+  { id: "featured-work",label: "Projektet",  href: "/projektet" },
+  { id: "blog",         label: "Blog",       href: "/blog" },
+  { id: "contact",      label: "Kontakt",    href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -37,7 +36,6 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [active, setActive] = useState(activeFromPath);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const sectionItems = useMemo(() => navItems.filter((item) => item.sectionId), []);
 
   useLayoutEffect(() => {
     if (reduced) return;
@@ -76,31 +74,15 @@ export default function Navbar() {
   }, [reduced]);
 
   useIsomorphicLayoutEffect(() => {
-    const { ScrollTrigger } = ensureGSAP();
-    const triggers: ScrollTrigger[] = [];
+    ensureGSAP();
     const onScroll = () => setIsScrolled(window.scrollY > 30);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    if (pathname !== "/") return;
-    sectionItems.forEach((item) => {
-      const el = document.getElementById(item.sectionId!);
-      if (!el) return;
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => setActive(item.id),
-        onEnterBack: () => setActive(item.id)
-      });
-      triggers.push(st);
-    });
-
     return () => {
       window.removeEventListener("scroll", onScroll);
-      triggers.forEach((trigger) => trigger.kill());
     };
-  }, [pathname, sectionItems]);
+  }, [pathname]);
 
   useIsomorphicLayoutEffect(() => {
     setActive(activeFromPath);
@@ -121,15 +103,6 @@ export default function Navbar() {
   }, [isScrolled, reduced]);
 
   const navigate = (item: (typeof navItems)[number]) => {
-    if (item.sectionId && pathname === "/") {
-      const el = document.getElementById(item.sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        setActive(item.id);
-        setMobileOpen(false);
-        return;
-      }
-    }
     router.push(item.href);
     setActive(item.id);
     setMobileOpen(false);
@@ -188,10 +161,6 @@ export default function Navbar() {
               <Link
                 key={item.id}
                 href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(item);
-                }}
                 className={`ip-nav-link-inner font-ui text-[14px] font-bold tracking-[1px] transition-colors duration-300 ${
                   active === item.id
                     ? "text-accent hover:text-accentLight"

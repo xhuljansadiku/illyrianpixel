@@ -8,29 +8,28 @@ import SectionMark from "@/components/SectionMark";
 import StickyConsultCTA from "@/components/StickyConsultCTA";
 import ConversionLandingSections from "@/components/ConversionLandingSections";
 import { brandingConversionLandingData } from "@/lib/brandingContentConversionContent";
+import { ecommerceConversionLandingData } from "@/lib/ecommerceConversionContent";
+import { smmConversionLandingData } from "@/lib/smmConversionContent";
 import type { ConversionLandingData } from "@/lib/conversionLandingShared";
 import { marketingConversionLandingData } from "@/lib/marketingGrowthConversionContent";
 import type { ServiceCategory } from "@/lib/serviceCategories";
 import { webConversionLandingData } from "@/lib/webEcommerceConversionContent";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import ServicePackageCard from "@/components/ServicePackageCard";
-import { ServiceHeroDecoration } from "@/components/ServiceHeroDecoration";
-import { usePinnedHeroScroll } from "@/lib/usePinnedHeroScroll";
 
-const HERO_TEXTURE =
-  "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1800&q=80";
 
 function conversionLandingForSlug(slug: ServiceCategory["slug"]): ConversionLandingData | null {
   switch (slug) {
     case "website":
-    case "ecommerce":
       return webConversionLandingData;
+    case "ecommerce":
+      return ecommerceConversionLandingData;
     case "marketing-growth":
       return marketingConversionLandingData;
     case "branding-content":
       return brandingConversionLandingData;
     case "smm":
-      return null;
+      return smmConversionLandingData;
     default:
       return null;
   }
@@ -42,20 +41,7 @@ export default function ServiceCategoryDetailPage({
   category: ServiceCategory;
 }) {
   const mainRef = useRef<HTMLElement>(null);
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const heroTitleRef = useRef<HTMLHeadingElement>(null);
-  const heroStatsRef = useRef<HTMLParagraphElement>(null);
-  const heroTextureRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-
-  usePinnedHeroScroll({
-    enabled: !reduced,
-    heroSectionRef,
-    heroTitleRef,
-    heroStatsRef,
-    heroTextureRef,
-    refreshKey: category.slug,
-  });
 
   useIsomorphicLayoutEffect(() => {
     if (reduced || !mainRef.current) return;
@@ -137,37 +123,31 @@ export default function ServiceCategoryDetailPage({
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_92%_72%,rgba(171,131,57,0.06),transparent_38%)]" />
 
         {/* ── HERO ── */}
-        <section ref={heroSectionRef} className="relative z-[1] border-b border-white/10">
-          <div
-            ref={heroTextureRef}
-            className="pointer-events-none absolute inset-0 z-0 bg-[length:180%] bg-[position:20%_50%] opacity-0"
-            style={{ backgroundImage: `url(${HERO_TEXTURE})` }}
+        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
+          {/* Noise grain */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.022]"
+            style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", mixBlendMode: "overlay" }}
           />
-          <div className="pointer-events-none absolute inset-0 z-[1] opacity-[0.14]">
-            <div className="noir-grid h-full w-full" />
-          </div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent opacity-60" />
+          {/* Gold ambient glow */}
+          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#ab8339]/[0.07] blur-[130px]" />
+          {/* Decorative vertical line */}
+          <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
-          <ServiceHeroDecoration slug={category.slug} />
-
-          <div className="section-wrap relative z-[2] py-20 md:py-28">
-            <div className="sv-label mb-5 h-px w-[180px] bg-gradient-to-r from-accent/80 to-transparent" />
-            <p className="sv-label text-[10px] uppercase tracking-[0.3em] text-accent/80">{eyebrow}</p>
+          <div className="section-wrap relative z-[2] py-28 md:py-36">
+            <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{eyebrow}</p>
             <h1
-              ref={heroTitleRef}
-              data-cursor="headline"
-              className="hero-headline-trigger cadence-title mt-4 max-w-4xl bg-[url('https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1800&q=80')] bg-[length:170%] bg-[position:22%_48%] bg-clip-text font-display text-[clamp(2.55rem,7.8vw,6.9rem)] leading-[0.95] tracking-[0.01em] pb-[0.12em] text-transparent"
+              className="mt-8 max-w-4xl font-display text-[clamp(2rem,4vw,3.6rem)] font-bold leading-[1.08] tracking-[-0.02em] text-white"
             >
               {category.headline}
             </h1>
             {category.subheadline && (
-              <p className="mt-6 max-w-[52ch] font-display text-[clamp(1.05rem,2.2vw,1.35rem)] leading-[1.35] tracking-[-0.01em] text-white/80">
+              <p className="mt-4 max-w-[52ch] text-base leading-relaxed text-white/55">
                 {category.subheadline}
               </p>
             )}
+            <div className="mt-8 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p
-              ref={heroStatsRef}
-              className={`${category.subheadline ? "mt-4" : "mt-8"} max-w-[52ch] font-display text-[clamp(1.05rem,2.2vw,1.35rem)] leading-[1.35] tracking-[-0.01em] text-white/80`}
+              className="mt-6 max-w-[52ch] whitespace-pre-line text-base leading-relaxed text-white/50"
             >
               {category.description}
             </p>
@@ -178,7 +158,8 @@ export default function ServiceCategoryDetailPage({
                 className={`interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[12px] !tracking-[0.04em] !text-[#0e0d0c] ${
                   isWebPackages ||
                   category.slug === "marketing-growth" ||
-                  category.slug === "branding-content"
+                  category.slug === "branding-content" ||
+                  category.slug === "smm"
                     ? "svc-web-hero-cta-pulse"
                     : ""
                 }`}
@@ -190,7 +171,9 @@ export default function ServiceCategoryDetailPage({
                       ? "Ndalo humbjen — fol tani"
                       : category.slug === "branding-content"
                         ? (category.ctaPrimary ?? "Transformo përshtypjen")
-                        : "Merr ofertë falas"
+                        : category.slug === "smm"
+                          ? (category.ctaPrimary ?? "Fillo Tani — Pa Kosto")
+                          : "Merr ofertë falas"
                   : "Rezervo Tani"}
               </Link>
               <a
@@ -201,7 +184,9 @@ export default function ServiceCategoryDetailPage({
                       ? "#situata"
                       : category.slug === "branding-content"
                         ? "#realiteti"
-                        : "#cmimet"
+                        : category.slug === "smm"
+                          ? "#situata"
+                          : "#cmimet"
                 }
                 className="luxury-link"
               >
@@ -217,6 +202,10 @@ export default function ServiceCategoryDetailPage({
                   <>
                     {category.ctaSecondary ?? "Shiko realitetin"} <span aria-hidden>→</span>
                   </>
+                ) : category.slug === "smm" ? (
+                  <>
+                    Shiko si punojmë <span aria-hidden>→</span>
+                  </>
                 ) : (
                   <>
                     Shiko çmimet <span aria-hidden>→</span>
@@ -231,9 +220,10 @@ export default function ServiceCategoryDetailPage({
                   : category.slug === "marketing-growth"
                     ? "Vendet për konsultë javore janë të kufizuara · përgjigje brenda 24 orëve · pa obligim"
                     : category.slug === "branding-content"
-                      ? (category.trustLine ??
-                        "Konsultë strategjike pa obligim · përgjigje brenda 24 orëve")
-                      : "Pa obligim · përgjigje brenda 24h"}
+                      ? (category.trustLine ?? "Konsultë strategjike pa obligim · përgjigje brenda 24 orëve")
+                      : category.slug === "smm"
+                        ? (category.trustLine ?? "0 kosto · 0 obligim · Plan konkret brenda 24 orësh")
+                        : "Pa obligim · përgjigje brenda 24h"}
               </p>
             )}
 
@@ -250,10 +240,49 @@ export default function ServiceCategoryDetailPage({
           </div>
         </section>
 
+        {/* ── PAIN SECTION (website only) ── */}
+        {category.slug === "website" && (
+          <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#0a0606]">
+            {/* Subtle warm red ambient */}
+            <div aria-hidden className="pointer-events-none absolute -right-32 top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-red-900/[0.09] blur-[120px]" />
+            {/* Top accent line — warm */}
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-500/25 to-transparent" />
+            {/* Ghost large X background */}
+            <div aria-hidden className="pointer-events-none absolute right-[5%] top-1/2 -translate-y-1/2 select-none font-display text-[20rem] font-black leading-none text-white/[0.018] md:text-[28rem]">
+              ✕
+            </div>
+
+            <div className="section-wrap relative py-24 md:py-32">
+              {/* Eyebrow */}
+              <div className="mb-8 flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-red-400/70" aria-hidden />
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-400/60">{"Problemi"}</p>
+              </div>
+
+              {/* Headline */}
+              <h2 className="max-w-[22ch] font-display text-[clamp(2rem,4.5vw,3.8rem)] font-bold leading-[1.1] tracking-[-0.03em] text-white">
+                {"Shumë website nuk sjellin klientë."}
+              </h2>
+
+              {/* Divider */}
+              <div className="mt-8 h-px w-12 bg-gradient-to-r from-red-400/40 to-transparent" />
+
+              {/* Pain copy */}
+              <div className="mt-6 border-l-2 border-red-500/20 pl-5">
+                <p className="font-body text-[1rem] font-light leading-[1.8] text-white/48">
+                  {"Vizitorët hyjnë dhe dalin pa kuptuar çfarë ofroni."}
+                  <br />
+                  {"Pa besim. Pa kontakt. Pa rezultate."}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
         {conversionLanding && <ConversionLandingSections {...conversionLanding} />}
 
         {/* ── PRICING ── */}
-        <section id="cmimet" className="relative z-[1] border-b border-white/[0.07]">
+        {category.slug !== "website" && <section id="cmimet" className="relative z-[1] border-b border-white/[0.07]">
           <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-32 bg-gradient-to-b from-accent/[0.03] to-transparent" />
           <div className="section-wrap relative z-[1] py-16 md:py-24">
             <div className="svc-reveal-heading">
@@ -297,7 +326,7 @@ export default function ServiceCategoryDetailPage({
               Të gjitha çmimet janë pa TVSH · Konsultimi fillestar është gjithmonë falas
             </p>
           </div>
-        </section>
+        </section>}
 
         {/* ── BOTTOM CTA ── */}
         <section className="relative z-[1]">
@@ -334,11 +363,12 @@ export default function ServiceCategoryDetailPage({
                     </>
                   ) : (
                     <>
-                      Fillojmë gjithçka me një{" "}
+                      {"Fillojmë gjithçka"}
+                      <br />
+                      {"me një "}
                       <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">
-                        bisedë pa pagesë
+                        {"bisedë pa pagesë."}
                       </span>
-                      .
                     </>
                   )}
                 </h2>
@@ -359,8 +389,9 @@ export default function ServiceCategoryDetailPage({
                         </>
                       ) : (
                         <>
-                          30 minuta · pa detyrim · përgjigje brenda 24 orëve. Diskutojmë për biznesin tuaj, qëllimet dhe mënyrën si e kthejmë vizitorët e faqes në klientë të vërtetë.
-                          {isWebPackages && ""}
+                          {"30 minuta · pa detyrim · përgjigje brenda 24 orëve."}
+                          <br />
+                          {"Një plan i qartë për të kthyer vizitorët në klientë."}
                         </>
                       )}
                     </>
@@ -386,9 +417,10 @@ export default function ServiceCategoryDetailPage({
                   </Link>
                   <Link
                     href="/contact"
-                    className="inline-flex h-12 items-center rounded-full border border-white/15 px-7 text-[11px] font-medium uppercase tracking-[0.14em] text-white/75 transition-colors duration-300 hover:border-accent/35 hover:text-white"
+                    className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.06em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white"
                   >
-                    Na shkruani
+                    {"Na kontaktoni"}
+                    <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </Link>
                 </div>
 

@@ -12,7 +12,6 @@ export type ServiceOverviewLuxCardProps = {
   setHoveredCard: (idx: number | null) => void;
   cardRef?: (node: HTMLAnchorElement | null) => void;
   headingAs?: "h2" | "h3";
-  headingMaxRem?: number;
 };
 
 export default function ServiceOverviewLuxCard({
@@ -22,7 +21,6 @@ export default function ServiceOverviewLuxCard({
   setHoveredCard,
   cardRef,
   headingAs = "h3",
-  headingMaxRem
 }: ServiceOverviewLuxCardProps) {
   return (
     <Link

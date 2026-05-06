@@ -253,7 +253,7 @@ export default function Hero() {
         ref={contentRef}
         className="hero-layout section-wrap relative z-10 grid min-h-[100svh] items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16"
       >
-        <div className="hero-copy space-y-8 text-center md:space-y-9 lg:pl-14 lg:text-left">
+        <div className="hero-copy space-y-6 text-center md:space-y-7 lg:pl-14 lg:text-left">
           <div
             ref={badgeRef}
             className="inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/10 px-4 py-1.5 text-[11px] tracking-[0.2em] text-accent"
@@ -277,21 +277,17 @@ export default function Hero() {
             </span>
             <span aria-hidden className="hero-brand-trail" />
           </h2>
-          <div
-            ref={paragraphRef}
-            className="cadence-body mx-auto flex items-center gap-4 md:mx-0"
-          >
-            <span className="block h-px w-8 shrink-0 bg-accent/55" aria-hidden />
-            <p className="font-body text-[1rem] font-light leading-[1.5] tracking-[0.1em] text-white/62">
-              Ndërtojmë website, SEO dhe marketing online për biznese shqiptare në Shqipëri dhe diasporë.
+          <div ref={paragraphRef} className="cadence-body space-y-3">
+            <p className="font-body text-[1rem] font-light leading-[1.5] tracking-[0.04em] text-white/62">
+              {"Ndërtojmë website, SEO dhe marketing online për biznese shqiptare në Shqipëri dhe diasporë."}
+            </p>
+            <p className="font-body text-[0.88rem] font-light tracking-[0.04em] text-accent/80 text-center lg:text-left">
+              {"Plan konkret brenda 24 orëve pa pagesë."}
+            </p>
+            <p className="font-body text-[0.85rem] font-light tracking-[0.06em] text-white/40 text-center lg:text-left">
+              {"Ju fokusohuni te biznesi. Klientët i sjellim ne."}
             </p>
           </div>
-          <p className="font-body text-[0.9rem] font-light tracking-[0.04em] text-accent/80 text-center lg:text-left">
-            Plan konkret brenda 24 orëve pa pagesë.
-          </p>
-          <p className="font-body text-[0.85rem] font-light tracking-[0.08em] text-white/45 text-center lg:text-left">
-            Ju fokusohuni te biznesi. Klientët i sjellim ne.
-          </p>
           <div className="hero-cta cadence-cta flex flex-wrap items-center justify-center gap-4 md:gap-5 lg:justify-start">
             <Link
               ref={ctaRef}

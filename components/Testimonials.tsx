@@ -6,32 +6,28 @@ import SectionMark from "@/components/SectionMark";
 
 const quotes = [
   {
-    quote:
-      "Na ndihmoi shumë mënyra si u organizua përmbajtja e faqes. Klientët e kuptojnë më shpejt çfarë bëjmë dhe bisedat që vijnë janë më konkrete.",
+    quote: "Klientët e kuptojnë më shpejt çfarë bëjmë dhe bisedat janë më konkrete.",
     name: "Mariglent S.",
     company: "ESM Group",
-    result: "Costa Volpino, Itali"
+    result: "Milano, Itali"
   },
   {
-    quote:
-      "Procesi ishte i qartë nga fillimi në fund. Prezantimi i paketave dhe mesazhi i brandit personal tani duken më profesionalë dhe më të besueshëm.",
+    quote: "Prezantimi i paketave dhe mesazhi i brandit tani duken më profesionalë dhe të besueshëm.",
     name: "Bardhi U.",
     company: "Bardhi Wellness",
-    result: "Prishtinë, Kosovë · Koln, Gjermani"
+    result: "Prishtinë & Köln"
   },
   {
-    quote:
-      "Na pëlqeu që faqja u bë e thjeshtë për t'u kuptuar. Vizitorët gjejnë shpejt shërbimin që u duhet dhe kërkesat vijnë më të sakta.",
+    quote: "Vizitorët gjejnë shpejt shërbimin dhe kërkesat vijnë më të sakta.",
     name: "Amir S.",
     company: "Hauswerk Niederbayern",
     result: "Straubing, Gjermani"
   },
   {
-    quote:
-      "Që nga përditësimi i faqes, klientët na kontaktojnë me pritshmëri më të qarta. Projeket dhe vlerësimet e klientëve japin besim që në kontaktin e parë.",
+    quote: "Klientët na kontaktojnë me pritshmëri të qarta që në fillim.",
     name: "Vehbi P.",
     company: "Palushi Brothers",
-    result: "London, Mbretëri e Bashkuar"
+    result: "Londër, Angli"
   }
 ];
 
@@ -64,7 +60,8 @@ export default function Testimonials() {
         <div className="testimonial-reveal">
           <SectionMark label="ZËRI I KLIENTËVE" />
         </div>
-        <h2 className="testimonial-reveal section-title mt-3 max-w-4xl">Fjalët e tyre.</h2>
+        <h2 className="testimonial-reveal section-title mt-3 max-w-4xl">{"Çfarë thonë klientët"}</h2>
+        <p className="testimonial-reveal mt-4 max-w-[480px] font-body text-[0.94rem] font-light leading-relaxed tracking-[0.02em] text-white/45">{"Rezultate reale nga bashkëpunime reale."}</p>
         <div className="mt-10 space-y-8">
           {quotes.map((item) => (
             <article key={item.name} className="testimonial-reveal relative border-t border-white/10 pt-7">

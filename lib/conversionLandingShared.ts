@@ -48,7 +48,7 @@ export const conversionWhyUsHeroDefault = {
   headingBefore: "6+ vite në shërbim",
   headingAccent: "të biznesit tuaj.",
   intro:
-    "Prej vitesh punojmë me biznese shqiptare në Shqipëri, në rajon dhe në diasporë. Me procese të qarta, komunikim profesional dhe rezultate që mund të verifikohen. Projekte të përfunduara, klientë që kthehen dhe sisteme që mbajnë ngarkesën kur biznesi rritet. Të na zgjedhësh ne do të thotë të zgjedhësh një partner që ecën krah teje, jo dikë që mjaftohet me premtime të bukura.",
+    "Punojmë me biznese shqiptare në Shqipëri dhe diasporë.\nProcese të qarta, komunikim profesional dhe rezultate reale, jo vetëm premtime.",
 } as const;
 
 /** Pain / solution / outcomes blocks (optional; e.g. marketing-growth CRO flow) */
@@ -89,6 +89,7 @@ export type ConversionLandingData = {
   /** Optional overrides for the feedback section header (falls back to generic) */
   feedbackLabel?: string;
   feedbackHeadline?: string;
+  feedbackSubline?: string;
 };
 
 export function getPortfolioCardsFromSlugs(slugs: readonly string[]) {

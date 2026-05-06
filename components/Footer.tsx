@@ -3,6 +3,38 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
+import { SOCIAL_LINKS, type SocialIconId } from "@/lib/socialLinks";
+
+function SocialIcon({ icon }: { icon: SocialIconId }) {
+  if (icon === "instagram") return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.8]">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  );
+  if (icon === "tiktok") return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+      <path d="M15 3h2.2c.5 2 1.8 3.4 3.8 3.8V9a7.2 7.2 0 0 1-4-1.2v6.9a5.7 5.7 0 1 1-5.7-5.7h.2v2.3h-.2a3.4 3.4 0 1 0 3.4 3.4V3z" />
+    </svg>
+  );
+  if (icon === "facebook") return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+      <path d="M13.5 21v-8h2.8l.4-3.1h-3.2V7.8c0-.9.3-1.6 1.6-1.6h1.7V3.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.3v2.3H8V13h2.7v8h2.8z" />
+    </svg>
+  );
+  if (icon === "threads") return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+      <path d="M12.18 2c-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89-1.056 0-1.991.308-2.721 1.32L7.734 7.847C8.714 6.393 10.302 5.591 12.212 5.591c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014z" />
+    </svg>
+  );
+  if (icon === "linkedin") return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+      <path d="M6 8.5A1.5 1.5 0 1 1 6 5.5a1.5 1.5 0 0 1 0 3zm-1.3 13V10.2h2.6v11.3H4.7zM10 10.2h2.5v1.5h.1c.5-.9 1.7-1.8 3.5-1.8 3 0 4 2 4 4.7v6.9h-2.6v-6.1c0-1.5 0-3.4-2-3.4s-2.4 1.6-2.4 3.3v6.2H10V10.2z" />
+    </svg>
+  );
+  return null;
+}
 
 const ALBANIA_WALL_CLOCK_ZONES = ["Europe/Tirana", "Europe/Rome", "Europe/Berlin"] as const;
 
@@ -106,6 +138,9 @@ export default function Footer() {
       onPointerMove={onFooterMove}
       className="footer-signature relative overflow-hidden border-t border-white/10 bg-[#090909]"
     >
+      {/* Gold accent line top */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+
       {/* Ambient layers */}
       <div className="footer-ambient pointer-events-none absolute inset-0" />
       <div
@@ -140,49 +175,31 @@ export default function Footer() {
       </div>
 
       <div className="section-wrap relative py-20 md:py-[120px]">
-        <div className="grid items-start gap-14 md:grid-cols-[1.5fr_1fr_1.2fr] md:gap-8 lg:gap-16">
+        <div className="grid items-start gap-12 text-center md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] md:gap-5 md:text-left lg:gap-10">
 
           {/* ── Col 1: Brand ── */}
-          <div>
-            {/* Logo + wordmark stacked */}
+          <div className="flex flex-col items-center md:items-start">
             <div className="footer-reveal inline-flex flex-col items-center gap-3">
-              <Image
-                src="/images/illyrianpixel_logo.png"
-                alt=""
-                width={200}
-                height={72}
-                className="h-16 w-auto object-contain"
-              />
-              <Image
-                src="/images/illyrianpixel_text.png"
-                alt="Illyrian Pixel"
-                width={360}
-                height={72}
-                className="h-7 w-auto object-contain opacity-70"
-              />
+              <Image src="/images/illyrianpixel_logo.png" alt="" width={200} height={72} className="h-16 w-auto object-contain" />
+              <Image src="/images/illyrianpixel_text.png" alt="Illyrian Pixel" width={360} height={72} className="h-7 w-auto object-contain opacity-70" />
             </div>
-
-            {/* Headline */}
             <h3 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.06] tracking-[-0.025em] text-white">
-              Ktheje biznesin në{" "}
-              <span className="font-bold text-accent uppercase">brand.</span>
+              {"Ktheje biznesin në "}
+              <span className="font-bold text-accent uppercase">{"brand."}</span>
             </h3>
-
-            {/* Tagline */}
-            <div className="footer-reveal mt-5 flex items-center gap-3.5">
-              <span className="block h-px w-7 shrink-0 bg-accent/50 self-center" aria-hidden />
-              <p className="font-body text-[0.75rem] font-light leading-none text-[#A0A0A0]" style={{ letterSpacing: "1.5px" }}>
-                vetëm një klikim larg jush.
-              </p>
-            </div>
+            <p className="footer-reveal mt-4 font-body text-[0.82rem] font-light text-white/50" style={{ letterSpacing: "1.2px" }}>
+              {"Vetëm një klikim larg jush."}
+            </p>
+            <a href="/contact" className="footer-reveal group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 px-5 py-2.5 font-body text-[0.8rem] font-light tracking-[0.06em] text-accent transition-all duration-300 hover:border-accent/70 hover:bg-accent/8 hover:text-accentLight">
+              {"Rezervo konsultë"}
+              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </a>
           </div>
 
-          {/* ── Col 2: Navigation — centered ── */}
-          <div className="flex flex-col items-start md:items-center md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">
-              Navigim
-            </p>
-            <nav className="flex flex-col items-start gap-[14px] md:items-center" aria-label="Footer navigation">
+          {/* ── Col 2: Navigim ── */}
+          <div className="flex flex-col items-center md:items-start md:pt-1">
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Navigim"}</p>
+            <nav className="flex flex-col items-center gap-[14px] md:items-start" aria-label="Footer navigation">
               {[
                 { label: "Shërbimet", href: "/sherbimet" },
                 { label: "Projektet", href: "/projektet" },
@@ -191,56 +208,69 @@ export default function Footer() {
                 { label: "Blog", href: "/blog" },
                 { label: "Kontakt", href: "/contact" },
               ].map(({ label, href }) => (
-                <a
-                  key={href}
-                  href={href}
-                  className="footer-reveal footer-link group inline-flex items-center gap-2.5 font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white"
-                >
-                  <span className="block h-px w-0 shrink-0 bg-accent/65 transition-all duration-300 group-hover:w-3.5" aria-hidden />
+                <a key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
                   {label}
                 </a>
               ))}
             </nav>
           </div>
 
-          {/* ── Col 3: Kontakt ── */}
-          <div className="flex w-full flex-col items-end md:pt-1">
+          {/* ── Col 3: Shërbime ── */}
+          <div className="flex flex-col items-center md:items-start md:pt-1">
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Shërbime"}</p>
+            <nav className="flex flex-col items-center gap-[14px] md:items-start">
+              {[
+                { label: "Website Premium", href: "/services/website" },
+                { label: "E-Commerce", href: "/services/ecommerce" },
+                { label: "SEO & Reklama", href: "/services/marketing-growth" },
+                { label: "Social Media", href: "/services/smm" },
+                { label: "Branding & Content", href: "/services/branding-content" },
+                { label: "Mirëmbajtja", href: "/contact" },
+              ].map(({ label, href }) => (
+                <a key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </div>
 
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">
-              Kontakt
-            </p>
-
-            {/* Action group — kontakto + whatsapp */}
-            <div className="footer-reveal flex flex-col items-end gap-3">
-              <a
-                href="/contact"
-                className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent transition-colors duration-300 hover:text-accentLight"
-              >
-                Kontakto Tani
+          {/* ── Col 4: Kontakt ── */}
+          <div className="flex flex-col items-center md:items-start md:pt-1">
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Kontakt"}</p>
+            <div className="footer-reveal flex flex-col items-center gap-3 md:items-start">
+              <a href="/contact" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent transition-colors duration-300 hover:text-accentLight">
+                {"Kontakto Tani"}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
-              <a
-                href="https://wa.me/355694726827"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent/75 transition-colors duration-300 hover:text-accent"
-              >
-                WhatsApp
+              <a href="https://wa.me/355694726827" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent/75 transition-colors duration-300 hover:text-accent">
+                {"WhatsApp"}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
             </div>
-
-            {/* Email + location */}
-            <div className="footer-reveal mt-6 flex flex-col items-end gap-2.5">
-              <a
-                href="mailto:info@illyrianpixel.com"
-                className="footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-[#A0A0A0] underline-offset-[3px] transition-colors duration-300 hover:text-white hover:[text-decoration:underline]"
-              >
-                info@illyrianpixel.com
+            <div className="footer-reveal mt-6 flex flex-col items-center gap-2.5 md:items-start">
+              <a href="mailto:info@illyrianpixel.com" className="footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/40 underline-offset-[3px] transition-colors duration-300 hover:text-white hover:[text-decoration:underline]">
+                {"info@illyrianpixel.com"}
               </a>
-              <span className="font-body text-[0.875rem] font-light tracking-[0.05em] text-[#A0A0A0]/60">
-                Shqipëri · Gjermani · Online
+              <span className="font-body text-[0.82rem] font-light tracking-[0.05em] text-white/25">
+                {"Shqipëri · Gjermani · Online"}
               </span>
+            </div>
+          </div>
+
+          {/* ── Col 5: Na ndiqni ── */}
+          <div className="flex flex-col items-center md:items-start md:pt-1">
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Na ndiqni"}</p>
+            <div className="flex flex-col items-center gap-[14px] md:items-start">
+              {SOCIAL_LINKS.map((item) => (
+                <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
+                  className="footer-reveal group flex items-center gap-2.5 font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white"
+                >
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.03] text-white/40 transition-all duration-300 group-hover:border-accent/40 group-hover:text-accent">
+                    <SocialIcon icon={item.icon} />
+                  </span>
+                  {item.label}
+                </a>
+              ))}
             </div>
           </div>
         </div>
