@@ -136,13 +136,9 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
           <div className="section-wrap relative py-28 md:py-40">
             <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"PROJEKTET TONA"}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
-              <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.04] tracking-[-0.03em] text-white">
-                {"\u00c7far\u00eb kemi"}
-              </h1>
-            </div>
-            <div className="hero-line2 overflow-hidden">
-              <h1 className="cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.04] tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
-                {"nd\u00ebrtuar."}
+              <h1 className="font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.04] tracking-[-0.03em] text-white">
+                {"\u00c7far\u00eb kemi "}
+                <span className="text-accent">{"nd\u00ebrtuar."}</span>
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
