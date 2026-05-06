@@ -234,7 +234,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
         <div className="section-wrap relative z-[1] py-20 md:py-28">
           <div className="svc-reveal-heading">
             <SectionMark label="Procesi" eyebrowClassName="tracking-[0.22em]" />
-            <h2 className="mt-1 max-w-2xl font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
+            <h2 className="mt-1 max-w-2xl whitespace-pre-line font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
               {data.processHeadline ?? (
                 <>
                   Katër hapa të qartë,{" "}

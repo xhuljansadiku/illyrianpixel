@@ -63,7 +63,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       },
     ],
   },
-  processHeadline: "Ju fokusoheni te biznesi. Ne mbajmë website-in online.",
+  processHeadline: "Ju fokusoheni te biznesi.\nNe mbajmë website-in online.",
   process: [
     {
       step: "01",
