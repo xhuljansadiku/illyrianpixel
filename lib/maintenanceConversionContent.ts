@@ -17,20 +17,20 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       "Faqja juaj nuk është produkt i përfunduar — është sistem i gjallë. Pa kujdes të rregullt, dështimet janë çështje kohe, jo mundësie.",
     items: [
       {
-        title: "Çdo minutë jashtë linje kushton",
-        body: "Kur faqja bie, klientët ikin te konkurrenti. Dhe shpesh nuk e dini as për orë të tëra — sepse nuk ka kush të monitorojë.",
+        title: "Çdo minutë offline = humbje klientësh",
+        body: "Vizitorët ikin te konkurrenca. Nëse nuk monitorohet, mund të mos e kuptoni për orë të tëra.",
       },
       {
-        title: "Plugin-et e pa-updateuara janë porta e hakerëve",
-        body: "80% e hakimeve ndodhin nga plugin dhe tema të vjetruara. Pa përditësime, faqja juaj është e hapur — pa dashur.",
+        title: "Plugin-et e vjetra janë rrezik real",
+        body: "Shumica e sulmeve ndodhin nga përditësime të mungura. Pa mirëmbajtje, faqja juaj është e ekspozuar.",
       },
       {
-        title: "Faqja e ngadaltë humbet klientë çdo ditë",
-        body: "53% e vizitorëve largohen nëse faqja nuk ngarkohet brenda 3 sekondave. Shpejtësia nuk është detail — është shitje.",
+        title: "Faqe e ngadaltë = më pak shitje",
+        body: "Nëse ngarkimi zgjat mbi 3 sekonda, shumica largohen. Shpejtësia nuk është detaj — është konvertim.",
       },
       {
-        title: "Pa backup, një gabim = gjithçka nga zero",
-        body: "Nëse diçka shkon keq pa backup aktiv, humbja mund të jetë totale: content, produkte, porosi dhe konfigurimi i plotë.",
+        title: "Pa backup, çdo gabim është i shtrenjtë",
+        body: "Një problem teknik mund të fshijë gjithçka. Pa backup aktiv, rikuperimi bëhet nga zero.",
       },
     ],
   },
