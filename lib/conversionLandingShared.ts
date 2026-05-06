@@ -96,6 +96,8 @@ export type ConversionLandingData = {
   feedbackLabel?: string;
   feedbackHeadline?: string;
   feedbackSubline?: string;
+  /** Optional badge shown above the testimonials heading */
+  feedbackBadge?: string;
 };
 
 export function getPortfolioCardsFromSlugs(slugs: readonly string[]) {

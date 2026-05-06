@@ -97,22 +97,23 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
   },
   feedbackLabel: "ÇFARË THONË KLIENTËT",
   feedbackHeadline: "Faqe të qëndrueshme. Biznese pa stres teknik.",
-  feedbackSubline: undefined,
+  feedbackSubline: "Monitorim 24/7, reagim i menjëhershëm dhe performancë e qëndrueshme — pa ndërprerje.",
+  feedbackBadge: "Klientë realë",
   testimonials: [
     {
-      quote: "Që kur filluan mirëmbajtjen, nuk kam pasur asnjë problem. Nëse ndodh diçka, e marr njoftim para se ta kuptoj vetë.",
+      quote: "Që kur filluam mirëmbajtjen, faqja nuk ka pasur asnjë problem.\nNjoftohemi menjëherë për çdo gjë — gjithçka është nën kontroll.",
       name: "Mariglent S.",
       role: "ESM Group",
       location: "Milano, Itali",
     },
     {
-      quote: "Faqja jonë ishte e ngadaltë dhe nuk e dinim. Pas optimizimit, koha e ngarkimit u ul ndjeshëm dhe klientët qëndrojnë më gjatë.",
+      quote: "Faqja ishte e ngadaltë dhe e paoptimizuar.\nPas mirëmbajtjes, ngarkon shumë më shpejt dhe klientët qëndrojnë më gjatë.",
       name: "Bardhi U.",
       role: "Bardhi Wellness",
       location: "Prishtinë & Köln",
     },
     {
-      quote: "Tani nuk mendoj fare për aspektin teknik. E di që dikush e menaxhon dhe nëse ka problem, e zgjidhni shpejt.",
+      quote: "Nuk merrem më me probleme teknike.\nÇdo gjë zgjidhet shpejt dhe pa stres — di që faqja është në duar të sigurta.",
       name: "Amir S.",
       role: "Hauswerk Niederbayern",
       location: "Straubing, Gjermani",
