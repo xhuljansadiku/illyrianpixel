@@ -87,7 +87,7 @@ export default function TrustedClients() {
                 <div
                   key={`${dup}-${client.name}`}
                   title={client.name}
-                  className="group flex h-[76px] w-[196px] flex-shrink-0 cursor-default items-center justify-center rounded-2xl bg-white p-5 shadow-sm transition-all duration-500 hover:-translate-y-0.5 hover:shadow-[0_4px_28px_rgba(171,131,57,0.2)]"
+                  className="group flex h-[76px] w-[196px] flex-shrink-0 cursor-default items-center justify-center rounded-2xl border border-[#ab8339]/18 bg-[linear-gradient(135deg,rgba(171,131,57,0.07),rgba(171,131,57,0.02))] p-5 transition-all duration-500 hover:-translate-y-0.5 hover:border-[#ab8339]/45 hover:shadow-[0_4px_32px_rgba(171,131,57,0.18)]"
                 >
                   <div className="relative h-full w-full">
                     <Image
@@ -95,12 +95,7 @@ export default function TrustedClients() {
                       alt={client.name}
                       fill
                       sizes="166px"
-                      className={[
-                        "object-contain transition-all duration-500",
-                        "grayscale opacity-40",
-                        "group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-[1.05]",
-                        client.invert ? "invert" : "",
-                      ].join(" ")}
+                      className="object-contain brightness-0 invert opacity-45 transition-all duration-500 group-hover:opacity-90 group-hover:scale-[1.05]"
                     />
                   </div>
                 </div>
