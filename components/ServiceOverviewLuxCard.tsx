@@ -65,8 +65,9 @@ export default function ServiceOverviewLuxCard({
       </div>
 
       <div className="relative z-[6] row-start-4 mt-6 flex min-h-[3.5rem] w-full items-end border-t border-white/[0.09] pt-6">
-        <span className="luxury-link-look">
-          {service.cta}
+        <span className="inline-flex items-center gap-2 font-body text-xs font-semibold uppercase tracking-[1px] text-[var(--color-text-body)] transition-colors duration-300 group-hover:text-[rgba(171,131,57,0.98)]">
+          Shiko shërbimin
+          <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </span>
       </div>
     </Link>
