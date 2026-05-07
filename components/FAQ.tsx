@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: "A punoni me klientë ndërkombëtarë?",
-    a: "Po, kemi klientë në Itali, Gjermani, Angli dhe SHBA. Komunikojmë në shqip, anglisht dhe italisht. Takimet bëhen online, procesi është i njëjtë për të gjithë."
+    a: "Po, kemi klientë në Itali, Gjermani, Angli dhe SHBA.\nKomunikojmë në shqip, anglisht dhe gjermanisht.\nTakimet bëhen online, procesi është i njëjtë për të gjithë."
   },
   {
     q: "Si funksionon pagesa?",
