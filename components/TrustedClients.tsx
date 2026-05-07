@@ -5,11 +5,11 @@ import Image from "next/image";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
-type Client = { name: string; logo: string };
+type Client = { name: string; logo: string; darkHover?: boolean };
 
 const clients: Client[] = [
   { name: "Squadin",                    logo: "/images/logos/squadin.svg" },
-  { name: "ESM Group",                  logo: "/images/logos/esm-group.png" },
+  { name: "ESM Group",                  logo: "/images/logos/esm-group.png",  darkHover: true },
   { name: "Palushi Brothers",           logo: "/images/logos/palushi-brothers.webp" },
   { name: "Bardhi Wellness",            logo: "/images/logos/bardhi-wellness.png" },
   { name: "Hauswerk Niederbayern",      logo: "/images/logos/hauswerk-niederbayern.png" },
@@ -87,7 +87,11 @@ export default function TrustedClients() {
                 <div
                   key={`${dup}-${client.name}`}
                   title={client.name}
-                  className="group flex h-[76px] w-[196px] flex-shrink-0 cursor-default items-center justify-center rounded-2xl border border-[#ab8339]/18 bg-[linear-gradient(135deg,rgba(171,131,57,0.07),rgba(171,131,57,0.02))] p-5 transition-all duration-500 hover:-translate-y-0.5 hover:border-transparent hover:bg-[#faf8f4] hover:shadow-[0_6px_32px_rgba(0,0,0,0.25)]"
+                  className={`group flex h-[76px] w-[196px] flex-shrink-0 cursor-default items-center justify-center rounded-2xl border border-[#ab8339]/18 bg-[linear-gradient(135deg,rgba(171,131,57,0.07),rgba(171,131,57,0.02))] p-5 transition-all duration-500 hover:-translate-y-0.5 ${
+                    client.darkHover
+                      ? "hover:border-[#ab8339]/50 hover:shadow-[0_4px_32px_rgba(171,131,57,0.2)]"
+                      : "hover:border-transparent hover:bg-[#faf8f4] hover:shadow-[0_6px_32px_rgba(0,0,0,0.25)]"
+                  }`}
                 >
                   <div className="relative h-full w-full">
                     <Image
@@ -95,7 +99,7 @@ export default function TrustedClients() {
                       alt={client.name}
                       fill
                       sizes="166px"
-                      className="object-contain brightness-0 invert opacity-45 transition-all duration-500 group-hover:[filter:none] group-hover:opacity-100 group-hover:scale-[1.05]"
+                      className={`object-contain brightness-0 invert opacity-45 transition-all duration-500 group-hover:scale-[1.05] group-hover:opacity-90 ${client.darkHover ? "" : "group-hover:[filter:none] group-hover:opacity-100"}`}
                     />
                   </div>
                 </div>
