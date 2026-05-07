@@ -185,7 +185,7 @@ export default function SherbimetPageClient() {
         <div className="border-t border-white/[0.04]">
           <div className="section-wrap py-4">
             <p className="text-center font-body text-[11px] font-light leading-relaxed tracking-[0.04em] text-white/18">
-              {"Agjensi digjitale për biznese Shqiptare — Website, E-Commerce, SEO, Google Ads, Branding dhe Social Media Marketing për tregun vendor dhe diasporën."}
+              {"Agjensi digjitale për biznese Shqiptare Website, E-Commerce, SEO, Google Ads, Branding dhe Social Media Marketing për tregun vendor dhe diasporën."}
             </p>
           </div>
         </div>
