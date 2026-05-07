@@ -288,7 +288,7 @@ export default function Hero() {
               {"Ju fokusohuni te biznesi. Klientët i sjellim ne."}
             </p>
           </div>
-          <div className="hero-cta cadence-cta flex flex-wrap items-center justify-center gap-4 md:gap-5 lg:justify-start">
+          <div className="hero-cta cadence-cta hero-cta-row justify-center lg:justify-start">
             <Link
               ref={ctaRef}
               href="/contact"

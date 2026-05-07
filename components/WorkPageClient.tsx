@@ -7,6 +7,7 @@ import type { CaseStudy } from "@/lib/caseStudies";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalCTA from "@/components/GlobalCTA";
+import StickyConsultCTA from "@/components/StickyConsultCTA";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 
 export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) {
@@ -207,6 +208,7 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
         />
         <Footer />
       </main>
+      <StickyConsultCTA />
     </>
   );
 }

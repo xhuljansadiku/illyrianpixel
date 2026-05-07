@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import ServiceOverviewLuxCard from "@/components/ServiceOverviewLuxCard";
 import { SHERBIMET_PAGE_CARDS } from "@/lib/serviceOverviewCards";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
+import StickyConsultCTA from "@/components/StickyConsultCTA";
 
 export default function SherbimetPageClient() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -190,6 +191,7 @@ export default function SherbimetPageClient() {
           </div>
         </div>
       </main>
+      <StickyConsultCTA />
       <Footer />
     </>
   );

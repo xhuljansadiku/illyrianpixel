@@ -8,6 +8,7 @@ import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
 import { serviceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
+import StickyConsultCTA from "@/components/StickyConsultCTA";
 
 const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
   { slug: "website",          label: "Website" },
@@ -160,6 +161,7 @@ export default function AllPackagesPageClient() {
           </div>
         </section>
       </main>
+      <StickyConsultCTA />
       <Footer />
     </>
   );

@@ -69,7 +69,7 @@ body::before {
 }
 
 .section-wrap {
-  @apply mx-auto w-full max-w-[1280px] px-5 py-28 md:px-10 md:py-36 lg:px-14;
+  @apply mx-auto w-full max-w-[1280px] px-5 py-16 md:px-10 md:py-28 lg:px-14 lg:py-28;
 }
 
 .section-title {
@@ -1890,6 +1890,50 @@ html[data-aura="cta"] body {
 @media (prefers-reduced-motion: reduce) {
   .trusted-marquee--animated {
     animation: none;
+  }
+}
+
+/* ── Mobile-first CTA utilities ───────────────────────────── */
+@media (max-width: 639px) {
+  /* Hero & section primary CTAs go full-width on mobile */
+  .ip-cta-hero {
+    width: 100%;
+    justify-content: center;
+  }
+  /* Reduce section-level hero section padding on mobile */
+  .svc-hero-wrap {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  /* Improve readability of large display text on mobile */
+  .mobile-headline-tight {
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* ── Hero CTA row — stack on mobile, row on sm+ ──────────── */
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 639px) {
+  .hero-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-cta-row > * {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  /* Keep luxury-link auto-width even inside full-width row */
+  .hero-cta-row .luxury-link {
+    width: auto;
+    align-self: center;
   }
 }
 
