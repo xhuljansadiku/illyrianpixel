@@ -75,7 +75,7 @@ export default function TrustedClients() {
       </div>
 
       {/* Marquee */}
-      <div className="tc-strip trusted-clients-strip relative overflow-hidden pb-20 md:pb-28">
+      <div className="tc-strip trusted-clients-strip relative overflow-x-clip pb-20 pt-4 md:pb-28">
         {/* Fade masks */}
         <div aria-hidden className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#080808] to-transparent" />
         <div aria-hidden className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-[#080808] to-transparent" />
@@ -95,7 +95,7 @@ export default function TrustedClients() {
                       alt={client.name}
                       fill
                       sizes="166px"
-                      className="object-contain brightness-0 invert opacity-45 transition-all duration-500 group-hover:opacity-90 group-hover:scale-[1.05]"
+                      className="object-contain brightness-0 invert opacity-45 transition-all duration-500 group-hover:[filter:none] group-hover:opacity-100 group-hover:scale-[1.05]"
                     />
                   </div>
                 </div>
