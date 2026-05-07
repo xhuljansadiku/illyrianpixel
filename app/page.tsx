@@ -21,7 +21,6 @@ import PseNe from "@/components/PseNe";
 import Services from "@/components/Services";
 import TrustedClients from "@/components/TrustedClients";
 import SocialProofToasts from "@/components/SocialProofToasts";
-import StickyConsultCTA from "@/components/StickyConsultCTA";
 import Testimonials from "@/components/Testimonials";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
@@ -49,7 +48,6 @@ export default function HomePage() {
       <EasterEggOverlay />
       <SocialProofToasts />
       <WhatsAppButton />
-      <StickyConsultCTA />
       <BackToTop />
       <script
         type="application/ld+json"

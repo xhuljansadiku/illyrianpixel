@@ -5,7 +5,6 @@ import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
-import StickyConsultCTA from "@/components/StickyConsultCTA";
 import ConversionLandingSections from "@/components/ConversionLandingSections";
 import { brandingConversionLandingData } from "@/lib/brandingContentConversionContent";
 import { ecommerceConversionLandingData } from "@/lib/ecommerceConversionContent";
@@ -451,7 +450,6 @@ export default function ServiceCategoryDetailPage({
           </div>
         </section>
       </main>
-      {isConversionLanding && <StickyConsultCTA />}
       <Footer />
     </>
   );

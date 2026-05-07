@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import StickyConsultCTA from "@/components/StickyConsultCTA";
 import { blogPosts } from "@/lib/blogPosts";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
@@ -89,7 +88,6 @@ export default function BlogPageClient() {
           </div>
         </section>
       </main>
-      <StickyConsultCTA />
       <Footer />
     </>
   );
