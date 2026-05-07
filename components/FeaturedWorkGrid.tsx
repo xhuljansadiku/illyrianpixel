@@ -191,7 +191,7 @@ export default function FeaturedWorkGrid() {
                       rel="noopener noreferrer"
                       className="luxury-link mt-8"
                     >
-                      Shiko projektin live <span aria-hidden>\u2192</span>
+                      {"Shiko projektin live "}<span aria-hidden>{"\u2192"}</span>
                     </a>
                   ) : (
                     <span className="luxury-link mt-8 cursor-default opacity-50" aria-disabled>
