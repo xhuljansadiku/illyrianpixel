@@ -5,16 +5,16 @@ import Image from "next/image";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
-type Client = { name: string; logo: string; invert?: boolean };
+type Client = { name: string; logo: string; keepInvert?: boolean };
 
 const clients: Client[] = [
-  { name: "Squadin",                    logo: "/images/logos/squadin.svg" },
-  { name: "ESM Group",                  logo: "/images/logos/esm-group.png",             invert: true },
+  { name: "Squadin",                    logo: "/images/logos/squadin.svg",               keepInvert: true },
+  { name: "ESM Group",                  logo: "/images/logos/esm-group.png" },
   { name: "Palushi Brothers",           logo: "/images/logos/palushi-brothers.webp" },
   { name: "Bardhi Wellness",            logo: "/images/logos/bardhi-wellness.png" },
   { name: "Hauswerk Niederbayern",      logo: "/images/logos/hauswerk-niederbayern.png" },
   { name: "Suli Group Trockenbau",      logo: "/images/logos/suli-group-trockenbau.png" },
-  { name: "Ilirjana Shehu Photography", logo: "/images/logos/ilirjana-shehu-photography.png" },
+  { name: "Ilirjana Shehu Photography", logo: "/images/logos/ilirjana-shehu-photography.png", keepInvert: true },
 ];
 
 export default function TrustedClients() {
@@ -95,7 +95,10 @@ export default function TrustedClients() {
                       alt={client.name}
                       fill
                       sizes="166px"
-                      className="object-contain brightness-0 invert opacity-45 transition-all duration-500 group-hover:[filter:none] group-hover:opacity-100 group-hover:scale-[1.05]"
+                      className={[
+                        "object-contain brightness-0 invert opacity-45 transition-all duration-500 group-hover:scale-[1.05] group-hover:opacity-90",
+                        client.keepInvert ? "" : "group-hover:[filter:none] group-hover:opacity-100",
+                      ].join(" ")}
                     />
                   </div>
                 </div>
