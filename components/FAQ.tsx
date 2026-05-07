@@ -6,7 +6,7 @@ import SectionMark from "@/components/SectionMark";
 const faqs = [
   {
     q: "Sa zgjat ndërtimi i një website?",
-    a: "Mesatarisht 2–4 javë, varësisht kompleksitetit dhe sasisë së përmbajtjes. Projektet me funksione të avancuara mund të zgjasin deri në 6 javë. Në fazën e planifikimit ju japim një afat të saktë."
+    a: "Mesatarisht 2–4 javë, varësisht kompleksitetit dhe sasisë së përmbajtjes.\nProjektet me funksione të avancuara mund të zgjasin deri në 6 javë.\nNë fazën e planifikimit ju japim një afat të saktë."
   },
   {
     q: "A përfshihet SEO?",
@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: "A ofroni mirëmbajtje pas publikimit?",
-    a: "Po, ofrojmë paketa mirëmbajtjeje mujore që përfshijnë përditësime, monitorim sigurie dhe ndryshime të vogla. Nuk ju lëmë vetëm pas lansimit."
+    a: "Po, ofrojmë paketa mirëmbajtjeje mujore që përfshijnë përditësime, monitorim sigurie dhe ndryshime të vogla.\nNuk ju lëmë vetëm pas lansimit."
   },
   {
     q: "A punoni me klientë ndërkombëtarë?",
@@ -45,7 +45,7 @@ export default function FAQ() {
                 <span className="text-accent/85">{open === idx ? "−" : "+"}</span>
               </button>
               <div className={`grid transition-all duration-300 ${open === idx ? "grid-rows-[1fr] opacity-100 pt-3" : "grid-rows-[0fr] opacity-0"}`}>
-                <p className="overflow-hidden text-sm leading-relaxed text-white/70 md:text-base">{item.a}</p>
+                <p className="overflow-hidden whitespace-pre-line text-sm leading-relaxed text-white/70 md:text-base">{item.a}</p>
               </div>
             </div>
           ))}
