@@ -281,13 +281,7 @@ export default function Footer() {
             © 2026 Illyrian Pixel
           </p>
           <div className="flex items-center gap-6">
-            <p
-              className="font-mono text-[12px] tabular-nums tracking-[0.08em] text-white/25"
-              suppressHydrationWarning
-            >
-              Tiranë, AL{tiranaTime ? ` · ${tiranaTime}` : ""}
-            </p>
-            <span className="text-white/10" aria-hidden>·</span>
+
             <a
               href="/privacy"
               className="footer-link font-body text-[12px] font-light tracking-[0.05em] text-white/[0.38] transition-colors duration-300 hover:text-white"
