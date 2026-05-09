@@ -142,10 +142,6 @@ export const serviceCategories: ServiceCategory[] = [
           "Mobile-first & i shpejtë",
           "Form porosie + konfirmim automatik",
         ],
-        notIncluded: [
-          "Filtra & kategori të avancuara",
-          "Automatizime & SEO i plotë",
-        ],
       },
       {
         name: "Growth",
@@ -155,12 +151,9 @@ export const serviceCategories: ServiceCategory[] = [
         features: [
           "Deri në 200 produkte",
           "Filtra, kategori & kërkim i avancuar",
-          "Checkout që redukton braktisjen",
+          "Checkout",
           "Analitikë shitjesh + Google Analytics",
           "SEO bazë për produkte & kategori",
-        ],
-        notIncluded: [
-          "Automatizime të avancuara",
         ],
         featured: true,
       },
