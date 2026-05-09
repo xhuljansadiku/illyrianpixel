@@ -47,7 +47,7 @@ export const serviceCategories: ServiceCategory[] = [
       "I thjeshtë për t'u menaxhuar",
     ],
     short:
-      "Website profesionale me dizajn premium dhe SEO, ndërtuar për bizneset shqiptare në Tiranë dhe diasporë.",
+      "Website moderne për biznese që duan më shumë klientë, jo vetëm prezencë online.",
     icon: "◈",
     packages: [
       {
