@@ -196,7 +196,6 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Starter",
         price: "€149",
         priceNote: "/ muaj",
-        tagline: "Fillon klientët, ndal humbjen",
         ideal: "Reklamat e para me ROI real. Pak buxhet, rezultate të matshme nga muaji i parë.",
         features: [
           "Setup Google ose Meta Ads",
@@ -205,17 +204,12 @@ export const serviceCategories: ServiceCategory[] = [
           "Tracking i rezultateve",
           "Raport mujor i qartë",
         ],
-        notIncluded: [
-          "Dy kanale reklamash",
-          "SEO",
-        ],
         cta: "Merr ofertë",
       },
       {
         name: "Growth",
         price: "€249",
         priceNote: "/ muaj",
-        tagline: "Google + Meta — dy kanale, një qëllim",
         ideal: "Fushata të optimizuara çdo javë. Klientë të rinj çdo muaj, me buxhetin nën kontroll.",
         features: [
           "Google Ads + Meta Ads",
@@ -224,10 +218,6 @@ export const serviceCategories: ServiceCategory[] = [
           "Targetim i avancuar & audienca",
           "Raport 2-javësh + call mujor",
         ],
-        notIncluded: [
-          "SEO",
-          "Produksion video",
-        ],
         featured: true,
         cta: "Fillo projektin",
       },
@@ -235,7 +225,6 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Pro",
         price: "€399",
         priceNote: "/ muaj",
-        tagline: "Sistem i plotë për dominim dixhital",
         ideal: "Të gjitha kanalet, SEO bazë dhe A/B testing. Strategji që fiton, jo vetëm pret.",
         features: [
           "Google + Meta + SEO bazë",
