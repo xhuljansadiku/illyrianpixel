@@ -62,10 +62,6 @@ export const serviceCategories: ServiceCategory[] = [
           "SEO bazë",
           "Mobile-first & i shpejtë",
         ],
-        notIncluded: [
-          "E-Commerce / shitje online",
-          "Shumëgjuhësh",
-        ],
       },
       {
         name: "Business",
@@ -80,9 +76,6 @@ export const serviceCategories: ServiceCategory[] = [
           "1–2 gjuhë",
           "Mobile & speed optimization",
         ],
-        notIncluded: [
-          "E-Commerce / shitje online",
-        ],
         featured: true,
       },
       {
@@ -96,10 +89,6 @@ export const serviceCategories: ServiceCategory[] = [
           "SEO i avancuar (on-page)",
           "Integrime (WhatsApp, booking, etj.)",
           "Funnels & CTA strategjike",
-          "Trajnim + 30 ditë mbështetje",
-        ],
-        notIncluded: [
-          "E-Commerce / shitje online",
         ],
       },
       {
