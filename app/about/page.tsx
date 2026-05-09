@@ -1,11 +1,11 @@
-import { buildMetadata } from "@/lib/seo";
+﻿import { buildMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import GlobalCTA from "@/components/GlobalCTA";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = buildMetadata(
-  "Rreth Nesh — Filozofia Premium e Illyrian Pixel",
+  "Rreth Nesh, Filozofia Premium e Illyrian Pixel",
   "Cilësi mbi sasi, ekzekutim mbi premtime boshe. Illyrian Pixel ekziston për të ndërtuar prezencë dixhitale që gjeneron besim të vërtetë dhe rritje të matshme.",
   "/about"
 );

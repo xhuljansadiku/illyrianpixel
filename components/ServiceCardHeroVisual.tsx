@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useId } from "react";
 
@@ -68,7 +68,7 @@ export default function ServiceCardHeroVisual({ variant }: Props) {
           <path d="M52 106 L65 75 L78 106 M59 96 L71 96"
             stroke={GOLD} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.5" />
 
-          {/* Product info — right */}
+          {/* Product info, right */}
           {/* Title */}
           <rect x="116" y="56" width="88" height="6" rx="3" fill={FROST} fillOpacity="0.45" />
           <rect x="116" y="67" width="64" height="5" rx="2.5" fill={FROST_SOFT} />
@@ -191,13 +191,13 @@ export default function ServiceCardHeroVisual({ variant }: Props) {
           <circle cx="172" cy="54" r="11" fill={GOLD} fillOpacity="0.9"
             className="motion-safe:animate-[serviceMarketingPulse_2.2s_ease-in-out_infinite] motion-reduce:animate-none [transform-box:fill-box] [transform-origin:center]" />
 
-          {/* Mini product — left */}
+          {/* Mini product, left */}
           <rect x="28" y="60" width="42" height="54" rx="6" fill="rgba(255,255,255,0.025)" stroke={FROST_SOFT} strokeWidth="0.4" />
           <rect x="32" y="64" width="34" height="30" rx="4" fill="rgba(255,255,255,0.04)" />
           <rect x="32" y="100" width="22" height="4" rx="2" fill={FROST_SOFT} />
           <rect x="32" y="108" width="16" height="3" rx="1.5" fill={GOLD} fillOpacity="0.45" />
 
-          {/* Mini product — right */}
+          {/* Mini product, right */}
           <rect x="170" y="104" width="42" height="54" rx="6" fill="rgba(255,255,255,0.025)" stroke={FROST_SOFT} strokeWidth="0.4" />
           <rect x="174" y="108" width="34" height="30" rx="4" fill="rgba(255,255,255,0.04)" />
           <rect x="174" y="144" width="22" height="4" rx="2" fill={FROST_SOFT} />
@@ -250,7 +250,7 @@ export default function ServiceCardHeroVisual({ variant }: Props) {
             className="motion-safe:animate-[serviceMarketingPulse_2.4s_ease-in-out_infinite] motion-reduce:animate-none [transform-box:fill-box] [transform-origin:center]" />
           <rect x="182" y="38" width="12" height="8" rx="2" fill={GOLD} fillOpacity="0.65" />
 
-          {/* Like bubble — left */}
+          {/* Like bubble, left */}
           <circle cx="50" cy="88" r="10" fill="rgba(255,255,255,0.04)" stroke={FROST_SOFT} strokeWidth="0.6"
             className="motion-safe:animate-[serviceCardFloat_3.8s_ease-in-out_infinite] motion-reduce:animate-none [animation-delay:-1.2s]" />
           <rect x="44" y="85" width="12" height="6" rx="2" fill={FROST_SOFT} />
@@ -353,7 +353,7 @@ export default function ServiceCardHeroVisual({ variant }: Props) {
             stroke={FROST_SOFT} strokeWidth="0.3" />
         ))}
 
-        {/* Content panel — right */}
+        {/* Content panel, right */}
         <rect x="152" y="14" width="72" height="172" rx="10"
           fill="rgba(255,255,255,0.016)" stroke={FROST_SOFT} strokeWidth="0.5" />
 

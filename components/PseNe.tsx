@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import Link from "next/link";
@@ -233,7 +233,7 @@ export default function PseNe() {
               <SectionMark label="PSE NE" eyebrowClassName="tracking-[0.3em]" />
             </div>
 
-            {/* Headline — editorial line breaks + gold gradient on klientë */}
+            {/* Headline, editorial line breaks + gold gradient on klientë */}
             <h2
               ref={headingRef}
               className="relative font-display text-[clamp(2rem,3.8vw,3.5rem)] font-normal leading-[1.1] tracking-[-0.025em] text-white"
@@ -248,7 +248,7 @@ export default function PseNe() {
               </span>
             </h2>
 
-            {/* Subtext — stronger, clearer */}
+            {/* Subtext, stronger, clearer */}
             <p
               ref={subtextRef}
               className="font-body max-w-[40ch] text-[0.9375rem] leading-[1.65] text-white/55"
@@ -279,7 +279,7 @@ export default function PseNe() {
             </div>
           </div>
 
-          {/* RIGHT — 3D panels desktop */}
+          {/* RIGHT, 3D panels desktop */}
           <div ref={rightRef} className="col-span-12 hidden lg:col-span-7 lg:block [perspective:1000px]">
             <div className="relative h-[560px] [transform-style:preserve-3d]">
               {panels.map((panel, i) => (

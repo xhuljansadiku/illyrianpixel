@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import Link from "next/link";
@@ -123,7 +123,7 @@ export default function CinematicProjects() {
                   </span>
                 </h2>
                 <p className="font-body mx-auto mt-6 max-w-[48ch] text-[1rem] leading-relaxed text-white/50">
-                  Nuk tregojmë vetëm dizajn — tregojmë si faqet tona sjellin klientë dhe rritje reale për biznese shqiptare.
+                  Nuk tregojmë vetëm dizajn. Tregojmë si faqet tona sjellin klientë dhe rritje reale për biznese shqiptare.
                 </p>
               </div>
 
@@ -298,7 +298,7 @@ export default function CinematicProjects() {
             <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">projekte reale</span>
           </h2>
           <p className="font-body mx-auto mt-4 max-w-[42ch] text-[0.9375rem] leading-relaxed text-white/48">
-            Nuk tregojmë vetëm dizajn — tregojmë si faqet tona sjellin klientë dhe rritje reale.
+            Nuk tregojmë vetëm dizajn, tregojmë si faqet tona sjellin klientë dhe rritje reale.
           </p>
         </div>
 

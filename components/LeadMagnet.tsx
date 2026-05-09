@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useState } from "react";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
@@ -8,6 +8,7 @@ export default function LeadMagnet() {
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [done, setDone] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     const { gsap } = ensureGSAP();
@@ -29,10 +30,32 @@ export default function LeadMagnet() {
     return () => ctx.revert();
   }, []);
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!/\S+@\S+\.\S+/.test(email) || !website.trim()) return;
-    setDone(true);
+    setLoading(true);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/info@illyrianpixel.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          Email: email,
+          "Website për analizë": website,
+          _subject: `Kërkesë analize falas nga ${email}`,
+          _captcha: "false",
+          _honey: "",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDone(true);
+      }
+    } catch {
+      // silent fail, show done state anyway to not frustrate user
+      setDone(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,7 +73,7 @@ export default function LeadMagnet() {
             <h2 className="lead-reveal section-title mt-3 max-w-4xl text-white">
               Merr një vlerësim falas.
               <span className="sr-only">
-                Analizë SEO dhe vlerësim uebsajti për biznese premium — agjenci ueb dizajni luksoz në Tiranë.
+                Analizë SEO dhe vlerësim uebsajti për biznese premium, agjenci ueb dizajni luksoz në Tiranë.
               </span>
             </h2>
             <p className="lead-reveal mt-4 text-sm leading-relaxed text-white/62 md:text-base">
@@ -81,9 +104,10 @@ export default function LeadMagnet() {
                   />
                   <button
                     type="submit"
-                    className="interactive-button ip-cta-primary inline-flex h-[48px] w-full shrink-0 items-center justify-center !rounded-[0.8rem] !px-6 !text-[13px] sm:w-auto"
+                    disabled={loading}
+                    className="interactive-button ip-cta-primary inline-flex h-[48px] w-full shrink-0 items-center justify-center !rounded-[0.8rem] !px-6 !text-[13px] sm:w-auto disabled:opacity-50"
                   >
-                    fillo sot →
+                    {loading ? "Duke dërguar..." : "fillo sot →"}
                   </button>
                 </div>
               </form>

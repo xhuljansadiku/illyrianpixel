@@ -1,16 +1,16 @@
-import { caseStudies } from "@/lib/caseStudies";
+﻿import { caseStudies } from "@/lib/caseStudies";
 
 export type WhyUsIcon =
   | "convert"
   | "seo"
   | "speed"
   | "support"
-  /** Marketing — minimal feature icons */
+  /** Marketing, minimal feature icons */
   | "mFocus"
   | "mAudience"
   | "mRoi"
   | "mScale"
-  /** Branding — minimal feature icons */
+  /** Branding, minimal feature icons */
   | "bPsyche"
   | "bStory"
   | "bTouch"
@@ -22,7 +22,7 @@ export type WhyUsItem = {
   icon: WhyUsIcon;
 };
 
-/** Shared trust bar — service conversion pages (counts animate on scroll) */
+/** Shared trust bar, service conversion pages (counts animate on scroll) */
 export type ConversionTrustStats = {
   primaryCount: number;
   primaryLabel: string;
@@ -43,7 +43,7 @@ export const conversionTrustStatsDefault: ConversionTrustStats = {
   tertiaryLabel: "klientë besnikë",
 };
 
-/** Shared “Pse ne” headline + intro — all service conversion landings */
+/** Shared “Pse ne” headline + intro, all service conversion landings */
 export const conversionWhyUsHeroDefault = {
   headingBefore: "6+ vite në shërbim",
   headingAccent: "të biznesit tuaj.",
@@ -63,13 +63,13 @@ export type ConversionTextCardSection = {
 
 export type ConversionLandingData = {
   trustStats: ConversionTrustStats;
-  /** Situata / problemi — optional, rendered after trust bar */
+  /** Situata / problemi, optional, rendered after trust bar */
   painSection?: ConversionTextCardSection;
-  /** Si e zgjidhim — optional */
+  /** Si e zgjidhim, optional */
   solutionSection?: ConversionTextCardSection;
-  /** Çfarë merrni në praktikë — optional, outcome-framed */
+  /** Çfarë merrni në praktikë, optional, outcome-framed */
   outcomesSection?: ConversionTextCardSection;
-  /** Pamja / përmbajtja si motor konvertimi — opsionale (e.g. branding-content) */
+  /** Pamja / përmbajtja si motor konvertimi, opsionale (e.g. branding-content) */
   visualPowerSection?: ConversionTextCardSection;
   /** Overrides SectionMark label above whyUs (default: "Pse ne") */
   whyUsEyebrow?: string;

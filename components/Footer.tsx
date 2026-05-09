@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import Image from "next/image";
@@ -110,7 +110,7 @@ export default function Footer() {
       />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(171,131,57,0.08),transparent_52%)]" />
 
-      {/* Noise texture — premium matte feel */}
+      {/* Noise texture, premium matte feel */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -121,7 +121,7 @@ export default function Footer() {
         aria-hidden
       />
 
-      {/* Ghost eagle — 4–5% opacity, centered */}
+      {/* Ghost eagle, 4–5% opacity, centered */}
       <div className="pointer-events-none absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 opacity-[0.045]">
         <Image
           src="/images/illyrianpixel_logo.png"
@@ -141,7 +141,7 @@ export default function Footer() {
               <Image src="/images/illyrianpixel_logo.png" alt="" width={200} height={72} className="h-16 w-auto object-contain" />
               <Image src="/images/illyrianpixel_text.png" alt="Illyrian Pixel" width={360} height={72} className="h-7 w-auto object-contain opacity-70" />
             </div>
-            <h3 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.06] tracking-[-0.025em] text-white">
+            <h3 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.14] md:leading-[1.06] tracking-[-0.01em] md:tracking-[-0.025em] text-white">
               {"Ktheje biznesin në "}
               <span className="font-bold text-accent uppercase">{"brand."}</span>
             </h3>

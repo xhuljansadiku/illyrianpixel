@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useId } from "react";
 import type { ServiceCategory } from "@/lib/serviceCategories";
@@ -15,7 +15,7 @@ const HERO_DECOR_GLOW =
 const HERO_DECOR_SVG_FRAME =
   "h-[min(280px,42vw)] w-auto max-w-[240px] md:h-[min(320px,36vw)] md:max-w-[280px] lg:h-[340px] lg:max-w-[300px]";
 
-/** Floating wireframe "A" — marketing growth hero accent */
+/** Floating wireframe "A", marketing growth hero accent */
 export function MarketingGeometricA({ className = "" }: { className?: string }) {
   return (
     <div className={`${HERO_DECOR_FLOAT} ${className}`} aria-hidden>
@@ -46,7 +46,7 @@ export function MarketingGeometricA({ className = "" }: { className?: string }) 
   );
 }
 
-/** Large isometric wireframe cube — Web & E-Commerce hero */
+/** Large isometric wireframe cube, Web & E-Commerce hero */
 export function WebWireframeCube({ className = "" }: { className?: string }) {
   const uid = useId().replace(/:/g, "");
 
@@ -120,7 +120,7 @@ export function WebWireframeCube({ className = "" }: { className?: string }) {
   );
 }
 
-/** Orbit motif with gold glow — branding hero accent */
+/** Orbit motif with gold glow, branding hero accent */
 export function BrandingOrbitGlow({ className = "" }: { className?: string }) {
   return (
     <div className={`${HERO_DECOR_FLOAT} ${className}`} aria-hidden>

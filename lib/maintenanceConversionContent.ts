@@ -6,7 +6,7 @@ import {
 export const maintenanceConversionLandingData: ConversionLandingData = {
   trustStats: {
     ...conversionTrustStatsDefault,
-    reachLabel: "Website që nuk ndalet — i shpejtë, i sigurt dhe gjithmonë online.",
+    reachLabel: "Website që nuk ndalet, i shpejtë, i sigurt dhe gjithmonë online.",
   },
   painSection: {
     anchorId: "situata",
@@ -14,7 +14,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
     headingBefore: "Website pa mirëmbajtje",
     headingAccent: "ka kohë të kufizuar.",
     intro:
-      "Faqja juaj nuk është produkt i përfunduar — është sistem i gjallë. Pa kujdes të rregullt, dështimet janë çështje kohe, jo mundësie.",
+      "Faqja ekziston, por është e ngadaltë,\ne vjetër ose rrezikon të dështojë.\nPa kujdes të rregullt,\nhumbni klientë çdo ditë pa e kuptuar.",
     items: [
       {
         title: "Çdo minutë offline = humbje klientësh",
@@ -26,7 +26,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       },
       {
         title: "Faqe e ngadaltë = më pak shitje",
-        body: "Nëse ngarkimi zgjat mbi 3 sekonda, shumica largohen. Shpejtësia nuk është detaj — është konvertim.",
+        body: "Nëse ngarkimi zgjat mbi 3 sekonda, shumica largohen. Shpejtësia nuk është detaj, është konvertim.",
       },
       {
         title: "Pa backup, çdo gabim është i shtrenjtë",
@@ -34,33 +34,16 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       },
     ],
   },
-  whyUsEyebrow: "Pse na zgjedhin",
+  whyUsEyebrow: "Zgjidhja",
   whyUs: {
-    headingBefore: "Mirëmbajtje aktive që",
-    headingAccent: "mban biznesin tuaj gjithmonë online.",
-    intro:
-      "Ne monitorojmë, mbrojmë dhe optimizojmë çdo ditë që ju të fokusoheni te biznesi, jo te problemet teknike.",
+    headingBefore: "Faqja juaj gjithmonë online,",
+    headingAccent: "e shpejtë dhe e optimizuar.",
+    intro: "",
     items: [
-      {
-        icon: "support",
-        title: "Monitorim 24/7 — reagim i menjëhershëm",
-        body: "Nëse faqja bie, e dimë menjëherë dhe e rregullojmë pa vonesë.\nPa pritje. Pa humbje klientësh.",
-      },
-      {
-        icon: "speed",
-        title: "Faqe e shpejtë në çdo moment",
-        body: "Optimizim i vazhdueshëm që faqja të hapet shpejt dhe të konvertojë më shumë.\nShpejtësia = më shumë shitje.",
-      },
-      {
-        icon: "seo",
-        title: "Siguri dhe backup i garantuar",
-        body: "Faqja juaj është e mbrojtur dhe gjithmonë e rikuperueshme.\nEdhe në rast problemi, gjithçka rikthehet shpejt.",
-      },
-      {
-        icon: "convert",
-        title: "Ndërhyrje teknike pa stres",
-        body: "Çdo ndryshim, rregullim apo problem zgjidhet nga ne.\nJu fokusoheni te biznesi — ne te teknika.",
-      },
+      { icon: "support", title: "Monitorim 24/7 dhe reagim i menjëhershëm", body: "" },
+      { icon: "speed",   title: "Optimizim i vazhdueshëm i shpejtësisë", body: "" },
+      { icon: "seo",     title: "Rindërtim faqesh të vjetra ose të ngadalta", body: "" },
+      { icon: "convert", title: "Ju fokusoheni te biznesi, ne te teknika", body: "" },
     ],
   },
   processHeadline: "Ju fokusoheni te biznesi.\nNe mbajmë website-in online.",
@@ -68,40 +51,40 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
     {
       step: "01",
       title: "Auditim i plotë i website-it",
-      desc: "Identifikojmë problemet kritike — siguri, shpejtësi dhe stabilitet — para se të kthehen në humbje klientësh.",
+      desc: "Identifikojmë problemet kritike: siguri, shpejtësi dhe stabilitet, para se të kthehen në humbje klientësh.",
     },
     {
       step: "02",
       title: "Setup i plotë teknik",
-      desc: "Vendosim monitorim, backup dhe mbrojtje — website-i juaj bëhet i sigurt brenda 24 orëve.",
+      desc: "Vendosim monitorim, backup dhe mbrojtje. Website-i juaj bëhet i sigurt brenda 24 orëve.",
     },
     {
       step: "03",
       title: "Mirëmbajtje aktive çdo muaj",
-      desc: "Përditësime, optimizim dhe kontroll i vazhdueshëm — pa ndërprerje, pa surpriza.",
+      desc: "Përditësime, optimizim dhe kontroll i vazhdueshëm, pa ndërprerje, pa surpriza.",
     },
     {
       step: "04",
       title: "Transparencë totale",
-      desc: "Raport mujor i qartë — çfarë është bërë, çfarë është përmirësuar dhe çfarë vjen më pas.",
+      desc: "Raport mujor i qartë: çfarë është bërë, çfarë është përmirësuar dhe çfarë vjen më pas.",
     },
   ],
   portfolioSlugs: ["esm-group", "bardhi-wellness", "hauswerk-niederbayern"],
   portfolioHeadingBefore: "Nga probleme teknike →",
   portfolioHeadingAccent: "stabilitet dhe performancë.",
-  portfolioSubline: "Mirëmbajtje aktive që mban faqet të shpejta, të sigurta dhe gjithmonë online — pa ndërprerje.",
+  portfolioSubline: "Mirëmbajtje aktive që mban faqet të shpejta, të sigurta dhe gjithmonë online, pa ndërprerje.",
   portfolioBlurbs: {
-    "esm-group": "Stabilitet dhe performancë e qëndrueshme\nWebsite B2B i optimizuar dhe i monitoruar vazhdimisht — pa downtime, pa humbje klientësh.",
-    "bardhi-wellness": "Website gjithmonë i shpejtë dhe i sigurt\nMe mirëmbajtje aktive, faqja qëndron optimale çdo ditë — klientët nuk presin, biznesi rritet.",
-    "hauswerk-niederbayern": "Sistem i qëndrueshëm pa ndërprerje\nMonitorim dhe optimizim i vazhdueshëm — biznesi punon pa u shqetësuar për teknologjinë.",
+    "esm-group": "Stabilitet dhe performancë e qëndrueshme\nWebsite B2B i optimizuar dhe i monitoruar vazhdimisht, pa downtime, pa humbje klientësh.",
+    "bardhi-wellness": "Website gjithmonë i shpejtë dhe i sigurt\nMe mirëmbajtje aktive, faqja qëndron optimale çdo ditë. Klientët nuk presin, biznesi rritet.",
+    "hauswerk-niederbayern": "Sistem i qëndrueshëm pa ndërprerje\nMonitorim dhe optimizim i vazhdueshëm. Biznesi punon pa u shqetësuar për teknologjinë.",
   },
   feedbackLabel: "ÇFARË THONË KLIENTËT",
-  feedbackHeadline: "Faqe të qëndrueshme. Biznese pa stres teknik.",
-  feedbackSubline: "Monitorim 24/7, reagim i menjëhershëm dhe performancë e qëndrueshme — pa ndërprerje.",
+  feedbackHeadline: "Ne kujdesemi për faqen.\nJu për biznesin.",
+  feedbackSubline: "Monitorim 24/7, reagim i menjëhershëm dhe performancë e qëndrueshme, pa ndërprerje.",
   feedbackBadge: "Klientë realë",
   testimonials: [
     {
-      quote: "Që kur filluam mirëmbajtjen, faqja nuk ka pasur asnjë problem.\nNjoftohemi menjëherë për çdo gjë — gjithçka është nën kontroll.",
+      quote: "Që kur filluam mirëmbajtjen, faqja nuk ka pasur asnjë problem.\nNjoftohemi menjëherë për çdo gjë. Gjithçka është nën kontroll.",
       name: "Mariglent S.",
       role: "ESM Group",
       location: "Milano, Itali",
@@ -113,7 +96,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       location: "Prishtinë & Köln",
     },
     {
-      quote: "Nuk merrem më me probleme teknike.\nÇdo gjë zgjidhet shpejt dhe pa stres — di që faqja është në duar të sigurta.",
+      quote: "Nuk merrem më me probleme teknike.\nÇdo gjë zgjidhet shpejt dhe pa stres. Di që faqja është në duar të sigurta.",
       name: "Amir S.",
       role: "Hauswerk Niederbayern",
       location: "Straubing, Gjermani",

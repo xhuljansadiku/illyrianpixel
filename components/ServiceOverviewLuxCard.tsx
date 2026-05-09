@@ -51,7 +51,7 @@ export default function ServiceOverviewLuxCard({
         {
           className:
             "relative z-[6] row-start-1 block w-full min-w-0 overflow-hidden whitespace-nowrap pr-12 font-ui font-bold leading-[1.2] tracking-[1px] text-accent transition-all duration-300 ease-out group-hover:text-accentLight group-hover:[text-shadow:0_0_20px_rgba(171,131,57,0.18)] md:pr-14",
-          style: { fontSize: "clamp(0.78rem, 2.8vw, 1.1rem)", fontWeight: 700 },
+          style: { fontSize: "clamp(0.92rem, 3.2vw, 1.3rem)", fontWeight: 700 },
         },
         service.title
       )}

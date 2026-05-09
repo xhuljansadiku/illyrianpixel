@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import Image from "next/image";
@@ -239,7 +239,7 @@ export default function Hero() {
       className="cinematic-section section-tone-hero relative min-h-screen overflow-hidden"
     >
       <h1 className="sr-only">
-        Më shumë klientë për biznesin tuaj — Website, SEO dhe Marketing për biznese shqiptare
+        Ktheje biznesin në brand, Website, SEO dhe Marketing për biznese shqiptare
       </h1>
       <div
         ref={gradientRef}
@@ -253,38 +253,38 @@ export default function Hero() {
         ref={contentRef}
         className="hero-layout section-wrap relative z-10 grid min-h-[100svh] items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16"
       >
-        <div className="hero-copy space-y-6 text-center md:space-y-7 lg:pl-14 lg:text-left">
+        <div className="hero-copy space-y-7 text-center md:space-y-8 lg:pl-14 lg:text-left">
           <div
             ref={badgeRef}
-            className="inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/10 px-4 py-1.5 text-[11px] tracking-[0.2em] text-accent"
+            className="inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/10 px-4 py-1.5 text-[11px] tracking-[0.22em] text-accent"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
             ILLYRIAN PIXEL
           </div>
           <h2
             ref={headlineRef}
-            className="hero-headline-trigger cadence-title font-display relative max-w-[22ch] text-[clamp(2rem,4vw,3.6rem)] font-bold leading-[1.08] tracking-[-0.02em]"
+            className="hero-headline-trigger cadence-title font-display relative max-w-[18ch] text-[clamp(2.6rem,5.5vw,4.8rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em]"
           >
             <span className="headline-mask block overflow-hidden">
               <span className="headline-word block">
-                Më shumë klientë{" "}
+                Ktheje biznesin në{" "}
                 <span className="hero-brand-word">
-                  <span className="hero-brand-accent text-accent inline-block font-black">
-                    për biznesin tuaj.
+                  <span className="hero-brand-accent text-accent inline-block font-black uppercase">
+                    brand.
                   </span>
                 </span>
               </span>
             </span>
             <span aria-hidden className="hero-brand-trail" />
           </h2>
-          <div ref={paragraphRef} className="cadence-body space-y-3">
-            <p className="font-body text-[1rem] font-light leading-[1.5] tracking-[0.04em] text-white/62">
+          <div ref={paragraphRef} className="cadence-body space-y-4">
+            <p className="font-body text-[1.05rem] font-light leading-[1.75] tracking-[0.01em] text-white/62">
               {"Ndërtojmë website, SEO dhe marketing online për biznese shqiptare në Shqipëri dhe diasporë."}
             </p>
-            <p className="font-body text-[0.88rem] font-light tracking-[0.04em] text-accent/80 text-center lg:text-left">
+            <p className="font-body text-[0.9rem] font-medium tracking-[0.02em] text-accent/85 text-center lg:text-left">
               {"Plan konkret brenda 24 orëve pa pagesë."}
             </p>
-            <p className="font-body text-[0.85rem] font-light tracking-[0.06em] text-white/40 text-center lg:text-left">
+            <p className="font-body text-[0.83rem] font-light tracking-[0.02em] text-white/38 text-center lg:text-left">
               {"Ju fokusohuni te biznesi. Klientët i sjellim ne."}
             </p>
           </div>
@@ -332,7 +332,7 @@ export default function Hero() {
             <div className="helmet helm-radial-feather relative h-full w-full">
               <Image
                 src="/images/hero-helmet.png"
-                alt="Illyrian Pixel — Agjenci Dixhitale Premium për Biznese Shqiptare"
+                alt="Illyrian Pixel, Agjenci Dixhitale Premium për Biznese Shqiptare"
                 fill
                 priority
                 className="hero-helmet-img object-contain object-right opacity-[0.97] [filter:contrast(1.12)_saturate(1.08)_brightness(0.98)]"

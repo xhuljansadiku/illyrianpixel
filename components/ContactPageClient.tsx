@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useRef, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
@@ -47,6 +47,7 @@ export default function ContactPageClient() {
     return () => ctx.revert();
   }, []);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -69,14 +70,42 @@ export default function ContactPageClient() {
   const set = (key: keyof typeof form) => (v: string) =>
     setForm((s) => ({ ...s, [key]: v }));
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!canSubmit) {
       setError("Ju lutem plotësoni fushat kryesore.");
       return;
     }
     setError("");
-    setSuccess(true);
+    setLoading(true);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/info@illyrianpixel.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          Emri: form.name,
+          Email: form.email,
+          Biznesi: form.businessName,
+          "Shërbimi": form.service,
+          Buxheti: form.budget,
+          "Afati kohor": form.timeline,
+          Mesazhi: form.message,
+          _subject: `Kërkesë e re nga ${form.name}, ${form.businessName}`,
+          _captcha: "false",
+          _honey: "",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSuccess(true);
+      } else {
+        setError("Diçka shkoi keq. Provo sërish ose shkruaj direkt: info@illyrianpixel.com");
+      }
+    } catch {
+      setError("Nuk u dërgua kërkesa. Kontakto direkt: info@illyrianpixel.com");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -98,7 +127,7 @@ export default function ContactPageClient() {
           <div className="section-wrap relative py-28 md:py-40">
             <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"KONTAKT"}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
-              <h1 className="whitespace-pre-line font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.04] tracking-[-0.03em] text-white">
+              <h1 className="whitespace-pre-line font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
                 {"Rezervo një konsultë falas\ndhe merr një plan konkret\npër biznesin tënd."}
               </h1>
             </div>
@@ -156,7 +185,7 @@ export default function ContactPageClient() {
                       Faleminderit.
                     </p>
                     <p className="font-ui mt-2 text-[13px] font-light leading-relaxed tracking-[0.3px] text-[#A0A0A0]">
-                      Kërkesa u regjistrua — do t&apos;ju kontaktojmë me plan të qartë brenda 24 orësh.
+                      Kërkesa u regjistrua. Do t&apos;ju kontaktojmë me plan të qartë brenda 24 orësh.
                     </p>
                   </div>
                 ) : (
@@ -227,10 +256,10 @@ export default function ContactPageClient() {
 
                     <button
                       type="submit"
-                      disabled={!canSubmit}
+                      disabled={!canSubmit || loading}
                       className="font-ui mt-2 w-full rounded-[2px] bg-[#ab8339] px-8 py-4 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      Dërgoje Kërkesën →
+                      {loading ? "Duke dërguar..." : "Dërgoje Kërkesën →"}
                     </button>
                   </form>
                 )}
@@ -252,7 +281,7 @@ export default function ContactPageClient() {
                     WhatsApp
                   </a>
                   <a
-                    href="https://www.instagram.com/illyrianpixel"
+                    href="https://www.instagram.com/illyrianpixel/"
                     target="_blank"
                     rel="noreferrer"
                     className="font-ui text-[12px] font-light tracking-[0.5px] text-[#A0A0A0] transition-colors duration-300 hover:text-[#ab8339]"

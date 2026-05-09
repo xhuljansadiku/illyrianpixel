@@ -25,7 +25,7 @@ function TextCardSection({ data }: { data: ConversionTextCardSection }) {
             <span className="text-[#D4AF37]">{data.headingAccent}</span>
           </h2>
           {data.intro ? (
-            <p className="mt-5 max-w-[56ch] text-[14px] leading-relaxed text-white/56 md:text-[15px]">
+            <p className="mt-5 max-w-[56ch] whitespace-pre-line text-[14px] leading-relaxed text-white/56 md:text-[15px]">
               {data.intro}
             </p>
           ) : null}
@@ -40,7 +40,9 @@ function TextCardSection({ data }: { data: ConversionTextCardSection }) {
               <h3 className="font-display text-[1.05rem] tracking-[-0.015em] text-white md:text-[1.12rem]">
                 {item.title}
               </h3>
-              <p className="mt-2.5 text-[13px] leading-relaxed text-white/50 md:text-[14px]">{item.body}</p>
+              <p className="mt-2.5 whitespace-pre-line text-[13px] leading-relaxed text-white/50 md:text-[14px]">
+                {item.body}
+              </p>
             </div>
           ))}
         </div>
@@ -301,7 +303,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0e0d0c] via-[#0e0d0c]/20 to-transparent opacity-85" />
 
-                    {/* ESM Group — screen glow overlay */}
+                    {/* ESM Group, screen glow overlay */}
                     {item.slug === "esm-group" && (
                       <div
                         aria-hidden
@@ -313,7 +315,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                       />
                     )}
 
-                    {/* Bardhi Wellness — floating 'B' coin with slow Y-rotation */}
+                    {/* Bardhi Wellness, floating 'B' coin with slow Y-rotation */}
                     {item.slug === "bardhi-wellness" && (
                       <>
                         <div

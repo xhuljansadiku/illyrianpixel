@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 const siteUrl = "https://illyrianpixel.com";
 const defaultTitle = "Illyrian Pixel";
 const defaultDescription =
-  "Agjenci dixhitale premium për biznese ambicioze. Website me konvertim të lartë, marketing strategjik dhe branding luksoz — për biznese shqiptare në Shqipëri, Gjermani dhe diasporë.";
+  "Agjenci dixhitale premium për biznese ambicioze. Website me konvertim të lartë, marketing strategjik dhe branding luksoz, për biznese shqiptare në Shqipëri, Gjermani dhe diasporë.";
 
 export const seo = {
   siteUrl,
@@ -24,7 +24,7 @@ export const buildMetadata = (title?: string, description?: string, path = ""): 
     description: description ?? defaultDescription,
     url: path ? `${siteUrl}${path}` : siteUrl,
     siteName: defaultTitle,
-    images: [{ url: seo.ogImage, width: 1200, height: 630, alt: "Illyrian Pixel — Agjenci Dixhitale Premium" }],
+    images: [{ url: seo.ogImage, width: 1200, height: 630, alt: "Illyrian Pixel, Agjenci Dixhitale Premium" }],
     locale: "sq_AL",
     type: "website"
   },
@@ -62,9 +62,9 @@ export const organizationSchema = {
     "Social Media Marketing"
   ],
   sameAs: [
-    "https://www.instagram.com/illyrianpixel",
+    "https://www.instagram.com/illyrianpixel/",
     "https://www.facebook.com/illyrianpixel",
-    "https://www.linkedin.com/company/illyrianpixel",
+    "https://www.linkedin.com/company/illyrianpixel/",
     "https://www.tiktok.com/@illyrianpixel"
   ],
   aggregateRating: {

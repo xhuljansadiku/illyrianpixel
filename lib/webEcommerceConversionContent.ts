@@ -12,22 +12,22 @@ export const webConversionLandingData: ConversionLandingData = {
       {
         icon: "convert",
         title: "Website që sjell klientë",
-        body: "Shumë website ekzistojnë, por nuk konvertojnë. Ne ndërtojmë faqe që sjellin kërkesa reale.",
+        body: "",
       },
       {
         icon: "seo",
-        title: "Strukturë që bën diferencën",
-        body: "Mesazh i qartë dhe rrugë e thjeshtë për klientin. Pa konfuzion, pa humbje.",
+        title: "Strukturë e qartë dhe pa konfuzion",
+        body: "",
       },
       {
         icon: "speed",
-        title: "Google ju gjen",
-        body: "SEO bazë e integruar dhe performancë e lartë. Faqja juaj shfaqet dhe krijon besim.",
+        title: "SEO që ju sjell klientë",
+        body: "",
       },
       {
         icon: "support",
-        title: "Partner, jo vetëm zhvillues",
-        body: "Jemi me ju edhe pas publikimit. Optimizim dhe përmirësim i vazhdueshëm.",
+        title: "Partner afatgjatë për rritjen tuaj",
+        body: "",
       },
     ],
   },
@@ -61,7 +61,7 @@ export const webConversionLandingData: ConversionLandingData = {
   },
   portfolioSlugs: ["esm-group", "bardhi-wellness", "hauswerk-niederbayern"],
   feedbackLabel: "ÇFARË THONË KLIENTËT",
-  feedbackHeadline: "Rezultate reale nga klientë realë.",
+  feedbackHeadline: "Rezultate reale nga biznese si i juaji.",
   feedbackSubline: "Më pak fjalë. Më shumë rezultate.",
   testimonials: [
     {

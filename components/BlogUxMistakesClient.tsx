@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRef } from "react";
@@ -149,7 +149,7 @@ export default function BlogUxMistakesClient() {
                 </h2>
                 <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
                   Website-i që shet është i thjeshtë për vizitorin: e kupton menjëherë ofertën, beson dëshminë dhe di
-                  ku të klikojë. Kur këto mungojnë, klienti nuk ankohet — largohet.
+                  ku të klikojë. Kur këto mungojnë, klienti nuk ankohet, largohet.
                 </p>
               </section>
 

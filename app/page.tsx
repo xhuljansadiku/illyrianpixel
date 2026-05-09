@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { faqSchema } from "@/lib/seo";
 import BackToTop from "@/components/BackToTop";
@@ -25,7 +25,7 @@ import Testimonials from "@/components/Testimonials";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "Illyrian Pixel — Agjenci Ueb Dizajni Luksoz & Marketing Premium",
+  title: "Illyrian Pixel, Agjenci Ueb Dizajni Luksoz & Marketing Premium",
   description:
     "Ndërtojmë website premium, landing page që konvertojnë dhe marketing strategjik për biznese ambicioze. Konsultim falas · Plan brenda 24h · Illyrian Pixel."
 };

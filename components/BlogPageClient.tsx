@@ -55,7 +55,7 @@ export default function BlogPageClient() {
           <div className="section-wrap relative py-28 md:py-40">
             <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"BLOG & INSIGHTS"}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
-              <h1 className="font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.04] tracking-[-0.03em] text-white">
+              <h1 className="font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
                 {"Ide, lajme "}
                 <span className="text-accent">{"& udhëzime."}</span>
               </h1>

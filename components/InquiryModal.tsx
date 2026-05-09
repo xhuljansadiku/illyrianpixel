@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useMemo, useState } from "react";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
@@ -11,6 +11,7 @@ export default function InquiryModal() {
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -50,18 +51,46 @@ export default function InquiryModal() {
     [form]
   );
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!canSubmit) {
       setError("Ju lutem plotësoni fushat kryesore.");
       return;
     }
     setError("");
-    setSuccess(true);
-    window.setTimeout(() => {
-      setSuccess(false);
-      close();
-    }, 1400);
+    setLoading(true);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/info@illyrianpixel.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          Emri: form.name,
+          Email: form.email,
+          Biznesi: form.businessName,
+          "Shërbimi": form.service,
+          Buxheti: form.budget,
+          "Afati kohor": form.timeline,
+          Mesazhi: form.message,
+          _subject: `Kërkesë e re (modal) nga ${form.name}, ${form.businessName}`,
+          _captcha: "false",
+          _honey: "",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSuccess(true);
+        window.setTimeout(() => {
+          setSuccess(false);
+          close();
+        }, 1800);
+      } else {
+        setError("Diçka shkoi keq. Provo sërish.");
+      }
+    } catch {
+      setError("Nuk u dërgua. Shkruaj direkt: info@illyrianpixel.com");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!open) return null;
@@ -134,8 +163,8 @@ export default function InquiryModal() {
               Pas dërgimit, do t&apos;ju kontaktojmë me plan të qartë.
             </p>
             {error ? <p className="text-xs text-red-300">{error}</p> : null}
-            <button type="submit" className="interactive-button ip-cta-primary !text-xs !tracking-[0.14em]">
-              DËRGO KËRKESËN
+            <button type="submit" disabled={loading} className="interactive-button ip-cta-primary !text-xs !tracking-[0.14em] disabled:opacity-50">
+              {loading ? "Duke dërguar..." : "DËRGO KËRKESËN"}
             </button>
           </form>
         )}

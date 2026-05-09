@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import Link from "next/link";
@@ -102,12 +102,12 @@ export default function SherbimetPageClient() {
             <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"SHËRBIMET"}</p>
 
             <div className="hero-line1 mt-8 overflow-hidden">
-              <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.04] tracking-[-0.03em] text-white">
+              <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
                 {"Sisteme digjitale"}
               </h1>
             </div>
             <div className="hero-line2 overflow-hidden">
-              <h1 className="cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.04] tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
+              <h1 className="cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
                 {"që sjellin klientë."}
               </h1>
             </div>
@@ -138,7 +138,7 @@ export default function SherbimetPageClient() {
           </div>
         </section>
 
-        {/* Si punojmë — minimal */}
+        {/* Si punojmë, minimal */}
         <section ref={siPunojmeRef} className="relative z-[1] border-b border-white/[0.06] bg-[#0a0a0a]">
           <div className="section-wrap py-20 md:py-28">
             <p className="sp-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/50">{"Si punojmë"}</p>
@@ -153,7 +153,7 @@ export default function SherbimetPageClient() {
           </div>
         </section>
 
-        {/* CTA — premium */}
+        {/* CTA, premium */}
         <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(171,131,57,0.13),transparent_70%)]" />
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
@@ -176,7 +176,7 @@ export default function SherbimetPageClient() {
               </Link>
             </div>
             <p className="mt-8 font-mono text-[10px] tracking-[0.14em] text-white/22">
-              {"Pa detyrim · Përgjigje brenda 24 orëve"}
+              {"Pa detyrim · Përgjigje brenda 24h"}
             </p>
           </div>
         </section>

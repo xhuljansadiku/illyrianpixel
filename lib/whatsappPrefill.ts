@@ -1,4 +1,4 @@
-/** +355 69 472 6827 — vetëm shifra për wa.me */
+﻿/** +355 69 472 6827, vetëm shifra për wa.me */
 export const DEFAULT_WHATSAPP_E164 = "355694726827";
 
 /** Rreshtat për `wa.me?text=`; dy të parët përdoren edhe në hover të FAB. */

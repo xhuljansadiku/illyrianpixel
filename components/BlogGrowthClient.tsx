@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRef } from "react";
@@ -134,7 +134,7 @@ export default function BlogGrowthClient() {
                 Gabimi që shohim çdo ditë: faqe me gjashtë butona dhe shumë popup-e. Kur klienti nuk di ku të klikojë,
                 nuk klikon askund. Çdo seksion duhet të ketë një qëllim të vetëm dhe një hap të qartë.
                 <br />
-                Zgjidh një: &quot;Kontakto tani&quot;, &quot;Merr ofertën&quot; ose &quot;Fillo sot&quot; — dhe mbaje
+                Zgjidh një: &quot;Kontakto tani&quot;, &quot;Merr ofertën&quot; ose &quot;Fillo sot&quot;, dhe mbaje
                 konsistent.
               </p>
             </section>
@@ -213,7 +213,7 @@ export default function BlogGrowthClient() {
               </section>
 
               <p className="mt-8 text-[1.05rem] font-medium leading-snug text-white md:text-[1.1rem]">
-                A po e ktheni trafikun në kontakte — apo vetëm në bounce?
+                A po e ktheni trafikun në kontakte, apo vetëm në bounce?
               </p>
               <div className="mt-5">
                 <Link

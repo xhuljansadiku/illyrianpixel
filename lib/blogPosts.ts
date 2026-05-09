@@ -1,4 +1,4 @@
-export type BlogPost = {
+﻿export type BlogPost = {
   slug: string;
   title: string;
   category: string;
@@ -17,7 +17,7 @@ export const blogPosts: BlogPost[] = [
     date: "Prill 2026",
     content: [
       "Shumica e bizneseve shpenzojnë para për të sjellë njerëz në faqe dhe i humbin menjëherë. Jo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj.",
-      "Oferta e parë, dëshmia dhe autoriteti, një CTA e vetme për seksion — pastaj mat klikimet në CTA, fillimin e formularit dhe dërgimin.",
+      "Oferta e parë, dëshmia dhe autoriteti, një CTA e vetme për seksion, pastaj mat klikimet në CTA, fillimin e formularit dhe dërgimin.",
       "Rritja fillon me një faqe që di punën e saj; pastaj çdo euro reklamë kthehet mbrapsht."
     ]
   },
@@ -43,7 +43,7 @@ export const blogPosts: BlogPost[] = [
     content: [
       "Google është kanali ku kërkohet zgjidhja; pa faqen e parë, biznesi është i padukshëm për shumicën e tregut.",
       "SEO ul CAC në afatgjatë dhe ndërton autoritet; PPC zhduket kur ndalon pagesa.",
-      "UX dhe cilësia e faqes janë pjesë e renditjes. SEO është maratonë — shumica dështojnë sepse presin rezultate për dy javë."
+      "UX dhe cilësia e faqes janë pjesë e renditjes. SEO është maratonë, shumica dështojnë sepse presin rezultate për dy javë."
     ]
   }
 ];

@@ -154,7 +154,7 @@ export default function CTA() {
               </div>
               <h2
                 ref={headingRef}
-                className="cadence-title font-display text-[2.45rem] leading-[1.02] tracking-[-0.013em] md:text-[5.2rem] lg:text-[5.6rem]"
+                className="cadence-title font-display text-[2.45rem] leading-[1.12] tracking-[-0.005em] md:text-[5.2rem] md:leading-[1.02] md:tracking-[-0.013em] lg:text-[5.6rem]"
               >
                 <span className="cta-headline-line block pb-[0.08em]">
                   <span className="cta-headline-line-inner block whitespace-normal md:whitespace-nowrap">Koha që faqja juaj</span>
