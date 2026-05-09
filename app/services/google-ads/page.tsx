@@ -95,6 +95,15 @@ export default function GoogleAdsPage() {
               </Link>
             </div>
             <p className="mt-4 text-[13px] text-white/40">Konsultim falas · Pa detyrim · Rezultate të matshme</p>
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-white/28">Shiko edhe:</p>
+              <Link href="/services/seo" className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-[12px] text-white/50 transition-all duration-300 hover:border-accent/35 hover:text-white">
+                SEO <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+              <Link href="/cmimet" className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-[12px] text-white/50 transition-all duration-300 hover:border-accent/35 hover:text-white">
+                Marketing & Growth <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
           </div>
         </section>
 
