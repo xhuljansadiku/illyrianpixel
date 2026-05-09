@@ -119,7 +119,7 @@ export default function AllPackagesPageClient() {
 
             {/* Section header — stays constrained */}
             <div className="section-wrap relative z-[1] !pb-0 pt-14 md:pt-20">
-              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div>
                   <SectionMark label={category.title} eyebrowClassName="tracking-[0.18em]" />
                   <h2 className="mt-2 max-w-2xl font-display text-[clamp(1.65rem,3.5vw,2.75rem)] leading-[1.06] tracking-[-0.02em] text-white">
@@ -130,6 +130,26 @@ export default function AllPackagesPageClient() {
                     {category.short}
                   </p>
                 </div>
+
+                {category.slug === "marketing-growth" && (
+                  <div className="flex shrink-0 flex-col items-start gap-2 md:items-end">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/28">Vetëm një shërbim?</p>
+                    <Link
+                      href="/services/seo"
+                      className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-[12px] text-white/55 transition-all duration-300 hover:border-accent/35 hover:text-white"
+                    >
+                      SEO
+                      <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </Link>
+                    <Link
+                      href="/services/google-ads"
+                      className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-[12px] text-white/55 transition-all duration-300 hover:border-accent/35 hover:text-white"
+                    >
+                      Google Ads
+                      <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -145,27 +165,6 @@ export default function AllPackagesPageClient() {
                 ))}
               </div>
 
-              {category.slug === "marketing-growth" && (
-                <div className="mt-10 border-t border-white/[0.06] pt-8">
-                  <p className="mb-4 text-[12px] uppercase tracking-[0.2em] text-white/30">Kërkon vetëm një shërbim?</p>
-                  <div className="flex flex-wrap gap-3">
-                    <Link
-                      href="/services/seo"
-                      className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-[13px] text-white/60 transition-all duration-300 hover:border-accent/35 hover:text-white"
-                    >
-                      Kërkon vetëm SEO?
-                      <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-                    </Link>
-                    <Link
-                      href="/services/google-ads"
-                      className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-[13px] text-white/60 transition-all duration-300 hover:border-accent/35 hover:text-white"
-                    >
-                      Kërkon vetëm reklama?
-                      <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-                    </Link>
-                  </div>
-                </div>
-              )}
             </div>
           </section>
         ))}
