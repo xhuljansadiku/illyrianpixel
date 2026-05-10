@@ -3,13 +3,14 @@ export const DEFAULT_WHATSAPP_E164 = "355694726827";
 
 /** Rreshtat për `wa.me?text=`; dy të parët përdoren edhe në hover të FAB. */
 export const WHATSAPP_PREFILL_LINES = [
-  "Përshëndetje nga Illyrian Pixel!",
-  "Si mund t'ju ndihmojmë?",
+  "Përshëndetje 👋,",
   "",
-  "Mund të vazhdoni kështu (redaktoni sipas jush):",
-  "• Emri i biznesit: ",
-  "• Çfarë keni nevojë (web, marketing, etj.): ",
-  "• Afati, nëse keni: "
+  "Dëshiroj të marr një ofertë për shërbimet tuaja.",
+  "",
+  "• Emri / Biznesi: ",
+  "• Shërbimi: ",
+  "• Buxheti: ",
+  "• Afati: "
 ] as const;
 
 const encodedPrefill = encodeURIComponent(WHATSAPP_PREFILL_LINES.join("\n"));
