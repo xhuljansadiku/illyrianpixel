@@ -112,7 +112,7 @@ export const serviceCategories: ServiceCategory[] = [
     subheadline:
       "Ndërtojmë dyqane online që konvertojnë, checkout i optimizuar dhe pagesa të integruara për më shumë shitje.",
     short:
-      "Dyqane online premium me checkout të optimizuar, pagesa dhe analitikë, për bizneset shqiptare që duan të shesin online.",
+      "Dyqane online premium me checkout të optimizuar, pagesa dhe analitikë,\npër bizneset shqiptare që duan të shesin online.",
     description: "",
     icon: "◈",
     ctaPrimary: "Fillo të shesësh online →",
@@ -130,7 +130,7 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Starter",
         price: "€699",
         tagline: "Dyqan që fillon të shesë menjëherë",
-        ideal: "Hapi i parë i saktë online. Produkte, pagesa dhe checkout gati për shitje.",
+        ideal: "Hapi i parë i saktë online.\nProdukte, pagesa dhe checkout gati për shitje.",
         features: [
           "Deri në 30 produkte",
           "Pagesa të integruara",
@@ -145,11 +145,11 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Dyqan që rrit shitjet çdo muaj",
         ideal: "Struktura e duhur për të kthyer vizitorët në blerës dhe blerësit në klientë të rregullt.",
         features: [
-          "Deri në 200 produkte",
-          "Filtra, kategori & kërkim i avancuar",
-          "Checkout",
-          "Analitikë shitjesh + Google Analytics",
-          "SEO bazë për produkte & kategori",
+          "Deri në 100 produkte",
+          "Filtra, kategori dhe kërkim i avancuar",
+          "Checkout i optimizuar për konvertim",
+          "Analitikë shitjesh dhe Google Analytics",
+          "SEO bazë për produkte dhe kategori",
         ],
         featured: true,
       },
@@ -157,13 +157,13 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Advanced",
         price: "€1,999",
         tagline: "Platformë e-commerce për shkallëzim",
-        ideal: "Sistem i plotë për bizneset që duan të dominojnë online — pa kufij, pa kompromis.",
+        ideal: "Sistem i plotë për bizneset që duan të dominojnë online pa kufij, pa kompromis.",
         features: [
-          "Produkte të pakufizuara",
-          "Upsell, cross-sell & funnels shitjesh",
-          "Automatizime (email, porosi, rikuperim karroce)",
-          "SEO i avancuar për produkte & kategori",
-          "Performancë & Core Web Vitals të optimizuara",
+          "Pa limit produktesh",
+          "Oferta shtesë & rekomandime që rrisin shitjen",
+          "Email automatik, konfirmim porosie & rikuperim karroce braktisur",
+          "SEO i avancuar për produkte dhe kategori",
+          "Faqe e shpejtë dhe e optimizuar për Google",
         ],
       },
     ],
@@ -177,7 +177,7 @@ export const serviceCategories: ServiceCategory[] = [
     subheadline:
       "SEO, Google Ads dhe Social Media, ndërtuar si sistem konvertimi për biznese shqiptare.",
     short:
-      "Më shumë thirrje, mesazhe dhe shitje, jo më shumë pritje. Strategji + faqe që konvertojnë + reklama të matura në para.",
+      "Më shumë thirrje, mesazhe dhe shitje, jo më shumë pritje.\nStrategjia + faqe që konvertojnë + reklama të matura në para.",
     description: "",
     icon: "◉",
     subServices: [
@@ -192,7 +192,7 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Starter",
         price: "€149",
         priceNote: "/ muaj",
-        ideal: "Reklamat e para me ROI real. Pak buxhet, rezultate të matshme nga muaji i parë.",
+        ideal: "Reklamat e para me ROI real.\nPak buxhet, rezultate të matshme nga muaji i parë.",
         features: [
           "Setup Google ose Meta Ads",
           "1 fushatë aktive",
@@ -200,13 +200,13 @@ export const serviceCategories: ServiceCategory[] = [
           "Tracking i rezultateve",
           "Raport mujor i qartë",
         ],
-        cta: "Merr ofertë",
+        cta: "Fillo Tani",
       },
       {
         name: "Growth",
         price: "€249",
         priceNote: "/ muaj",
-        ideal: "Fushata të optimizuara çdo javë. Klientë të rinj çdo muaj, me buxhetin nën kontroll.",
+        ideal: "Fushata të optimizuara çdo javë.\nKlientë të rinj çdo muaj, me buxhetin nën kontroll.",
         features: [
           "Google Ads + Meta Ads",
           "2–3 fushata aktive",
@@ -215,13 +215,13 @@ export const serviceCategories: ServiceCategory[] = [
           "Raport 2-javësh + call mujor",
         ],
         featured: true,
-        cta: "Fillo projektin",
+        cta: "Fillo Tani",
       },
       {
         name: "Pro",
         price: "€399",
         priceNote: "/ muaj",
-        ideal: "Të gjitha kanalet, SEO bazë dhe A/B testing. Strategji që fiton, jo vetëm pret.",
+        ideal: "Të gjitha kanalet, SEO bazë dhe A/B testing.\nStrategjia që fiton, jo vetëm pret.",
         features: [
           "Google + Meta + SEO bazë",
           "A/B testing i fushatave",
@@ -229,7 +229,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Strategji funnel e plotë",
           "Raport javor + 2 call mujore",
         ],
-        cta: "Merr strategjinë",
+        cta: "Fillo Tani",
       },
     ],
   },

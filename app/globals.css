@@ -1631,6 +1631,7 @@ body::before {
 
   .process-step {
     opacity: 1;
+    filter: blur(0);
     transform: none !important;
     padding-left: 0.9rem;
     border-left: 1px solid rgba(255, 255, 255, 0.15);

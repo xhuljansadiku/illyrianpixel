@@ -16,17 +16,13 @@ const packages: ServicePackage[] = [
     price: "€99",
     priceNote: "/ muaj",
     tagline: "Fillon pozicionimin në Google",
-    ideal: "Optimizimi i parë i saktë. Faqja juaj fillon të gjendet nga klientët e duhur.",
+    ideal: "Optimizimi i parë i saktë.\nFaqja juaj fillon të gjendet nga klientët e duhur.",
     features: [
       "Research 10–15 keywords kyçe",
       "Optimizim on-page (title, meta, H1)",
       "Google Search Console setup",
       "Struktura URL + internal links",
       "Raport mujor i pozicioneve",
-    ],
-    notIncluded: [
-      "Link building",
-      "SEO teknik i avancuar",
     ],
     cta: "Merr ofertë",
   },
@@ -43,9 +39,6 @@ const packages: ServicePackage[] = [
       "Core Web Vitals optimization",
       "Raport 2-javësh i detajuar",
     ],
-    notIncluded: [
-      "Content writing",
-    ],
     featured: true,
     cta: "Merr ofertë",
   },
@@ -54,7 +47,7 @@ const packages: ServicePackage[] = [
     price: "€299",
     priceNote: "/ muaj",
     tagline: "Autoritet dhe dominim organik",
-    ideal: "Sistem SEO i plotë. Shkallëzim, autoritet domeni dhe rezultate afatgjata.",
+    ideal: "Sistem SEO i plotë.\nShkallëzim, autoritet domeni dhe rezultate afatgjata.",
     features: [
       "Keywords të pakufizuara",
       "Link building i avancuar (15–20/muaj)",
@@ -83,7 +76,7 @@ export default function SeoPage() {
               <span className="text-accent">nga Google</span>
             </h1>
             <p className="mt-5 max-w-[48ch] text-[1.05rem] leading-[1.6] text-white/60">
-              Pozicionim organik i qëndrueshëm. Klientët ju gjejnë kur kërkojnë shërbimin tuaj.
+              Pozicionim organik i qëndrueshëm.<br className="hidden md:block" /> Klientët ju gjejnë kur kërkojnë shërbimin tuaj.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link href="/contact" className="interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !text-[#0e0d0c]">

@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: "Si funksionon pagesa?",
-    a: "Pagesa ndahet në dy pjesë, 50% para fillimit të projektit dhe 50% pas aprovimit final para lansimit.\nPranojmë transfertë bankare dhe metoda të tjera sipas marrëveshjes."
+    a: "Pagesa kryhet në fillim për të rezervuar projektin dhe nisur punën menjëherë."
   },
   {
     q: "Çfarë kam nevojë të përgatis para fillimit?",
