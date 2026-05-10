@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import type { CaseStudy } from "@/lib/caseStudies";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
