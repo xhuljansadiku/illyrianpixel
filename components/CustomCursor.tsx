@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { ensureGSAP, getIsMobile, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
+import { mouseBus } from "@/lib/mouseBus";
 
 export default function CustomCursor() {
   const auraRef = useRef<HTMLDivElement | null>(null);
@@ -18,11 +19,13 @@ export default function CustomCursor() {
     const aura = auraRef.current;
     const moveToX = gsap.quickTo(aura, "x", { duration: 0.2, ease: "power3.out" });
     const moveToY = gsap.quickTo(aura, "y", { duration: 0.2, ease: "power3.out" });
-    const onMove = (e: MouseEvent) => {
-      moveToX(e.clientX - 18);
-      moveToY(e.clientY - 18);
-    };
-    const onOver = (e: Event) => {
+
+    const unsubMove = mouseBus.onMove((x, y) => {
+      moveToX(x - 18);
+      moveToY(y - 18);
+    });
+
+    const unsubOver = mouseBus.onOver((e) => {
       const target = e.target as HTMLElement | null;
       const interactive = target?.closest("a,button,[data-cursor='active']");
       const headline = target?.closest("[data-cursor='headline'], .section-title, .hero-headline-trigger, .cadence-title");
@@ -30,16 +33,12 @@ export default function CustomCursor() {
         scale: headline ? 2.35 : interactive ? 1.35 : 1,
         backgroundColor: headline ? "rgba(245,245,240,0.92)" : interactive ? "rgba(171, 131, 57,0.18)" : "rgba(245,245,240,0.08)",
         mixBlendMode: headline ? "difference" : "normal",
-        duration: 0.25
+        duration: 0.25,
       });
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseover", onOver);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseover", onOver);
-    };
-  }, [reduced]);
+    });
+
+    return () => { unsubMove(); unsubOver(); };
+  }, [mounted, reduced]);
 
   if (!mounted || getIsMobile() || reduced) return null;
 

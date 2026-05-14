@@ -27,7 +27,7 @@ export const MOTION = {
 export const useIsomorphicLayoutEffect = useEffect;
 
 export const useReducedMotion = () => {
-  const [reduced, setReduced] = useState(true);
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getIsMobile, useReducedMotion } from "@/lib/gsap";
+import { mouseBus } from "@/lib/mouseBus";
 
-/** Soft radial lift that follows the cursor (desktop only). Pointer-events none. */
 export default function CursorSpotlight() {
   const reduced = useReducedMotion();
   const [mounted, setMounted] = useState(false);
@@ -22,15 +22,10 @@ export default function CursorSpotlight() {
       root.style.setProperty("--cursor-spot-x", `${pending.current.x}px`);
       root.style.setProperty("--cursor-spot-y", `${pending.current.y}px`);
     };
-    const onMove = (e: MouseEvent) => {
-      pending.current = { x: e.clientX, y: e.clientY };
+    return mouseBus.onMove((x, y) => {
+      pending.current = { x, y };
       if (raf.current == null) raf.current = window.requestAnimationFrame(flush);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      if (raf.current != null) window.cancelAnimationFrame(raf.current);
-    };
+    });
   }, [mounted, reduced]);
 
   if (!mounted || reduced || getIsMobile()) return null;
@@ -41,7 +36,7 @@ export default function CursorSpotlight() {
       className="pointer-events-none fixed inset-0 z-[1] mix-blend-screen"
       style={{
         background:
-          "radial-gradient(520px circle at var(--cursor-spot-x,50%) var(--cursor-spot-y,40%), rgba(171, 131, 57,0.07), transparent 62%)"
+          "radial-gradient(520px circle at var(--cursor-spot-x,50%) var(--cursor-spot-y,40%), rgba(171, 131, 57,0.07), transparent 62%)",
       }}
     />
   );

@@ -65,8 +65,8 @@ export default function Preloader() {
         .fromTo(".preloader-fire", { scaleX: 0 }, { scaleX: 1, duration: 2.8, ease: "power1.inOut" }, "<")
         .fromTo(
           ".preloader-char",
-          { y: 10, opacity: 0, filter: "blur(5px)" },
-          { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.4, stagger: 0.02, ease: "power3.out" },
+          { y: 10, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4, stagger: 0.02, ease: "power3.out" },
           "-=2.5"
         )
         .fromTo(".preloader-line", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, "-=0.1")

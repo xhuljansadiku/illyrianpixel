@@ -23,11 +23,10 @@ export default function GlobalReveals() {
             revealed.current.add(el);
             gsap.fromTo(
               el,
-              { opacity: 0, y: 26, filter: "blur(5px)" },
+              { opacity: 0, y: 26 },
               {
                 opacity: 1,
                 y: 0,
-                filter: "blur(0px)",
                 duration: 0.9,
                 ease: "power3.out",
                 scrollTrigger: {

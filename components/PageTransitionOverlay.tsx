@@ -26,9 +26,9 @@ export default function PageTransitionOverlay() {
       gsap.set(overlay, { pointerEvents: "auto" });
       gsap
         .timeline()
-        .fromTo(overlay, { opacity: 0, clipPath: "inset(100% 0% 0% 0%)" }, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power3.inOut" })
+        .fromTo(overlay, { opacity: 0, clipPath: "inset(100% 0% 0% 0%)" }, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.3, ease: "power3.inOut" })
         .call(() => router.push(href))
-        .to(overlay, { opacity: 0, clipPath: "inset(0% 0% 100% 0%)", duration: 0.45, delay: 0.25, ease: "power3.inOut" })
+        .to(overlay, { opacity: 0, clipPath: "inset(0% 0% 100% 0%)", duration: 0.3, delay: 0.1, ease: "power3.inOut" })
         .set(overlay, { pointerEvents: "none" });
     };
 

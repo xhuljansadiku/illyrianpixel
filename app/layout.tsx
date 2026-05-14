@@ -28,6 +28,7 @@ const pixel = Press_Start_2P({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-pixel",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
