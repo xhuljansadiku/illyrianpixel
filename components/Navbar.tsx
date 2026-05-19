@@ -138,7 +138,7 @@ export default function Navbar() {
             className="flex min-w-0 flex-1 items-center text-left sm:flex-initial sm:min-w-0"
             aria-label="Shko te fillimi (Alt+klik p\u00ebr surpriz\u00eb t\u00eb vog\u00ebl)"
           >
-            <span className="inline-flex min-w-0 max-w-full items-center gap-1.5 transition-all duration-300 hover:-translate-y-[1px] hover:opacity-90 sm:gap-2.5 md:gap-[10px]">
+            <span className="inline-flex min-w-0 max-w-full items-center gap-1.5 transition-opacity duration-300 hover:opacity-90 sm:gap-2.5 md:gap-[10px]">
               <Image
                 src="/images/illyrianpixel_logo.png"
                 alt=""

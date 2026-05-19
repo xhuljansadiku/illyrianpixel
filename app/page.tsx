@@ -1,28 +1,30 @@
 ﻿import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { faqSchema } from "@/lib/seo";
-import BackToTop from "@/components/BackToTop";
-import BrandSignature from "@/components/BrandSignature";
-import CursorTrail from "@/components/CursorTrail";
-import CursorSpotlight from "@/components/CursorSpotlight";
-import CustomCursor from "@/components/CustomCursor";
-import EasterEggOverlay from "@/components/EasterEggOverlay";
 import FAQ from "@/components/FAQ";
 import FeaturedWork from "@/components/FeaturedWork";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
-import PageTransitionOverlay from "@/components/PageTransitionOverlay";
-import Preloader from "@/components/Preloader";
 import Process from "@/components/Process";
 import SectionAura from "@/components/SectionAura";
-import ScrollProgress from "@/components/ScrollProgress";
 import PseNe from "@/components/PseNe";
 import Services from "@/components/Services";
 import TrustedClients from "@/components/TrustedClients";
-import SocialProofToasts from "@/components/SocialProofToasts";
 import Testimonials from "@/components/Testimonials";
-import WhatsAppButton from "@/components/WhatsAppButton";
+
+const BackToTop = dynamic(() => import("@/components/BackToTop"), { ssr: false });
+const BrandSignature = dynamic(() => import("@/components/BrandSignature"), { ssr: false });
+const CursorTrail = dynamic(() => import("@/components/CursorTrail"), { ssr: false });
+const CursorSpotlight = dynamic(() => import("@/components/CursorSpotlight"), { ssr: false });
+const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
+const EasterEggOverlay = dynamic(() => import("@/components/EasterEggOverlay"), { ssr: false });
+const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
+const Preloader = dynamic(() => import("@/components/Preloader"), { ssr: false });
+const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"), { ssr: false });
+const SocialProofToasts = dynamic(() => import("@/components/SocialProofToasts"), { ssr: false });
+const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Illyrian Pixel, Agjenci Ueb Dizajni Luksoz & Marketing Premium",

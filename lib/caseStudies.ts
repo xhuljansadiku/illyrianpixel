@@ -32,7 +32,7 @@ export const caseStudies: CaseStudy[] = [
     result: "Klientët e duhur, mesazhi i duhur e bëmë website-in të flasë për ta.",
     metrics: ["Mesazh B2B i strukturuar", "Navigim pa friction", "Kërkesa industriale cilësore"],
     tags: ["Branding", "Content (IT/EN)", "Website"],
-    heroImage: "/images/projects/esm-group.png",
+    heroImage: "/images/projects/esm-group.avif",
     liveUrl: "https://esm-group.eu/"
   },
   {
@@ -70,7 +70,7 @@ export const caseStudies: CaseStudy[] = [
     result: "Klientët lokalë gjejnë shërbimin dhe nisin kontaktin direkt.",
     metrics: ["Shërbime të dalluara qartë", "CTA i drejtpërdrejtë", "Kërkesa me pritshmëri të sakta"],
     tags: ["Local Service", "Lead Flow", "Clarity"],
-    heroImage: "/images/projects/hauswerk-niederbayern.png",
+    heroImage: "/images/projects/hauswerk-niederbayern.avif",
     liveUrl: "https://hauswerk-niederbayern.de/"
   },
   {

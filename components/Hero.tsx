@@ -331,7 +331,7 @@ export default function Hero() {
           <div ref={helmetRef} className="absolute right-0 top-[2%] z-30 h-[88%] w-[88%] md:h-[92%] md:w-[92%]">
             <div className="helmet helm-radial-feather relative h-full w-full">
               <Image
-                src="/images/hero-helmet.png"
+                src="/images/hero-helmet.avif"
                 alt="Illyrian Pixel, Agjenci Dixhitale Premium për Biznese Shqiptare"
                 fill
                 priority
