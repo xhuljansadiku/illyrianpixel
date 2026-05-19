@@ -120,7 +120,7 @@ export default function InquiryModal() {
               </label>
               <label className="text-sm">
                 <span className="mb-1 block text-white/72">Email</span>
-                <input className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.email} onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))} />
+                <input type="email" className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.email} onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))} />
               </label>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
