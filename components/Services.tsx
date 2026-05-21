@@ -1,16 +1,15 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
-import ServiceOverviewLuxCard from "@/components/ServiceOverviewLuxCard";
+import ServiceBannerCard from "@/components/ServiceBannerCard";
 import { SERVICE_OVERVIEW_CARDS } from "@/lib/serviceOverviewCards";
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const cardRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const reducedMotion = useReducedMotion();
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current || reducedMotion) return;
@@ -70,14 +69,12 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="mt-14 grid auto-rows-[1fr] gap-6 sm:gap-7 md:grid-cols-2 lg:grid-cols-3 lg:items-stretch lg:gap-8">
+        <div className="mt-14 flex flex-col gap-6 md:gap-7">
           {SERVICE_OVERVIEW_CARDS.map((service, idx) => (
-            <ServiceOverviewLuxCard
+            <ServiceBannerCard
               key={service.href}
               service={service}
-              idx={idx}
-              hoveredCard={hoveredCard}
-              setHoveredCard={setHoveredCard}
+              reversed={idx % 2 !== 0}
               cardRef={(node) => {
                 cardRefs.current[idx] = node;
               }}

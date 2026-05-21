@@ -1,15 +1,14 @@
 ﻿"use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ServiceOverviewLuxCard from "@/components/ServiceOverviewLuxCard";
+import ServiceBannerCard from "@/components/ServiceBannerCard";
 import { SHERBIMET_PAGE_CARDS } from "@/lib/serviceOverviewCards";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 export default function SherbimetPageClient() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
   const siPunojmeRef = useRef<HTMLElement | null>(null);
 
@@ -123,14 +122,12 @@ export default function SherbimetPageClient() {
         {/* Cards */}
         <section className="relative z-[1] border-b border-white/10">
           <div className="section-wrap py-14 md:py-20">
-            <div className="mt-2 grid auto-rows-[1fr] gap-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3 lg:items-stretch lg:gap-8">
+            <div className="flex flex-col gap-6 md:gap-8">
               {SHERBIMET_PAGE_CARDS.map((service, idx) => (
-                <ServiceOverviewLuxCard
+                <ServiceBannerCard
                   key={service.href}
                   service={service}
-                  idx={idx}
-                  hoveredCard={hoveredCard}
-                  setHoveredCard={setHoveredCard}
+                  reversed={idx % 2 !== 0}
                   headingAs="h2"
                 />
               ))}
