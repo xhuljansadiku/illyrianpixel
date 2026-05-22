@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { caseStudies } from "@/lib/caseStudies";
 import { blogPosts } from "@/lib/blogPosts";
 import { seo } from "@/lib/seo";
 
@@ -27,11 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date()
   }));
 
-  const caseStudyRoutes = caseStudies.map((item) => ({
-    url: `${seo.siteUrl}/projektet/${item.slug}`,
-    lastModified: new Date()
-  }));
-
   const dedicatedBlogSlugs = new Set([
     "si-te-rrisesh-klientet-online",
     "gabimet-kryesore-ne-website",
@@ -53,7 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date()
     }));
 
-  return [...staticRoutes, ...caseStudyRoutes, ...blogRoutes, ...dedicatedBlogRoutes];
+  return [...staticRoutes, ...blogRoutes, ...dedicatedBlogRoutes];
 }
 
 
