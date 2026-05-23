@@ -234,7 +234,7 @@ export default function Process() {
         <h2 ref={headingRef} className="section-title mt-3 mb-14 max-w-5xl">
           Proces i qartë, pa surpriza
           <br className="hidden md:block" />
-          <span className="text-accent">Nga ideja te një website që sjell klientë</span>
+          <span className="block text-accent md:inline">Nga ideja te një website që sjell klientë</span>
         </h2>
         <div ref={timelineRef} className="process-timeline relative pb-2">
           <span className="process-line-track absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-white/14 md:block" />

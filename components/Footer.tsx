@@ -234,11 +234,11 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom bar ── */}
-        <div className="footer-reveal footer-bottom mt-16 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.07] pt-5 pb-[40px] md:mt-20">
-          <p className="font-body text-[12px] font-light tracking-[0.1em] text-white/25">
+        <div className="footer-reveal footer-bottom mt-16 flex flex-col items-center gap-4 border-t border-white/[0.07] pt-5 pb-[40px] text-center md:mt-20 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-3 md:text-left">
+          <p className="font-body text-[12px] font-light tracking-[0.08em] text-white/25 md:tracking-[0.1em]">
             © 2026 Illyrian Pixel
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center justify-center gap-6">
 
             <a
               href="/privacy"
@@ -255,7 +255,7 @@ export default function Footer() {
           </div>
           <a
             href="/"
-            className="footer-link group inline-flex items-center gap-2 font-body text-[12px] font-light tracking-[0.1em] text-white/25 transition-colors duration-300 hover:text-white"
+            className="footer-link group inline-flex items-center gap-2 font-body text-[12px] font-light tracking-[0.08em] text-white/25 transition-colors duration-300 hover:text-white md:tracking-[0.1em]"
           >
             Kthehu sipër{" "}
             <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-[2px]">↑</span>

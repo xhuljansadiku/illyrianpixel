@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
@@ -60,8 +60,8 @@ export default function Services() {
           <SectionMark label="SHËRBIMET TONA" eyebrowClassName="!tracking-[0.32em] md:!tracking-[0.4em]" />
         </div>
         <h2 className="services-intro-item cadence-title section-title mt-3 max-w-4xl tracking-[-0.02em]">
-          <span className="block">Website, Marketing dhe Branding</span>
-          <span className="block">për më shumë <span className="text-[#ab8339]">klientë dhe shitje</span>.</span>
+          <span className="md:block">Website, Marketing dhe Branding </span>
+          <span className="md:block">për më shumë <span className="text-[#ab8339]">klientë dhe shitje</span>.</span>
         </h2>
         <div className="services-intro-item mt-4 max-w-2xl">
           <p className="cadence-body muted text-sm md:text-base">
@@ -85,7 +85,7 @@ export default function Services() {
 
         <div className="mt-12 flex justify-start border-t border-white/10 pt-9 md:mt-14 md:pt-10">
           <a href="/sherbimet" className="luxury-link">
-            {"T\u00cb GJITHA SH\u00cbRBIMET "}
+            {"TË GJITHA SHËRBIMET "}
             <span aria-hidden>→</span>
           </a>
         </div>
@@ -93,3 +93,4 @@ export default function Services() {
     </section>
   );
 }
+

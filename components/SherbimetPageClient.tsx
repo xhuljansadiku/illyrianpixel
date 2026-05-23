@@ -113,7 +113,7 @@ export default function SherbimetPageClient() {
 
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
 
-            <p className="hero-subtext mt-6 whitespace-nowrap font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
+            <p className="hero-subtext mt-6 font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42 md:whitespace-nowrap">
               {"Nga website dhe SEO, te reklamat dhe branding, ndërtojmë zgjidhje të plota për bizneset shqiptare."}
             </p>
           </div>
@@ -142,7 +142,7 @@ export default function SherbimetPageClient() {
             <h2 className="sp-headline mt-5 font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-white">
               {"Një shërbim ose sistem i plotë."}
               <br className="hidden md:block" />
-              <span className="text-accent">{"Zgjidhni ju."}</span>
+              <span className="block text-accent md:inline">{"Zgjidhni ju."}</span>
             </h2>
             <p className="sp-subtext mt-6 max-w-[50ch] font-body text-[0.95rem] font-light leading-[1.7] text-white/45">
               {"Kur website, SEO dhe marketing punojnë bashkë, rezultatet shumëfishohen."}

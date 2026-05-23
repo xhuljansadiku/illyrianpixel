@@ -1,14 +1,33 @@
 ﻿"use client";
 
-import { FormEvent, useRef, useMemo, useState } from "react";
+import Image from "next/image";
+import { FormEvent, KeyboardEvent as ReactKeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
+import {
+  getPhoneCountryName,
+  getPhoneCountryFlagSrc,
+  orderedPhoneCountries,
+} from "@/lib/phoneCountries";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
 const budgets = ["< €1,000", "€1,000 – €3,000", "€3,000 – €7,000", "€7,000+"];
 const timelines = ["ASAP", "2-4 javë", "1-2 muaj", "Fleksibël"];
+type DropdownOption = {
+  value: string;
+  label: string;
+  meta?: string;
+  flagSrc?: string;
+};
+
+const phoneCountryOptions: DropdownOption[] = orderedPhoneCountries.map((country) => ({
+  value: country.code,
+  label: getPhoneCountryName(country.code),
+  meta: country.dialCode,
+  flagSrc: getPhoneCountryFlagSrc(country.code),
+}));
 
 const whatsappHref = buildWhatsAppChatHref(
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164
@@ -17,9 +36,22 @@ const whatsappHref = buildWhatsAppChatHref(
 const CARD =
   "relative overflow-hidden rounded-[1.5rem] border border-[#262626] bg-[rgba(10,10,10,0.72)] backdrop-blur-[12px]";
 
+function sanitizePhoneInput(value: string) {
+  return value.replace(/[^\d\s\-()]/g, "").trimStart();
+}
+
+function normalizeDropdownText(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
 export default function ContactPageClient() {
   const heroRef = useRef<HTMLElement>(null);
   const [success, setSuccess] = useState(false);
+  const defaultPhoneCountry =
+    phoneCountryOptions.find((country) => country.value === "AL") ?? phoneCountryOptions[0];
 
   useIsomorphicLayoutEffect(() => {
     if (!heroRef.current) return;
@@ -50,19 +82,26 @@ export default function ContactPageClient() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
+    phoneCountry: defaultPhoneCountry.value,
     businessName: "",
     service: services[0],
     budget: budgets[1],
     timeline: timelines[2],
     message: "",
   });
+  const selectedPhoneCountry =
+    phoneCountryOptions.find((country) => country.value === form.phoneCountry) ?? defaultPhoneCountry;
+  const phoneDigits = form.phone.replace(/\D/g, "");
+  const formattedPhone = `${selectedPhoneCountry.meta ?? ""} ${form.phone.trim()}`.trim();
 
   const canSubmit = useMemo(
     () =>
       form.name.trim().length > 1 &&
       /\S+@\S+\.\S+/.test(form.email) &&
+      phoneDigits.length > 5 &&
       form.message.trim().length > 6,
-    [form]
+    [form, phoneDigits]
   );
 
   const set = (key: keyof typeof form) => (v: string) =>
@@ -70,37 +109,58 @@ export default function ContactPageClient() {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!canSubmit) {
-      setError("Ju lutem plotësoni fushat kryesore.");
+      setError("Ju lutem plotësoni emrin, email-in, numrin e telefonit dhe mesazhin.");
       return;
     }
+
     setError("");
     setLoading(true);
+
     try {
-      const res = await fetch("https://formsubmit.co/ajax/info@illyrianpixel.com", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          Emri: form.name,
-          Email: form.email,
-          Biznesi: form.businessName,
-          "Shërbimi": form.service,
-          Buxheti: form.budget,
-          "Afati kohor": form.timeline,
-          Mesazhi: form.message,
-          _subject: `Kërkesë e re nga ${form.name}, ${form.businessName}`,
-          _captcha: "false",
-          _honey: "",
+          name: form.name,
+          email: form.email,
+          phone: formattedPhone,
+          businessName: form.businessName,
+          service: form.service,
+          budget: form.budget,
+          timeline: form.timeline,
+          message: form.message,
         }),
       });
+
       const data = await res.json();
+
       if (data.success) {
         setSuccess(true);
+
+        setForm({
+          name: "",
+          email: "",
+          phone: "",
+          phoneCountry: defaultPhoneCountry.value,
+          businessName: "",
+          service: services[0],
+          budget: budgets[1],
+          timeline: timelines[2],
+          message: "",
+        });
       } else {
-        setError("Diçka shkoi keq. Provo sërish ose shkruaj direkt: info@illyrianpixel.com");
+        setError(
+          "Diçka shkoi keq. Provo sërish ose shkruaj direkt: info@illyrianpixel.com"
+        );
       }
     } catch {
-      setError("Nuk u dërgua kërkesa. Kontakto direkt: info@illyrianpixel.com");
+      setError(
+        "Nuk u dërgua kërkesa. Kontakto direkt: info@illyrianpixel.com"
+      );
     } finally {
       setLoading(false);
     }
@@ -126,12 +186,12 @@ export default function ContactPageClient() {
             <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"KONTAKT"}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="md:whitespace-pre-line font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
-                {"Rezervo një konsultë falas\ndhe merr një plan konkret\npër biznesin tënd."}
+                {"Nisni rritjen e biznesit sot."}
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
-            <p className="hero-subtext mt-6 md:whitespace-pre-line font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
-              {"30 minuta pa detyrim.\nDo dalësh me ide të qarta për hapat e radhës."}
+            <p className="hero-subtext mt-6 whitespace-pre-line font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
+              {"Plotësoni formën për një konsultë.\nDo t'ju kontaktojmë brenda 24 orëve."}
             </p>
           </div>
         </section>
@@ -171,18 +231,28 @@ export default function ContactPageClient() {
                     <div className="grid gap-6 md:grid-cols-2">
                       <LuxInput
                         label="Emri"
-                        placeholder="Si quhesh?"
+                        placeholder="Emri juaj i plotë"
                         value={form.name}
                         onChange={set("name")}
                       />
                       <LuxInput
                         label="E-mail"
-                        placeholder="Email profesional..."
+                        placeholder="Email-i juaj"
                         type="email"
                         value={form.email}
                         onChange={set("email")}
                       />
                     </div>
+
+                    <PhoneInput
+                      label="Numri i telefonit"
+                      country={form.phoneCountry}
+                      onCountryChange={set("phoneCountry")}
+                      prefix={selectedPhoneCountry.meta ?? ""}
+                      placeholder="69 123 4567"
+                      value={form.phone}
+                      onChange={(value) => set("phone")(sanitizePhoneInput(value))}
+                    />
 
                     <LuxInput
                       label="Emri i biznesit (Nëse keni një të tillë)"
@@ -221,7 +291,7 @@ export default function ContactPageClient() {
                         rows={4}
                         value={form.message}
                         onChange={(e) => set("message")(e.target.value)}
-                        placeholder="Na trego pak se me çfarë ke nevojë..."
+                        placeholder="Na tregoni më shumë rreth projektit tuaj..."
                         className="font-ui w-full resize-none border-b border-[#262626] bg-transparent py-3 text-[14px] font-light leading-relaxed tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 focus:border-[#ab8339]"
                       />
                     </label>
@@ -307,6 +377,377 @@ function LuxInput({
   );
 }
 
+function BrandDropdown({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: DropdownOption[];
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const searchBufferRef = useRef("");
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const selected = options.find((option) => option.value === value) ?? options[0];
+  const selectedIndex = Math.max(
+    0,
+    options.findIndex((option) => option.value === selected?.value)
+  );
+  const [activeIndex, setActiveIndex] = useState(selectedIndex);
+
+  const clearSearchBuffer = () => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+      searchTimeoutRef.current = null;
+    }
+
+    searchBufferRef.current = "";
+  };
+
+  const scrollOptionIntoView = (index: number) => {
+    optionRefs.current[index]?.scrollIntoView({ block: "nearest" });
+  };
+
+  const updateActiveIndex = (index: number) => {
+    setActiveIndex(index);
+
+    if (open) {
+      requestAnimationFrame(() => scrollOptionIntoView(index));
+    }
+  };
+
+  const findMatchingOptionIndex = (query: string, startIndex: number) => {
+    if (!query) return -1;
+
+    const normalizedQuery = normalizeDropdownText(query);
+    const isRepeatedCharacter =
+      normalizedQuery.length > 1 &&
+      normalizedQuery.split("").every((char) => char === normalizedQuery[0]);
+    const effectiveQuery = isRepeatedCharacter ? normalizedQuery[0] : normalizedQuery;
+
+    for (let offset = 0; offset < options.length; offset += 1) {
+      const index = (startIndex + offset) % options.length;
+      const label = normalizeDropdownText(options[index].label);
+
+      if (label.startsWith(effectiveQuery)) {
+        return index;
+      }
+    }
+
+    return -1;
+  };
+
+  const runTypeahead = (key: string) => {
+    const nextBuffer = `${searchBufferRef.current}${key}`;
+    searchBufferRef.current = nextBuffer;
+
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = setTimeout(() => {
+      searchBufferRef.current = "";
+      searchTimeoutRef.current = null;
+    }, 650);
+
+    const startIndex = open ? activeIndex + 1 : selectedIndex + 1;
+    const matchIndex = findMatchingOptionIndex(nextBuffer, startIndex);
+
+    if (matchIndex === -1) return;
+
+    if (open) {
+      updateActiveIndex(matchIndex);
+      return;
+    }
+
+    onChange(options[matchIndex].value);
+  };
+
+  const handleKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+
+      if (!open) {
+        setOpen(true);
+        setActiveIndex(selectedIndex);
+        return;
+      }
+
+      updateActiveIndex((activeIndex + 1) % options.length);
+      return;
+    }
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+
+      if (!open) {
+        setOpen(true);
+        setActiveIndex(selectedIndex);
+        return;
+      }
+
+      updateActiveIndex((activeIndex - 1 + options.length) % options.length);
+      return;
+    }
+
+    if (event.key === "Home") {
+      event.preventDefault();
+
+      if (!open) {
+        onChange(options[0].value);
+        return;
+      }
+
+      updateActiveIndex(0);
+      return;
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+
+      if (!open) {
+        onChange(options[options.length - 1].value);
+        return;
+      }
+
+      updateActiveIndex(options.length - 1);
+      return;
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      if (!open) {
+        setOpen(true);
+        setActiveIndex(selectedIndex);
+        return;
+      }
+
+      onChange(options[activeIndex].value);
+      setOpen(false);
+      return;
+    }
+
+    if (event.key === "Escape") {
+      if (open) {
+        event.preventDefault();
+        setOpen(false);
+      }
+      return;
+    }
+
+    if (event.key === " " && !open) {
+      event.preventDefault();
+      setOpen(true);
+      setActiveIndex(selectedIndex);
+      return;
+    }
+
+    if (
+      event.key.length === 1 &&
+      !event.altKey &&
+      !event.ctrlKey &&
+      !event.metaKey
+    ) {
+      event.preventDefault();
+      runTypeahead(event.key);
+    }
+  };
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) {
+      setActiveIndex(selectedIndex);
+      return;
+    }
+
+    requestAnimationFrame(() => scrollOptionIntoView(activeIndex));
+  }, [activeIndex, open, selectedIndex]);
+
+  useEffect(() => () => clearSearchBuffer(), []);
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        ref={triggerRef}
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        onClick={() => setOpen((state) => !state)}
+        onKeyDown={handleKeyDown}
+        className={`font-ui flex w-full items-center gap-3 border-b bg-transparent py-3 text-left text-[14px] font-light tracking-[0.3px] outline-none transition-colors duration-300 ${
+          open
+            ? "border-[#ab8339]"
+            : "border-[#262626] hover:border-[#ab8339]/45 focus:border-[#ab8339]"
+        }`}
+      >
+        {selected?.flagSrc ? (
+          <Image
+            src={selected.flagSrc}
+            alt=""
+            width={24}
+            height={16}
+            className="h-4 w-6 shrink-0 rounded-[2px] object-cover shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+          />
+        ) : null}
+        <span className="min-w-0 flex-1 truncate text-white">{selected?.label}</span>
+        {selected?.meta ? (
+          <span className="shrink-0 text-[13px] font-medium text-[#ab8339]">
+            {selected.meta}
+          </span>
+        ) : null}
+        <span
+          aria-hidden
+          className={`shrink-0 text-[10px] transition-all duration-300 ${
+            open ? "translate-y-[1px] rotate-180 text-[#ab8339]" : "text-[#A0A0A0]"
+          }`}
+        >
+          ↓
+        </span>
+      </button>
+
+      {open ? (
+        <div className="absolute left-0 right-0 top-full z-40 pt-3">
+          <div className="overflow-hidden rounded-[1rem] border border-[#ab8339]/20 bg-[rgba(10,10,10,0.98)] p-2 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+            <div
+              className="max-h-72 overflow-y-auto pr-1"
+              role="listbox"
+              aria-activedescendant={`dropdown-option-${activeIndex}`}
+            >
+              {options.map((option, index) => {
+                const isSelected = option.value === selected?.value;
+                const isActive = index === activeIndex;
+
+                return (
+                  <button
+                    key={option.value}
+                    ref={(element) => {
+                      optionRefs.current[index] = element;
+                    }}
+                    id={`dropdown-option-${index}`}
+                    role="option"
+                    aria-selected={isSelected}
+                    type="button"
+                    onClick={() => {
+                      onChange(option.value);
+                      setOpen(false);
+                      clearSearchBuffer();
+                      triggerRef.current?.focus();
+                    }}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    className={`font-ui flex w-full items-center gap-3 rounded-[0.9rem] px-3 py-3 text-left text-[14px] tracking-[0.3px] transition-colors duration-200 ${
+                      isActive
+                        ? "bg-[#ab8339]/14 text-white"
+                        : isSelected
+                          ? "bg-[#ab8339]/8 text-white/90"
+                          : "text-white/80 hover:bg-[#ab8339]/10 hover:text-white"
+                    }`}
+                  >
+                    {option.flagSrc ? (
+                      <Image
+                        src={option.flagSrc}
+                        alt=""
+                        width={24}
+                        height={16}
+                        className="h-4 w-6 shrink-0 rounded-[2px] object-cover shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+                      />
+                    ) : null}
+                    <span className="min-w-0 flex-1 truncate">{option.label}</span>
+                    {option.meta ? (
+                      <span
+                        className={`shrink-0 text-[12px] font-medium ${
+                          isSelected ? "text-[#f1d393]" : "text-[#ab8339]"
+                        }`}
+                      >
+                        {option.meta}
+                      </span>
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function PhoneInput({
+  label,
+  country,
+  onCountryChange,
+  prefix,
+  placeholder,
+  value,
+  onChange,
+}: {
+  label: string;
+  country: string;
+  onCountryChange: (v: string) => void;
+  prefix: string;
+  placeholder?: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="block">
+      <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
+        {label}
+      </span>
+      <div className="grid gap-4 md:grid-cols-[minmax(0,240px)_1fr]">
+        <BrandDropdown
+          value={country}
+          onChange={onCountryChange}
+          options={phoneCountryOptions}
+        />
+        <div className="flex items-center gap-3 border-b border-[#262626] transition-colors duration-300 hover:border-[#ab8339]/45 focus-within:border-[#ab8339]">
+          <span className="font-ui shrink-0 text-[14px] font-medium tracking-[0.3px] text-[#ab8339]">
+            {prefix}
+          </span>
+          <input
+            type="tel"
+            inputMode="tel"
+            value={value}
+            placeholder={placeholder}
+            onChange={(e) => onChange(e.target.value)}
+            className="font-ui w-full bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none placeholder:text-[#A0A0A0]/55"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Luxury ghost select ───────────────────────────────────────────────────────
 function LuxSelect({
   label,
@@ -319,30 +760,14 @@ function LuxSelect({
   onChange: (v: string) => void;
   items: string[];
 }) {
+  const options = items.map((item) => ({ value: item, label: item }));
+
   return (
-    <label className="block">
+    <div className="block">
       <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
         {label}
       </span>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="font-ui w-full appearance-none border-b border-[#262626] bg-transparent py-3 pr-5 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 focus:border-[#ab8339]"
-        >
-          {items.map((item) => (
-            <option key={item} value={item} className="bg-[#0a0a0a] text-white">
-              {item}
-            </option>
-          ))}
-        </select>
-        <span
-          aria-hidden
-          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-[10px] text-[#A0A0A0]"
-        >
-          ↓
-        </span>
-      </div>
-    </label>
+      <BrandDropdown value={value} onChange={onChange} options={options} />
+    </div>
   );
 }

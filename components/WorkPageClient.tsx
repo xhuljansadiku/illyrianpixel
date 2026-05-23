@@ -141,8 +141,11 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
-            <p className="hero-subtext mt-6 font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
-              {"Klient\u00eb nga Italia, Gjermania, Kosova, Anglia dhe Shqip\u00ebria."}
+            <p className="hero-subtext mt-6 max-w-3xl font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
+              {"Bashkëpunojmë me një rrjet të gjerë klientësh në Gjermani, Itali, Angli, Kosovë dhe Shqipëri."}
+            </p>
+            <p className="hero-subtext mt-5 max-w-3xl font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
+              {"Eksploroni më poshtë disa nga projektet tona."}
             </p>
           </div>
         </section>
