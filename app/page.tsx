@@ -2,17 +2,20 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { faqSchema } from "@/lib/seo";
-import FAQ from "@/components/FAQ";
-import FeaturedWork from "@/components/FeaturedWork";
-import Footer from "@/components/Footer";
+// Critical above-fold — static imports (SSR + no layout shift)
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
-import Process from "@/components/Process";
 import SectionAura from "@/components/SectionAura";
-import PseNe from "@/components/PseNe";
-import Services from "@/components/Services";
-import TrustedClients from "@/components/TrustedClients";
-import Testimonials from "@/components/Testimonials";
+
+// Below-fold — dynamic imports (code-split, deferred JS)
+const FAQ           = dynamic(() => import("@/components/FAQ"));
+const FeaturedWork  = dynamic(() => import("@/components/FeaturedWork"));
+const Footer        = dynamic(() => import("@/components/Footer"));
+const Process       = dynamic(() => import("@/components/Process"));
+const PseNe         = dynamic(() => import("@/components/PseNe"));
+const Services      = dynamic(() => import("@/components/Services"));
+const Testimonials  = dynamic(() => import("@/components/Testimonials"));
+const TrustedClients = dynamic(() => import("@/components/TrustedClients"));
 
 const BackToTop = dynamic(() => import("@/components/BackToTop"), { ssr: false });
 const BrandSignature = dynamic(() => import("@/components/BrandSignature"), { ssr: false });
@@ -68,7 +71,7 @@ export default function HomePage() {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <main className="overflow-x-clip bg-bg pb-4 pt-14 md:pt-16">
+      <main id="main-content" className="overflow-x-clip bg-bg pb-4 pt-14 md:pt-16">
         <Hero />
         <Services />
         <PseNe />

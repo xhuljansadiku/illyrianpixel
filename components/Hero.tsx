@@ -335,7 +335,9 @@ export default function Hero() {
                 alt="Illyrian Pixel, Agjenci Dixhitale Premium për Biznese Shqiptare"
                 fill
                 priority
-                sizes="(max-width: 768px) 88vw, (max-width: 1024px) 50vw, 44vw"
+                fetchPriority="high"
+                decoding="sync"
+                sizes="(max-width: 480px) 95vw, (max-width: 768px) 88vw, (max-width: 1024px) 50vw, 44vw"
                 className="hero-helmet-img object-contain object-right opacity-[0.97] [filter:contrast(1.12)_saturate(1.08)_brightness(0.98)]"
               />
             </div>

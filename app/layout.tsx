@@ -120,6 +120,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="sq" dir="ltr" suppressHydrationWarning>
       <head>
+        {/* ── LCP: Preload hero image (above-fold, highest priority) ── */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-helmet.avif"
+          type="image/avif"
+          // @ts-expect-error fetchpriority is valid HTML but not yet in TS types
+          fetchpriority="high"
+          imageSrcSet="/images/hero-helmet.avif"
+        />
+
         {/* ── Preconnect & DNS prefetch ── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -149,11 +160,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         suppressHydrationWarning
         className={`${plusJakarta.variable} ${display.variable} ${pixel.variable} bg-bg font-body text-text antialiased`}
       >
-        {/* Skip navigation for accessibility & SEO */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black focus:outline-none"
-        >
+        {/* Skip navigation — WCAG 2.1 AA, keyboard accessible */}
+        <a href="#main-content" className="skip-nav" tabIndex={0}>
           Kalo te përmbajtja kryesore
         </a>
 

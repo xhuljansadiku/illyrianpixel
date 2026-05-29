@@ -6,6 +6,13 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./lib/**/*.{js,ts,jsx,tsx,mdx}"
   ],
+  // Safelist classes used dynamically (string interpolation, JS-generated)
+  safelist: [
+    "sr-only",
+    "not-sr-only",
+    "focus:not-sr-only",
+    { pattern: /^(opacity|translate|scale|rotate)-/ },
+  ],
   theme: {
     extend: {
       colors: {
