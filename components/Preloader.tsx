@@ -29,6 +29,7 @@ export default function Preloader() {
   }, []);
 
   useLayoutEffect(() => {
+    document.getElementById("ip-precover")?.remove();
     if (!visible || offline) return;
     const { gsap } = ensureGSAP();
     const counter = { value: 0 };

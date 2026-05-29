@@ -27,9 +27,21 @@ const SocialProofToasts = dynamic(() => import("@/components/SocialProofToasts")
 const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton"), { ssr: false });
 
 export const metadata: Metadata = {
-  title: "Illyrian Pixel, Agjenci Ueb Dizajni Luksoz & Marketing Premium",
+  title: "Web Design & Marketing Premium Shqipëri | Illyrian Pixel",
   description:
-    "Ndërtojmë website premium, landing page që konvertojnë dhe marketing strategjik për biznese ambicioze. Konsultim falas · Plan brenda 24h · Illyrian Pixel."
+    "Website premium, SEO & marketing dixhital për biznese shqiptare. Konsultim falas, plan konkret brenda 24h. Illyrian Pixel — agjenci dixhitale premium.",
+  keywords: [
+    "web design shqipëri", "agjenci dixhitale tiranë", "website premium albania",
+    "seo shqipëri", "marketing online", "e-commerce albania", "google ads shqipëri",
+    "branding biznese", "landing page konvertim", "illyrian pixel"
+  ],
+  alternates: { canonical: "https://illyrianpixel.com" },
+  openGraph: {
+    title: "Web Design & Marketing Premium | Illyrian Pixel",
+    description: "Website premium, SEO & marketing dixhital për biznese shqiptare. Konsultim falas, plan brenda 24h.",
+    url: "https://illyrianpixel.com",
+    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630, alt: "Illyrian Pixel — Web Design & Marketing Premium Shqipëri" }]
+  }
 };
 
 export default function HomePage() {

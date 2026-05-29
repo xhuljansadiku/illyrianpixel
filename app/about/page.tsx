@@ -8,7 +8,8 @@ import Footer from "@/components/Footer";
 export const metadata = buildMetadata(
   "Rreth Illyrian Pixel — Studio e Fokusuar, Jo Agjenci e Madhe",
   "Illyrian Pixel është një studio e specializuar dixhitale. Çdo projekt trajtohet direkt nga eksperti — pa account manager, pa junior, pa kompromis cilësie.",
-  "/about"
+  "/about",
+  ["rreth illyrian pixel", "studio dizajni shqipëri", "agjenci dixhitale tiranë", "web design premium albania", "ekspert dixhital shqiptar"]
 );
 
 const values = [

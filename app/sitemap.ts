@@ -2,29 +2,36 @@ import type { MetadataRoute } from "next";
 import { blogPosts } from "@/lib/blogPosts";
 import { seo } from "@/lib/seo";
 
+const LAUNCH_DATE = new Date("2026-01-15");
+const BLOG_DATES: Record<string, Date> = {
+  "si-te-rrisesh-klientet-online": new Date("2026-04-10"),
+  "gabimet-kryesore-ne-website": new Date("2026-04-15"),
+  "pse-seo-eshte-kritik": new Date("2026-04-20"),
+  "google-ads-vs-seo": new Date("2026-05-05"),
+  "pse-ecommerce-eshte-i-rendesishem": new Date("2026-05-10"),
+  "cfare-eshte-branding": new Date("2026-05-15"),
+};
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = [
-    "",
-    "/sherbimet",
-    "/cmimet",
-    "/services/website",
-    "/services/ecommerce",
-    "/services/marketing-growth",
-    "/services/branding-content",
-    "/services/smm",
-    "/services/mirembajtja",
-    "/services/seo",
-    "/services/google-ads",
-    "/projektet",
-    "/about",
-    "/blog",
-    "/contact",
-    "/privacy",
-    "/terms"
-  ].map((path) => ({
-    url: `${seo.siteUrl}${path}`,
-    lastModified: new Date()
-  }));
+  const staticRoutes: { path: string; priority: number; changefreq: MetadataRoute.Sitemap[number]["changeFrequency"]; date: Date }[] = [
+    { path: "",                          priority: 1.0,  changefreq: "weekly",  date: LAUNCH_DATE },
+    { path: "/sherbimet",                priority: 0.9,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/cmimet",                   priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/contact",                  priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/projektet",                priority: 0.8,  changefreq: "weekly",  date: LAUNCH_DATE },
+    { path: "/about",                    priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/blog",                     priority: 0.75, changefreq: "weekly",  date: new Date("2026-05-15") },
+    { path: "/services/website",         priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/ecommerce",       priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/marketing-growth",priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/branding-content",priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/smm",             priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/mirembajtja",     priority: 0.7,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/seo",             priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/google-ads",      priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/privacy",                  priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },
+    { path: "/terms",                    priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },
+  ];
 
   const dedicatedBlogSlugs = new Set([
     "si-te-rrisesh-klientet-online",
@@ -37,17 +44,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const dedicatedBlogRoutes = [...dedicatedBlogSlugs].map((slug) => ({
     url: `${seo.siteUrl}/blog/${slug}`,
-    lastModified: new Date()
+    lastModified: BLOG_DATES[slug] ?? LAUNCH_DATE,
+    priority: 0.7,
+    changeFrequency: "monthly" as const,
   }));
 
   const blogRoutes = blogPosts
     .filter((item) => !dedicatedBlogSlugs.has(item.slug))
     .map((item) => ({
       url: `${seo.siteUrl}/blog/${item.slug}`,
-      lastModified: new Date()
+      lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
+      priority: 0.65,
+      changeFrequency: "monthly" as const,
     }));
 
-  return [...staticRoutes, ...blogRoutes, ...dedicatedBlogRoutes];
+  return [
+    ...staticRoutes.map(({ path, priority, changefreq, date }) => ({
+      url: `${seo.siteUrl}${path}`,
+      lastModified: date,
+      priority,
+      changeFrequency: changefreq,
+    })),
+    ...blogRoutes,
+    ...dedicatedBlogRoutes,
+  ];
 }
 
 

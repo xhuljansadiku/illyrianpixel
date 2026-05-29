@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Cormorant_Garamond, Press_Start_2P, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -9,7 +9,6 @@ import MagneticButtons from "@/components/MagneticButtons";
 import GlobalReveals from "@/components/GlobalReveals";
 import InteractiveGlow from "@/components/InteractiveGlow";
 
-/** Primary sans: body, UI, nav, buttons, luxury boutique rhythm */
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
   variable: "--font-body",
@@ -33,61 +32,140 @@ const pixel = Press_Start_2P({
 
 export const metadata: Metadata = {
   metadataBase: new URL(seo.siteUrl),
+  applicationName: "Illyrian Pixel",
   title: {
-    default: "Illyrian Pixel, Agjenci Dixhitale Premium",
+    default: "Illyrian Pixel — Agjenci Dixhitale Premium",
     template: "%s | Illyrian Pixel"
   },
   description: seo.defaultDescription,
   keywords: [
-    "agjenci ueb dizajni luksoz",
-    "landing page që konverton",
-    "marketing strategjik për biznese",
-    "website premium shqipëri",
-    "agjensi dixhitale tiranë",
+    "agjenci dixhitale shqipëri",
     "web design albania",
+    "website premium tiranë",
     "seo shqipëri",
-    "branding luksoz"
+    "marketing online biznese",
+    "e-commerce shqipëri",
+    "branding luksoz",
+    "google ads albania",
+    "agjenci ueb dizajni",
+    "illyrian pixel"
   ],
   authors: [{ name: "Illyrian Pixel", url: seo.siteUrl }],
   creator: "Illyrian Pixel",
   publisher: "Illyrian Pixel",
+  category: "Agjenci Dixhitale",
+  classification: "Business",
+  referrer: "origin-when-cross-origin",
+  formatDetection: { email: false, address: false, telephone: false },
   alternates: {
+    canonical: seo.siteUrl,
     languages: {
-      "sq": seo.siteUrl,
-      "sq-AL": seo.siteUrl,
+      "sq":      seo.siteUrl,
+      "sq-AL":   seo.siteUrl,
       "x-default": seo.siteUrl
     }
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" }
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    }
   },
   openGraph: {
-    title: "Illyrian Pixel, Agjenci Dixhitale Premium",
+    title: "Illyrian Pixel — Agjenci Dixhitale Premium",
     description: seo.defaultDescription,
     url: seo.siteUrl,
     siteName: "Illyrian Pixel",
     locale: "sq_AL",
     type: "website",
-    images: [{ url: seo.ogImage, width: 1200, height: 630, alt: "Illyrian Pixel, Agjenci Ueb Dizajni Luksoz" }]
+    images: [{
+      url: seo.ogImage,
+      width: 1200,
+      height: 630,
+      alt: "Illyrian Pixel — Agjenci Dixhitale Premium për Biznese Shqiptare"
+    }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Illyrian Pixel, Agjenci Dixhitale Premium",
+    site: "@illyrianpixel",
+    creator: "@illyrianpixel",
+    title: "Illyrian Pixel — Agjenci Dixhitale Premium",
     description: seo.defaultDescription,
-    images: [seo.ogImage],
-    creator: "@illyrianpixel"
+    images: [{
+      url: seo.ogImage,
+      alt: "Illyrian Pixel — Agjenci Dixhitale Premium"
+    }]
+  },
+  other: {
+    "geo.region":    "AL-11",
+    "geo.placename": "Tiranë, Shqipëri",
+    "geo.position":  "41.3275;19.8187",
+    "ICBM":          "41.3275, 19.8187",
+    "theme-color":   "#ab8339",
+    "color-scheme":  "dark",
+    "rating":        "general",
+    "revisit-after": "7 days",
+    "language":      "Albanian",
+    "copyright":     "Illyrian Pixel 2024–2026",
   }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="sq" suppressHydrationWarning>
+    <html lang="sq" dir="ltr" suppressHydrationWarning>
+      <head>
+        {/* ── Preconnect & DNS prefetch ── */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+        {/* ── Favicons ── */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
+        {/* ── Theme color ── */}
+        <meta name="theme-color" content="#07080c" />
+        <meta name="msapplication-TileColor" content="#07080c" />
+        <meta name="msapplication-navbutton-color" content="#ab8339" />
+
+        {/* ── Geo ── */}
+        <meta name="geo.region" content="AL-11" />
+        <meta name="geo.placename" content="Tiranë, Shqipëri" />
+        <meta name="geo.position" content="41.3275;19.8187" />
+        <meta name="ICBM" content="41.3275, 19.8187" />
+      </head>
       <body
         suppressHydrationWarning
         className={`${plusJakarta.variable} ${display.variable} ${pixel.variable} bg-bg font-body text-text antialiased`}
       >
+        {/* Skip navigation for accessibility & SEO */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black focus:outline-none"
+        >
+          Kalo te përmbajtja kryesore
+        </a>
+
+        {/* Preloader cover — removed by Preloader component on mount */}
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(!sessionStorage.getItem('ip_seen')){var d=document.createElement('div');d.id='ip-precover';d.style.cssText='position:fixed;inset:0;background:#07080c;z-index:119;pointer-events:none;';document.body.appendChild(d);}}catch(e){}})();`
+          }}
+        />
+
+        {/* ── JSON-LD Schemas ── */}
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
@@ -103,6 +181,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+
         <SmoothScroll>
           <InteractiveGlow />
           <MagneticButtons />
@@ -110,6 +189,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
         </SmoothScroll>
         <InquiryModal />
+
+        {/* ── Analytics (afterInteractive = non-blocking) ── */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-82MBE7PY5B"
           strategy="afterInteractive"
@@ -119,7 +200,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-82MBE7PY5B');
+            gtag('config', 'G-82MBE7PY5B', { anonymize_ip: true });
           `}
         </Script>
         <Script id="clarity-init" strategy="afterInteractive">

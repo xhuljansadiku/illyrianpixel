@@ -279,10 +279,10 @@ export default function Hero() {
           </h2>
           <div ref={paragraphRef} className="cadence-body space-y-4">
             <p className="font-body text-[1.05rem] font-light leading-[1.75] tracking-[0.01em] text-white/62">
-              {"Ndërtojmë website, SEO dhe marketing online për biznese shqiptare në Shqipëri dhe diasporë."}
+              {"Ndërtojmë Website & E-Commerce moderne, dominojmë Google me SEO dhe rrisim shitjet përmes Reklamave, Social Media & Branding."}
             </p>
             <p className="font-body text-[0.9rem] font-medium tracking-[0.02em] text-accent/85 text-center lg:text-left">
-              {"Plan konkret brenda 24 orëve pa pagesë."}
+              {"Plan konkret brenda 24 orëve, 100% pa pagesë."}
             </p>
             <p className="font-body text-[0.83rem] font-light tracking-[0.02em] text-white/38 text-center lg:text-left">
               {"Ju fokusohuni te biznesi. Klientët i sjellim ne."}
@@ -335,6 +335,7 @@ export default function Hero() {
                 alt="Illyrian Pixel, Agjenci Dixhitale Premium për Biznese Shqiptare"
                 fill
                 priority
+                sizes="(max-width: 768px) 88vw, (max-width: 1024px) 50vw, 44vw"
                 className="hero-helmet-img object-contain object-right opacity-[0.97] [filter:contrast(1.12)_saturate(1.08)_brightness(0.98)]"
               />
             </div>
