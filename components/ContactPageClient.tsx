@@ -1,16 +1,10 @@
 ﻿"use client";
 
-import Image from "next/image";
 import { FormEvent, KeyboardEvent as ReactKeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
-import {
-  getPhoneCountryName,
-  getPhoneCountryFlagSrc,
-  orderedPhoneCountries,
-} from "@/lib/phoneCountries";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
 const budgets = ["< €1,000", "€1,000 – €3,000", "€3,000 – €7,000", "€7,000+"];
@@ -18,16 +12,7 @@ const timelines = ["ASAP", "2-4 javë", "1-2 muaj", "Fleksibël"];
 type DropdownOption = {
   value: string;
   label: string;
-  meta?: string;
-  flagSrc?: string;
 };
-
-const phoneCountryOptions: DropdownOption[] = orderedPhoneCountries.map((country) => ({
-  value: country.code,
-  label: getPhoneCountryName(country.code),
-  meta: country.dialCode,
-  flagSrc: getPhoneCountryFlagSrc(country.code),
-}));
 
 const whatsappHref = buildWhatsAppChatHref(
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164
@@ -35,10 +20,6 @@ const whatsappHref = buildWhatsAppChatHref(
 
 const CARD =
   "relative overflow-hidden rounded-[1.5rem] border border-[#262626] bg-[rgba(10,10,10,0.72)] backdrop-blur-[12px]";
-
-function sanitizePhoneInput(value: string) {
-  return value.replace(/[^\d\s\-()]/g, "").trimStart();
-}
 
 function normalizeDropdownText(value: string) {
   return value
@@ -50,8 +31,6 @@ function normalizeDropdownText(value: string) {
 export default function ContactPageClient() {
   const heroRef = useRef<HTMLElement>(null);
   const [success, setSuccess] = useState(false);
-  const defaultPhoneCountry =
-    phoneCountryOptions.find((country) => country.value === "AL") ?? phoneCountryOptions[0];
 
   useIsomorphicLayoutEffect(() => {
     if (!heroRef.current) return;
@@ -83,25 +62,20 @@ export default function ContactPageClient() {
     name: "",
     email: "",
     phone: "",
-    phoneCountry: defaultPhoneCountry.value,
     businessName: "",
     service: services[0],
     budget: budgets[1],
     timeline: timelines[2],
     message: "",
   });
-  const selectedPhoneCountry =
-    phoneCountryOptions.find((country) => country.value === form.phoneCountry) ?? defaultPhoneCountry;
-  const phoneDigits = form.phone.replace(/\D/g, "");
-  const formattedPhone = `${selectedPhoneCountry.meta ?? ""} ${form.phone.trim()}`.trim();
 
   const canSubmit = useMemo(
     () =>
       form.name.trim().length > 1 &&
       /\S+@\S+\.\S+/.test(form.email) &&
-      phoneDigits.length > 5 &&
+      form.phone.trim().length > 5 &&
       form.message.trim().length > 6,
-    [form, phoneDigits]
+    [form]
   );
 
   const set = (key: keyof typeof form) => (v: string) =>
@@ -127,7 +101,7 @@ export default function ContactPageClient() {
         body: JSON.stringify({
           name: form.name,
           email: form.email,
-          phone: formattedPhone,
+          phone: form.phone,
           businessName: form.businessName,
           service: form.service,
           budget: form.budget,
@@ -145,7 +119,6 @@ export default function ContactPageClient() {
           name: "",
           email: "",
           phone: "",
-          phoneCountry: defaultPhoneCountry.value,
           businessName: "",
           service: services[0],
           budget: budgets[1],
@@ -244,14 +217,12 @@ export default function ContactPageClient() {
                       />
                     </div>
 
-                    <PhoneInput
+                    <LuxInput
                       label="Numri i telefonit"
-                      country={form.phoneCountry}
-                      onCountryChange={set("phoneCountry")}
-                      prefix={selectedPhoneCountry.meta ?? ""}
-                      placeholder="69 123 4567"
+                      placeholder="+355 69 123 4567"
+                      type="tel"
                       value={form.phone}
-                      onChange={(value) => set("phone")(sanitizePhoneInput(value))}
+                      onChange={set("phone")}
                     />
 
                     <LuxInput
@@ -610,21 +581,7 @@ function BrandDropdown({
             : "border-[#262626] hover:border-[#ab8339]/45 focus:border-[#ab8339]"
         }`}
       >
-        {selected?.flagSrc ? (
-          <Image
-            src={selected.flagSrc}
-            alt=""
-            width={24}
-            height={16}
-            className="h-4 w-6 shrink-0 rounded-[2px] object-cover shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-          />
-        ) : null}
         <span className="min-w-0 flex-1 truncate text-white">{selected?.label}</span>
-        {selected?.meta ? (
-          <span className="shrink-0 text-[13px] font-medium text-[#ab8339]">
-            {selected.meta}
-          </span>
-        ) : null}
         <span
           aria-hidden
           className={`shrink-0 text-[10px] transition-all duration-300 ${
@@ -672,25 +629,7 @@ function BrandDropdown({
                           : "text-white/80 hover:bg-[#ab8339]/10 hover:text-white"
                     }`}
                   >
-                    {option.flagSrc ? (
-                      <Image
-                        src={option.flagSrc}
-                        alt=""
-                        width={24}
-                        height={16}
-                        className="h-4 w-6 shrink-0 rounded-[2px] object-cover shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-                      />
-                    ) : null}
                     <span className="min-w-0 flex-1 truncate">{option.label}</span>
-                    {option.meta ? (
-                      <span
-                        className={`shrink-0 text-[12px] font-medium ${
-                          isSelected ? "text-[#f1d393]" : "text-[#ab8339]"
-                        }`}
-                      >
-                        {option.meta}
-                      </span>
-                    ) : null}
                   </button>
                 );
               })}
@@ -702,51 +641,6 @@ function BrandDropdown({
   );
 }
 
-function PhoneInput({
-  label,
-  country,
-  onCountryChange,
-  prefix,
-  placeholder,
-  value,
-  onChange,
-}: {
-  label: string;
-  country: string;
-  onCountryChange: (v: string) => void;
-  prefix: string;
-  placeholder?: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div className="block">
-      <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
-        {label}
-      </span>
-      <div className="grid gap-4 md:grid-cols-[minmax(0,240px)_1fr]">
-        <BrandDropdown
-          value={country}
-          onChange={onCountryChange}
-          options={phoneCountryOptions}
-        />
-        <div className="flex items-center gap-3 border-b border-[#262626] transition-colors duration-300 hover:border-[#ab8339]/45 focus-within:border-[#ab8339]">
-          <span className="font-ui shrink-0 text-[14px] font-medium tracking-[0.3px] text-[#ab8339]">
-            {prefix}
-          </span>
-          <input
-            type="tel"
-            inputMode="tel"
-            value={value}
-            placeholder={placeholder}
-            onChange={(e) => onChange(e.target.value)}
-            className="font-ui w-full bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none placeholder:text-[#A0A0A0]/55"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Luxury ghost select ───────────────────────────────────────────────────────
 function LuxSelect({
