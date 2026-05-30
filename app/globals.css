@@ -456,6 +456,14 @@ body::before {
   will-change: opacity, filter;
 }
 
+@media (max-width: 767px) {
+  /* filter animations are too expensive on mobile GPU */
+  .svc-web-hero-cta-pulse.ip-cta-primary {
+    animation: none;
+    will-change: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .svc-web-hero-cta-pulse.ip-cta-primary {
     animation: none;
@@ -1250,8 +1258,7 @@ body::before {
 
 @keyframes servicesIdleGlow {
   0%, 100% { opacity: 0.85; }
-  50%       { opacity: 1; filter: drop-shadow(0 0 6px rgba(171,131,57,0.2));
-  }
+  50%       { opacity: 1; }
 }
 
 /* Portfolio section — Bardhi Wellness floating 'B' coin spin */
@@ -1969,6 +1976,19 @@ html[data-aura="cta"] body {
   .hero-cta-row .luxury-link {
     width: auto;
     align-self: center;
+  }
+}
+
+/* ── Mobile GPU memory: release compositing layers for non-animated elements ── */
+@media (max-width: 767px) {
+  .services-luxe-card,
+  .featured-card,
+  .about-stat-card,
+  .partnership-row,
+  .services-list-wrap,
+  .process-line-dot,
+  .proof-line-dot {
+    will-change: auto;
   }
 }
 
