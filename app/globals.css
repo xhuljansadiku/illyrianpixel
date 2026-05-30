@@ -447,13 +447,23 @@ body::before {
 
 /* Web / E-Commerce service hero — primary CTA gold glow pulse */
 @keyframes svcWebHeroCtaGlowPulse {
-  0%, 100% { opacity: 1; filter: brightness(1); }
-  50%       { opacity: 0.92; filter: brightness(1.08) drop-shadow(0 0 12px rgba(212,175,55,0.5)); }
+  0%,
+  100% {
+    box-shadow:
+      0 0 24px rgba(171, 131, 57, 0.26),
+      0 4px 18px rgba(0, 0, 0, 0.32);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.35),
+      0 0 36px rgba(212, 175, 55, 0.38),
+      0 0 56px rgba(212, 175, 55, 0.14),
+      0 6px 22px rgba(0, 0, 0, 0.36);
+  }
 }
 
 .svc-web-hero-cta-pulse.ip-cta-primary {
   animation: svcWebHeroCtaGlowPulse 2.75s ease-in-out infinite;
-  will-change: opacity, filter;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -820,12 +830,7 @@ body::before {
   transform: rotate(0deg) scale(1);
   opacity: 0.72;
   animation: voxelDrift var(--voxel-speed) cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  will-change: transform, opacity;
-}
-
-@media (max-width: 767px) {
-  .voxel-dot { animation: none; opacity: 0.4; }
-  .na-glyph  { animation: none; }
+  will-change: transform, opacity, filter;
 }
 
 .na-glyph {

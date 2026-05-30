@@ -9,14 +9,13 @@ export default function GlobalReveals() {
 
   useEffect(() => {
     if (reduced) return;
-
-    let cleanup = () => {};
-    const scheduleInit = () => {
+    const timer = window.setTimeout(() => {
       const { gsap, ScrollTrigger } = ensureGSAP();
       const ctx = gsap.context(() => {
         const targets = gsap.utils.toArray<HTMLElement>(
           ".cinematic-section .section-title, .cinematic-section .premium-card, .cinematic-section article, .cinematic-section .luxury-link"
         );
+
         targets
           .filter((el) => !el.closest("#hero") && !el.closest("#process"))
           .forEach((el) => {
@@ -30,29 +29,24 @@ export default function GlobalReveals() {
                 y: 0,
                 duration: 0.9,
                 ease: "power3.out",
-                scrollTrigger: { trigger: el, start: "top 88%", once: true }
+                scrollTrigger: {
+                  trigger: el,
+                  start: "top 88%",
+                  once: true
+                }
               }
             );
           });
+
         ScrollTrigger.refresh();
       });
+
       cleanup = () => ctx.revert();
-    };
+    }, 120);
 
-    // Use requestIdleCallback so reveals never block LCP or main-thread tasks
-    const supportsIdle = typeof window.requestIdleCallback === "function";
-    let idleId: number;
-    let timerId: ReturnType<typeof setTimeout>;
-
-    if (supportsIdle) {
-      idleId = window.requestIdleCallback(scheduleInit, { timeout: 2000 });
-    } else {
-      timerId = window.setTimeout(scheduleInit, 300);
-    }
-
+    let cleanup = () => {};
     return () => {
-      if (supportsIdle) window.cancelIdleCallback(idleId);
-      else window.clearTimeout(timerId);
+      window.clearTimeout(timer);
       cleanup();
     };
   }, [reduced]);

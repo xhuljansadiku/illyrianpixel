@@ -117,9 +117,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="sq" dir="ltr" suppressHydrationWarning>
       <head>
-        {/* ── Preconnect — only external resources used at runtime ── */}
-        {/* Note: Google Fonts preconnect removed — next/font self-hosts fonts */}
+        {/* ── Preconnect & DNS prefetch ── */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
