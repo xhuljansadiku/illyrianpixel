@@ -144,7 +144,7 @@ export default function Navbar() {
                 alt=""
                 width={200}
                 height={72}
-                sizes="(max-width: 640px) 76px, (max-width: 768px) 104px, 118px"
+                sizes="60px"
                 className="h-8 w-auto max-w-[76px] shrink-0 object-contain sm:h-9 sm:max-w-[104px] md:max-w-[118px]"
               />
               <Image

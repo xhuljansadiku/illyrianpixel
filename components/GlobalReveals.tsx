@@ -8,7 +8,8 @@ export default function GlobalReveals() {
   const revealed = useRef(new WeakSet<HTMLElement>());
 
   useEffect(() => {
-    if (reduced) return;
+    // Skip on mobile — ScrollTrigger.refresh() causes 364ms forced reflow on mobile GPU
+    if (reduced || window.matchMedia("(max-width: 767px)").matches) return;
 
     let cleanup = () => {};
 

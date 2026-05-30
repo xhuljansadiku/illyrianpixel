@@ -7,6 +7,11 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["gsap", "lenis"],
     optimizeCss: true,
+    browsersListForSwc: true,
+  },
+
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
   },
 
   images: {
