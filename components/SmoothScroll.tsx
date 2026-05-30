@@ -9,9 +9,10 @@ export default function SmoothScroll({ children }: PropsWithChildren) {
   const prefersReducedMotion = useReducedMotion();
 
   useIsomorphicLayoutEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
+    // Lenis smooth scroll: desktop only
+    // On mobile: native touch scroll is faster and smoother; Lenis adds JS overhead
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (prefersReducedMotion || isMobile) return;
 
     const { gsap, ScrollTrigger } = ensureGSAP();
     const lenis = new Lenis({
@@ -25,9 +26,7 @@ export default function SmoothScroll({ children }: PropsWithChildren) {
 
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.lagSmoothing(0);
-    const tick = (time: number) => {
-      lenis.raf(time * 1000);
-    };
+    const tick = (time: number) => { lenis.raf(time * 1000); };
     gsap.ticker.add(tick);
 
     return () => {

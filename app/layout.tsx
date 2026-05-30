@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Cormorant_Garamond, Press_Start_2P, Plus_Jakarta_Sans } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { localBusinessSchema, organizationSchema, websiteSchema, seo } from "@/lib/seo";
@@ -26,12 +26,6 @@ const display = Cormorant_Garamond({
   display: "swap",
 });
 
-const pixel = Press_Start_2P({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-pixel",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(seo.siteUrl),
@@ -154,7 +148,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body
         suppressHydrationWarning
-        className={`${plusJakarta.variable} ${display.variable} ${pixel.variable} bg-bg font-body text-text antialiased`}
+        className={`${plusJakarta.variable} ${display.variable} bg-bg font-body text-text antialiased`}
       >
         {/* Skip navigation — WCAG 2.1 AA, keyboard accessible */}
         <a href="#main-content" className="skip-nav" tabIndex={0}>

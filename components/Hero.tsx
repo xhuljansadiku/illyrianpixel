@@ -51,7 +51,7 @@ export default function Hero() {
       const headlineWords = headlineRef.current?.querySelectorAll(".headline-word");
       const sectionEl = sectionRef.current;
 
-      if (headlineWords?.length) {
+      if (headlineWords?.length && !isMobile) {
         gsap.set(headlineWords, { yPercent: 105, opacity: 0, willChange: "transform, opacity" });
         gsap.to(headlineWords, {
           yPercent: 0,
@@ -63,43 +63,51 @@ export default function Hero() {
         });
       }
 
-      gsap.fromTo(
-        badgeRef.current,
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: MOTION.duration.base, delay: 0.18, ease: MOTION.ease.enter }
-      );
+      if (!isMobile) {
+        gsap.fromTo(
+          badgeRef.current,
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: MOTION.duration.base, delay: 0.18, ease: MOTION.ease.enter }
+        );
 
-      gsap.fromTo(
-        paragraphRef.current,
-        { y: 18, opacity: 0, filter: "blur(4px)" },
-        { y: 0, opacity: 1, filter: "blur(0px)", duration: MOTION.duration.base, delay: 0.38, ease: MOTION.ease.enter }
-      );
+        gsap.fromTo(
+          paragraphRef.current,
+          { y: 18, opacity: 0, filter: "blur(4px)" },
+          { y: 0, opacity: 1, filter: "blur(0px)", duration: MOTION.duration.base, delay: 0.38, ease: MOTION.ease.enter }
+        );
 
-      gsap.fromTo(
-        ".hero-cta > *",
-        { opacity: 0, y: 22, filter: "blur(6px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          stagger: MOTION.stagger.tight,
-          duration: MOTION.duration.base,
-          ease: MOTION.ease.enter,
-          delay: 0.5
-        }
-      );
+        gsap.fromTo(
+          ".hero-cta > *",
+          { opacity: 0, y: 22, filter: "blur(6px)" },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            stagger: MOTION.stagger.tight,
+            duration: MOTION.duration.base,
+            ease: MOTION.ease.enter,
+            delay: 0.5
+          }
+        );
+      }
 
-      gsap.fromTo(
-        particlesRef.current,
-        { opacity: 0, xPercent: -4, filter: "blur(1.6px)" },
-        { opacity: 1, xPercent: 0, filter: "blur(0px)", duration: 1.2, delay: 0.22, ease: "power3.out" }
-      );
+      if (!isMobile) {
+        gsap.fromTo(
+          particlesRef.current,
+          { opacity: 0, xPercent: -4, filter: "blur(1.6px)" },
+          { opacity: 1, xPercent: 0, filter: "blur(0px)", duration: 1.2, delay: 0.22, ease: "power3.out" }
+        );
+      }
 
-      gsap.fromTo(
-        helmetRef.current,
-        { opacity: 0, scale: 0.96, y: 12, filter: "blur(3px)" },
-        { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 1.15, delay: 0.3, ease: "power3.out" }
-      );
+      // LCP FIX: helmet starts visible — no opacity:0 initial state
+      // Only animate on desktop where JS runs fast enough not to delay LCP
+      if (!isMobile) {
+        gsap.fromTo(
+          helmetRef.current,
+          { opacity: 0, scale: 0.96, y: 12, filter: "blur(3px)" },
+          { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 1.15, delay: 0.3, ease: "power3.out" }
+        );
+      }
 
       if (!reducedMotion) {
         if (sectionEl) {
