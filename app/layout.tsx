@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Cormorant_Garamond, Press_Start_2P, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { localBusinessSchema, organizationSchema, websiteSchema, seo } from "@/lib/seo";
-import InquiryModal from "@/components/InquiryModal";
 import SmoothScroll from "@/components/SmoothScroll";
-import MagneticButtons from "@/components/MagneticButtons";
-import GlobalReveals from "@/components/GlobalReveals";
-import InteractiveGlow from "@/components/InteractiveGlow";
+
+// Defer non-critical layout components — do not block initial HTML paint
+const InteractiveGlow  = dynamic(() => import("@/components/InteractiveGlow"),  { ssr: false });
+const MagneticButtons  = dynamic(() => import("@/components/MagneticButtons"),  { ssr: false });
+const GlobalReveals    = dynamic(() => import("@/components/GlobalReveals"),    { ssr: false });
+const InquiryModal     = dynamic(() => import("@/components/InquiryModal"),     { ssr: false });
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -120,16 +123,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="sq" dir="ltr" suppressHydrationWarning>
       <head>
-        {/* ── LCP: Preload hero image (above-fold, highest priority) ── */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/hero-helmet.avif"
-          type="image/avif"
-          // @ts-expect-error fetchpriority is valid HTML but not yet in TS types
-          fetchpriority="high"
-          imageSrcSet="/images/hero-helmet.avif"
-        />
+        {/* ── LCP: Preload hero image — must be first in <head> ── */}
+        {/* @ts-expect-error fetchpriority valid HTML5 attr */}
+        <link rel="preload" as="image" href="/images/hero-helmet.avif" type="image/avif" fetchpriority="high" />
 
         {/* ── Preconnect & DNS prefetch ── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

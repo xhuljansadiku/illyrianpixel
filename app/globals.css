@@ -94,9 +94,14 @@ body::before {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.02;
-  background-image: repeating-radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.55) 0 1px, transparent 1px 4px);
+  opacity: 0.015;
+  /* Use simpler pattern — reduces paint cost on mobile */
+  background-image: radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px);
+  background-size: 4px 4px;
   mix-blend-mode: soft-light;
+  /* Promote to own layer to avoid forced reflow */
+  will-change: auto;
+  transform: translateZ(0);
 }
 
 ::selection {
@@ -1022,8 +1027,10 @@ body::before {
 .helmet {
   transform: translate3d(var(--helmet-parallax-x), var(--helmet-parallax-y), 0) translateY(0px) scale(1);
   animation: helmetFloat 6s ease-in-out infinite;
+  animation-delay: 1s; /* defer past LCP paint */
   transition: transform 0.6s ease, filter 0.6s ease;
   will-change: transform, filter;
+  contain: layout style;
 }
 
 .helmet-flow-scene:hover .helmet {
