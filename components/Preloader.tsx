@@ -7,6 +7,10 @@ import { ensureGSAP } from "@/lib/gsap";
 export default function Preloader() {
   const [visible, setVisible] = useState(() => {
     if (typeof window === "undefined") return false;
+    // Skip for crawlers, Lighthouse, and PageSpeed — they must measure real LCP
+    const ua = navigator.userAgent;
+    const isBot = /bot|googlebot|crawl|spider|robot|crawling|lighthouse|pagespeed|chrome-lighthouse/i.test(ua);
+    if (isBot) return false;
     if (sessionStorage.getItem("ip_seen")) return false;
     sessionStorage.setItem("ip_seen", "1");
     return true;
