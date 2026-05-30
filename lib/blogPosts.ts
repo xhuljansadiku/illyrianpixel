@@ -1,4 +1,4 @@
-﻿export type BlogPost = {
+export type BlogPost = {
   slug: string;
   title: string;
   category: string;
@@ -8,6 +8,56 @@
 };
 
 export const blogPosts: BlogPost[] = [
+  // ── Artikujt e rinj (shfaqen të parët) ──────────────────────────
+  {
+    slug: "sa-kushton-website-shqiperi",
+    title: "Sa kushton një website profesional në Shqipëri në 2026?",
+    category: "Web Design",
+    excerpt: "Çmimet reale të website-ve në Shqipëri për 2026.\nZbuloni sa kushton faqja profesionale, çfarë përfshin dhe si të shmangni gabimet e shtrenjta.",
+    date: "Maj 2026",
+    content: []
+  },
+  {
+    slug: "seo-tirane",
+    title: "SEO Tiranë — Si të dilni i pari në Google në 2026",
+    category: "SEO",
+    excerpt: "Si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që jep rezultate reale në tregun shqiptar.",
+    date: "Maj 2026",
+    content: []
+  },
+  {
+    slug: "dyqan-online-shqiperi",
+    title: "Si të hapni dyqan online në Shqipëri — Udhëzues i plotë 2026",
+    category: "E-Commerce",
+    excerpt: "Udhëzues praktik për hapjen e dyqanit online në Shqipëri.\nPlatformat, pagesat, kostot reale dhe hapat e parë për të filluar shitjet online.",
+    date: "Maj 2026",
+    content: []
+  },
+  {
+    slug: "google-ads-shqiperi",
+    title: "Google Ads Shqipëri — Çmime reale dhe rezultate të pritshme",
+    category: "Marketing",
+    excerpt: "Çmimet reale të Google Ads në Shqipëri, gabimet kryesore dhe si ta menaxhoni buxhetin tuaj reklamues për ROI maksimal.",
+    date: "Maj 2026",
+    content: []
+  },
+  {
+    slug: "web-design-tirane",
+    title: "Web Design Tiranë — Si të zgjidhni agjenci profesionale",
+    category: "Web Design",
+    excerpt: "Si ta dalloni agjencinë serioze nga amatorët.\nKriteret e sakta, pyetjet që duhet të bëni dhe shenjat paralajmëruese para nënshkrimit.",
+    date: "Maj 2026",
+    content: []
+  },
+  {
+    slug: "social-media-menaxhim-shqiperi",
+    title: "Social Media Menaxhim në Shqipëri — Çmime dhe çfarë të prisni",
+    category: "Social Media",
+    excerpt: "Çmimet e menaxhimit profesional të social media në Shqipëri, platformat kryesore dhe si të zgjidhni agjencinë e duhur.",
+    date: "Maj 2026",
+    content: []
+  },
+  // ── Artikujt e vjetër (shfaqen të fundit) ───────────────────────
   {
     slug: "si-te-rrisesh-klientet-online",
     title: "Ke trafikun. Por ku janë klientët?",
@@ -52,7 +102,7 @@ export const blogPosts: BlogPost[] = [
     category: "Marketing",
     excerpt:
       "Dy kanale të ndryshme, dy logjika të ndryshme.\nNjëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite.\nJa si të zgjedhësh sipas situatës suaj.",
-    date: "Maj 2026",
+    date: "Prill 2026",
     content: []
   },
   {
@@ -61,7 +111,7 @@ export const blogPosts: BlogPost[] = [
     category: "E-Commerce",
     excerpt:
       "Pse bizneset shqiptare kanë nevojë për dyqan online në 2026.\nGabimet më të shpeshta, kostot reale dhe çfarë humbisni çdo muaj pa e-commerce.",
-    date: "Maj 2026",
+    date: "Prill 2026",
     content: []
   },
   {
@@ -70,7 +120,7 @@ export const blogPosts: BlogPost[] = [
     category: "Branding",
     excerpt:
       "Çfarë është branding në të vërtetë, pse bizneset shqiptare e nënvlerësojnë dhe çfarë humbasin duke e trajtuar si thjesht logo dhe ngjyrë.",
-    date: "Maj 2026",
+    date: "Prill 2026",
     content: []
   }
 ];

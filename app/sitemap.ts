@@ -10,6 +10,12 @@ const BLOG_DATES: Record<string, Date> = {
   "google-ads-vs-seo": new Date("2026-05-05"),
   "pse-ecommerce-eshte-i-rendesishem": new Date("2026-05-10"),
   "cfare-eshte-branding": new Date("2026-05-15"),
+  "sa-kushton-website-shqiperi": new Date("2026-05-20"),
+  "seo-tirane": new Date("2026-05-22"),
+  "dyqan-online-shqiperi": new Date("2026-05-24"),
+  "google-ads-shqiperi": new Date("2026-05-26"),
+  "web-design-tirane": new Date("2026-05-28"),
+  "social-media-menaxhim-shqiperi": new Date("2026-05-30"),
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -39,7 +45,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "pse-seo-eshte-kritik",
     "google-ads-vs-seo",
     "pse-ecommerce-eshte-i-rendesishem",
-    "cfare-eshte-branding"
+    "cfare-eshte-branding",
+    "sa-kushton-website-shqiperi",
+    "seo-tirane",
+    "dyqan-online-shqiperi",
+    "google-ads-shqiperi",
+    "web-design-tirane",
+    "social-media-menaxhim-shqiperi",
   ]);
 
   const dedicatedBlogRoutes = [...dedicatedBlogSlugs].map((slug) => ({
