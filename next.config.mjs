@@ -5,8 +5,8 @@ const nextConfig = {
   compress: true,
 
   experimental: {
-    // Tree-shake large packages automatically (reduces unused JS)
     optimizePackageImports: ["gsap", "lenis"],
+    optimizeCss: true,
   },
 
   images: {

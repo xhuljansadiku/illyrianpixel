@@ -144,6 +144,7 @@ export default function Navbar() {
                 alt=""
                 width={200}
                 height={72}
+                sizes="(max-width: 640px) 76px, (max-width: 768px) 104px, 118px"
                 className="h-8 w-auto max-w-[76px] shrink-0 object-contain sm:h-9 sm:max-w-[104px] md:max-w-[118px]"
               />
               <Image
@@ -151,6 +152,7 @@ export default function Navbar() {
                 alt="Illyrian Pixel"
                 width={360}
                 height={72}
+                sizes="(max-width: 640px) 118px, (max-width: 768px) 180px, (max-width: 1024px) 220px, 260px"
                 className="h-8 min-w-0 w-auto max-w-[min(118px,30vw)] shrink object-contain object-left sm:h-9 sm:max-w-[min(180px,36vw)] md:max-w-[min(220px,46vw)] lg:max-w-[260px]"
               />
             </span>

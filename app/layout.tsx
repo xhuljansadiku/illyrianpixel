@@ -117,8 +117,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="sq" dir="ltr" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
@@ -178,9 +176,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* ── Analytics (afterInteractive = non-blocking) ── */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-82MBE7PY5B"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="ga4-init" strategy="afterInteractive">
+        <Script id="ga4-init" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
