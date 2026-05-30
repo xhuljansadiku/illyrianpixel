@@ -5,8 +5,12 @@ const nextConfig = {
   compress: true,
 
   experimental: {
-    // Tree-shake large packages automatically (reduces unused JS)
     optimizePackageImports: ["gsap", "lenis"],
+    browsersListForSwc: true,
+  },
+
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
   },
 
   images: {
