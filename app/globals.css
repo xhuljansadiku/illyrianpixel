@@ -447,23 +447,13 @@ body::before {
 
 /* Web / E-Commerce service hero — primary CTA gold glow pulse */
 @keyframes svcWebHeroCtaGlowPulse {
-  0%,
-  100% {
-    box-shadow:
-      0 0 24px rgba(171, 131, 57, 0.26),
-      0 4px 18px rgba(0, 0, 0, 0.32);
-  }
-  50% {
-    box-shadow:
-      0 0 0 1px rgba(212, 175, 55, 0.35),
-      0 0 36px rgba(212, 175, 55, 0.38),
-      0 0 56px rgba(212, 175, 55, 0.14),
-      0 6px 22px rgba(0, 0, 0, 0.36);
-  }
+  0%, 100% { opacity: 1; filter: brightness(1) drop-shadow(0 0 6px rgba(171,131,57,0.3)); }
+  50%       { opacity: 0.9; filter: brightness(1.1) drop-shadow(0 0 18px rgba(212,175,55,0.55)); }
 }
 
 .svc-web-hero-cta-pulse.ip-cta-primary {
   animation: svcWebHeroCtaGlowPulse 2.75s ease-in-out infinite;
+  will-change: opacity, filter;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -719,7 +709,7 @@ body::before {
   background: linear-gradient(160deg, rgba(21, 21, 21, 0.94), rgba(17, 17, 17, 0.95));
   box-shadow: none;
   transform-style: preserve-3d;
-  will-change: transform, border-color, background-color, box-shadow;
+  will-change: transform;
   transition:
     transform 360ms cubic-bezier(0.4, 0, 0.2, 1),
     border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -791,7 +781,7 @@ body::before {
 
 .partnership-row {
   border-radius: 0.8rem;
-  will-change: transform, background-color, border-color;
+  will-change: transform;
   transition:
     transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
     background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -1073,7 +1063,7 @@ body::before {
     transform 360ms cubic-bezier(0.4, 0, 0.2, 1),
     border-color 320ms cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, border-color, box-shadow;
+  will-change: transform;
 }
 
 .featured-card::before {
@@ -1259,14 +1249,8 @@ body::before {
 }
 
 @keyframes servicesIdleGlow {
-  0% {
-    box-shadow: 0 0 0 rgba(171, 131, 57, 0.08);
-  }
-  50% {
-    box-shadow: 0 0 18px rgba(171, 131, 57, 0.14);
-  }
-  100% {
-    box-shadow: 0 0 0 rgba(171, 131, 57, 0.08);
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; filter: drop-shadow(0 0 6px rgba(171,131,57,0.2));
   }
 }
 
@@ -1431,7 +1415,7 @@ body::before {
     border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1),
     background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, border-color, box-shadow;
+  will-change: transform;
 }
 
 .about-stat-card-featured {
@@ -1466,7 +1450,7 @@ body::before {
 }
 
 .proof-line-dot {
-  will-change: transform, box-shadow, background-color, border-color;
+  will-change: transform;
   box-shadow: 0 0 0 3px rgba(171, 131, 57, 0.1), 0 0 14px rgba(171, 131, 57, 0.24);
   transition: box-shadow 280ms ease, transform 280ms ease, border-color 280ms ease;
 }
@@ -1882,18 +1866,12 @@ html[data-aura="cta"] body {
   );
   background-size: 220% 220%;
   animation: services-preview-drift 16s ease-in-out infinite;
+  will-change: opacity;
 }
 
 @keyframes services-preview-drift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 40%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.65; }
 }
 
 @media (prefers-reduced-motion: reduce) {
