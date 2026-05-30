@@ -345,7 +345,8 @@ export default function Hero() {
                 priority
                 fetchPriority="high"
                 decoding="sync"
-                sizes="(max-width: 640px) 414px, (max-width: 1024px) 50vw, 600px"
+                sizes="(max-width: 640px) 366px, (max-width: 1024px) 50vw, 600px"
+                quality={60}
                 className="hero-helmet-img object-contain object-right opacity-[0.97]"
               />
             </div>

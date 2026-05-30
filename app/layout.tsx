@@ -22,7 +22,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 const display = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
   variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
