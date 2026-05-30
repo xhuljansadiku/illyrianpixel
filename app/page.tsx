@@ -24,7 +24,6 @@ const CursorSpotlight = dynamic(() => import("@/components/CursorSpotlight"), { 
 const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 const EasterEggOverlay = dynamic(() => import("@/components/EasterEggOverlay"), { ssr: false });
 const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
-const Preloader = dynamic(() => import("@/components/Preloader"), { ssr: false });
 const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"), { ssr: false });
 const SocialProofToasts = dynamic(() => import("@/components/SocialProofToasts"), { ssr: false });
 const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton"), { ssr: false });
@@ -51,7 +50,6 @@ export default function HomePage() {
   return (
     <>
       <SectionAura />
-      <Preloader />
       <PageTransitionOverlay />
       <Navbar />
       <ScrollProgress />
