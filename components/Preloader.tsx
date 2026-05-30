@@ -29,7 +29,6 @@ export default function Preloader() {
   }, []);
 
   useLayoutEffect(() => {
-    document.getElementById("ip-precover")?.remove();
     if (!visible || offline) return;
     const { gsap } = ensureGSAP();
     const counter = { value: 0 };
@@ -37,93 +36,74 @@ export default function Preloader() {
     const tl = gsap.timeline({ onComplete: () => setVisible(false) });
 
     tl
-      // 1. Gold orb pulses in from center
+      // 1+2. Orb + corners together (fast entry)
       .fromTo(".pl-orb",
-        { scale: 0.4, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.0, ease: "power3.out" }
+        { scale: 0.5, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" }
       )
-      // 2. Corner marks appear with stagger
       .fromTo(".pl-corner",
-        { opacity: 0, scale: 0.5 },
-        { opacity: 1, scale: 1, duration: 0.4, stagger: 0.06, ease: "power2.out" },
-        "-=0.65"
-      )
-      // 3. Top label slides down
-      .fromTo(".pl-label",
-        { opacity: 0, y: -10 },
-        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" },
+        { opacity: 0, scale: 0.6 },
+        { opacity: 1, scale: 1, duration: 0.25, stagger: 0.04, ease: "power2.out" },
         "-=0.2"
       )
-      // 4. Logo ring scales in
-      .fromTo(".pl-logo-ring",
-        { scale: 0.72, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.3)" },
+      // 3+4. Label + logo ring together
+      .fromTo([".pl-label", ".pl-logo-ring"],
+        { opacity: 0, y: -6 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
         "-=0.1"
       )
-      // 5. Logo image fades in
+      // 5+6. Logo image + shine
       .fromTo(".pl-logo-img",
-        { opacity: 0, scale: 0.88 },
-        { opacity: 1, scale: 1, duration: 0.45, ease: "power2.out" },
-        "-=0.25"
+        { opacity: 0, scale: 0.92 },
+        { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }
       )
-      // 6. Shine sweeps across logo
       .fromTo(".pl-shine",
         { xPercent: -130 },
-        { xPercent: 130, duration: 0.75, ease: "power2.inOut" },
+        { xPercent: 130, duration: 0.4, ease: "power2.inOut" },
         "-=0.1"
       )
-      // 7. Brand letters stagger up
+      // 7+8+9. Brand text, divider, subtitle together
       .fromTo(".pl-char",
-        { y: 22, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, stagger: 0.038, ease: "power3.out" },
-        "-=0.35"
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.3, stagger: 0.022, ease: "power3.out" },
+        "-=0.25"
       )
-      // 8. Gold divider draws from left
-      .fromTo(".pl-divider",
-        { scaleX: 0 },
-        { scaleX: 1, duration: 0.55, ease: "power2.inOut" },
-        "-=0.15"
+      .fromTo([".pl-divider", ".pl-subtitle"],
+        { opacity: 0 },
+        { opacity: 1, duration: 0.2 },
+        "-=0.1"
       )
-      // 9. Subtitle fades in
-      .fromTo(".pl-subtitle",
-        { opacity: 0, y: 7 },
-        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" },
-        "-=0.2"
-      )
-      // 10. Progress track appears
+      // 10+11. Progress bar (shortened to 0.8s)
       .fromTo(".pl-track",
         { opacity: 0 },
-        { opacity: 1, duration: 0.3 },
-        "+=0.12"
+        { opacity: 1, duration: 0.15 },
+        "+=0.05"
       )
-      // 11. Progress bar + counter run together
       .fromTo(".pl-fill",
         { scaleX: 0 },
-        { scaleX: 1, duration: 1.7, ease: "power1.inOut" },
+        { scaleX: 1, duration: 0.8, ease: "power1.inOut" },
         "<"
       )
       .to(counter, {
         value: 100,
-        duration: 1.7,
+        duration: 0.8,
         ease: "power1.inOut",
         onUpdate: () => {
           if (progressRef.current)
             progressRef.current.textContent = `${Math.round(counter.value)}%`;
         },
       }, "<")
-      // ── EXIT ────────────────────────────────────────
-      // Center content fades up and out
+      // ── EXIT (fast split)
       .to(".pl-center",
-        { y: -22, opacity: 0, duration: 0.38, ease: "power2.in" },
-        "+=0.2"
+        { y: -14, opacity: 0, duration: 0.2, ease: "power2.in" },
+        "+=0.05"
       )
-      // Panels split apart — revealing the site
       .to(".pl-panel-l",
-        { xPercent: -100, duration: 0.75, ease: "power3.inOut" },
-        "-=0.12"
+        { xPercent: -100, duration: 0.38, ease: "power3.inOut" },
+        "-=0.08"
       )
       .to(".pl-panel-r",
-        { xPercent: 100, duration: 0.75, ease: "power3.inOut" },
+        { xPercent: 100, duration: 0.38, ease: "power3.inOut" },
         "<"
       );
 

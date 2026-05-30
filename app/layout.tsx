@@ -155,13 +155,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Kalo te përmbajtja kryesore
         </a>
 
-        {/* Preloader cover — removed by Preloader component on mount */}
-        <script
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(!sessionStorage.getItem('ip_seen')){var d=document.createElement('div');d.id='ip-precover';d.style.cssText='position:fixed;inset:0;background:#07080c;z-index:119;pointer-events:none;';document.body.appendChild(d);}}catch(e){}})();`
-          }}
-        />
 
         {/* ── JSON-LD Schemas ── */}
         <script
