@@ -958,6 +958,20 @@ body::before {
 
 .hero-helmet-img {
   transform: translateZ(0);
+  /* Desktop: subtle enhancement */
+  filter: contrast(1.12) saturate(1.08) brightness(0.98);
+}
+
+@media (max-width: 767px) {
+  /* Mobile: no filter — reduces GPU compositing, helps LCP */
+  .hero-helmet-img {
+    filter: none;
+  }
+  /* Mobile: no mask — eliminates extra compositing layer on LCP element */
+  .helm-radial-feather {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }
 
 /* Deeper corners + slight lift behind helmet (vs flat #000) */
@@ -1027,10 +1041,9 @@ body::before {
 .helmet {
   transform: translate3d(var(--helmet-parallax-x), var(--helmet-parallax-y), 0) translateY(0px) scale(1);
   animation: helmetFloat 6s ease-in-out infinite;
-  animation-delay: 1s; /* defer past LCP paint */
+  animation-delay: 1s;
   transition: transform 0.6s ease, filter 0.6s ease;
-  will-change: transform, filter;
-  contain: layout style;
+  will-change: transform;
 }
 
 .helmet-flow-scene:hover .helmet {

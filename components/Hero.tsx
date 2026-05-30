@@ -346,7 +346,7 @@ export default function Hero() {
                 fetchPriority="high"
                 decoding="sync"
                 sizes="100vw"
-                className="hero-helmet-img object-contain object-right opacity-[0.97] [filter:contrast(1.12)_saturate(1.08)_brightness(0.98)]"
+                className="hero-helmet-img object-contain object-right opacity-[0.97]"
               />
             </div>
           </div>

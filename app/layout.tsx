@@ -117,10 +117,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="sq" dir="ltr" suppressHydrationWarning>
       <head>
-        {/* ── LCP: Preload hero image — must be first in <head> ── */}
-        {/* @ts-expect-error fetchpriority valid HTML5 attr */}
-        <link rel="preload" as="image" href="/images/hero-helmet.avif" type="image/avif" fetchpriority="high" />
-
         {/* ── Preconnect & DNS prefetch ── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
