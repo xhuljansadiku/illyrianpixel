@@ -37,11 +37,11 @@ export default function GlobalReveals() {
 
     // Defer until browser is idle — never blocks LCP or long tasks
     let idleId: number;
-    let fallbackId: ReturnType<typeof window.setTimeout>;
+    let fallbackId: number;
     if (typeof window.requestIdleCallback === "function") {
       idleId = window.requestIdleCallback(init, { timeout: 2000 });
     } else {
-      fallbackId = window.setTimeout(init, 300);
+      fallbackId = window.setTimeout(init, 300) as unknown as number;
     }
 
     return () => {
