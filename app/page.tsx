@@ -25,7 +25,10 @@ const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: f
 const EasterEggOverlay = dynamic(() => import("@/components/EasterEggOverlay"), { ssr: false });
 const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
 const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"), { ssr: false });
-const SocialProofToasts = dynamic(() => import("@/components/SocialProofToasts"), { ssr: false });
+const SocialProofToasts  = dynamic(() => import("@/components/SocialProofToasts"),  { ssr: false });
+const CookieConsent      = dynamic(() => import("@/components/CookieConsent"),      { ssr: false });
+const WhatsAppButton     = dynamic(() => import("@/components/WhatsAppButton"),     { ssr: false });
+const ExitIntentPopup    = dynamic(() => import("@/components/ExitIntentPopup"),    { ssr: false });
 
 export const metadata: Metadata = {
   title: "Web Design & Marketing Premium Shqipëri | Illyrian Pixel",
@@ -61,6 +64,9 @@ export default function HomePage() {
       <CursorTrail />
       <EasterEggOverlay />
       <SocialProofToasts />
+      <CookieConsent />
+      <WhatsAppButton />
+      <ExitIntentPopup />
       <BackToTop />
       <script
         type="application/ld+json"

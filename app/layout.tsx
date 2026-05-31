@@ -5,10 +5,6 @@ import Script from "next/script";
 import "./globals.css";
 import { localBusinessSchema, organizationSchema, websiteSchema, seo } from "@/lib/seo";
 import SmoothScroll from "@/components/SmoothScroll";
-import CookieConsent from "@/components/CookieConsent";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
-
 // Defer non-critical layout components — do not block initial HTML paint
 const InteractiveGlow  = dynamic(() => import("@/components/InteractiveGlow"),  { ssr: false });
 const MagneticButtons  = dynamic(() => import("@/components/MagneticButtons"),  { ssr: false });
@@ -175,9 +171,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
         </SmoothScroll>
         <InquiryModal />
-        <CookieConsent />
-        <WhatsAppButton />
-        <ExitIntentPopup />
 
         {/* ── Analytics (afterInteractive = non-blocking) ── */}
         <Script
