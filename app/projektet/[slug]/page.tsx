@@ -160,7 +160,9 @@ export default function CaseStudyPage({ params }: Props) {
               >
                 Shiko live projektin <span aria-hidden>→</span>
               </a>
-            ) : null}
+            ) : (
+              <span className="text-[11px] uppercase tracking-[0.18em] text-white/30">Se shpejti</span>
+            )}
             <Link href="/projektet" className="luxury-link">
               <span aria-hidden>←</span> Kthehu te projektet
             </Link>

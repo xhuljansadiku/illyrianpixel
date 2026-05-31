@@ -52,7 +52,7 @@ export const caseStudies: CaseStudy[] = [
     metrics: ["Ofertë e qartë dhe e strukturuar", "Brand me autoritet personal", "Vendimmarrje pa hezitim"],
     tags: ["Branding", "Content", "Website", "Payments (Stripe/PayPal)"],
     heroImage: "/images/projects/bardhi-wellness.png",
-    liveUrl: "https://www.bardhiwellness.com/"
+    liveUrl: ""
   },
   {
     slug: "hauswerk-niederbayern",
@@ -109,7 +109,7 @@ export const caseStudies: CaseStudy[] = [
     metrics: ["Galeri me ritëm editorial", "Navigim i qetë dhe i fokusuar", "Cilësia e punës në plan të parë"],
     tags: ["Photography", "Portfolio", "Editorial"],
     heroImage: "/images/projects/ilirjana-shehu-photography.png",
-    liveUrl: ""
+    liveUrl: "https://www.ilirjanashehu.com/"
   },
   {
     slug: "suli-group-trockenbau",

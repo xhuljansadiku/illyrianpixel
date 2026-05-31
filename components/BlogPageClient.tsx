@@ -1,14 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { blogPosts } from "@/lib/blogPosts";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
+const ALL_LABEL = "Të gjitha";
+
+const CATEGORIES = [
+  ALL_LABEL,
+  ...Array.from(new Set(blogPosts.map((p) => p.category))),
+];
+
 export default function BlogPageClient() {
   const heroRef = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(ALL_LABEL);
+
+  const filtered =
+    active === ALL_LABEL
+      ? blogPosts
+      : blogPosts.filter((p) => p.category === active);
 
   useIsomorphicLayoutEffect(() => {
     if (!heroRef.current) return;
@@ -43,7 +56,7 @@ export default function BlogPageClient() {
     <>
       <Navbar />
       <main className="relative overflow-hidden bg-bg pb-4 pt-14 text-text md:pt-16">
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_8%_10%,rgba(171, 131, 57,0.09),transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_8%_10%,rgba(171,131,57,0.09),transparent_30%)]" />
 
         <section ref={heroRef} className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.022]"
@@ -69,24 +82,48 @@ export default function BlogPageClient() {
 
         <section className="relative z-[1]">
           <div className="section-wrap py-14 md:py-20">
-            <div className="mt-2 space-y-5">
-              {blogPosts.map((post) => (
-                <article key={post.slug} className="group border-t border-white/10 pt-6">
-                  <p className="text-[11px] tracking-[0.18em] text-accent/85">
-                    {post.category} • {post.date}
-                  </p>
-                  <h2 className="mt-2 font-display text-[clamp(1.55rem,3vw,2.3rem)] leading-[1.02] text-white transition-transform duration-300 group-hover:-translate-y-[1px]">
-                    {post.title}
-                  </h2>
-                  <p className="mt-2 max-w-3xl whitespace-pre-line text-sm text-white/62">{post.excerpt}</p>
-                  <Link href={`/blog/${post.slug}`} className="luxury-link mt-4">
-                    Lexo më shumë <span aria-hidden>→</span>
-                  </Link>
-                </article>
+
+            {/* Category filter */}
+            <div className="flex flex-wrap gap-2 mb-10">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActive(cat)}
+                  className={`rounded-full px-4 py-[7px] text-[0.78rem] font-semibold uppercase tracking-[0.08em] transition-all duration-200 ${
+                    active === cat
+                      ? "bg-accent text-[#0a0a0a]"
+                      : "border border-white/15 text-white/50 hover:border-white/35 hover:text-white/80"
+                  }`}
+                >
+                  {cat}
+                </button>
               ))}
+            </div>
+
+            {/* Articles */}
+            <div className="space-y-5">
+              {filtered.length === 0 ? (
+                <p className="text-white/40 text-sm">Nuk ka artikuj për këtë kategori.</p>
+              ) : (
+                filtered.map((post) => (
+                  <article key={post.slug} className="group border-t border-white/10 pt-6">
+                    <p className="text-[11px] tracking-[0.18em] text-accent/85">
+                      {post.category} • {post.date}
+                    </p>
+                    <h2 className="mt-2 font-display text-[clamp(1.55rem,3vw,2.3rem)] leading-[1.02] text-white transition-transform duration-300 group-hover:-translate-y-[1px]">
+                      {post.title}
+                    </h2>
+                    <p className="mt-2 max-w-3xl whitespace-pre-line text-sm text-white/62">{post.excerpt}</p>
+                    <Link href={`/blog/${post.slug}`} className="luxury-link mt-4">
+                      Lexo më shumë <span aria-hidden>→</span>
+                    </Link>
+                  </article>
+                ))
+              )}
             </div>
           </div>
         </section>
+
       </main>
       <Footer />
     </>

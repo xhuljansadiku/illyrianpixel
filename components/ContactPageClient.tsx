@@ -115,6 +115,14 @@ export default function ContactPageClient() {
       if (data.success) {
         setSuccess(true);
 
+        if (typeof window !== "undefined" && typeof (window as { gtag?: (...args: unknown[]) => void }).gtag === "function") {
+          (window as { gtag?: (...args: unknown[]) => void }).gtag("event", "generate_lead", {
+            event_category: "contact_form",
+            event_label: form.service,
+            value: 1,
+          });
+        }
+
         setForm({
           name: "",
           email: "",

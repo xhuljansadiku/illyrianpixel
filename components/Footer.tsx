@@ -138,7 +138,7 @@ export default function Footer() {
           {/* ── Col 1: Brand ── */}
           <div className="flex flex-col items-center md:items-start">
             <div className="footer-reveal inline-flex flex-col items-center gap-3">
-              <Image src="/images/illyrianpixel_logo.png" alt="" width={200} height={72} className="h-16 w-auto object-contain" />
+              <Image src="/images/illyrianpixel_logo.png" alt="Illyrian Pixel" width={200} height={72} className="h-16 w-auto object-contain" />
               <Image src="/images/illyrianpixel_text.png" alt="Illyrian Pixel" width={360} height={72} className="h-7 w-auto object-contain opacity-70" />
             </div>
             <h3 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.14] md:leading-[1.06] tracking-[-0.01em] md:tracking-[-0.025em] text-white">
@@ -183,7 +183,7 @@ export default function Footer() {
                 { label: "SEO & Reklama", href: "/services/marketing-growth" },
                 { label: "Social Media", href: "/services/smm" },
                 { label: "Branding & Content", href: "/services/branding-content" },
-                { label: "Mirëmbajtja", href: "/contact" },
+                { label: "Mirëmbajtja", href: "/services/mirembajtja" },
               ].map(({ label, href }) => (
                 <a key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
                   {label}

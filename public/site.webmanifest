@@ -1,0 +1,16 @@
+{
+  "name": "Illyrian Pixel",
+  "short_name": "Illyrian Pixel",
+  "description": "Agjenci premium web design dhe marketing dixhital",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#ab8339",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
