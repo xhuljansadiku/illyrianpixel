@@ -67,7 +67,7 @@ export default function Page() {
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Freelancer-i me çmim shumë të ulët.</strong>{"\n300–500 euro nuk mbulojnë as kohën minimale për punë cilësore.\nZakonisht merrni template të modifikuar pa SEO dhe pa optimizim."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kontratat pa specifikime.</strong>{"\nNëse kontratat nuk listojnë saktë faqet, funksionet dhe afatin do të keni surpriza me kostot shtesë."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">"Falas" hosting dhe domain.</strong>{"\nKur dikush ju ofron gjithçka \"falas\", do ta paguani me performancë të dobët dhe kontroll të kufizuar."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Falas&rdquo; hosting dhe domain.</strong>{"\nKur dikush ju ofron gjithçka \"falas\", do ta paguani me performancë të dobët dhe kontroll të kufizuar."}</p>
       </section>
 
       <section className="space-y-4">

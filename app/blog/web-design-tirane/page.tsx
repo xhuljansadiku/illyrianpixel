@@ -39,7 +39,7 @@ export default function Page() {
 
       <section className="space-y-4">
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-          7 pyetje që duhet t'i bëni çdo agjencie web design
+          7 pyetje që duhet t&apos;i bëni çdo agjencie web design
         </h2>
         <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
           <li><strong className="text-white">1.</strong> Mund të shoh projekte të ngjashme me industrinë time?</li>
