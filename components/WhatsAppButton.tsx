@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164, WHATSAPP_PREFILL_LINES } from "@/lib/whatsappPrefill";
-import { useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164;
 const whatsappHref = buildWhatsAppChatHref(WHATSAPP_NUMBER);
@@ -19,7 +18,7 @@ export default function WhatsAppButton() {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState(false);
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     if (!buttonRef.current) return;
     const root = document.documentElement;
     const updateHeight = () => {
