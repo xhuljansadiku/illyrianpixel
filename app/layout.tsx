@@ -11,6 +11,7 @@ const InteractiveGlow  = dynamic(() => import("@/components/InteractiveGlow"),  
 const MagneticButtons  = dynamic(() => import("@/components/MagneticButtons"),  { ssr: false });
 const GlobalReveals    = dynamic(() => import("@/components/GlobalReveals"),    { ssr: false });
 const InquiryModal     = dynamic(() => import("@/components/InquiryModal"),     { ssr: false });
+const CookieConsent    = dynamic(() => import("@/components/CookieConsent"),    { ssr: false });
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -172,6 +173,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
         </SmoothScroll>
         <InquiryModal />
+        <CookieConsent />
 
         {/* ── Analytics (afterInteractive = non-blocking) ── */}
         <Script
