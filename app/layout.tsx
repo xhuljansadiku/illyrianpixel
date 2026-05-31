@@ -11,9 +11,7 @@ const InteractiveGlow  = dynamic(() => import("@/components/InteractiveGlow"),  
 const MagneticButtons  = dynamic(() => import("@/components/MagneticButtons"),  { ssr: false });
 const GlobalReveals    = dynamic(() => import("@/components/GlobalReveals"),    { ssr: false });
 const InquiryModal     = dynamic(() => import("@/components/InquiryModal"),     { ssr: false });
-const CookieConsent    = dynamic(() => import("@/components/CookieConsent"),    { ssr: false });
-const WhatsAppButton   = dynamic(() => import("@/components/WhatsAppButton"),   { ssr: false });
-const ExitIntentPopup  = dynamic(() => import("@/components/ExitIntentPopup"),  { ssr: false });
+const ClientWidgets    = dynamic(() => import("@/components/ClientWidgets"),    { ssr: false });
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -175,9 +173,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
         </SmoothScroll>
         <InquiryModal />
-        <CookieConsent />
-        <WhatsAppButton />
-        <ExitIntentPopup />
+        <ClientWidgets />
 
         {/* ── Analytics (afterInteractive = non-blocking) ── */}
         <Script
