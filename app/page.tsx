@@ -26,7 +26,6 @@ const EasterEggOverlay = dynamic(() => import("@/components/EasterEggOverlay"), 
 const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
 const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"), { ssr: false });
 const SocialProofToasts = dynamic(() => import("@/components/SocialProofToasts"), { ssr: false });
-const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Web Design & Marketing Premium Shqipëri | Illyrian Pixel",
@@ -62,7 +61,6 @@ export default function HomePage() {
       <CursorTrail />
       <EasterEggOverlay />
       <SocialProofToasts />
-      <WhatsAppButton />
       <BackToTop />
       <script
         type="application/ld+json"
