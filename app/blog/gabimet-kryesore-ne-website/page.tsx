@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogUxMistakesClient from "@/components/BlogUxMistakesClient";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
 
 const METADATA_TITLE = "Gabimet që bëjnë bizneset në website | Blog";
 const METADATA_DESCRIPTION =
@@ -23,5 +23,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function GabimetKryesoreNeWebsitePage() {
-  return <BlogUxMistakesClient />;
+  const breadcrumb = buildBreadcrumb([
+    { name: "Home", url: seo.siteUrl },
+    { name: "Blog", url: `${seo.siteUrl}/blog` },
+    { name: "Gabimet në Website", url: `${seo.siteUrl}/blog/gabimet-kryesore-ne-website` },
+  ]);
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <BlogUxMistakesClient />
+    </>
+  );
 }

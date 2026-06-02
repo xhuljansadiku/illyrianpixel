@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { buildMetadata, seo as seoConfig } from "@/lib/seo";
+import { buildMetadata, buildServiceSchema, seo as seoConfig } from "@/lib/seo";
 import { serviceCategoryBySlug } from "@/lib/serviceCategories";
 import ServiceCategoryDetailPage from "@/components/ServiceCategoryDetailPage";
 
@@ -69,6 +69,12 @@ export default async function ServiceDetailPage({ params }: Props) {
   const category = serviceCategoryBySlug(slug);
   if (!category) notFound();
 
+  const serviceSchema = buildServiceSchema(
+    SERVICE_LABELS[slug as (typeof SERVICE_SLUGS)[number]],
+    SEO[slug as (typeof SERVICE_SLUGS)[number]]?.desc ?? "",
+    `${seoConfig.siteUrl}/services/${slug}`
+  );
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -81,6 +87,11 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger

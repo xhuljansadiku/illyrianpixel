@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogGoogleAdsSeoClient from "@/components/BlogGoogleAdsSeoClient";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
 
 const TITLE = "Google Ads apo SEO: Ku të investosh para?";
 const DESCRIPTION =
@@ -11,5 +11,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function GoogleAdsVsSeoPage() {
-  return <BlogGoogleAdsSeoClient />;
+  const breadcrumb = buildBreadcrumb([
+    { name: "Home", url: seo.siteUrl },
+    { name: "Blog", url: `${seo.siteUrl}/blog` },
+    { name: "Google Ads vs SEO", url: `${seo.siteUrl}/blog/google-ads-vs-seo` },
+  ]);
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <BlogGoogleAdsSeoClient />
+    </>
+  );
 }

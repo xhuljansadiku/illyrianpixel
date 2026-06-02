@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogSeoClient from "@/components/BlogSeoClient";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
 
 const TITLE = "Pse SEO është kritik për biznese serioze (dhe jo një opsion)";
 const DESCRIPTION =
@@ -11,5 +11,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function PseSeoEshteKritikPage() {
-  return <BlogSeoClient />;
+  const breadcrumb = buildBreadcrumb([
+    { name: "Home", url: seo.siteUrl },
+    { name: "Blog", url: `${seo.siteUrl}/blog` },
+    { name: "Pse SEO është kritik", url: `${seo.siteUrl}/blog/pse-seo-eshte-kritik` },
+  ]);
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <BlogSeoClient />
+    </>
+  );
 }

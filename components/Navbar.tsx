@@ -13,6 +13,7 @@ const navItems = [
   { id: "pricing",      label: "\u00c7mimet",     href: "/cmimet" },
   { id: "featured-work",label: "Projektet",  href: "/projektet" },
   { id: "blog",         label: "Blog",       href: "/blog" },
+  { id: "about",        label: "Rreth nesh", href: "/about" },
   { id: "contact",      label: "Kontakt",    href: "/contact" },
 ];
 
@@ -30,6 +31,7 @@ export default function Navbar() {
     if (pathname.startsWith("/services") || pathname.startsWith("/sherbimet")) return "services";
     if (pathname.startsWith("/work") || pathname.startsWith("/projektet")) return "featured-work";
     if (pathname.startsWith("/blog")) return "blog";
+    if (pathname.startsWith("/about")) return "about";
     if (pathname.startsWith("/contact")) return "contact";
     return "hero";
   })();

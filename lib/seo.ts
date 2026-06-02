@@ -187,7 +187,6 @@ export const localBusinessSchema = {
     { "@type": "Country", name: "Germany" },
     { "@type": "Country", name: "United Kingdom" }
   ],
-  servesCuisine: undefined,
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Shërbime Dixhitale Premium",

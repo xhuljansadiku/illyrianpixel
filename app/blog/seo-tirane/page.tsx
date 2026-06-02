@@ -15,6 +15,8 @@ export default function Page() {
     <BlogArticleLayout
       category="SEO"
       categoryColor="rgba(167,243,208,0.9)"
+      breadcrumbLabel="SEO Tiranë"
+      path="/blog/seo-tirane"
       title="SEO Tiranë — Si të dilni i pari në Google në 2026"
       description="Si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që jep rezultate reale në tregun shqiptar."
       date="Maj 2026"

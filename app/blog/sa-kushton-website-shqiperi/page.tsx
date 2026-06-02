@@ -15,6 +15,8 @@ export default function Page() {
     <BlogArticleLayout
       category="Web Design"
       categoryColor="rgba(234,206,113,0.95)"
+      breadcrumbLabel="Sa kushton website?"
+      path="/blog/sa-kushton-website-shqiperi"
       title="Sa kushton një website profesional në Shqipëri në 2026?"
       description={<>{"Çmimet reale të website-ve në Shqipëri për 2026."}<br className="max-md:hidden" />{" Zbuloni sa kushton faqja profesionale, çfarë përfshin dhe si të shmangni gabimet e shtrenjta."}</>}
       date="Maj 2026"

@@ -15,6 +15,8 @@ export default function Page() {
     <BlogArticleLayout
       category="E-Commerce"
       categoryColor="rgba(196,181,253,0.9)"
+      breadcrumbLabel="Dyqan Online Shqipëri"
+      path="/blog/dyqan-online-shqiperi"
       title="Si të hapni dyqan online në Shqipëri — Udhëzues i plotë 2026"
       description={<>{"Udhëzues praktik për hapjen e dyqanit online në Shqipëri."}<br className="max-md:hidden" />{" Platformat, pagesat, kostot reale dhe hapat e parë për të filluar shitjet online sot."}</>}
       date="Maj 2026"

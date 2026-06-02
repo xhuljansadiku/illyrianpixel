@@ -15,6 +15,8 @@ export default function Page() {
     <BlogArticleLayout
       category="Marketing"
       categoryColor="rgba(252,211,77,0.9)"
+      breadcrumbLabel="Google Ads Shqipëri"
+      path="/blog/google-ads-shqiperi"
       title={<>Google Ads Shqipëri<br />— Çmime reale dhe rezultate të pritshme</>}
       description="Çmimet reale të Google Ads në Shqipëri, gabimet kryesore dhe si ta menaxhoni buxhetin tuaj reklamues për ROI maksimal në tregun shqiptar."
       date="Maj 2026"

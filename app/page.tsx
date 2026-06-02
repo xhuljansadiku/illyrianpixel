@@ -55,9 +55,7 @@ export default function HomePage() {
       <PageTransitionOverlay />
       <Navbar />
       <ScrollProgress />
-      <div className="site-grade" />
-      <div className="ambient-noise" />
-      <div className="site-vignette" />
+      <div className="site-overlay" />
       <BrandSignature />
       <CustomCursor />
       <CursorSpotlight />

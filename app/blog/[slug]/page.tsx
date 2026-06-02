@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
 import { blogPosts, getBlogPostBySlug } from "@/lib/blogPosts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -30,6 +30,12 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   const post = getBlogPostBySlug(params.slug);
   if (!post) notFound();
+  const breadcrumbSchema = buildBreadcrumb([
+    { name: "Home", url: seo.siteUrl },
+    { name: "Blog", url: `${seo.siteUrl}/blog` },
+    { name: post.title, url: `${seo.siteUrl}/blog/${params.slug}` },
+  ]);
+
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -50,6 +56,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     <>
       <Navbar />
       <main className="min-h-screen bg-bg pb-16 pt-20 text-text">
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger

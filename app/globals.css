@@ -350,41 +350,16 @@ body::before {
   border: none;
 }
 
-.ambient-noise {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  opacity: 0.03;
-  background-image: repeating-radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.2) 0 1px, transparent 1px 4px);
-  mix-blend-mode: soft-light;
-}
-
-.site-grade {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: linear-gradient(
-    160deg,
-    rgba(171, 131, 57, 0.08) 0%,
-    rgba(12, 12, 12, 0.05) 38%,
-    rgba(245, 245, 240, 0.03) 100%
-  );
-}
-
-.site-vignette {
+/* site-overlay: bashkon site-grade + ambient-noise + site-vignette në 1 compositing layer */
+.site-overlay {
   pointer-events: none;
   position: fixed;
   inset: 0;
   z-index: 3;
-  background: radial-gradient(circle at center, transparent 56%, rgba(0, 0, 0, 0.3) 100%);
-}
-
-@media (max-width: 768px) {
-  .ambient-noise {
-    opacity: 0.02;
-  }
+  background-image:
+    radial-gradient(circle at center, transparent 56%, rgba(0, 0, 0, 0.28) 100%),
+    linear-gradient(160deg, rgba(171, 131, 57, 0.07) 0%, rgba(12, 12, 12, 0.04) 38%, rgba(245, 245, 240, 0.02) 100%),
+    repeating-radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 4px);
 }
 
 .cta-button {
@@ -1141,105 +1116,6 @@ body::before {
   }
 }
 
-.featured-work-cinematic {
-  overflow: hidden;
-}
-
-.featured-stage {
-  position: relative;
-}
-
-.featured-slide {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: linear-gradient(162deg, rgba(22, 22, 22, 0.96), rgba(13, 13, 13, 0.94));
-  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.34);
-  border-radius: var(--radius-xl);
-  will-change: transform, opacity, filter;
-  opacity: 0;
-}
-
-.featured-slide.is-initial {
-  opacity: 1;
-}
-
-.stacked-bg-glow {
-  background: radial-gradient(circle at 56% 46%, rgba(171, 131, 57, 0.22), transparent 56%);
-  filter: blur(16px);
-  transition: opacity 340ms cubic-bezier(0.4, 0, 0.2, 1), background 360ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.featured-slide-cta {
-  width: fit-content;
-}
-
-.featured-slide-cta span {
-  transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.featured-slide-cta:hover span {
-  transform: translateX(4px);
-}
-
-.featured-live-link {
-  position: relative;
-  transition: color 300ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.featured-live-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(171, 131, 57, 0.96), rgba(171, 131, 57, 0));
-  transform: scaleX(0.28);
-  transform-origin: left center;
-  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), opacity 280ms ease;
-  opacity: 0.78;
-}
-
-.featured-live-link:hover {
-  color: rgba(234, 206, 113, 1);
-}
-
-.featured-live-link:hover::after {
-  transform: scaleX(1);
-  opacity: 1;
-}
-
-.featured-live-link:hover span {
-  transform: translateX(4px);
-}
-
-.featured-card-live {
-  position: relative;
-  width: fit-content;
-}
-
-.featured-card-live::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(171, 131, 57, 0.95), rgba(171, 131, 57, 0));
-  transform-origin: left center;
-  transform: scaleX(0.28);
-  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease;
-  opacity: 0.75;
-}
-
-.group:hover .featured-card-live::after {
-  transform: scaleX(1);
-  opacity: 1;
-}
-
-.featured-grid-item.is-scroll-active {
-  border-color: rgba(171, 131, 57, 0.34);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.48), 0 0 26px rgba(171, 131, 57, 0.18);
-}
 
 @keyframes featuredAmbient {
   0% {
@@ -1369,19 +1245,6 @@ body::before {
   to {
     transform: rotateY(360deg);
   }
-}
-
-.featured-slide:hover .stacked-media {
-  transform: scale(1.02);
-}
-
-.stacked-media {
-  transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 360ms cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(171, 131, 57, 0.04);
-}
-
-.featured-slide:hover .stacked-bg-glow {
-  opacity: 1;
 }
 
 .about-line-wrap {
@@ -1686,37 +1549,6 @@ body::before {
 
   .process-step .process-node {
     left: -0.35rem !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  .featured-slide {
-    position: absolute;
-    inset: 0;
-  }
-}
-
-@media (max-width: 1023px) {
-  .featured-stage {
-    min-height: auto;
-  }
-
-  .featured-slide {
-    position: relative;
-    inset: auto;
-    margin-bottom: 1rem;
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-  }
-
-  .featured-slide:last-child {
-    margin-bottom: 0;
-  }
-
-  .stacked-bg-glow {
-    filter: blur(10px);
-    opacity: 0.58;
   }
 }
 

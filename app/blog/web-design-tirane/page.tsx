@@ -15,6 +15,8 @@ export default function Page() {
     <BlogArticleLayout
       category="Web Design"
       categoryColor="rgba(234,206,113,0.95)"
+      breadcrumbLabel="Web Design Tiranë"
+      path="/blog/web-design-tirane"
       title={<>Web Design Tiranë<br />— Si të zgjidhni agjenci profesionale</>}
       description={<>{"Si ta dalloni agjencinë serioze nga amatorët."}<br className="max-md:hidden" />{" Kriteret e sakta, pyetjet që duhet të bëni dhe shenjat paralajmëruese para nënshkrimit të kontratës."}</>}
       date="Maj 2026"

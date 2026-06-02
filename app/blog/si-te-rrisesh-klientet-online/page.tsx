@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogGrowthClient from "@/components/BlogGrowthClient";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
 
 const TITLE = "Ke trafikun. Por ku janë klientët?";
 const DESCRIPTION =
@@ -11,5 +11,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function SiTeRriseshKlientetOnlinePage() {
-  return <BlogGrowthClient />;
+  const breadcrumb = buildBreadcrumb([
+    { name: "Home", url: seo.siteUrl },
+    { name: "Blog", url: `${seo.siteUrl}/blog` },
+    { name: "Si të rrisësh klientët online", url: `${seo.siteUrl}/blog/si-te-rrisesh-klientet-online` },
+  ]);
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <BlogGrowthClient />
+    </>
+  );
 }

@@ -15,6 +15,8 @@ export default function Page() {
     <BlogArticleLayout
       category="Social Media"
       categoryColor="rgba(147,197,253,0.9)"
+      breadcrumbLabel="Social Media Menaxhim"
+      path="/blog/social-media-menaxhim-shqiperi"
       title="Social Media Menaxhim në Shqipëri — Çmime dhe çfarë të prisni"
       description="Çmimet e menaxhimit profesional të social media në Shqipëri, çfarë përfshin, platformat kryesore dhe si të zgjidhni agjencinë e duhur."
       date="Qershor 2026"

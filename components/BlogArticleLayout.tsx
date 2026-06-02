@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
+import { buildBreadcrumb, seo } from "@/lib/seo";
 
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 
@@ -9,6 +10,10 @@ interface Props {
   category: string;
   categoryColor: string;
   title: React.ReactNode;
+  /** String version of title used for JSON-LD BreadcrumbList */
+  breadcrumbLabel?: string;
+  /** Canonical path, e.g. "/blog/seo-tirane" */
+  path?: string;
   description: React.ReactNode;
   date: string;
   readTime: string;
@@ -20,14 +25,31 @@ export default function BlogArticleLayout({
   category,
   categoryColor,
   title,
+  breadcrumbLabel,
+  path,
   description,
   date,
   readTime,
   children,
   related = [],
 }: Props) {
+  const breadcrumbSchema = path && breadcrumbLabel
+    ? buildBreadcrumb([
+        { name: "Home", url: seo.siteUrl },
+        { name: "Blog", url: `${seo.siteUrl}/blog` },
+        { name: breadcrumbLabel, url: `${seo.siteUrl}${path}` },
+      ])
+    : null;
+
   return (
     <>
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
       <Navbar />
       <main className="min-h-screen bg-bg pb-16 pt-20 text-text">
         {/* Hero */}
