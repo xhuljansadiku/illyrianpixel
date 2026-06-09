@@ -58,6 +58,8 @@ export default function ContactPageClient() {
   }, []);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountStatus, setDiscountStatus] = useState<"idle" | "valid" | "invalid">("idle");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -68,6 +70,17 @@ export default function ContactPageClient() {
     timeline: timelines[2],
     message: "",
   });
+
+  const handleDiscountChange = (v: string) => {
+    setDiscountCode(v);
+    if (v.trim() === "") {
+      setDiscountStatus("idle");
+    } else if (v.trim().toUpperCase() === "ILLYRIAN10") {
+      setDiscountStatus("valid");
+    } else {
+      setDiscountStatus("invalid");
+    }
+  };
 
   const canSubmit = useMemo(
     () =>
@@ -107,6 +120,7 @@ export default function ContactPageClient() {
           budget: form.budget,
           timeline: form.timeline,
           message: form.message,
+          discountCode: discountStatus === "valid" ? "ILLYRIAN10" : undefined,
         }),
       });
 
@@ -136,6 +150,8 @@ export default function ContactPageClient() {
           timeline: timelines[2],
           message: "",
         });
+        setDiscountCode("");
+        setDiscountStatus("idle");
       } else {
         setError(
           "Diçka shkoi keq. Provo sërish ose shkruaj direkt: info@illyrianpixel.com"
@@ -277,6 +293,52 @@ export default function ContactPageClient() {
                         className="font-ui w-full resize-none border-b border-[#262626] bg-transparent py-3 text-[14px] font-light leading-relaxed tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 focus:border-[#ab8339]"
                       />
                     </label>
+
+                    {/* Discount code field */}
+                    <div className="block">
+                      <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
+                        Kodi i zbritjes{" "}
+                        <span className="text-white/30 font-light">(opsional)</span>
+                      </span>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={discountCode}
+                          onChange={(e) => handleDiscountChange(e.target.value)}
+                          placeholder="Kodi juaj"
+                          className={`font-ui w-full border-b bg-transparent py-3 pr-8 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 ${
+                            discountStatus === "valid"
+                              ? "border-emerald-500/70"
+                              : discountStatus === "invalid"
+                              ? "border-red-500/70"
+                              : "border-[#262626] focus:border-[#ab8339]"
+                          }`}
+                        />
+                        {discountStatus === "valid" && (
+                          <span className="absolute right-0 top-1/2 -translate-y-1/2 text-emerald-400 text-[16px]">✓</span>
+                        )}
+                        {discountStatus === "invalid" && (
+                          <span className="absolute right-0 top-1/2 -translate-y-1/2 text-red-400 text-[16px]">✕</span>
+                        )}
+                      </div>
+                      {discountStatus === "valid" && (
+                        <p className="mt-1.5 text-[12px] text-emerald-400/80">10% zbritje u aplikua.</p>
+                      )}
+                      {discountStatus === "invalid" && (
+                        <p className="mt-1.5 text-[12px] text-red-400/75">Kodi i pavlefshëm.</p>
+                      )}
+                      {discountStatus === "idle" && (
+                        <p className="mt-1.5 text-[12px] text-white/28">
+                          Nuk keni kod?{" "}&#8202;&#8202;
+                          <a
+                            href="/newsletter"
+                            className="text-accent/70 underline underline-offset-2 hover:text-accent transition-colors duration-200"
+                          >
+                            Merrni 10% zbritje këtu →
+                          </a>
+                        </p>
+                      )}
+                    </div>
 
                     {error && (
                       <p className="font-ui text-[12px] font-light tracking-[0.3px] text-red-400/75">

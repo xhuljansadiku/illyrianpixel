@@ -72,6 +72,7 @@ export async function POST(req: Request) {
       budget = "",
       timeline = "",
       message = "",
+      discountCode = "",
     } = body;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -95,6 +96,9 @@ export async function POST(req: Request) {
       );
     }
 
+    const HIGH_BUDGETS = ["€3,000 – €7,000", "€7,000+"];
+    const isPriority = HIGH_BUDGETS.includes(budget) || Boolean(discountCode);
+
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
     const safePhone = escapeHtml(phone);
@@ -115,6 +119,7 @@ export async function POST(req: Request) {
         budget,
         timeline,
         message,
+        discount_code: discountCode || null,
       },
     ]);
 
@@ -131,11 +136,14 @@ export async function POST(req: Request) {
         from: `${BRAND.name} <${BRAND.email}>`,
         to: process.env.CONTACT_TO_EMAIL || BRAND.email,
         replyTo: email,
-        subject: `Kërkesë e re nga ${name} — ${service}`,
+        subject: isPriority
+          ? `🔥 PRIORITET — Kërkesë e re nga ${name} — ${service}`
+          : `Kërkesë e re nga ${name} — ${service}`,
         html: `
           <div style="margin:0;padding:0;background:#070707;font-family:Arial,Helvetica,sans-serif;color:#ffffff;">
             <div style="max-width:680px;margin:0 auto;padding:32px 18px;">
-              <div style="background:#0f0f0f;border:1px solid #262626;border-radius:22px;overflow:hidden;">
+              <div style="background:#0f0f0f;border:1px solid ${isPriority ? "#ab8339" : "#262626"};border-radius:22px;overflow:hidden;${isPriority ? "box-shadow:0 0 0 1px #ab8339;" : ""}">
+                ${isPriority ? `<div style="padding:12px 28px;background:#ab8339;color:#0a0a0a;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;text-align:center;">🔥 Kontakt me prioritet të lartë</div>` : ""}
                 <div style="padding:28px;border-bottom:1px solid #262626;background:#0a0a0a;">
                   <img src="${BRAND.logo}" alt="${BRAND.name}" width="140" style="display:block;margin-bottom:18px;" />
                   <p style="margin:0;color:#ab8339;font-size:12px;letter-spacing:2px;text-transform:uppercase;">Kërkesë e re nga website</p>
@@ -150,6 +158,7 @@ export async function POST(req: Request) {
                     <tr><td style="padding:12px 0;color:#a0a0a0;">Shërbimi</td><td style="padding:12px 0;color:#ffffff;">${safeService}</td></tr>
                     <tr><td style="padding:12px 0;color:#a0a0a0;">Buxheti</td><td style="padding:12px 0;color:#ffffff;">${safeBudget}</td></tr>
                     <tr><td style="padding:12px 0;color:#a0a0a0;">Afati</td><td style="padding:12px 0;color:#ffffff;">${safeTimeline}</td></tr>
+                    ${discountCode ? `<tr><td style="padding:12px 0;color:#a0a0a0;">Kodi zbritjes</td><td style="padding:12px 0;color:#ab8339;font-weight:700;">${escapeHtml(discountCode)} — 10% zbritje</td></tr>` : ""}
                   </table>
                   <div style="margin-top:24px;padding:22px;background:#151515;border:1px solid #262626;border-radius:18px;">
                     <p style="margin:0 0 12px;color:#ab8339;font-size:13px;font-weight:700;">Mesazhi i klientit</p>

@@ -162,7 +162,6 @@ export default function Footer() {
                 { label: "Shërbimet", href: "/sherbimet" },
                 { label: "Projektet", href: "/projektet" },
                 { label: "Çmimet", href: "/cmimet" },
-                { label: "Rreth Nesh", href: "/about" },
                 { label: "Blog", href: "/blog" },
                 { label: "Kontakt", href: "/contact" },
               ].map(({ label, href }) => (

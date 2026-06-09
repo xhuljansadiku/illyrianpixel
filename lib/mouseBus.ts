@@ -9,6 +9,14 @@ const overHandlers = new Set<OverHandler>();
 const leaveHandlers = new Set<LeaveHandler>();
 
 let initialized = false;
+let rafId: number | null = null;
+let latestX = 0;
+let latestY = 0;
+
+function flushMove() {
+  rafId = null;
+  moveHandlers.forEach((h) => h(latestX, latestY));
+}
 
 function init() {
   if (initialized || typeof window === "undefined") return;
@@ -16,7 +24,11 @@ function init() {
 
   window.addEventListener(
     "pointermove",
-    (e: PointerEvent) => { moveHandlers.forEach((h) => h(e.clientX, e.clientY)); },
+    (e: PointerEvent) => {
+      latestX = e.clientX;
+      latestY = e.clientY;
+      if (rafId === null) rafId = window.requestAnimationFrame(flushMove);
+    },
     { passive: true }
   );
 

@@ -7,7 +7,7 @@ const fabButtonClass =
   "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-accent/70 bg-[#0b0b0b]/88 text-accent shadow-[0_10px_28px_rgba(0,0,0,0.38)] backdrop-blur-lg transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_0_20px_rgba(171, 131, 57,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090909]";
 
 const hoverLabelClass =
-  "pointer-events-none absolute right-full top-1/2 mr-3 -translate-y-1/2 whitespace-nowrap rounded-full border border-white/14 bg-[#111]/92 px-3 py-2 text-[11px] font-medium tracking-wide text-accent shadow-[0_12px_28px_rgba(0,0,0,0.4)] backdrop-blur-md transition-all duration-300 ease-out";
+  "pointer-events-none absolute right-full top-1/2 mr-3 -translate-y-1/2 whitespace-nowrap rounded-full border border-white/14 bg-[#111]/92 px-3 py-2 text-[11px] font-medium tracking-wide text-accent shadow-[0_12px_28px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-all duration-300 ease-out";
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);

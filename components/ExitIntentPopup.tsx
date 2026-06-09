@@ -75,7 +75,7 @@ export default function ExitIntentPopup() {
           <span className="text-accent">falas</span> sot.
         </h2>
         <p className="mt-3 text-[0.9rem] leading-relaxed text-white/55">
-          Tregoni për projektin tuaj dhe marrim një plan konkret — pa kosto, pa detyrime.
+          Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.
         </p>
 
         {/* CTAs */}

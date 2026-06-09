@@ -27,7 +27,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[80] bg-bg/94 backdrop-blur-xl">
+    <div className="fixed inset-0 z-[80] bg-bg/94 backdrop-blur-md">
       <div className="flex h-full flex-col px-5 py-5 sm:px-6 sm:py-6">
         <div className="flex items-center justify-between">
           <p className="font-ui text-[11px] font-bold tracking-[1px] text-muted">Menu</p>

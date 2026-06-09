@@ -13,7 +13,6 @@ const navItems = [
   { id: "pricing",      label: "\u00c7mimet",     href: "/cmimet" },
   { id: "featured-work",label: "Projektet",  href: "/projektet" },
   { id: "blog",         label: "Blog",       href: "/blog" },
-  { id: "about",        label: "Rreth nesh", href: "/about" },
   { id: "contact",      label: "Kontakt",    href: "/contact" },
 ];
 
@@ -31,7 +30,6 @@ export default function Navbar() {
     if (pathname.startsWith("/services") || pathname.startsWith("/sherbimet")) return "services";
     if (pathname.startsWith("/work") || pathname.startsWith("/projektet")) return "featured-work";
     if (pathname.startsWith("/blog")) return "blog";
-    if (pathname.startsWith("/about")) return "about";
     if (pathname.startsWith("/contact")) return "contact";
     return "hero";
   })();
@@ -115,7 +113,7 @@ export default function Navbar() {
       <header
         ref={headerRef}
         className={`fixed inset-x-0 top-0 z-[60] transition-[background-color,border-color,backdrop-filter] duration-500 ${
-          isScrolled ? "border-b border-white/[0.05] bg-bg/72 backdrop-blur-[12px]" : "bg-transparent"
+          isScrolled ? "border-b border-white/[0.05] bg-bg/80 backdrop-blur-[8px]" : "bg-transparent"
         }`}
       >
         <div

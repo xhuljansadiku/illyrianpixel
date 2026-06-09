@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "@/lib/blogPosts";
+import { caseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
 
 const LAUNCH_DATE = new Date("2026-01-15");
@@ -25,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/cmimet",                   priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/contact",                  priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/projektet",                priority: 0.8,  changefreq: "weekly",  date: LAUNCH_DATE },
-    { path: "/about",                    priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/newsletter",               priority: 0.6,  changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/blog",                     priority: 0.75, changefreq: "weekly",  date: new Date("2026-05-15") },
     { path: "/services/website",         priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/ecommerce",       priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
@@ -70,6 +71,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
     }));
 
+  const projectRoutes = caseStudies.map((cs) => ({
+    url: `${seo.siteUrl}/projektet/${cs.slug}`,
+    lastModified: LAUNCH_DATE,
+    priority: 0.75,
+    changeFrequency: "monthly" as const,
+  }));
+
   return [
     ...staticRoutes.map(({ path, priority, changefreq, date }) => ({
       url: `${seo.siteUrl}${path}`,
@@ -77,6 +85,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority,
       changeFrequency: changefreq,
     })),
+    ...projectRoutes,
     ...blogRoutes,
     ...dedicatedBlogRoutes,
   ];

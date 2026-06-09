@@ -164,69 +164,29 @@ export default function Hero() {
           }
         }
 
+        const heroTrigger = {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.4
+        };
+
         gsap.to(gradientRef.current, {
           yPercent: 10,
           scale: 1.02,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.4
-          }
+          scrollTrigger: heroTrigger
         });
 
         gsap.to(visualRef.current, {
           yPercent: isMobile ? -2 : -7,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.5
-          }
+          scrollTrigger: heroTrigger
         });
 
         gsap.to(helmetRef.current, {
           yPercent: isMobile ? -2 : -5,
           xPercent: isMobile ? 0 : -2,
           rotate: isMobile ? -0.6 : -1.8,
-          scale: 1.04,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.45
-          }
-        });
-
-        gsap.to(particlesRef.current, {
-          yPercent: isMobile ? -4 : -12,
-          xPercent: isMobile ? 1 : -6,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.2
-          }
-        });
-
-        gsap.to(depthGlowRef.current, {
-          yPercent: isMobile ? 5 : 10,
-          xPercent: isMobile ? -2 : -8,
-          scale: 1.06,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.6
-          }
-        });
-
-        gsap.to(visualRef.current, {
-          y: isMobile ? -2 : -7,
-          duration: 4.8,
-          yoyo: true,
-          repeat: -1,
-          ease: "sine.inOut"
+          scrollTrigger: heroTrigger
         });
       }
     }, sectionRef);

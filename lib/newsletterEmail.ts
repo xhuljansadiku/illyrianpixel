@@ -1,0 +1,165 @@
+export const NEWSLETTER_DISCOUNT_CODE = "ILLYRIAN10";
+
+export const NEWSLETTER_BRAND = {
+  name: "Illyrian Pixel",
+  from: "Illyrian Pixel <info@illyrianpixel.com>",
+  website: "https://illyrianpixel.com",
+  logo: "https://illyrianpixel.com/images/illyrianpixel_logo.png",
+  whatsapp: "https://wa.me/355694726827",
+};
+
+export function welcomeEmailHtml(code: string): string {
+  const BRAND = NEWSLETTER_BRAND;
+  return `<!DOCTYPE html>
+<html lang="sq">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kodi juaj 10% — Illyrian Pixel</title></head>
+<body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#e0e0e0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#111111;border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#0e0e0e,#161410);padding:40px 48px 32px;border-bottom:1px solid rgba(171,131,57,0.2);">
+            <img src="${BRAND.logo}" alt="Illyrian Pixel" height="36" style="height:36px;width:auto;display:block;margin-bottom:24px;" />
+            <h1 style="margin:0;font-size:26px;font-weight:700;color:#ffffff;line-height:1.2;letter-spacing:-0.01em;">
+              Kodi juaj i zbritjes është gati.
+            </h1>
+            <p style="margin:12px 0 0;font-size:15px;color:rgba(255,255,255,0.55);line-height:1.6;">
+              Faleminderit që u abonuat. Ja 10% zbritje për çdo shërbim të Illyrian Pixel.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Discount Code Block -->
+        <tr>
+          <td style="padding:40px 48px;">
+            <p style="margin:0 0 16px;font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(171,131,57,0.7);">Kodi juaj ekskluziv</p>
+            <div style="background:linear-gradient(135deg,#0a0a0a,#131008);border:1.5px solid rgba(171,131,57,0.45);border-radius:12px;padding:24px 32px;text-align:center;margin-bottom:28px;">
+              <span style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;letter-spacing:0.12em;color:#ab8339;">${code}</span>
+            </div>
+            <p style="margin:0 0 8px;font-size:14px;color:rgba(255,255,255,0.55);line-height:1.65;">
+              Ky kod ju jep 10% zbritje në çdo shërbim &nbsp;Website, SEO, Google Ads, Branding, Social Media ose E-Commerce.
+            </p>
+            <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.35);line-height:1.6;">
+              Thjesht citoni kodin kur të kontaktoni ose vendosini direkt në formularin e kontaktit.
+            </p>
+          </td>
+        </tr>
+
+        <!-- CTA -->
+        <tr>
+          <td style="padding:0 48px 40px;">
+            <table cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background:#ab8339;border-radius:8px;">
+                  <a href="${BRAND.website}/contact" style="display:inline-block;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
+                    Rezervo konsultë falas →
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:16px 0 0;font-size:12px;color:rgba(255,255,255,0.3);">
+              Konsultimi fillestar është gjithmonë falas dhe pa detyrim.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Services quick links -->
+        <tr>
+          <td style="padding:28px 48px;border-top:1px solid rgba(255,255,255,0.06);">
+            <p style="margin:0 0 14px;font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.28);">Shërbime</p>
+            <table cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="padding-right:16px;"><a href="${BRAND.website}/services/website" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">Website</a></td>
+                <td style="padding-right:16px;"><a href="${BRAND.website}/services/ecommerce" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">E-Commerce</a></td>
+                <td style="padding-right:16px;"><a href="${BRAND.website}/services/seo" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">SEO</a></td>
+                <td><a href="${BRAND.website}/services/google-ads" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">Google Ads</a></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:24px 48px;border-top:1px solid rgba(255,255,255,0.05);background:#0d0d0d;">
+            <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.22);line-height:1.7;">
+              Illyrian Pixel · Agjenci Dixhitale Premium · Tiranë, Shqipëri<br>
+              <a href="${BRAND.website}" style="color:rgba(171,131,57,0.5);text-decoration:none;">illyrianpixel.com</a>
+              &nbsp;·&nbsp;
+              <a href="${BRAND.whatsapp}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+export function broadcastEmailHtml(subject: string, message: string): string {
+  const BRAND = NEWSLETTER_BRAND;
+  const safeMessage = message
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replaceAll("\n", "<br>");
+
+  return `<!DOCTYPE html>
+<html lang="sq">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${subject}</title></head>
+<body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#e0e0e0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#111111;border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#0e0e0e,#161410);padding:40px 48px 32px;border-bottom:1px solid rgba(171,131,57,0.2);">
+            <img src="${BRAND.logo}" alt="Illyrian Pixel" height="36" style="height:36px;width:auto;display:block;margin-bottom:24px;" />
+            <h1 style="margin:0;font-size:24px;font-weight:700;color:#ffffff;line-height:1.3;letter-spacing:-0.01em;">${subject}</h1>
+          </td>
+        </tr>
+
+        <!-- Message -->
+        <tr>
+          <td style="padding:40px 48px;">
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.75);line-height:1.8;">${safeMessage}</p>
+          </td>
+        </tr>
+
+        <!-- CTA -->
+        <tr>
+          <td style="padding:0 48px 40px;">
+            <table cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background:#ab8339;border-radius:8px;">
+                  <a href="${BRAND.website}" style="display:inline-block;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
+                    Vizito website-in →
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:24px 48px;border-top:1px solid rgba(255,255,255,0.05);background:#0d0d0d;">
+            <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.22);line-height:1.7;">
+              Illyrian Pixel · Agjenci Dixhitale Premium · Tiranë, Shqipëri<br>
+              <a href="${BRAND.website}" style="color:rgba(171,131,57,0.5);text-decoration:none;">illyrianpixel.com</a>
+              &nbsp;·&nbsp;
+              <a href="${BRAND.whatsapp}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}

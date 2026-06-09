@@ -9,19 +9,25 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 const ALL_LABEL = "Të gjitha";
 
-const CATEGORIES = [
-  ALL_LABEL,
-  ...Array.from(new Set(blogPosts.map((p) => p.category))),
-];
+type DbPost = {
+  slug: string;
+  title: string;
+  category: string;
+  excerpt: string;
+  date: string;
+};
 
-export default function BlogPageClient() {
+export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] }) {
   const heroRef = useRef<HTMLElement>(null);
+  const allPosts = [...dbPosts, ...blogPosts];
   const [active, setActive] = useState(ALL_LABEL);
+
+  const categories = [ALL_LABEL, ...Array.from(new Set(allPosts.map((p) => p.category)))];
 
   const filtered =
     active === ALL_LABEL
-      ? blogPosts
-      : blogPosts.filter((p) => p.category === active);
+      ? allPosts
+      : allPosts.filter((p) => p.category === active);
 
   useIsomorphicLayoutEffect(() => {
     if (!heroRef.current) return;
@@ -85,7 +91,7 @@ export default function BlogPageClient() {
 
             {/* Category filter */}
             <div className="flex flex-wrap gap-2 mb-10">
-              {CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActive(cat)}

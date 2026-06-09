@@ -16,7 +16,7 @@ export default function SmoothScroll({ children }: PropsWithChildren) {
 
     const { gsap, ScrollTrigger } = ensureGSAP();
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.85,
       smoothWheel: true,
       wheelMultiplier: 0.9,
       touchMultiplier: 1,

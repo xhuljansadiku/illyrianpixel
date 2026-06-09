@@ -80,7 +80,7 @@ export default function SocialProofToasts() {
   return (
     <div
       ref={toastRef}
-      className="social-proof-toast fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center rounded-full border border-white/14 bg-[#111111]/92 px-3 py-2 backdrop-blur-md sm:bottom-6 sm:px-4 md:left-6 md:translate-x-0"
+      className="social-proof-toast fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center rounded-full border border-white/14 bg-[#111111]/92 px-3 py-2 backdrop-blur-sm sm:bottom-6 sm:px-4 md:left-6 md:translate-x-0"
       style={{
         bottom: isMobile ? "16px" : "calc(var(--whatsapp-height, 48px) + 40px)"
       }}

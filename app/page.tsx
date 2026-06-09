@@ -15,20 +15,12 @@ const Process       = dynamic(() => import("@/components/Process"));
 const PseNe         = dynamic(() => import("@/components/PseNe"));
 const Services      = dynamic(() => import("@/components/Services"));
 const Testimonials  = dynamic(() => import("@/components/Testimonials"));
-const TrustedClients = dynamic(() => import("@/components/TrustedClients"));
+const TrustedClients     = dynamic(() => import("@/components/TrustedClients"));
+const NewsletterSection  = dynamic(() => import("@/components/NewsletterSection"));
 
-const BackToTop = dynamic(() => import("@/components/BackToTop"), { ssr: false });
-const BrandSignature = dynamic(() => import("@/components/BrandSignature"), { ssr: false });
-const CursorTrail = dynamic(() => import("@/components/CursorTrail"), { ssr: false });
-const CursorSpotlight = dynamic(() => import("@/components/CursorSpotlight"), { ssr: false });
-const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
-const EasterEggOverlay = dynamic(() => import("@/components/EasterEggOverlay"), { ssr: false });
-const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
-const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"), { ssr: false });
-const SocialProofToasts  = dynamic(() => import("@/components/SocialProofToasts"),  { ssr: false });
-const CookieConsent      = dynamic(() => import("@/components/CookieConsent"),      { ssr: false });
-const WhatsAppButton     = dynamic(() => import("@/components/WhatsAppButton"),     { ssr: false });
-const ExitIntentPopup    = dynamic(() => import("@/components/ExitIntentPopup"),    { ssr: false });
+const BrandSignature    = dynamic(() => import("@/components/BrandSignature"),    { ssr: false });
+const EasterEggOverlay  = dynamic(() => import("@/components/EasterEggOverlay"),  { ssr: false });
+const SocialProofToasts = dynamic(() => import("@/components/SocialProofToasts"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Web Design & Marketing Premium Shqipëri | Illyrian Pixel",
@@ -52,22 +44,13 @@ export default function HomePage() {
   return (
     <>
       <SectionAura />
-      <PageTransitionOverlay />
       <Navbar />
-      <ScrollProgress />
       <div className="site-grade" />
       <div className="ambient-noise" />
       <div className="site-vignette" />
       <BrandSignature />
-      <CustomCursor />
-      <CursorSpotlight />
-      <CursorTrail />
       <EasterEggOverlay />
       <SocialProofToasts />
-      <CookieConsent />
-      <WhatsAppButton />
-      <ExitIntentPopup />
-      <BackToTop />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
@@ -121,6 +104,8 @@ export default function HomePage() {
             </Link>
           </div>
         </section>
+
+        <NewsletterSection />
 
         {/* SEO Boost Line */}
         <div className="border-t border-white/[0.04]">
