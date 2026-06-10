@@ -114,14 +114,23 @@ export function followUpReminderEmailHtml(contacts: ReminderContact[]): string {
 
   const rows = contacts
     .map((c) => {
-      const overdue = c.follow_up_date && c.follow_up_date < today;
+      const overdue = c.follow_up_date !== null && c.follow_up_date < today;
       const dateLabel = c.follow_up_date
         ? new Date(`${c.follow_up_date}T00:00:00`).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" })
         : "—";
+      let statusLabel = "";
+      if (c.follow_up_date) {
+        if (c.follow_up_date < today) statusLabel = " (vonuar)";
+        else if (c.follow_up_date === today) statusLabel = " (sot)";
+        else {
+          const days = Math.round((new Date(`${c.follow_up_date}T00:00:00`).getTime() - new Date(`${today}T00:00:00`).getTime()) / 86400000);
+          statusLabel = days === 1 ? " (nesër)" : ` (pas ${days} ditësh)`;
+        }
+      }
       return `<tr>
         <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:#ffffff;">${c.name}</td>
         <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:rgba(255,255,255,0.6);">${c.phone || c.email}</td>
-        <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:${overdue ? "#f87171" : "rgba(255,255,255,0.6)"};">${dateLabel}${overdue ? " (vonuar)" : ""}</td>
+        <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:${overdue ? "#f87171" : "rgba(255,255,255,0.6)"};">${dateLabel}${statusLabel}</td>
         <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:rgba(255,255,255,0.6);">${c.assigned_to || "—"}</td>
       </tr>`;
     })
@@ -140,7 +149,7 @@ export function followUpReminderEmailHtml(contacts: ReminderContact[]): string {
           <td style="background:linear-gradient(135deg,#0e0e0e,#161410);padding:40px 48px 32px;border-bottom:1px solid rgba(171,131,57,0.2);">
             <img src="${BRAND.logo}" alt="Illyrian Pixel" height="36" style="height:36px;width:auto;display:block;margin-bottom:24px;" />
             <h1 style="margin:0;font-size:24px;font-weight:700;color:#ffffff;line-height:1.3;letter-spacing:-0.01em;">Kontakte për ndjekje sot</h1>
-            <p style="margin:12px 0 0;font-size:14px;color:rgba(255,255,255,0.5);">${contacts.length} kontakt${contacts.length === 1 ? "" : "e"} kanë afat ndjekjeje sot ose më parë.</p>
+            <p style="margin:12px 0 0;font-size:14px;color:rgba(255,255,255,0.5);">${contacts.length} kontakt${contacts.length === 1 ? "" : "e"} kanë afat ndjekjeje brenda 48 orëve të ardhshme (ose të vonuara).</p>
           </td>
         </tr>
 

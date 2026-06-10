@@ -16,12 +16,15 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Date();
+  const cutoff = new Date(today);
+  cutoff.setDate(cutoff.getDate() + 2);
+  const cutoffStr = cutoff.toISOString().slice(0, 10);
 
   const { data: contacts, error } = await supabase
     .from("contacts")
     .select("id, name, email, phone, follow_up_date, assigned_to")
-    .lte("follow_up_date", today)
+    .lte("follow_up_date", cutoffStr)
     .neq("status", "done")
     .order("follow_up_date", { ascending: true });
 
@@ -36,7 +39,7 @@ export async function GET(req: Request) {
   await resend.emails.send({
     from: NEWSLETTER_BRAND.from,
     to: process.env.CONTACT_TO_EMAIL!,
-    subject: `${contacts.length} kontakt${contacts.length === 1 ? "" : "e"} për ndjekje sot`,
+    subject: `${contacts.length} kontakt${contacts.length === 1 ? "" : "e"} për ndjekje së shpejti`,
     html: followUpReminderEmailHtml(contacts),
   });
 
