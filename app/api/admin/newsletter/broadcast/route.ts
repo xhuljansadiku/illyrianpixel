@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -35,7 +36,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: "Asnjë subscriber aktiv." }, { status: 400 });
   }
 
-  const html = broadcastEmailHtml(subject, message);
+  const { whatsapp_number } = await getSiteSettings();
+  const html = broadcastEmailHtml(subject, message, `https://wa.me/${whatsapp_number}`);
 
   for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
     const chunk = recipients.slice(i, i + BATCH_SIZE);

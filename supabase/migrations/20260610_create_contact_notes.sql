@@ -18,3 +18,6 @@ create policy "service role only"
   on contact_notes for all
   using (false)
   with check (false);
+
+grant select, insert, update, delete on public.contact_notes to service_role;
+grant usage, select on sequence contact_notes_id_seq to service_role;

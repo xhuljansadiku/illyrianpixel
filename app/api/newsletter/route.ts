@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
-import { NEWSLETTER_BRAND, NEWSLETTER_DISCOUNT_CODE, welcomeEmailHtml } from "@/lib/newsletterEmail";
+import { NEWSLETTER_BRAND, welcomeEmailHtml } from "@/lib/newsletterEmail";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,7 +11,6 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const DISCOUNT_CODE = NEWSLETTER_DISCOUNT_CODE;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const BRAND = NEWSLETTER_BRAND;
@@ -23,6 +23,9 @@ export async function POST(req: Request) {
     if (!EMAIL_RE.test(email)) {
       return NextResponse.json({ success: false, error: "Email i pavlefshëm." }, { status: 400 });
     }
+
+    const { newsletter_discount_code: DISCOUNT_CODE, whatsapp_number } = await getSiteSettings();
+    const whatsappUrl = `https://wa.me/${whatsapp_number}`;
 
     // Check if already subscribed
     const { data: existing } = await supabase
@@ -54,7 +57,7 @@ export async function POST(req: Request) {
       from: BRAND.from,
       to: email,
       subject: `Kodi juaj 10% zbritje — ${BRAND.name}`,
-      html: welcomeEmailHtml(DISCOUNT_CODE),
+      html: welcomeEmailHtml(DISCOUNT_CODE, whatsappUrl),
     });
 
     return NextResponse.json({ success: true, code: DISCOUNT_CODE });

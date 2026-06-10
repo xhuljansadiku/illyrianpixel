@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
-import { NEWSLETTER_BRAND, NEWSLETTER_DISCOUNT_CODE, welcomeEmailHtml } from "@/lib/newsletterEmail";
+import { NEWSLETTER_BRAND, welcomeEmailHtml } from "@/lib/newsletterEmail";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -21,11 +22,13 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     return NextResponse.json({ success: false, error: "Subscriber nuk u gjet." }, { status: 404 });
   }
 
+  const { newsletter_discount_code: discountCode, whatsapp_number } = await getSiteSettings();
+
   await resend.emails.send({
     from: NEWSLETTER_BRAND.from,
     to: subscriber.email,
     subject: `Kodi juaj 10% zbritje — ${NEWSLETTER_BRAND.name}`,
-    html: welcomeEmailHtml(NEWSLETTER_DISCOUNT_CODE),
+    html: welcomeEmailHtml(discountCode, `https://wa.me/${whatsapp_number}`),
   });
 
   return NextResponse.json({ success: true });

@@ -1,5 +1,3 @@
-export const NEWSLETTER_DISCOUNT_CODE = "ILLYRIAN10";
-
 export const NEWSLETTER_BRAND = {
   name: "Illyrian Pixel",
   from: "Illyrian Pixel <info@illyrianpixel.com>",
@@ -8,8 +6,8 @@ export const NEWSLETTER_BRAND = {
   whatsapp: "https://wa.me/355694726827",
 };
 
-export function welcomeEmailHtml(code: string): string {
-  const BRAND = NEWSLETTER_BRAND;
+export function welcomeEmailHtml(code: string, whatsappUrl: string = NEWSLETTER_BRAND.whatsapp): string {
+  const BRAND = { ...NEWSLETTER_BRAND, whatsapp: whatsappUrl };
   return `<!DOCTYPE html>
 <html lang="sq">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kodi juaj 10% — Illyrian Pixel</title></head>
@@ -201,8 +199,8 @@ export function followUpReminderEmailHtml(contacts: ReminderContact[]): string {
 </html>`;
 }
 
-export function broadcastEmailHtml(subject: string, message: string): string {
-  const BRAND = NEWSLETTER_BRAND;
+export function broadcastEmailHtml(subject: string, message: string, whatsappUrl: string = NEWSLETTER_BRAND.whatsapp): string {
+  const BRAND = { ...NEWSLETTER_BRAND, whatsapp: whatsappUrl };
   const safeMessage = message
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")

@@ -28,6 +28,7 @@ type Contact = {
   notes: string | null;
   assigned_to: string | null;
   follow_up_date: string | null;
+  tags: string[] | null;
 };
 
 type ContactLog = {
@@ -79,6 +80,22 @@ type Stats = {
   contactsThisWeek: number;
   subscribersThisWeek: number;
   discountUsed: number;
+  conversionRate: number;
+  avgDaysToClose: number | null;
+  topServices: { service: string; count: number }[];
+};
+
+type AdminLogin = {
+  id: number;
+  success: boolean;
+  ip: string | null;
+  user_agent: string | null;
+  created_at: string;
+};
+
+type SiteSettings = {
+  newsletter_discount_code: string;
+  whatsapp_number: string;
 };
 
 const CARD =
@@ -135,6 +152,10 @@ function whatsappHref(phone: string) {
   return `https://wa.me/${digits}`;
 }
 
+function csvCell(value: string) {
+  return `"${value.replace(/"/g, '""')}"`;
+}
+
 function downloadCSV(rows: Subscriber[]) {
   const header = "email,subscribed_at,unsubscribed\n";
   const body = rows.map((r) => `${r.email},${r.subscribed_at},${r.unsubscribed ? "po" : "jo"}`).join("\n");
@@ -147,21 +168,52 @@ function downloadCSV(rows: Subscriber[]) {
   URL.revokeObjectURL(url);
 }
 
+function downloadContactsCSV(rows: Contact[]) {
+  const columns = [
+    "name", "email", "phone", "business_name", "service", "budget", "timeline",
+    "status", "assigned_to", "follow_up_date", "tags", "discount_code", "created_at", "message",
+  ];
+  const header = columns.join(",") + "\n";
+  const body = rows
+    .map((c) =>
+      [
+        c.name, c.email, c.phone, c.business_name ?? "", c.service, c.budget, c.timeline,
+        STATUS_LABELS[c.status || "new"] ?? c.status ?? "",
+        c.assigned_to ?? "", c.follow_up_date ?? "", (c.tags ?? []).join("; "),
+        c.discount_code ?? "", c.created_at, c.message,
+      ]
+        .map((v) => csvCell(String(v ?? "")))
+        .join(",")
+    )
+    .join("\n");
+  const blob = new Blob(["﻿" + header + body], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `kontaktet-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function AdminDashboard({
   contacts: initialContacts,
   subscribers: initialSubscribers,
   blogPosts: initialBlogPosts,
   staticPosts,
   stats,
+  adminLogins,
+  siteSettings,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
   blogPosts: BlogPost[];
   staticPosts: StaticPost[];
   stats: Stats;
+  adminLogins: AdminLogin[];
+  siteSettings: SiteSettings;
 }) {
   const router = useRouter();
-  const [tab, setTab] = useState<"contacts" | "subscribers" | "blog">("contacts");
+  const [tab, setTab] = useState<"contacts" | "subscribers" | "blog" | "analytics" | "settings">("contacts");
   const [contacts, setContacts] = useState(initialContacts);
   const [subscribers, setSubscribers] = useState(initialSubscribers);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
@@ -211,6 +263,12 @@ export default function AdminDashboard({
           <TabButton active={tab === "blog"} onClick={() => setTab("blog")}>
             Blog ({blogPosts.length + staticPosts.length})
           </TabButton>
+          <TabButton active={tab === "analytics"} onClick={() => setTab("analytics")}>
+            Analitika
+          </TabButton>
+          <TabButton active={tab === "settings"} onClick={() => setTab("settings")}>
+            Cilësimet
+          </TabButton>
         </div>
 
         {/* Content */}
@@ -222,6 +280,8 @@ export default function AdminDashboard({
           {tab === "blog" && (
             <BlogTab posts={blogPosts} setPosts={setBlogPosts} staticPosts={staticPosts} />
           )}
+          {tab === "analytics" && <AnalyticsTab stats={stats} />}
+          {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
         </div>
       </div>
     </main>
@@ -392,6 +452,8 @@ function ContactsTab({
 }) {
   const [search, setSearch] = useState("");
   const [serviceFilter, setServiceFilter] = useState("Të gjitha");
+  const [tagFilter, setTagFilter] = useState("Të gjitha");
+  const [tagDraft, setTagDraft] = useState<Record<number, string>>({});
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -419,6 +481,11 @@ function ContactsTab({
     [contacts]
   );
 
+  const allTags = useMemo(
+    () => ["Të gjitha", ...Array.from(new Set(contacts.flatMap((c) => c.tags ?? []))).sort()],
+    [contacts]
+  );
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return contacts.filter((c) => {
@@ -427,11 +494,12 @@ function ContactsTab({
         if (!haystack.includes(q)) return false;
       }
       if (serviceFilter !== "Të gjitha" && c.service !== serviceFilter) return false;
+      if (tagFilter !== "Të gjitha" && !(c.tags ?? []).includes(tagFilter)) return false;
       if (dateFrom && new Date(c.created_at) < new Date(dateFrom)) return false;
       if (dateTo && new Date(c.created_at) > new Date(dateTo + "T23:59:59")) return false;
       return true;
     });
-  }, [contacts, search, serviceFilter, dateFrom, dateTo]);
+  }, [contacts, search, serviceFilter, tagFilter, dateFrom, dateTo]);
 
   const loadLogs = async (id: number) => {
     setLogsLoading((s) => ({ ...s, [id]: true }));
@@ -527,7 +595,7 @@ function ContactsTab({
 
   const updateContact = async (
     id: number,
-    update: Partial<Pick<Contact, "status" | "notes" | "assigned_to" | "follow_up_date">>
+    update: Partial<Pick<Contact, "status" | "notes" | "assigned_to" | "follow_up_date" | "tags">>
   ) => {
     setSavingId(id);
     setSaveError((e) => ({ ...e, [id]: "" }));
@@ -559,6 +627,22 @@ function ContactsTab({
     if (followUpVal !== undefined && followUpVal !== (c.follow_up_date ?? "")) update.follow_up_date = followUpVal;
     if (Object.keys(update).length === 0) return;
     updateContact(c.id, update);
+  };
+
+  const addTag = (c: Contact) => {
+    const tag = (tagDraft[c.id] ?? "").trim().slice(0, 30);
+    if (!tag) return;
+    const current = c.tags ?? [];
+    if (current.includes(tag)) {
+      setTagDraft((d) => ({ ...d, [c.id]: "" }));
+      return;
+    }
+    updateContact(c.id, { tags: [...current, tag] });
+    setTagDraft((d) => ({ ...d, [c.id]: "" }));
+  };
+
+  const removeTag = (c: Contact, tag: string) => {
+    updateContact(c.id, { tags: (c.tags ?? []).filter((t) => t !== tag) });
   };
 
   const removeContact = async (id: number) => {
@@ -660,6 +744,15 @@ function ContactsTab({
             <option key={s} value={s}>{s}</option>
           ))}
         </select>
+        <select
+          value={tagFilter}
+          onChange={(e) => setTagFilter(e.target.value)}
+          className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+        >
+          {allTags.map((t) => (
+            <option key={t} value={t}>{t === "Të gjitha" ? "Të gjitha etiketat" : t}</option>
+          ))}
+        </select>
         <input
           type="date"
           value={dateFrom}
@@ -672,6 +765,12 @@ function ContactsTab({
           onChange={(e) => setDateTo(e.target.value)}
           className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
         />
+        <button
+          onClick={() => downloadContactsCSV(filtered)}
+          className="font-ui rounded-[2px] border border-[#262626] px-4 py-2.5 text-[12px] font-semibold text-white/60 transition-colors hover:border-accent/50 hover:text-white"
+        >
+          ⬇ Export CSV
+        </button>
       </div>
 
       {/* Bulk actions toolbar */}
@@ -754,6 +853,11 @@ function ContactsTab({
                                       ⚠ Vonuar
                                     </span>
                                   )}
+                                  {(c.tags ?? []).map((tag) => (
+                                    <span key={tag} className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/55">
+                                      {tag}
+                                    </span>
+                                  ))}
                                 </div>
                                 <p className="mt-1 text-[12px] text-white/35">
                                   {c.service} · {c.budget} · {c.timeline}
@@ -790,6 +894,46 @@ function ContactsTab({
                                 <a href={whatsappHref(c.phone)} target="_blank" rel="noreferrer" className="rounded-full border border-white/15 px-3 py-1.5 text-[11px] text-white/70 transition-colors hover:border-accent/50 hover:text-white">
                                   💬 WhatsApp
                                 </a>
+                              </div>
+
+                              {/* Tags */}
+                              <div className="mt-4">
+                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Etiketa</label>
+                                <div className="flex flex-wrap items-center gap-2">
+                                  {(c.tags ?? []).map((tag) => (
+                                    <span key={tag} className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-[11px] text-white/65">
+                                      {tag}
+                                      <button
+                                        onClick={() => removeTag(c, tag)}
+                                        disabled={savingId === c.id}
+                                        className="text-white/35 transition-colors hover:text-red-400 disabled:opacity-50"
+                                        aria-label={`Hiq etiketën ${tag}`}
+                                      >
+                                        ×
+                                      </button>
+                                    </span>
+                                  ))}
+                                  <input
+                                    type="text"
+                                    value={tagDraft[c.id] ?? ""}
+                                    onChange={(e) => setTagDraft((d) => ({ ...d, [c.id]: e.target.value }))}
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter") {
+                                        e.preventDefault();
+                                        addTag(c);
+                                      }
+                                    }}
+                                    placeholder="Shto etiketë..."
+                                    className="font-ui w-28 rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-2.5 py-1 text-[11px] text-white outline-none transition-colors focus:border-accent"
+                                  />
+                                  <button
+                                    onClick={() => addTag(c)}
+                                    disabled={savingId === c.id || !(tagDraft[c.id] ?? "").trim()}
+                                    className="font-ui rounded-[2px] border border-accent/40 px-2.5 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                                  >
+                                    +
+                                  </button>
+                                </div>
                               </div>
 
                               {/* Status */}
@@ -1566,6 +1710,159 @@ function BlogTab({
       <p className="mt-3 text-[11px] text-white/30">
         Artikujt statikë janë pjesë e kodit (lib/blogPosts.ts) dhe nuk mund të editohen apo fshihen nga paneli.
       </p>
+    </div>
+  );
+}
+
+// ── Analytics tab ────────────────────────────────────────────────────────────
+function AnalyticsTab({ stats }: { stats: Stats }) {
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className={CARD + " p-5"}>
+          <p className="font-display text-[2rem] font-bold text-white">{stats.conversionRate.toFixed(1)}%</p>
+          <p className="mt-1 text-[12px] text-white/40">Norma e konvertimit (Mbyllur / Total)</p>
+        </div>
+        <div className={CARD + " p-5"}>
+          <p className="font-display text-[2rem] font-bold text-white">
+            {stats.avgDaysToClose !== null ? stats.avgDaysToClose.toFixed(1) : "—"}
+          </p>
+          <p className="mt-1 text-[12px] text-white/40">Ditë mesatare deri në mbyllje</p>
+        </div>
+        <div className={CARD + " p-5"}>
+          <p className="font-display text-[2rem] font-bold text-white">{stats.totalContacts}</p>
+          <p className="mt-1 text-[12px] text-white/40">Kontakte gjithsej</p>
+        </div>
+      </div>
+
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+          Shërbimet më të kërkuara
+        </p>
+        {stats.topServices.length === 0 ? (
+          <EmptyState text="Nuk ka të dhëna." />
+        ) : (
+          <div className="space-y-3">
+            {stats.topServices.map(({ service, count }) => {
+              const max = stats.topServices[0].count;
+              return (
+                <div key={service}>
+                  <div className="mb-1 flex items-center justify-between text-[12px] text-white/60">
+                    <span>{service}</span>
+                    <span className="text-white/35">{count}</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-white/5">
+                    <div
+                      className="h-2 rounded-full bg-accent/50"
+                      style={{ width: `${(count / max) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Settings tab ──────────────────────────────────────────────────────────────
+function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin[]; initialSettings: SiteSettings }) {
+  const [settings, setSettings] = useState(initialSettings);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
+
+  const save = async () => {
+    setSaving(true);
+    setSaved(false);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSaved(true);
+      } else {
+        setError(data.error ?? "Gabim i panjohur.");
+      }
+    } catch {
+      setError("Gabim lidhjeje.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+          Cilësime të faqes
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">
+              Kodi i zbritjes (newsletter)
+            </label>
+            <input
+              type="text"
+              value={settings.newsletter_discount_code}
+              onChange={(e) => setSettings((s) => ({ ...s, newsletter_discount_code: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">
+              Numri WhatsApp (pa +, p.sh. 355...)
+            </label>
+            <input
+              type="text"
+              value={settings.whatsapp_number}
+              onChange={(e) => setSettings((s) => ({ ...s, whatsapp_number: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+            />
+          </div>
+        </div>
+        <div className="mt-4 flex items-center gap-3">
+          <button
+            onClick={save}
+            disabled={saving}
+            className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+          >
+            {saving ? "Duke ruajtur…" : "Ruaj"}
+          </button>
+          {saved && <span className="text-[11px] text-emerald-400/80">U ruajt.</span>}
+          {error && <span className="text-[11px] text-red-400/80">{error}</span>}
+        </div>
+        <p className="mt-3 text-[11px] text-white/30">
+          Këto vlera përdoren në email-et e newsletter-it (kodi i zbritjes dhe lidhja WhatsApp).
+        </p>
+      </div>
+
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+          Hyrjet në admin (20 të fundit)
+        </p>
+        {adminLogins.length === 0 ? (
+          <EmptyState text="Asnjë hyrje e regjistruar." />
+        ) : (
+          <ul className="space-y-1.5">
+            {adminLogins.map((l) => (
+              <li key={l.id} className="flex items-center justify-between text-[11px]">
+                <span className={l.success ? "text-emerald-400/80" : "text-red-400/80"}>
+                  {l.success ? "✓ Hyrje e suksesshme" : "✗ Tentativë e dështuar"}
+                </span>
+                <span className="text-white/35">{l.ip ?? "—"}</span>
+                <span className="text-white/35">{formatDate(l.created_at)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

@@ -15,7 +15,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   const body = await req.json();
-  const update: Record<string, string | null> = {};
+  const update: Record<string, string | string[] | null> = {};
   const logs: { contact_id: number; action: string; detail: string | null }[] = [];
 
   if (typeof body.status === "string") {
@@ -31,13 +31,23 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   }
 
   if (typeof body.assigned_to === "string") {
-    update.assigned_to = body.assigned_to.slice(0, 120) || null;
-    logs.push({ contact_id: Number(params.id), action: "assigned_to", detail: update.assigned_to });
+    const assignedTo = body.assigned_to.slice(0, 120) || null;
+    update.assigned_to = assignedTo;
+    logs.push({ contact_id: Number(params.id), action: "assigned_to", detail: assignedTo });
   }
 
   if (typeof body.follow_up_date === "string") {
-    update.follow_up_date = body.follow_up_date || null;
-    logs.push({ contact_id: Number(params.id), action: "follow_up_date", detail: update.follow_up_date });
+    const followUpDate = body.follow_up_date || null;
+    update.follow_up_date = followUpDate;
+    logs.push({ contact_id: Number(params.id), action: "follow_up_date", detail: followUpDate });
+  }
+
+  if (Array.isArray(body.tags)) {
+    update.tags = body.tags
+      .filter((t: unknown) => typeof t === "string")
+      .map((t: string) => t.trim().slice(0, 30))
+      .filter(Boolean)
+      .slice(0, 10);
   }
 
   if (Object.keys(update).length === 0) {
