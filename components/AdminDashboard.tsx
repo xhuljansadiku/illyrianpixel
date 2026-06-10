@@ -38,6 +38,14 @@ type ContactLog = {
   created_at: string;
 };
 
+type ContactNote = {
+  id: number;
+  contact_id: string;
+  text: string;
+  created_at: string;
+  updated_at: string;
+};
+
 type Subscriber = {
   id: number;
   email: string;
@@ -389,7 +397,6 @@ function ContactsTab({
   const [expanded, setExpanded] = useState<number | null>(null);
   const [savingId, setSavingId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
-  const [notesDraft, setNotesDraft] = useState<Record<number, string>>({});
   const [assignedDraft, setAssignedDraft] = useState<Record<number, string>>({});
   const [followUpDraft, setFollowUpDraft] = useState<Record<number, string>>({});
   const [saveError, setSaveError] = useState<Record<number, string>>({});
@@ -397,6 +404,13 @@ function ContactsTab({
   const [bulkBusy, setBulkBusy] = useState(false);
   const [logs, setLogs] = useState<Record<number, ContactLog[]>>({});
   const [logsLoading, setLogsLoading] = useState<Record<number, boolean>>({});
+  const [notesList, setNotesList] = useState<Record<number, ContactNote[]>>({});
+  const [notesLoading, setNotesLoading] = useState<Record<number, boolean>>({});
+  const [newNoteDraft, setNewNoteDraft] = useState<Record<number, string>>({});
+  const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
+  const [editNoteDraft, setEditNoteDraft] = useState<Record<number, string>>({});
+  const [addingNoteFor, setAddingNoteFor] = useState<number | null>(null);
+  const [noteBusy, setNoteBusy] = useState<number | null>(null);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
@@ -430,12 +444,86 @@ function ContactsTab({
     }
   };
 
+  const loadNotes = async (id: number) => {
+    setNotesLoading((s) => ({ ...s, [id]: true }));
+    try {
+      const res = await fetch(`/api/admin/contacts/${id}/notes`);
+      const data = await res.json();
+      if (data.success) setNotesList((l) => ({ ...l, [id]: data.notes }));
+    } finally {
+      setNotesLoading((s) => ({ ...s, [id]: false }));
+    }
+  };
+
   useEffect(() => {
-    if (expanded !== null && !logs[expanded] && !logsLoading[expanded]) {
-      loadLogs(expanded);
+    if (expanded !== null) {
+      if (!logs[expanded] && !logsLoading[expanded]) loadLogs(expanded);
+      if (!notesList[expanded] && !notesLoading[expanded]) loadNotes(expanded);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
+
+  const addNote = async (c: Contact) => {
+    const text = (newNoteDraft[c.id] ?? "").trim();
+    if (!text) return;
+    setAddingNoteFor(c.id);
+    try {
+      const res = await fetch(`/api/admin/contacts/${c.id}/notes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setNotesList((l) => ({ ...l, [c.id]: [data.note, ...(l[c.id] ?? [])] }));
+        setNewNoteDraft((d) => ({ ...d, [c.id]: "" }));
+      }
+    } finally {
+      setAddingNoteFor(null);
+    }
+  };
+
+  const saveNoteEdit = async (contactId: number, noteId: number) => {
+    const text = (editNoteDraft[noteId] ?? "").trim();
+    if (!text) return;
+    setNoteBusy(noteId);
+    try {
+      const res = await fetch(`/api/admin/contacts/${contactId}/notes/${noteId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setNotesList((l) => ({
+          ...l,
+          [contactId]: (l[contactId] ?? []).map((n) => (n.id === noteId ? data.note : n)),
+        }));
+        setEditingNoteId(null);
+      }
+    } finally {
+      setNoteBusy(null);
+    }
+  };
+
+  const deleteNote = async (contactId: number, noteId: number) => {
+    if (!confirm("Të fshihet ky shënim?")) return;
+    setNoteBusy(noteId);
+    try {
+      const res = await fetch(`/api/admin/contacts/${contactId}/notes/${noteId}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        setNotesList((l) => ({ ...l, [contactId]: (l[contactId] ?? []).filter((n) => n.id !== noteId) }));
+      }
+    } finally {
+      setNoteBusy(null);
+    }
+  };
+
+  const deleteLegacyNote = (c: Contact) => {
+    if (!confirm("Të fshihet ky shënim i vjetër?")) return;
+    updateContact(c.id, { notes: "" });
+  };
 
   const updateContact = async (
     id: number,
@@ -464,11 +552,9 @@ function ContactsTab({
   };
 
   const saveDetails = (c: Contact) => {
-    const update: Partial<Pick<Contact, "notes" | "assigned_to" | "follow_up_date">> = {};
-    const notesVal = notesDraft[c.id];
+    const update: Partial<Pick<Contact, "assigned_to" | "follow_up_date">> = {};
     const assignedVal = assignedDraft[c.id];
     const followUpVal = followUpDraft[c.id];
-    if (notesVal !== undefined && notesVal !== (c.notes ?? "")) update.notes = notesVal;
     if (assignedVal !== undefined && assignedVal !== (c.assigned_to ?? "")) update.assigned_to = assignedVal;
     if (followUpVal !== undefined && followUpVal !== (c.follow_up_date ?? "")) update.follow_up_date = followUpVal;
     if (Object.keys(update).length === 0) return;
@@ -747,33 +833,126 @@ function ContactsTab({
                               {/* Notes */}
                               <div className="mt-4">
                                 <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Shënime private</label>
-                                <textarea
-                                  rows={2}
-                                  value={notesDraft[c.id] ?? c.notes ?? ""}
-                                  onChange={(e) => setNotesDraft((d) => ({ ...d, [c.id]: e.target.value }))}
-                                  placeholder="Shto shënim..."
-                                  className="font-ui w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
-                                />
-                                <div className="mt-2 flex gap-3">
+
+                                {c.notes ? (
+                                  <div className="mb-2 rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2">
+                                    <p className="whitespace-pre-wrap text-[12px] text-white/70">{c.notes}</p>
+                                    <div className="mt-1.5 flex items-center justify-between">
+                                      <span className="text-[10px] text-white/30">Shënim i vjetër</span>
+                                      <button
+                                        onClick={() => deleteLegacyNote(c)}
+                                        className="font-ui text-[10px] font-semibold text-red-400/70 transition-colors hover:text-red-400"
+                                      >
+                                        Fshi
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : null}
+
+                                {notesLoading[c.id] ? (
+                                  <p className="text-[11px] text-white/30">Duke ngarkuar…</p>
+                                ) : (notesList[c.id] ?? []).length > 0 ? (
+                                  <ul className="space-y-2">
+                                    {(notesList[c.id] ?? []).map((n) => (
+                                      <li key={n.id} className="rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2">
+                                        {editingNoteId === n.id ? (
+                                          <>
+                                            <textarea
+                                              rows={2}
+                                              value={editNoteDraft[n.id] ?? n.text}
+                                              onChange={(e) => setEditNoteDraft((d) => ({ ...d, [n.id]: e.target.value }))}
+                                              className="font-ui w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+                                            />
+                                            <div className="mt-1.5 flex gap-3">
+                                              <button
+                                                onClick={() => saveNoteEdit(c.id, n.id)}
+                                                disabled={noteBusy === n.id}
+                                                className="font-ui text-[10px] font-semibold text-accent transition-colors hover:text-accent/80 disabled:opacity-50"
+                                              >
+                                                {noteBusy === n.id ? "Duke ruajtur…" : "Ruaj"}
+                                              </button>
+                                              <button
+                                                onClick={() => setEditingNoteId(null)}
+                                                className="font-ui text-[10px] font-semibold text-white/40 transition-colors hover:text-white/70"
+                                              >
+                                                Anulo
+                                              </button>
+                                            </div>
+                                          </>
+                                        ) : (
+                                          <>
+                                            <p className="whitespace-pre-wrap text-[12px] text-white/70">{n.text}</p>
+                                            <div className="mt-1.5 flex items-center justify-between gap-2">
+                                              <span className="text-[10px] text-white/35">
+                                                {formatDate(n.created_at)}
+                                                {n.updated_at !== n.created_at ? " (ndryshuar)" : ""}
+                                              </span>
+                                              <div className="flex gap-2">
+                                                <button
+                                                  onClick={() => {
+                                                    setEditingNoteId(n.id);
+                                                    setEditNoteDraft((d) => ({ ...d, [n.id]: n.text }));
+                                                  }}
+                                                  className="font-ui text-[10px] font-semibold text-white/40 transition-colors hover:text-white/70"
+                                                >
+                                                  Edito
+                                                </button>
+                                                <button
+                                                  onClick={() => deleteNote(c.id, n.id)}
+                                                  disabled={noteBusy === n.id}
+                                                  className="font-ui text-[10px] font-semibold text-red-400/70 transition-colors hover:text-red-400 disabled:opacity-50"
+                                                >
+                                                  Fshi
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </>
+                                        )}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : !c.notes ? (
+                                  <p className="text-[11px] text-white/30">Asnjë shënim.</p>
+                                ) : null}
+
+                                <div className="mt-2">
+                                  <textarea
+                                    rows={2}
+                                    value={newNoteDraft[c.id] ?? ""}
+                                    onChange={(e) => setNewNoteDraft((d) => ({ ...d, [c.id]: e.target.value }))}
+                                    placeholder="Shto shënim..."
+                                    className="font-ui w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+                                  />
                                   <button
-                                    onClick={() => saveDetails(c)}
-                                    disabled={savingId === c.id}
-                                    className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                                    onClick={() => addNote(c)}
+                                    disabled={addingNoteFor === c.id || !(newNoteDraft[c.id] ?? "").trim()}
+                                    className="font-ui mt-2 rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                                   >
-                                    {savingId === c.id ? "Duke ruajtur…" : "Ruaj"}
-                                  </button>
-                                  <button
-                                    onClick={() => removeContact(c.id)}
-                                    disabled={deletingId === c.id}
-                                    className="font-ui rounded-[2px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
-                                  >
-                                    {deletingId === c.id ? "Duke fshirë…" : "Fshi kontaktin"}
+                                    {addingNoteFor === c.id ? "Duke ruajtur…" : "Shto shënim"}
                                   </button>
                                 </div>
-                                {saveError[c.id] ? (
-                                  <p className="mt-2 text-[11px] text-red-400/80">{saveError[c.id]}</p>
-                                ) : null}
                               </div>
+
+                              {/* Veprime */}
+                              <div className="mt-4 flex gap-3">
+                                <button
+                                  onClick={() => saveDetails(c)}
+                                  disabled={savingId === c.id}
+                                  className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                                >
+                                  {savingId === c.id ? "Duke ruajtur…" : "Ruaj"}
+                                </button>
+                                <button
+                                  onClick={() => removeContact(c.id)}
+                                  disabled={deletingId === c.id}
+                                  className="font-ui rounded-[2px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                                >
+                                  {deletingId === c.id ? "Duke fshirë…" : "Fshi kontaktin"}
+                                </button>
+                              </div>
+                              {saveError[c.id] ? (
+                                <p className="mt-2 text-[11px] text-red-400/80">{saveError[c.id]}</p>
+                              ) : null}
 
                               {/* History */}
                               <div className="mt-4">
