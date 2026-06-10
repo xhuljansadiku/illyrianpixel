@@ -213,10 +213,29 @@ export default function AdminDashboard({
   siteSettings: SiteSettings;
 }) {
   const router = useRouter();
-  const [tab, setTab] = useState<"contacts" | "subscribers" | "blog" | "analytics" | "settings">("contacts");
+  const [tab, setTab] = useState<"overview" | "contacts" | "subscribers" | "blog" | "analytics" | "settings">("overview");
   const [contacts, setContacts] = useState(initialContacts);
   const [subscribers, setSubscribers] = useState(initialSubscribers);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
+  const [collapsed, setCollapsed] = useState(false);
+  const [globalSearch, setGlobalSearch] = useState("");
+  const [contactsJump, setContactsJump] = useState<{ term: string; key: number } | null>(null);
+  const [subscribersJump, setSubscribersJump] = useState<{ term: string; key: number } | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.localStorage.getItem("admin_sidebar_collapsed") === "1") setCollapsed(true);
+  }, []);
+
+  const toggleCollapsed = () => {
+    setCollapsed((c) => {
+      const next = !c;
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("admin_sidebar_collapsed", next ? "1" : "0");
+      }
+      return next;
+    });
+  };
 
   const logout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -224,35 +243,174 @@ export default function AdminDashboard({
     router.refresh();
   };
 
-  const NAV_ITEMS: { id: typeof tab; icon: string; label: string; count?: number }[] = [
-    { id: "contacts", icon: "📇", label: "Kontaktet", count: contacts.length },
+  const today = new Date().toISOString().slice(0, 10);
+  const dueSoonCount = contacts.filter((c) => {
+    if ((c.status || "new") === "done") return false;
+    if (!c.follow_up_date) return false;
+    return c.follow_up_date <= today;
+  }).length;
+
+  const NAV_ITEMS: { id: typeof tab; icon: string; label: string; count?: number; alert?: number }[] = [
+    { id: "overview", icon: "🏠", label: "Përmbledhje" },
+    { id: "contacts", icon: "📇", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
     { id: "subscribers", icon: "✉️", label: "Newsletter", count: subscribers.length },
     { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
     { id: "analytics", icon: "📊", label: "Analitika" },
     { id: "settings", icon: "⚙️", label: "Cilësimet" },
   ];
 
+  const TAB_TITLES: Record<typeof tab, { title: string; subtitle: string }> = {
+    overview: { title: "Përmbledhje", subtitle: "Pamje e përgjithshme e aktivitetit" },
+    contacts: { title: "Kontaktet", subtitle: "Menaxho kontaktet dhe lead-et" },
+    subscribers: { title: "Newsletter", subtitle: "Abonentët dhe email broadcast" },
+    blog: { title: "Blog", subtitle: "Artikujt e blogut" },
+    analytics: { title: "Analitika", subtitle: "Statistika dhe performanca" },
+    settings: { title: "Cilësimet", subtitle: "Konfigurime dhe siguria" },
+  };
+
+  const globalResults = useMemo(() => {
+    const q = globalSearch.trim().toLowerCase();
+    if (!q) return null;
+    const contactMatches = contacts
+      .filter((c) => `${c.name} ${c.email} ${c.phone}`.toLowerCase().includes(q))
+      .slice(0, 4);
+    const subscriberMatches = subscribers.filter((s) => s.email.toLowerCase().includes(q)).slice(0, 3);
+    const blogMatches = [...blogPosts, ...staticPosts]
+      .filter((p) => p.title.toLowerCase().includes(q))
+      .slice(0, 3);
+    return { contactMatches, subscriberMatches, blogMatches };
+  }, [globalSearch, contacts, subscribers, blogPosts, staticPosts]);
+
+  const goToContact = (term: string) => {
+    setTab("contacts");
+    setContactsJump({ term, key: Date.now() });
+    setGlobalSearch("");
+  };
+
+  const goToSubscriber = (term: string) => {
+    setTab("subscribers");
+    setSubscribersJump({ term, key: Date.now() });
+    setGlobalSearch("");
+  };
+
   return (
     <div className="flex min-h-screen bg-bg text-text">
       {/* Sidebar (desktop) */}
-      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-[#262626] bg-[rgba(10,10,10,0.6)] px-4 py-8 md:flex">
-        <div className="px-2">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-          <h1 className="mt-2 font-display text-[1.4rem] font-bold text-white">Admin Panel</h1>
+      <aside
+        className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[#262626] bg-[rgba(10,10,10,0.6)] py-8 transition-all duration-200 md:flex ${
+          collapsed ? "w-[68px] px-2" : "w-60 px-4"
+        }`}
+      >
+        <div className={`flex items-center justify-between ${collapsed ? "px-0" : "px-2"}`}>
+          {!collapsed && (
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+              <h1 className="mt-2 font-display text-[1.4rem] font-bold text-white">Admin Panel</h1>
+            </div>
+          )}
+          <button
+            onClick={toggleCollapsed}
+            title={collapsed ? "Zgjero menynë" : "Mbylle menynë"}
+            className={`rounded-[2px] border border-[#262626] p-1.5 text-[12px] text-white/40 transition-colors hover:border-accent/50 hover:text-white ${collapsed ? "mx-auto mt-1" : ""}`}
+          >
+            {collapsed ? "»" : "«"}
+          </button>
         </div>
-        <nav className="mt-10 flex flex-1 flex-col gap-1">
+
+        {/* Global search */}
+        {!collapsed && (
+          <div className="relative mt-6 px-2">
+            <input
+              type="text"
+              value={globalSearch}
+              onChange={(e) => setGlobalSearch(e.target.value)}
+              placeholder="🔍 Kërko gjithçka..."
+              className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+            />
+            {globalResults && (
+              <div className="absolute left-2 right-2 top-full z-40 mt-1 max-h-80 overflow-y-auto rounded-[2px] border border-[#262626] bg-[#0a0a0a] shadow-xl">
+                {globalResults.contactMatches.length === 0 &&
+                globalResults.subscriberMatches.length === 0 &&
+                globalResults.blogMatches.length === 0 ? (
+                  <p className="px-3 py-3 text-[11px] text-white/35">Asnjë rezultat.</p>
+                ) : (
+                  <>
+                    {globalResults.contactMatches.length > 0 && (
+                      <div className="border-b border-[#262626] py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-white/30">Kontakte</p>
+                        {globalResults.contactMatches.map((c) => (
+                          <button
+                            key={c.id}
+                            onClick={() => goToContact(c.email)}
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                          >
+                            {c.name} <span className="text-white/35">· {c.email}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {globalResults.subscriberMatches.length > 0 && (
+                      <div className="border-b border-[#262626] py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-white/30">Newsletter</p>
+                        {globalResults.subscriberMatches.map((s) => (
+                          <button
+                            key={s.id}
+                            onClick={() => goToSubscriber(s.email)}
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                          >
+                            {s.email}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {globalResults.blogMatches.length > 0 && (
+                      <div className="py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-white/30">Blog</p>
+                        {globalResults.blogMatches.map((p) => (
+                          <button
+                            key={p.slug}
+                            onClick={() => {
+                              setTab("blog");
+                              setGlobalSearch("");
+                            }}
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                          >
+                            {p.title}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        <nav className="mt-6 flex flex-1 flex-col gap-1">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
               onClick={() => setTab(item.id)}
+              title={collapsed ? item.label : undefined}
               className={`font-ui flex items-center justify-between rounded-[2px] px-3 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-colors duration-200 ${
                 tab === item.id
                   ? "bg-accent/10 text-white border-l-2 border-accent"
                   : "text-white/45 border-l-2 border-transparent hover:text-white/80 hover:bg-white/[0.03]"
               }`}
             >
-              <span>{item.icon} {item.label}</span>
-              {item.count !== undefined && (
+              <span className="flex items-center gap-2">
+                <span className="relative">
+                  {item.icon}
+                  {!!item.alert && (
+                    <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white">
+                      {item.alert > 9 ? "9+" : item.alert}
+                    </span>
+                  )}
+                </span>
+                {!collapsed && item.label}
+              </span>
+              {!collapsed && item.count !== undefined && (
                 <span className="text-[11px] text-white/30">{item.count}</span>
               )}
             </button>
@@ -260,9 +418,10 @@ export default function AdminDashboard({
         </nav>
         <button
           onClick={logout}
+          title={collapsed ? "Dil" : undefined}
           className="font-ui mt-4 rounded-[2px] border border-[#262626] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-white/60 transition-colors duration-300 hover:border-accent/50 hover:text-white"
         >
-          Dil
+          {collapsed ? "⏻" : "Dil"}
         </button>
       </aside>
 
@@ -288,14 +447,21 @@ export default function AdminDashboard({
             {NAV_ITEMS.map((item) => (
               <TabButton key={item.id} active={tab === item.id} onClick={() => setTab(item.id)}>
                 {item.icon} {item.label}{item.count !== undefined ? ` (${item.count})` : ""}
+                {!!item.alert && <span className="ml-1 text-red-400">●</span>}
               </TabButton>
             ))}
+          </div>
+
+          {/* Page title */}
+          <div className="mt-6 hidden md:block">
+            <h2 className="font-display text-[1.6rem] font-bold text-white">{TAB_TITLES[tab].title}</h2>
+            <p className="mt-1 text-[12px] text-white/35">{TAB_TITLES[tab].subtitle}</p>
           </div>
 
           {tab === "contacts" && (
             <>
               {/* Stats */}
-              <div className="mt-2 grid grid-cols-2 gap-4 md:mt-0 md:grid-cols-3 lg:grid-cols-5">
+              <div className="mt-4 grid grid-cols-2 gap-4 md:mt-4 md:grid-cols-3 lg:grid-cols-5">
                 <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
                 <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
                 <StatCard label="Subscriber-a" value={stats.totalSubscribers} />
@@ -310,9 +476,12 @@ export default function AdminDashboard({
 
           {/* Content */}
           <div className="mt-6">
-            {tab === "contacts" && <ContactsTab contacts={contacts} setContacts={setContacts} />}
+            {tab === "overview" && (
+              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} onGoToContact={goToContact} />
+            )}
+            {tab === "contacts" && <ContactsTab contacts={contacts} setContacts={setContacts} jumpSearch={contactsJump} />}
             {tab === "subscribers" && (
-              <SubscribersTab subscribers={subscribers} setSubscribers={setSubscribers} />
+              <SubscribersTab subscribers={subscribers} setSubscribers={setSubscribers} jumpSearch={subscribersJump} />
             )}
             {tab === "blog" && (
               <BlogTab posts={blogPosts} setPosts={setBlogPosts} staticPosts={staticPosts} />
@@ -352,6 +521,120 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
 
 function EmptyState({ text }: { text: string }) {
   return <p className="p-8 text-center text-[13px] text-white/35">{text}</p>;
+}
+
+// ── Overview tab ─────────────────────────────────────────────────────────────
+function OverviewTab({
+  contacts,
+  subscribers,
+  stats,
+  adminLogins,
+  onGoToContact,
+}: {
+  contacts: Contact[];
+  subscribers: Subscriber[];
+  stats: Stats;
+  adminLogins: AdminLogin[];
+  onGoToContact: (term: string) => void;
+}) {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const followUps = useMemo(() => {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() + 2);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    return contacts
+      .filter((c) => (c.status || "new") !== "done" && c.follow_up_date && c.follow_up_date <= cutoffStr)
+      .sort((a, b) => (a.follow_up_date! < b.follow_up_date! ? -1 : 1));
+  }, [contacts]);
+
+  const recentContacts = useMemo(
+    () => [...contacts].sort((a, b) => (a.created_at < b.created_at ? 1 : -1)).slice(0, 5),
+    [contacts]
+  );
+
+  return (
+    <div className="space-y-5">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
+        <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
+        <StatCard label="Subscriber-a aktivë" value={subscribers.filter((s) => !s.unsubscribed).length} />
+        <StatCard label="Norma e konvertimit (%)" value={Math.round(stats.conversionRate)} />
+      </div>
+
+      {/* Follow-ups */}
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+          Ndjekje urgjente ({followUps.length})
+        </p>
+        {followUps.length === 0 ? (
+          <EmptyState text="Asnjë ndjekje brenda 48 orëve të ardhshme." />
+        ) : (
+          <ul className="space-y-2">
+            {followUps.map((c) => {
+              const overdue = isOverdue(c);
+              const label = c.follow_up_date === today ? "Sot" : overdue ? "Vonuar" : formatDay(`${c.follow_up_date}T00:00:00`);
+              return (
+                <li key={c.id}>
+                  <button
+                    onClick={() => onGoToContact(c.email)}
+                    className="flex w-full items-center justify-between rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-4 py-2.5 text-left transition-colors hover:border-accent/50"
+                  >
+                    <span className="text-[13px] text-white/80">
+                      {c.name} <span className="text-white/35">· {c.service}</span>
+                    </span>
+                    <span className={`text-[11px] font-semibold ${overdue ? "text-red-400" : "text-accent"}`}>{label}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+
+      {/* Recent activity */}
+      <div className="grid gap-5 md:grid-cols-2">
+        <div className={CARD + " p-5"}>
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">Kontaktet e fundit</p>
+          {recentContacts.length === 0 ? (
+            <EmptyState text="Ende pa kontakte." />
+          ) : (
+            <ul className="space-y-2">
+              {recentContacts.map((c) => (
+                <li key={c.id}>
+                  <button
+                    onClick={() => onGoToContact(c.email)}
+                    className="flex w-full items-center justify-between rounded-[2px] px-2 py-1.5 text-left transition-colors hover:bg-white/5"
+                  >
+                    <span className="text-[13px] text-white/75">{c.name}</span>
+                    <span className="text-[11px] text-white/30">{formatDate(c.created_at)}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className={CARD + " p-5"}>
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">Hyrjet e fundit në admin</p>
+          {adminLogins.length === 0 ? (
+            <EmptyState text="Asnjë hyrje e regjistruar." />
+          ) : (
+            <ul className="space-y-2">
+              {adminLogins.slice(0, 5).map((l) => (
+                <li key={l.id} className="flex items-center justify-between text-[12px]">
+                  <span className={l.success ? "text-emerald-400/80" : "text-red-400/80"}>
+                    {l.success ? "✓ E suksesshme" : "✗ E dështuar"}
+                  </span>
+                  <span className="text-white/30">{formatDate(l.created_at)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ── Chart ──────────────────────────────────────────────────────────────────
@@ -484,9 +767,11 @@ function DraggableCard({ id, children }: { id: number; children: React.ReactNode
 function ContactsTab({
   contacts,
   setContacts,
+  jumpSearch,
 }: {
   contacts: Contact[];
   setContacts: (c: Contact[]) => void;
+  jumpSearch?: { term: string; key: number } | null;
 }) {
   const [search, setSearch] = useState("");
   const [serviceFilter, setServiceFilter] = useState("Të gjitha");
@@ -513,6 +798,11 @@ function ContactsTab({
   const [noteBusy, setNoteBusy] = useState<number | null>(null);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+
+  useEffect(() => {
+    if (jumpSearch) setSearch(jumpSearch.term);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jumpSearch?.key]);
 
   const services = useMemo(
     () => ["Të gjitha", ...Array.from(new Set(contacts.map((c) => c.service).filter(Boolean)))],
@@ -1177,9 +1467,11 @@ function ContactsTab({
 function SubscribersTab({
   subscribers,
   setSubscribers,
+  jumpSearch,
 }: {
   subscribers: Subscriber[];
   setSubscribers: (s: Subscriber[]) => void;
+  jumpSearch?: { term: string; key: number } | null;
 }) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -1197,6 +1489,14 @@ function SubscribersTab({
   const [broadcastResult, setBroadcastResult] = useState<string>("");
 
   const activeCount = subscribers.filter((s) => !s.unsubscribed).length;
+
+  useEffect(() => {
+    if (jumpSearch) {
+      setSearch(jumpSearch.term);
+      setPage(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jumpSearch?.key]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
