@@ -224,67 +224,105 @@ export default function AdminDashboard({
     router.refresh();
   };
 
+  const NAV_ITEMS: { id: typeof tab; icon: string; label: string; count?: number }[] = [
+    { id: "contacts", icon: "📇", label: "Kontaktet", count: contacts.length },
+    { id: "subscribers", icon: "✉️", label: "Newsletter", count: subscribers.length },
+    { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
+    { id: "analytics", icon: "📊", label: "Analitika" },
+    { id: "settings", icon: "⚙️", label: "Cilësimet" },
+  ];
+
   return (
-    <main className="min-h-screen bg-bg px-5 py-10 text-text md:px-10 md:py-14">
-      <div className="mx-auto max-w-5xl">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-            <h1 className="mt-2 font-display text-[1.8rem] font-bold text-white">Admin Panel</h1>
+    <div className="flex min-h-screen bg-bg text-text">
+      {/* Sidebar (desktop) */}
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-[#262626] bg-[rgba(10,10,10,0.6)] px-4 py-8 md:flex">
+        <div className="px-2">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+          <h1 className="mt-2 font-display text-[1.4rem] font-bold text-white">Admin Panel</h1>
+        </div>
+        <nav className="mt-10 flex flex-1 flex-col gap-1">
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setTab(item.id)}
+              className={`font-ui flex items-center justify-between rounded-[2px] px-3 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-colors duration-200 ${
+                tab === item.id
+                  ? "bg-accent/10 text-white border-l-2 border-accent"
+                  : "text-white/45 border-l-2 border-transparent hover:text-white/80 hover:bg-white/[0.03]"
+              }`}
+            >
+              <span>{item.icon} {item.label}</span>
+              {item.count !== undefined && (
+                <span className="text-[11px] text-white/30">{item.count}</span>
+              )}
+            </button>
+          ))}
+        </nav>
+        <button
+          onClick={logout}
+          className="font-ui mt-4 rounded-[2px] border border-[#262626] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-white/60 transition-colors duration-300 hover:border-accent/50 hover:text-white"
+        >
+          Dil
+        </button>
+      </aside>
+
+      {/* Main */}
+      <main className="min-w-0 flex-1 px-5 py-8 md:px-10 md:py-10">
+        <div className="mx-auto max-w-5xl">
+          {/* Mobile header */}
+          <div className="flex items-center justify-between md:hidden">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+              <h1 className="mt-2 font-display text-[1.8rem] font-bold text-white">Admin Panel</h1>
+            </div>
+            <button
+              onClick={logout}
+              className="font-ui rounded-[2px] border border-[#262626] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-white/60 transition-colors duration-300 hover:border-accent/50 hover:text-white"
+            >
+              Dil
+            </button>
           </div>
-          <button
-            onClick={logout}
-            className="font-ui rounded-[2px] border border-[#262626] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-white/60 transition-colors duration-300 hover:border-accent/50 hover:text-white"
-          >
-            Dil
-          </button>
-        </div>
 
-        {/* Stats */}
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-          <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
-          <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
-          <StatCard label="Subscriber-a" value={stats.totalSubscribers} />
-          <StatCard label="Subscriber-a (javë)" value={stats.subscribersThisWeek} />
-          <StatCard label="Me kod zbritjeje" value={stats.discountUsed} />
-        </div>
+          {/* Mobile tabs */}
+          <div className="mt-6 flex gap-2 overflow-x-auto border-b border-[#262626] md:hidden">
+            {NAV_ITEMS.map((item) => (
+              <TabButton key={item.id} active={tab === item.id} onClick={() => setTab(item.id)}>
+                {item.icon} {item.label}{item.count !== undefined ? ` (${item.count})` : ""}
+              </TabButton>
+            ))}
+          </div>
 
-        {/* Chart */}
-        <ContactsChart contacts={contacts} />
+          {tab === "contacts" && (
+            <>
+              {/* Stats */}
+              <div className="mt-2 grid grid-cols-2 gap-4 md:mt-0 md:grid-cols-3 lg:grid-cols-5">
+                <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
+                <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
+                <StatCard label="Subscriber-a" value={stats.totalSubscribers} />
+                <StatCard label="Subscriber-a (javë)" value={stats.subscribersThisWeek} />
+                <StatCard label="Me kod zbritjeje" value={stats.discountUsed} />
+              </div>
 
-        {/* Tabs */}
-        <div className="mt-10 flex gap-2 border-b border-[#262626]">
-          <TabButton active={tab === "contacts"} onClick={() => setTab("contacts")}>
-            Kontaktet ({contacts.length})
-          </TabButton>
-          <TabButton active={tab === "subscribers"} onClick={() => setTab("subscribers")}>
-            Newsletter ({subscribers.length})
-          </TabButton>
-          <TabButton active={tab === "blog"} onClick={() => setTab("blog")}>
-            Blog ({blogPosts.length + staticPosts.length})
-          </TabButton>
-          <TabButton active={tab === "analytics"} onClick={() => setTab("analytics")}>
-            Analitika
-          </TabButton>
-          <TabButton active={tab === "settings"} onClick={() => setTab("settings")}>
-            Cilësimet
-          </TabButton>
-        </div>
-
-        {/* Content */}
-        <div className="mt-6">
-          {tab === "contacts" && <ContactsTab contacts={contacts} setContacts={setContacts} />}
-          {tab === "subscribers" && (
-            <SubscribersTab subscribers={subscribers} setSubscribers={setSubscribers} />
+              {/* Chart */}
+              <ContactsChart contacts={contacts} />
+            </>
           )}
-          {tab === "blog" && (
-            <BlogTab posts={blogPosts} setPosts={setBlogPosts} staticPosts={staticPosts} />
-          )}
-          {tab === "analytics" && <AnalyticsTab stats={stats} />}
-          {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
+
+          {/* Content */}
+          <div className="mt-6">
+            {tab === "contacts" && <ContactsTab contacts={contacts} setContacts={setContacts} />}
+            {tab === "subscribers" && (
+              <SubscribersTab subscribers={subscribers} setSubscribers={setSubscribers} />
+            )}
+            {tab === "blog" && (
+              <BlogTab posts={blogPosts} setPosts={setBlogPosts} staticPosts={staticPosts} />
+            )}
+            {tab === "analytics" && <AnalyticsTab stats={stats} />}
+            {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 
