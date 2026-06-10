@@ -16,5 +16,11 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/follow-up-reminders",
+      "schedule": "0 6 * * *"
+    }
   ]
 }
