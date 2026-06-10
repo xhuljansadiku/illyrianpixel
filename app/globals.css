@@ -71,6 +71,38 @@ body {
   color: var(--color-text-body);
 }
 
+/* ── Admin dashboard theme (dark default, light override) ── */
+.admin-shell {
+  --a-bg: #0a0a0a;
+  --a-card: rgba(10, 10, 10, 0.72);
+  --a-card2: rgba(10, 10, 10, 0.6);
+  --a-input: #0a0a0a;
+  --a-border: #262626;
+  --a-text: #ffffff;
+  --a-text-rgb: 255 255 255;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-shell[data-theme="light"] {
+  --a-bg: #f4f3ef;
+  --a-card: rgba(255, 255, 255, 0.85);
+  --a-card2: rgba(255, 255, 255, 0.75);
+  --a-input: #ffffff;
+  --a-border: #e0ddd4;
+  --a-text: #18170f;
+  --a-text-rgb: 24 23 15;
+}
+
 body {
   font-family: var(--font-body), system-ui, sans-serif;
   text-rendering: optimizeLegibility;

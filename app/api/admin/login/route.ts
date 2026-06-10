@@ -7,6 +7,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+const LOCKOUT_THRESHOLD = 5;
+const LOCKOUT_WINDOW_MINUTES = 15;
+
 export async function POST(req: Request) {
   const { password } = await req.json();
 
@@ -15,6 +18,22 @@ export async function POST(req: Request) {
     req.headers.get("x-real-ip") ??
     "unknown";
   const userAgent = req.headers.get("user-agent") ?? "unknown";
+
+  const windowStart = new Date(Date.now() - LOCKOUT_WINDOW_MINUTES * 60 * 1000).toISOString();
+  const { count } = await supabase
+    .from("admin_logins")
+    .select("id", { count: "exact", head: true })
+    .eq("ip", ip)
+    .eq("success", false)
+    .gte("created_at", windowStart);
+
+  if ((count ?? 0) >= LOCKOUT_THRESHOLD) {
+    return NextResponse.json(
+      { success: false, error: `Shumë tentativa të dështuara. Provo përsëri pas ${LOCKOUT_WINDOW_MINUTES} minutash.` },
+      { status: 429 }
+    );
+  }
+
   const success = !!process.env.ADMIN_PASSWORD && password === process.env.ADMIN_PASSWORD;
 
   await supabase.from("admin_logins").insert({ success, ip, user_agent: userAgent });

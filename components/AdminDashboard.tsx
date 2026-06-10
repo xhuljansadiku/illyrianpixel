@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DndContext,
   PointerSensor,
@@ -99,7 +99,7 @@ type SiteSettings = {
 };
 
 const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[#262626] bg-[rgba(10,10,10,0.72)] backdrop-blur-[12px]";
+  "relative overflow-hidden rounded-[1.5rem] border border-[var(--a-border)] bg-[var(--a-card)] backdrop-blur-[12px]";
 
 const PAGE_SIZE = 10;
 
@@ -154,6 +154,94 @@ function whatsappHref(phone: string) {
 
 function csvCell(value: string) {
   return `"${value.replace(/"/g, '""')}"`;
+}
+
+function printMonthlyReport(contacts: Contact[], stats: Stats) {
+  const now = new Date();
+  const monthLabel = now.toLocaleDateString("sq-AL", { month: "long", year: "numeric" });
+  const monthContacts = contacts.filter((c) => {
+    const d = new Date(c.created_at);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  });
+
+  const rows = monthContacts
+    .map(
+      (c) => `<tr>
+        <td>${c.name}</td>
+        <td>${c.email}</td>
+        <td>${c.service}</td>
+        <td>${STATUS_LABELS[c.status || "new"] ?? c.status ?? ""}</td>
+        <td>${formatDate(c.created_at)}</td>
+      </tr>`
+    )
+    .join("");
+
+  const servicesRows = stats.topServices
+    .map(({ service, count }) => `<tr><td>${service}</td><td>${count}</td></tr>`)
+    .join("");
+
+  const html = `<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<title>Raporti — ${monthLabel}</title>
+<style>
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #111; padding: 32px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  h2 { font-size: 14px; margin-top: 28px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  p.subtitle { color: #777; margin-top: 0; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+  th { background: #f3f3f3; }
+  .stats { display: flex; gap: 24px; margin-top: 16px; }
+  .stat { border: 1px solid #ddd; border-radius: 8px; padding: 12px 20px; }
+  .stat strong { display: block; font-size: 22px; }
+  .stat span { font-size: 11px; color: #777; text-transform: uppercase; letter-spacing: 0.05em; }
+</style>
+</head>
+<body>
+  <h1>Illyrian Pixel — Raporti Mujor</h1>
+  <p class="subtitle">${monthLabel}</p>
+
+  <div class="stats">
+    <div class="stat"><strong>${stats.totalContacts}</strong><span>Kontakte gjithsej</span></div>
+    <div class="stat"><strong>${monthContacts.length}</strong><span>Këtë muaj</span></div>
+    <div class="stat"><strong>${stats.conversionRate.toFixed(1)}%</strong><span>Norma e konvertimit</span></div>
+    <div class="stat"><strong>${stats.avgDaysToClose !== null ? stats.avgDaysToClose.toFixed(1) : "—"}</strong><span>Ditë mesatare deri në mbyllje</span></div>
+  </div>
+
+  <h2>Shërbimet më të kërkuara</h2>
+  <table><thead><tr><th>Shërbimi</th><th>Numri</th></tr></thead><tbody>${servicesRows || "<tr><td colspan=2>Nuk ka të dhëna.</td></tr>"}</tbody></table>
+
+  <h2>Kontaktet e ${monthLabel} (${monthContacts.length})</h2>
+  <table><thead><tr><th>Emri</th><th>Email</th><th>Shërbimi</th><th>Statusi</th><th>Data</th></tr></thead><tbody>${rows || "<tr><td colspan=5>Asnjë kontakt këtë muaj.</td></tr>"}</tbody></table>
+
+  <script>window.onload = () => window.print();</script>
+</body>
+</html>`;
+
+  const win = window.open("", "_blank");
+  if (!win) return;
+  win.document.write(html);
+  win.document.close();
+}
+
+function playNotificationSound() {
+  try {
+    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.4);
+  } catch {
+    // ignore — audio not available
+  }
 }
 
 function downloadCSV(rows: Subscriber[]) {
@@ -218,14 +306,59 @@ export default function AdminDashboard({
   const [subscribers, setSubscribers] = useState(initialSubscribers);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
   const [collapsed, setCollapsed] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
   const [contactsJump, setContactsJump] = useState<{ term: string; key: number } | null>(null);
   const [subscribersJump, setSubscribersJump] = useState<{ term: string; key: number } | null>(null);
+  const [toasts, setToasts] = useState<{ id: string; text: string }[]>([]);
+  const lastCheckRef = useRef(new Date().toISOString());
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.localStorage.getItem("admin_sidebar_collapsed") === "1") setCollapsed(true);
+    if (window.localStorage.getItem("admin_theme") === "light") setTheme("light");
   }, []);
+
+  // Poll for new contacts and show a toast + sound
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/admin/contacts/since?after=${encodeURIComponent(lastCheckRef.current)}`);
+        const data = await res.json();
+        if (data.success && data.contacts.length > 0) {
+          const newOnes: Contact[] = data.contacts;
+          setContacts((prev) => {
+            const existingIds = new Set(prev.map((c) => c.id));
+            return [...newOnes.filter((c) => !existingIds.has(c.id)), ...prev];
+          });
+          setToasts((t) => [
+            ...t,
+            ...newOnes.map((c) => ({ id: `${c.id}-${Date.now()}`, text: `Kontakt i ri: ${c.name} (${c.service})` })),
+          ]);
+          playNotificationSound();
+        }
+        lastCheckRef.current = new Date().toISOString();
+      } catch {
+        // ignore — will retry on next tick
+      }
+    }, 45000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (toasts.length === 0) return;
+    const timer = setTimeout(() => setToasts((t) => t.slice(1)), 6000);
+    return () => clearTimeout(timer);
+  }, [toasts]);
+
+  const toggleTheme = () => {
+    setTheme((t) => {
+      const next = t === "dark" ? "light" : "dark";
+      if (typeof window !== "undefined") window.localStorage.setItem("admin_theme", next);
+      return next;
+    });
+  };
 
   const toggleCollapsed = () => {
     setCollapsed((c) => {
@@ -294,10 +427,24 @@ export default function AdminDashboard({
   };
 
   return (
-    <div className="flex min-h-screen bg-bg text-text">
+    <div data-theme={theme} className="admin-shell flex min-h-screen bg-[var(--a-bg)] text-[var(--a-text)]">
+      {/* Toasts */}
+      {toasts.length > 0 && (
+        <div className="fixed right-4 top-4 z-50 flex w-full max-w-xs flex-col gap-2">
+          {toasts.map((t) => (
+            <div
+              key={t.id}
+              className="rounded-[2px] border border-accent/40 bg-[var(--a-card)] px-4 py-3 text-[12px] text-[var(--a-text)] shadow-xl backdrop-blur-[12px] animate-[fadeIn_0.2s_ease-out]"
+            >
+              🔔 {t.text}
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Sidebar (desktop) */}
       <aside
-        className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[#262626] bg-[rgba(10,10,10,0.6)] py-8 transition-all duration-200 md:flex ${
+        className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[var(--a-border)] bg-[var(--a-card2)] py-8 transition-all duration-200 md:flex ${
           collapsed ? "w-[68px] px-2" : "w-60 px-4"
         }`}
       >
@@ -305,16 +452,25 @@ export default function AdminDashboard({
           {!collapsed && (
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-              <h1 className="mt-2 font-display text-[1.4rem] font-bold text-white">Admin Panel</h1>
+              <h1 className="mt-2 font-display text-[1.4rem] font-bold text-[var(--a-text)]">Admin Panel</h1>
             </div>
           )}
-          <button
-            onClick={toggleCollapsed}
-            title={collapsed ? "Zgjero menynë" : "Mbylle menynë"}
-            className={`rounded-[2px] border border-[#262626] p-1.5 text-[12px] text-white/40 transition-colors hover:border-accent/50 hover:text-white ${collapsed ? "mx-auto mt-1" : ""}`}
-          >
-            {collapsed ? "»" : "«"}
-          </button>
+          <div className={`flex items-center gap-1.5 ${collapsed ? "mx-auto mt-1 flex-col" : ""}`}>
+            <button
+              onClick={toggleTheme}
+              title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
+              className="rounded-[2px] border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+            >
+              {theme === "dark" ? "☀" : "☾"}
+            </button>
+            <button
+              onClick={toggleCollapsed}
+              title={collapsed ? "Zgjero menynë" : "Mbylle menynë"}
+              className="rounded-[2px] border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+            >
+              {collapsed ? "»" : "«"}
+            </button>
+          </div>
         </div>
 
         {/* Global search */}
@@ -325,38 +481,38 @@ export default function AdminDashboard({
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
               placeholder="🔍 Kërko gjithçka..."
-              className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
             {globalResults && (
-              <div className="absolute left-2 right-2 top-full z-40 mt-1 max-h-80 overflow-y-auto rounded-[2px] border border-[#262626] bg-[#0a0a0a] shadow-xl">
+              <div className="absolute left-2 right-2 top-full z-40 mt-1 max-h-80 overflow-y-auto rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] shadow-xl">
                 {globalResults.contactMatches.length === 0 &&
                 globalResults.subscriberMatches.length === 0 &&
                 globalResults.blogMatches.length === 0 ? (
-                  <p className="px-3 py-3 text-[11px] text-white/35">Asnjë rezultat.</p>
+                  <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
                 ) : (
                   <>
                     {globalResults.contactMatches.length > 0 && (
-                      <div className="border-b border-[#262626] py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-white/30">Kontakte</p>
+                      <div className="border-b border-[var(--a-border)] py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
                         {globalResults.contactMatches.map((c) => (
                           <button
                             key={c.id}
                             onClick={() => goToContact(c.email)}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
                           >
-                            {c.name} <span className="text-white/35">· {c.email}</span>
+                            {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.email}</span>
                           </button>
                         ))}
                       </div>
                     )}
                     {globalResults.subscriberMatches.length > 0 && (
-                      <div className="border-b border-[#262626] py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-white/30">Newsletter</p>
+                      <div className="border-b border-[var(--a-border)] py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
                         {globalResults.subscriberMatches.map((s) => (
                           <button
                             key={s.id}
                             onClick={() => goToSubscriber(s.email)}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
                           >
                             {s.email}
                           </button>
@@ -365,7 +521,7 @@ export default function AdminDashboard({
                     )}
                     {globalResults.blogMatches.length > 0 && (
                       <div className="py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-white/30">Blog</p>
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
                         {globalResults.blogMatches.map((p) => (
                           <button
                             key={p.slug}
@@ -373,7 +529,7 @@ export default function AdminDashboard({
                               setTab("blog");
                               setGlobalSearch("");
                             }}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
                           >
                             {p.title}
                           </button>
@@ -395,15 +551,15 @@ export default function AdminDashboard({
               title={collapsed ? item.label : undefined}
               className={`font-ui flex items-center justify-between rounded-[2px] px-3 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-colors duration-200 ${
                 tab === item.id
-                  ? "bg-accent/10 text-white border-l-2 border-accent"
-                  : "text-white/45 border-l-2 border-transparent hover:text-white/80 hover:bg-white/[0.03]"
+                  ? "bg-accent/10 text-[var(--a-text)] border-l-2 border-accent"
+                  : "text-[rgb(var(--a-text-rgb)/0.45)] border-l-2 border-transparent hover:text-[rgb(var(--a-text-rgb)/0.8)] hover:bg-[rgb(var(--a-text-rgb)/0.03)]"
               }`}
             >
               <span className="flex items-center gap-2">
                 <span className="relative">
                   {item.icon}
                   {!!item.alert && (
-                    <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white">
+                    <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-[var(--a-text)]">
                       {item.alert > 9 ? "9+" : item.alert}
                     </span>
                   )}
@@ -411,7 +567,7 @@ export default function AdminDashboard({
                 {!collapsed && item.label}
               </span>
               {!collapsed && item.count !== undefined && (
-                <span className="text-[11px] text-white/30">{item.count}</span>
+                <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{item.count}</span>
               )}
             </button>
           ))}
@@ -419,7 +575,7 @@ export default function AdminDashboard({
         <button
           onClick={logout}
           title={collapsed ? "Dil" : undefined}
-          className="font-ui mt-4 rounded-[2px] border border-[#262626] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-white/60 transition-colors duration-300 hover:border-accent/50 hover:text-white"
+          className="font-ui mt-4 rounded-[2px] border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-accent/50 hover:text-[var(--a-text)]"
         >
           {collapsed ? "⏻" : "Dil"}
         </button>
@@ -432,18 +588,18 @@ export default function AdminDashboard({
           <div className="flex items-center justify-between md:hidden">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-              <h1 className="mt-2 font-display text-[1.8rem] font-bold text-white">Admin Panel</h1>
+              <h1 className="mt-2 font-display text-[1.8rem] font-bold text-[var(--a-text)]">Admin Panel</h1>
             </div>
             <button
               onClick={logout}
-              className="font-ui rounded-[2px] border border-[#262626] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-white/60 transition-colors duration-300 hover:border-accent/50 hover:text-white"
+              className="font-ui rounded-[2px] border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-accent/50 hover:text-[var(--a-text)]"
             >
               Dil
             </button>
           </div>
 
           {/* Mobile tabs */}
-          <div className="mt-6 flex gap-2 overflow-x-auto border-b border-[#262626] md:hidden">
+          <div className="mt-6 flex gap-2 overflow-x-auto border-b border-[var(--a-border)] md:hidden">
             {NAV_ITEMS.map((item) => (
               <TabButton key={item.id} active={tab === item.id} onClick={() => setTab(item.id)}>
                 {item.icon} {item.label}{item.count !== undefined ? ` (${item.count})` : ""}
@@ -454,8 +610,8 @@ export default function AdminDashboard({
 
           {/* Page title */}
           <div className="mt-6 hidden md:block">
-            <h2 className="font-display text-[1.6rem] font-bold text-white">{TAB_TITLES[tab].title}</h2>
-            <p className="mt-1 text-[12px] text-white/35">{TAB_TITLES[tab].subtitle}</p>
+            <h2 className="font-display text-[1.6rem] font-bold text-[var(--a-text)]">{TAB_TITLES[tab].title}</h2>
+            <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{TAB_TITLES[tab].subtitle}</p>
           </div>
 
           {tab === "contacts" && (
@@ -486,7 +642,7 @@ export default function AdminDashboard({
             {tab === "blog" && (
               <BlogTab posts={blogPosts} setPosts={setBlogPosts} staticPosts={staticPosts} />
             )}
-            {tab === "analytics" && <AnalyticsTab stats={stats} />}
+            {tab === "analytics" && <AnalyticsTab stats={stats} contacts={contacts} />}
             {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
           </div>
         </div>
@@ -499,8 +655,8 @@ export default function AdminDashboard({
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
     <div className={CARD + " p-5"}>
-      <p className="font-display text-[2rem] font-bold text-white">{value}</p>
-      <p className="mt-1 text-[12px] text-white/40">{label}</p>
+      <p className="font-display text-[2rem] font-bold text-[var(--a-text)]">{value}</p>
+      <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">{label}</p>
     </div>
   );
 }
@@ -511,7 +667,7 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
     <button
       onClick={onClick}
       className={`font-ui px-4 py-3 text-[13px] font-semibold tracking-[0.3px] transition-colors duration-300 ${
-        active ? "border-b-2 border-accent text-white" : "text-white/40 hover:text-white/70"
+        active ? "border-b-2 border-accent text-[var(--a-text)]" : "text-[rgb(var(--a-text-rgb)/0.4)] hover:text-[rgb(var(--a-text-rgb)/0.7)]"
       }`}
     >
       {children}
@@ -520,7 +676,7 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
 }
 
 function EmptyState({ text }: { text: string }) {
-  return <p className="p-8 text-center text-[13px] text-white/35">{text}</p>;
+  return <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">{text}</p>;
 }
 
 // ── Overview tab ─────────────────────────────────────────────────────────────
@@ -564,7 +720,7 @@ function OverviewTab({
 
       {/* Follow-ups */}
       <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Ndjekje urgjente ({followUps.length})
         </p>
         {followUps.length === 0 ? (
@@ -578,10 +734,10 @@ function OverviewTab({
                 <li key={c.id}>
                   <button
                     onClick={() => onGoToContact(c.email)}
-                    className="flex w-full items-center justify-between rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-4 py-2.5 text-left transition-colors hover:border-accent/50"
+                    className="flex w-full items-center justify-between rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-left transition-colors hover:border-accent/50"
                   >
-                    <span className="text-[13px] text-white/80">
-                      {c.name} <span className="text-white/35">· {c.service}</span>
+                    <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">
+                      {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.service}</span>
                     </span>
                     <span className={`text-[11px] font-semibold ${overdue ? "text-red-400" : "text-accent"}`}>{label}</span>
                   </button>
@@ -595,7 +751,7 @@ function OverviewTab({
       {/* Recent activity */}
       <div className="grid gap-5 md:grid-cols-2">
         <div className={CARD + " p-5"}>
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">Kontaktet e fundit</p>
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">Kontaktet e fundit</p>
           {recentContacts.length === 0 ? (
             <EmptyState text="Ende pa kontakte." />
           ) : (
@@ -604,10 +760,10 @@ function OverviewTab({
                 <li key={c.id}>
                   <button
                     onClick={() => onGoToContact(c.email)}
-                    className="flex w-full items-center justify-between rounded-[2px] px-2 py-1.5 text-left transition-colors hover:bg-white/5"
+                    className="flex w-full items-center justify-between rounded-[2px] px-2 py-1.5 text-left transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)]"
                   >
-                    <span className="text-[13px] text-white/75">{c.name}</span>
-                    <span className="text-[11px] text-white/30">{formatDate(c.created_at)}</span>
+                    <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.75)]">{c.name}</span>
+                    <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(c.created_at)}</span>
                   </button>
                 </li>
               ))}
@@ -616,7 +772,7 @@ function OverviewTab({
         </div>
 
         <div className={CARD + " p-5"}>
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">Hyrjet e fundit në admin</p>
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">Hyrjet e fundit në admin</p>
           {adminLogins.length === 0 ? (
             <EmptyState text="Asnjë hyrje e regjistruar." />
           ) : (
@@ -626,7 +782,7 @@ function OverviewTab({
                   <span className={l.success ? "text-emerald-400/80" : "text-red-400/80"}>
                     {l.success ? "✓ E suksesshme" : "✗ E dështuar"}
                   </span>
-                  <span className="text-white/30">{formatDate(l.created_at)}</span>
+                  <span className="text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(l.created_at)}</span>
                 </li>
               ))}
             </ul>
@@ -662,7 +818,7 @@ function ContactsChart({ contacts }: { contacts: Contact[] }) {
 
   return (
     <div className={CARD + " mt-4 p-5"}>
-      <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+      <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
         Kontakte — 30 ditët e fundit
       </p>
       <div className="flex h-24 items-end gap-[3px]">
@@ -672,7 +828,7 @@ function ContactsChart({ contacts }: { contacts: Contact[] }) {
               className="rounded-sm bg-accent/40 transition-colors group-hover:bg-accent"
               style={{ height: `${Math.max(3, (count / max) * 96)}px` }}
             />
-            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
               {formatDay(date)}: {count}
             </div>
           </div>
@@ -707,7 +863,7 @@ function SubscribersChart({ subscribers }: { subscribers: Subscriber[] }) {
 
   return (
     <div className={CARD + " mb-5 p-5"}>
-      <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+      <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
         Subscriber-a — 30 ditët e fundit
       </p>
       <div className="flex h-24 items-end gap-[3px]">
@@ -717,7 +873,7 @@ function SubscribersChart({ subscribers }: { subscribers: Subscriber[] }) {
               className="rounded-sm bg-accent/40 transition-colors group-hover:bg-accent"
               style={{ height: `${Math.max(3, (count / max) * 96)}px` }}
             />
-            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
               {formatDay(date)}: {count}
             </div>
           </div>
@@ -753,7 +909,7 @@ function DraggableCard({ id, children }: { id: number; children: React.ReactNode
           {...attributes}
           {...listeners}
           title="Zhvendos"
-          className="absolute right-3 top-3 z-10 cursor-grab touch-none select-none rounded px-1.5 py-1 text-[14px] leading-none text-white/25 transition-colors hover:text-white/60 active:cursor-grabbing"
+          className="absolute right-3 top-3 z-10 cursor-grab touch-none select-none rounded px-1.5 py-1 text-[14px] leading-none text-[rgb(var(--a-text-rgb)/0.25)] transition-colors hover:text-[rgb(var(--a-text-rgb)/0.6)] active:cursor-grabbing"
         >
           ⠿
         </div>
@@ -796,8 +952,15 @@ function ContactsTab({
   const [editNoteDraft, setEditNoteDraft] = useState<Record<number, string>>({});
   const [addingNoteFor, setAddingNoteFor] = useState<number | null>(null);
   const [noteBusy, setNoteBusy] = useState<number | null>(null);
+  const [viewMode, setViewMode] = useState<"kanban" | "calendar">("kanban");
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+
+  const jumpToContact = (c: Contact) => {
+    setViewMode("kanban");
+    setSearch(c.email);
+    setExpanded(c.id);
+  };
 
   useEffect(() => {
     if (jumpSearch) setSearch(jumpSearch.term);
@@ -1061,12 +1224,12 @@ function ContactsTab({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Kërko emër, email, telefon..."
-          className="font-ui min-w-[200px] flex-1 rounded-[2px] border border-[#262626] bg-transparent px-4 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui min-w-[200px] flex-1 rounded-[2px] border border-[var(--a-border)] bg-transparent px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <select
           value={serviceFilter}
           onChange={(e) => setServiceFilter(e.target.value)}
-          className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         >
           {services.map((s) => (
             <option key={s} value={s}>{s}</option>
@@ -1075,7 +1238,7 @@ function ContactsTab({
         <select
           value={tagFilter}
           onChange={(e) => setTagFilter(e.target.value)}
-          className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         >
           {allTags.map((t) => (
             <option key={t} value={t}>{t === "Të gjitha" ? "Të gjitha etiketat" : t}</option>
@@ -1085,26 +1248,44 @@ function ContactsTab({
           type="date"
           value={dateFrom}
           onChange={(e) => setDateFrom(e.target.value)}
-          className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <input
           type="date"
           value={dateTo}
           onChange={(e) => setDateTo(e.target.value)}
-          className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <button
           onClick={() => downloadContactsCSV(filtered)}
-          className="font-ui rounded-[2px] border border-[#262626] px-4 py-2.5 text-[12px] font-semibold text-white/60 transition-colors hover:border-accent/50 hover:text-white"
+          className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
           ⬇ Export CSV
         </button>
+        <div className="flex rounded-[2px] border border-[var(--a-border)]">
+          <button
+            onClick={() => setViewMode("kanban")}
+            className={`font-ui px-4 py-2.5 text-[12px] font-semibold transition-colors ${
+              viewMode === "kanban" ? "bg-accent/10 text-accent" : "text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
+            }`}
+          >
+            📋 Kanban
+          </button>
+          <button
+            onClick={() => setViewMode("calendar")}
+            className={`font-ui border-l border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold transition-colors ${
+              viewMode === "calendar" ? "bg-accent/10 text-accent" : "text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
+            }`}
+          >
+            📅 Kalendar
+          </button>
+        </div>
       </div>
 
       {/* Bulk actions toolbar */}
       {selected.size > 0 && (
         <div className="mb-5 flex flex-wrap items-center gap-3 rounded-[2px] border border-accent/30 bg-accent/5 px-4 py-3">
-          <span className="font-ui text-[12px] text-white/70">{selected.size} të zgjedhur</span>
+          <span className="font-ui text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{selected.size} të zgjedhur</span>
           <select
             defaultValue=""
             disabled={bulkBusy}
@@ -1112,7 +1293,7 @@ function ContactsTab({
               bulkUpdateStatus(e.target.value);
               e.target.value = "";
             }}
-            className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-1.5 text-[12px] text-white outline-none transition-colors focus:border-accent disabled:opacity-50"
+            className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
           >
             <option value="" disabled>Ndrysho statusin...</option>
             <option value="new">I ri</option>
@@ -1128,13 +1309,16 @@ function ContactsTab({
           </button>
           <button
             onClick={() => setSelected(new Set())}
-            className="font-ui text-[11px] text-white/40 transition-colors hover:text-white"
+            className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
           >
             Anulo
           </button>
         </div>
       )}
 
+      {viewMode === "calendar" && <FollowUpCalendar contacts={filtered} onSelectContact={jumpToContact} />}
+
+      {viewMode === "kanban" && (
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <div className="grid gap-4 md:grid-cols-3">
           {STATUS_COLUMNS.map((col) => {
@@ -1145,7 +1329,7 @@ function ContactsTab({
                   <h3 className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] ${STATUS_COLORS[col]}`}>
                     {STATUS_LABELS[col]}
                   </h3>
-                  <span className="text-[12px] text-white/35">{items.length}</span>
+                  <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{items.length}</span>
                 </div>
                 <KanbanColumn id={col}>
                   {items.length === 0 && <EmptyState text="Asnjë kontakt." />}
@@ -1169,8 +1353,8 @@ function ContactsTab({
                             >
                               <div className="min-w-0 flex-1">
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                                  <span className="font-display font-semibold text-white">{c.name}</span>
-                                  <span className="text-[12px] text-white/40">{c.email}</span>
+                                  <span className="font-display font-semibold text-[var(--a-text)]">{c.name}</span>
+                                  <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">{c.email}</span>
                                   {c.discount_code && (
                                     <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
                                       {c.discount_code}
@@ -1182,16 +1366,16 @@ function ContactsTab({
                                     </span>
                                   )}
                                   {(c.tags ?? []).map((tag) => (
-                                    <span key={tag} className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/55">
+                                    <span key={tag} className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] bg-[rgb(var(--a-text-rgb)/0.05)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.55)]">
                                       {tag}
                                     </span>
                                   ))}
                                 </div>
-                                <p className="mt-1 text-[12px] text-white/35">
+                                <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">
                                   {c.service} · {c.budget} · {c.timeline}
                                 </p>
                                 {(c.assigned_to || c.follow_up_date) && (
-                                  <p className="mt-1 text-[11px] text-white/30">
+                                  <p className="mt-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">
                                     {c.assigned_to && <>👤 {c.assigned_to}</>}
                                     {c.assigned_to && c.follow_up_date && " · "}
                                     {c.follow_up_date && <>📅 {formatDay(`${c.follow_up_date}T00:00:00`)}</>}
@@ -1199,42 +1383,42 @@ function ContactsTab({
                                 )}
                               </div>
                               <div className="shrink-0 text-right">
-                                <p className="text-[11px] text-white/30">{formatDate(c.created_at)}</p>
+                                <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(c.created_at)}</p>
                                 <span className="text-[11px] text-accent/60">{expanded === c.id ? "Mbyll ▲" : "Hap ▼"}</span>
                               </div>
                             </button>
                           </div>
 
                           {expanded === c.id && (
-                            <div className="border-t border-[#262626] p-5 text-[13px] leading-relaxed text-white/60">
-                              <p><span className="text-white/35">Telefon:</span> {c.phone}</p>
-                              {c.business_name && <p><span className="text-white/35">Biznesi:</span> {c.business_name}</p>}
-                              <p className="mt-3 whitespace-pre-wrap"><span className="text-white/35">Mesazhi:</span> {c.message}</p>
+                            <div className="border-t border-[var(--a-border)] p-5 text-[13px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.6)]">
+                              <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Telefon:</span> {c.phone}</p>
+                              {c.business_name && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Biznesi:</span> {c.business_name}</p>}
+                              <p className="mt-3 whitespace-pre-wrap"><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Mesazhi:</span> {c.message}</p>
 
                               {/* Quick actions */}
                               <div className="mt-4 flex flex-wrap gap-2">
-                                <a href={`tel:${c.phone}`} className="rounded-full border border-white/15 px-3 py-1.5 text-[11px] text-white/70 transition-colors hover:border-accent/50 hover:text-white">
+                                <a href={`tel:${c.phone}`} className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
                                   📞 Telefono
                                 </a>
-                                <a href={`mailto:${c.email}`} className="rounded-full border border-white/15 px-3 py-1.5 text-[11px] text-white/70 transition-colors hover:border-accent/50 hover:text-white">
+                                <a href={`mailto:${c.email}`} className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
                                   ✉️ Email
                                 </a>
-                                <a href={whatsappHref(c.phone)} target="_blank" rel="noreferrer" className="rounded-full border border-white/15 px-3 py-1.5 text-[11px] text-white/70 transition-colors hover:border-accent/50 hover:text-white">
+                                <a href={whatsappHref(c.phone)} target="_blank" rel="noreferrer" className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
                                   💬 WhatsApp
                                 </a>
                               </div>
 
                               {/* Tags */}
                               <div className="mt-4">
-                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Etiketa</label>
+                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Etiketa</label>
                                 <div className="flex flex-wrap items-center gap-2">
                                   {(c.tags ?? []).map((tag) => (
-                                    <span key={tag} className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-[11px] text-white/65">
+                                    <span key={tag} className="flex items-center gap-1.5 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] bg-[rgb(var(--a-text-rgb)/0.05)] px-2.5 py-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.65)]">
                                       {tag}
                                       <button
                                         onClick={() => removeTag(c, tag)}
                                         disabled={savingId === c.id}
-                                        className="text-white/35 transition-colors hover:text-red-400 disabled:opacity-50"
+                                        className="text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:text-red-400 disabled:opacity-50"
                                         aria-label={`Hiq etiketën ${tag}`}
                                       >
                                         ×
@@ -1252,7 +1436,7 @@ function ContactsTab({
                                       }
                                     }}
                                     placeholder="Shto etiketë..."
-                                    className="font-ui w-28 rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-2.5 py-1 text-[11px] text-white outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-28 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2.5 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                   <button
                                     onClick={() => addTag(c)}
@@ -1266,12 +1450,12 @@ function ContactsTab({
 
                               {/* Status */}
                               <div className="mt-4">
-                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Status</label>
+                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Status</label>
                                 <select
                                   value={status}
                                   onChange={(e) => updateContact(c.id, { status: e.target.value })}
                                   disabled={savingId === c.id}
-                                  className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent disabled:opacity-50"
+                                  className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
                                 >
                                   <option value="new">I ri</option>
                                   <option value="in-progress">Në proces</option>
@@ -1282,35 +1466,35 @@ function ContactsTab({
                               {/* Assigned to + follow-up date */}
                               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                                 <div>
-                                  <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Caktuar tek</label>
+                                  <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Caktuar tek</label>
                                   <input
                                     type="text"
                                     value={assignedDraft[c.id] ?? c.assigned_to ?? ""}
                                     onChange={(e) => setAssignedDraft((d) => ({ ...d, [c.id]: e.target.value }))}
                                     placeholder="p.sh. Ardit"
-                                    className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                 </div>
                                 <div>
-                                  <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Ndiq më</label>
+                                  <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Ndiq më</label>
                                   <input
                                     type="date"
                                     value={followUpDraft[c.id] ?? c.follow_up_date ?? ""}
                                     onChange={(e) => setFollowUpDraft((d) => ({ ...d, [c.id]: e.target.value }))}
-                                    className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                 </div>
                               </div>
 
                               {/* Notes */}
                               <div className="mt-4">
-                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Shënime private</label>
+                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Shënime private</label>
 
                                 {c.notes ? (
-                                  <div className="mb-2 rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2">
-                                    <p className="whitespace-pre-wrap text-[12px] text-white/70">{c.notes}</p>
+                                  <div className="mb-2 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2">
+                                    <p className="whitespace-pre-wrap text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{c.notes}</p>
                                     <div className="mt-1.5 flex items-center justify-between">
-                                      <span className="text-[10px] text-white/30">Shënim i vjetër</span>
+                                      <span className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">Shënim i vjetër</span>
                                       <button
                                         onClick={() => deleteLegacyNote(c)}
                                         className="font-ui text-[10px] font-semibold text-red-400/70 transition-colors hover:text-red-400"
@@ -1322,18 +1506,18 @@ function ContactsTab({
                                 ) : null}
 
                                 {notesLoading[c.id] ? (
-                                  <p className="text-[11px] text-white/30">Duke ngarkuar…</p>
+                                  <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">Duke ngarkuar…</p>
                                 ) : (notesList[c.id] ?? []).length > 0 ? (
                                   <ul className="space-y-2">
                                     {(notesList[c.id] ?? []).map((n) => (
-                                      <li key={n.id} className="rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2">
+                                      <li key={n.id} className="rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2">
                                         {editingNoteId === n.id ? (
                                           <>
                                             <textarea
                                               rows={2}
                                               value={editNoteDraft[n.id] ?? n.text}
                                               onChange={(e) => setEditNoteDraft((d) => ({ ...d, [n.id]: e.target.value }))}
-                                              className="font-ui w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+                                              className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                             />
                                             <div className="mt-1.5 flex gap-3">
                                               <button
@@ -1345,7 +1529,7 @@ function ContactsTab({
                                               </button>
                                               <button
                                                 onClick={() => setEditingNoteId(null)}
-                                                className="font-ui text-[10px] font-semibold text-white/40 transition-colors hover:text-white/70"
+                                                className="font-ui text-[10px] font-semibold text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[rgb(var(--a-text-rgb)/0.7)]"
                                               >
                                                 Anulo
                                               </button>
@@ -1353,9 +1537,9 @@ function ContactsTab({
                                           </>
                                         ) : (
                                           <>
-                                            <p className="whitespace-pre-wrap text-[12px] text-white/70">{n.text}</p>
+                                            <p className="whitespace-pre-wrap text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{n.text}</p>
                                             <div className="mt-1.5 flex items-center justify-between gap-2">
-                                              <span className="text-[10px] text-white/35">
+                                              <span className="text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">
                                                 {formatDate(n.created_at)}
                                                 {n.updated_at !== n.created_at ? " (ndryshuar)" : ""}
                                               </span>
@@ -1365,7 +1549,7 @@ function ContactsTab({
                                                     setEditingNoteId(n.id);
                                                     setEditNoteDraft((d) => ({ ...d, [n.id]: n.text }));
                                                   }}
-                                                  className="font-ui text-[10px] font-semibold text-white/40 transition-colors hover:text-white/70"
+                                                  className="font-ui text-[10px] font-semibold text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[rgb(var(--a-text-rgb)/0.7)]"
                                                 >
                                                   Edito
                                                 </button>
@@ -1384,7 +1568,7 @@ function ContactsTab({
                                     ))}
                                   </ul>
                                 ) : !c.notes ? (
-                                  <p className="text-[11px] text-white/30">Asnjë shënim.</p>
+                                  <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">Asnjë shënim.</p>
                                 ) : null}
 
                                 <div className="mt-2">
@@ -1393,7 +1577,7 @@ function ContactsTab({
                                     value={newNoteDraft[c.id] ?? ""}
                                     onChange={(e) => setNewNoteDraft((d) => ({ ...d, [c.id]: e.target.value }))}
                                     placeholder="Shto shënim..."
-                                    className="font-ui w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                   <button
                                     onClick={() => addNote(c)}
@@ -1428,14 +1612,14 @@ function ContactsTab({
 
                               {/* History */}
                               <div className="mt-4">
-                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">Historiku</label>
+                                <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Historiku</label>
                                 {logsLoading[c.id] ? (
-                                  <p className="text-[11px] text-white/30">Duke ngarkuar…</p>
+                                  <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">Duke ngarkuar…</p>
                                 ) : logs[c.id] && logs[c.id].length > 0 ? (
                                   <ul className="space-y-1.5">
                                     {logs[c.id].map((l) => (
-                                      <li key={l.id} className="text-[11px] text-white/40">
-                                        <span className="text-white/55">
+                                      <li key={l.id} className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">
+                                        <span className="text-[rgb(var(--a-text-rgb)/0.55)]">
                                           {LOG_ACTION_LABELS[l.action] ? LOG_ACTION_LABELS[l.action](l.detail) : `${l.action}: ${l.detail ?? ""}`}
                                         </span>
                                         {" — "}
@@ -1444,7 +1628,7 @@ function ContactsTab({
                                     ))}
                                   </ul>
                                 ) : (
-                                  <p className="text-[11px] text-white/30">Asnjë ndryshim i regjistruar.</p>
+                                  <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">Asnjë ndryshim i regjistruar.</p>
                                 )}
                               </div>
                             </div>
@@ -1459,6 +1643,136 @@ function ContactsTab({
           })}
         </div>
       </DndContext>
+      )}
+    </div>
+  );
+}
+
+// ── Follow-up calendar ──────────────────────────────────────────────────────
+const WEEKDAY_LABELS = ["Hën", "Mar", "Mër", "Enj", "Pre", "Sht", "Die"];
+
+function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; onSelectContact: (c: Contact) => void }) {
+  const [monthOffset, setMonthOffset] = useState(0);
+
+  const { label, weeks, todayStr } = useMemo(() => {
+    const base = new Date();
+    base.setDate(1);
+    base.setMonth(base.getMonth() + monthOffset);
+    const year = base.getFullYear();
+    const month = base.getMonth();
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    // Monday-first offset (0 = Monday)
+    const startOffset = (firstDay.getDay() + 6) % 7;
+
+    const cells: { date: Date; key: string }[] = [];
+    for (let i = 0; i < startOffset; i++) {
+      const d = new Date(year, month, 1 - (startOffset - i));
+      cells.push({ date: d, key: d.toISOString().slice(0, 10) });
+    }
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+      const date = new Date(year, month, d);
+      cells.push({ date, key: date.toISOString().slice(0, 10) });
+    }
+    while (cells.length % 7 !== 0) {
+      const last = cells[cells.length - 1].date;
+      const d = new Date(last);
+      d.setDate(d.getDate() + 1);
+      cells.push({ date: d, key: d.toISOString().slice(0, 10) });
+    }
+
+    const weeks: { date: Date; key: string }[][] = [];
+    for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+
+    return {
+      label: base.toLocaleDateString("sq-AL", { month: "long", year: "numeric" }),
+      weeks,
+      todayStr: new Date().toISOString().slice(0, 10),
+    };
+  }, [monthOffset]);
+
+  const byDate = useMemo(() => {
+    const map = new Map<string, Contact[]>();
+    contacts.forEach((c) => {
+      if (!c.follow_up_date) return;
+      const list = map.get(c.follow_up_date) ?? [];
+      list.push(c);
+      map.set(c.follow_up_date, list);
+    });
+    return map;
+  }, [contacts]);
+
+  const currentMonth = useMemo(() => {
+    const base = new Date();
+    base.setDate(1);
+    base.setMonth(base.getMonth() + monthOffset);
+    return base.getMonth();
+  }, [monthOffset]);
+
+  return (
+    <div className={CARD + " p-5"}>
+      <div className="mb-4 flex items-center justify-between">
+        <button
+          onClick={() => setMonthOffset((m) => m - 1)}
+          className="rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+        >
+          ← Para
+        </button>
+        <p className="font-display text-[1.1rem] font-semibold capitalize text-[var(--a-text)]">{label}</p>
+        <button
+          onClick={() => setMonthOffset((m) => m + 1)}
+          className="rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+        >
+          Pas →
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-1.5">
+        {WEEKDAY_LABELS.map((d) => (
+          <div key={d} className="text-center text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">
+            {d}
+          </div>
+        ))}
+        {weeks.flat().map(({ date, key }) => {
+          const inMonth = date.getMonth() === currentMonth;
+          const items = byDate.get(key) ?? [];
+          const isToday = key === todayStr;
+          return (
+            <div
+              key={key}
+              className={`min-h-[80px] rounded-[2px] border border-[var(--a-border)] p-1.5 ${
+                inMonth ? "" : "opacity-30"
+              } ${isToday ? "ring-1 ring-accent/50" : ""}`}
+            >
+              <p className={`text-[11px] ${isToday ? "font-bold text-accent" : "text-[rgb(var(--a-text-rgb)/0.4)]"}`}>
+                {date.getDate()}
+              </p>
+              <div className="mt-1 space-y-1">
+                {items.slice(0, 3).map((c) => {
+                  const overdue = isOverdue(c);
+                  return (
+                    <button
+                      key={c.id}
+                      onClick={() => onSelectContact(c)}
+                      title={`${c.name} · ${c.service}`}
+                      className={`block w-full truncate rounded-[2px] px-1.5 py-0.5 text-left text-[10px] transition-colors ${
+                        overdue
+                          ? "bg-red-400/10 text-red-400 hover:bg-red-400/20"
+                          : "bg-accent/10 text-accent hover:bg-accent/20"
+                      }`}
+                    >
+                      {c.name}
+                    </button>
+                  );
+                })}
+                {items.length > 3 && (
+                  <p className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">+{items.length - 3} më shumë</p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -1621,7 +1935,7 @@ function SubscribersTab({
     <div>
       {/* Broadcast composer */}
       <div className={CARD + " mb-5 p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Dërgo email te subscriber-at ({activeCount} aktivë)
         </p>
         <input
@@ -1629,14 +1943,14 @@ function SubscribersTab({
           value={broadcastSubject}
           onChange={(e) => setBroadcastSubject(e.target.value)}
           placeholder="Subjekti"
-          className="font-ui mb-3 w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-4 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui mb-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <textarea
           rows={5}
           value={broadcastMessage}
           onChange={(e) => setBroadcastMessage(e.target.value)}
           placeholder="Mesazhi..."
-          className="font-ui w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-4 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <div className="mt-3 flex items-center gap-3">
           <button
@@ -1646,7 +1960,7 @@ function SubscribersTab({
           >
             {broadcastSending ? "Duke dërguar…" : "Dërgo email"}
           </button>
-          {broadcastResult && <span className="text-[12px] text-white/50">{broadcastResult}</span>}
+          {broadcastResult && <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">{broadcastResult}</span>}
         </div>
       </div>
 
@@ -1660,12 +1974,12 @@ function SubscribersTab({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Kërko email..."
-          className="font-ui min-w-[200px] flex-1 rounded-[2px] border border-[#262626] bg-transparent px-4 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui min-w-[200px] flex-1 rounded-[2px] border border-[var(--a-border)] bg-transparent px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
-          className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         >
           <option value="all">Të gjithë</option>
           <option value="active">Aktivë</option>
@@ -1683,7 +1997,7 @@ function SubscribersTab({
       {/* Bulk actions toolbar */}
       {selected.size > 0 && (
         <div className="mb-4 flex flex-wrap items-center gap-3 rounded-[2px] border border-accent/30 bg-accent/5 px-4 py-3">
-          <span className="font-ui text-[12px] text-white/70">{selected.size} të zgjedhur</span>
+          <span className="font-ui text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{selected.size} të zgjedhur</span>
           <button
             onClick={bulkDelete}
             disabled={bulkBusy}
@@ -1693,7 +2007,7 @@ function SubscribersTab({
           </button>
           <button
             onClick={() => setSelected(new Set())}
-            className="font-ui text-[11px] text-white/40 transition-colors hover:text-white"
+            className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
           >
             Anulo
           </button>
@@ -1706,7 +2020,7 @@ function SubscribersTab({
           <div
             key={s.id}
             className={`flex flex-wrap items-center justify-between gap-3 px-5 py-4 ${
-              i !== pageItems.length - 1 ? "border-b border-[#262626]" : ""
+              i !== pageItems.length - 1 ? "border-b border-[var(--a-border)]" : ""
             }`}
           >
             <div className="flex min-w-0 items-center gap-3">
@@ -1716,15 +2030,15 @@ function SubscribersTab({
                 onChange={() => toggleSelect(s.id)}
                 className="accent-accent"
               />
-              <span className="truncate text-[14px] text-white/80">{s.email}</span>
+              <span className="truncate text-[14px] text-[rgb(var(--a-text-rgb)/0.8)]">{s.email}</span>
               {s.unsubscribed && (
-                <span className="shrink-0 rounded-full border border-white/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/40">
+                <span className="shrink-0 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]">
                   Çregjistruar
                 </span>
               )}
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-[11px] text-white/30">{formatDate(s.subscribed_at)}</span>
+              <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(s.subscribed_at)}</span>
               <button
                 onClick={() => resendCode(s.id)}
                 disabled={resendingId === s.id}
@@ -1735,7 +2049,7 @@ function SubscribersTab({
               <button
                 onClick={() => toggleUnsubscribed(s)}
                 disabled={savingId === s.id}
-                className="text-[12px] text-white/50 transition-colors hover:text-white disabled:opacity-50"
+                className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)] transition-colors hover:text-[var(--a-text)] disabled:opacity-50"
               >
                 {s.unsubscribed ? "Aktivizo" : "Çregjistro"}
               </button>
@@ -1764,17 +2078,17 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
       <button
         onClick={() => onChange(Math.max(1, page - 1))}
         disabled={page === 1}
-        className="font-ui rounded-[2px] border border-[#262626] px-3 py-1.5 text-[12px] text-white/60 transition-colors hover:border-accent/50 hover:text-white disabled:opacity-30"
+        className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-30"
       >
         ← Prapa
       </button>
-      <span className="text-[12px] text-white/40">
+      <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">
         {page} / {totalPages}
       </span>
       <button
         onClick={() => onChange(Math.min(totalPages, page + 1))}
         disabled={page === totalPages}
-        className="font-ui rounded-[2px] border border-[#262626] px-3 py-1.5 text-[12px] text-white/60 transition-colors hover:border-accent/50 hover:text-white disabled:opacity-30"
+        className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-30"
       >
         Tjetër →
       </button>
@@ -1901,7 +2215,7 @@ function BlogTab({
     <div>
       {/* Form */}
       <div className={CARD + " mb-6 p-5"}>
-        <p className="mb-4 font-display text-[1.1rem] font-semibold text-white">
+        <p className="mb-4 font-display text-[1.1rem] font-semibold text-[var(--a-text)]">
           {editingId ? "Edito artikullin" : "Shto artikull të ri"}
         </p>
         <div className="grid gap-3 md:grid-cols-2">
@@ -1911,7 +2225,7 @@ function BlogTab({
             value={form.slug}
             onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
             disabled={!!editingId}
-            className="font-ui rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent disabled:opacity-50"
+            className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
           />
           <div>
             <select
@@ -1925,7 +2239,7 @@ function BlogTab({
                   setForm((f) => ({ ...f, category: e.target.value }));
                 }
               }}
-              className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             >
               <option value="" disabled>
                 Zgjedh kategorinë
@@ -1943,7 +2257,7 @@ function BlogTab({
                 placeholder="Emri i kategorisë së re"
                 value={form.category}
                 onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                className="font-ui mt-2 w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+                className="font-ui mt-2 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
             )}
           </div>
@@ -1953,28 +2267,28 @@ function BlogTab({
           placeholder="Titulli"
           value={form.title}
           onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-          className="font-ui mt-3 w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <textarea
           placeholder="Përmbledhje (excerpt)"
           rows={2}
           value={form.excerpt}
           onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
-          className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <input
           type="text"
           placeholder="Data (p.sh. Qershor 2026)"
           value={form.date}
           onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-          className="font-ui mt-3 w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] text-white outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <textarea
           placeholder="Përmbajtja — ndaj paragrafët me një rresht bosh"
           rows={6}
           value={form.content}
           onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-          className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2.5 text-[13px] leading-relaxed text-white outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
 
         {error && <p className="mt-2 text-[12px] text-red-400/80">{error}</p>}
@@ -1990,7 +2304,7 @@ function BlogTab({
           {editingId && (
             <button
               onClick={cancelEdit}
-              className="font-ui rounded-[2px] border border-[#262626] px-6 py-2.5 text-[12px] font-semibold text-white/60 transition-colors hover:text-white"
+              className="font-ui rounded-[2px] border border-[var(--a-border)] px-6 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
             >
               Anulo
             </button>
@@ -1999,7 +2313,7 @@ function BlogTab({
       </div>
 
       {/* List */}
-      <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-white/35">
+      <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
         Artikuj nga admin ({posts.length})
       </p>
       <div className="space-y-3">
@@ -2007,19 +2321,19 @@ function BlogTab({
         {posts.map((p) => (
           <div key={p.id} className={CARD + " flex items-center justify-between gap-4 p-5"}>
             <div className="min-w-0">
-              <p className="font-display font-semibold text-white">{p.title}</p>
-              <p className="mt-1 text-[12px] text-white/35">{p.category} · {p.date} · /blog/{p.slug}</p>
+              <p className="font-display font-semibold text-[var(--a-text)]">{p.title}</p>
+              <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{p.category} · {p.date} · /blog/{p.slug}</p>
             </div>
             <div className="flex shrink-0 gap-2">
               <button
                 onClick={() => startEdit(p)}
-                className="font-ui rounded-[2px] border border-[#262626] px-3 py-1.5 text-[11px] text-white/60 transition-colors hover:border-accent/50 hover:text-white"
+                className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
               >
                 Edito
               </button>
               <button
                 onClick={() => remove(p.id)}
-                className="font-ui rounded-[2px] border border-[#262626] px-3 py-1.5 text-[11px] text-red-400/70 transition-colors hover:border-red-400/50 hover:text-red-400"
+                className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-red-400/70 transition-colors hover:border-red-400/50 hover:text-red-400"
               >
                 Fshi
               </button>
@@ -2029,23 +2343,23 @@ function BlogTab({
       </div>
 
       {/* Static articles (from code) */}
-      <p className="mb-3 mt-8 text-[11px] uppercase tracking-[0.15em] text-white/35">
+      <p className="mb-3 mt-8 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
         Artikuj ekzistues në kod ({staticPosts.length}) — vetëm lexim
       </p>
       <div className="space-y-3">
         {staticPosts.map((p) => (
           <div key={p.slug} className={CARD + " flex items-center justify-between gap-4 p-5 opacity-70"}>
             <div className="min-w-0">
-              <p className="font-display font-semibold text-white">{p.title}</p>
-              <p className="mt-1 text-[12px] text-white/35">{p.category} · {p.date} · /blog/{p.slug}</p>
+              <p className="font-display font-semibold text-[var(--a-text)]">{p.title}</p>
+              <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{p.category} · {p.date} · /blog/{p.slug}</p>
             </div>
-            <span className="shrink-0 rounded-[2px] border border-[#262626] px-3 py-1.5 text-[11px] text-white/35">
+            <span className="shrink-0 rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
               Statik
             </span>
           </div>
         ))}
       </div>
-      <p className="mt-3 text-[11px] text-white/30">
+      <p className="mt-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">
         Artikujt statikë janë pjesë e kodit (lib/blogPosts.ts) dhe nuk mund të editohen apo fshihen nga paneli.
       </p>
     </div>
@@ -2053,28 +2367,36 @@ function BlogTab({
 }
 
 // ── Analytics tab ────────────────────────────────────────────────────────────
-function AnalyticsTab({ stats }: { stats: Stats }) {
+function AnalyticsTab({ stats, contacts }: { stats: Stats; contacts: Contact[] }) {
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <button
+          onClick={() => printMonthlyReport(contacts, stats)}
+          className="font-ui rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10"
+        >
+          🖨 Eksporto raport (PDF)
+        </button>
+      </div>
       <div className="grid gap-4 sm:grid-cols-3">
         <div className={CARD + " p-5"}>
-          <p className="font-display text-[2rem] font-bold text-white">{stats.conversionRate.toFixed(1)}%</p>
-          <p className="mt-1 text-[12px] text-white/40">Norma e konvertimit (Mbyllur / Total)</p>
+          <p className="font-display text-[2rem] font-bold text-[var(--a-text)]">{stats.conversionRate.toFixed(1)}%</p>
+          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Norma e konvertimit (Mbyllur / Total)</p>
         </div>
         <div className={CARD + " p-5"}>
-          <p className="font-display text-[2rem] font-bold text-white">
+          <p className="font-display text-[2rem] font-bold text-[var(--a-text)]">
             {stats.avgDaysToClose !== null ? stats.avgDaysToClose.toFixed(1) : "—"}
           </p>
-          <p className="mt-1 text-[12px] text-white/40">Ditë mesatare deri në mbyllje</p>
+          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Ditë mesatare deri në mbyllje</p>
         </div>
         <div className={CARD + " p-5"}>
-          <p className="font-display text-[2rem] font-bold text-white">{stats.totalContacts}</p>
-          <p className="mt-1 text-[12px] text-white/40">Kontakte gjithsej</p>
+          <p className="font-display text-[2rem] font-bold text-[var(--a-text)]">{stats.totalContacts}</p>
+          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Kontakte gjithsej</p>
         </div>
       </div>
 
       <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Shërbimet më të kërkuara
         </p>
         {stats.topServices.length === 0 ? (
@@ -2085,11 +2407,11 @@ function AnalyticsTab({ stats }: { stats: Stats }) {
               const max = stats.topServices[0].count;
               return (
                 <div key={service}>
-                  <div className="mb-1 flex items-center justify-between text-[12px] text-white/60">
+                  <div className="mb-1 flex items-center justify-between text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">
                     <span>{service}</span>
-                    <span className="text-white/35">{count}</span>
+                    <span className="text-[rgb(var(--a-text-rgb)/0.35)]">{count}</span>
                   </div>
-                  <div className="h-2 rounded-full bg-white/5">
+                  <div className="h-2 rounded-full bg-[rgb(var(--a-text-rgb)/0.05)]">
                     <div
                       className="h-2 rounded-full bg-accent/50"
                       style={{ width: `${(count / max) * 100}%` }}
@@ -2138,30 +2460,30 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
   return (
     <div className="space-y-4">
       <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Cilësime të faqes
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
               Kodi i zbritjes (newsletter)
             </label>
             <input
               type="text"
               value={settings.newsletter_discount_code}
               onChange={(e) => setSettings((s) => ({ ...s, newsletter_discount_code: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-white/35">
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
               Numri WhatsApp (pa +, p.sh. 355...)
             </label>
             <input
               type="text"
               value={settings.whatsapp_number}
               onChange={(e) => setSettings((s) => ({ ...s, whatsapp_number: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[#262626] bg-[#0a0a0a] px-3 py-2 text-[12px] text-white outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
         </div>
@@ -2176,13 +2498,13 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
           {saved && <span className="text-[11px] text-emerald-400/80">U ruajt.</span>}
           {error && <span className="text-[11px] text-red-400/80">{error}</span>}
         </div>
-        <p className="mt-3 text-[11px] text-white/30">
+        <p className="mt-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">
           Këto vlera përdoren në email-et e newsletter-it (kodi i zbritjes dhe lidhja WhatsApp).
         </p>
       </div>
 
       <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-white/40">
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Hyrjet në admin (20 të fundit)
         </p>
         {adminLogins.length === 0 ? (
@@ -2194,8 +2516,8 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
                 <span className={l.success ? "text-emerald-400/80" : "text-red-400/80"}>
                   {l.success ? "✓ Hyrje e suksesshme" : "✗ Tentativë e dështuar"}
                 </span>
-                <span className="text-white/35">{l.ip ?? "—"}</span>
-                <span className="text-white/35">{formatDate(l.created_at)}</span>
+                <span className="text-[rgb(var(--a-text-rgb)/0.35)]">{l.ip ?? "—"}</span>
+                <span className="text-[rgb(var(--a-text-rgb)/0.35)]">{formatDate(l.created_at)}</span>
               </li>
             ))}
           </ul>
