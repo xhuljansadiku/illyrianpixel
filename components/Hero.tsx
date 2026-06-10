@@ -206,9 +206,6 @@ export default function Hero() {
       ref={sectionRef}
       className="cinematic-section section-tone-hero relative min-h-screen overflow-hidden"
     >
-      <h1 className="sr-only">
-        Ktheje biznesin në brand, Website, SEO dhe Marketing për biznese shqiptare
-      </h1>
       <div
         ref={gradientRef}
         className="pointer-events-none absolute inset-0 hero-grid opacity-80 [filter:blur(0px)]"
@@ -229,7 +226,7 @@ export default function Hero() {
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
             ILLYRIAN PIXEL
           </div>
-          <h2
+          <h1
             ref={headlineRef}
             className="hero-headline-trigger cadence-title font-display relative max-w-[18ch] text-[clamp(2.6rem,5.5vw,4.8rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em]"
           >
@@ -243,8 +240,9 @@ export default function Hero() {
                 </span>
               </span>
             </span>
+            <span className="sr-only"> Website, SEO dhe Marketing për biznese shqiptare</span>
             <span aria-hidden className="hero-brand-trail" />
-          </h2>
+          </h1>
           <div ref={paragraphRef} className="cadence-body space-y-4">
             <p className="font-body text-[1.05rem] font-light leading-[1.75] tracking-[0.01em] text-white/62">
               {"Ndërtojmë Website & E-Commerce moderne, dominojmë Google me SEO dhe rrisim shitjet përmes Reklamave, Social Media & Branding."}

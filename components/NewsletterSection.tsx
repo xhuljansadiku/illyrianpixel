@@ -111,7 +111,7 @@ export default function NewsletterSection() {
           </div>
 
           <p className="mt-5 text-[11px] text-white/25 tracking-[0.04em]">
-            Pa spam. Çabonohuni kurrëherë. Kodi vlen për çdo shërbim të ri.
+            Pa spam. Çabonohuni kurdo. Kodi vlen për çdo shërbim të ri.
           </p>
         </div>
       </div>

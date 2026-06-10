@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
@@ -78,6 +79,15 @@ export default function Testimonials() {
                 ))}
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-3 pl-6 text-sm text-white/62">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5">
+                  <Image
+                    src={item.logo}
+                    alt={item.company}
+                    width={36}
+                    height={36}
+                    className="h-full w-full object-contain p-1"
+                  />
+                </span>
                 <span className="text-white/88">{item.name}</span>
                 <span>•</span>
                 <span>{item.company}</span>

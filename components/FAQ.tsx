@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: "Si funksionon pagesa?",
-    a: "Pagesa kryhet në fillim për të rezervuar projektin dhe nisur punën menjëherë."
+    a: "50% paradhënie për të rezervuar projektin dhe nisur punën menjëherë, dhe 50% para publikimit përfundimtar."
   },
   {
     q: "Çfarë kam nevojë të përgatis para fillimit?",
