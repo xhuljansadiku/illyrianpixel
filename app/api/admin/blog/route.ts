@@ -40,14 +40,18 @@ export async function POST(req: Request) {
     ? content
     : String(content || "").split("\n\n").map((p: string) => p.trim()).filter(Boolean);
 
-  const { error } = await supabase.from("blog_posts").insert({
-    slug,
-    title,
-    category,
-    excerpt,
-    content: contentArray,
-    date,
-  });
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .insert({
+      slug,
+      title,
+      category,
+      excerpt,
+      content: contentArray,
+      date,
+    })
+    .select()
+    .single();
 
   if (error) {
     if (error.code === "23505") {
@@ -56,5 +60,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true, post: data });
 }

@@ -1218,19 +1218,7 @@ function BlogTab({
           setError(data.error ?? "Gabim.");
           return;
         }
-        setPosts([
-          {
-            id: Date.now(),
-            created_at: new Date().toISOString(),
-            slug: form.slug,
-            title: form.title,
-            category: form.category,
-            excerpt: form.excerpt,
-            date: form.date,
-            content: form.content.split("\n\n").map((s) => s.trim()).filter(Boolean),
-          },
-          ...posts,
-        ]);
+        setPosts([data.post, ...posts]);
       }
       cancelEdit();
     } finally {
