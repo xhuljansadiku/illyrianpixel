@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function AdminLoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -46,13 +47,34 @@ export default function AdminLoginPage() {
             <label className="font-display mb-2 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
               Fjalëkalimi
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoFocus
-              className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 focus:border-accent"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoFocus
+                className="font-ui w-full border-b border-[#262626] bg-transparent py-3 pr-9 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 focus:border-accent"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                tabIndex={-1}
+                aria-label={showPassword ? "Fshih fjalëkalimin" : "Shfaq fjalëkalimin"}
+                className="absolute right-0 top-1/2 -translate-y-1/2 p-1 text-white/35 transition-colors hover:text-white/70"
+              >
+                {showPassword ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
 
           {error && <p className="text-[12px] text-red-400/80">{error}</p>}
