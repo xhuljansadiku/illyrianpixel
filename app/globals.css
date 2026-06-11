@@ -103,6 +103,37 @@ body {
   --a-text-rgb: 24 23 15;
 }
 
+/* Status badge colors — pale dark-mode shades become unreadable on the
+   light background, so darken them for contrast in light mode. */
+.admin-shell[data-theme="light"] .text-blue-300,
+.admin-shell[data-theme="light"] .text-blue-400 {
+  color: #1d4ed8;
+}
+.admin-shell[data-theme="light"] .text-emerald-300,
+.admin-shell[data-theme="light"] .text-emerald-400 {
+  color: #047857;
+}
+.admin-shell[data-theme="light"] .text-red-400,
+.admin-shell[data-theme="light"] .text-red-500 {
+  color: #b91c1c;
+}
+.admin-shell[data-theme="light"] .text-yellow-300,
+.admin-shell[data-theme="light"] .text-yellow-400 {
+  color: #a16207;
+}
+.admin-shell[data-theme="light"] .border-blue-400\/30 {
+  border-color: rgb(29 78 216 / 0.35);
+}
+.admin-shell[data-theme="light"] .border-emerald-400\/30 {
+  border-color: rgb(4 120 87 / 0.35);
+}
+.admin-shell[data-theme="light"] .border-red-400\/30 {
+  border-color: rgb(185 28 28 / 0.35);
+}
+.admin-shell[data-theme="light"] .border-yellow-400\/30 {
+  border-color: rgb(161 98 7 / 0.35);
+}
+
 body {
   font-family: var(--font-body), system-ui, sans-serif;
   text-rendering: optimizeLegibility;

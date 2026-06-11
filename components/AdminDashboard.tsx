@@ -22,6 +22,19 @@ import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
 import type { PricingOverrides } from "@/lib/pricingOverrides";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
 
+const VALID_TABS = [
+  "overview",
+  "contacts",
+  "quotes",
+  "projects",
+  "subscribers",
+  "blog",
+  "content",
+  "analytics",
+  "history",
+  "settings",
+] as const;
+
 type Contact = {
   id: number;
   created_at: string;
@@ -377,7 +390,14 @@ export default function AdminDashboard({
     if (typeof window === "undefined") return;
     if (window.localStorage.getItem("admin_sidebar_collapsed") === "1") setCollapsed(true);
     if (window.localStorage.getItem("admin_theme") === "light") setTheme("light");
+    const savedTab = window.localStorage.getItem("admin_active_tab");
+    if (savedTab && VALID_TABS.includes(savedTab as typeof tab)) setTab(savedTab as typeof tab);
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("admin_active_tab", tab);
+  }, [tab]);
 
   // Poll for new contacts and show a toast + sound
   useEffect(() => {
