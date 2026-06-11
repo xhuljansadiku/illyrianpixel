@@ -37,7 +37,14 @@ export async function POST(req: Request) {
   }
 
   const { whatsapp_number } = await getSiteSettings();
-  const html = broadcastEmailHtml(subject, message, `https://wa.me/${whatsapp_number}`);
+  const whatsappUrl = `https://wa.me/${whatsapp_number}`;
+
+  // Regjistro broadcast-in që open/click të lidhen me të
+  const { data: broadcast } = await supabase
+    .from("newsletter_broadcasts")
+    .insert({ subject, message, sent_count: recipients.length })
+    .select("id")
+    .single();
 
   for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
     const chunk = recipients.slice(i, i + BATCH_SIZE);
@@ -46,7 +53,12 @@ export async function POST(req: Request) {
         from: NEWSLETTER_BRAND.from,
         to: email,
         subject,
-        html,
+        html: broadcastEmailHtml(
+          subject,
+          message,
+          whatsappUrl,
+          broadcast ? { broadcastId: broadcast.id, email } : undefined
+        ),
       }))
     );
   }

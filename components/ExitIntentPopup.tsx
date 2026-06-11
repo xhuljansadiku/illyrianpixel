@@ -7,12 +7,38 @@ import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPref
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 const SESSION_KEY = "ip_exit_shown";
 
+// Tekstet default — mbivendosen nga cilësimet e adminit (site_settings)
+const DEFAULTS = {
+  eyebrow: "Para se të largoheni",
+  title: "Merrni një konsultë falas sot.",
+  text: "Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.",
+  cta: "Konsultë falas →",
+};
+
 export default function ExitIntentPopup() {
   const [visible, setVisible] = useState(false);
+  const [content, setContent] = useState(DEFAULTS);
   const readyRef = useRef(false);
+  const enabledRef = useRef(true);
 
   useEffect(() => {
     if (sessionStorage.getItem(SESSION_KEY)) return;
+
+    // Merr cilësimet nga admini — nëse popup-i është i çaktivizuar, mos e shfaq fare
+    fetch("/api/popup")
+      .then((res) => res.json())
+      .then((data) => {
+        enabledRef.current = data.enabled !== false;
+        setContent({
+          eyebrow: data.eyebrow || DEFAULTS.eyebrow,
+          title: data.title || DEFAULTS.title,
+          text: data.text || DEFAULTS.text,
+          cta: data.cta || DEFAULTS.cta,
+        });
+      })
+      .catch(() => {
+        // mbaj default-et
+      });
 
     // Prit 5 sekonda para se ta aktivizosh — vizitori duhet të ketë lexuar diçka
     const readyTimer = setTimeout(() => {
@@ -20,7 +46,7 @@ export default function ExitIntentPopup() {
     }, 5000);
 
     const handleMouseLeave = (e: MouseEvent) => {
-      if (!readyRef.current) return;
+      if (!readyRef.current || !enabledRef.current) return;
       if (e.clientY <= 8) {
         sessionStorage.setItem(SESSION_KEY, "1");
         setVisible(true);
@@ -68,14 +94,21 @@ export default function ExitIntentPopup() {
 
         {/* Content */}
         <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent/70">
-          Para se të largoheni
+          {content.eyebrow}
         </p>
         <h2 className="font-display mt-3 text-[clamp(1.5rem,4vw,2rem)] leading-tight text-white">
-          Merrni një konsultë{" "}
-          <span className="text-accent">falas</span> sot.
+          {content.title.includes("falas") ? (
+            <>
+              {content.title.split("falas")[0]}
+              <span className="text-accent">falas</span>
+              {content.title.split("falas").slice(1).join("falas")}
+            </>
+          ) : (
+            content.title
+          )}
         </h2>
         <p className="mt-3 text-[0.9rem] leading-relaxed text-white/55">
-          Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.
+          {content.text}
         </p>
 
         {/* CTAs */}
@@ -85,7 +118,7 @@ export default function ExitIntentPopup() {
             onClick={close}
             className="interactive-button ip-cta-primary flex-1 justify-center"
           >
-            Konsultë falas →
+            {content.cta}
           </Link>
           <a
             href={WA_HREF}

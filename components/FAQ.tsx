@@ -3,7 +3,10 @@
 import { useState } from "react";
 import SectionMark from "@/components/SectionMark";
 
-const faqs = [
+export type FaqItem = { q: string; a: string };
+
+// Fallback nëse tabela faqs në DB është bosh / e paarritshme
+const defaultFaqs = [
   {
     q: "Sa zgjat ndërtimi i një website?",
     a: "Mesatarisht 2–4 javë, varësisht kompleksitetit dhe sasisë së përmbajtjes.\nProjektet me funksione të avancuara mund të zgjasin deri në 6 javë.\nNë fazën e planifikimit ju japim një afat të saktë."
@@ -30,8 +33,9 @@ const faqs = [
   }
 ];
 
-export default function FAQ() {
+export default function FAQ({ items }: { items?: FaqItem[] }) {
   const [open, setOpen] = useState(0);
+  const faqs = items && items.length > 0 ? items : defaultFaqs;
   return (
     <section id="faq" className="cinematic-section section-tone-about">
       <div className="section-wrap">

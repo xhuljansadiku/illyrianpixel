@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
 import { serviceCategories, type ServiceCategory } from "@/lib/serviceCategories";
+import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
@@ -17,7 +18,7 @@ const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
   { slug: "smm",              label: "Social Media" },
 ];
 
-export default function AllPackagesPageClient() {
+export default function AllPackagesPageClient({ overrides }: { overrides?: PricingOverrides }) {
   const heroRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState<ServiceCategory["slug"]>("website");
 
@@ -50,7 +51,9 @@ export default function AllPackagesPageClient() {
     return () => ctx.revert();
   }, []);
 
-  const visible = serviceCategories.filter((c) => c.slug === active);
+  const visible = serviceCategories
+    .filter((c) => c.slug === active)
+    .map((c) => applyOverridesToCategory(c, overrides));
 
   return (
     <>

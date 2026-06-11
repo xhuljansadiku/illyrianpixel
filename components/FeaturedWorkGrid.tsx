@@ -5,24 +5,41 @@ import Image from "next/image";
 import Link from "next/link";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
-import { caseStudies, type CaseStudy } from "@/lib/caseStudies";
+import { caseStudies } from "@/lib/caseStudies";
 
-function resultPills(project: CaseStudy): string[] {
+// Projekt i shfaqur — nga lib/caseStudies (statik) ose nga admini (portfolio_items)
+export type FeaturedItem = {
+  slug: string;
+  title: string;
+  category: string;
+  location: string;
+  flagCodes: string[];
+  intro: string;
+  metrics: string[];
+  tags: string[];
+  heroImage: string | null;
+  liveUrl: string;
+};
+
+function resultPills(project: FeaturedItem): string[] {
   const fromTags = project.tags.slice(0, 4);
   if (fromTags.length >= 4) return fromTags;
   const extra = project.metrics.filter((m) => !fromTags.includes(m));
   return [...fromTags, ...extra].slice(0, 4);
 }
 
-export default function FeaturedWorkGrid() {
+export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const chapterRefs = useRef<Array<HTMLElement | null>>([]);
   const imageRefs = useRef<Array<HTMLDivElement | null>>([]);
   const reducedMotion = useReducedMotion();
   const [activeIdx, setActiveIdx] = useState(0);
-  const featuredProjects = caseStudies.filter((project) =>
-    ["esm-group", "bardhi-wellness", "palushi-brothers"].includes(project.slug)
-  );
+  const featuredProjects: FeaturedItem[] =
+    items && items.length > 0
+      ? items
+      : caseStudies.filter((project) =>
+          ["esm-group", "bardhi-wellness", "palushi-brothers"].includes(project.slug)
+        );
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current || reducedMotion) return;
@@ -151,23 +168,27 @@ export default function FeaturedWorkGrid() {
                   <h3 className="mt-3 font-display text-[clamp(2rem,5vw,4rem)] leading-[0.92] tracking-[0.01em] text-white">
                     {project.title}
                   </h3>
-                  <p className="mt-4 inline-flex flex-wrap items-center gap-2 font-display text-[clamp(1rem,2.1vw,1.2rem)] leading-snug tracking-[0.02em] text-white/88">
-                    <span className="inline-flex items-center gap-1 rounded-md border border-white/[0.07] bg-white/[0.06] px-2 py-1" aria-hidden>
-                      {project.flagCodes.map((code) => (
-                        <Image
-                          key={code}
-                          src={`https://flagcdn.com/w20/${code}.png`}
-                          alt=""
-                          width={20}
-                          height={14}
-                          className="h-3.5 w-5 rounded-[2px] object-cover"
-                          loading="lazy"
-                          unoptimized
-                        />
-                      ))}
-                    </span>
-                    <span>{project.location}</span>
-                  </p>
+                  {(project.flagCodes.length > 0 || project.location) && (
+                    <p className="mt-4 inline-flex flex-wrap items-center gap-2 font-display text-[clamp(1rem,2.1vw,1.2rem)] leading-snug tracking-[0.02em] text-white/88">
+                      {project.flagCodes.length > 0 && (
+                        <span className="inline-flex items-center gap-1 rounded-md border border-white/[0.07] bg-white/[0.06] px-2 py-1" aria-hidden>
+                          {project.flagCodes.map((code) => (
+                            <Image
+                              key={code}
+                              src={`https://flagcdn.com/w20/${code}.png`}
+                              alt=""
+                              width={20}
+                              height={14}
+                              className="h-3.5 w-5 rounded-[2px] object-cover"
+                              loading="lazy"
+                              unoptimized
+                            />
+                          ))}
+                        </span>
+                      )}
+                      {project.location && <span>{project.location}</span>}
+                    </p>
+                  )}
                   <p className="mt-5 max-w-[52ch] md:whitespace-pre-line font-body text-sm leading-relaxed text-white/72 md:text-base">
                     {project.intro}
                   </p>
@@ -212,13 +233,19 @@ export default function FeaturedWorkGrid() {
                     }`}
                   >
                     <div className="group/img relative aspect-[16/10] overflow-hidden">
-                      <Image
-                        src={project.heroImage}
-                        alt={`${project.title}, ${project.category} | Illyrian Pixel`}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/img:scale-[1.03]"
-                      />
+                      {project.heroImage ? (
+                        <Image
+                          src={project.heroImage}
+                          alt={`${project.title}, ${project.category} | Illyrian Pixel`}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                          className="object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/img:scale-[1.03]"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#101010,#161410)]">
+                          <span className="font-display text-3xl text-accent/30">{project.title.slice(0, 1)}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

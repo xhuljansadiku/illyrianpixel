@@ -121,6 +121,7 @@ export default function ContactPageClient() {
           timeline: form.timeline,
           message: form.message,
           discountCode: discountStatus === "valid" ? "ILLYRIAN10" : undefined,
+          sourcePath: typeof window !== "undefined" ? window.location.pathname : undefined,
         }),
       });
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
 
 const RATE_LIMIT = 3;
 const WINDOW_SECONDS = 60 * 60; // 1 orë
@@ -73,6 +74,7 @@ export async function POST(req: Request) {
       timeline = "",
       message = "",
       discountCode = "",
+      sourcePath = "",
     } = body;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -120,6 +122,10 @@ export async function POST(req: Request) {
         timeline,
         message,
         discount_code: discountCode || null,
+        source_path:
+          typeof sourcePath === "string" && sourcePath.startsWith("/")
+            ? sourcePath.slice(0, 200)
+            : null,
       },
     ]);
 
@@ -129,6 +135,17 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
+
+    // Njoftim instant në Telegram — best-effort, s'bllokon asgjë
+    await sendTelegramMessage(
+      `${isPriority ? "🔥 <b>PRIORITET</b> — " : ""}📥 <b>Kontakt i ri nga website</b>\n\n` +
+        `👤 ${escapeTelegramHtml(name)}${businessName ? ` · ${escapeTelegramHtml(businessName)}` : ""}\n` +
+        `🛠 ${escapeTelegramHtml(service || "—")}\n` +
+        `💶 ${escapeTelegramHtml(budget || "—")} · ⏱ ${escapeTelegramHtml(timeline || "—")}\n` +
+        `📧 ${escapeTelegramHtml(email)}\n` +
+        `📱 ${escapeTelegramHtml(phone)}\n\n` +
+        `💬 ${escapeTelegramHtml(message.slice(0, 300))}${message.length > 300 ? "…" : ""}`
+    );
 
     // Email-et dërgohen pas ruajtjes — dështimi i tyre nuk ndikon klientin
     try {

@@ -11,6 +11,15 @@ import {
   useSensors,
   type DragEndEvent,
 } from "@dnd-kit/core";
+import QuotesTab from "@/components/admin/QuotesTab";
+import ContentTab, { type PricingCatalogEntry } from "@/components/admin/ContentTab";
+import ProjectsTab from "@/components/admin/ProjectsTab";
+import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
+import { quoteTotals, formatMoney } from "@/lib/quotes";
+import type { ProjectRecord } from "@/lib/projects";
+import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
+import type { PricingOverrides } from "@/lib/pricingOverrides";
+import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
 
 type Contact = {
   id: number;
@@ -29,6 +38,17 @@ type Contact = {
   assigned_to: string | null;
   follow_up_date: string | null;
   tags: string[] | null;
+  value: number | null;
+  source_path: string | null;
+};
+
+type BroadcastStat = {
+  id: string;
+  subject: string;
+  created_at: string;
+  sent_count: number;
+  opens: number;
+  clicks: number;
 };
 
 type ContactLog = {
@@ -63,6 +83,8 @@ type BlogPost = {
   excerpt: string;
   content: string[];
   date: string;
+  published?: boolean;
+  scheduled_for?: string | null;
 };
 
 type StaticPost = {
@@ -96,6 +118,11 @@ type AdminLogin = {
 type SiteSettings = {
   newsletter_discount_code: string;
   whatsapp_number: string;
+  popup_enabled: string;
+  popup_eyebrow: string;
+  popup_title: string;
+  popup_text: string;
+  popup_cta: string;
 };
 
 const CARD =
@@ -121,6 +148,8 @@ const LOG_ACTION_LABELS: Record<string, (detail: string | null) => string> = {
   status: (d) => `Statusi u ndryshua → ${d}`,
   assigned_to: (d) => (d ? `U caktua tek ${d}` : "U hoq caktimi"),
   follow_up_date: (d) => (d ? `Data e ndjekjes u vendos: ${formatDay(`${d}T00:00:00`)}` : "U hoq data e ndjekjes"),
+  value: (d) => (d ? `Vlera u vendos: ${d}` : "U hoq vlera"),
+  email: (d) => `📧 Email i dërguar: ${d ?? ""}`,
 };
 
 function isOverdue(c: Contact) {
@@ -291,6 +320,16 @@ export default function AdminDashboard({
   stats,
   adminLogins,
   siteSettings,
+  quotes: initialQuotes,
+  testimonials: initialTestimonials,
+  portfolioItems: initialPortfolioItems,
+  pricingCatalog,
+  pricingOverrides,
+  broadcasts,
+  visitors30,
+  recurring,
+  projects,
+  faqs,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
@@ -299,12 +338,27 @@ export default function AdminDashboard({
   stats: Stats;
   adminLogins: AdminLogin[];
   siteSettings: SiteSettings;
+  quotes: QuoteRecord[];
+  testimonials: TestimonialRow[];
+  portfolioItems: PortfolioRow[];
+  pricingCatalog: PricingCatalogEntry[];
+  pricingOverrides: PricingOverrides;
+  broadcasts: BroadcastStat[];
+  visitors30: number;
+  recurring: RecurringInvoice[];
+  projects: ProjectRecord[];
+  faqs: FaqRow[];
 }) {
   const router = useRouter();
-  const [tab, setTab] = useState<"overview" | "contacts" | "subscribers" | "blog" | "analytics" | "settings">("overview");
+  const [tab, setTab] = useState<
+    "overview" | "contacts" | "quotes" | "projects" | "subscribers" | "blog" | "content" | "analytics" | "settings"
+  >("overview");
   const [contacts, setContacts] = useState(initialContacts);
   const [subscribers, setSubscribers] = useState(initialSubscribers);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
+  const [quotes, setQuotes] = useState(initialQuotes);
+  const [testimonials, setTestimonials] = useState(initialTestimonials);
+  const [portfolioItems, setPortfolioItems] = useState(initialPortfolioItems);
   const [collapsed, setCollapsed] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
@@ -386,8 +440,11 @@ export default function AdminDashboard({
   const NAV_ITEMS: { id: typeof tab; icon: string; label: string; count?: number; alert?: number }[] = [
     { id: "overview", icon: "🏠", label: "Përmbledhje" },
     { id: "contacts", icon: "📇", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
+    { id: "quotes", icon: "🧾", label: "Oferta & Fatura", count: quotes.length },
+    { id: "projects", icon: "📁", label: "Projektet", count: projects.length },
     { id: "subscribers", icon: "✉️", label: "Newsletter", count: subscribers.length },
     { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
+    { id: "content", icon: "🎨", label: "Përmbajtja" },
     { id: "analytics", icon: "📊", label: "Analitika" },
     { id: "settings", icon: "⚙️", label: "Cilësimet" },
   ];
@@ -395,9 +452,12 @@ export default function AdminDashboard({
   const TAB_TITLES: Record<typeof tab, { title: string; subtitle: string }> = {
     overview: { title: "Përmbledhje", subtitle: "Pamje e përgjithshme e aktivitetit" },
     contacts: { title: "Kontaktet", subtitle: "Menaxho kontaktet dhe lead-et" },
-    subscribers: { title: "Newsletter", subtitle: "Abonentët dhe email broadcast" },
-    blog: { title: "Blog", subtitle: "Artikujt e blogut" },
-    analytics: { title: "Analitika", subtitle: "Statistika dhe performanca" },
+    quotes: { title: "Oferta & Fatura", subtitle: "Krijo, dërgo dhe gjurmo oferta e fatura" },
+    projects: { title: "Projektet", subtitle: "Ndiq fazat dhe detyrat e çdo projekti" },
+    subscribers: { title: "Newsletter", subtitle: "Abonentët, broadcast dhe statistika" },
+    blog: { title: "Blog", subtitle: "Artikujt e blogut dhe publikimi i planifikuar" },
+    content: { title: "Përmbajtja", subtitle: "Testimoniale, portofol dhe çmime — pa deploy" },
+    analytics: { title: "Analitika", subtitle: "Funnel, burime dhe performanca" },
     settings: { title: "Cilësimet", subtitle: "Konfigurime dhe siguria" },
   };
 
@@ -636,13 +696,45 @@ export default function AdminDashboard({
               <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} onGoToContact={goToContact} />
             )}
             {tab === "contacts" && <ContactsTab contacts={contacts} setContacts={setContacts} jumpSearch={contactsJump} />}
+            {tab === "quotes" && (
+              <QuotesTab
+                quotes={quotes}
+                setQuotes={setQuotes}
+                contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
+                initialRecurring={recurring}
+              />
+            )}
+            {tab === "projects" && (
+              <ProjectsTab
+                initialProjects={projects}
+                contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
+              />
+            )}
             {tab === "subscribers" && (
-              <SubscribersTab subscribers={subscribers} setSubscribers={setSubscribers} jumpSearch={subscribersJump} />
+              <SubscribersTab
+                subscribers={subscribers}
+                setSubscribers={setSubscribers}
+                jumpSearch={subscribersJump}
+                broadcasts={broadcasts}
+              />
             )}
             {tab === "blog" && (
               <BlogTab posts={blogPosts} setPosts={setBlogPosts} staticPosts={staticPosts} />
             )}
-            {tab === "analytics" && <AnalyticsTab stats={stats} contacts={contacts} />}
+            {tab === "content" && (
+              <ContentTab
+                testimonials={testimonials}
+                setTestimonials={setTestimonials}
+                portfolioItems={portfolioItems}
+                setPortfolioItems={setPortfolioItems}
+                pricingCatalog={pricingCatalog}
+                initialOverrides={pricingOverrides}
+                initialFaqs={faqs}
+              />
+            )}
+            {tab === "analytics" && (
+              <AnalyticsTab stats={stats} contacts={contacts} quotes={quotes} visitors30={visitors30} />
+            )}
             {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
           </div>
         </div>
@@ -920,6 +1012,35 @@ function DraggableCard({ id, children }: { id: number; children: React.ReactNode
 }
 
 // ── Contacts tab ───────────────────────────────────────────────────────────
+const REPLY_TEMPLATES: {
+  id: string;
+  label: string;
+  subject: string;
+  message: (c: Contact) => string;
+}[] = [
+  {
+    id: "thanks",
+    label: "Falënderim + hapi tjetër",
+    subject: "Faleminderit për kërkesën — Illyrian Pixel",
+    message: (c) =>
+      `Faleminderit që na kontaktuat për ${c.service || "projektin tuaj"}.\n\nE kemi marrë kërkesën tuaj dhe do t'ju kontaktojmë brenda 24 orëve me një plan konkret.\n\nNëse dëshironi të flasim më shpejt, na shkruani direkt në WhatsApp ose rezervoni një konsultë falas në faqen tonë.`,
+  },
+  {
+    id: "quote",
+    label: "Dërgim oferte",
+    subject: "Oferta juaj nga Illyrian Pixel",
+    message: (c) =>
+      `Bazuar në kërkesën tuaj për ${c.service || "shërbimin e zgjedhur"}, kemi përgatitur një ofertë të personalizuar.\n\nDo ta gjeni të bashkëngjitur / në vijim të këtij emaili. Mos hezitoni të na pyesni për çdo paqartësi — me kënaqësi e përshtatim sipas nevojave tuaja.`,
+  },
+  {
+    id: "followup",
+    label: "Follow-up i sjellshëm",
+    subject: "A keni pasur kohë të shihni propozimin tonë?",
+    message: () =>
+      `Donim thjesht të sigurohemi që e keni marrë mesazhin tonë të mëparshëm.\n\nJemi këtu për çdo pyetje dhe mund ta përshtatim ofertën sipas nevojave tuaja. Nëse preferoni një bisedë të shkurtër, na tregoni kur ju përshtatet.`,
+  },
+];
+
 function ContactsTab({
   contacts,
   setContacts,
@@ -953,6 +1074,12 @@ function ContactsTab({
   const [addingNoteFor, setAddingNoteFor] = useState<number | null>(null);
   const [noteBusy, setNoteBusy] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<"kanban" | "calendar">("kanban");
+  const [valueDraft, setValueDraft] = useState<Record<number, string>>({});
+  const [replyOpenFor, setReplyOpenFor] = useState<number | null>(null);
+  const [replySubject, setReplySubject] = useState("");
+  const [replyMessage, setReplyMessage] = useState("");
+  const [replySending, setReplySending] = useState(false);
+  const [replyResult, setReplyResult] = useState("");
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
@@ -1111,13 +1238,62 @@ function ContactsTab({
   };
 
   const saveDetails = (c: Contact) => {
-    const update: Partial<Pick<Contact, "assigned_to" | "follow_up_date">> = {};
+    const update: Partial<Pick<Contact, "assigned_to" | "follow_up_date" | "value">> = {};
     const assignedVal = assignedDraft[c.id];
     const followUpVal = followUpDraft[c.id];
+    const valueVal = valueDraft[c.id];
     if (assignedVal !== undefined && assignedVal !== (c.assigned_to ?? "")) update.assigned_to = assignedVal;
     if (followUpVal !== undefined && followUpVal !== (c.follow_up_date ?? "")) update.follow_up_date = followUpVal;
+    if (valueVal !== undefined && valueVal !== (c.value === null || c.value === undefined ? "" : String(c.value))) {
+      update.value = valueVal === "" ? null : Number(valueVal);
+    }
     if (Object.keys(update).length === 0) return;
     updateContact(c.id, update);
+  };
+
+  const openReply = (c: Contact) => {
+    if (replyOpenFor === c.id) {
+      setReplyOpenFor(null);
+      return;
+    }
+    const tpl = REPLY_TEMPLATES[0];
+    setReplyOpenFor(c.id);
+    setReplySubject(tpl.subject);
+    setReplyMessage(tpl.message(c));
+    setReplyResult("");
+  };
+
+  const applyTemplate = (c: Contact, id: string) => {
+    const tpl = REPLY_TEMPLATES.find((t) => t.id === id);
+    if (!tpl) return;
+    setReplySubject(tpl.subject);
+    setReplyMessage(tpl.message(c));
+  };
+
+  const sendReply = async (c: Contact) => {
+    if (!replySubject.trim() || !replyMessage.trim()) return;
+    setReplySending(true);
+    setReplyResult("");
+    try {
+      const res = await fetch(`/api/admin/contacts/${c.id}/reply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subject: replySubject, message: replyMessage }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setReplyResult(`✓ U dërgua te ${c.email}`);
+        if (data.note) setNotesList((l) => ({ ...l, [c.id]: [data.note, ...(l[c.id] ?? [])] }));
+        loadLogs(c.id);
+        setTimeout(() => setReplyOpenFor(null), 1600);
+      } else {
+        setReplyResult(data.error ?? "Dërgimi dështoi.");
+      }
+    } catch {
+      setReplyResult("Gabim lidhjeje.");
+    } finally {
+      setReplySending(false);
+    }
   };
 
   const addTag = (c: Contact) => {
@@ -1323,19 +1499,24 @@ function ContactsTab({
         <div className="grid gap-4 md:grid-cols-3">
           {STATUS_COLUMNS.map((col) => {
             const items = filtered.filter((c) => (c.status || "new") === col);
+            const colValue = items.reduce((sum, c) => sum + (Number(c.value) || 0), 0);
             return (
               <div key={col}>
                 <div className="mb-3 flex items-center justify-between">
                   <h3 className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] ${STATUS_COLORS[col]}`}>
                     {STATUS_LABELS[col]}
                   </h3>
-                  <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{items.length}</span>
+                  <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">
+                    {colValue > 0 && <span className="mr-2 font-semibold text-accent/80">{formatMoney(colValue)}</span>}
+                    {items.length}
+                  </span>
                 </div>
                 <KanbanColumn id={col}>
                   {items.length === 0 && <EmptyState text="Asnjë kontakt." />}
                   {items.map((c) => {
                     const status = c.status || "new";
                     const overdue = isOverdue(c);
+                    const score = leadScore(c);
                     return (
                       <DraggableCard key={c.id} id={c.id}>
                         <div className={CARD}>
@@ -1354,6 +1535,17 @@ function ContactsTab({
                               <div className="min-w-0 flex-1">
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                   <span className="font-display font-semibold text-[var(--a-text)]">{c.name}</span>
+                                  <span
+                                    title={`Lead score: ${score.score}/100\n${score.reasons.join("\n")}`}
+                                    className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${LEAD_LABEL_STYLES[score.label]}`}
+                                  >
+                                    {LEAD_LABEL_TEXT[score.label]} · {score.score}
+                                  </span>
+                                  {c.value != null && (
+                                    <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                                      {formatMoney(Number(c.value))}
+                                    </span>
+                                  )}
                                   <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">{c.email}</span>
                                   {c.discount_code && (
                                     <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
@@ -1393,6 +1585,7 @@ function ContactsTab({
                             <div className="border-t border-[var(--a-border)] p-5 text-[13px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.6)]">
                               <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Telefon:</span> {c.phone}</p>
                               {c.business_name && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Biznesi:</span> {c.business_name}</p>}
+                              {c.source_path && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Erdhi nga faqja:</span> {c.source_path}</p>}
                               <p className="mt-3 whitespace-pre-wrap"><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Mesazhi:</span> {c.message}</p>
 
                               {/* Quick actions */}
@@ -1406,7 +1599,74 @@ function ContactsTab({
                                 <a href={whatsappHref(c.phone)} target="_blank" rel="noreferrer" className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
                                   💬 WhatsApp
                                 </a>
+                                <button
+                                  onClick={() => openReply(c)}
+                                  className={`rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-colors ${
+                                    replyOpenFor === c.id
+                                      ? "border-accent/60 bg-accent/10 text-accent"
+                                      : "border-accent/40 text-accent hover:bg-accent/10"
+                                  }`}
+                                >
+                                  📨 Përgjigju nga paneli
+                                </button>
                               </div>
+
+                              {/* Reply composer */}
+                              {replyOpenFor === c.id && (
+                                <div className="mt-3 rounded-[2px] border border-accent/25 bg-accent/[0.04] p-4">
+                                  <div className="flex flex-wrap items-center gap-2">
+                                    <label className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+                                      Template:
+                                    </label>
+                                    {REPLY_TEMPLATES.map((t) => (
+                                      <button
+                                        key={t.id}
+                                        onClick={() => applyTemplate(c, t.id)}
+                                        className="font-ui rounded-full border border-[var(--a-border)] px-3 py-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                                      >
+                                        {t.label}
+                                      </button>
+                                    ))}
+                                  </div>
+                                  <input
+                                    type="text"
+                                    value={replySubject}
+                                    onChange={(e) => setReplySubject(e.target.value)}
+                                    placeholder="Subjekti"
+                                    className="font-ui mt-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                  />
+                                  <textarea
+                                    rows={5}
+                                    value={replyMessage}
+                                    onChange={(e) => setReplyMessage(e.target.value)}
+                                    placeholder="Mesazhi..."
+                                    className="font-ui mt-2 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                  />
+                                  <div className="mt-2 flex items-center gap-3">
+                                    <button
+                                      onClick={() => sendReply(c)}
+                                      disabled={replySending || !replySubject.trim() || !replyMessage.trim()}
+                                      className="font-ui rounded-[2px] bg-accent px-4 py-2 text-[11px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
+                                    >
+                                      {replySending ? "Duke dërguar…" : `Dërgo te ${c.email}`}
+                                    </button>
+                                    <button
+                                      onClick={() => setReplyOpenFor(null)}
+                                      className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+                                    >
+                                      Anulo
+                                    </button>
+                                    {replyResult && (
+                                      <span className={`text-[11px] ${replyResult.startsWith("✓") ? "text-emerald-400/80" : "text-red-400/80"}`}>
+                                        {replyResult}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="mt-2 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+                                    Email-i dërgohet i brenduar nga info@illyrianpixel.com dhe ruhet automatikisht te shënimet.
+                                  </p>
+                                </div>
+                              )}
 
                               {/* Tags */}
                               <div className="mt-4">
@@ -1463,8 +1723,8 @@ function ContactsTab({
                                 </select>
                               </div>
 
-                              {/* Assigned to + follow-up date */}
-                              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                              {/* Assigned to + follow-up date + vlera */}
+                              <div className="mt-4 grid gap-3 sm:grid-cols-3">
                                 <div>
                                   <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Caktuar tek</label>
                                   <input
@@ -1481,6 +1741,17 @@ function ContactsTab({
                                     type="date"
                                     value={followUpDraft[c.id] ?? c.follow_up_date ?? ""}
                                     onChange={(e) => setFollowUpDraft((d) => ({ ...d, [c.id]: e.target.value }))}
+                                    className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Vlera e mundshme (€)</label>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    value={valueDraft[c.id] ?? (c.value === null || c.value === undefined ? "" : String(c.value))}
+                                    onChange={(e) => setValueDraft((d) => ({ ...d, [c.id]: e.target.value }))}
+                                    placeholder="p.sh. 900"
                                     className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                 </div>
@@ -1782,10 +2053,12 @@ function SubscribersTab({
   subscribers,
   setSubscribers,
   jumpSearch,
+  broadcasts,
 }: {
   subscribers: Subscriber[];
   setSubscribers: (s: Subscriber[]) => void;
   jumpSearch?: { term: string; key: number } | null;
+  broadcasts: BroadcastStat[];
 }) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -1964,6 +2237,50 @@ function SubscribersTab({
         </div>
       </div>
 
+      {/* Statistika broadcast-esh — opens & clicks */}
+      {broadcasts.length > 0 && (
+        <div className={CARD + " mb-5 p-5"}>
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+            Broadcast-et e fundit — hapje & klikime
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-[12px]">
+              <thead>
+                <tr className="text-[10px] uppercase tracking-[0.12em] text-[rgb(var(--a-text-rgb)/0.35)]">
+                  <th className="pb-2 pr-4 font-semibold">Subjekti</th>
+                  <th className="pb-2 pr-4 font-semibold">Data</th>
+                  <th className="pb-2 pr-4 text-right font-semibold">Dërguar</th>
+                  <th className="pb-2 pr-4 text-right font-semibold">Hapje</th>
+                  <th className="pb-2 pr-4 text-right font-semibold">Open rate</th>
+                  <th className="pb-2 pr-4 text-right font-semibold">Klikime</th>
+                  <th className="pb-2 text-right font-semibold">CTR</th>
+                </tr>
+              </thead>
+              <tbody>
+                {broadcasts.map((b) => {
+                  const openRate = b.sent_count > 0 ? (b.opens / b.sent_count) * 100 : 0;
+                  const ctr = b.sent_count > 0 ? (b.clicks / b.sent_count) * 100 : 0;
+                  return (
+                    <tr key={b.id} className="border-t border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.65)]">
+                      <td className="max-w-[220px] truncate py-2.5 pr-4 text-[var(--a-text)]">{b.subject}</td>
+                      <td className="py-2.5 pr-4 whitespace-nowrap">{formatDate(b.created_at)}</td>
+                      <td className="py-2.5 pr-4 text-right">{b.sent_count}</td>
+                      <td className="py-2.5 pr-4 text-right">{b.opens}</td>
+                      <td className="py-2.5 pr-4 text-right text-accent">{openRate.toFixed(0)}%</td>
+                      <td className="py-2.5 pr-4 text-right">{b.clicks}</td>
+                      <td className="py-2.5 text-right text-accent">{ctr.toFixed(0)}%</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+            Hapjet maten me tracking pixel (disa klientë email-i i bllokojnë), klikimet nga lidhjet e email-it. Numrat janë persona unikë.
+          </p>
+        </div>
+      )}
+
       {/* Chart */}
       <SubscribersChart subscribers={subscribers} />
 
@@ -2097,7 +2414,16 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
 }
 
 // ── Blog tab ───────────────────────────────────────────────────────────────
-const EMPTY_FORM = { slug: "", title: "", category: "", excerpt: "", date: "", content: "" };
+const EMPTY_FORM = { slug: "", title: "", category: "", excerpt: "", date: "", content: "", scheduled: "" };
+
+// ISO → vlerë për input datetime-local (në orën lokale)
+function isoToLocalInput(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
 
 function BlogTab({
   posts,
@@ -2130,6 +2456,7 @@ function BlogTab({
       excerpt: post.excerpt,
       date: post.date,
       content: post.content.join("\n\n"),
+      scheduled: post.published === false ? isoToLocalInput(post.scheduled_for) : "",
     });
     setIsNewCategory(!categories.includes(post.category));
     setError("");
@@ -2151,6 +2478,9 @@ function BlogTab({
 
     setSaving(true);
     try {
+      const scheduledIso = form.scheduled ? new Date(form.scheduled).toISOString() : null;
+      const willBeScheduled = !!scheduledIso && new Date(form.scheduled).getTime() > Date.now();
+
       if (editingId) {
         const res = await fetch(`/api/admin/blog/${editingId}`, {
           method: "PATCH",
@@ -2161,6 +2491,7 @@ function BlogTab({
             excerpt: form.excerpt,
             date: form.date,
             content: form.content,
+            scheduled_for: scheduledIso,
           }),
         });
         const data = await res.json();
@@ -2178,6 +2509,8 @@ function BlogTab({
                   excerpt: form.excerpt,
                   date: form.date,
                   content: form.content.split("\n\n").map((s) => s.trim()).filter(Boolean),
+                  published: !willBeScheduled,
+                  scheduled_for: willBeScheduled ? scheduledIso : null,
                 }
               : p
           )
@@ -2186,7 +2519,7 @@ function BlogTab({
         const res = await fetch("/api/admin/blog", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
+          body: JSON.stringify({ ...form, scheduled_for: scheduledIso }),
         });
         const data = await res.json();
         if (!data.success) {
@@ -2291,6 +2624,28 @@ function BlogTab({
           className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
 
+        <div className="mt-3">
+          <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+            ⏰ Planifiko publikimin (ops. — lëre bosh për publikim të menjëhershëm)
+          </label>
+          <div className="flex flex-wrap items-center gap-3">
+            <input
+              type="datetime-local"
+              value={form.scheduled}
+              onChange={(e) => setForm((f) => ({ ...f, scheduled: e.target.value }))}
+              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+            {form.scheduled && (
+              <button
+                onClick={() => setForm((f) => ({ ...f, scheduled: "" }))}
+                className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+              >
+                Hiq planifikimin
+              </button>
+            )}
+          </div>
+        </div>
+
         {error && <p className="mt-2 text-[12px] text-red-400/80">{error}</p>}
 
         <div className="mt-4 flex gap-3">
@@ -2321,7 +2676,14 @@ function BlogTab({
         {posts.map((p) => (
           <div key={p.id} className={CARD + " flex items-center justify-between gap-4 p-5"}>
             <div className="min-w-0">
-              <p className="font-display font-semibold text-[var(--a-text)]">{p.title}</p>
+              <p className="font-display font-semibold text-[var(--a-text)]">
+                {p.title}
+                {p.published === false && p.scheduled_for && (
+                  <span className="ml-2 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2 py-0.5 text-[10px] font-semibold text-yellow-300">
+                    ⏰ Planifikuar · {formatDate(p.scheduled_for)}
+                  </span>
+                )}
+              </p>
               <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{p.category} · {p.date} · /blog/{p.slug}</p>
             </div>
             <div className="flex shrink-0 gap-2">
@@ -2367,7 +2729,54 @@ function BlogTab({
 }
 
 // ── Analytics tab ────────────────────────────────────────────────────────────
-function AnalyticsTab({ stats, contacts }: { stats: Stats; contacts: Contact[] }) {
+function AnalyticsTab({
+  stats,
+  contacts,
+  quotes,
+  visitors30,
+}: {
+  stats: Stats;
+  contacts: Contact[];
+  quotes: QuoteRecord[];
+  visitors30: number;
+}) {
+  const funnel = useMemo(() => {
+    const cutoff = Date.now() - 30 * 86400000;
+    const contacts30 = contacts.filter((c) => new Date(c.created_at).getTime() >= cutoff);
+    const quotes30 = quotes.filter((q) => new Date(q.created_at).getTime() >= cutoff && q.status !== "draft");
+    const won30 = contacts30.filter((c) => (c.status || "new") === "done");
+    return [
+      { label: "Vizitorë", value: visitors30 },
+      { label: "Kontakte", value: contacts30.length },
+      { label: "Oferta të dërguara", value: quotes30.length },
+      { label: "Fituar (mbyllur)", value: won30.length },
+    ];
+  }, [contacts, quotes, visitors30]);
+
+  const pipeline = useMemo(() => {
+    const open = contacts
+      .filter((c) => (c.status || "new") !== "done")
+      .reduce((sum, c) => sum + (Number(c.value) || 0), 0);
+    const won = contacts
+      .filter((c) => (c.status || "new") === "done")
+      .reduce((sum, c) => sum + (Number(c.value) || 0), 0);
+    const invoicesPaid = quotes
+      .filter((q) => q.kind === "invoice" && q.status === "paid")
+      .reduce((sum, q) => sum + quoteTotals(q.items, q.discount, q.tax_rate).total, 0);
+    return { open, won, invoicesPaid };
+  }, [contacts, quotes]);
+
+  const sources = useMemo(() => {
+    const map = new Map<string, number>();
+    contacts.forEach((c) => {
+      const key = c.source_path || "(e panjohur)";
+      map.set(key, (map.get(key) ?? 0) + 1);
+    });
+    return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 7);
+  }, [contacts]);
+
+  const funnelMax = Math.max(1, ...funnel.map((f) => f.value));
+
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
@@ -2378,6 +2787,86 @@ function AnalyticsTab({ stats, contacts }: { stats: Stats; contacts: Contact[] }
           🖨 Eksporto raport (PDF)
         </button>
       </div>
+
+      {/* Pipeline value */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className={CARD + " p-5"}>
+          <p className="font-display text-[1.7rem] font-bold text-accent">{formatMoney(pipeline.open)}</p>
+          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Pipeline i hapur (vlera e kontakteve aktive)</p>
+        </div>
+        <div className={CARD + " p-5"}>
+          <p className="font-display text-[1.7rem] font-bold text-emerald-400">{formatMoney(pipeline.won)}</p>
+          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Vlera e fituar (kontakte të mbyllura)</p>
+        </div>
+        <div className={CARD + " p-5"}>
+          <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{formatMoney(pipeline.invoicesPaid)}</p>
+          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Fatura të paguara (gjithsej)</p>
+        </div>
+      </div>
+
+      {/* Funnel */}
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          Funnel i konvertimit — 30 ditët e fundit
+        </p>
+        <div className="space-y-3">
+          {funnel.map((step, i) => {
+            const prev = i > 0 ? funnel[i - 1].value : null;
+            const rate = prev && prev > 0 ? (step.value / prev) * 100 : null;
+            return (
+              <div key={step.label}>
+                <div className="mb-1 flex items-center justify-between text-[12px]">
+                  <span className="text-[rgb(var(--a-text-rgb)/0.65)]">{step.label}</span>
+                  <span className="text-[rgb(var(--a-text-rgb)/0.45)]">
+                    {step.value.toLocaleString("sq-AL")}
+                    {rate !== null && <span className="ml-2 text-accent/70">({rate.toFixed(1)}%)</span>}
+                  </span>
+                </div>
+                <div className="h-3 rounded-full bg-[rgb(var(--a-text-rgb)/0.05)]">
+                  <div
+                    className="h-3 rounded-full bg-gradient-to-r from-accent/70 to-accent/35 transition-all"
+                    style={{ width: `${Math.max(2, (step.value / funnelMax) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-3 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+          Vizitorët maten nga tracking i brendshëm i faqeve (pa cookies). Oferta = dokumente jo-draft të krijuara në 30 ditët e fundit.
+        </p>
+      </div>
+
+      {/* Burimet e lead-eve */}
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          Nga cilat faqe vijnë kontaktet
+        </p>
+        {sources.length === 0 ? (
+          <EmptyState text="Ende pa të dhëna burimi." />
+        ) : (
+          <div className="space-y-3">
+            {sources.map(([path, count]) => {
+              const max = sources[0][1];
+              return (
+                <div key={path}>
+                  <div className="mb-1 flex items-center justify-between text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">
+                    <span className="truncate pr-3 font-mono text-[11px]">{path}</span>
+                    <span className="text-[rgb(var(--a-text-rgb)/0.35)]">{count}</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-[rgb(var(--a-text-rgb)/0.05)]">
+                    <div className="h-2 rounded-full bg-accent/50" style={{ width: `${(count / max) * 100}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        <p className="mt-3 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+          “(e panjohur)” janë kontakte të ardhura para aktivizimit të gjurmimit të burimit.
+        </p>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-3">
         <div className={CARD + " p-5"}>
           <p className="font-display text-[2rem] font-bold text-[var(--a-text)]">{stats.conversionRate.toFixed(1)}%</p>
@@ -2423,6 +2912,224 @@ function AnalyticsTab({ stats, contacts }: { stats: Stats; contacts: Contact[] }
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+// ── 2FA card ─────────────────────────────────────────────────────────────────
+function TwoFactorCard() {
+  const [enabled, setEnabled] = useState<boolean | null>(null);
+  const [setup, setSetup] = useState<{ secret: string; uri: string; qr: string } | null>(null);
+  const [token, setToken] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [disabling, setDisabling] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/2fa")
+      .then((r) => r.json())
+      .then((d) => setEnabled(!!d.enabled))
+      .catch(() => setEnabled(false));
+  }, []);
+
+  const startSetup = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/2fa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "setup" }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        setError(data.error ?? "Gabim.");
+        return;
+      }
+      // QR gjenerohet lokalisht — sekreti nuk del te asnjë shërbim i jashtëm
+      const QRCode = (await import("qrcode")).default;
+      const qr = await QRCode.toDataURL(data.uri, { margin: 1, width: 192 });
+      setSetup({ secret: data.secret, uri: data.uri, qr });
+      setToken("");
+    } catch {
+      setError("Gabim lidhjeje.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const confirmEnable = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/2fa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "enable", token }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        setError(data.error ?? "Gabim.");
+        return;
+      }
+      setEnabled(true);
+      setSetup(null);
+      setToken("");
+    } catch {
+      setError("Gabim lidhjeje.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const confirmDisable = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/2fa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "disable", token }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        setError(data.error ?? "Gabim.");
+        return;
+      }
+      setEnabled(false);
+      setDisabling(false);
+      setToken("");
+    } catch {
+      setError("Gabim lidhjeje.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className={CARD + " p-5"}>
+      <div className="mb-4 flex items-center justify-between">
+        <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          Verifikim me dy hapa (2FA)
+        </p>
+        {enabled !== null && (
+          <span
+            className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${
+              enabled
+                ? "border-emerald-400/30 bg-emerald-400/8 text-emerald-300"
+                : "border-[rgb(var(--a-text-rgb)/0.2)] text-[rgb(var(--a-text-rgb)/0.45)]"
+            }`}
+          >
+            {enabled ? "✓ Aktiv" : "Joaktiv"}
+          </span>
+        )}
+      </div>
+
+      {enabled === null && <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">Duke kontrolluar…</p>}
+
+      {enabled === false && !setup && (
+        <>
+          <p className="text-[12px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.5)]">
+            Shto një shtresë të dytë sigurie: pas fjalëkalimit do të kërkohet një kod 6-shifror nga
+            aplikacioni autentifikues (Google Authenticator, 1Password, Authy etj.).
+          </p>
+          <button
+            onClick={startSetup}
+            disabled={busy}
+            className="font-ui mt-4 rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+          >
+            {busy ? "Duke përgatitur…" : "Aktivizo 2FA"}
+          </button>
+        </>
+      )}
+
+      {setup && (
+        <div className="flex flex-wrap items-start gap-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={setup.qr} alt="Kodi QR për 2FA" className="h-44 w-44 rounded-lg bg-white p-2" />
+          <div className="min-w-[240px] flex-1">
+            <p className="text-[12px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.6)]">
+              1. Skano kodin QR me aplikacionin autentifikues.<br />
+              2. Ose shtoje manualisht me këtë sekret:
+            </p>
+            <code className="mt-2 block break-all rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 font-mono text-[11px] text-accent">
+              {setup.secret}
+            </code>
+            <p className="mt-3 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">3. Shkruaj kodin 6-shifror për ta konfirmuar:</p>
+            <div className="mt-2 flex items-center gap-2">
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={token}
+                onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
+                placeholder="000000"
+                className="font-mono w-32 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[16px] tracking-[0.3em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              <button
+                onClick={confirmEnable}
+                disabled={busy || token.length !== 6}
+                className="font-ui rounded-[2px] bg-accent px-4 py-2 text-[12px] font-bold text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
+              >
+                {busy ? "…" : "Konfirmo"}
+              </button>
+              <button
+                onClick={() => setSetup(null)}
+                className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+              >
+                Anulo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {enabled === true && (
+        <>
+          <p className="text-[12px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.5)]">
+            Hyrja kërkon fjalëkalimin + kodin 6-shifror nga aplikacioni autentifikues.
+          </p>
+          {!disabling ? (
+            <button
+              onClick={() => {
+                setDisabling(true);
+                setToken("");
+                setError("");
+              }}
+              className="font-ui mt-4 rounded-[2px] border border-red-400/30 px-4 py-2 text-[12px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10"
+            >
+              Çaktivizo 2FA
+            </button>
+          ) : (
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={token}
+                onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
+                placeholder="Kodi aktual"
+                className="font-mono w-36 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[14px] tracking-[0.25em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              <button
+                onClick={confirmDisable}
+                disabled={busy || token.length !== 6}
+                className="font-ui rounded-[2px] border border-red-400/40 px-4 py-2 text-[12px] font-semibold text-red-400 transition-colors hover:bg-red-400/10 disabled:opacity-40"
+              >
+                {busy ? "…" : "Konfirmo çaktivizimin"}
+              </button>
+              <button
+                onClick={() => setDisabling(false)}
+                className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+              >
+                Anulo
+              </button>
+            </div>
+          )}
+        </>
+      )}
+
+      {error && <p className="mt-3 text-[12px] text-red-400/80">{error}</p>}
     </div>
   );
 }
@@ -2502,6 +3209,85 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
           Këto vlera përdoren në email-et e newsletter-it (kodi i zbritjes dhe lidhja WhatsApp).
         </p>
       </div>
+
+      <div className={CARD + " p-5"}>
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+            Popup &quot;Para se të largoheni&quot; (exit-intent)
+          </p>
+          <label className="flex cursor-pointer items-center gap-2 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">
+            <input
+              type="checkbox"
+              checked={settings.popup_enabled === "1"}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_enabled: e.target.checked ? "1" : "0" }))}
+              className="h-3.5 w-3.5 accent-[#ab8339]"
+            />
+            Aktiv
+          </label>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              Mbititulli
+            </label>
+            <input
+              type="text"
+              value={settings.popup_eyebrow}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_eyebrow: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              Titulli
+            </label>
+            <input
+              type="text"
+              value={settings.popup_title}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_title: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              Teksti
+            </label>
+            <input
+              type="text"
+              value={settings.popup_text}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_text: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              Butoni (CTA)
+            </label>
+            <input
+              type="text"
+              value={settings.popup_cta}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_cta: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+        </div>
+        <div className="mt-4 flex items-center gap-3">
+          <button
+            onClick={save}
+            disabled={saving}
+            className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+          >
+            {saving ? "Duke ruajtur…" : "Ruaj"}
+          </button>
+          {saved && <span className="text-[11px] text-emerald-400/80">U ruajt.</span>}
+          {error && <span className="text-[11px] text-red-400/80">{error}</span>}
+        </div>
+        <p className="mt-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">
+          Popup-i shfaqet një herë për sesion kur vizitori bëhet gati të largohet nga faqja. Ndryshimet hyjnë në fuqi brenda ~5 minutash.
+        </p>
+      </div>
+
+      <TwoFactorCard />
 
       <div className={CARD + " p-5"}>
         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">

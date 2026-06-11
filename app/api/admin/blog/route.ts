@@ -40,6 +40,13 @@ export async function POST(req: Request) {
     ? content
     : String(content || "").split("\n\n").map((p: string) => p.trim()).filter(Boolean);
 
+  // Publikim i planifikuar — nëse ora është në të ardhmen, posti pret deri atëherë
+  const scheduledFor =
+    typeof body.scheduled_for === "string" && body.scheduled_for
+      ? new Date(body.scheduled_for)
+      : null;
+  const isScheduled = !!scheduledFor && !Number.isNaN(scheduledFor.getTime()) && scheduledFor.getTime() > Date.now();
+
   const { data, error } = await supabase
     .from("blog_posts")
     .insert({
@@ -49,6 +56,8 @@ export async function POST(req: Request) {
       excerpt,
       content: contentArray,
       date,
+      published: !isScheduled,
+      scheduled_for: isScheduled ? scheduledFor!.toISOString() : null,
     })
     .select()
     .single();

@@ -48,7 +48,12 @@ const supabase = createClient(
 );
 
 async function getDbPostBySlug(slug: string) {
-  const { data } = await supabase.from("blog_posts").select("*").eq("slug", slug).maybeSingle();
+  const { data } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("slug", slug)
+    .or(`published.eq.true,scheduled_for.lte.${new Date().toISOString()}`)
+    .maybeSingle();
   return data;
 }
 
@@ -57,6 +62,7 @@ async function getOtherPosts(slug: string) {
     .from("blog_posts")
     .select("slug, title, category, excerpt, date")
     .neq("slug", slug)
+    .or(`published.eq.true,scheduled_for.lte.${new Date().toISOString()}`)
     .order("created_at", { ascending: false })
     .limit(10);
   return data ?? [];

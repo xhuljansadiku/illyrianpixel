@@ -5,7 +5,15 @@ import Image from "next/image";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
-const quotes = [
+export type TestimonialItem = {
+  quote: string;
+  name: string;
+  company: string | null;
+  result: string | null;
+  logo: string | null;
+};
+
+const quotes: TestimonialItem[] = [
   {
     quote: "Më përpara na duhej t'u shpjegonim njerëzve çdo gjë nga fillimi në telefon. Website-i na ka shpëtuar, sepse tani klientët vijnë gati të informuar. Futen, shohin punët tona dhe kur na shkruajnë, e dinë fiks çfarë duan. Na ka kursyer pafund kohë.",
     name: "Mariglent S.",
@@ -36,7 +44,8 @@ const quotes = [
   }
 ];
 
-export default function Testimonials() {
+export default function Testimonials({ items }: { items?: TestimonialItem[] }) {
+  const list = items && items.length > 0 ? items : quotes;
   const sectionRef = useRef<HTMLElement | null>(null);
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -68,7 +77,7 @@ export default function Testimonials() {
         <h2 className="testimonial-reveal section-title mt-3 max-w-4xl">{"Çfarë thonë klientët"}</h2>
         <p className="testimonial-reveal mt-4 max-w-[480px] font-body text-[0.94rem] font-light leading-relaxed tracking-[0.02em] text-white/45">{"Rezultate reale nga bashkëpunime reale."}</p>
         <div className="mt-10 space-y-8">
-          {quotes.map((item) => (
+          {list.map((item) => (
             <article key={item.name} className="testimonial-reveal relative border-t border-white/10 pt-7">
               <span className="pointer-events-none absolute left-0 top-4 font-display text-6xl leading-none text-accent/18">“</span>
               <p className="max-w-4xl pl-6 text-[1.1rem] leading-relaxed text-white/84 md:text-[1.35rem]">
@@ -79,19 +88,27 @@ export default function Testimonials() {
                 ))}
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-3 pl-6 text-sm text-white/62">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5">
-                  <Image
-                    src={item.logo}
-                    alt={item.company}
-                    width={36}
-                    height={36}
-                    className="h-full w-full object-contain p-1"
-                  />
-                </span>
+                {item.logo && (
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5">
+                    <Image
+                      src={item.logo}
+                      alt={item.company ?? item.name}
+                      width={36}
+                      height={36}
+                      className="h-full w-full object-contain p-1"
+                    />
+                  </span>
+                )}
                 <span className="text-white/88">{item.name}</span>
-                <span>•</span>
-                <span>{item.company}</span>
-                <span className="rounded-full border border-accent/30 px-2 py-0.5 text-accent/85">{item.result}</span>
+                {item.company && (
+                  <>
+                    <span>•</span>
+                    <span>{item.company}</span>
+                  </>
+                )}
+                {item.result && (
+                  <span className="rounded-full border border-accent/30 px-2 py-0.5 text-accent/85">{item.result}</span>
+                )}
               </div>
             </article>
           ))}

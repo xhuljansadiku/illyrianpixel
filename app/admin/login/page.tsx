@@ -7,6 +7,8 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [token, setToken] = useState("");
+  const [step, setStep] = useState<"password" | "token">("password");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -19,13 +21,17 @@ export default function AdminLoginPage() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ password, token: token || undefined }),
       });
       const data = await res.json();
 
       if (data.success) {
         router.push("/admin");
         router.refresh();
+      } else if (data.requires2fa) {
+        // Fjalëkalimi i saktë — kërkohet kodi nga aplikacioni autentifikues
+        setStep("token");
+        setError(data.error ?? "");
       } else {
         setError(data.error ?? "Fjalëkalim i gabuar.");
       }
@@ -43,7 +49,7 @@ export default function AdminLoginPage() {
         <h1 className="mt-3 font-display text-[1.6rem] font-bold text-white">Admin</h1>
 
         <form onSubmit={onSubmit} className="mt-7 space-y-4">
-          <div>
+          <div className={step === "token" ? "hidden" : ""}>
             <label className="font-display mb-2 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
               Fjalëkalimi
             </label>
@@ -77,14 +83,46 @@ export default function AdminLoginPage() {
             </div>
           </div>
 
+          {step === "token" && (
+            <div>
+              <label className="font-display mb-2 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
+                Kodi 2FA
+              </label>
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={token}
+                onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
+                autoFocus
+                placeholder="000000"
+                className="w-full border-b border-[#262626] bg-transparent py-3 text-center font-mono text-[22px] tracking-[0.4em] text-white outline-none transition-colors duration-300 focus:border-accent"
+              />
+              <p className="mt-2 text-[11px] text-white/35">
+                Shkruaj kodin 6-shifror nga aplikacioni autentifikues.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setStep("password");
+                  setToken("");
+                  setError("");
+                }}
+                className="mt-2 text-[11px] text-white/35 transition-colors hover:text-white/70"
+              >
+                ← Kthehu te fjalëkalimi
+              </button>
+            </div>
+          )}
+
           {error && <p className="text-[12px] text-red-400/80">{error}</p>}
 
           <button
             type="submit"
-            disabled={loading || !password}
+            disabled={loading || !password || (step === "token" && token.length !== 6)}
             className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {loading ? "Duke hyrë…" : "Hyr"}
+            {loading ? "Duke hyrë…" : step === "token" ? "Verifiko" : "Hyr"}
           </button>
         </form>
       </div>

@@ -199,8 +199,29 @@ export function followUpReminderEmailHtml(contacts: ReminderContact[]): string {
 </html>`;
 }
 
-export function broadcastEmailHtml(subject: string, message: string, whatsappUrl: string = NEWSLETTER_BRAND.whatsapp): string {
+export type BroadcastTracking = {
+  broadcastId: string;
+  email: string;
+};
+
+export function broadcastEmailHtml(
+  subject: string,
+  message: string,
+  whatsappUrl: string = NEWSLETTER_BRAND.whatsapp,
+  tracking?: BroadcastTracking
+): string {
   const BRAND = { ...NEWSLETTER_BRAND, whatsapp: whatsappUrl };
+
+  // Open/click tracking — vetëm kur dërgohet si broadcast i regjistruar
+  const enc = tracking ? Buffer.from(tracking.email).toString("base64url") : "";
+  const wrap = (url: string) =>
+    tracking
+      ? `${NEWSLETTER_BRAND.website}/api/newsletter/track/click?b=${tracking.broadcastId}&e=${enc}&u=${encodeURIComponent(url)}`
+      : url;
+  const pixel = tracking
+    ? `<img src="${NEWSLETTER_BRAND.website}/api/newsletter/track/open?b=${tracking.broadcastId}&e=${enc}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0;" />`
+    : "";
+
   const safeMessage = message
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -236,7 +257,7 @@ export function broadcastEmailHtml(subject: string, message: string, whatsappUrl
             <table cellpadding="0" cellspacing="0">
               <tr>
                 <td style="background:#ab8339;border-radius:8px;">
-                  <a href="${BRAND.website}" style="display:inline-block;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
+                  <a href="${wrap(BRAND.website)}" style="display:inline-block;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
                     Vizito website-in →
                   </a>
                 </td>
@@ -250,9 +271,9 @@ export function broadcastEmailHtml(subject: string, message: string, whatsappUrl
           <td style="padding:24px 48px;border-top:1px solid rgba(255,255,255,0.05);background:#0d0d0d;">
             <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.22);line-height:1.7;">
               Illyrian Pixel · Agjenci Dixhitale Premium · Tiranë, Shqipëri<br>
-              <a href="${BRAND.website}" style="color:rgba(171,131,57,0.5);text-decoration:none;">illyrianpixel.com</a>
+              <a href="${wrap(BRAND.website)}" style="color:rgba(171,131,57,0.5);text-decoration:none;">illyrianpixel.com</a>
               &nbsp;·&nbsp;
-              <a href="${BRAND.whatsapp}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>
+              <a href="${wrap(BRAND.whatsapp)}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>
             </p>
           </td>
         </tr>
@@ -260,6 +281,7 @@ export function broadcastEmailHtml(subject: string, message: string, whatsappUrl
       </table>
     </td></tr>
   </table>
+  ${pixel}
 </body>
 </html>`;
 }

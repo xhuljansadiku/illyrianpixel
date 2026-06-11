@@ -20,6 +20,7 @@ export default async function BlogPage() {
   const { data } = await supabase
     .from("blog_posts")
     .select("slug, title, category, excerpt, date")
+    .or(`published.eq.true,scheduled_for.lte.${new Date().toISOString()}`)
     .order("created_at", { ascending: false });
 
   return <BlogPageClient dbPosts={data ?? []} />;

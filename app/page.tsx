@@ -2,6 +2,8 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { faqSchema } from "@/lib/seo";
+import { getVisibleTestimonials, getVisiblePortfolioItems, getVisibleFaqs } from "@/lib/publicContent";
+import type { FeaturedItem } from "@/components/FeaturedWorkGrid";
 // Critical above-fold — static imports (SSR + no layout shift)
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
@@ -40,7 +42,39 @@ export const metadata: Metadata = {
   }
 };
 
-export default function HomePage() {
+// Rifresko çdo 5 min — testimonialet/portofoli menaxhohen nga admini
+export const revalidate = 300;
+
+export default async function HomePage() {
+  const [testimonialRows, portfolioRows, faqRows] = await Promise.all([
+    getVisibleTestimonials().catch(() => []),
+    getVisiblePortfolioItems().catch(() => []),
+    getVisibleFaqs().catch(() => []),
+  ]);
+
+  const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer }));
+
+  const testimonialItems = testimonialRows.map((t) => ({
+    quote: t.quote,
+    name: t.name,
+    company: t.company,
+    result: t.result,
+    logo: t.logo,
+  }));
+
+  const portfolioItems: FeaturedItem[] = portfolioRows.map((p) => ({
+    slug: `db-${p.id}`,
+    title: p.title,
+    category: p.category ?? "",
+    location: p.location ?? "",
+    flagCodes: [],
+    intro: p.description ?? "",
+    metrics: p.result ? [p.result] : [],
+    tags: p.tags ?? [],
+    heroImage: p.image_url,
+    liveUrl: p.live_url ?? "",
+  }));
+
   return (
     <>
       <SectionAura />
@@ -61,10 +95,10 @@ export default function HomePage() {
         <Services />
         <PseNe />
         <TrustedClients />
-        <FeaturedWork />
-        <Testimonials />
+        <FeaturedWork items={portfolioItems} />
+        <Testimonials items={testimonialItems} />
         <Process />
-        <FAQ />
+        <FAQ items={faqItems} />
 
         {/* CTA pas FAQ */}
         <section className="relative border-b border-white/[0.06] bg-[#080808]">

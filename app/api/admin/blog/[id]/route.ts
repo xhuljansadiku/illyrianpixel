@@ -21,6 +21,17 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       : String(content || "").split("\n\n").map((p: string) => p.trim()).filter(Boolean);
   }
 
+  if (body.scheduled_for !== undefined) {
+    const scheduledFor = body.scheduled_for ? new Date(String(body.scheduled_for)) : null;
+    if (scheduledFor && !Number.isNaN(scheduledFor.getTime()) && scheduledFor.getTime() > Date.now()) {
+      update.scheduled_for = scheduledFor.toISOString();
+      update.published = false;
+    } else {
+      update.scheduled_for = null;
+      update.published = true;
+    }
+  }
+
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ success: false, error: "Asgjë për të përditësuar." }, { status: 400 });
   }

@@ -7,7 +7,13 @@
       "Bash(npm run *)",
       "Read(//tmp/**)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/admin/login)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/admin)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/admin)",
+      "Bash(cd \"c:\\\\Kodi\\\\illyrianpixel\" && sed -i 's/contact_id: Number\\(params.id\\)/contact_id: params.id/g' \"app/api/admin/contacts/[id]/route.ts\" && grep -n \"contact_id:\" \"app/api/admin/contacts/[id]/route.ts\")",
+      "PowerShell(npm run build)",
+      "PowerShell(git add -A)"
+    ],
+    "additionalDirectories": [
+      "C:\\Kodi\\illyrianpixel\\app\\api\\admin\\contacts\\[id]"
     ]
   }
 }

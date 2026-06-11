@@ -8,6 +8,11 @@ const supabase = createClient(
 export const SITE_SETTINGS_DEFAULTS = {
   newsletter_discount_code: "ILLYRIAN10",
   whatsapp_number: "355694726827",
+  popup_enabled: "1",
+  popup_eyebrow: "Para se të largoheni",
+  popup_title: "Merrni një konsultë falas sot.",
+  popup_text: "Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.",
+  popup_cta: "Konsultë falas →",
 };
 
 export type SiteSettingsKey = keyof typeof SITE_SETTINGS_DEFAULTS;

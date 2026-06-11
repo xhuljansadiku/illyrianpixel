@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata, buildServiceSchema, seo as seoConfig } from "@/lib/seo";
 import { serviceCategoryBySlug } from "@/lib/serviceCategories";
+import { applyOverridesToCategory } from "@/lib/pricingOverrides";
+import { getPricingOverrides } from "@/lib/publicContent";
 import ServiceCategoryDetailPage from "@/components/ServiceCategoryDetailPage";
 
 const SERVICE_SLUGS = [
@@ -63,11 +65,15 @@ const SERVICE_LABELS: Record<(typeof SERVICE_SLUGS)[number], string> = {
   mirembajtja: "Mirëmbajtja",
 };
 
+export const revalidate = 300;
+
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await Promise.resolve(params);
   if (!SERVICE_SLUGS.includes(slug as (typeof SERVICE_SLUGS)[number])) notFound();
-  const category = serviceCategoryBySlug(slug);
-  if (!category) notFound();
+  const baseCategory = serviceCategoryBySlug(slug);
+  if (!baseCategory) notFound();
+  const overrides = await getPricingOverrides().catch(() => ({}));
+  const category = applyOverridesToCategory(baseCategory, overrides);
 
   const serviceSchema = buildServiceSchema(
     SERVICE_LABELS[slug as (typeof SERVICE_SLUGS)[number]],

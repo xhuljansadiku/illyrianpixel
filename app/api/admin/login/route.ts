@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { ADMIN_SESSION_COOKIE, getAdminSessionToken } from "@/lib/adminAuth";
+import { verifyTotp } from "@/lib/totp";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,7 +12,7 @@ const LOCKOUT_THRESHOLD = 5;
 const LOCKOUT_WINDOW_MINUTES = 15;
 
 export async function POST(req: Request) {
-  const { password } = await req.json();
+  const { password, token: totpToken } = await req.json();
 
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
@@ -34,13 +35,33 @@ export async function POST(req: Request) {
     );
   }
 
-  const success = !!process.env.ADMIN_PASSWORD && password === process.env.ADMIN_PASSWORD;
+  const passwordOk = !!process.env.ADMIN_PASSWORD && password === process.env.ADMIN_PASSWORD;
 
-  await supabase.from("admin_logins").insert({ success, ip, user_agent: userAgent });
-
-  if (!success) {
+  if (!passwordOk) {
+    await supabase.from("admin_logins").insert({ success: false, ip, user_agent: userAgent });
     return NextResponse.json({ success: false, error: "Fjalëkalim i gabuar." }, { status: 401 });
   }
+
+  // 2FA — nëse është aktivizuar, kërko kodin TOTP
+  const { data: totpRows } = await supabase
+    .from("site_settings")
+    .select("key, value")
+    .in("key", ["totp_enabled", "totp_secret"]);
+  const totp: Record<string, string> = {};
+  for (const row of totpRows ?? []) totp[row.key] = row.value;
+
+  if (totp.totp_enabled === "1" && totp.totp_secret) {
+    if (!totpToken) {
+      // Hap i ndërmjetëm — fjalëkalimi i saktë, pritet kodi (nuk logohet si dështim)
+      return NextResponse.json({ success: false, requires2fa: true });
+    }
+    if (!verifyTotp(totp.totp_secret, String(totpToken))) {
+      await supabase.from("admin_logins").insert({ success: false, ip, user_agent: userAgent });
+      return NextResponse.json({ success: false, requires2fa: true, error: "Kod 2FA i pavlefshëm." }, { status: 401 });
+    }
+  }
+
+  await supabase.from("admin_logins").insert({ success: true, ip, user_agent: userAgent });
 
   const token = await getAdminSessionToken();
   const res = NextResponse.json({ success: true });

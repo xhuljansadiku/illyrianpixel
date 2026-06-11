@@ -6,6 +6,7 @@ import "./globals.css";
 import { localBusinessSchema, organizationSchema, websiteSchema, seo } from "@/lib/seo";
 import SmoothScroll from "@/components/SmoothScroll";
 import WebVitals from "@/components/WebVitals";
+import PageViewTracker from "@/components/PageViewTracker";
 // Defer non-critical layout components — do not block initial HTML paint
 const InteractiveGlow       = dynamic(() => import("@/components/InteractiveGlow"),       { ssr: false });
 const MagneticButtons       = dynamic(() => import("@/components/MagneticButtons"),       { ssr: false });
@@ -173,6 +174,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
 
         <WebVitals />
+        <PageViewTracker />
         <Preloader />
         <SmoothScroll>
           <InteractiveGlow />
