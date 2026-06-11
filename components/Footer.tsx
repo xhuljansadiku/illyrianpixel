@@ -237,12 +237,12 @@ export default function Footer() {
           <p className="font-body text-[12px] font-light tracking-[0.08em] text-white/25 md:tracking-[0.1em]">
             © 2026 Illyrian Pixel ·{" "}
             <a
-              href="https://commons.wikimedia.org/wiki/File:Face_of_King_Gentius_on_Ancient_Illyrian_coin.jpg"
+              href="https://commons.wikimedia.org/wiki/File:King_Gentius_of_Illyria,_King_Gent.png"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white"
             >
-              Foto Gentius: Wikimedia Commons (CC BY 3.0)
+              Foto Gentius: Wikimedia Commons (CC BY-SA 3.0)
             </a>
           </p>
           <div className="flex items-center justify-center gap-6">
