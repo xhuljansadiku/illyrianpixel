@@ -175,8 +175,6 @@ export default function KingGenti() {
     setInput("");
   };
 
-  if (reduced) return null;
-
   return (
     <div className="fixed bottom-20 left-4 z-[96] md:bottom-6 md:left-6">
       {open ? (
