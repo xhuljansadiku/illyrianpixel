@@ -235,15 +235,7 @@ export default function Footer() {
         {/* ── Bottom bar ── */}
         <div className="footer-reveal footer-bottom mt-16 flex flex-col items-center gap-4 border-t border-white/[0.07] pt-5 pb-[40px] text-center md:mt-20 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-3 md:text-left">
           <p className="font-body text-[12px] font-light tracking-[0.08em] text-white/25 md:tracking-[0.1em]">
-            © 2026 Illyrian Pixel ·{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:King_Gentius_of_Illyria,_King_Gent.png"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white"
-            >
-              Foto Gentius: Wikimedia Commons (CC BY-SA 3.0)
-            </a>
+            © 2026 Illyrian Pixel
           </p>
           <div className="flex items-center justify-center gap-6">
 
