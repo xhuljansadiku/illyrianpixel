@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import {
   DndContext,
   PointerSensor,
@@ -57,6 +57,7 @@ type Contact = {
   tags: string[] | null;
   value: number | null;
   source_path: string | null;
+  viewed_at: string | null;
 };
 
 type BroadcastStat = {
@@ -381,6 +382,7 @@ export default function AdminDashboard({
   const [recurringList, setRecurringList] = useState(recurring);
   const [faqsList, setFaqsList] = useState(faqs);
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
   const [contactsJump, setContactsJump] = useState<{ term: string; key: number } | null>(null);
@@ -434,6 +436,29 @@ export default function AdminDashboard({
     const timer = setTimeout(() => setToasts((t) => t.slice(1)), 6000);
     return () => clearTimeout(timer);
   }, [toasts]);
+
+  // Bllokon scroll-in e sfondit dhe mbyll me Escape kur menyja mobile është hapur
+  useEffect(() => {
+    if (!mobileNavOpen) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileNavOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [mobileNavOpen]);
+
+  // Mbyll menynë mobile automatikisht nëse ekrani bëhet desktop
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMobileNavOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const toggleTheme = () => {
     setTheme((t) => {
@@ -542,47 +567,110 @@ export default function AdminDashboard({
         </div>
       )}
 
+      {/* Mobile nav drawer */}
+      {mobileNavOpen && (
+        <div className="fixed inset-0 z-[100] md:hidden">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]"
+            onClick={() => setMobileNavOpen(false)}
+            aria-hidden
+          />
+          <aside className="animate-drawer-in absolute left-0 top-0 flex h-full w-72 max-w-[82vw] flex-col border-r border-[var(--a-border)] bg-[var(--a-card2)] p-4 shadow-2xl">
+            <div className="flex items-center gap-3 px-1">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[15px] font-bold text-accent">
+                IP
+              </div>
+              <div className="min-w-0">
+                <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+                <h1 className="font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">Admin Panel</h1>
+              </div>
+              <button
+                onClick={() => setMobileNavOpen(false)}
+                aria-label="Mbyll menynë"
+                className="ml-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[14px] text-[rgb(var(--a-text-rgb)/0.5)] transition-colors hover:text-[var(--a-text)]"
+              >
+                ✕
+              </button>
+            </div>
+
+            <nav className="mt-5 flex flex-1 flex-col gap-1 overflow-y-auto">
+              <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} onNavigate={() => setMobileNavOpen(false)} />
+              <div className="mt-1 px-1">
+                <NotificationsBell
+                  setTab={(t) => {
+                    setTab(t);
+                    setMobileNavOpen(false);
+                  }}
+                  inline
+                  dropUp={false}
+                />
+              </div>
+            </nav>
+
+            <div className="mt-3 flex flex-col gap-2 border-t border-[var(--a-border)] pt-3">
+              <button
+                onClick={toggleTheme}
+                className="font-ui flex items-center justify-center gap-2 rounded-xl border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+              >
+                {theme === "dark" ? "☀ Mënyra e ndritshme" : "☾ Mënyra e errët"}
+              </button>
+              <button
+                onClick={logout}
+                className="font-ui flex items-center justify-center gap-2 rounded-xl border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-red-400/40 hover:text-red-400"
+              >
+                ⏻ Dil
+              </button>
+            </div>
+          </aside>
+        </div>
+      )}
+
       {/* Sidebar (desktop) */}
       <aside
         className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[var(--a-border)] bg-[var(--a-card2)] py-8 transition-all duration-200 md:flex ${
           collapsed ? "w-[68px] px-2" : "w-60 px-4"
         }`}
       >
-        <div className={`flex items-center justify-between ${collapsed ? "px-0" : "px-2"}`}>
+        <div className={`flex items-center gap-3 ${collapsed ? "flex-col" : "px-2"}`}>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[15px] font-bold text-accent">
+            IP
+          </div>
           {!collapsed && (
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-              <h1 className="mt-2 font-display text-[1.4rem] font-bold text-[var(--a-text)]">Admin Panel</h1>
+            <div className="min-w-0">
+              <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+              <h1 className="font-display text-[1.25rem] font-bold leading-tight text-[var(--a-text)]">Admin Panel</h1>
             </div>
           )}
-          <div className={`flex items-center gap-1.5 ${collapsed ? "mx-auto mt-1 flex-col" : ""}`}>
-            <NotificationsBell setTab={setTab} collapsed={collapsed} />
-            <button
-              onClick={toggleTheme}
-              title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
-              className="rounded-[2px] border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
-            >
-              {theme === "dark" ? "☀" : "☾"}
-            </button>
-            <button
-              onClick={toggleCollapsed}
-              title={collapsed ? "Zgjero menynë" : "Mbylle menynë"}
-              className="rounded-[2px] border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
-            >
-              {collapsed ? "»" : "«"}
-            </button>
-          </div>
+        </div>
+
+        <div className={`mt-4 flex items-center gap-1.5 ${collapsed ? "flex-col" : "px-2"}`}>
+          <button
+            onClick={toggleTheme}
+            title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
+            className={`rounded-lg border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] ${
+              collapsed ? "" : "flex-1"
+            }`}
+          >
+            {theme === "dark" ? "☀" : "☾"}
+          </button>
+          <button
+            onClick={toggleCollapsed}
+            title={collapsed ? "Zgjero menynë" : "Mbylle menynë"}
+            className="rounded-lg border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+          >
+            {collapsed ? "»" : "«"}
+          </button>
         </div>
 
         {/* Global search */}
         {!collapsed && (
-          <div className="relative mt-6 px-2">
+          <div className="relative mt-5 px-2">
             <input
               type="text"
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
               placeholder="🔍 Kërko gjithçka..."
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
             {globalResults && (
               <div className="absolute left-2 right-2 top-full z-40 mt-1 max-h-80 overflow-y-auto rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] shadow-xl">
@@ -644,41 +732,18 @@ export default function AdminDashboard({
           </div>
         )}
 
-        <nav className="mt-6 flex flex-1 flex-col gap-1">
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setTab(item.id)}
-              title={collapsed ? item.label : undefined}
-              className={`font-ui flex items-center justify-between rounded-[2px] px-3 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-colors duration-200 ${
-                tab === item.id
-                  ? "bg-accent/10 text-[var(--a-text)] border-l-2 border-accent"
-                  : "text-[rgb(var(--a-text-rgb)/0.45)] border-l-2 border-transparent hover:text-[rgb(var(--a-text-rgb)/0.8)] hover:bg-[rgb(var(--a-text-rgb)/0.03)]"
-              }`}
-            >
-              <span className="flex items-center gap-2">
-                <span className="relative">
-                  {item.icon}
-                  {!!item.alert && (
-                    <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-[var(--a-text)]">
-                      {item.alert > 9 ? "9+" : item.alert}
-                    </span>
-                  )}
-                </span>
-                {!collapsed && item.label}
-              </span>
-              {!collapsed && item.count !== undefined && (
-                <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{item.count}</span>
-              )}
-            </button>
-          ))}
+        <nav className="mt-6 flex flex-1 flex-col gap-1 overflow-y-auto">
+          <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} collapsed={collapsed} />
+          <div className={collapsed ? "mt-1 flex justify-center" : "mt-1 px-1"}>
+            <NotificationsBell setTab={setTab} collapsed={collapsed} inline />
+          </div>
         </nav>
         <button
           onClick={logout}
           title={collapsed ? "Dil" : undefined}
-          className="font-ui mt-4 rounded-[2px] border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-accent/50 hover:text-[var(--a-text)]"
+          className="font-ui mt-4 flex items-center justify-center gap-2 rounded-xl border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-red-400/40 hover:text-red-400"
         >
-          {collapsed ? "⏻" : "Dil"}
+          {collapsed ? "⏻" : "⏻ Dil"}
         </button>
       </aside>
 
@@ -686,33 +751,22 @@ export default function AdminDashboard({
       <main className="min-w-0 flex-1 px-5 py-8 md:px-10 md:py-10">
         <div className="mx-auto max-w-5xl">
           {/* Mobile header */}
-          <div className="flex items-center justify-between md:hidden">
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-              <h1 className="mt-2 font-display text-[1.8rem] font-bold text-[var(--a-text)]">Admin Panel</h1>
+          <div className="sticky top-0 z-30 -mx-5 mb-1 flex items-center gap-3 border-b border-[var(--a-border)] bg-[var(--a-bg)]/85 px-5 py-3 backdrop-blur-md md:hidden">
+            <button
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Hap menynë"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[15px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
+            >
+              ☰
+            </button>
+            <div className="min-w-0 flex-1">
+              <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+              <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{TAB_TITLES[tab].title}</h1>
             </div>
-            <div className="flex items-center gap-2">
-              <NotificationsBell setTab={setTab} />
-              <button
-                onClick={logout}
-                className="font-ui rounded-[2px] border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-accent/50 hover:text-[var(--a-text)]"
-              >
-                Dil
-              </button>
-            </div>
+            <NotificationsBell setTab={setTab} />
           </div>
 
-          {/* Mobile tabs */}
-          <div className="mt-6 flex gap-2 overflow-x-auto border-b border-[var(--a-border)] md:hidden">
-            {NAV_ITEMS.map((item) => (
-              <TabButton key={item.id} active={tab === item.id} onClick={() => setTab(item.id)}>
-                {item.icon} {item.label}{item.count !== undefined ? ` (${item.count})` : ""}
-                {!!item.alert && <span className="ml-1 text-red-400">●</span>}
-              </TabButton>
-            ))}
-          </div>
-
-          {/* Page title */}
+          {/* Page title (desktop) */}
           <div className="mt-6 hidden md:block">
             <h2 className="font-display text-[1.6rem] font-bold text-[var(--a-text)]">{TAB_TITLES[tab].title}</h2>
             <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{TAB_TITLES[tab].subtitle}</p>
@@ -804,17 +858,69 @@ function StatCard({ label, value }: { label: string; value: number }) {
   );
 }
 
-// ── Tab button ─────────────────────────────────────────────────────────────
-function TabButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+// Numri i item-eve "kryesore" para ndarëses "Menaxhimi" në sidebar
+const MAIN_NAV_COUNT = 6;
+
+// ── Sidebar / drawer navigation (e ndarë mes desktop dhe mobile) ────────────
+function SidebarNav({
+  navItems,
+  tab,
+  setTab,
+  collapsed,
+  onNavigate,
+}: {
+  navItems: { id: AdminTab; icon: string; label: string; count?: number; alert?: number }[];
+  tab: AdminTab;
+  setTab: (t: AdminTab) => void;
+  collapsed?: boolean;
+  onNavigate?: () => void;
+}) {
   return (
-    <button
-      onClick={onClick}
-      className={`font-ui px-4 py-3 text-[13px] font-semibold tracking-[0.3px] transition-colors duration-300 ${
-        active ? "border-b-2 border-accent text-[var(--a-text)]" : "text-[rgb(var(--a-text-rgb)/0.4)] hover:text-[rgb(var(--a-text-rgb)/0.7)]"
-      }`}
-    >
-      {children}
-    </button>
+    <>
+      {navItems.map((item, i) => (
+        <Fragment key={item.id}>
+          {i === MAIN_NAV_COUNT &&
+            (collapsed ? (
+              <div className="my-2 border-t border-[var(--a-border)]" />
+            ) : (
+              <p className="mb-1 mt-4 px-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-[rgb(var(--a-text-rgb)/0.25)]">
+                Menaxhimi
+              </p>
+            ))}
+          <button
+            onClick={() => {
+              setTab(item.id);
+              onNavigate?.();
+            }}
+            title={collapsed ? item.label : undefined}
+            className={`font-ui flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-all duration-200 ${
+              tab === item.id
+                ? "bg-[rgb(var(--a-text-rgb)/0.07)] text-[var(--a-text)]"
+                : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.03)] hover:text-[rgb(var(--a-text-rgb)/0.8)]"
+            } ${collapsed ? "justify-center" : "justify-between"}`}
+          >
+            <span className="flex min-w-0 items-center gap-3">
+              <span
+                className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[15px] transition-colors ${
+                  tab === item.id ? "bg-accent/15" : "bg-[rgb(var(--a-text-rgb)/0.04)]"
+                }`}
+              >
+                {item.icon}
+                {!!item.alert && (
+                  <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-[var(--a-card2)]">
+                    {item.alert > 9 ? "9+" : item.alert}
+                  </span>
+                )}
+              </span>
+              {!collapsed && <span className="truncate">{item.label}</span>}
+            </span>
+            {!collapsed && item.count !== undefined && (
+              <span className="shrink-0 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{item.count}</span>
+            )}
+          </button>
+        </Fragment>
+      ))}
+    </>
   );
 }
 
@@ -1140,6 +1246,7 @@ function ContactsTab({
     setViewMode("kanban");
     setSearch(c.email);
     setExpanded(c.id);
+    markViewed(c);
   };
 
   useEffect(() => {
@@ -1262,6 +1369,17 @@ function ContactsTab({
   const deleteLegacyNote = (c: Contact) => {
     if (!confirm("Të fshihet ky shënim i vjetër?")) return;
     updateContact(c.id, { notes: "" });
+  };
+
+  const markViewed = (c: Contact) => {
+    if (c.viewed_at) return;
+    const now = new Date().toISOString();
+    setContacts(contacts.map((x) => (x.id === c.id ? { ...x, viewed_at: now } : x)));
+    fetch(`/api/admin/contacts/${c.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ viewed: true }),
+    }).catch(() => {});
   };
 
   const updateContact = async (
@@ -1582,12 +1700,25 @@ function ContactsTab({
                               className="mt-1.5 accent-accent"
                             />
                             <button
-                              onClick={() => setExpanded(expanded === c.id ? null : c.id)}
+                              onClick={() => {
+                                const next = expanded === c.id ? null : c.id;
+                                setExpanded(next);
+                                if (next !== null) markViewed(c);
+                              }}
                               className="flex flex-1 items-center justify-between gap-4 pr-6 text-left"
                             >
                               <div className="min-w-0 flex-1">
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                   <span className="font-display font-semibold text-[var(--a-text)]">{c.name}</span>
+                                  {c.viewed_at ? (
+                                    <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] bg-[rgb(var(--a-text-rgb)/0.05)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]">
+                                      ✓ E lexuar
+                                    </span>
+                                  ) : (
+                                    <span className="animate-pulse rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-accent">
+                                      🆕 I ri
+                                    </span>
+                                  )}
                                   <span
                                     title={`Lead score: ${score.score}/100\n${score.reasons.join("\n")}`}
                                     className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${LEAD_LABEL_STYLES[score.label]}`}

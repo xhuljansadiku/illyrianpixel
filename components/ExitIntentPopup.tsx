@@ -6,6 +6,8 @@ import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPref
 
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 const SESSION_KEY = "ip_exit_shown";
+const TOTAL_SHOWN_KEY = "ip_exit_shown_total";
+const MAX_TOTAL_SHOWS = 2;
 
 // Tekstet default — mbivendosen nga cilësimet e adminit (site_settings)
 const DEFAULTS = {
@@ -23,6 +25,9 @@ export default function ExitIntentPopup() {
 
   useEffect(() => {
     if (sessionStorage.getItem(SESSION_KEY)) return;
+
+    const totalShows = Number(localStorage.getItem(TOTAL_SHOWN_KEY) || "0");
+    if (totalShows >= MAX_TOTAL_SHOWS) return;
 
     // Merr cilësimet nga admini — nëse popup-i është i çaktivizuar, mos e shfaq fare
     fetch("/api/popup")
@@ -49,6 +54,7 @@ export default function ExitIntentPopup() {
       if (!readyRef.current || !enabledRef.current) return;
       if (e.clientY <= 8) {
         sessionStorage.setItem(SESSION_KEY, "1");
+        localStorage.setItem(TOTAL_SHOWN_KEY, String(totalShows + 1));
         setVisible(true);
       }
     };

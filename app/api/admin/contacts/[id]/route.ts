@@ -28,6 +28,10 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     logs.push({ contact_id: params.id, action: "status", detail: STATUS_LABELS[body.status] });
   }
 
+  if (body.viewed === true) {
+    update.viewed_at = new Date().toISOString();
+  }
+
   if (typeof body.notes === "string") {
     update.notes = body.notes.slice(0, 4000);
   }
