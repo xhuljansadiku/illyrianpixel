@@ -112,7 +112,7 @@ export default function FloatingCTA() {
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
       style={{
-        bottom: isMobile ? "calc(var(--social-proof-height, 0px) + 28px)" : "24px",
+        bottom: isMobile ? "28px" : "24px",
         right: isMobile ? "50%" : "24px",
         left: isMobile ? "50%" : "auto",
         transform: visible

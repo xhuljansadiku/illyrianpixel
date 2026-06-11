@@ -22,7 +22,6 @@ const NewsletterSection  = dynamic(() => import("@/components/NewsletterSection"
 
 const BrandSignature    = dynamic(() => import("@/components/BrandSignature"),    { ssr: false });
 const EasterEggOverlay  = dynamic(() => import("@/components/EasterEggOverlay"),  { ssr: false });
-const SocialProofToasts = dynamic(() => import("@/components/SocialProofToasts"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Web Design & Marketing Premium Shqipëri | Illyrian Pixel",
@@ -84,7 +83,6 @@ export default async function HomePage() {
       <div className="site-vignette" />
       <BrandSignature />
       <EasterEggOverlay />
-      <SocialProofToasts />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
