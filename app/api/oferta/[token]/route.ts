@@ -50,10 +50,11 @@ export async function POST(req: Request, { params }: { params: { token: string }
   }
 
   const now = new Date().toISOString();
+  // Pastro datën e kundërt — vetëm përgjigja e fundit vlen
   const updates =
     action === "accept"
-      ? { status: "accepted", accepted_at: now, client_note: note, updated_at: now }
-      : { status: "rejected", declined_at: now, client_note: note, updated_at: now };
+      ? { status: "accepted", accepted_at: now, declined_at: null, client_note: note, updated_at: now }
+      : { status: "rejected", declined_at: now, accepted_at: null, client_note: note, updated_at: now };
 
   const { data: updated, error: updateError } = await supabase
     .from("quotes")

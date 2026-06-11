@@ -682,6 +682,13 @@ export default function QuotesTab({
         )}
         {filtered.map((q) => {
           const totals = quoteTotals(q.items, q.discount, q.tax_rate);
+          // Përgjigja e klientit ndjek statusin AKTUAL (jo datat — mund të ekzistojnë të dyja nga ndryshime statusi)
+          const clientResponse =
+            q.status === "rejected" && q.declined_at
+              ? { accepted: false, at: q.declined_at }
+              : (q.status === "accepted" || q.status === "paid") && q.accepted_at
+                ? { accepted: true, at: q.accepted_at }
+                : null;
           return (
             <div key={q.id} className={CARD + " p-5"}>
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -716,20 +723,20 @@ export default function QuotesTab({
               </div>
 
               {/* Përgjigja e klientit nga faqja publike */}
-              {(q.client_note || q.accepted_at || q.declined_at) && (
+              {(clientResponse || q.client_note) && (
                 <div
                   className={`mt-3 rounded-[2px] border px-3.5 py-2.5 text-[12px] ${
-                    q.accepted_at
-                      ? "border-emerald-400/25 bg-emerald-400/5"
-                      : q.declined_at
-                        ? "border-red-400/25 bg-red-400/5"
-                        : "border-[var(--a-border)] bg-[rgb(var(--a-text-rgb)/0.03)]"
+                    clientResponse
+                      ? clientResponse.accepted
+                        ? "border-emerald-400/25 bg-emerald-400/5"
+                        : "border-red-400/25 bg-red-400/5"
+                      : "border-[var(--a-border)] bg-[rgb(var(--a-text-rgb)/0.03)]"
                   }`}
                 >
-                  {(q.accepted_at || q.declined_at) && (
-                    <p className={`font-semibold ${q.accepted_at ? "text-emerald-400/90" : "text-red-400/80"}`}>
-                      {q.accepted_at ? "✓ Pranuar nga klienti" : "✖ Refuzuar nga klienti"} ·{" "}
-                      {new Date((q.accepted_at ?? q.declined_at)!).toLocaleString("sq-AL", {
+                  {clientResponse && (
+                    <p className={`font-semibold ${clientResponse.accepted ? "text-emerald-400/90" : "text-red-400/80"}`}>
+                      {clientResponse.accepted ? "✓ Pranuar nga klienti" : "✖ Refuzuar nga klienti"} ·{" "}
+                      {new Date(clientResponse.at).toLocaleString("sq-AL", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
@@ -739,7 +746,9 @@ export default function QuotesTab({
                     </p>
                   )}
                   {q.client_note && (
-                    <p className="mt-1 italic text-[rgb(var(--a-text-rgb)/0.65)]">💬 &quot;{q.client_note}&quot;</p>
+                    <p className={`italic text-[rgb(var(--a-text-rgb)/0.65)] ${clientResponse ? "mt-1" : ""}`}>
+                      {clientResponse && !clientResponse.accepted ? "Arsyeja: " : ""}💬 &quot;{q.client_note}&quot;
+                    </p>
                   )}
                 </div>
               )}
