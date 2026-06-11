@@ -34,7 +34,8 @@ export default function ContentTab({
   setPortfolioItems,
   pricingCatalog,
   initialOverrides,
-  initialFaqs,
+  faqs,
+  setFaqs,
 }: {
   testimonials: TestimonialRow[];
   setTestimonials: (t: TestimonialRow[]) => void;
@@ -42,10 +43,10 @@ export default function ContentTab({
   setPortfolioItems: (p: PortfolioRow[]) => void;
   pricingCatalog: PricingCatalogEntry[];
   initialOverrides: PricingOverrides;
-  initialFaqs: FaqRow[];
+  faqs: FaqRow[];
+  setFaqs: (f: FaqRow[]) => void;
 }) {
   const [section, setSection] = useState<"testimonials" | "portfolio" | "pricing" | "faqs">("testimonials");
-  const [faqs, setFaqs] = useState(initialFaqs);
 
   return (
     <div>

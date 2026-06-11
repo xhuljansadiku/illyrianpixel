@@ -45,13 +45,14 @@ function formatDay(iso: string) {
 }
 
 export default function ProjectsTab({
-  initialProjects,
+  projects,
+  setProjects,
   contacts,
 }: {
-  initialProjects: ProjectRecord[];
+  projects: ProjectRecord[];
+  setProjects: React.Dispatch<React.SetStateAction<ProjectRecord[]>>;
   contacts: QuoteContact[];
 }) {
-  const [projects, setProjects] = useState(initialProjects);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState<ProjectForm>(EMPTY_FORM);

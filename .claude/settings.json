@@ -11,7 +11,17 @@
       "Bash(cd \"c:\\\\Kodi\\\\illyrianpixel\" && sed -i 's/contact_id: Number\\(params.id\\)/contact_id: params.id/g' \"app/api/admin/contacts/[id]/route.ts\" && grep -n \"contact_id:\" \"app/api/admin/contacts/[id]/route.ts\")",
       "PowerShell(npm run build)",
       "PowerShell(git add -A)",
-      "PowerShell(npm run build 2>&1)"
+      "PowerShell(npm run build 2>&1)",
+      "PowerShell(curl.exe -s -o NUL -w \"GET /oferta/test = %{http_code}\" https://illyrianpixel.com/oferta/test)",
+      "PowerShell(curl.exe -s -X POST -H \"Content-Type: application/json\" --data \"{}\" https://illyrianpixel.com/api/oferta/test -w \" | POST /api/oferta/test = %{http_code}\")",
+      "PowerShell(\"\")",
+      "PowerShell(git push origin main)",
+      "PowerShell(curl.exe -s -X PATCH -H \"Content-Type: application/json\" --data \"{\\\\\"done\\\\\":true}\" https://illyrianpixel.com/api/admin/project-tasks/1 -w \" [%{http_code}]\")",
+      "PowerShell(curl.exe -s -X PATCH -H \"Content-Type: application/json\" --data \"{\\\\\"status\\\\\":\\\\\"active\\\\\"}\" https://illyrianpixel.com/api/admin/projects/1 -w \" [%{http_code}]\")",
+      "PowerShell(curl.exe -s -X PATCH -H \"Content-Type: application/json\" --data \"{\\\\\"done\\\\\":true}\" https://illyrianpixel.com/api/admin/project-tasks/1 -w \" [%{http_code}]\" --show-error)",
+      "PowerShell(curl.exe -s -o NUL -w \"GET project-tasks/1 = %{http_code}\" https://illyrianpixel.com/api/admin/project-tasks/1)",
+      "PowerShell(Get-Content c:\\\\Kodi\\\\illyrianpixel\\\\.env.local | ForEach-Object { \\($_ -split '='\\)[0] })",
+      "PowerShell($env_ = @{}; Get-Content c:\\\\Kodi\\\\illyrianpixel\\\\.env.local | ForEach-Object { $k,$v = $_ -split '=',2; if \\($k\\) { $env_[$k.Trim\\(\\)] = $v.Trim\\(\\) } }; $url = $env_['NEXT_PUBLIC_SUPABASE_URL']; $key = $env_['SUPABASE_SERVICE_ROLE_KEY']; $r = Invoke-RestMethod -Uri \"$url/rest/v1/project_tasks?select=id,project_id,title,done&order=id\" -Headers @{ apikey = $key; Authorization = \"Bearer $key\" }; $r | Format-Table id, project_id, done, title -AutoSize)"
     ],
     "additionalDirectories": [
       "C:\\Kodi\\illyrianpixel\\app\\api\\admin\\contacts\\[id]",

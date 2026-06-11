@@ -46,13 +46,14 @@ function formItemsToQuoteItems(items: RecurringForm["items"]): QuoteItem[] {
 }
 
 export default function RecurringInvoices({
-  initialRecurring,
+  rows,
+  setRows,
   contacts,
 }: {
-  initialRecurring: RecurringInvoice[];
+  rows: RecurringInvoice[];
+  setRows: React.Dispatch<React.SetStateAction<RecurringInvoice[]>>;
   contacts: QuoteContact[];
 }) {
-  const [rows, setRows] = useState(initialRecurring);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState<RecurringForm>(EMPTY_FORM);

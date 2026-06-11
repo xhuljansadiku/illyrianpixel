@@ -181,13 +181,15 @@ export default function QuotesTab({
   quotes,
   setQuotes,
   contacts,
-  initialRecurring,
+  recurring,
+  setRecurring,
   prefill,
 }: {
   quotes: QuoteRecord[];
   setQuotes: (q: QuoteRecord[]) => void;
   contacts: QuoteContact[];
-  initialRecurring: RecurringInvoice[];
+  recurring: RecurringInvoice[];
+  setRecurring: React.Dispatch<React.SetStateAction<RecurringInvoice[]>>;
   prefill?: { contact: QuoteContact; key: number } | null;
 }) {
   const [view, setView] = useState<"docs" | "recurring">("docs");
@@ -430,7 +432,7 @@ export default function QuotesTab({
       <div className="mb-5 flex gap-2 overflow-x-auto">
         {([
           ["docs", `🧾 Dokumentet (${quotes.length})`],
-          ["recurring", `🔁 Të rikurrueshme (${initialRecurring.length})`],
+          ["recurring", `🔁 Të rikurrueshme (${recurring.length})`],
         ] as const).map(([id, label]) => (
           <button
             key={id}
@@ -446,7 +448,7 @@ export default function QuotesTab({
         ))}
       </div>
 
-      {view === "recurring" && <RecurringInvoices initialRecurring={initialRecurring} contacts={contacts} />}
+      {view === "recurring" && <RecurringInvoices rows={recurring} setRows={setRecurring} contacts={contacts} />}
 
       {view === "docs" && (
       <>

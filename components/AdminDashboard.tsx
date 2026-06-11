@@ -359,6 +359,10 @@ export default function AdminDashboard({
   const [quotes, setQuotes] = useState(initialQuotes);
   const [testimonials, setTestimonials] = useState(initialTestimonials);
   const [portfolioItems, setPortfolioItems] = useState(initialPortfolioItems);
+  // Gjendja mbahet këtu (jo brenda tab-eve) që të mos humbasë kur ndërrohen tab-et
+  const [projectsList, setProjectsList] = useState(projects);
+  const [recurringList, setRecurringList] = useState(recurring);
+  const [faqsList, setFaqsList] = useState(faqs);
   const [collapsed, setCollapsed] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
@@ -442,7 +446,7 @@ export default function AdminDashboard({
     { id: "overview", icon: "🏠", label: "Përmbledhje" },
     { id: "contacts", icon: "📇", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
     { id: "quotes", icon: "🧾", label: "Oferta & Fatura", count: quotes.length },
-    { id: "projects", icon: "📁", label: "Projektet", count: projects.length },
+    { id: "projects", icon: "📁", label: "Projektet", count: projectsList.length },
     { id: "subscribers", icon: "✉️", label: "Newsletter", count: subscribers.length },
     { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
     { id: "content", icon: "🎨", label: "Përmbajtja" },
@@ -713,13 +717,15 @@ export default function AdminDashboard({
                 quotes={quotes}
                 setQuotes={setQuotes}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
-                initialRecurring={recurring}
+                recurring={recurringList}
+                setRecurring={setRecurringList}
                 prefill={quotePrefill}
               />
             )}
             {tab === "projects" && (
               <ProjectsTab
-                initialProjects={projects}
+                projects={projectsList}
+                setProjects={setProjectsList}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
               />
             )}
@@ -742,7 +748,8 @@ export default function AdminDashboard({
                 setPortfolioItems={setPortfolioItems}
                 pricingCatalog={pricingCatalog}
                 initialOverrides={pricingOverrides}
-                initialFaqs={faqs}
+                faqs={faqsList}
+                setFaqs={setFaqsList}
               />
             )}
             {tab === "analytics" && (
