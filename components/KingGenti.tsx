@@ -176,7 +176,7 @@ export default function KingGenti() {
   };
 
   return (
-    <div className="fixed bottom-20 left-4 z-[96] md:bottom-6 md:left-6">
+    <div className="fixed bottom-[88px] right-4 z-[96] flex flex-col items-end md:right-6">
       {open ? (
         <div
           ref={panelRef}
