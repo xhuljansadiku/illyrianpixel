@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   QUOTE_KIND_LABELS,
   QUOTE_STATUS_LABELS,
@@ -182,11 +182,13 @@ export default function QuotesTab({
   setQuotes,
   contacts,
   initialRecurring,
+  prefill,
 }: {
   quotes: QuoteRecord[];
   setQuotes: (q: QuoteRecord[]) => void;
   contacts: QuoteContact[];
   initialRecurring: RecurringInvoice[];
+  prefill?: { contact: QuoteContact; key: number } | null;
 }) {
   const [view, setView] = useState<"docs" | "recurring">("docs");
   const [showForm, setShowForm] = useState(false);
@@ -199,6 +201,23 @@ export default function QuotesTab({
   const [busyId, setBusyId] = useState<number | null>(null);
   const [sentId, setSentId] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
+
+  // Hapur nga butoni "🧾 Krijo ofertë" te kontakti — formular i ri me klientin gati
+  useEffect(() => {
+    if (!prefill) return;
+    setForm({
+      ...EMPTY_FORM,
+      contact_id: String(prefill.contact.id),
+      client_name: prefill.contact.name,
+      client_email: prefill.contact.email,
+      client_business: prefill.contact.business_name ?? "",
+    });
+    setEditingId(null);
+    setError("");
+    setView("docs");
+    setShowForm(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefill?.key]);
 
   const copyPublicLink = async (q: QuoteRecord) => {
     if (!q.public_token) return;

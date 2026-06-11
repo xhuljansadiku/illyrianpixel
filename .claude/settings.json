@@ -10,10 +10,12 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/admin)",
       "Bash(cd \"c:\\\\Kodi\\\\illyrianpixel\" && sed -i 's/contact_id: Number\\(params.id\\)/contact_id: params.id/g' \"app/api/admin/contacts/[id]/route.ts\" && grep -n \"contact_id:\" \"app/api/admin/contacts/[id]/route.ts\")",
       "PowerShell(npm run build)",
-      "PowerShell(git add -A)"
+      "PowerShell(git add -A)",
+      "PowerShell(npm run build 2>&1)"
     ],
     "additionalDirectories": [
-      "C:\\Kodi\\illyrianpixel\\app\\api\\admin\\contacts\\[id]"
+      "C:\\Kodi\\illyrianpixel\\app\\api\\admin\\contacts\\[id]",
+      "C:\\Kodi\\illyrianpixel\\.git"
     ]
   }
 }

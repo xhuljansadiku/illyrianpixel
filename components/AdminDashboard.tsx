@@ -11,7 +11,7 @@ import {
   useSensors,
   type DragEndEvent,
 } from "@dnd-kit/core";
-import QuotesTab from "@/components/admin/QuotesTab";
+import QuotesTab, { type QuoteContact } from "@/components/admin/QuotesTab";
 import ContentTab, { type PricingCatalogEntry } from "@/components/admin/ContentTab";
 import ProjectsTab from "@/components/admin/ProjectsTab";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
@@ -364,6 +364,7 @@ export default function AdminDashboard({
   const [globalSearch, setGlobalSearch] = useState("");
   const [contactsJump, setContactsJump] = useState<{ term: string; key: number } | null>(null);
   const [subscribersJump, setSubscribersJump] = useState<{ term: string; key: number } | null>(null);
+  const [quotePrefill, setQuotePrefill] = useState<{ contact: QuoteContact; key: number } | null>(null);
   const [toasts, setToasts] = useState<{ id: string; text: string }[]>([]);
   const lastCheckRef = useRef(new Date().toISOString());
 
@@ -484,6 +485,15 @@ export default function AdminDashboard({
     setTab("subscribers");
     setSubscribersJump({ term, key: Date.now() });
     setGlobalSearch("");
+  };
+
+  // Kontakt → Ofertë me një klik: hap tab-in e ofertave me klientin të parambushur
+  const createQuoteForContact = (c: Contact) => {
+    setQuotePrefill({
+      contact: { id: c.id, name: c.name, email: c.email, business_name: c.business_name },
+      key: Date.now(),
+    });
+    setTab("quotes");
   };
 
   return (
@@ -695,13 +705,16 @@ export default function AdminDashboard({
             {tab === "overview" && (
               <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} onGoToContact={goToContact} />
             )}
-            {tab === "contacts" && <ContactsTab contacts={contacts} setContacts={setContacts} jumpSearch={contactsJump} />}
+            {tab === "contacts" && (
+              <ContactsTab contacts={contacts} setContacts={setContacts} jumpSearch={contactsJump} onCreateQuote={createQuoteForContact} />
+            )}
             {tab === "quotes" && (
               <QuotesTab
                 quotes={quotes}
                 setQuotes={setQuotes}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
                 initialRecurring={recurring}
+                prefill={quotePrefill}
               />
             )}
             {tab === "projects" && (
@@ -1045,10 +1058,12 @@ function ContactsTab({
   contacts,
   setContacts,
   jumpSearch,
+  onCreateQuote,
 }: {
   contacts: Contact[];
   setContacts: (c: Contact[]) => void;
   jumpSearch?: { term: string; key: number } | null;
+  onCreateQuote: (c: Contact) => void;
 }) {
   const [search, setSearch] = useState("");
   const [serviceFilter, setServiceFilter] = useState("Të gjitha");
@@ -1608,6 +1623,12 @@ function ContactsTab({
                                   }`}
                                 >
                                   📨 Përgjigju nga paneli
+                                </button>
+                                <button
+                                  onClick={() => onCreateQuote(c)}
+                                  className="rounded-full border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10"
+                                >
+                                  🧾 Krijo ofertë
                                 </button>
                               </div>
 

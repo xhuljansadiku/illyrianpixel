@@ -66,6 +66,39 @@ export async function POST(req: Request, { params }: { params: { token: string }
     return NextResponse.json({ success: false, error: "Diçka shkoi keq. Provoni sërish." }, { status: 500 });
   }
 
+  // Ofertë e pranuar → krijo projektin vetë me checklist-ën standarde (best-effort)
+  if (action === "accept") {
+    try {
+      const { data: project } = await supabase
+        .from("projects")
+        .insert({
+          contact_id: quote.contact_id,
+          name: `${quote.client_business || quote.client_name} — ${quote.number}`,
+          client_name: quote.client_name,
+          phase: "discovery",
+          notes: `Krijuar automatikisht nga pranimi i ofertës ${quote.number}.`,
+        })
+        .select("id")
+        .single();
+
+      if (project) {
+        const DEFAULT_TASKS = [
+          "Takim nisjeje me klientin",
+          "Mbledhja e materialeve (logo, tekste, foto)",
+          "Dizajni i parë për miratim",
+          "Zhvillimi",
+          "Rishikim me klientin",
+          "Lansimi + trajnimi",
+        ];
+        await supabase
+          .from("project_tasks")
+          .insert(DEFAULT_TASKS.map((title, i) => ({ project_id: project.id, title, sort: i })));
+      }
+    } catch {
+      // projekti mund të krijohet edhe manualisht — mos e blloko pranimin
+    }
+  }
+
   // Njofto adminin — mos e blloko përgjigjen e klientit nëse email-i dështon
   const record = updated as QuoteRecord;
   const total = formatMoney(quoteTotals(record.items, record.discount, record.tax_rate).total);
