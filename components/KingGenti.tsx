@@ -43,7 +43,7 @@ function buildReply(rawText: string, data: AssistantData | null): Message {
   if (WHO_WORDS.test(text)) {
     return {
       role: "bot",
-      text: "Unë jam King Genti 👑 — asistenti virtual i Illyrian Pixel. Të ndihmoj me çmime, shërbime dhe pyetje të shpeshta. Çfarë të intereson?",
+      text: "Unë jam Mbreti Genti 👑 — asistenti virtual i Illyrian Pixel. Të ndihmoj me çmime, shërbime dhe pyetje të shpeshta. Çfarë të intereson?",
     };
   }
 
@@ -129,7 +129,7 @@ export default function KingGenti() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "bot",
-      text: "Tungjatjeta! Unë jam King Genti 👑 — asistenti i Illyrian Pixel. Pyesni për çmime, shërbime, ose afate dhe ju ndihmoj menjëherë.",
+      text: "Tungjatjeta!\nUnë jam Mbreti Genti 👑\nAsistenti i Illyrian Pixel.\nPyesni për çmime, shërbime, ose afate dhe ju ndihmoj menjëherë.",
     },
   ]);
   const reduced = useReducedMotion();
@@ -185,7 +185,7 @@ export default function KingGenti() {
           <div className="mb-3 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Image src="/images/king-gentius-portrait.png" alt="" width={22} height={22} className="rounded-full object-cover" />
-              <p className="text-[11px] tracking-[0.2em] text-accent/90">KING GENTI</p>
+              <p className="text-[11px] tracking-[0.2em] text-accent/90">MBRETI GENTI</p>
             </div>
             <button type="button" className="text-white/55 hover:text-white" aria-label="Mbyll" onClick={() => setOpen(false)}>
               ×
@@ -239,7 +239,7 @@ export default function KingGenti() {
         data-magnetic="true"
         className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/14 bg-[#0b0b0b]/85 shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition hover:border-accent/45"
         aria-expanded={open}
-        aria-label="Hap King Genti — asistenti i Illyrian Pixel"
+        aria-label="Hap Mbretin Genti — asistenti i Illyrian Pixel"
       >
         <Image src="/images/king-gentius-portrait.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
       </button>
