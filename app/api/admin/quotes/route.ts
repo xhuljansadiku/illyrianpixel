@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { parseQuoteItems } from "@/lib/quotes";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -74,6 +75,7 @@ export async function POST(req: Request) {
       .single();
 
     if (!error) {
+      await logActivity("quote", "create", `U krijua ${kind === "invoice" ? "fatura" : "oferta"} ${number} për ${clientName}`);
       return NextResponse.json({ success: true, quote: data });
     }
     if (error.code !== "23505") {

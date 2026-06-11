@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { replyEmailHtml } from "@/lib/adminEmails";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -44,6 +45,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
   // Regjistro në historik + si shënim që të mbetet gjurmë e plotë
   await supabase.from("contact_logs").insert({ contact_id: contact.id, action: "email", detail: subject });
+  await logActivity("contact", "send", `Iu dërgua email ${contact.name} — "${subject}"`);
   const { data: note } = await supabase
     .from("contact_notes")
     .insert({ contact_id: contact.id, text: `📧 Email i dërguar — "${subject}"\n\n${message}` })

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -40,14 +41,22 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+  if (body.visible !== undefined) {
+    await logActivity("testimonial", "update", `Testimoniali i ${data.name} u ${data.visible ? "shfaq" : "fsheh"}`);
+  } else if (body.sort === undefined) {
+    await logActivity("testimonial", "update", `U editua testimoniali i ${data.name}`);
+  }
   return NextResponse.json({ success: true, testimonial: data });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("testimonials").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("testimonials").delete().eq("id", params.id).select("name");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("testimonial", "delete", `U fshi testimoniali i ${data[0].name}`);
   }
   return NextResponse.json({ success: true });
 }

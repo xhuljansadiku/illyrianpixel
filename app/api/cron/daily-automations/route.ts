@@ -10,6 +10,7 @@ import {
 } from "@/lib/adminEmails";
 import { insertQuoteWithNumber } from "@/lib/quotesServer";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -172,6 +173,11 @@ export async function GET(req: Request) {
     publishedPosts > 0;
 
   if (hasActivity) {
+    // Regjistro në Histori çfarë bënë automatizimet sot
+    if (publishedPosts > 0) await logActivity("auto", "publish", `U publikuan vetë ${publishedPosts} artikuj të planifikuar`);
+    for (const q of remindedQuotes) await logActivity("auto", "send", `U dërgua kujtues oferte për ${q}`);
+    for (const q of remindedInvoices) await logActivity("auto", "send", `U dërgua kujtues pagese për ${q}`);
+    for (const q of generatedInvoices) await logActivity("auto", "create", `U gjenerua vetë fatura e rikurruese ${q}`);
     try {
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,

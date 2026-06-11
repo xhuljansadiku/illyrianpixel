@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
+import { logActivity } from "@/lib/activityLog";
 
 const RATE_LIMIT = 3;
 const WINDOW_SECONDS = 60 * 60; // 1 orë
@@ -135,6 +136,8 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
+
+    await logActivity("client", "create", `Erdhi kontakt i ri: ${name} (${service || "pa shërbim"}, ${budget || "pa buxhet"})`);
 
     // Njoftim instant në Telegram — best-effort, s'bllokon asgjë
     let waDigits = String(phone).replace(/\D/g, "");

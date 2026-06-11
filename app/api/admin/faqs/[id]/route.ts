@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -41,14 +42,24 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  if (typeof body.visible === "boolean") {
+    await logActivity("faq", "update", `Pyetja FAQ "${data.question}" u ${body.visible ? "shfaq" : "fsheh"}`);
+  } else if (body.sort === undefined || typeof body.question === "string" || typeof body.answer === "string") {
+    await logActivity("faq", "update", `U editua pyetja FAQ "${data.question}"`);
+  }
+
   return NextResponse.json({ success: true, faq: data });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("faqs").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("faqs").delete().eq("id", params.id).select("question");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("faq", "delete", `U fshi pyetja FAQ "${data[0].question}"`);
   }
   return NextResponse.json({ success: true });
 }

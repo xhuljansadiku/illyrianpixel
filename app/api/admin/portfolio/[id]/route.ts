@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -49,14 +50,22 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+  if (body.visible !== undefined) {
+    await logActivity("portfolio", "update", `Projekti i portofolit "${data.title}" u ${data.visible ? "shfaq" : "fsheh"}`);
+  } else if (body.sort === undefined) {
+    await logActivity("portfolio", "update", `U editua projekti i portofolit "${data.title}"`);
+  }
   return NextResponse.json({ success: true, item: data });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("portfolio_items").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("portfolio_items").delete().eq("id", params.id).select("title");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("portfolio", "delete", `U fshi projekti i portofolit "${data[0].title}"`);
   }
   return NextResponse.json({ success: true });
 }

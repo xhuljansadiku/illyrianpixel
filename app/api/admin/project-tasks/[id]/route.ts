@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -37,14 +38,22 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  if (typeof body.done === "boolean") {
+    await logActivity("task", "update", `Detyra "${data.title}" u shënua ${body.done ? "e kryer ✓" : "e pakryer"}`);
+  }
+
   return NextResponse.json({ success: true, task: data });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("project_tasks").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("project_tasks").delete().eq("id", params.id).select("title");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("task", "delete", `U fshi detyra "${data[0].title}"`);
   }
   return NextResponse.json({ success: true });
 }

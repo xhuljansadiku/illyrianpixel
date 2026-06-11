@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -36,20 +37,26 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     return NextResponse.json({ success: false, error: "Asgjë për të përditësuar." }, { status: 400 });
   }
 
-  const { error } = await supabase.from("blog_posts").update(update).eq("id", params.id);
+  const { data, error } = await supabase.from("blog_posts").update(update).eq("id", params.id).select("title");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("blog", "update", `U editua artikulli "${data[0].title}"`);
   }
 
   return NextResponse.json({ success: true });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("blog_posts").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("blog_posts").delete().eq("id", params.id).select("title");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("blog", "delete", `U fshi artikulli "${data[0].title}"`);
   }
 
   return NextResponse.json({ success: true });

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { parseQuoteItems } from "@/lib/quotes";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -56,14 +57,24 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  if (typeof body.active === "boolean") {
+    await logActivity("recurring", "update", `Fatura e rikurruese e ${data.client_name} u ${body.active ? "aktivizua" : "ndal"}`);
+  } else {
+    await logActivity("recurring", "update", `U editua fatura e rikurruese e ${data.client_name}`);
+  }
+
   return NextResponse.json({ success: true, recurring: data });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("recurring_invoices").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("recurring_invoices").delete().eq("id", params.id).select("client_name");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("recurring", "delete", `U fshi fatura e rikurruese e ${data[0].client_name}`);
   }
   return NextResponse.json({ success: true });
 }

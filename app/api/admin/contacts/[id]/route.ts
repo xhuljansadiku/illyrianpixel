@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -64,7 +65,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     return NextResponse.json({ success: false, error: "Asgjë për të përditësuar." }, { status: 400 });
   }
 
-  const { error } = await supabase.from("contacts").update(update).eq("id", params.id);
+  const { data, error } = await supabase.from("contacts").update(update).eq("id", params.id).select("name");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -74,14 +75,24 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     await supabase.from("contact_logs").insert(logs);
   }
 
+  const contactName = data?.[0]?.name ?? "kontakti";
+  if (typeof body.status === "string") {
+    await logActivity("contact", "update", `Kontakti ${contactName} kaloi në "${STATUS_LABELS[body.status]}"`);
+  } else if (typeof body.follow_up_date === "string" && body.follow_up_date) {
+    await logActivity("contact", "update", `U vendos follow-up për ${contactName} më ${body.follow_up_date}`);
+  }
+
   return NextResponse.json({ success: true });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("contacts").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("contacts").delete().eq("id", params.id).select("name, email");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("contact", "delete", `U fshi kontakti ${data[0].name} (${data[0].email})`);
   }
 
   return NextResponse.json({ success: true });

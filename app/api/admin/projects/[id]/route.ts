@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { PROJECT_PHASES } from "@/lib/projects";
+import { PROJECT_PHASES, PROJECT_PHASE_LABELS, PROJECT_STATUS_LABELS } from "@/lib/projects";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -49,14 +50,26 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  if (typeof body.phase === "string" && updates.phase) {
+    await logActivity("project", "update", `Projekti "${data.name}" kaloi në fazën "${PROJECT_PHASE_LABELS[body.phase as keyof typeof PROJECT_PHASE_LABELS]}"`);
+  } else if (typeof body.status === "string" && updates.status) {
+    await logActivity("project", "update", `Projekti "${data.name}" u shënua "${PROJECT_STATUS_LABELS[body.status as keyof typeof PROJECT_STATUS_LABELS]}"`);
+  } else {
+    await logActivity("project", "update", `U editua projekti "${data.name}"`);
+  }
+
   return NextResponse.json({ success: true, project: data });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("projects").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("projects").delete().eq("id", params.id).select("name");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("project", "delete", `U fshi projekti "${data[0].name}"`);
   }
   return NextResponse.json({ success: true });
 }

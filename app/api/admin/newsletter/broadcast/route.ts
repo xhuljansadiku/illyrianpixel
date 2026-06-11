@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -62,6 +63,8 @@ export async function POST(req: Request) {
       }))
     );
   }
+
+  await logActivity("newsletter", "send", `U dërgua broadcast "${subject}" te ${recipients.length} abonentë`);
 
   return NextResponse.json({ success: true, sent: recipients.length });
 }

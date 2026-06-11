@@ -14,6 +14,7 @@ import {
 import QuotesTab, { type QuoteContact } from "@/components/admin/QuotesTab";
 import ContentTab, { type PricingCatalogEntry } from "@/components/admin/ContentTab";
 import ProjectsTab from "@/components/admin/ProjectsTab";
+import ActivityTab from "@/components/admin/ActivityTab";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { quoteTotals, formatMoney } from "@/lib/quotes";
 import type { ProjectRecord } from "@/lib/projects";
@@ -351,7 +352,7 @@ export default function AdminDashboard({
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<
-    "overview" | "contacts" | "quotes" | "projects" | "subscribers" | "blog" | "content" | "analytics" | "settings"
+    "overview" | "contacts" | "quotes" | "projects" | "subscribers" | "blog" | "content" | "analytics" | "history" | "settings"
   >("overview");
   const [contacts, setContacts] = useState(initialContacts);
   const [subscribers, setSubscribers] = useState(initialSubscribers);
@@ -451,6 +452,7 @@ export default function AdminDashboard({
     { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
     { id: "content", icon: "🎨", label: "Përmbajtja" },
     { id: "analytics", icon: "📊", label: "Analitika" },
+    { id: "history", icon: "🕘", label: "Historia" },
     { id: "settings", icon: "⚙️", label: "Cilësimet" },
   ];
 
@@ -463,6 +465,7 @@ export default function AdminDashboard({
     blog: { title: "Blog", subtitle: "Artikujt e blogut dhe publikimi i planifikuar" },
     content: { title: "Përmbajtja", subtitle: "Testimoniale, portofol dhe çmime — pa deploy" },
     analytics: { title: "Analitika", subtitle: "Funnel, burime dhe performanca" },
+    history: { title: "Historia", subtitle: "Çdo veprim i regjistruar — çfarë ke bërë dhe kur" },
     settings: { title: "Cilësimet", subtitle: "Konfigurime dhe siguria" },
   };
 
@@ -755,6 +758,7 @@ export default function AdminDashboard({
             {tab === "analytics" && (
               <AnalyticsTab stats={stats} contacts={contacts} quotes={quotes} visitors30={visitors30} />
             )}
+            {tab === "history" && <ActivityTab />}
             {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
           </div>
         </div>

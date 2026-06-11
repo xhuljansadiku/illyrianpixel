@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { quoteEmailHtml } from "@/lib/adminEmails";
 import { QUOTE_KIND_LABELS, type QuoteRecord } from "@/lib/quotes";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -47,6 +48,8 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
       .update({ status: "sent", updated_at: new Date().toISOString() })
       .eq("id", params.id);
   }
+
+  await logActivity("quote", "send", `${record.number} iu dërgua me email ${quote.client_email}`);
 
   return NextResponse.json({ success: true, status: record.status === "draft" ? "sent" : record.status });
 }

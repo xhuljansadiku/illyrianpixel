@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -35,6 +36,7 @@ export async function PATCH(req: Request) {
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+  await logActivity("pricing", "update", `Çmimi i "${key.replace("||", " → ")}" u vendos ${price}`);
   return NextResponse.json({ success: true });
 }
 
@@ -51,5 +53,6 @@ export async function DELETE(req: Request) {
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+  await logActivity("pricing", "delete", `Çmimi i "${key.replace("||", " → ")}" u kthye në origjinal`);
   return NextResponse.json({ success: true });
 }

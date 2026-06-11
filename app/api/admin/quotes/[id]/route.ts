@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { parseQuoteItems } from "@/lib/quotes";
+import { parseQuoteItems, QUOTE_STATUS_LABELS } from "@/lib/quotes";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -55,14 +56,24 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  if (typeof body.status === "string") {
+    await logActivity("quote", "update", `${data.number} kaloi në status "${QUOTE_STATUS_LABELS[body.status as keyof typeof QUOTE_STATUS_LABELS] ?? body.status}"`);
+  } else {
+    await logActivity("quote", "update", `U editua ${data.number} (${data.client_name})`);
+  }
+
   return NextResponse.json({ success: true, quote: data });
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { error } = await supabase.from("quotes").delete().eq("id", params.id);
+  const { data, error } = await supabase.from("quotes").delete().eq("id", params.id).select("number, client_name");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+  if (data?.[0]) {
+    await logActivity("quote", "delete", `U fshi ${data[0].number} (${data[0].client_name})`);
   }
   return NextResponse.json({ success: true });
 }

@@ -5,6 +5,7 @@ import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { adminQuoteResponseEmailHtml } from "@/lib/adminEmails";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
 import { quoteTotals, formatMoney, type QuoteRecord } from "@/lib/quotes";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -67,6 +68,14 @@ export async function POST(req: Request, { params }: { params: { token: string }
     return NextResponse.json({ success: false, error: "Diçka shkoi keq. Provoni sërish." }, { status: 500 });
   }
 
+  await logActivity(
+    "client",
+    action,
+    action === "accept"
+      ? `Klienti ${quote.client_name} PRANOI ofertën ${quote.number}${note ? ` — "${note}"` : ""}`
+      : `Klienti ${quote.client_name} refuzoi ofertën ${quote.number}${note ? ` — arsyeja: "${note}"` : ""}`
+  );
+
   // Ofertë e pranuar → krijo projektin vetë me checklist-ën standarde (best-effort)
   if (action === "accept") {
     try {
@@ -94,6 +103,7 @@ export async function POST(req: Request, { params }: { params: { token: string }
         await supabase
           .from("project_tasks")
           .insert(DEFAULT_TASKS.map((title, i) => ({ project_id: project.id, title, sort: i })));
+        await logActivity("auto", "create", `U krijua automatikisht projekti për ${quote.client_business || quote.client_name} (nga ${quote.number})`);
       }
     } catch {
       // projekti mund të krijohet edhe manualisht — mos e blloko pranimin

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -68,6 +69,14 @@ export async function POST(req: Request) {
     }
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  await logActivity(
+    "blog",
+    "create",
+    isScheduled
+      ? `U planifikua artikulli "${title}" për ${scheduledFor!.toLocaleDateString("sq-AL")}`
+      : `U publikua artikulli "${title}"`
+  );
 
   return NextResponse.json({ success: true, post: data });
 }

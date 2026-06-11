@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { getSiteSettings, SITE_SETTINGS_DEFAULTS, type SiteSettingsKey } from "@/lib/siteSettings";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -33,6 +34,8 @@ export async function PATCH(req: Request) {
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  await logActivity("settings", "update", `U përditësuan cilësimet: ${updates.map((u) => u.key).join(", ")}`);
 
   return NextResponse.json({ success: true });
 }
