@@ -184,7 +184,7 @@ export default function KingGenti() {
         >
           <div className="mb-3 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Image src="/images/hero-helmet.avif" alt="" width={22} height={22} className="rounded-full" />
+              <Image src="/images/king-gentius-coin.jpg" alt="" width={22} height={22} className="rounded-full object-cover" />
               <p className="text-[11px] tracking-[0.2em] text-accent/90">KING GENTI</p>
             </div>
             <button type="button" className="text-white/55 hover:text-white" aria-label="Mbyll" onClick={() => setOpen(false)}>
@@ -241,7 +241,7 @@ export default function KingGenti() {
         aria-expanded={open}
         aria-label="Hap King Genti — asistenti i Illyrian Pixel"
       >
-        <Image src="/images/hero-helmet.avif" alt="" width={28} height={28} />
+        <Image src="/images/king-gentius-coin.jpg" alt="" width={48} height={48} className="h-full w-full object-cover" />
       </button>
     </div>
   );
