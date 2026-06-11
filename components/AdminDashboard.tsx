@@ -15,6 +15,7 @@ import QuotesTab, { type QuoteContact } from "@/components/admin/QuotesTab";
 import ContentTab, { type PricingCatalogEntry } from "@/components/admin/ContentTab";
 import ProjectsTab from "@/components/admin/ProjectsTab";
 import ActivityTab from "@/components/admin/ActivityTab";
+import NotificationsBell from "@/components/admin/NotificationsBell";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { quoteTotals, formatMoney } from "@/lib/quotes";
 import type { ProjectRecord } from "@/lib/projects";
@@ -34,6 +35,8 @@ const VALID_TABS = [
   "history",
   "settings",
 ] as const;
+
+export type AdminTab = (typeof VALID_TABS)[number];
 
 type Contact = {
   id: number;
@@ -553,6 +556,7 @@ export default function AdminDashboard({
             </div>
           )}
           <div className={`flex items-center gap-1.5 ${collapsed ? "mx-auto mt-1 flex-col" : ""}`}>
+            <NotificationsBell setTab={setTab} collapsed={collapsed} />
             <button
               onClick={toggleTheme}
               title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
@@ -687,12 +691,15 @@ export default function AdminDashboard({
               <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
               <h1 className="mt-2 font-display text-[1.8rem] font-bold text-[var(--a-text)]">Admin Panel</h1>
             </div>
-            <button
-              onClick={logout}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-accent/50 hover:text-[var(--a-text)]"
-            >
-              Dil
-            </button>
+            <div className="flex items-center gap-2">
+              <NotificationsBell setTab={setTab} />
+              <button
+                onClick={logout}
+                className="font-ui rounded-[2px] border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-accent/50 hover:text-[var(--a-text)]"
+              >
+                Dil
+              </button>
+            </div>
           </div>
 
           {/* Mobile tabs */}

@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, welcomeEmailHtml } from "@/lib/newsletterEmail";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -51,6 +52,8 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
+
+    await logActivity("newsletter", "create", `Abonim i ri në newsletter: ${email}`);
 
     // Send welcome email only for new subscribers
     await resend.emails.send({
