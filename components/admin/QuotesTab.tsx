@@ -715,6 +715,35 @@ export default function QuotesTab({
                 </div>
               </div>
 
+              {/* Përgjigja e klientit nga faqja publike */}
+              {(q.client_note || q.accepted_at || q.declined_at) && (
+                <div
+                  className={`mt-3 rounded-[2px] border px-3.5 py-2.5 text-[12px] ${
+                    q.accepted_at
+                      ? "border-emerald-400/25 bg-emerald-400/5"
+                      : q.declined_at
+                        ? "border-red-400/25 bg-red-400/5"
+                        : "border-[var(--a-border)] bg-[rgb(var(--a-text-rgb)/0.03)]"
+                  }`}
+                >
+                  {(q.accepted_at || q.declined_at) && (
+                    <p className={`font-semibold ${q.accepted_at ? "text-emerald-400/90" : "text-red-400/80"}`}>
+                      {q.accepted_at ? "✓ Pranuar nga klienti" : "✖ Refuzuar nga klienti"} ·{" "}
+                      {new Date((q.accepted_at ?? q.declined_at)!).toLocaleString("sq-AL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  )}
+                  {q.client_note && (
+                    <p className="mt-1 italic text-[rgb(var(--a-text-rgb)/0.65)]">💬 &quot;{q.client_note}&quot;</p>
+                  )}
+                </div>
+              )}
+
               <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[var(--a-border)] pt-3">
                 <select
                   value={q.status}
