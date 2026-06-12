@@ -4,7 +4,9 @@ import { Resend } from "resend";
 import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { adminQuoteResponseEmailHtml } from "@/lib/adminEmails";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
+import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { quoteTotals, formatMoney, type QuoteRecord } from "@/lib/quotes";
+import { DEFAULT_PROJECT_TASKS } from "@/lib/projects";
 import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
@@ -92,17 +94,9 @@ export async function POST(req: Request, { params }: { params: { token: string }
         .single();
 
       if (project) {
-        const DEFAULT_TASKS = [
-          "Takim nisjeje me klientin",
-          "Mbledhja e materialeve (logo, tekste, foto)",
-          "Dizajni i parë për miratim",
-          "Zhvillimi",
-          "Rishikim me klientin",
-          "Lansimi + trajnimi",
-        ];
         await supabase
           .from("project_tasks")
-          .insert(DEFAULT_TASKS.map((title, i) => ({ project_id: project.id, title, sort: i })));
+          .insert(DEFAULT_PROJECT_TASKS.map((title, i) => ({ project_id: project.id, title, sort: i })));
         await logActivity("auto", "create", `U krijua automatikisht projekti për ${quote.client_business || quote.client_name} (nga ${quote.number})`);
       }
     } catch {
@@ -117,6 +111,12 @@ export async function POST(req: Request, { params }: { params: { token: string }
     action === "accept"
       ? `💰 <b>OFERTA U PRANUA!</b>\n\n${escapeTelegramHtml(record.client_name)} pranoi ofertën <b>${escapeTelegramHtml(record.number)}</b> me vlerë <b>${total}</b>.${note ? `\n\n💬 "${escapeTelegramHtml(note)}"` : ""}`
       : `✖️ Oferta <b>${escapeTelegramHtml(record.number)}</b> u refuzua nga ${escapeTelegramHtml(record.client_name)} (${total}).${note ? `\n\n💬 "${escapeTelegramHtml(note)}"` : ""}`
+  );
+
+  await sendWhatsAppMessage(
+    action === "accept"
+      ? `💰 OFERTA U PRANUA!\n\n${record.client_name} pranoi ofertën ${record.number} me vlerë ${total}.${note ? `\n\n💬 "${note}"` : ""}`
+      : `✖️ Oferta ${record.number} u refuzua nga ${record.client_name} (${total}).${note ? `\n\n💬 "${note}"` : ""}`
   );
 
   try {

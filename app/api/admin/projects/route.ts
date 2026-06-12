@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { PROJECT_PHASES } from "@/lib/projects";
+import { PROJECT_PHASES, DEFAULT_PROJECT_TASKS } from "@/lib/projects";
 import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
@@ -53,6 +53,12 @@ export async function POST(req: Request) {
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+
+  const { data: tasks } = await supabase
+    .from("project_tasks")
+    .insert(DEFAULT_PROJECT_TASKS.map((title, i) => ({ project_id: data.id, title, sort: i })))
+    .select();
+
   await logActivity("project", "create", `U krijua projekti "${name}"`);
-  return NextResponse.json({ success: true, project: { ...data, tasks: [] } });
+  return NextResponse.json({ success: true, project: { ...data, tasks: tasks ?? [] } });
 }

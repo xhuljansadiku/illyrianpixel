@@ -42,3 +42,13 @@ export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
   paused: "Në pauzë",
   done: "Përfunduar",
 };
+
+// Checklist-a standarde që i bashkëngjitet çdo projekti të ri.
+export const DEFAULT_PROJECT_TASKS: string[] = [
+  "Takim nisjeje me klientin",
+  "Mbledhja e materialeve (logo, tekste, foto)",
+  "Dizajni i parë për miratim",
+  "Zhvillimi",
+  "Rishikim me klientin",
+  "Lansimi + trajnimi",
+];

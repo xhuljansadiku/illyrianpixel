@@ -58,6 +58,7 @@ type Contact = {
   value: number | null;
   source_path: string | null;
   viewed_at: string | null;
+  portal_token: string | null;
 };
 
 type BroadcastStat = {
@@ -1239,6 +1240,19 @@ function ContactsTab({
   const [replyMessage, setReplyMessage] = useState("");
   const [replySending, setReplySending] = useState(false);
   const [replyResult, setReplyResult] = useState("");
+  const [copiedPortalId, setCopiedPortalId] = useState<number | null>(null);
+
+  const copyPortalLink = async (c: Contact) => {
+    if (!c.portal_token) return;
+    const url = `${window.location.origin}/klienti/${c.portal_token}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedPortalId(c.id);
+      setTimeout(() => setCopiedPortalId(null), 2500);
+    } catch {
+      prompt("Kopjoje lidhjen manualisht:", url);
+    }
+  };
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
@@ -1798,6 +1812,12 @@ function ContactsTab({
                                   className="rounded-full border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10"
                                 >
                                   🧾 Krijo ofertë
+                                </button>
+                                <button
+                                  onClick={() => copyPortalLink(c)}
+                                  className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                                >
+                                  {copiedPortalId === c.id ? "U kopjua ✓" : "🔗 Portal klienti"}
                                 </button>
                               </div>
 

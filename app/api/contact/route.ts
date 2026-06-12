@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
+import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { logActivity } from "@/lib/activityLog";
 
 const RATE_LIMIT = 3;
@@ -153,6 +154,16 @@ export async function POST(req: Request) {
         `📱 ${escapeTelegramHtml(phone)}\n\n` +
         `💬 ${escapeTelegramHtml(message.slice(0, 300))}${message.length > 300 ? "…" : ""}\n\n` +
         `<a href="https://wa.me/${waDigits}">💬 Shkruaji në WhatsApp</a> · <a href="${BRAND.website}/admin">🛠 Hap panelin</a>`
+    );
+
+    await sendWhatsAppMessage(
+      `${isPriority ? "🔥 PRIORITET — " : ""}📥 Kontakt i ri nga website\n\n` +
+        `👤 ${name}${businessName ? ` · ${businessName}` : ""}\n` +
+        `🛠 ${service || "—"}\n` +
+        `💶 ${budget || "—"} · ⏱ ${timeline || "—"}\n` +
+        `📧 ${email}\n` +
+        `📱 ${phone}\n\n` +
+        `💬 ${message.slice(0, 300)}${message.length > 300 ? "…" : ""}`
     );
 
     // Email-et dërgohen pas ruajtjes — dështimi i tyre nuk ndikon klientin
