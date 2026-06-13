@@ -23,6 +23,23 @@ import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
 import type { PricingOverrides } from "@/lib/pricingOverrides";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
 
+function SunIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+    </svg>
+  );
+}
+
+function MoonIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
+
 const VALID_TABS = [
   "overview",
   "contacts",
@@ -136,6 +153,18 @@ type AdminLogin = {
   user_agent: string | null;
   created_at: string;
 };
+
+type SavedContactFilter = {
+  name: string;
+  search: string;
+  serviceFilter: string;
+  tagFilter: string;
+  dateFrom: string;
+  dateTo: string;
+  followUpFilter: "all" | "none" | "overdue" | "upcoming";
+};
+
+const CONTACT_FILTERS_KEY = "ip_admin_contact_saved_filters";
 
 type SiteSettings = {
   newsletter_discount_code: string;
@@ -330,6 +359,24 @@ function downloadContactsCSV(rows: Contact[]) {
   const a = document.createElement("a");
   a.href = url;
   a.download = `kontaktet-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function downloadLoginHistoryCSV(rows: AdminLogin[]) {
+  const header = "statusi,ip,user_agent,data\n";
+  const body = rows
+    .map((l) =>
+      [l.success ? "sukses" : "dështim", l.ip ?? "", l.user_agent ?? "", l.created_at]
+        .map((v) => csvCell(String(v ?? "")))
+        .join(",")
+    )
+    .join("\n");
+  const blob = new Blob(["﻿" + header + body], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `hyrjet-admin-${new Date().toISOString().slice(0, 10)}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -616,7 +663,8 @@ export default function AdminDashboard({
                 onClick={toggleTheme}
                 className="font-ui flex items-center justify-center gap-2 rounded-xl border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
               >
-                {theme === "dark" ? "☀ Mënyra e ndritshme" : "☾ Mënyra e errët"}
+                {theme === "dark" ? <SunIcon className="h-3.5 w-3.5" /> : <MoonIcon className="h-3.5 w-3.5" />}
+                {theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
               </button>
               <button
                 onClick={logout}
@@ -651,11 +699,11 @@ export default function AdminDashboard({
           <button
             onClick={toggleTheme}
             title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
-            className={`rounded-lg border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] ${
+            className={`flex items-center justify-center rounded-lg border border-[var(--a-border)] p-1.5 text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] ${
               collapsed ? "" : "flex-1"
             }`}
           >
-            {theme === "dark" ? "☀" : "☾"}
+            {theme === "dark" ? <SunIcon className="h-3.5 w-3.5" /> : <MoonIcon className="h-3.5 w-3.5" />}
           </button>
           <button
             onClick={toggleCollapsed}
@@ -795,7 +843,7 @@ export default function AdminDashboard({
           {/* Content */}
           <div className="mt-6">
             {tab === "overview" && (
-              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} projects={projectsList} onGoToContact={goToContact} />
+              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} projects={projectsList} broadcasts={broadcasts} onGoToContact={goToContact} />
             )}
             {tab === "contacts" && (
               <ContactsTab contacts={contacts} setContacts={setContacts} jumpSearch={contactsJump} onCreateQuote={createQuoteForContact} />
@@ -939,6 +987,7 @@ function OverviewTab({
   stats,
   adminLogins,
   projects,
+  broadcasts,
   onGoToContact,
 }: {
   contacts: Contact[];
@@ -946,9 +995,18 @@ function OverviewTab({
   stats: Stats;
   adminLogins: AdminLogin[];
   projects: ProjectRecord[];
+  broadcasts: BroadcastStat[];
   onGoToContact: (term: string) => void;
 }) {
   const today = new Date().toISOString().slice(0, 10);
+
+  const scheduledBroadcasts = useMemo(
+    () =>
+      broadcasts
+        .filter((b) => !b.sent_at && b.scheduled_for)
+        .sort((a, b) => (a.scheduled_for! < b.scheduled_for! ? -1 : 1)),
+    [broadcasts]
+  );
 
   const projectsSummary = useMemo(() => {
     const active = projects.filter((p) => p.status === "active");
@@ -1059,6 +1117,28 @@ function OverviewTab({
           </>
         )}
       </div>
+
+      {/* Scheduled newsletter broadcasts */}
+      {scheduledBroadcasts.length > 0 && (
+        <div className={CARD + " p-5"}>
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+            Broadcast-e të planifikuara ({scheduledBroadcasts.length})
+          </p>
+          <ul className="space-y-2">
+            {scheduledBroadcasts.map((b) => (
+              <li
+                key={b.id}
+                className="flex items-center justify-between rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5"
+              >
+                <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">{b.subject}</span>
+                <span className="text-[11px] font-semibold text-accent">
+                  {new Date(b.scheduled_for!).toLocaleString("sq-AL", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Recent activity */}
       <div className="grid gap-5 md:grid-cols-2">
@@ -1278,6 +1358,8 @@ function ContactsTab({
   const [tagDraft, setTagDraft] = useState<Record<number, string>>({});
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [followUpFilter, setFollowUpFilter] = useState<"all" | "none" | "overdue" | "upcoming">("all");
+  const [savedFilters, setSavedFilters] = useState<SavedContactFilter[]>([]);
   const [expanded, setExpanded] = useState<number | null>(null);
   const [savingId, setSavingId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -1330,6 +1412,41 @@ function ContactsTab({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jumpSearch?.key]);
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CONTACT_FILTERS_KEY);
+      if (raw) setSavedFilters(JSON.parse(raw));
+    } catch {
+      // injoro
+    }
+  }, []);
+
+  const applySavedFilter = (f: SavedContactFilter) => {
+    setSearch(f.search);
+    setServiceFilter(f.serviceFilter);
+    setTagFilter(f.tagFilter);
+    setDateFrom(f.dateFrom);
+    setDateTo(f.dateTo);
+    setFollowUpFilter(f.followUpFilter);
+  };
+
+  const saveCurrentFilter = () => {
+    const name = prompt("Emri i filtrit:");
+    if (!name || !name.trim()) return;
+    const next = [
+      ...savedFilters.filter((f) => f.name !== name.trim()),
+      { name: name.trim(), search, serviceFilter, tagFilter, dateFrom, dateTo, followUpFilter },
+    ];
+    setSavedFilters(next);
+    localStorage.setItem(CONTACT_FILTERS_KEY, JSON.stringify(next));
+  };
+
+  const deleteSavedFilter = (name: string) => {
+    const next = savedFilters.filter((f) => f.name !== name);
+    setSavedFilters(next);
+    localStorage.setItem(CONTACT_FILTERS_KEY, JSON.stringify(next));
+  };
+
   const services = useMemo(
     () => ["Të gjitha", ...Array.from(new Set(contacts.map((c) => c.service).filter(Boolean)))],
     [contacts]
@@ -1351,9 +1468,12 @@ function ContactsTab({
       if (tagFilter !== "Të gjitha" && !(c.tags ?? []).includes(tagFilter)) return false;
       if (dateFrom && new Date(c.created_at) < new Date(dateFrom)) return false;
       if (dateTo && new Date(c.created_at) > new Date(dateTo + "T23:59:59")) return false;
+      if (followUpFilter === "none" && c.follow_up_date) return false;
+      if (followUpFilter === "overdue" && !(c.follow_up_date && c.follow_up_date < new Date().toISOString().slice(0, 10))) return false;
+      if (followUpFilter === "upcoming" && !(c.follow_up_date && c.follow_up_date >= new Date().toISOString().slice(0, 10))) return false;
       return true;
     });
-  }, [contacts, search, serviceFilter, tagFilter, dateFrom, dateTo]);
+  }, [contacts, search, serviceFilter, tagFilter, dateFrom, dateTo, followUpFilter]);
 
   const loadLogs = async (id: number) => {
     setLogsLoading((s) => ({ ...s, [id]: true }));
@@ -1679,6 +1799,16 @@ function ContactsTab({
           onChange={(e) => setDateTo(e.target.value)}
           className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
+        <select
+          value={followUpFilter}
+          onChange={(e) => setFollowUpFilter(e.target.value as typeof followUpFilter)}
+          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+        >
+          <option value="all">Çdo ndjekje</option>
+          <option value="none">Pa datë ndjekjeje</option>
+          <option value="overdue">Ndjekje e vonuar</option>
+          <option value="upcoming">Ndjekje e ardhshme</option>
+        </select>
         <button
           onClick={() => downloadContactsCSV(filtered)}
           className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
@@ -1703,6 +1833,34 @@ function ContactsTab({
             📅 Kalendar
           </button>
         </div>
+      </div>
+
+      {/* Saved filters */}
+      <div className="mb-5 flex flex-wrap items-center gap-2">
+        <span className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Filtra të ruajtur:</span>
+        {savedFilters.length === 0 && (
+          <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.3)]">asnjë ende</span>
+        )}
+        {savedFilters.map((f) => (
+          <span key={f.name} className="flex items-center gap-1 rounded-full border border-[var(--a-border)] pl-3 pr-1 py-1 text-[11px]">
+            <button onClick={() => applySavedFilter(f)} className="font-ui text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-accent">
+              {f.name}
+            </button>
+            <button
+              onClick={() => deleteSavedFilter(f.name)}
+              className="font-ui px-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.3)] transition-colors hover:text-red-400"
+              aria-label="Fshi filtrin"
+            >
+              ×
+            </button>
+          </span>
+        ))}
+        <button
+          onClick={saveCurrentFilter}
+          className="font-ui rounded-full border border-accent/40 px-3 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10"
+        >
+          ＋ Ruaj filtrin aktual
+        </button>
       </div>
 
       {/* Bulk actions toolbar */}
@@ -3346,6 +3504,9 @@ function TwoFactorCard() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [disabling, setDisabling] = useState(false);
+  const [recoveryCodes, setRecoveryCodes] = useState<string[] | null>(null);
+  const [regenerating, setRegenerating] = useState(false);
+  const [regenToken, setRegenToken] = useState("");
 
   useEffect(() => {
     fetch("/api/admin/2fa")
@@ -3397,6 +3558,42 @@ function TwoFactorCard() {
       setEnabled(true);
       setSetup(null);
       setToken("");
+      if (Array.isArray(data.recoveryCodes)) setRecoveryCodes(data.recoveryCodes);
+    } catch {
+      setError("Gabim lidhjeje.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const downloadRecoveryCodes = (codes: string[]) => {
+    const text = `Kodet e rezervës — Illyrian Pixel Admin\nKëto kode mund të përdoren një herë secili në vend të kodit 2FA.\nRuaji në një vend të sigurt.\n\n${codes.join("\n")}\n`;
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "illyrianpixel-2fa-recovery-codes.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const confirmRegenerate = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/2fa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "regenerate_codes", token: regenToken }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        setError(data.error ?? "Gabim.");
+        return;
+      }
+      setRecoveryCodes(data.recoveryCodes);
+      setRegenerating(false);
+      setRegenToken("");
     } catch {
       setError("Gabim lidhjeje.");
     } finally {
@@ -3421,6 +3618,7 @@ function TwoFactorCard() {
       setEnabled(false);
       setDisabling(false);
       setToken("");
+      setRecoveryCodes(null);
     } catch {
       setError("Gabim lidhjeje.");
     } finally {
@@ -3511,18 +3709,92 @@ function TwoFactorCard() {
           <p className="text-[12px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.5)]">
             Hyrja kërkon fjalëkalimin + kodin 6-shifror nga aplikacioni autentifikues.
           </p>
-          {!disabling ? (
-            <button
-              onClick={() => {
-                setDisabling(true);
-                setToken("");
-                setError("");
-              }}
-              className="font-ui mt-4 rounded-[2px] border border-red-400/30 px-4 py-2 text-[12px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10"
-            >
-              Çaktivizo 2FA
-            </button>
-          ) : (
+
+          {recoveryCodes && (
+            <div className="mt-4 rounded-[2px] border border-accent/30 bg-accent/5 p-4">
+              <p className="text-[12px] font-semibold text-[var(--a-text)]">
+                Kodet e rezervës — ruaji tani, nuk do të shfaqen përsëri:
+              </p>
+              <div className="mt-2 grid grid-cols-2 gap-1.5 font-mono text-[12px] tracking-[0.05em] text-accent sm:grid-cols-3">
+                {recoveryCodes.map((c) => (
+                  <code key={c} className="rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-center">
+                    {c}
+                  </code>
+                ))}
+              </div>
+              <div className="mt-3 flex items-center gap-3">
+                <button
+                  onClick={() => downloadRecoveryCodes(recoveryCodes)}
+                  className="font-ui rounded-[2px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10"
+                >
+                  Shkarko kodet
+                </button>
+                <button
+                  onClick={() => setRecoveryCodes(null)}
+                  className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+                >
+                  Mbylle
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!disabling && !regenerating && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button
+                onClick={() => {
+                  setRegenerating(true);
+                  setRegenToken("");
+                  setError("");
+                }}
+                className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+              >
+                Rigjenero kodet e rezervës
+              </button>
+              <button
+                onClick={() => {
+                  setDisabling(true);
+                  setToken("");
+                  setError("");
+                }}
+                className="font-ui rounded-[2px] border border-red-400/30 px-4 py-2 text-[12px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10"
+              >
+                Çaktivizo 2FA
+              </button>
+            </div>
+          )}
+
+          {regenerating && (
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <p className="w-full text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">
+                Kjo do të zhvlerësojë kodet e vjetra. Shkruaj kodin 6-shifror aktual për të konfirmuar:
+              </p>
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={regenToken}
+                onChange={(e) => setRegenToken(e.target.value.replace(/\D/g, ""))}
+                placeholder="000000"
+                className="font-mono w-32 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[14px] tracking-[0.25em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              <button
+                onClick={confirmRegenerate}
+                disabled={busy || regenToken.length !== 6}
+                className="font-ui rounded-[2px] bg-accent px-4 py-2 text-[12px] font-bold text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
+              >
+                {busy ? "…" : "Konfirmo"}
+              </button>
+              <button
+                onClick={() => setRegenerating(false)}
+                className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+              >
+                Anulo
+              </button>
+            </div>
+          )}
+
+          {disabling && (
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <input
                 type="text"
@@ -3562,6 +3834,33 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
+  const [logins, setLogins] = useState(adminLogins);
+  const [loginsSince, setLoginsSince] = useState("");
+  const [loginsUntil, setLoginsUntil] = useState("");
+  const [loginsLoading, setLoginsLoading] = useState(false);
+
+  const filterLogins = async () => {
+    setLoginsLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (loginsSince) params.set("since", loginsSince);
+      if (loginsUntil) params.set("until", `${loginsUntil}T23:59:59.999Z`);
+      params.set("limit", loginsSince || loginsUntil ? "1000" : "20");
+      const res = await fetch(`/api/admin/login-history?${params.toString()}`);
+      const data = await res.json();
+      if (data.success) setLogins(data.logins);
+    } catch {
+      // injoro
+    } finally {
+      setLoginsLoading(false);
+    }
+  };
+
+  const resetLoginsFilter = () => {
+    setLoginsSince("");
+    setLoginsUntil("");
+    setLogins(adminLogins);
+  };
 
   const save = async () => {
     setSaving(true);
@@ -3712,14 +4011,53 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
       <TwoFactorCard />
 
       <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          Hyrjet në admin (20 të fundit)
-        </p>
-        {adminLogins.length === 0 ? (
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+            Hyrjet në admin {loginsSince || loginsUntil ? "" : "(20 të fundit)"}
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            <input
+              type="date"
+              value={loginsSince}
+              onChange={(e) => setLoginsSince(e.target.value)}
+              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+            <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">—</span>
+            <input
+              type="date"
+              value={loginsUntil}
+              onChange={(e) => setLoginsUntil(e.target.value)}
+              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+            <button
+              onClick={filterLogins}
+              disabled={loginsLoading}
+              className="font-ui rounded-[2px] border border-accent/40 px-3 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+            >
+              {loginsLoading ? "…" : "Filtro"}
+            </button>
+            {(loginsSince || loginsUntil) && (
+              <button
+                onClick={resetLoginsFilter}
+                className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+              >
+                Pastro
+              </button>
+            )}
+            <button
+              onClick={() => downloadLoginHistoryCSV(logins)}
+              disabled={logins.length === 0}
+              className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1 text-[11px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+            >
+              ⬇ CSV
+            </button>
+          </div>
+        </div>
+        {logins.length === 0 ? (
           <EmptyState text="Asnjë hyrje e regjistruar." />
         ) : (
-          <ul className="space-y-1.5">
-            {adminLogins.map((l) => (
+          <ul className="max-h-[420px] space-y-1.5 overflow-y-auto">
+            {logins.map((l) => (
               <li key={l.id} className="flex items-center justify-between text-[11px]">
                 <span className={l.success ? "text-emerald-400/80" : "text-red-400/80"}>
                   {l.success ? "✓ Hyrje e suksesshme" : "✗ Tentativë e dështuar"}

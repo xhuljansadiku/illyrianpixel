@@ -66,3 +66,30 @@ export function verifyTotp(secret: string, token: string, window = 1): boolean {
 export function totpUri(secret: string, account = "admin", issuer = "Illyrian Pixel"): string {
   return `otpauth://totp/${encodeURIComponent(issuer)}:${encodeURIComponent(account)}?secret=${secret}&issuer=${encodeURIComponent(issuer)}&algorithm=SHA1&digits=6&period=30`;
 }
+
+// Kodet e rezervës (recovery codes) — gjenerohen si tekst i thjeshtë (p.sh. ABCD-1234-EFGH),
+// ruhen të hash-uara (SHA-256) në bazën e të dhënave, kurrë në tekst të thjeshtë.
+export function generateRecoveryCodes(count = 10): string[] {
+  const codes: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const bytes = crypto.randomBytes(5);
+    let raw = "";
+    for (const byte of bytes) raw += BASE32_ALPHABET[byte & 31];
+    codes.push(`${raw.slice(0, 4)}-${raw.slice(4, 8)}`);
+  }
+  return codes;
+}
+
+export function hashRecoveryCode(code: string): string {
+  const clean = code.trim().toUpperCase().replace(/\s+/g, "");
+  return crypto.createHash("sha256").update(clean).digest("hex");
+}
+
+// Token për pajisje "të besuara" — lejon kalimin e 2FA për një periudhë (p.sh. 90 ditë).
+export function generateDeviceToken(): string {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+export function hashDeviceToken(token: string): string {
+  return crypto.createHash("sha256").update(token).digest("hex");
+}

@@ -273,6 +273,7 @@ export function adminDailySummaryHtml(summary: {
   generatedInvoices: string[];
   publishedPosts: number;
   sentBroadcasts?: string[];
+  staleContacts?: string[];
 }): string {
   const line = (label: string, items: string[]) =>
     items.length
@@ -290,6 +291,7 @@ export function adminDailySummaryHtml(summary: {
             ${line("💸 Kujtues pagese u dërguan", summary.remindedInvoices)}
             ${line("🔁 Fatura të rikurruese u gjeneruan", summary.generatedInvoices)}
             ${line("✉️ Broadcast-e të planifikuara u dërguan", summary.sentBroadcasts ?? [])}
+            ${line("⏰ Kontakte pa përgjigje (kujtues)", summary.staleContacts ?? [])}
             ${summary.publishedPosts > 0 ? `<p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.7);"><strong style="color:#ab8339;">📝 Artikuj të publikuar:</strong> ${summary.publishedPosts}</p>` : ""}
             <table cellpadding="0" cellspacing="0" style="margin-top:24px;">
               <tr>

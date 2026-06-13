@@ -1,10 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { DndContext, useDraggable, useDroppable, PointerSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import {
   PROJECT_PHASES,
   PROJECT_PHASE_LABELS,
   PROJECT_STATUS_LABELS,
+  type ProjectPhase,
   type ProjectRecord,
   type ProjectStatus,
 } from "@/lib/projects";
@@ -61,6 +63,7 @@ export default function ProjectsTab({
   const [busyId, setBusyId] = useState<number | null>(null);
   const [statusFilter, setStatusFilter] = useState<"all" | ProjectStatus>("all");
   const [newTask, setNewTask] = useState<Record<number, string>>({});
+  const [view, setView] = useState<"list" | "kanban">("list");
 
   const filtered = useMemo(
     () => projects.filter((p) => statusFilter === "all" || p.status === statusFilter),
@@ -256,6 +259,20 @@ export default function ProjectsTab({
             <option key={k} value={k}>{v}</option>
           ))}
         </select>
+        <div className="flex rounded-[2px] border border-[var(--a-border)]">
+          <button
+            onClick={() => setView("list")}
+            className={`font-ui px-3 py-2 text-[11px] font-semibold transition-colors ${view === "list" ? "bg-accent/15 text-accent" : "text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"}`}
+          >
+            Lista
+          </button>
+          <button
+            onClick={() => setView("kanban")}
+            className={`font-ui px-3 py-2 text-[11px] font-semibold transition-colors ${view === "kanban" ? "bg-accent/15 text-accent" : "text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"}`}
+          >
+            Kanban
+          </button>
+        </div>
       </div>
 
       {/* Form */}
@@ -342,7 +359,23 @@ export default function ProjectsTab({
         </div>
       )}
 
+      {/* Kanban */}
+      {view === "kanban" && (
+        filtered.length === 0 ? (
+          <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">
+            Asnjë projekt ende. Krijo të parin me butonin lart.
+          </p>
+        ) : (
+          <KanbanBoard
+            projects={filtered}
+            busyId={busyId}
+            onDrop={(p, phase) => updateProject(p, { phase })}
+          />
+        )
+      )}
+
       {/* List */}
+      {view === "list" && (
       <div className="space-y-4">
         {filtered.length === 0 && (
           <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">
@@ -479,6 +512,94 @@ export default function ProjectsTab({
           );
         })}
       </div>
+      )}
+    </div>
+  );
+}
+
+// ── Kanban view ─────────────────────────────────────────────────────────────
+function KanbanBoard({
+  projects,
+  busyId,
+  onDrop,
+}: {
+  projects: ProjectRecord[];
+  busyId: number | null;
+  onDrop: (project: ProjectRecord, phase: ProjectPhase) => void;
+}) {
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+
+  const handleDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e;
+    if (!over) return;
+    const phase = over.id as ProjectPhase;
+    const project = projects.find((p) => p.id === active.id);
+    if (project && project.phase !== phase) onDrop(project, phase);
+  };
+
+  return (
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <div className="grid gap-3 overflow-x-auto pb-2 sm:grid-cols-2 lg:grid-cols-5">
+        {PROJECT_PHASES.map((phase) => (
+          <KanbanColumn
+            key={phase}
+            phase={phase}
+            projects={projects.filter((p) => p.phase === phase)}
+            busyId={busyId}
+          />
+        ))}
+      </div>
+    </DndContext>
+  );
+}
+
+function KanbanColumn({ phase, projects, busyId }: { phase: ProjectPhase; projects: ProjectRecord[]; busyId: number | null }) {
+  const { setNodeRef, isOver } = useDroppable({ id: phase });
+  return (
+    <div
+      ref={setNodeRef}
+      className={`min-h-[120px] rounded-[1rem] border p-3 transition-colors ${
+        isOver ? "border-accent/50 bg-accent/5" : "border-[var(--a-border)]"
+      }`}
+    >
+      <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
+        {PROJECT_PHASE_LABELS[phase]} <span className="text-[rgb(var(--a-text-rgb)/0.25)]">({projects.length})</span>
+      </p>
+      <div className="space-y-2">
+        {projects.map((p) => (
+          <KanbanCard key={p.id} project={p} busy={busyId === p.id} />
+        ))}
+        {projects.length === 0 && <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.25)]">—</p>}
+      </div>
+    </div>
+  );
+}
+
+function KanbanCard({ project, busy }: { project: ProjectRecord; busy: boolean }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: project.id });
+  const style = transform
+    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`, zIndex: 10 }
+    : undefined;
+  const doneTasks = project.tasks.filter((t) => t.done).length;
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className={`cursor-grab touch-none rounded-[0.75rem] border border-[var(--a-border)] bg-[var(--a-card)] p-3 text-[12px] transition-opacity ${
+        isDragging ? "opacity-40" : ""
+      } ${busy ? "opacity-50" : ""}`}
+    >
+      <p className="font-semibold text-[var(--a-text)]">{project.name}</p>
+      <p className="mt-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">
+        {project.client_name || "—"}
+        {project.tasks.length > 0 ? ` · ${doneTasks}/${project.tasks.length}` : ""}
+      </p>
+      <span className={`mt-1.5 inline-block rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[project.status]}`}>
+        {PROJECT_STATUS_LABELS[project.status]}
+      </span>
     </div>
   );
 }

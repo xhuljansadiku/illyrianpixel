@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { ADMIN_SESSION_COOKIE, getAdminSessionToken } from "@/lib/adminAuth";
-import { verifyTotp } from "@/lib/totp";
+import { verifyTotp, hashRecoveryCode, generateDeviceToken, hashDeviceToken } from "@/lib/totp";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,9 +10,13 @@ const supabase = createClient(
 
 const LOCKOUT_THRESHOLD = 5;
 const LOCKOUT_WINDOW_MINUTES = 15;
+const TRUSTED_DEVICE_COOKIE = "admin_trusted_device";
+const TRUSTED_DEVICE_DAYS = 90;
+
+type TrustedDevice = { hash: string; expires_at: string };
 
 export async function POST(req: Request) {
-  const { password, token: totpToken } = await req.json();
+  const { password, token: totpToken, recoveryCode, rememberDevice } = await req.json();
 
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
@@ -42,22 +46,63 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: "Fjalëkalim i gabuar." }, { status: 401 });
   }
 
-  // 2FA — nëse është aktivizuar, kërko kodin TOTP
+  // 2FA — nëse është aktivizuar, kërko kodin TOTP (ose një kod rezerve), përveç nëse
+  // kërkesa vjen nga një pajisje e besuar (kujtuar për TRUSTED_DEVICE_DAYS ditë).
   const { data: totpRows } = await supabase
     .from("site_settings")
     .select("key, value")
-    .in("key", ["totp_enabled", "totp_secret"]);
+    .in("key", ["totp_enabled", "totp_secret", "totp_recovery_codes", "totp_trusted_devices"]);
   const totp: Record<string, string> = {};
   for (const row of totpRows ?? []) totp[row.key] = row.value;
 
+  let trustedDevices: TrustedDevice[] = [];
+  try {
+    trustedDevices = (JSON.parse(totp.totp_trusted_devices ?? "[]") as TrustedDevice[]).filter(
+      (d) => d.expires_at > new Date().toISOString()
+    );
+  } catch {
+    trustedDevices = [];
+  }
+
+  let deviceTrusted = false;
   if (totp.totp_enabled === "1" && totp.totp_secret) {
-    if (!totpToken) {
-      // Hap i ndërmjetëm — fjalëkalimi i saktë, pritet kodi (nuk logohet si dështim)
-      return NextResponse.json({ success: false, requires2fa: true });
+    const cookieHeader = req.headers.get("cookie") ?? "";
+    const match = cookieHeader.match(new RegExp(`${TRUSTED_DEVICE_COOKIE}=([^;]+)`));
+    if (match) {
+      const deviceHash = hashDeviceToken(match[1]);
+      deviceTrusted = trustedDevices.some((d) => d.hash === deviceHash);
     }
-    if (!verifyTotp(totp.totp_secret, String(totpToken))) {
-      await supabase.from("admin_logins").insert({ success: false, ip, user_agent: userAgent });
-      return NextResponse.json({ success: false, requires2fa: true, error: "Kod 2FA i pavlefshëm." }, { status: 401 });
+
+    if (!deviceTrusted) {
+      if (!totpToken && !recoveryCode) {
+        // Hap i ndërmjetëm — fjalëkalimi i saktë, pritet kodi (nuk logohet si dështim)
+        return NextResponse.json({ success: false, requires2fa: true });
+      }
+
+      let verified = false;
+      if (totpToken && verifyTotp(totp.totp_secret, String(totpToken))) {
+        verified = true;
+      } else if (recoveryCode) {
+        try {
+          const codes = JSON.parse(totp.totp_recovery_codes ?? "[]") as { hash: string; used: boolean }[];
+          const codeHash = hashRecoveryCode(String(recoveryCode));
+          const codeMatch = codes.find((c) => c.hash === codeHash && !c.used);
+          if (codeMatch) {
+            codeMatch.used = true;
+            await supabase
+              .from("site_settings")
+              .upsert({ key: "totp_recovery_codes", value: JSON.stringify(codes), updated_at: new Date().toISOString() });
+            verified = true;
+          }
+        } catch {
+          // injoro — trajtohet si kod i pavlefshëm
+        }
+      }
+
+      if (!verified) {
+        await supabase.from("admin_logins").insert({ success: false, ip, user_agent: userAgent });
+        return NextResponse.json({ success: false, requires2fa: true, error: "Kod 2FA i pavlefshëm." }, { status: 401 });
+      }
     }
   }
 
@@ -72,5 +117,23 @@ export async function POST(req: Request) {
     maxAge: 60 * 60 * 24 * 7,
     path: "/",
   });
+
+  // "Mbaj mend këtë pajisje" — ruaj një token të ri për të anashkaluar 2FA herën tjetër
+  if (rememberDevice && totp.totp_enabled === "1" && totp.totp_secret && !deviceTrusted) {
+    const deviceToken = generateDeviceToken();
+    const expiresAt = new Date(Date.now() + TRUSTED_DEVICE_DAYS * 86400000).toISOString();
+    trustedDevices.push({ hash: hashDeviceToken(deviceToken), expires_at: expiresAt });
+    await supabase
+      .from("site_settings")
+      .upsert({ key: "totp_trusted_devices", value: JSON.stringify(trustedDevices), updated_at: new Date().toISOString() });
+    res.cookies.set(TRUSTED_DEVICE_COOKIE, deviceToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: TRUSTED_DEVICE_DAYS * 86400,
+      path: "/",
+    });
+  }
+
   return res;
 }

@@ -8,6 +8,7 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [token, setToken] = useState("");
+  const [rememberDevice, setRememberDevice] = useState(false);
   const [step, setStep] = useState<"password" | "token">("password");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ export default function AdminLoginPage() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password, token: token || undefined }),
+        body: JSON.stringify({ password, token: token || undefined, rememberDevice }),
       });
       const data = await res.json();
 
@@ -101,6 +102,15 @@ export default function AdminLoginPage() {
               <p className="mt-2 text-[11px] text-white/35">
                 Shkruaj kodin 6-shifror nga aplikacioni autentifikues.
               </p>
+              <label className="mt-3 flex items-center gap-2 text-[12px] text-white/55">
+                <input
+                  type="checkbox"
+                  checked={rememberDevice}
+                  onChange={(e) => setRememberDevice(e.target.checked)}
+                  className="h-3.5 w-3.5 accent-[#ab8339]"
+                />
+                Mbaj mend këtë pajisje për 3 muaj
+              </label>
               <button
                 type="button"
                 onClick={() => {

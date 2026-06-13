@@ -177,6 +177,41 @@ export function printQuote(quote: QuoteRecord) {
   win.document.close();
 }
 
+function csvCell(value: string) {
+  return `"${value.replace(/"/g, '""')}"`;
+}
+
+// CSV — eksporton listën e filtruar të ofertave/faturave
+function downloadQuotesCSV(rows: QuoteRecord[]) {
+  const columns = ["number", "kind", "client_name", "client_email", "client_business", "status", "total", "issued_at", "due_at"];
+  const header = columns.join(",") + "\n";
+  const body = rows
+    .map((q) => {
+      const totals = quoteTotals(q.items, q.discount, q.tax_rate);
+      return [
+        q.number,
+        QUOTE_KIND_LABELS[q.kind],
+        q.client_name,
+        q.client_email ?? "",
+        q.client_business ?? "",
+        QUOTE_STATUS_LABELS[q.status],
+        totals.total.toFixed(2),
+        q.issued_at,
+        q.due_at ?? "",
+      ]
+        .map((v) => csvCell(String(v ?? "")))
+        .join(",");
+    })
+    .join("\n");
+  const blob = new Blob(["﻿" + header + body], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `oferta-fatura-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function QuotesTab({
   quotes,
   setQuotes,
@@ -487,6 +522,12 @@ export default function QuotesTab({
             <option key={k} value={k}>{v}</option>
           ))}
         </select>
+        <button
+          onClick={() => downloadQuotesCSV(filtered)}
+          className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-2 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+        >
+          ⬇ Eksporto CSV
+        </button>
       </div>
 
       {/* Form */}

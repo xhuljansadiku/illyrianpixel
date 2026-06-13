@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { staleContactsEmailHtml } from "@/lib/newsletterEmail";
 import {
   quoteEmailHtml,
   quoteReminderEmailHtml,
@@ -24,6 +25,7 @@ const QUOTE_REMINDER_MAX = 2;       // maksimumi i kujtuesve për ofertë
 const QUOTE_REMINDER_GAP_DAYS = 3;  // ditë pas dërgimit / kujtuesit të fundit
 const INVOICE_REMINDER_MAX = 3;     // maksimumi i kujtuesve për faturë të vonuar
 const INVOICE_REMINDER_GAP_DAYS = 4;
+const STALE_CONTACT_DAYS = 3;       // kontakte "të reja" pa kontaktim pas kaq ditësh
 
 function daysAgoIso(days: number) {
   return new Date(Date.now() - days * 86400000).toISOString();
@@ -209,13 +211,43 @@ export async function GET(req: Request) {
     }
   }
 
-  // ── 6. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
+  // ── 6. Kujtues për kontakte të reja pa përgjigje ───────────────────────────
+  const staleContacts: string[] = [];
+  const { data: staleRows } = await supabase
+    .from("contacts")
+    .select("id, name, email, phone, service, created_at")
+    .eq("status", "new")
+    .is("follow_up_date", null)
+    .is("stale_reminder_sent_at", null)
+    .lt("created_at", daysAgoIso(STALE_CONTACT_DAYS))
+    .limit(20);
+
+  if (staleRows && staleRows.length > 0) {
+    try {
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: process.env.CONTACT_TO_EMAIL!,
+        subject: `${staleRows.length} kontakt${staleRows.length === 1 ? "" : "e"} pa përgjigje prej >${STALE_CONTACT_DAYS} ditësh`,
+        html: staleContactsEmailHtml(staleRows, STALE_CONTACT_DAYS),
+      });
+      await supabase
+        .from("contacts")
+        .update({ stale_reminder_sent_at: nowIso })
+        .in("id", staleRows.map((c) => c.id));
+      staleContacts.push(...staleRows.map((c) => `${c.name} (${c.service})`));
+    } catch {
+      // injoro — provohet sërish nesër
+    }
+  }
+
+  // ── 7. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
   const hasActivity =
     remindedQuotes.length > 0 ||
     remindedInvoices.length > 0 ||
     generatedInvoices.length > 0 ||
     publishedPosts > 0 ||
-    sentBroadcasts.length > 0;
+    sentBroadcasts.length > 0 ||
+    staleContacts.length > 0;
 
   if (hasActivity) {
     // Regjistro në Histori çfarë bënë automatizimet sot
@@ -224,12 +256,13 @@ export async function GET(req: Request) {
     for (const q of remindedInvoices) await logActivity("auto", "send", `U dërgua kujtues pagese për ${q}`);
     for (const q of generatedInvoices) await logActivity("auto", "create", `U gjenerua vetë fatura e rikurruese ${q}`);
     for (const b of sentBroadcasts) await logActivity("newsletter", "send", `U dërgua broadcast i planifikuar "${b}"`);
+    if (staleContacts.length > 0) await logActivity("auto", "send", `U dërgua kujtues për ${staleContacts.length} kontakt pa përgjigje`);
     try {
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,
         to: process.env.CONTACT_TO_EMAIL!,
         subject: "Përmbledhja e automatizimeve të sotme",
-        html: adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts }),
+        html: adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts, staleContacts }),
       });
     } catch {
       // injoro
@@ -243,5 +276,6 @@ export async function GET(req: Request) {
     remindedInvoices: remindedInvoices.length,
     generatedInvoices: generatedInvoices.length,
     sentBroadcasts: sentBroadcasts.length,
+    staleContacts: staleContacts.length,
   });
 }

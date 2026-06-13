@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { generateTotpSecret, totpUri, verifyTotp } from "@/lib/totp";
+import { generateTotpSecret, totpUri, verifyTotp, generateRecoveryCodes, hashRecoveryCode } from "@/lib/totp";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -9,7 +9,14 @@ const supabase = createClient(
 
 // Ruhen në site_settings por JASHTË SITE_SETTINGS_DEFAULTS,
 // kështu nuk ekspozohen kurrë nga GET/PATCH /api/admin/settings.
-const KEYS = ["totp_secret", "totp_enabled", "totp_secret_pending"] as const;
+const KEYS = ["totp_secret", "totp_enabled", "totp_secret_pending", "totp_recovery_codes", "totp_trusted_devices"] as const;
+
+async function storeRecoveryCodes(): Promise<string[]> {
+  const codes = generateRecoveryCodes();
+  const hashed = codes.map((c) => ({ hash: hashRecoveryCode(c), used: false }));
+  await upsertSetting("totp_recovery_codes", JSON.stringify(hashed));
+  return codes;
+}
 
 async function readTotpSettings(): Promise<Record<string, string>> {
   const { data } = await supabase
@@ -59,7 +66,8 @@ export async function POST(req: Request) {
     await upsertSetting("totp_secret", pending);
     await upsertSetting("totp_enabled", "1");
     await deleteSettings(["totp_secret_pending"]);
-    return NextResponse.json({ success: true, enabled: true });
+    const recoveryCodes = await storeRecoveryCodes();
+    return NextResponse.json({ success: true, enabled: true, recoveryCodes });
   }
 
   if (action === "disable") {
@@ -69,8 +77,19 @@ export async function POST(req: Request) {
     if (!verifyTotp(settings.totp_secret, String(body.token ?? ""))) {
       return NextResponse.json({ success: false, error: "Kod i pavlefshëm." }, { status: 400 });
     }
-    await deleteSettings(["totp_secret", "totp_enabled", "totp_secret_pending"]);
+    await deleteSettings(["totp_secret", "totp_enabled", "totp_secret_pending", "totp_recovery_codes", "totp_trusted_devices"]);
     return NextResponse.json({ success: true, enabled: false });
+  }
+
+  if (action === "regenerate_codes") {
+    if (settings.totp_enabled !== "1" || !settings.totp_secret) {
+      return NextResponse.json({ success: false, error: "2FA nuk është aktiv." }, { status: 400 });
+    }
+    if (!verifyTotp(settings.totp_secret, String(body.token ?? ""))) {
+      return NextResponse.json({ success: false, error: "Kod i pavlefshëm." }, { status: 400 });
+    }
+    const recoveryCodes = await storeRecoveryCodes();
+    return NextResponse.json({ success: true, recoveryCodes });
   }
 
   return NextResponse.json({ success: false, error: "Veprim i panjohur." }, { status: 400 });
