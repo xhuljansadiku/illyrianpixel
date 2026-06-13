@@ -25,6 +25,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     }
     updates.answer = answer;
   }
+  if (typeof body.category === "string") updates.category = body.category.trim().slice(0, 100) || null;
   if (typeof body.visible === "boolean") updates.visible = body.visible;
   if (body.sort !== undefined && Number.isFinite(Number(body.sort))) updates.sort = Number(body.sort);
 

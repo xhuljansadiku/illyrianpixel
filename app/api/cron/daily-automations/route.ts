@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
-import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
+import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
+import { getSiteSettings } from "@/lib/siteSettings";
 import {
   quoteEmailHtml,
   quoteReminderEmailHtml,
@@ -165,12 +166,56 @@ export async function GET(req: Request) {
     generatedInvoices.push(`${record.number} (${r.client_name})`);
   }
 
-  // ── 5. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
+  // ── 5. Dërgo broadcast-et e planifikuara ───────────────────────────────────
+  const sentBroadcasts: string[] = [];
+  const { data: dueBroadcasts } = await supabase
+    .from("newsletter_broadcasts")
+    .select("*")
+    .is("sent_at", null)
+    .not("scheduled_for", "is", null)
+    .lte("scheduled_for", nowIso)
+    .limit(10);
+
+  if (dueBroadcasts && dueBroadcasts.length > 0) {
+    const { data: subscribers } = await supabase
+      .from("newsletter_subscribers")
+      .select("email")
+      .eq("unsubscribed", false);
+    const recipients = (subscribers ?? []).map((s) => s.email);
+
+    if (recipients.length > 0) {
+      const { whatsapp_number } = await getSiteSettings();
+      const whatsappUrl = `https://wa.me/${whatsapp_number}`;
+      const BATCH_SIZE = 100;
+
+      for (const b of dueBroadcasts) {
+        for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
+          const chunk = recipients.slice(i, i + BATCH_SIZE);
+          await resend.batch.send(
+            chunk.map((email) => ({
+              from: NEWSLETTER_BRAND.from,
+              to: email,
+              subject: b.subject,
+              html: broadcastEmailHtml(b.subject, b.message, whatsappUrl, { broadcastId: b.id, email }),
+            }))
+          );
+        }
+        await supabase
+          .from("newsletter_broadcasts")
+          .update({ sent_at: nowIso, sent_count: recipients.length })
+          .eq("id", b.id);
+        sentBroadcasts.push(b.subject);
+      }
+    }
+  }
+
+  // ── 6. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
   const hasActivity =
     remindedQuotes.length > 0 ||
     remindedInvoices.length > 0 ||
     generatedInvoices.length > 0 ||
-    publishedPosts > 0;
+    publishedPosts > 0 ||
+    sentBroadcasts.length > 0;
 
   if (hasActivity) {
     // Regjistro në Histori çfarë bënë automatizimet sot
@@ -178,12 +223,13 @@ export async function GET(req: Request) {
     for (const q of remindedQuotes) await logActivity("auto", "send", `U dërgua kujtues oferte për ${q}`);
     for (const q of remindedInvoices) await logActivity("auto", "send", `U dërgua kujtues pagese për ${q}`);
     for (const q of generatedInvoices) await logActivity("auto", "create", `U gjenerua vetë fatura e rikurruese ${q}`);
+    for (const b of sentBroadcasts) await logActivity("newsletter", "send", `U dërgua broadcast i planifikuar "${b}"`);
     try {
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,
         to: process.env.CONTACT_TO_EMAIL!,
         subject: "Përmbledhja e automatizimeve të sotme",
-        html: adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts }),
+        html: adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts }),
       });
     } catch {
       // injoro
@@ -196,5 +242,6 @@ export async function GET(req: Request) {
     remindedQuotes: remindedQuotes.length,
     remindedInvoices: remindedInvoices.length,
     generatedInvoices: generatedInvoices.length,
+    sentBroadcasts: sentBroadcasts.length,
   });
 }

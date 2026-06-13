@@ -24,6 +24,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (body.company !== undefined) update.company = String(body.company).trim().slice(0, 160) || null;
   if (body.result !== undefined) update.result = String(body.result).trim().slice(0, 160) || null;
   if (body.logo !== undefined) update.logo = String(body.logo).trim().slice(0, 500) || null;
+  if (body.category !== undefined) update.category = String(body.category).trim().slice(0, 100) || null;
   if (body.visible !== undefined) update.visible = !!body.visible;
   if (body.sort !== undefined && Number.isFinite(Number(body.sort))) update.sort = Number(body.sort);
 

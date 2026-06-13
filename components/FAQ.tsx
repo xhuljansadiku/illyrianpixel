@@ -3,10 +3,10 @@
 import { useState } from "react";
 import SectionMark from "@/components/SectionMark";
 
-export type FaqItem = { q: string; a: string };
+export type FaqItem = { q: string; a: string; category?: string | null };
 
 // Fallback nëse tabela faqs në DB është bosh / e paarritshme
-const defaultFaqs = [
+const defaultFaqs: FaqItem[] = [
   {
     q: "Sa zgjat ndërtimi i një website?",
     a: "Mesatarisht 2–4 javë, varësisht kompleksitetit dhe sasisë së përmbajtjes.\nProjektet me funksione të avancuara mund të zgjasin deri në 6 javë.\nNë fazën e planifikimit ju japim një afat të saktë."
@@ -36,20 +36,49 @@ const defaultFaqs = [
 export default function FAQ({ items }: { items?: FaqItem[] }) {
   const [open, setOpen] = useState(0);
   const faqs = items && items.length > 0 ? items : defaultFaqs;
+  const hasCategories = faqs.some((f) => "category" in f && f.category);
+
+  const groups: { category: string | null; items: FaqItem[] }[] = [];
+  if (hasCategories) {
+    const map = new Map<string, FaqItem[]>();
+    for (const f of faqs) {
+      const key = f.category || "Të tjera";
+      if (!map.has(key)) map.set(key, []);
+      map.get(key)!.push(f);
+    }
+    for (const [category, groupItems] of map) groups.push({ category, items: groupItems });
+  } else {
+    groups.push({ category: null, items: faqs });
+  }
+
+  let runningIndex = 0;
+
   return (
     <section id="faq" className="cinematic-section section-tone-about">
       <div className="section-wrap">
         <SectionMark label="FAQ" />
         <h2 className="section-title mt-3 max-w-4xl">Pyetje të shpeshta.</h2>
-        <div className="mt-8 max-w-4xl divide-y divide-white/10 border-y border-white/10">
-          {faqs.map((item, idx) => (
-            <div key={item.q} className="py-4">
-              <button onClick={() => setOpen((prev) => (prev === idx ? -1 : idx))} className="flex w-full items-center justify-between text-left">
-                <span className="font-display text-[1.5rem] leading-tight text-white/92 md:text-[1.9rem]">{item.q}</span>
-                <span className="text-accent/85">{open === idx ? "−" : "+"}</span>
-              </button>
-              <div className={`grid transition-all duration-300 ${open === idx ? "grid-rows-[1fr] opacity-100 pt-3" : "grid-rows-[0fr] opacity-0"}`}>
-                <p className="overflow-hidden md:whitespace-pre-line text-sm leading-relaxed text-white/70 md:text-base">{item.a}</p>
+        <div className="mt-8 max-w-4xl space-y-8">
+          {groups.map((group) => (
+            <div key={group.category ?? "all"}>
+              {group.category && (
+                <p className="mb-2 font-ui text-[11px] font-semibold uppercase tracking-[0.2em] text-accent/85">{group.category}</p>
+              )}
+              <div className="divide-y divide-white/10 border-y border-white/10">
+                {group.items.map((item) => {
+                  const idx = runningIndex++;
+                  return (
+                    <div key={item.q} className="py-4">
+                      <button onClick={() => setOpen((prev) => (prev === idx ? -1 : idx))} className="flex w-full items-center justify-between text-left">
+                        <span className="font-display text-[1.5rem] leading-tight text-white/92 md:text-[1.9rem]">{item.q}</span>
+                        <span className="text-accent/85">{open === idx ? "−" : "+"}</span>
+                      </button>
+                      <div className={`grid transition-all duration-300 ${open === idx ? "grid-rows-[1fr] opacity-100 pt-3" : "grid-rows-[0fr] opacity-0"}`}>
+                        <p className="overflow-hidden md:whitespace-pre-line text-sm leading-relaxed text-white/70 md:text-base">{item.a}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}

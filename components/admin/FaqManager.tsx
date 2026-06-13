@@ -18,7 +18,7 @@ const BTN_PLAIN =
 const BTN_DANGER =
   "font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50";
 
-const EMPTY_FAQ = { question: "", answer: "" };
+const EMPTY_FAQ = { question: "", answer: "", category: "" };
 
 export default function FaqManager({
   items,
@@ -35,7 +35,7 @@ export default function FaqManager({
 
   const startEdit = (f: FaqRow) => {
     setEditingId(f.id);
-    setForm({ question: f.question, answer: f.answer });
+    setForm({ question: f.question, answer: f.answer, category: f.category ?? "" });
     setError("");
   };
 
@@ -169,6 +169,13 @@ export default function FaqManager({
           onChange={(e) => setForm((f) => ({ ...f, answer: e.target.value }))}
           className={INPUT + " mt-3 w-full resize-none"}
         />
+        <input
+          type="text"
+          placeholder="Kategoria (ops. — p.sh. Çmime, Procesi, Teknike)"
+          value={form.category}
+          onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+          className={INPUT + " mt-3 w-full"}
+        />
         {error && <p className="mt-2 text-[12px] text-red-400/80">{error}</p>}
         <div className="mt-3 flex gap-2">
           <button onClick={submit} disabled={saving} className={BTN_GOLD}>
@@ -195,6 +202,11 @@ export default function FaqManager({
               <div className="min-w-0 flex-1">
                 <p className="font-display text-[1rem] font-semibold text-[var(--a-text)]">
                   {f.question}
+                  {f.category && (
+                    <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
+                      {f.category}
+                    </span>
+                  )}
                   {!f.visible && (
                     <span className="ml-2 rounded-full border border-[rgb(var(--a-text-rgb)/0.2)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.45)]">
                       E fshehur

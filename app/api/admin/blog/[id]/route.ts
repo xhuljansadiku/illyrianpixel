@@ -9,13 +9,14 @@ const supabase = createClient(
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   const body = await req.json();
-  const { title, category, excerpt, content, date } = body;
+  const { title, category, excerpt, content, date, meta_description } = body;
 
   const update: Record<string, unknown> = {};
   if (typeof title === "string") update.title = title;
   if (typeof category === "string") update.category = category;
   if (typeof excerpt === "string") update.excerpt = excerpt;
   if (typeof date === "string") update.date = date;
+  if (typeof meta_description === "string") update.meta_description = meta_description.trim().slice(0, 160) || null;
   if (content !== undefined) {
     update.content = Array.isArray(content)
       ? content

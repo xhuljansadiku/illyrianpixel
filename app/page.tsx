@@ -51,7 +51,7 @@ export default async function HomePage() {
     getVisibleFaqs().catch(() => []),
   ]);
 
-  const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer }));
+  const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer, category: f.category }));
 
   const testimonialItems = testimonialRows.map((t) => ({
     quote: t.quote,
@@ -59,6 +59,7 @@ export default async function HomePage() {
     company: t.company,
     result: t.result,
     logo: t.logo,
+    category: t.category,
   }));
 
   const portfolioItems: FeaturedItem[] = portfolioRows.map((p) => ({

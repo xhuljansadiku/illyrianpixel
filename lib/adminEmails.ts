@@ -44,6 +44,34 @@ function shell(title: string, body: string): string {
 </html>`;
 }
 
+// Email-i i dërguar klientit pas pranimit të ofertës, me linkun e portalit personal.
+export function clientPortalLinkEmailHtml(clientName: string, portalUrl: string): string {
+  const body = `
+        <tr>
+          <td style="padding:36px 48px;">
+            <p style="margin:0 0 18px;font-size:15px;color:rgba(255,255,255,0.8);">Përshëndetje ${escapeHtml(clientName)},</p>
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.75);line-height:1.8;">
+              Faleminderit për besimin! Ofertën tuaj e pranuam dhe nisëm punën. Mund të ndiqni progresin e projektit
+              dhe faturat tuaja në çdo kohë nga portali juaj personal:
+            </p>
+            <table cellpadding="0" cellspacing="0" style="margin-top:24px;">
+              <tr>
+                <td style="background:#ab8339;border-radius:8px;">
+                  <a href="${portalUrl}" style="display:inline-block;padding:13px 28px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
+                    Hap portalin tim →
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:24px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
+              Me respekt,<br>
+              <span style="color:#ab8339;font-weight:600;">Ekipi i Illyrian Pixel</span>
+            </p>
+          </td>
+        </tr>`;
+  return shell("Portali juaj — Illyrian Pixel", body);
+}
+
 export function replyEmailHtml(subject: string, message: string, recipientName: string): string {
   const safeMessage = escapeHtml(message).replaceAll("\n", "<br>");
   const body = `
@@ -244,6 +272,7 @@ export function adminDailySummaryHtml(summary: {
   remindedInvoices: string[];
   generatedInvoices: string[];
   publishedPosts: number;
+  sentBroadcasts?: string[];
 }): string {
   const line = (label: string, items: string[]) =>
     items.length
@@ -260,6 +289,7 @@ export function adminDailySummaryHtml(summary: {
             ${line("📨 Kujtues oferte u dërguan", summary.remindedQuotes)}
             ${line("💸 Kujtues pagese u dërguan", summary.remindedInvoices)}
             ${line("🔁 Fatura të rikurruese u gjeneruan", summary.generatedInvoices)}
+            ${line("✉️ Broadcast-e të planifikuara u dërguan", summary.sentBroadcasts ?? [])}
             ${summary.publishedPosts > 0 ? `<p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.7);"><strong style="color:#ab8339;">📝 Artikuj të publikuar:</strong> ${summary.publishedPosts}</p>` : ""}
             <table cellpadding="0" cellspacing="0" style="margin-top:24px;">
               <tr>

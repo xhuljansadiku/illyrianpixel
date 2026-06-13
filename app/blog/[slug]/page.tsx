@@ -75,7 +75,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const post = getBlogPostBySlug(params.slug) ?? (await getDbPostBySlug(params.slug));
   if (!post) return buildMetadata("Blog", undefined, "/blog");
-  return buildMetadata(post.title, post.excerpt, `/blog/${params.slug}`);
+  return buildMetadata(post.title, post.meta_description || post.excerpt, `/blog/${params.slug}`);
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {

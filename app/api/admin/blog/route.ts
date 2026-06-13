@@ -24,7 +24,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { slug, title, category, excerpt, content, date } = body;
+  const { slug, title, category, excerpt, content, date, meta_description } = body;
 
   if (!slug || !title || !category || !excerpt || !date) {
     return NextResponse.json({ success: false, error: "Plotëso të gjitha fushat." }, { status: 400 });
@@ -57,6 +57,10 @@ export async function POST(req: Request) {
       excerpt,
       content: contentArray,
       date,
+      meta_description:
+        typeof meta_description === "string" && meta_description.trim()
+          ? meta_description.trim().slice(0, 160)
+          : null,
       published: !isScheduled,
       scheduled_for: isScheduled ? scheduledFor!.toISOString() : null,
     })

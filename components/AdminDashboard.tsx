@@ -18,7 +18,7 @@ import ActivityTab from "@/components/admin/ActivityTab";
 import NotificationsBell from "@/components/admin/NotificationsBell";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { quoteTotals, formatMoney } from "@/lib/quotes";
-import type { ProjectRecord } from "@/lib/projects";
+import { PROJECT_PHASE_LABELS, type ProjectRecord } from "@/lib/projects";
 import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
 import type { PricingOverrides } from "@/lib/pricingOverrides";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
@@ -68,6 +68,8 @@ type BroadcastStat = {
   sent_count: number;
   opens: number;
   clicks: number;
+  scheduled_for?: string | null;
+  sent_at?: string | null;
 };
 
 type ContactLog = {
@@ -102,6 +104,7 @@ type BlogPost = {
   excerpt: string;
   content: string[];
   date: string;
+  meta_description?: string | null;
   published?: boolean;
   scheduled_for?: string | null;
 };
@@ -792,7 +795,7 @@ export default function AdminDashboard({
           {/* Content */}
           <div className="mt-6">
             {tab === "overview" && (
-              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} onGoToContact={goToContact} />
+              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} projects={projectsList} onGoToContact={goToContact} />
             )}
             {tab === "contacts" && (
               <ContactsTab contacts={contacts} setContacts={setContacts} jumpSearch={contactsJump} onCreateQuote={createQuoteForContact} />
@@ -935,15 +938,33 @@ function OverviewTab({
   subscribers,
   stats,
   adminLogins,
+  projects,
   onGoToContact,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
   stats: Stats;
   adminLogins: AdminLogin[];
+  projects: ProjectRecord[];
   onGoToContact: (term: string) => void;
 }) {
   const today = new Date().toISOString().slice(0, 10);
+
+  const projectsSummary = useMemo(() => {
+    const active = projects.filter((p) => p.status === "active");
+    const withTasks = projects.filter((p) => p.tasks.length > 0);
+    const avgPct =
+      withTasks.length === 0
+        ? null
+        : Math.round(
+            (withTasks.reduce((sum, p) => sum + p.tasks.filter((t) => t.done).length / p.tasks.length, 0) /
+              withTasks.length) *
+              100
+          );
+    const byPhase = new Map<string, number>();
+    active.forEach((p) => byPhase.set(p.phase, (byPhase.get(p.phase) ?? 0) + 1));
+    return { active: active.length, total: projects.length, avgPct, byPhase };
+  }, [projects]);
 
   const followUps = useMemo(() => {
     const cutoff = new Date();
@@ -995,6 +1016,47 @@ function OverviewTab({
               );
             })}
           </ul>
+        )}
+      </div>
+
+      {/* Projects progress */}
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          Projektet
+        </p>
+        {projectsSummary.total === 0 ? (
+          <EmptyState text="Ende pa projekte." />
+        ) : (
+          <>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+              <div>
+                <p className="font-display text-[1.7rem] font-bold text-accent">{projectsSummary.active}</p>
+                <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Projekte aktive</p>
+              </div>
+              <div>
+                <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{projectsSummary.total}</p>
+                <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Gjithsej</p>
+              </div>
+              <div>
+                <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">
+                  {projectsSummary.avgPct !== null ? `${projectsSummary.avgPct}%` : "—"}
+                </p>
+                <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Përfundimi mesatar i checklist-ave</p>
+              </div>
+            </div>
+            {projectsSummary.byPhase.size > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {Array.from(projectsSummary.byPhase.entries()).map(([phase, count]) => (
+                  <span
+                    key={phase}
+                    className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent"
+                  >
+                    {PROJECT_PHASE_LABELS[phase as keyof typeof PROJECT_PHASE_LABELS] ?? phase} · {count}
+                  </span>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -2282,8 +2344,10 @@ function SubscribersTab({
 
   const [broadcastSubject, setBroadcastSubject] = useState("");
   const [broadcastMessage, setBroadcastMessage] = useState("");
+  const [broadcastScheduled, setBroadcastScheduled] = useState("");
   const [broadcastSending, setBroadcastSending] = useState(false);
   const [broadcastResult, setBroadcastResult] = useState<string>("");
+  const [scheduledBroadcasts, setScheduledBroadcasts] = useState<BroadcastStat[]>([]);
 
   const activeCount = subscribers.filter((s) => !s.unsubscribed).length;
 
@@ -2390,20 +2454,47 @@ function SubscribersTab({
 
   const sendBroadcast = async () => {
     if (!broadcastSubject.trim() || !broadcastMessage.trim()) return;
-    if (!confirm(`Të dërgohet ky email te ${activeCount} subscriber-a aktivë?`)) return;
+    const scheduledIso = broadcastScheduled ? new Date(broadcastScheduled).toISOString() : null;
+    const willSchedule = !!scheduledIso && new Date(broadcastScheduled).getTime() > Date.now();
+    if (
+      !confirm(
+        willSchedule
+          ? `Të planifikohet ky email për ${new Date(broadcastScheduled).toLocaleString("sq-AL")}?`
+          : `Të dërgohet ky email te ${activeCount} subscriber-a aktivë?`
+      )
+    )
+      return;
     setBroadcastSending(true);
     setBroadcastResult("");
     try {
       const res = await fetch("/api/admin/newsletter/broadcast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subject: broadcastSubject, message: broadcastMessage }),
+        body: JSON.stringify({ subject: broadcastSubject, message: broadcastMessage, scheduled_for: scheduledIso }),
       });
       const data = await res.json();
       if (data.success) {
-        setBroadcastResult(`U dërgua te ${data.sent} subscriber-a.`);
+        if (data.scheduled) {
+          setBroadcastResult(`U planifikua për ${new Date(broadcastScheduled).toLocaleString("sq-AL")}.`);
+          setScheduledBroadcasts((prev) => [
+            {
+              id: `pending-${Date.now()}`,
+              subject: broadcastSubject,
+              created_at: new Date().toISOString(),
+              sent_count: activeCount,
+              opens: 0,
+              clicks: 0,
+              scheduled_for: scheduledIso,
+              sent_at: null,
+            },
+            ...prev,
+          ]);
+        } else {
+          setBroadcastResult(`U dërgua te ${data.sent} subscriber-a.`);
+        }
         setBroadcastSubject("");
         setBroadcastMessage("");
+        setBroadcastScheduled("");
       } else {
         setBroadcastResult(data.error ?? "Gabim i panjohur.");
       }
@@ -2413,6 +2504,8 @@ function SubscribersTab({
       setBroadcastSending(false);
     }
   };
+
+  const allBroadcasts = useMemo(() => [...scheduledBroadcasts, ...broadcasts], [scheduledBroadcasts, broadcasts]);
 
   return (
     <div>
@@ -2435,20 +2528,41 @@ function SubscribersTab({
           placeholder="Mesazhi..."
           className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
-        <div className="mt-3 flex items-center gap-3">
+        <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             onClick={sendBroadcast}
             disabled={broadcastSending || !broadcastSubject.trim() || !broadcastMessage.trim() || activeCount === 0}
             className="font-ui rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
           >
-            {broadcastSending ? "Duke dërguar…" : "Dërgo email"}
+            {broadcastSending
+              ? "Duke dërguar…"
+              : broadcastScheduled && new Date(broadcastScheduled).getTime() > Date.now()
+                ? "Planifiko"
+                : "Dërgo email"}
           </button>
+          <div className="flex items-center gap-2">
+            <label className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">Dërgo më vonë:</label>
+            <input
+              type="datetime-local"
+              value={broadcastScheduled}
+              onChange={(e) => setBroadcastScheduled(e.target.value)}
+              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+            {broadcastScheduled && (
+              <button
+                onClick={() => setBroadcastScheduled("")}
+                className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[var(--a-text)]"
+              >
+                Hiq
+              </button>
+            )}
+          </div>
           {broadcastResult && <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">{broadcastResult}</span>}
         </div>
       </div>
 
       {/* Statistika broadcast-esh — opens & clicks */}
-      {broadcasts.length > 0 && (
+      {allBroadcasts.length > 0 && (
         <div className={CARD + " mb-5 p-5"}>
           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
             Broadcast-et e fundit — hapje & klikime
@@ -2467,18 +2581,28 @@ function SubscribersTab({
                 </tr>
               </thead>
               <tbody>
-                {broadcasts.map((b) => {
+                {allBroadcasts.map((b) => {
+                  const pending = !b.sent_at && !!b.scheduled_for;
                   const openRate = b.sent_count > 0 ? (b.opens / b.sent_count) * 100 : 0;
                   const ctr = b.sent_count > 0 ? (b.clicks / b.sent_count) * 100 : 0;
                   return (
                     <tr key={b.id} className="border-t border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.65)]">
-                      <td className="max-w-[220px] truncate py-2.5 pr-4 text-[var(--a-text)]">{b.subject}</td>
-                      <td className="py-2.5 pr-4 whitespace-nowrap">{formatDate(b.created_at)}</td>
-                      <td className="py-2.5 pr-4 text-right">{b.sent_count}</td>
-                      <td className="py-2.5 pr-4 text-right">{b.opens}</td>
-                      <td className="py-2.5 pr-4 text-right text-accent">{openRate.toFixed(0)}%</td>
-                      <td className="py-2.5 pr-4 text-right">{b.clicks}</td>
-                      <td className="py-2.5 text-right text-accent">{ctr.toFixed(0)}%</td>
+                      <td className="max-w-[220px] truncate py-2.5 pr-4 text-[var(--a-text)]">
+                        {b.subject}
+                        {pending && (
+                          <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
+                            Planifikuar
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-2.5 pr-4 whitespace-nowrap">
+                        {pending ? formatDate(b.scheduled_for!) : formatDate(b.created_at)}
+                      </td>
+                      <td className="py-2.5 pr-4 text-right">{pending ? "—" : b.sent_count}</td>
+                      <td className="py-2.5 pr-4 text-right">{pending ? "—" : b.opens}</td>
+                      <td className="py-2.5 pr-4 text-right text-accent">{pending ? "—" : `${openRate.toFixed(0)}%`}</td>
+                      <td className="py-2.5 pr-4 text-right">{pending ? "—" : b.clicks}</td>
+                      <td className="py-2.5 text-right text-accent">{pending ? "—" : `${ctr.toFixed(0)}%`}</td>
                     </tr>
                   );
                 })}
@@ -2624,7 +2748,16 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
 }
 
 // ── Blog tab ───────────────────────────────────────────────────────────────
-const EMPTY_FORM = { slug: "", title: "", category: "", excerpt: "", date: "", content: "", scheduled: "" };
+const EMPTY_FORM = {
+  slug: "",
+  title: "",
+  category: "",
+  excerpt: "",
+  date: "",
+  content: "",
+  scheduled: "",
+  meta_description: "",
+};
 
 // ISO → vlerë për input datetime-local (në orën lokale)
 function isoToLocalInput(iso: string | null | undefined): string {
@@ -2667,6 +2800,7 @@ function BlogTab({
       date: post.date,
       content: post.content.join("\n\n"),
       scheduled: post.published === false ? isoToLocalInput(post.scheduled_for) : "",
+      meta_description: post.meta_description ?? "",
     });
     setIsNewCategory(!categories.includes(post.category));
     setError("");
@@ -2702,6 +2836,7 @@ function BlogTab({
             date: form.date,
             content: form.content,
             scheduled_for: scheduledIso,
+            meta_description: form.meta_description,
           }),
         });
         const data = await res.json();
@@ -2721,6 +2856,7 @@ function BlogTab({
                   content: form.content.split("\n\n").map((s) => s.trim()).filter(Boolean),
                   published: !willBeScheduled,
                   scheduled_for: willBeScheduled ? scheduledIso : null,
+                  meta_description: form.meta_description.trim().slice(0, 160) || null,
                 }
               : p
           )
@@ -2833,6 +2969,19 @@ function BlogTab({
           onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
           className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
+        <div className="mt-3">
+          <textarea
+            placeholder="Meta description (SEO) — opsionale, shfaqet në Google"
+            rows={2}
+            maxLength={160}
+            value={form.meta_description}
+            onChange={(e) => setForm((f) => ({ ...f, meta_description: e.target.value }))}
+            className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          />
+          <p className="mt-1 text-right text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
+            {form.meta_description.length}/160 — nëse lihet bosh, përdoret përmbledhja
+          </p>
+        </div>
 
         <div className="mt-3">
           <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
@@ -2950,18 +3099,37 @@ function AnalyticsTab({
   quotes: QuoteRecord[];
   visitors30: number;
 }) {
+  const [rangeOption, setRangeOption] = useState<"7" | "30" | "90" | "custom">("30");
+  const [customFrom, setCustomFrom] = useState("");
+  const [customTo, setCustomTo] = useState("");
+
+  const { cutoff, until, rangeLabel } = useMemo(() => {
+    if (rangeOption === "custom" && customFrom) {
+      const from = new Date(`${customFrom}T00:00:00`).getTime();
+      const to = customTo ? new Date(`${customTo}T23:59:59.999`).getTime() : Date.now();
+      return { cutoff: from, until: to, rangeLabel: "intervali i zgjedhur" };
+    }
+    const days = Number(rangeOption);
+    return { cutoff: Date.now() - days * 86400000, until: Date.now(), rangeLabel: `${days} ditët e fundit` };
+  }, [rangeOption, customFrom, customTo]);
+
   const funnel = useMemo(() => {
-    const cutoff = Date.now() - 30 * 86400000;
-    const contacts30 = contacts.filter((c) => new Date(c.created_at).getTime() >= cutoff);
-    const quotes30 = quotes.filter((q) => new Date(q.created_at).getTime() >= cutoff && q.status !== "draft");
-    const won30 = contacts30.filter((c) => (c.status || "new") === "done");
+    const contactsR = contacts.filter((c) => {
+      const t = new Date(c.created_at).getTime();
+      return t >= cutoff && t <= until;
+    });
+    const quotesR = quotes.filter((q) => {
+      const t = new Date(q.created_at).getTime();
+      return t >= cutoff && t <= until && q.status !== "draft";
+    });
+    const wonR = contactsR.filter((c) => (c.status || "new") === "done");
     return [
       { label: "Vizitorë", value: visitors30 },
-      { label: "Kontakte", value: contacts30.length },
-      { label: "Oferta të dërguara", value: quotes30.length },
-      { label: "Fituar (mbyllur)", value: won30.length },
+      { label: "Kontakte", value: contactsR.length },
+      { label: "Oferta të dërguara", value: quotesR.length },
+      { label: "Fituar (mbyllur)", value: wonR.length },
     ];
-  }, [contacts, quotes, visitors30]);
+  }, [contacts, quotes, visitors30, cutoff, until]);
 
   const pipeline = useMemo(() => {
     const open = contacts
@@ -2989,7 +3157,51 @@ function AnalyticsTab({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          {(["7", "30", "90"] as const).map((opt) => (
+            <button
+              key={opt}
+              onClick={() => setRangeOption(opt)}
+              className={`font-ui rounded-[2px] border px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+                rangeOption === opt
+                  ? "border-accent/50 bg-accent/10 text-accent"
+                  : "border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
+              }`}
+            >
+              {opt} ditë
+            </button>
+          ))}
+          <button
+            onClick={() => setRangeOption("custom")}
+            className={`font-ui rounded-[2px] border px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+              rangeOption === "custom"
+                ? "border-accent/50 bg-accent/10 text-accent"
+                : "border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
+            }`}
+          >
+            Interval
+          </button>
+          {rangeOption === "custom" && (
+            <div className="flex items-center gap-2">
+              <input
+                type="date"
+                value={customFrom}
+                onChange={(e) => setCustomFrom(e.target.value)}
+                max={customTo || undefined}
+                className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">—</span>
+              <input
+                type="date"
+                value={customTo}
+                onChange={(e) => setCustomTo(e.target.value)}
+                min={customFrom || undefined}
+                className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+            </div>
+          )}
+        </div>
         <button
           onClick={() => printMonthlyReport(contacts, stats)}
           className="font-ui rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10"
@@ -3017,7 +3229,7 @@ function AnalyticsTab({
       {/* Funnel */}
       <div className={CARD + " p-5"}>
         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          Funnel i konvertimit — 30 ditët e fundit
+          Funnel i konvertimit — {rangeLabel}
         </p>
         <div className="space-y-3">
           {funnel.map((step, i) => {
@@ -3043,7 +3255,7 @@ function AnalyticsTab({
           })}
         </div>
         <p className="mt-3 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
-          Vizitorët maten nga tracking i brendshëm i faqeve (pa cookies). Oferta = dokumente jo-draft të krijuara në 30 ditët e fundit.
+          Vizitorët maten nga tracking i brendshëm i faqeve (pa cookies, 30 ditët e fundit, pavarësisht intervalit të zgjedhur). Oferta = dokumente jo-draft të krijuara në {rangeLabel}.
         </p>
       </div>
 

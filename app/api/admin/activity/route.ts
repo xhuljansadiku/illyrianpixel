@@ -11,6 +11,7 @@ export async function GET(req: Request) {
   const entity = searchParams.get("entity");
   const entities = searchParams.get("entities");
   const since = searchParams.get("since");
+  const until = searchParams.get("until");
   const limit = Number(searchParams.get("limit")) || 300;
 
   let query = supabase
@@ -22,6 +23,7 @@ export async function GET(req: Request) {
   if (entity) query = query.eq("entity", entity);
   if (entities) query = query.in("entity", entities.split(","));
   if (since) query = query.gt("created_at", since);
+  if (until) query = query.lte("created_at", until);
 
   const { data, error } = await query;
 

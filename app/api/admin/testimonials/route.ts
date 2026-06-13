@@ -37,6 +37,7 @@ export async function POST(req: Request) {
       company: String(body.company ?? "").trim().slice(0, 160) || null,
       result: String(body.result ?? "").trim().slice(0, 160) || null,
       logo: String(body.logo ?? "").trim().slice(0, 500) || null,
+      category: String(body.category ?? "").trim().slice(0, 100) || null,
       visible: body.visible !== false,
       sort: Number.isFinite(Number(body.sort)) ? Number(body.sort) : 0,
     })

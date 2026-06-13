@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
-import { adminQuoteResponseEmailHtml } from "@/lib/adminEmails";
+import { adminQuoteResponseEmailHtml, clientPortalLinkEmailHtml } from "@/lib/adminEmails";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
 import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { quoteTotals, formatMoney, type QuoteRecord } from "@/lib/quotes";
@@ -101,6 +101,28 @@ export async function POST(req: Request, { params }: { params: { token: string }
       }
     } catch {
       // projekti mund të krijohet edhe manualisht — mos e blloko pranimin
+    }
+
+    // Dërgo klientit linkun e portalit të tij (best-effort)
+    if (quote.contact_id && quote.client_email) {
+      try {
+        const { data: contact } = await supabase
+          .from("contacts")
+          .select("portal_token")
+          .eq("id", quote.contact_id)
+          .single();
+        if (contact?.portal_token) {
+          await resend.emails.send({
+            from: NEWSLETTER_BRAND.from,
+            to: quote.client_email,
+            replyTo: "info@illyrianpixel.com",
+            subject: "Portali juaj — Illyrian Pixel",
+            html: clientPortalLinkEmailHtml(quote.client_name, `${NEWSLETTER_BRAND.website}/klienti/${contact.portal_token}`),
+          });
+        }
+      } catch {
+        // best-effort — nuk e blloko pranimin
+      }
     }
   }
 

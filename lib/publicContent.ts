@@ -15,6 +15,7 @@ export type TestimonialRow = {
   company: string | null;
   result: string | null;
   logo: string | null;
+  category: string | null;
   visible: boolean;
   sort: number;
   created_at: string;
@@ -78,6 +79,7 @@ export type FaqRow = {
   id: number;
   question: string;
   answer: string;
+  category: string | null;
   visible: boolean;
   sort: number;
   created_at: string;

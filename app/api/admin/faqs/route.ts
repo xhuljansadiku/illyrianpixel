@@ -29,11 +29,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: "Pyetja dhe përgjigjja janë të detyrueshme." }, { status: 400 });
   }
 
+  const category = typeof body.category === "string" ? body.category.trim().slice(0, 100) || null : null;
+
   const { data, error } = await supabase
     .from("faqs")
     .insert({
       question,
       answer,
+      category,
       visible: body.visible !== false,
       sort: Number.isFinite(Number(body.sort)) ? Number(body.sort) : 0,
     })

@@ -62,12 +62,21 @@ export default function ActivityTab() {
   const [error, setError] = useState("");
   const [entityFilter, setEntityFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
     (async () => {
       try {
-        const res = await fetch("/api/admin/activity");
+        const params = new URLSearchParams();
+        if (dateFrom || dateTo) {
+          params.set("limit", "1000");
+          if (dateFrom) params.set("since", new Date(`${dateFrom}T00:00:00`).toISOString());
+          if (dateTo) params.set("until", new Date(`${dateTo}T23:59:59.999`).toISOString());
+        }
+        const res = await fetch(`/api/admin/activity${params.toString() ? `?${params}` : ""}`);
         const data = await res.json();
         if (cancelled) return;
         if (data.success) setRows(data.activity);
@@ -81,7 +90,7 @@ export default function ActivityTab() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [dateFrom, dateTo]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -128,8 +137,46 @@ export default function ActivityTab() {
             </option>
           ))}
         </select>
+        <div className="flex items-center gap-2">
+          <input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => setDateFrom(e.target.value)}
+            max={dateTo || undefined}
+            className={INPUT}
+            title="Nga data"
+          />
+          <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">—</span>
+          <input
+            type="date"
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            min={dateFrom || undefined}
+            className={INPUT}
+            title="Deri më"
+          />
+          {(dateFrom || dateTo) && (
+            <button
+              type="button"
+              onClick={() => {
+                setDateFrom("");
+                setDateTo("");
+              }}
+              className="font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] underline-offset-2 hover:text-accent hover:underline"
+            >
+              Pastro
+            </button>
+          )}
+        </div>
         <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
-          {filtered.length} veprime {rows.length >= 300 ? "(300 të fundit)" : ""}
+          {filtered.length} veprime{" "}
+          {dateFrom || dateTo
+            ? rows.length >= 1000
+              ? "(1000 të fundit në interval)"
+              : ""
+            : rows.length >= 300
+              ? "(300 të fundit)"
+              : ""}
         </span>
       </div>
 

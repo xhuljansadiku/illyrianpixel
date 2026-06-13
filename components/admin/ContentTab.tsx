@@ -80,7 +80,7 @@ export default function ContentTab({
 }
 
 // ── Testimoniale ─────────────────────────────────────────────────────────────
-const EMPTY_TESTIMONIAL = { quote: "", name: "", company: "", result: "", logo: "" };
+const EMPTY_TESTIMONIAL = { quote: "", name: "", company: "", result: "", logo: "", category: "" };
 
 function TestimonialsManager({
   items,
@@ -97,7 +97,14 @@ function TestimonialsManager({
 
   const startEdit = (t: TestimonialRow) => {
     setEditingId(t.id);
-    setForm({ quote: t.quote, name: t.name, company: t.company ?? "", result: t.result ?? "", logo: t.logo ?? "" });
+    setForm({
+      quote: t.quote,
+      name: t.name,
+      company: t.company ?? "",
+      result: t.result ?? "",
+      logo: t.logo ?? "",
+      category: t.category ?? "",
+    });
     setError("");
   };
 
@@ -220,6 +227,7 @@ function TestimonialsManager({
           <input type="text" placeholder="Kompania" value={form.company} onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))} className={INPUT} />
           <input type="text" placeholder="Vendi/rezultati (p.sh. Milano, Itali)" value={form.result} onChange={(e) => setForm((f) => ({ ...f, result: e.target.value }))} className={INPUT} />
           <input type="text" placeholder="URL e logos (ops.)" value={form.logo} onChange={(e) => setForm((f) => ({ ...f, logo: e.target.value }))} className={INPUT} />
+          <input type="text" placeholder="Kategoria (ops.)" value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))} className={INPUT} />
         </div>
         {error && <p className="mt-2 text-[12px] text-red-400/80">{error}</p>}
         <div className="mt-4 flex gap-3">
@@ -240,6 +248,7 @@ function TestimonialsManager({
               <span className="font-semibold text-[var(--a-text)]">{t.name}</span>
               {t.company && <span>· {t.company}</span>}
               {t.result && <span className="rounded-full border border-accent/30 px-2 py-0.5 text-[10px] text-accent/85">{t.result}</span>}
+              {t.category && <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-accent">{t.category}</span>}
               {!t.visible && <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.2)] px-2 py-0.5 text-[10px] uppercase">I fshehur</span>}
             </div>
             <div className="mt-3 flex flex-wrap gap-2 border-t border-[var(--a-border)] pt-3">
