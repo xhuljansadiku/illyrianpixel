@@ -13,7 +13,29 @@
       "Bash(Select-Object FullName)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(break)",
+      "Read(//tmp/**)",
+      "Bash(chromium-cli --session admin)",
+      "Bash(node -e \"require\\('playwright'\\)\")",
+      "Bash(find / -maxdepth 6 -iname \"*playwright*\" -type d 2>/dev/null | head -20)",
+      "Read(//c//**)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(curl -s \"https://api.telegram.org/bot8892833920:AAFDt3wCw54KD-RYpDV6kdOxUX-hMaV-lVU/sendMessage\" -d \"chat_id=8306016182\" -d \"text=✅ Testi nga Illyrian Pixel — Telegram funksionon!\")",
+      "Bash(curl -s \"https://api.telegram.org/bot8892833920:AAFDt3wCw54KD-RYpDV6kdOxUX-hMaV-lVU/sendMessage\" --data-urlencode \"chat_id=8306016182\" --data-urlencode \"text=Testi nga Illyrian Pixel - Telegram funksionon!\")",
+      "Bash(awk -F: '$1>3997 && $1<4400')",
+      "Bash(awk 'NR==1493,NR==1500' \"c:/Kodi/illyrianpixel/components/AdminDashboard.tsx\")",
+      "Bash(npx eslint *)",
+      "Bash(awk -F: '$1>1400 && $1<3300')",
+      "Bash(awk 'NR>=1540 && NR<=1560' c:/Kodi/illyrianpixel/components/AdminDashboard.tsx)",
+      "Bash(awk -F: '$1>1500 && $1<2520')",
+      "Bash(awk -F: '$1>2646 && $1<3093')",
+      "Bash(awk -F: '$1>3105 && $1<3500')",
+      "Bash(awk 'NR>=3450 && NR<=3500 && \\(/^}/ || /<\\\\/div>/\\)' c:/Kodi/illyrianpixel/components/AdminDashboard.tsx)",
+      "Bash(awk -F: '$1>3289 && $1<3500')"
     ]
   }
 }

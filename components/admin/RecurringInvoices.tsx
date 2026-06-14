@@ -8,12 +8,7 @@ import {
   type RecurringInvoice,
 } from "@/lib/quotes";
 import type { QuoteContact } from "@/components/admin/QuotesTab";
-
-const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[var(--a-border)] bg-[var(--a-card)] backdrop-blur-[12px]";
-
-const INPUT =
-  "font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent";
+import { CARD, INPUT, EmptyState, useConfirm } from "@/components/admin/ui";
 
 type RecurringForm = {
   contact_id: string;
@@ -60,6 +55,23 @@ export default function RecurringInvoices({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [confirm, renderConfirm] = useConfirm();
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(rows.length >= 100);
+
+  const loadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const res = await fetch(`/api/admin/recurring?offset=${rows.length}&limit=100`);
+      const data = await res.json();
+      if (data.success) {
+        setRows((prev) => [...prev, ...data.recurring]);
+        setHasMore(data.recurring.length >= 100);
+      }
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const monthlyTotal = useMemo(
     () =>
@@ -188,7 +200,7 @@ export default function RecurringInvoices({
   };
 
   const remove = async (r: RecurringInvoice) => {
-    if (!confirm(`Të fshihet fatura e rikurruese për ${r.client_name}? Faturat e gjeneruara deri tani nuk preken.`)) return;
+    if (!(await confirm({ title: "Fshi faturën e rikurruese", message: `Të fshihet fatura e rikurruese për ${r.client_name}? Faturat e gjeneruara deri tani nuk preken.`, danger: true, confirmText: "Fshi" }))) return;
     setBusyId(r.id);
     try {
       const res = await fetch(`/api/admin/recurring/${r.id}`, { method: "DELETE" });
@@ -375,10 +387,7 @@ export default function RecurringInvoices({
       {/* List */}
       <div className="space-y-3">
         {rows.length === 0 && (
-          <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">
-            Asnjë faturë e rikurruese. Krijo të parën për klientët me mirëmbajtje mujore — fatura gjenerohet
-            dhe dërgohet vetë çdo muaj.
-          </p>
+          <EmptyState text="Asnjë faturë e rikurruese. Krijo të parën për klientët me mirëmbajtje mujore — fatura gjenerohet dhe dërgohet vetë çdo muaj." />
         )}
         {rows.map((r) => {
           const totals = quoteTotals(r.items, r.discount, r.tax_rate);
@@ -434,6 +443,18 @@ export default function RecurringInvoices({
           );
         })}
       </div>
+      {hasMore && (
+        <div className="mt-4 flex justify-center">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+          >
+            {loadingMore ? "Duke ngarkuar…" : "Ngarko më shumë"}
+          </button>
+        </div>
+      )}
+      {renderConfirm()}
     </div>
   );
 }

@@ -8,12 +8,16 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const offset = Math.max(0, Number(searchParams.get("offset")) || 0);
+  const limit = Number(searchParams.get("limit")) || 100;
+
   const { data, error } = await supabase
     .from("recurring_invoices")
     .select("*")
     .order("created_at", { ascending: false })
-    .limit(100);
+    .range(offset, offset + limit - 1);
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

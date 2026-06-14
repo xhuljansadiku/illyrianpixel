@@ -209,8 +209,11 @@ type StaleContact = {
 };
 
 // Email për adminin — kontakte "të reja" prej disa ditësh ende pa u kontaktuar fare.
-export function staleContactsEmailHtml(contacts: StaleContact[], days: number): string {
+export function staleContactsEmailHtml(contacts: StaleContact[], days: number, intro?: string): string {
   const BRAND = NEWSLETTER_BRAND;
+  const safeIntro = intro
+    ? intro.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+    : undefined;
 
   const rows = contacts
     .map((c) => {
@@ -237,7 +240,7 @@ export function staleContactsEmailHtml(contacts: StaleContact[], days: number): 
           <td style="background:linear-gradient(135deg,#0e0e0e,#161410);padding:40px 48px 32px;border-bottom:1px solid rgba(171,131,57,0.2);">
             <img src="${BRAND.logo}" alt="Illyrian Pixel" height="36" style="height:36px;width:auto;display:block;margin-bottom:24px;" />
             <h1 style="margin:0;font-size:24px;font-weight:700;color:#ffffff;line-height:1.3;letter-spacing:-0.01em;">Kontakte pa përgjigje</h1>
-            <p style="margin:12px 0 0;font-size:14px;color:rgba(255,255,255,0.5);">${contacts.length} kontakt${contacts.length === 1 ? "" : "e"} kanë mbi ${days} ditë pa u kontaktuar dhe pa datë ndjekjeje.</p>
+            <p style="margin:12px 0 0;font-size:14px;color:rgba(255,255,255,0.5);">${safeIntro ?? `${contacts.length} kontakt${contacts.length === 1 ? "" : "e"} kanë mbi ${days} ditë pa u kontaktuar dhe pa datë ndjekjeje.`}</p>
           </td>
         </tr>
 

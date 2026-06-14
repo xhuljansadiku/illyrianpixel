@@ -1,6 +1,7 @@
 // Email-e të brenduara që dërgohen nga admin paneli (përgjigje direkte + oferta).
 import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { quoteTotals, formatMoney, quotePublicUrl, QUOTE_KIND_LABELS, type QuoteRecord } from "@/lib/quotes";
+import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
 
 function escapeHtml(value: string) {
   return value
@@ -167,18 +168,20 @@ export function quoteEmailHtml(quote: QuoteRecord): string {
 }
 
 // ── Kujtues i sjellshëm për ofertë pa përgjigje ──────────────────────────────
-export function quoteReminderEmailHtml(quote: QuoteRecord): string {
+export async function quoteReminderEmailHtml(quote: QuoteRecord): Promise<{ subject: string; html: string }> {
   const totals = quoteTotals(quote.items, quote.discount, quote.tax_rate);
   const url = quote.public_token ? quotePublicUrl(quote.public_token) : NEWSLETTER_BRAND.website;
+  const vars = { number: quote.number, total: formatMoney(totals.total) };
+  const template = await getEmailTemplate("quote_reminder");
+  const subject = template ? applyPlaceholders(template.subject, vars) : `Një kujtesë e vogël — oferta ${quote.number}`;
+  const intro = template
+    ? applyPlaceholders(template.intro, vars)
+    : `Para disa ditësh ju dërguam ofertën ${quote.number} me vlerë ${formatMoney(totals.total)}. Donim thjesht të sigurohemi që e keni marrë dhe të pyesim nëse keni ndonjë pyetje.`;
   const body = `
         <tr>
           <td style="padding:36px 48px;">
             <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);">Përshëndetje ${escapeHtml(quote.client_name)},</p>
-            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">
-              Para disa ditësh ju dërguam ofertën <strong style="color:#ffffff;">${escapeHtml(quote.number)}</strong>
-              me vlerë <strong style="color:#ab8339;">${formatMoney(totals.total)}</strong>.
-              Donim thjesht të sigurohemi që e keni marrë dhe të pyesim nëse keni ndonjë pyetje.
-            </p>
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">${escapeHtml(intro)}</p>
             <p style="margin:16px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
               Mund ta shihni dhe pranoni online me një klik — ose na shkruani për çdo përshtatje.
             </p>
@@ -193,24 +196,27 @@ export function quoteReminderEmailHtml(quote: QuoteRecord): string {
             </table>
           </td>
         </tr>`;
-  return shell(`Një kujtesë e vogël — oferta ${quote.number}`, body);
+  return { subject, html: shell(subject, body) };
 }
 
 // ── Kujtesë pagese për faturë të vonuar ──────────────────────────────────────
-export function invoiceOverdueEmailHtml(quote: QuoteRecord): string {
+export async function invoiceOverdueEmailHtml(quote: QuoteRecord): Promise<{ subject: string; html: string }> {
   const totals = quoteTotals(quote.items, quote.discount, quote.tax_rate);
   const url = quote.public_token ? quotePublicUrl(quote.public_token) : NEWSLETTER_BRAND.website;
   const dueLabel = quote.due_at
     ? new Date(`${quote.due_at}T00:00:00`).toLocaleDateString("sq-AL")
     : "";
+  const vars = { number: quote.number, total: formatMoney(totals.total) };
+  const template = await getEmailTemplate("invoice_overdue");
+  const subject = template ? applyPlaceholders(template.subject, vars) : `Kujtesë pagese — fatura ${quote.number}`;
+  const intro = template
+    ? applyPlaceholders(template.intro, vars)
+    : `Kjo është një kujtesë miqësore se fatura ${quote.number} me vlerë ${formatMoney(totals.total)}${dueLabel ? ` kishte afat pagese deri më ${dueLabel}` : " ka kaluar afatin e pagesës"}.`;
   const body = `
         <tr>
           <td style="padding:36px 48px;">
             <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);">Përshëndetje ${escapeHtml(quote.client_name)},</p>
-            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">
-              Kjo është një kujtesë miqësore se fatura <strong style="color:#ffffff;">${escapeHtml(quote.number)}</strong>
-              me vlerë <strong style="color:#ab8339;">${formatMoney(totals.total)}</strong>${dueLabel ? ` kishte afat pagese deri më <strong style="color:#ffffff;">${dueLabel}</strong>` : " ka kaluar afatin e pagesës"}.
-            </p>
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">${escapeHtml(intro)}</p>
             <p style="margin:16px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
               Nëse pagesa është kryer tashmë, ju lutemi injoroni këtë email. Për çdo pyetje a vështirësi, na shkruani — gjejmë zgjidhje bashkë.
             </p>
@@ -225,7 +231,7 @@ export function invoiceOverdueEmailHtml(quote: QuoteRecord): string {
             </table>
           </td>
         </tr>`;
-  return shell(`Kujtesë pagese — fatura ${quote.number}`, body);
+  return { subject, html: shell(subject, body) };
 }
 
 // ── Njoftim për adminin kur klienti përgjigjet ───────────────────────────────
@@ -267,25 +273,27 @@ export function adminQuoteResponseEmailHtml(
 }
 
 // ── Përmbledhja ditore e automatizimeve për adminin ──────────────────────────
-export function adminDailySummaryHtml(summary: {
+export async function adminDailySummaryHtml(summary: {
   remindedQuotes: string[];
   remindedInvoices: string[];
   generatedInvoices: string[];
   publishedPosts: number;
   sentBroadcasts?: string[];
   staleContacts?: string[];
-}): string {
+}): Promise<string> {
   const line = (label: string, items: string[]) =>
     items.length
       ? `<p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.7);line-height:1.7;">
            <strong style="color:#ab8339;">${label}:</strong> ${items.map(escapeHtml).join(", ")}
          </p>`
       : "";
+  const template = await getEmailTemplate("daily_summary");
+  const intro = template ? template.intro : "Automatizimet e sotme u kryen me sukses:";
   const body = `
         <tr>
           <td style="padding:36px 48px;">
             <p style="margin:0;font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;">
-              Automatizimet e sotme u kryen me sukses:
+              ${escapeHtml(intro)}
             </p>
             ${line("📨 Kujtues oferte u dërguan", summary.remindedQuotes)}
             ${line("💸 Kujtues pagese u dërguan", summary.remindedInvoices)}

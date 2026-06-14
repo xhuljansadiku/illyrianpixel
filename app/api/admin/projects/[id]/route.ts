@@ -34,6 +34,13 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (typeof body.notes === "string") {
     updates.notes = body.notes.trim().slice(0, 2000) || null;
   }
+  if (Array.isArray(body.tags)) {
+    updates.tags = body.tags
+      .filter((t: unknown) => typeof t === "string")
+      .map((t: string) => t.trim().slice(0, 30))
+      .filter(Boolean)
+      .slice(0, 10);
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ success: false, error: "Asgjë për të përditësuar." }, { status: 400 });

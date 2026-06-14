@@ -23,6 +23,9 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     updates.due_at = typeof body.due_at === "string" && body.due_at ? body.due_at : null;
   }
   if (body.sort !== undefined && Number.isFinite(Number(body.sort))) updates.sort = Number(body.sort);
+  if (body.time_spent_minutes !== undefined && Number.isFinite(Number(body.time_spent_minutes))) {
+    updates.time_spent_minutes = Math.max(0, Math.round(Number(body.time_spent_minutes)));
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ success: false, error: "Asgjë për të përditësuar." }, { status: 400 });

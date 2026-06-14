@@ -4,21 +4,7 @@ import { useState } from "react";
 import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
 import { pricingKey, type PricingOverrides } from "@/lib/pricingOverrides";
 import FaqManager from "@/components/admin/FaqManager";
-
-const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[var(--a-border)] bg-[var(--a-card)] backdrop-blur-[12px]";
-
-const INPUT =
-  "font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent";
-
-const BTN_GOLD =
-  "font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50";
-
-const BTN_PLAIN =
-  "font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]";
-
-const BTN_DANGER =
-  "font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, useConfirm } from "@/components/admin/ui";
 
 export type PricingCatalogEntry = {
   slug: string;
@@ -94,6 +80,7 @@ function TestimonialsManager({
   const [saving, setSaving] = useState(false);
   const [busyId, setBusyId] = useState<number | null>(null);
   const [error, setError] = useState("");
+  const [confirm, renderConfirm] = useConfirm();
 
   const startEdit = (t: TestimonialRow) => {
     setEditingId(t.id);
@@ -198,7 +185,7 @@ function TestimonialsManager({
   };
 
   const remove = async (t: TestimonialRow) => {
-    if (!confirm(`Të fshihet testimoniali i ${t.name}?`)) return;
+    if (!(await confirm({ title: "Fshi testimonialin", message: `Të fshihet testimoniali i ${t.name}?`, danger: true, confirmText: "Fshi" }))) return;
     setBusyId(t.id);
     try {
       const res = await fetch(`/api/admin/testimonials/${t.id}`, { method: "DELETE" });
@@ -266,6 +253,7 @@ function TestimonialsManager({
       <p className="mt-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">
         Testimonialet e dukshme shfaqen në faqen kryesore sipas kësaj renditjeje (rifreskohet brenda 5 min).
       </p>
+      {renderConfirm()}
     </div>
   );
 }
@@ -296,6 +284,7 @@ function PortfolioManager({
   const [uploading, setUploading] = useState(false);
   const [busyId, setBusyId] = useState<number | null>(null);
   const [error, setError] = useState("");
+  const [confirm, renderConfirm] = useConfirm();
 
   const startEdit = (p: PortfolioRow) => {
     setEditingId(p.id);
@@ -426,7 +415,7 @@ function PortfolioManager({
   };
 
   const remove = async (p: PortfolioRow) => {
-    if (!confirm(`Të fshihet projekti "${p.title}"?`)) return;
+    if (!(await confirm({ title: "Fshi projektin", message: `Të fshihet projekti "${p.title}"?`, danger: true, confirmText: "Fshi" }))) return;
     setBusyId(p.id);
     try {
       const res = await fetch(`/api/admin/portfolio/${p.id}`, { method: "DELETE" });
@@ -517,11 +506,10 @@ function PortfolioManager({
           </div>
         ))}
         {items.length === 0 && (
-          <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">
-            Asnjë projekt nga admini — faqja kryesore shfaq projektet statike të kodit. Sapo të shtosh të parin, ato zëvendësohen.
-          </p>
+          <EmptyState text="Asnjë projekt nga admini — faqja kryesore shfaq projektet statike të kodit. Sapo të shtosh të parin, ato zëvendësohen." />
         )}
       </div>
+      {renderConfirm()}
     </div>
   );
 }

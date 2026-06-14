@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
-const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[var(--a-border)] bg-[var(--a-card)] backdrop-blur-[12px]";
-
-const INPUT =
-  "font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent";
+import { CARD, INPUT, EmptyState, SkeletonRows, useDebounced } from "@/components/admin/ui";
 
 type ActivityRow = {
   id: number;
@@ -64,23 +59,32 @@ export default function ActivityTab() {
   const [search, setSearch] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const debouncedSearch = useDebounced(search, 250);
+
+  const buildParams = () => {
+    const params = new URLSearchParams();
+    const limit = dateFrom || dateTo ? "1000" : "300";
+    params.set("limit", limit);
+    if (dateFrom) params.set("since", new Date(`${dateFrom}T00:00:00`).toISOString());
+    if (dateTo) params.set("until", new Date(`${dateTo}T23:59:59.999`).toISOString());
+    return { params, limit: Number(limit) };
+  };
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     (async () => {
       try {
-        const params = new URLSearchParams();
-        if (dateFrom || dateTo) {
-          params.set("limit", "1000");
-          if (dateFrom) params.set("since", new Date(`${dateFrom}T00:00:00`).toISOString());
-          if (dateTo) params.set("until", new Date(`${dateTo}T23:59:59.999`).toISOString());
-        }
-        const res = await fetch(`/api/admin/activity${params.toString() ? `?${params}` : ""}`);
+        const { params, limit } = buildParams();
+        const res = await fetch(`/api/admin/activity?${params}`);
         const data = await res.json();
         if (cancelled) return;
-        if (data.success) setRows(data.activity);
-        else setError(data.error ?? "Gabim në ngarkim.");
+        if (data.success) {
+          setRows(data.activity);
+          setHasMore(data.activity.length >= limit);
+        } else setError(data.error ?? "Gabim në ngarkim.");
       } catch {
         if (!cancelled) setError("Gabim lidhjeje.");
       } finally {
@@ -90,16 +94,33 @@ export default function ActivityTab() {
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateFrom, dateTo]);
 
+  const loadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const { params, limit } = buildParams();
+      params.set("offset", String(rows.length));
+      const res = await fetch(`/api/admin/activity?${params}`);
+      const data = await res.json();
+      if (data.success) {
+        setRows([...rows, ...data.activity]);
+        setHasMore(data.activity.length >= limit);
+      }
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = debouncedSearch.trim().toLowerCase();
     return rows.filter((r) => {
       if (entityFilter !== "all" && r.entity !== entityFilter) return false;
       if (q && !r.label.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [rows, entityFilter, search]);
+  }, [rows, entityFilter, debouncedSearch]);
 
   // Grupimi sipas ditës
   const grouped = useMemo(() => {
@@ -168,25 +189,14 @@ export default function ActivityTab() {
             </button>
           )}
         </div>
-        <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
-          {filtered.length} veprime{" "}
-          {dateFrom || dateTo
-            ? rows.length >= 1000
-              ? "(1000 të fundit në interval)"
-              : ""
-            : rows.length >= 300
-              ? "(300 të fundit)"
-              : ""}
-        </span>
+        <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">{filtered.length} veprime</span>
       </div>
 
-      {loading && <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">Duke ngarkuar…</p>}
+      {loading && <SkeletonRows rows={6} />}
       {error && <p className="p-8 text-center text-[13px] text-red-400/80">{error}</p>}
 
       {!loading && !error && filtered.length === 0 && (
-        <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">
-          Asnjë veprim ende — historia mbushet vetë teksa punon në panel.
-        </p>
+        <EmptyState text="Asnjë veprim ende — historia mbushet vetë teksa punon në panel." />
       )}
 
       <div className="space-y-5">
@@ -218,6 +228,17 @@ export default function ActivityTab() {
           </div>
         ))}
       </div>
+      {hasMore && (
+        <div className="mt-4 flex justify-center">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+          >
+            {loadingMore ? "Duke ngarkuar…" : "Ngarko më shumë"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

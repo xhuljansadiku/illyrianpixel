@@ -13,12 +13,7 @@ import {
 } from "@/lib/quotes";
 import RecurringInvoices from "@/components/admin/RecurringInvoices";
 import { QUOTE_TEMPLATES } from "@/lib/quoteTemplates";
-
-const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[var(--a-border)] bg-[var(--a-card)] backdrop-blur-[12px]";
-
-const INPUT =
-  "font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent";
+import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, useToasts } from "@/components/admin/ui";
 
 const STATUS_COLORS: Record<QuoteRecord["status"], string> = {
   draft: "border-[rgb(var(--a-text-rgb)/0.2)] bg-[rgb(var(--a-text-rgb)/0.05)] text-[rgb(var(--a-text-rgb)/0.55)]",
@@ -219,6 +214,7 @@ export default function QuotesTab({
   recurring,
   setRecurring,
   prefill,
+  jumpSearch,
 }: {
   quotes: QuoteRecord[];
   setQuotes: (q: QuoteRecord[]) => void;
@@ -226,6 +222,7 @@ export default function QuotesTab({
   recurring: RecurringInvoice[];
   setRecurring: React.Dispatch<React.SetStateAction<RecurringInvoice[]>>;
   prefill?: { contact: QuoteContact; key: number } | null;
+  jumpSearch?: { term: string; key: number } | null;
 }) {
   const [view, setView] = useState<"docs" | "recurring">("docs");
   const [showForm, setShowForm] = useState(false);
@@ -235,9 +232,40 @@ export default function QuotesTab({
   const [error, setError] = useState("");
   const [kindFilter, setKindFilter] = useState<"all" | "quote" | "invoice">("all");
   const [statusFilter, setStatusFilter] = useState<"all" | QuoteRecord["status"]>("all");
+  const [search, setSearch] = useState("");
   const [busyId, setBusyId] = useState<number | null>(null);
   const [sentId, setSentId] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [confirm, renderConfirm] = useConfirm();
+  const { showUndo, renderUndoToast } = useUndoToast();
+  const { pushToast, renderToasts } = useToasts();
+  const debouncedSearch = useDebounced(search, 250);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(quotes.length >= 300);
+
+  const loadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const res = await fetch(`/api/admin/quotes?offset=${quotes.length}&limit=300`);
+      const data = await res.json();
+      if (data.success) {
+        setQuotes([...quotes, ...data.quotes]);
+        setHasMore(data.quotes.length >= 300);
+      }
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  useEffect(() => {
+    if (jumpSearch) {
+      setSearch(jumpSearch.term);
+      setView("docs");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jumpSearch?.key]);
 
   // Hapur nga butoni "🧾 Krijo ofertë" te kontakti — formular i ri me klientin gati
   useEffect(() => {
@@ -267,15 +295,15 @@ export default function QuotesTab({
     }
   };
 
-  const filtered = useMemo(
-    () =>
-      quotes.filter((q) => {
-        if (kindFilter !== "all" && q.kind !== kindFilter) return false;
-        if (statusFilter !== "all" && q.status !== statusFilter) return false;
-        return true;
-      }),
-    [quotes, kindFilter, statusFilter]
-  );
+  const filtered = useMemo(() => {
+    const q2 = debouncedSearch.trim().toLowerCase();
+    return quotes.filter((q) => {
+      if (kindFilter !== "all" && q.kind !== kindFilter) return false;
+      if (statusFilter !== "all" && q.status !== statusFilter) return false;
+      if (q2 && !`${q.number} ${q.client_name} ${q.client_email ?? ""}`.toLowerCase().includes(q2)) return false;
+      return true;
+    });
+  }, [quotes, kindFilter, statusFilter, debouncedSearch]);
 
   const stats = useMemo(() => {
     const accepted = quotes.filter((q) => q.status === "accepted" || q.status === "paid");
@@ -426,7 +454,7 @@ export default function QuotesTab({
 
   const sendEmail = async (q: QuoteRecord) => {
     if (!q.client_email) return;
-    if (!confirm(`T'i dërgohet ${QUOTE_KIND_LABELS[q.kind].toLowerCase()}a ${q.number} te ${q.client_email}?`)) return;
+    if (!(await confirm({ message: `T'i dërgohet ${QUOTE_KIND_LABELS[q.kind].toLowerCase()}a ${q.number} te ${q.client_email}?`, confirmText: "Dërgo" }))) return;
     setBusyId(q.id);
     try {
       const res = await fetch(`/api/admin/quotes/${q.id}/send`, { method: "POST" });
@@ -436,15 +464,68 @@ export default function QuotesTab({
         setSentId(q.id);
         setTimeout(() => setSentId(null), 3000);
       } else {
-        alert(data.error ?? "Dërgimi dështoi.");
+        pushToast(data.error ?? "Dërgimi dështoi.", "error");
       }
     } finally {
       setBusyId(null);
     }
   };
 
+  const toggleSelect = (id: number) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const bulkSetStatus = async (status: QuoteRecord["status"]) => {
+    if (selected.size === 0) return;
+    setBulkBusy(true);
+    try {
+      const res = await fetch("/api/admin/quotes/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: Array.from(selected), action: "status", status }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setQuotes(quotes.map((q) => (selected.has(q.id) ? { ...q, status } : q)));
+        setSelected(new Set());
+      }
+    } finally {
+      setBulkBusy(false);
+    }
+  };
+
+  const bulkDelete = async () => {
+    if (selected.size === 0) return;
+    if (!(await confirm({ title: "Fshi dokumentet", message: `Të fshihen ${selected.size} dokumente? Ky veprim nuk kthehet mbrapsht.`, danger: true, confirmText: "Fshi" }))) return;
+    const ids = Array.from(selected);
+    const removed = quotes.filter((q) => ids.includes(q.id));
+    setQuotes(quotes.filter((q) => !selected.has(q.id)));
+    setSelected(new Set());
+    showUndo(
+      `${ids.length} dokumente u fshinë.`,
+      () => setQuotes([...removed, ...quotes.filter((q) => !ids.includes(q.id))]),
+      async () => {
+        setBulkBusy(true);
+        try {
+          await fetch("/api/admin/quotes/bulk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids, action: "delete" }),
+          });
+        } finally {
+          setBulkBusy(false);
+        }
+      }
+    );
+  };
+
   const remove = async (q: QuoteRecord) => {
-    if (!confirm(`Të fshihet ${q.number}? Ky veprim nuk kthehet mbrapsht.`)) return;
+    if (!(await confirm({ title: "Fshi dokumentin", message: `Të fshihet ${q.number}? Ky veprim nuk kthehet mbrapsht.`, danger: true, confirmText: "Fshi" }))) return;
     setBusyId(q.id);
     try {
       const res = await fetch(`/api/admin/quotes/${q.id}`, { method: "DELETE" });
@@ -511,6 +592,13 @@ export default function QuotesTab({
         >
           ＋ Ofertë / Faturë e re
         </button>
+        <input
+          type="text"
+          placeholder="🔍 Kërko numër/klient/email…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className={INPUT + " min-w-[180px]"}
+        />
         <select value={kindFilter} onChange={(e) => setKindFilter(e.target.value as typeof kindFilter)} className={INPUT}>
           <option value="all">Të gjitha llojet</option>
           <option value="quote">Vetëm oferta</option>
@@ -714,13 +802,43 @@ export default function QuotesTab({
         </div>
       )}
 
+      {/* Bulk actions toolbar */}
+      {selected.size > 0 && (
+        <div className={CARD + " mb-3 flex flex-wrap items-center gap-3 p-3"}>
+          <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">{selected.size} të zgjedhura</span>
+          <button
+            onClick={() => bulkSetStatus("paid")}
+            disabled={bulkBusy}
+            className="font-ui rounded-[2px] border border-emerald-400/30 px-3 py-1.5 text-[11px] font-semibold text-emerald-300 transition-colors hover:bg-emerald-400/10 disabled:opacity-50"
+          >
+            Shëno paguar
+          </button>
+          <button
+            onClick={() => bulkSetStatus("sent")}
+            disabled={bulkBusy}
+            className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+          >
+            Shëno dërguar
+          </button>
+          <button
+            onClick={bulkDelete}
+            disabled={bulkBusy}
+            className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+          >
+            Fshi
+          </button>
+          <button
+            onClick={() => setSelected(new Set())}
+            className="font-ui ml-auto text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] hover:text-[var(--a-text)]"
+          >
+            Pastro përzgjedhjen
+          </button>
+        </div>
+      )}
+
       {/* List */}
       <div className="space-y-3">
-        {filtered.length === 0 && (
-          <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">
-            Asnjë dokument ende. Krijo ofertën e parë me butonin lart.
-          </p>
-        )}
+        {filtered.length === 0 && <EmptyState text="Asnjë dokument ende. Krijo ofertën e parë me butonin lart." />}
         {filtered.map((q) => {
           const totals = quoteTotals(q.items, q.discount, q.tax_rate);
           // Përgjigja e klientit ndjek statusin AKTUAL (jo datat — mund të ekzistojnë të dyja nga ndryshime statusi)
@@ -735,6 +853,13 @@ export default function QuotesTab({
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2.5">
+                    <input
+                      type="checkbox"
+                      checked={selected.has(q.id)}
+                      onChange={() => toggleSelect(q.id)}
+                      className="h-3.5 w-3.5 accent-[#ab8339]"
+                      aria-label="Zgjidh dokumentin"
+                    />
                     <span className="font-display font-semibold text-[var(--a-text)]">{q.number}</span>
                     <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.5)]">
                       {QUOTE_KIND_LABELS[q.kind]}
@@ -846,8 +971,22 @@ export default function QuotesTab({
           );
         })}
       </div>
+      {hasMore && (
+        <div className="mt-4 flex justify-center">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+          >
+            {loadingMore ? "Duke ngarkuar…" : "Ngarko më shumë"}
+          </button>
+        </div>
+      )}
       </>
       )}
+      {renderConfirm()}
+      {renderUndoToast()}
+      {renderToasts()}
     </div>
   );
 }

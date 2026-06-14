@@ -2,21 +2,7 @@
 
 import { useState } from "react";
 import type { FaqRow } from "@/lib/publicContent";
-
-const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[var(--a-border)] bg-[var(--a-card)] backdrop-blur-[12px]";
-
-const INPUT =
-  "font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent";
-
-const BTN_GOLD =
-  "font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50";
-
-const BTN_PLAIN =
-  "font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]";
-
-const BTN_DANGER =
-  "font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, useConfirm } from "@/components/admin/ui";
 
 const EMPTY_FAQ = { question: "", answer: "", category: "" };
 
@@ -32,6 +18,7 @@ export default function FaqManager({
   const [saving, setSaving] = useState(false);
   const [busyId, setBusyId] = useState<number | null>(null);
   const [error, setError] = useState("");
+  const [confirm, renderConfirm] = useConfirm();
 
   const startEdit = (f: FaqRow) => {
     setEditingId(f.id);
@@ -134,7 +121,7 @@ export default function FaqManager({
   };
 
   const remove = async (f: FaqRow) => {
-    if (!confirm(`Të fshihet pyetja "${f.question}"?`)) return;
+    if (!(await confirm({ title: "Fshi pyetjen", message: `Të fshihet pyetja "${f.question}"?`, danger: true, confirmText: "Fshi" }))) return;
     setBusyId(f.id);
     try {
       const res = await fetch(`/api/admin/faqs/${f.id}`, { method: "DELETE" });
@@ -192,9 +179,7 @@ export default function FaqManager({
       {/* List */}
       <div className="space-y-3">
         {items.length === 0 && (
-          <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">
-            Asnjë pyetje. Shto të parën me formularin lart — shfaqet menjëherë në faqen kryesore.
-          </p>
+          <EmptyState text="Asnjë pyetje. Shto të parën me formularin lart — shfaqet menjëherë në faqen kryesore." />
         )}
         {items.map((f, idx) => (
           <div key={f.id} className={CARD + " p-5" + (f.visible ? "" : " opacity-60")}>
@@ -240,6 +225,7 @@ export default function FaqManager({
           </div>
         ))}
       </div>
+      {renderConfirm()}
     </div>
   );
 }

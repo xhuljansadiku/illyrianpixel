@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
-import { adminQuoteResponseEmailHtml, clientPortalLinkEmailHtml } from "@/lib/adminEmails";
+import { adminQuoteResponseEmailHtml, clientPortalLinkEmailHtml, quoteEmailHtml } from "@/lib/adminEmails";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
 import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { quoteTotals, formatMoney, type QuoteRecord } from "@/lib/quotes";
+import { insertQuoteWithNumber } from "@/lib/quotesServer";
 import { DEFAULT_PROJECT_TASKS } from "@/lib/projects";
 import { logActivity } from "@/lib/activityLog";
 
@@ -101,6 +102,44 @@ export async function POST(req: Request, { params }: { params: { token: string }
       }
     } catch {
       // projekti mund të krijohet edhe manualisht — mos e blloko pranimin
+    }
+
+    // Gjenero automatikisht faturën fillestare nga zërat e ofertës (best-effort)
+    try {
+      const dueAt = new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10);
+      const { quote: invoice } = await insertQuoteWithNumber(supabase, {
+        kind: "invoice",
+        contact_id: quote.contact_id,
+        client_name: quote.client_name,
+        client_email: quote.client_email,
+        client_business: quote.client_business,
+        items: quote.items,
+        discount: quote.discount,
+        tax_rate: quote.tax_rate,
+        notes: `Krijuar automatikisht nga pranimi i ofertës ${quote.number}.`,
+        due_at: dueAt,
+        status: quote.client_email ? "sent" : "draft",
+      });
+
+      if (invoice) {
+        const invoiceRecord = invoice as unknown as QuoteRecord;
+        await logActivity("auto", "create", `U krijua automatikisht fatura ${invoiceRecord.number} nga pranimi i ofertës ${quote.number}`);
+        if (quote.client_email) {
+          try {
+            await resend.emails.send({
+              from: NEWSLETTER_BRAND.from,
+              to: quote.client_email,
+              replyTo: "info@illyrianpixel.com",
+              subject: `Faturë ${invoiceRecord.number} — Illyrian Pixel`,
+              html: quoteEmailHtml(invoiceRecord),
+            });
+          } catch {
+            // fatura u krijua; email-i mund të ridërgohet nga paneli
+          }
+        }
+      }
+    } catch {
+      // fatura mund të krijohet edhe manualisht — mos e blloko pranimin
     }
 
     // Dërgo klientit linkun e portalit të tij (best-effort)

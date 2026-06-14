@@ -13,12 +13,13 @@ export async function GET(req: Request) {
   const since = searchParams.get("since");
   const until = searchParams.get("until");
   const limit = Number(searchParams.get("limit")) || 300;
+  const offset = Math.max(0, Number(searchParams.get("offset")) || 0);
 
   let query = supabase
     .from("admin_activity")
     .select("*")
     .order("created_at", { ascending: false })
-    .limit(limit);
+    .range(offset, offset + limit - 1);
 
   if (entity) query = query.eq("entity", entity);
   if (entities) query = query.in("entity", entities.split(","));

@@ -16,12 +16,22 @@ import ContentTab, { type PricingCatalogEntry } from "@/components/admin/Content
 import ProjectsTab from "@/components/admin/ProjectsTab";
 import ActivityTab from "@/components/admin/ActivityTab";
 import NotificationsBell from "@/components/admin/NotificationsBell";
+import CommandPalette, { type CommandPaletteAction } from "@/components/admin/CommandPalette";
+import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { quoteTotals, formatMoney } from "@/lib/quotes";
 import { PROJECT_PHASE_LABELS, type ProjectRecord } from "@/lib/projects";
 import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
 import type { PricingOverrides } from "@/lib/pricingOverrides";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
+import {
+  EMAIL_TEMPLATE_KEYS,
+  EMAIL_TEMPLATE_LABELS,
+  EMAIL_TEMPLATE_PLACEHOLDERS,
+  type EmailTemplate,
+  type EmailTemplateKey,
+} from "@/lib/emailTemplateTypes";
+import { CARD, EmptyState, Skeleton, useDebounced, useConfirm, useUndoToast } from "@/components/admin/ui";
 
 function SunIcon({ className }: { className?: string }) {
   return (
@@ -175,9 +185,6 @@ type SiteSettings = {
   popup_text: string;
   popup_cta: string;
 };
-
-const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[var(--a-border)] bg-[var(--a-card)] backdrop-blur-[12px]";
 
 const PAGE_SIZE = 10;
 
@@ -438,14 +445,33 @@ export default function AdminDashboard({
   const [globalSearch, setGlobalSearch] = useState("");
   const [contactsJump, setContactsJump] = useState<{ term: string; key: number } | null>(null);
   const [subscribersJump, setSubscribersJump] = useState<{ term: string; key: number } | null>(null);
+  const [quotesJump, setQuotesJump] = useState<{ term: string; key: number } | null>(null);
+  const [projectsJump, setProjectsJump] = useState<{ term: string; key: number } | null>(null);
   const [quotePrefill, setQuotePrefill] = useState<{ contact: QuoteContact; key: number } | null>(null);
   const [toasts, setToasts] = useState<{ id: string; text: string }[]>([]);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const lastCheckRef = useRef(new Date().toISOString());
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setPaletteOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.localStorage.getItem("admin_sidebar_collapsed") === "1") setCollapsed(true);
     if (window.localStorage.getItem("admin_theme") === "light") setTheme("light");
+    const urlTab = new URLSearchParams(window.location.search).get("tab");
+    if (urlTab && VALID_TABS.includes(urlTab as typeof tab)) {
+      setTab(urlTab as typeof tab);
+      return;
+    }
     const savedTab = window.localStorage.getItem("admin_active_tab");
     if (savedTab && VALID_TABS.includes(savedTab as typeof tab)) setTab(savedTab as typeof tab);
   }, []);
@@ -453,7 +479,12 @@ export default function AdminDashboard({
   useEffect(() => {
     if (typeof window === "undefined") return;
     window.localStorage.setItem("admin_active_tab", tab);
-  }, [tab]);
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("tab") !== tab) {
+      params.set("tab", tab);
+      router.replace(`/admin?${params.toString()}`, { scroll: false });
+    }
+  }, [tab, router]);
 
   // Poll for new contacts and show a toast + sound
   useEffect(() => {
@@ -578,8 +609,15 @@ export default function AdminDashboard({
     const blogMatches = [...blogPosts, ...staticPosts]
       .filter((p) => p.title.toLowerCase().includes(q))
       .slice(0, 3);
-    return { contactMatches, subscriberMatches, blogMatches };
-  }, [globalSearch, contacts, subscribers, blogPosts, staticPosts]);
+    const quoteMatches = quotes
+      .filter((doc) => `${doc.number} ${doc.client_name} ${doc.client_email ?? ""}`.toLowerCase().includes(q))
+      .slice(0, 4);
+    const projectMatches = projectsList
+      .filter((p) => `${p.name} ${p.client_name ?? ""}`.toLowerCase().includes(q))
+      .slice(0, 3);
+    const faqMatches = faqsList.filter((f) => f.question.toLowerCase().includes(q)).slice(0, 3);
+    return { contactMatches, subscriberMatches, blogMatches, quoteMatches, projectMatches, faqMatches };
+  }, [globalSearch, contacts, subscribers, blogPosts, staticPosts, quotes, projectsList, faqsList]);
 
   const goToContact = (term: string) => {
     setTab("contacts");
@@ -593,6 +631,23 @@ export default function AdminDashboard({
     setGlobalSearch("");
   };
 
+  const goToQuote = (term: string) => {
+    setTab("quotes");
+    setQuotesJump({ term, key: Date.now() });
+    setGlobalSearch("");
+  };
+
+  const goToProject = (term: string) => {
+    setTab("projects");
+    setProjectsJump({ term, key: Date.now() });
+    setGlobalSearch("");
+  };
+
+  const goToFaq = () => {
+    setTab("content");
+    setGlobalSearch("");
+  };
+
   // Kontakt → Ofertë me një klik: hap tab-in e ofertave me klientin të parambushur
   const createQuoteForContact = (c: Contact) => {
     setQuotePrefill({
@@ -602,8 +657,63 @@ export default function AdminDashboard({
     setTab("quotes");
   };
 
+  const paletteActions: CommandPaletteAction[] = [
+    ...NAV_ITEMS.map((item) => ({
+      id: `nav-${item.id}`,
+      icon: item.icon,
+      label: TAB_TITLES[item.id].title,
+      hint: "Shko te",
+      onRun: () => setTab(item.id),
+    })),
+    {
+      id: "new-quote",
+      icon: "🧾",
+      label: "Ofertë / Faturë e re",
+      hint: "Krijo",
+      onRun: () => setTab("quotes"),
+    },
+    {
+      id: "new-project",
+      icon: "📁",
+      label: "Projekt i ri",
+      hint: "Krijo",
+      onRun: () => setTab("projects"),
+    },
+    {
+      id: "new-post",
+      icon: "📝",
+      label: "Artikull i ri blogu",
+      hint: "Krijo",
+      onRun: () => setTab("blog"),
+    },
+    {
+      id: "toggle-theme",
+      icon: theme === "dark" ? "☀️" : "🌙",
+      label: theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët",
+      hint: "Pamja",
+      onRun: () => toggleTheme(),
+    },
+    {
+      id: "export-backup",
+      icon: "⬇️",
+      label: "Shkarko backup (JSON)",
+      hint: "Eksport",
+      onRun: () => {
+        if (typeof window !== "undefined") window.location.href = "/api/admin/export";
+      },
+    },
+    {
+      id: "logout",
+      icon: "🚪",
+      label: "Dil nga llogaria",
+      hint: "Siguri",
+      onRun: () => logout(),
+    },
+  ];
+
   return (
     <div data-theme={theme} className="admin-shell flex min-h-screen bg-[var(--a-bg)] text-[var(--a-text)]">
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
       {/* Toasts */}
       {toasts.length > 0 && (
         <div className="fixed right-4 top-4 z-50 flex w-full max-w-xs flex-col gap-2">
@@ -626,7 +736,12 @@ export default function AdminDashboard({
             onClick={() => setMobileNavOpen(false)}
             aria-hidden
           />
-          <aside className="animate-drawer-in absolute left-0 top-0 flex h-full w-72 max-w-[82vw] flex-col border-r border-[var(--a-border)] bg-[var(--a-card2)] p-4 shadow-2xl">
+          <aside
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menyja kryesore"
+            className="animate-drawer-in absolute left-0 top-0 flex h-full w-72 max-w-[82vw] flex-col border-r border-[var(--a-border)] bg-[var(--a-card2)] p-4 shadow-2xl"
+          >
             <div className="flex items-center gap-3 px-1">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[15px] font-bold text-accent">
                 IP
@@ -722,13 +837,24 @@ export default function AdminDashboard({
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
               placeholder="🔍 Kërko gjithçka..."
-              className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 pr-12 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              title="Hap command palette (Ctrl/⌘ + K)"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded-[2px] border border-[var(--a-border)] px-1.5 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+            >
+              ⌘K
+            </button>
             {globalResults && (
               <div className="absolute left-2 right-2 top-full z-40 mt-1 max-h-80 overflow-y-auto rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] shadow-xl">
                 {globalResults.contactMatches.length === 0 &&
                 globalResults.subscriberMatches.length === 0 &&
-                globalResults.blogMatches.length === 0 ? (
+                globalResults.blogMatches.length === 0 &&
+                globalResults.quoteMatches.length === 0 &&
+                globalResults.projectMatches.length === 0 &&
+                globalResults.faqMatches.length === 0 ? (
                   <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
                 ) : (
                   <>
@@ -761,7 +887,7 @@ export default function AdminDashboard({
                       </div>
                     )}
                     {globalResults.blogMatches.length > 0 && (
-                      <div className="py-1.5">
+                      <div className="border-b border-[var(--a-border)] py-1.5">
                         <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
                         {globalResults.blogMatches.map((p) => (
                           <button
@@ -773,6 +899,48 @@ export default function AdminDashboard({
                             className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
                           >
                             {p.title}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {globalResults.quoteMatches.length > 0 && (
+                      <div className="border-b border-[var(--a-border)] py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
+                        {globalResults.quoteMatches.map((doc) => (
+                          <button
+                            key={doc.id}
+                            onClick={() => goToQuote(doc.number)}
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                          >
+                            {doc.number} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {doc.client_name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {globalResults.projectMatches.length > 0 && (
+                      <div className="border-b border-[var(--a-border)] py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
+                        {globalResults.projectMatches.map((p) => (
+                          <button
+                            key={p.id}
+                            onClick={() => goToProject(p.name)}
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                          >
+                            {p.name} {p.client_name && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {p.client_name}</span>}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {globalResults.faqMatches.length > 0 && (
+                      <div className="py-1.5">
+                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
+                        {globalResults.faqMatches.map((f) => (
+                          <button
+                            key={f.id}
+                            onClick={() => goToFaq()}
+                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                          >
+                            {f.question}
                           </button>
                         ))}
                       </div>
@@ -856,6 +1024,7 @@ export default function AdminDashboard({
                 recurring={recurringList}
                 setRecurring={setRecurringList}
                 prefill={quotePrefill}
+                jumpSearch={quotesJump}
               />
             )}
             {tab === "projects" && (
@@ -863,6 +1032,7 @@ export default function AdminDashboard({
                 projects={projectsList}
                 setProjects={setProjectsList}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
+                jumpSearch={projectsJump}
               />
             )}
             {tab === "subscribers" && (
@@ -974,10 +1144,6 @@ function SidebarNav({
       ))}
     </>
   );
-}
-
-function EmptyState({ text }: { text: string }) {
-  return <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">{text}</p>;
 }
 
 // ── Overview tab ─────────────────────────────────────────────────────────────
@@ -1378,6 +1544,9 @@ function ContactsTab({
   const [addingNoteFor, setAddingNoteFor] = useState<number | null>(null);
   const [noteBusy, setNoteBusy] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<"kanban" | "calendar">("kanban");
+  const [confirm, renderConfirm] = useConfirm();
+  const { showUndo, renderUndoToast } = useUndoToast();
+  const debouncedSearch = useDebounced(search, 250);
   const [valueDraft, setValueDraft] = useState<Record<number, string>>({});
   const [replyOpenFor, setReplyOpenFor] = useState<number | null>(null);
   const [replySubject, setReplySubject] = useState("");
@@ -1458,7 +1627,7 @@ function ContactsTab({
   );
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = debouncedSearch.trim().toLowerCase();
     return contacts.filter((c) => {
       if (q) {
         const haystack = `${c.name} ${c.email} ${c.business_name ?? ""} ${c.phone}`.toLowerCase();
@@ -1473,7 +1642,7 @@ function ContactsTab({
       if (followUpFilter === "upcoming" && !(c.follow_up_date && c.follow_up_date >= new Date().toISOString().slice(0, 10))) return false;
       return true;
     });
-  }, [contacts, search, serviceFilter, tagFilter, dateFrom, dateTo, followUpFilter]);
+  }, [contacts, debouncedSearch, serviceFilter, tagFilter, dateFrom, dateTo, followUpFilter]);
 
   const loadLogs = async (id: number) => {
     setLogsLoading((s) => ({ ...s, [id]: true }));
@@ -1549,7 +1718,7 @@ function ContactsTab({
   };
 
   const deleteNote = async (contactId: number, noteId: number) => {
-    if (!confirm("Të fshihet ky shënim?")) return;
+    if (!(await confirm({ title: "Fshi shënimin", message: "Të fshihet ky shënim?", danger: true, confirmText: "Fshi" }))) return;
     setNoteBusy(noteId);
     try {
       const res = await fetch(`/api/admin/contacts/${contactId}/notes/${noteId}`, { method: "DELETE" });
@@ -1562,8 +1731,8 @@ function ContactsTab({
     }
   };
 
-  const deleteLegacyNote = (c: Contact) => {
-    if (!confirm("Të fshihet ky shënim i vjetër?")) return;
+  const deleteLegacyNote = async (c: Contact) => {
+    if (!(await confirm({ title: "Fshi shënimin", message: "Të fshihet ky shënim i vjetër?", danger: true, confirmText: "Fshi" }))) return;
     updateContact(c.id, { notes: "" });
   };
 
@@ -1680,7 +1849,7 @@ function ContactsTab({
   };
 
   const removeContact = async (id: number) => {
-    if (!confirm("Të fshihet ky kontakt? Ky veprim nuk kthehet mbrapsht.")) return;
+    if (!(await confirm({ title: "Fshi kontaktin", message: "Të fshihet ky kontakt? Ky veprim nuk kthehet mbrapsht.", danger: true, confirmText: "Fshi" }))) return;
     setDeletingId(id);
     try {
       const res = await fetch(`/api/admin/contacts/${id}`, { method: "DELETE" });
@@ -1729,23 +1898,28 @@ function ContactsTab({
 
   const bulkDelete = async () => {
     if (selected.size === 0) return;
-    if (!confirm(`Të fshihen ${selected.size} kontakte? Ky veprim nuk kthehet mbrapsht.`)) return;
+    if (!(await confirm({ title: "Fshi kontaktet", message: `Të fshihen ${selected.size} kontakte? Ky veprim nuk kthehet mbrapsht.`, danger: true, confirmText: "Fshi" }))) return;
     const ids = Array.from(selected);
-    setBulkBusy(true);
-    try {
-      const res = await fetch("/api/admin/contacts/bulk", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setContacts(contacts.filter((c) => !ids.includes(c.id)));
-        setSelected(new Set());
+    const removed = contacts.filter((c) => ids.includes(c.id));
+    const remaining = contacts.filter((c) => !ids.includes(c.id));
+    setContacts(remaining);
+    setSelected(new Set());
+    showUndo(
+      `${ids.length} kontakte u fshinë.`,
+      () => setContacts([...removed, ...remaining]),
+      async () => {
+        setBulkBusy(true);
+        try {
+          await fetch("/api/admin/contacts/bulk", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids }),
+          });
+        } finally {
+          setBulkBusy(false);
+        }
       }
-    } finally {
-      setBulkBusy(false);
-    }
+    );
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -2207,7 +2381,7 @@ function ContactsTab({
                                 ) : null}
 
                                 {notesLoading[c.id] ? (
-                                  <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">Duke ngarkuar…</p>
+                                  <Skeleton className="h-8 w-full" />
                                 ) : (notesList[c.id] ?? []).length > 0 ? (
                                   <ul className="space-y-2">
                                     {(notesList[c.id] ?? []).map((n) => (
@@ -2290,6 +2464,11 @@ function ContactsTab({
                                 </div>
                               </div>
 
+                              {/* Bashkëngjitje */}
+                              <div className="mt-4">
+                                <AttachmentsPanel ownerType="contact" ownerId={c.id} />
+                              </div>
+
                               {/* Veprime */}
                               <div className="mt-4 flex gap-3">
                                 <button
@@ -2315,7 +2494,7 @@ function ContactsTab({
                               <div className="mt-4">
                                 <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Historiku</label>
                                 {logsLoading[c.id] ? (
-                                  <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">Duke ngarkuar…</p>
+                                  <Skeleton className="h-8 w-full" />
                                 ) : logs[c.id] && logs[c.id].length > 0 ? (
                                   <ul className="space-y-1.5">
                                     {logs[c.id].map((l) => (
@@ -2345,6 +2524,8 @@ function ContactsTab({
         </div>
       </DndContext>
       )}
+      {renderConfirm()}
+      {renderUndoToast()}
     </div>
   );
 }
@@ -2506,6 +2687,9 @@ function SubscribersTab({
   const [broadcastSending, setBroadcastSending] = useState(false);
   const [broadcastResult, setBroadcastResult] = useState<string>("");
   const [scheduledBroadcasts, setScheduledBroadcasts] = useState<BroadcastStat[]>([]);
+  const [confirm, renderConfirm] = useConfirm();
+  const { showUndo, renderUndoToast } = useUndoToast();
+  const debouncedSearch = useDebounced(search, 250);
 
   const activeCount = subscribers.filter((s) => !s.unsubscribed).length;
 
@@ -2518,20 +2702,20 @@ function SubscribersTab({
   }, [jumpSearch?.key]);
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = debouncedSearch.trim().toLowerCase();
     return subscribers.filter((s) => {
       if (q && !s.email.toLowerCase().includes(q)) return false;
       if (statusFilter === "active" && s.unsubscribed) return false;
       if (statusFilter === "unsubscribed" && !s.unsubscribed) return false;
       return true;
     });
-  }, [subscribers, search, statusFilter]);
+  }, [subscribers, debouncedSearch, statusFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const remove = async (id: number) => {
-    if (!confirm("Të fshihet ky subscriber?")) return;
+    if (!(await confirm({ title: "Fshi subscriber-in", message: "Të fshihet ky subscriber?", danger: true, confirmText: "Fshi" }))) return;
     setDeletingId(id);
     try {
       const res = await fetch(`/api/admin/subscribers/${id}`, { method: "DELETE" });
@@ -2591,23 +2775,28 @@ function SubscribersTab({
 
   const bulkDelete = async () => {
     if (selected.size === 0) return;
-    if (!confirm(`Të fshihen ${selected.size} subscriber-a? Ky veprim nuk kthehet mbrapsht.`)) return;
+    if (!(await confirm({ title: "Fshi subscriber-at", message: `Të fshihen ${selected.size} subscriber-a? Ky veprim nuk kthehet mbrapsht.`, danger: true, confirmText: "Fshi" }))) return;
     const ids = Array.from(selected);
-    setBulkBusy(true);
-    try {
-      const res = await fetch("/api/admin/subscribers/bulk", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setSubscribers(subscribers.filter((s) => !ids.includes(s.id)));
-        setSelected(new Set());
+    const removed = subscribers.filter((s) => ids.includes(s.id));
+    const remaining = subscribers.filter((s) => !ids.includes(s.id));
+    setSubscribers(remaining);
+    setSelected(new Set());
+    showUndo(
+      `${ids.length} subscriber-a u fshinë.`,
+      () => setSubscribers([...removed, ...remaining]),
+      async () => {
+        setBulkBusy(true);
+        try {
+          await fetch("/api/admin/subscribers/bulk", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids }),
+          });
+        } finally {
+          setBulkBusy(false);
+        }
       }
-    } finally {
-      setBulkBusy(false);
-    }
+    );
   };
 
   const sendBroadcast = async () => {
@@ -2615,11 +2804,12 @@ function SubscribersTab({
     const scheduledIso = broadcastScheduled ? new Date(broadcastScheduled).toISOString() : null;
     const willSchedule = !!scheduledIso && new Date(broadcastScheduled).getTime() > Date.now();
     if (
-      !confirm(
-        willSchedule
+      !(await confirm({
+        message: willSchedule
           ? `Të planifikohet ky email për ${new Date(broadcastScheduled).toLocaleString("sq-AL")}?`
-          : `Të dërgohet ky email te ${activeCount} subscriber-a aktivë?`
-      )
+          : `Të dërgohet ky email te ${activeCount} subscriber-a aktivë?`,
+        confirmText: willSchedule ? "Planifiko" : "Dërgo",
+      }))
     )
       return;
     setBroadcastSending(true);
@@ -2875,6 +3065,8 @@ function SubscribersTab({
       </div>
 
       <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+      {renderConfirm()}
+      {renderUndoToast()}
     </div>
   );
 }
@@ -2940,6 +3132,10 @@ function BlogTab({
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [isNewCategory, setIsNewCategory] = useState(false);
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [confirm, renderConfirm] = useConfirm();
+  const { showUndo, renderUndoToast } = useUndoToast();
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -3039,13 +3235,71 @@ function BlogTab({
   };
 
   const remove = async (id: number) => {
-    if (!confirm("Të fshihet ky artikull?")) return;
-    const res = await fetch(`/api/admin/blog/${id}`, { method: "DELETE" });
-    const data = await res.json();
-    if (data.success) {
-      setPosts(posts.filter((p) => p.id !== id));
-      if (editingId === id) cancelEdit();
+    if (!(await confirm({ title: "Fshi artikullin", message: "Të fshihet ky artikull?", danger: true, confirmText: "Fshi" }))) return;
+    const post = posts.find((p) => p.id === id);
+    setPosts(posts.filter((p) => p.id !== id));
+    if (editingId === id) cancelEdit();
+    showUndo(
+      "Artikulli u fshi.",
+      () => setPosts(post ? [post, ...posts.filter((p) => p.id !== id)] : posts),
+      async () => {
+        await fetch(`/api/admin/blog/${id}`, { method: "DELETE" });
+      }
+    );
+  };
+
+  const toggleSelect = (id: number) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const bulkSetPublished = async (published: boolean) => {
+    if (selected.size === 0) return;
+    setBulkBusy(true);
+    try {
+      const res = await fetch("/api/admin/blog/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: Array.from(selected), action: "published", published }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPosts(posts.map((p) => (selected.has(p.id) ? { ...p, published, scheduled_for: published ? null : p.scheduled_for } : p)));
+        setSelected(new Set());
+      }
+    } finally {
+      setBulkBusy(false);
     }
+  };
+
+  const bulkDelete = async () => {
+    if (selected.size === 0) return;
+    if (!(await confirm({ title: "Fshi artikujt", message: `Të fshihen ${selected.size} artikuj?`, danger: true, confirmText: "Fshi" }))) return;
+    const ids = Array.from(selected);
+    const removed = posts.filter((p) => ids.includes(p.id));
+    const remaining = posts.filter((p) => !ids.includes(p.id));
+    setPosts(remaining);
+    setSelected(new Set());
+    showUndo(
+      `${ids.length} artikuj u fshinë.`,
+      () => setPosts([...removed, ...remaining]),
+      async () => {
+        setBulkBusy(true);
+        try {
+          await fetch("/api/admin/blog/bulk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids, action: "delete" }),
+          });
+        } finally {
+          setBulkBusy(false);
+        }
+      }
+    );
   };
 
   return (
@@ -3188,12 +3442,54 @@ function BlogTab({
       <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
         Artikuj nga admin ({posts.length})
       </p>
+
+      {/* Bulk actions toolbar */}
+      {selected.size > 0 && (
+        <div className={CARD + " mb-3 flex flex-wrap items-center gap-3 p-3"}>
+          <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">{selected.size} të zgjedhur</span>
+          <button
+            onClick={() => bulkSetPublished(true)}
+            disabled={bulkBusy}
+            className="font-ui rounded-[2px] border border-emerald-400/30 px-3 py-1.5 text-[11px] font-semibold text-emerald-300 transition-colors hover:bg-emerald-400/10 disabled:opacity-50"
+          >
+            Publiko
+          </button>
+          <button
+            onClick={() => bulkSetPublished(false)}
+            disabled={bulkBusy}
+            className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+          >
+            Çpubliko
+          </button>
+          <button
+            onClick={bulkDelete}
+            disabled={bulkBusy}
+            className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+          >
+            Fshi
+          </button>
+          <button
+            onClick={() => setSelected(new Set())}
+            className="font-ui ml-auto text-[11px] text-[rgb(var(--a-text-rgb)/0.4)] hover:text-[var(--a-text)]"
+          >
+            Pastro përzgjedhjen
+          </button>
+        </div>
+      )}
+
       <div className="space-y-3">
         {posts.length === 0 && <EmptyState text="Ende nuk ka artikuj nga admin." />}
         {posts.map((p) => (
           <div key={p.id} className={CARD + " flex items-center justify-between gap-4 p-5"}>
             <div className="min-w-0">
               <p className="font-display font-semibold text-[var(--a-text)]">
+                <input
+                  type="checkbox"
+                  checked={selected.has(p.id)}
+                  onChange={() => toggleSelect(p.id)}
+                  className="mr-2.5 h-3.5 w-3.5 accent-[#ab8339]"
+                  aria-label="Zgjidh artikullin"
+                />
                 {p.title}
                 {p.published === false && p.scheduled_for && (
                   <span className="ml-2 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2 py-0.5 text-[10px] font-semibold text-yellow-300">
@@ -3241,6 +3537,8 @@ function BlogTab({
       <p className="mt-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">
         Artikujt statikë janë pjesë e kodit (lib/blogPosts.ts) dhe nuk mund të editohen apo fshihen nga paneli.
       </p>
+      {renderConfirm()}
+      {renderUndoToast()}
     </div>
   );
 }
@@ -4068,6 +4366,138 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
             ))}
           </ul>
         )}
+      </div>
+
+      <EmailTemplatesEditor />
+
+      <div className={CARD + " p-5"}>
+        <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          Eksport / Backup
+        </p>
+        <p className="mb-4 text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">
+          Shkarko një kopje JSON me të gjitha të dhënat (kontakte, oferta/fatura, projekte, blog, FAQ, etj.) për arkivim ose backup.
+        </p>
+        <a
+          href="/api/admin/export"
+          download
+          className="font-ui inline-flex items-center gap-2 rounded-[2px] border border-accent/40 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-accent transition-colors hover:bg-accent/10"
+        >
+          ⬇ Shkarko backup (JSON)
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function EmailTemplatesEditor() {
+  const [templates, setTemplates] = useState<Record<EmailTemplateKey, EmailTemplate> | null>(null);
+  const [drafts, setDrafts] = useState<Record<EmailTemplateKey, { subject: string; intro: string }>>(
+    {} as Record<EmailTemplateKey, { subject: string; intro: string }>
+  );
+  const [savingKey, setSavingKey] = useState<EmailTemplateKey | null>(null);
+  const [savedKey, setSavedKey] = useState<EmailTemplateKey | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/admin/email-templates");
+        const data = await res.json();
+        if (data.success) {
+          const map = {} as Record<EmailTemplateKey, EmailTemplate>;
+          const draftMap = {} as Record<EmailTemplateKey, { subject: string; intro: string }>;
+          for (const t of data.templates as EmailTemplate[]) {
+            map[t.key] = t;
+            draftMap[t.key] = { subject: t.subject, intro: t.intro };
+          }
+          setTemplates(map);
+          setDrafts(draftMap);
+        }
+      } catch {
+        // injoro
+      }
+    })();
+  }, []);
+
+  const save = async (key: EmailTemplateKey) => {
+    setSavingKey(key);
+    setSavedKey(null);
+    try {
+      const res = await fetch(`/api/admin/email-templates/${key}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(drafts[key]),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTemplates((prev) => (prev ? { ...prev, [key]: data.template } : prev));
+        setSavedKey(key);
+      }
+    } finally {
+      setSavingKey(null);
+    }
+  };
+
+  if (!templates) return null;
+
+  return (
+    <div className={CARD + " p-5"}>
+      <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+        Shabllonet e email-eve automatikë
+      </p>
+      <p className="mb-4 text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">
+        Përshtat tekstin e email-eve që dërgohen automatikisht (kujtues, kujtesa pagese, përmbledhje). Përdor placeholders si{" "}
+        <code className="text-accent">{"{{number}}"}</code> që zëvendësohen automatikisht.
+      </p>
+      <div className="space-y-5">
+        {EMAIL_TEMPLATE_KEYS.map((key) => {
+          const draft = drafts[key] ?? { subject: "", intro: "" };
+          return (
+            <div key={key} className="rounded-[2px] border border-[var(--a-border)] p-4">
+              <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-[12px] font-semibold text-[var(--a-text)]">{EMAIL_TEMPLATE_LABELS[key]}</p>
+                {EMAIL_TEMPLATE_PLACEHOLDERS[key].length > 0 && (
+                  <p className="text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">
+                    Placeholders: {EMAIL_TEMPLATE_PLACEHOLDERS[key].map((p) => (
+                      <code key={p} className="ml-1 text-accent">{p}</code>
+                    ))}
+                  </p>
+                )}
+              </div>
+              <label className="mb-1 block text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+                Subjekti
+              </label>
+              <input
+                type="text"
+                value={draft.subject}
+                onChange={(e) =>
+                  setDrafts((d) => ({ ...d, [key]: { ...draft, subject: e.target.value } }))
+                }
+                className="font-ui mb-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              <label className="mb-1 block text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+                Teksti
+              </label>
+              <textarea
+                rows={3}
+                value={draft.intro}
+                onChange={(e) =>
+                  setDrafts((d) => ({ ...d, [key]: { ...draft, intro: e.target.value } }))
+                }
+                className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              <div className="mt-2 flex items-center gap-3">
+                <button
+                  onClick={() => save(key)}
+                  disabled={savingKey === key}
+                  className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                >
+                  {savingKey === key ? "Duke ruajtur…" : "Ruaj"}
+                </button>
+                {savedKey === key && <span className="text-[11px] text-emerald-400/80">U ruajt ✓</span>}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

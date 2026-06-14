@@ -8,9 +8,13 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const offset = Math.max(0, Number(searchParams.get("offset")) || 0);
+  const limit = Number(searchParams.get("limit")) || 100;
+
   const [projectsRes, tasksRes] = await Promise.all([
-    supabase.from("projects").select("*").order("created_at", { ascending: false }).limit(100),
+    supabase.from("projects").select("*").order("created_at", { ascending: false }).range(offset, offset + limit - 1),
     supabase.from("project_tasks").select("*").order("sort", { ascending: true }).order("id", { ascending: true }),
   ]);
 
@@ -46,6 +50,9 @@ export async function POST(req: Request) {
       phase,
       deadline: typeof body.deadline === "string" && body.deadline ? body.deadline : null,
       notes: String(body.notes ?? "").trim().slice(0, 2000) || null,
+      tags: Array.isArray(body.tags)
+        ? body.tags.filter((t: unknown) => typeof t === "string").map((t: string) => t.trim().slice(0, 30)).filter(Boolean).slice(0, 10)
+        : [],
     })
     .select()
     .single();

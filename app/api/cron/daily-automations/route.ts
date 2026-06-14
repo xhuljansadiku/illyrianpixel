@@ -13,6 +13,7 @@ import {
 import { insertQuoteWithNumber } from "@/lib/quotesServer";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { logActivity } from "@/lib/activityLog";
+import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -69,12 +70,13 @@ export async function GET(req: Request) {
     const lastActivity = q.last_reminder_at ?? q.updated_at;
     if (lastActivity > daysAgoIso(QUOTE_REMINDER_GAP_DAYS)) continue;
     try {
+      const { subject, html } = await quoteReminderEmailHtml(q);
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,
         to: q.client_email!,
         replyTo: "info@illyrianpixel.com",
-        subject: `Një kujtesë e vogël — oferta ${q.number}`,
-        html: quoteReminderEmailHtml(q),
+        subject,
+        html,
       });
       await supabase
         .from("quotes")
@@ -101,12 +103,13 @@ export async function GET(req: Request) {
   for (const q of (overdueInvoices ?? []) as QuoteRecord[]) {
     if (q.last_reminder_at && q.last_reminder_at > daysAgoIso(INVOICE_REMINDER_GAP_DAYS)) continue;
     try {
+      const { subject, html } = await invoiceOverdueEmailHtml(q);
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,
         to: q.client_email!,
         replyTo: "info@illyrianpixel.com",
-        subject: `Kujtesë pagese — fatura ${q.number}`,
-        html: invoiceOverdueEmailHtml(q),
+        subject,
+        html,
       });
       await supabase
         .from("quotes")
@@ -224,11 +227,21 @@ export async function GET(req: Request) {
 
   if (staleRows && staleRows.length > 0) {
     try {
+      const staleTemplate = await getEmailTemplate("stale_contact");
+      const staleVars = {
+        count: String(staleRows.length),
+        plural: staleRows.length === 1 ? "" : "e",
+        days: String(STALE_CONTACT_DAYS),
+      };
+      const staleSubject = staleTemplate
+        ? applyPlaceholders(staleTemplate.subject, staleVars)
+        : `${staleRows.length} kontakt${staleVars.plural} pa përgjigje prej >${STALE_CONTACT_DAYS} ditësh`;
+      const staleIntro = staleTemplate ? applyPlaceholders(staleTemplate.intro, staleVars) : undefined;
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,
         to: process.env.CONTACT_TO_EMAIL!,
-        subject: `${staleRows.length} kontakt${staleRows.length === 1 ? "" : "e"} pa përgjigje prej >${STALE_CONTACT_DAYS} ditësh`,
-        html: staleContactsEmailHtml(staleRows, STALE_CONTACT_DAYS),
+        subject: staleSubject,
+        html: staleContactsEmailHtml(staleRows, STALE_CONTACT_DAYS, staleIntro),
       });
       await supabase
         .from("contacts")
@@ -258,11 +271,12 @@ export async function GET(req: Request) {
     for (const b of sentBroadcasts) await logActivity("newsletter", "send", `U dërgua broadcast i planifikuar "${b}"`);
     if (staleContacts.length > 0) await logActivity("auto", "send", `U dërgua kujtues për ${staleContacts.length} kontakt pa përgjigje`);
     try {
+      const summaryTemplate = await getEmailTemplate("daily_summary");
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,
         to: process.env.CONTACT_TO_EMAIL!,
-        subject: "Përmbledhja e automatizimeve të sotme",
-        html: adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts, staleContacts }),
+        subject: summaryTemplate?.subject ?? "Përmbledhja e automatizimeve të sotme",
+        html: await adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts, staleContacts }),
       });
     } catch {
       // injoro

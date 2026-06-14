@@ -27,7 +27,21 @@
       "PowerShell($env_ = @{}; Get-Content c:\\\\Kodi\\\\illyrianpixel\\\\.env.local | ForEach-Object { $k,$v = $_ -split '=',2; if \\($k\\) { $env_[$k.Trim\\(\\)] = $v.Trim\\(\\) } }; $url = $env_['NEXT_PUBLIC_SUPABASE_URL']; $key = $env_['SUPABASE_SERVICE_ROLE_KEY']; $r = Invoke-RestMethod -Uri \"$url/rest/v1/quotes?select=number,status,client_note,viewed_at,view_count\" -Headers @{ apikey = $key; Authorization = \"Bearer $key\" }; $r | Format-List)",
       "PowerShell($env_ = @{}; Get-Content c:\\\\Kodi\\\\illyrianpixel\\\\.env.local | ForEach-Object { $k,$v = $_ -split '=',2; if \\($k\\) { $env_[$k.Trim\\(\\)] = $v.Trim\\(\\) } }; $url = $env_['NEXT_PUBLIC_SUPABASE_URL']; $key = $env_['SUPABASE_SERVICE_ROLE_KEY']; $r = Invoke-RestMethod -Uri \"$url/rest/v1/faqs?select=id,question,visible,sort&order=sort\" -Headers @{ apikey = $key; Authorization = \"Bearer $key\" }; $r | Format-Table id, sort, visible, question -AutoSize)",
       "PowerShell($env_ = @{}; Get-Content c:\\\\Kodi\\\\illyrianpixel\\\\.env.local | ForEach-Object { $k,$v = $_ -split '=',2; if \\($k\\) { $env_[$k.Trim\\(\\)] = $v.Trim\\(\\) } }; $url = $env_['NEXT_PUBLIC_SUPABASE_URL']; $key = $env_['SUPABASE_SERVICE_ROLE_KEY']; $r = Invoke-RestMethod -Uri \"$url/rest/v1/faqs?select=question,answer&order=sort\" -Headers @{ apikey = $key; Authorization = \"Bearer $key\" }; $r | ForEach-Object { \"PYETJA: $\\($_.question\\)\"; \"PERGJIGJJA: $\\($_.answer.Substring\\(0, [Math]::Min\\(80, $_.answer.Length\\)\\)\\)\"; \"---\" })",
-      "PowerShell($env_ = @{}; Get-Content c:\\\\Kodi\\\\illyrianpixel\\\\.env.local | ForEach-Object { $k,$v = $_ -split '=',2; if \\($k\\) { $env_[$k.Trim\\(\\)] = $v.Trim\\(\\) } }; $url = $env_['NEXT_PUBLIC_SUPABASE_URL']; $key = $env_['SUPABASE_SERVICE_ROLE_KEY']; $r = Invoke-RestMethod -Uri \"$url/rest/v1/faqs?select=id,answer&order=sort\" -Headers @{ apikey = $key; Authorization = \"Bearer $key\" }; $r | ForEach-Object { \"id=$\\($_.id\\) FUNDI: ...$\\($_.answer.Substring\\([Math]::Max\\(0,$_.answer.Length-60\\)\\)\\)\"; \"\" })"
+      "PowerShell($env_ = @{}; Get-Content c:\\\\Kodi\\\\illyrianpixel\\\\.env.local | ForEach-Object { $k,$v = $_ -split '=',2; if \\($k\\) { $env_[$k.Trim\\(\\)] = $v.Trim\\(\\) } }; $url = $env_['NEXT_PUBLIC_SUPABASE_URL']; $key = $env_['SUPABASE_SERVICE_ROLE_KEY']; $r = Invoke-RestMethod -Uri \"$url/rest/v1/faqs?select=id,answer&order=sort\" -Headers @{ apikey = $key; Authorization = \"Bearer $key\" }; $r | ForEach-Object { \"id=$\\($_.id\\) FUNDI: ...$\\($_.answer.Substring\\([Math]::Max\\(0,$_.answer.Length-60\\)\\)\\)\"; \"\" })",
+      "Bash(cat)",
+      "Bash(rm .git/COMMIT_MSG_TMP.txt)",
+      "Bash(NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "Bash(curl -sL -o public/images/king-gentius.png \"https://upload.wikimedia.org/wikipedia/commons/2/2e/King_Gentius_of_Illyria%2C_King_Gent.png\")",
+      "Bash(grep -i -E \"^sharp$|jimp|canvas\")",
+      "Bash(node -e \"console.log\\(require\\('sharp'\\) ? 'sharp ok' : 'no'\\)\")",
+      "Bash(curl -sL -o public/images/king-gentius-coin.jpg \"https://upload.wikimedia.org/wikipedia/commons/c/cb/Face_of_King_Gentius_on_Ancient_Illyrian_coin.jpg\")",
+      "Bash(curl -s \"https://illyrianpixel.com/_next/static/chunks/\" -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s \"https://illyrianpixel.com/\")",
+      "Bash(vercel --version)",
+      "Bash(vercel env *)",
+      "Bash(Get-ChildItem -Recurse -Filter \"*Contact*\" -Path components,app)",
+      "Bash(findstr \"3000 3001\")"
     ],
     "additionalDirectories": [
       "C:\\Kodi\\illyrianpixel\\app\\api\\admin\\contacts\\[id]",
