@@ -5,9 +5,11 @@ import { faqSchema } from "@/lib/seo";
 import { getVisibleTestimonials, getVisiblePortfolioItems, getVisibleFaqs } from "@/lib/publicContent";
 import type { FeaturedItem } from "@/components/FeaturedWorkGrid";
 // Critical above-fold — static imports (SSR + no layout shift)
-import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import SectionAura from "@/components/SectionAura";
+
+// Hero with Canvas — must be client-side (no SSR)
+const Hero = dynamic(() => import("@/components/ParticleCloudHero"), { ssr: false });
 
 // Below-fold — dynamic imports (code-split, deferred JS)
 const FAQ           = dynamic(() => import("@/components/FAQ"));
