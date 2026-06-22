@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import ServiceCardHeroVisual from "@/components/ServiceCardHeroVisual";
+import { useReducedMotion } from "@/lib/gsap";
 import type { ServiceOverviewCard } from "@/lib/serviceOverviewCards";
 
 type Props = {
@@ -17,12 +19,44 @@ export default function ServiceBannerCard({ service, reversed = false, headingAs
   const rest = spaceIdx > -1 ? service.title.slice(spaceIdx) : "";
 
   const Heading = headingAs;
+  const reducedMotion = useReducedMotion();
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
+  const [finePointer, setFinePointer] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(pointer: fine)");
+    const update = () => setFinePointer(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (reducedMotion || !finePointer) return;
+    const node = linkRef.current;
+    if (!node) return;
+    const rect = node.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    node.style.transform = `translateY(-4px) rotateX(${(0.5 - py) * 4}deg) rotateY(${(px - 0.5) * 6}deg)`;
+    node.style.setProperty("--spot-x", `${px * 100}%`);
+    node.style.setProperty("--spot-y", `${py * 100}%`);
+  };
+
+  const handleMouseLeave = () => {
+    linkRef.current?.style.removeProperty("transform");
+  };
 
   return (
     <Link
       href={service.href}
-      ref={cardRef}
-      className="group relative flex w-full flex-col overflow-hidden rounded-[1.5rem] border border-white/[0.08] bg-[linear-gradient(140deg,#111111_0%,#0d0d0d_55%,#0f0f0f_100%)] shadow-[0_16px_48px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[#D4AF37]/50 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(212,175,55,0.35),0_0_48px_rgba(212,175,55,0.1)] sm:flex-row sm:min-h-[260px]"
+      ref={(node) => {
+        linkRef.current = node;
+        cardRef?.(node);
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group relative flex w-full flex-col overflow-hidden rounded-[1.5rem] border border-white/[0.08] bg-[linear-gradient(140deg,#111111_0%,#0d0d0d_55%,#0f0f0f_100%)] shadow-[0_16px_48px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] will-change-transform hover:-translate-y-1 hover:border-[#D4AF37]/50 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(212,175,55,0.35),0_0_48px_rgba(212,175,55,0.1)] sm:flex-row sm:min-h-[260px]"
     >
       {/* Top accent line */}
       <div
@@ -33,6 +67,19 @@ export default function ServiceBannerCard({ service, reversed = false, headingAs
       {/* Ambient glow */}
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_10%_50%,rgba(171,131,57,0.06),transparent_60%)] opacity-60 transition-opacity duration-500 group-hover:opacity-100"
+        aria-hidden
+      />
+
+      {/* Cursor-tracked spotlight */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: "radial-gradient(circle 260px at var(--spot-x, 50%) var(--spot-y, 50%), rgba(212,175,55,0.14), transparent 70%)" }}
+        aria-hidden
+      />
+
+      {/* Shimmer sweep */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] -translate-x-full bg-gradient-to-r from-transparent via-white/[0.07] to-transparent opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:translate-x-full group-hover:opacity-100"
         aria-hidden
       />
 

@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
@@ -21,19 +21,18 @@ export type FeaturedItem = {
   liveUrl: string;
 };
 
-function resultPills(project: FeaturedItem): string[] {
-  const fromTags = project.tags.slice(0, 4);
-  if (fromTags.length >= 4) return fromTags;
-  const extra = project.metrics.filter((m) => !fromTags.includes(m));
-  return [...fromTags, ...extra].slice(0, 4);
-}
+// Signature mood color per row instead of always gold — keeps the index feeling
+// editorial without leaning on imagery for differentiation.
+const MOOD_COLORS = ["#ab8339", "#c2703d", "#3f8f86", "#4f6f93", "#9c4d4d", "#7a8450"];
 
 export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const chapterRefs = useRef<Array<HTMLElement | null>>([]);
-  const imageRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const previewRef = useRef<HTMLDivElement | null>(null);
   const reducedMotion = useReducedMotion();
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [finePointer, setFinePointer] = useState(false);
+
   const featuredProjects: FeaturedItem[] =
     items && items.length > 0
       ? items
@@ -41,10 +40,17 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
           ["esm-group", "bardhi-wellness", "palushi-brothers"].includes(project.slug)
         );
 
-  useIsomorphicLayoutEffect(() => {
-    if (!sectionRef.current || reducedMotion) return;
-    const { gsap, ScrollTrigger } = ensureGSAP();
+  useEffect(() => {
+    const media = window.matchMedia("(pointer: fine)");
+    const update = () => setFinePointer(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
+  useIsomorphicLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    const { gsap } = ensureGSAP();
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".featured-chapters-intro > *",
@@ -56,74 +62,41 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
           duration: 0.75,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%"
-          }
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         }
       );
-
-      chapterRefs.current.forEach((chapter, idx) => {
-        if (!chapter) return;
-        const imageWrap = imageRefs.current[idx];
-        const content = chapter.querySelector(".chapter-copy");
-
-        gsap.fromTo(
-          content,
-          { opacity: 0, y: 36 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.72,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: chapter,
-              start: "top 70%"
-            }
-          }
-        );
-
-        if (imageWrap) {
-          gsap.fromTo(
-            imageWrap,
-            { opacity: 0.75, scale: 0.98, clipPath: "inset(0 100% 0 0 round 1.25rem)" },
-            {
-              opacity: 1,
-              scale: 1,
-              clipPath: "inset(0 0% 0 0 round 1.25rem)",
-              duration: 1.05,
-              ease: "power4.out",
-              scrollTrigger: {
-                trigger: chapter,
-                start: "top 72%"
-              }
-            }
-          );
-
-          gsap.to(imageWrap, {
-            yPercent: -8,
-            ease: "none",
-            scrollTrigger: {
-              trigger: chapter,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1
-            }
-          });
+      gsap.fromTo(
+        ".featured-row",
+        { opacity: 0, y: 22 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: { trigger: listRef.current, start: "top 85%" },
         }
-
-        ScrollTrigger.create({
-          trigger: chapter,
-          start: "top 52%",
-          end: "bottom 52%",
-          onEnter: () => setActiveIdx(idx),
-          onEnterBack: () => setActiveIdx(idx)
-        });
-      });
+      );
     }, sectionRef);
-
     return () => ctx.revert();
-  }, [reducedMotion]);
+  }, []);
+
+  // Cursor-follow preview, fine-pointer desktops only.
+  useIsomorphicLayoutEffect(() => {
+    if (reducedMotion || !finePointer || !previewRef.current) return;
+    const { gsap } = ensureGSAP();
+    const moveX = gsap.quickTo(previewRef.current, "x", { duration: 0.45, ease: "power3.out" });
+    const moveY = gsap.quickTo(previewRef.current, "y", { duration: 0.45, ease: "power3.out" });
+    const onMove = (e: PointerEvent) => {
+      moveX(e.clientX);
+      moveY(e.clientY);
+    };
+    window.addEventListener("pointermove", onMove);
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [reducedMotion, finePointer]);
+
+  const hoveredProject = hoveredIdx !== null ? featuredProjects[hoveredIdx] : null;
+  const showCursorPreview = finePointer && !reducedMotion;
 
   return (
     <section id="featured-work" ref={sectionRef} className="cinematic-section section-tone-work relative overflow-hidden">
@@ -134,131 +107,117 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
       <div className="section-wrap featured-chapters-intro">
         <SectionMark label="PROJEKTET" />
         <h2 className="section-title mt-3 max-w-4xl">
-          {"Projekte q\u00eb sjellin "}
-          <span className="text-accent">{"klient\u00eb real\u00eb"}</span>
+          {"Projekte që sjellin "}
+          <span className="text-accent">{"klientë realë"}</span>
         </h2>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/55 md:text-lg">
-          {"Nd\u00ebrtuar p\u00ebr performanc\u00eb dhe rritje t\u00eb biznesit."}
+          {"Ndërtuar për performancë dhe rritje të biznesit."}
         </p>
       </div>
 
-      <div className="mt-10 md:mt-12">
-        {featuredProjects.map((project, idx) => {
-          const isTextLeft = idx % 2 === 0;
-          const copyOrder = isTextLeft ? "lg:order-1" : "lg:order-2";
-          const mediaOrder = isTextLeft ? "lg:order-2" : "lg:order-1";
+      <div ref={listRef} className="section-wrap mt-4 md:mt-10">
+        <div className="border-t border-white/10">
+          {featuredProjects.map((project, idx) => {
+            const mood = MOOD_COLORS[idx % MOOD_COLORS.length];
+            const isHovered = hoveredIdx === idx;
+            const isLink = Boolean(project.liveUrl);
 
-          return (
-            <article
-              key={project.slug}
-              ref={(node) => {
-                chapterRefs.current[idx] = node;
-              }}
-              className="relative flex min-h-0 items-center py-14 md:min-h-[85svh] md:py-20"
-            >
-              <div className="section-wrap grid w-full items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
-                <div
-                  className={`chapter-copy order-2 flex flex-col transition-opacity duration-500 ${copyOrder} ${
-                    activeIdx === idx ? "opacity-100" : "opacity-[0.88]"
-                  }`}
+            const rowInner = (
+              <>
+                <span
+                  className="font-mono text-[12px] tracking-[0.2em] transition-colors duration-300"
+                  style={{ color: isHovered ? mood : "rgba(255,255,255,0.3)" }}
                 >
-                  <p className="font-body text-[11px] font-medium uppercase tracking-[0.2em] text-accent/85">
-                    {project.category}
-                  </p>
-                  <h3 className="mt-3 font-display text-[clamp(2rem,5vw,4rem)] leading-[0.92] tracking-[0.01em] text-white">
-                    {project.title}
-                  </h3>
-                  {(project.flagCodes.length > 0 || project.location) && (
-                    <p className="mt-4 inline-flex flex-wrap items-center gap-2 font-display text-[clamp(1rem,2.1vw,1.2rem)] leading-snug tracking-[0.02em] text-white/88">
-                      {project.flagCodes.length > 0 && (
-                        <span className="inline-flex items-center gap-1 rounded-md border border-white/[0.07] bg-white/[0.06] px-2 py-1" aria-hidden>
-                          {project.flagCodes.map((code) => (
-                            <Image
-                              key={code}
-                              src={`https://flagcdn.com/w20/${code}.png`}
-                              alt=""
-                              width={20}
-                              height={14}
-                              className="h-3.5 w-5 rounded-[2px] object-cover"
-                              loading="lazy"
-                              unoptimized
-                            />
-                          ))}
-                        </span>
-                      )}
-                      {project.location && <span>{project.location}</span>}
-                    </p>
-                  )}
-                  <p className="mt-5 max-w-[52ch] md:whitespace-pre-line font-body text-sm leading-relaxed text-white/72 md:text-base">
-                    {project.intro}
-                  </p>
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
 
-                  <div className="mt-6 flex min-h-[52px] flex-wrap content-start gap-2">
-                    {resultPills(project).map((pill, pillIdx) => (
-                      <span
-                        key={`${project.slug}-${pill}`}
-                        style={{ transitionDelay: `${pillIdx * 40}ms` }}
-                        className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-1 font-body text-[11px] tracking-[0.02em] text-white/76 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] hover:border-white/18 hover:shadow-[0_0_12px_rgba(171,131,57,0.12)]"
-                      >
-                        {pill}
-                      </span>
-                    ))}
-                  </div>
-
-                  {project.liveUrl ? (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="luxury-link mt-8"
-                    >
-                      {"Shiko projektin live "}<span aria-hidden>{"\u2192"}</span>
-                    </a>
-                  ) : (
-                    <span className="luxury-link mt-8 cursor-default opacity-50" aria-disabled>
-                      {"S\u00cb SHPEJTI"}
-                    </span>
-                  )}
-                </div>
-
-                <div
-                  ref={(node) => {
-                    imageRefs.current[idx] = node;
-                  }}
-                  className={`order-1 ${mediaOrder}`}
-                >
-                  <div
-                    className={`relative overflow-hidden rounded-[1.25rem] border border-[rgba(255,255,255,0.05)] bg-[#0d0d0c] shadow-[0_28px_90px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.04)_inset] transition-[box-shadow,border-color] duration-500 ${
-                      activeIdx === idx ? "border-accent/25 shadow-[0_32px_100px_rgba(0,0,0,0.58),0_0_40px_rgba(171,131,57,0.08)]" : ""
-                    }`}
+                <div className="flex min-w-0 flex-1 flex-col gap-1.5 px-6 md:px-10">
+                  <span
+                    className="font-display text-[clamp(1.6rem,4.2vw,3.4rem)] font-normal leading-[1.02] tracking-[-0.01em] transition-colors duration-300"
+                    style={{ color: isHovered ? mood : "#ffffff" }}
                   >
-                    <div className="group/img relative aspect-[16/10] overflow-hidden">
-                      {project.heroImage ? (
-                        <Image
-                          src={project.heroImage}
-                          alt={`${project.title}, ${project.category} | Illyrian Pixel`}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/img:scale-[1.03]"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#101010,#161410)]">
-                          <span className="font-display text-3xl text-accent/30">{project.title.slice(0, 1)}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                    {project.title}
+                  </span>
+                  <span className="font-body text-[11px] uppercase tracking-[0.18em] text-white/40">
+                    {project.category}
+                    {project.location ? ` — ${project.location}` : ""}
+                  </span>
                 </div>
+
+                {project.heroImage && (
+                  <span className="relative block h-12 w-16 shrink-0 overflow-hidden rounded-md border border-white/10 lg:hidden">
+                    <Image src={project.heroImage} alt="" fill sizes="64px" className="object-cover" />
+                  </span>
+                )}
+
+                <span className="ml-4 flex shrink-0 items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.16em] text-white/35 transition-transform duration-300 group-hover:translate-x-1">
+                  {isLink ? "Shiko" : "Së shpejti"}
+                  {isLink && <span aria-hidden>{"→"}</span>}
+                </span>
+
+                <span
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left transition-transform duration-500"
+                  style={{ backgroundColor: mood, transform: isHovered ? "scaleX(1)" : "scaleX(0)" }}
+                  aria-hidden
+                />
+              </>
+            );
+
+            const rowClassName =
+              "featured-row group relative flex w-full items-center border-b border-white/10 py-7 text-left transition-colors duration-300 hover:bg-white/[0.02] md:py-9";
+
+            return isLink ? (
+              <a
+                key={project.slug}
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={rowClassName}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx((cur) => (cur === idx ? null : cur))}
+              >
+                {rowInner}
+              </a>
+            ) : (
+              <div
+                key={project.slug}
+                className={`${rowClassName} cursor-default`}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx((cur) => (cur === idx ? null : cur))}
+              >
+                {rowInner}
               </div>
-            </article>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
+
+      {showCursorPreview && (
+        <div
+          ref={previewRef}
+          className={`pointer-events-none fixed left-0 top-0 z-50 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+            hoveredProject ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <div className="relative h-[190px] w-[280px] overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0c] shadow-[0_30px_80px_rgba(0,0,0,0.55)] md:h-[220px] md:w-[320px]">
+            {hoveredProject?.heroImage && (
+              <Image
+                key={hoveredProject.slug}
+                src={hoveredProject.heroImage}
+                alt=""
+                fill
+                sizes="320px"
+                className="object-cover"
+              />
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="section-wrap pb-2 pt-12">
         <Link href="/projektet" className="luxury-link">
-          {"T\u00eb gjitha projektet "}
-          <span aria-hidden>{"\u2192"}</span>
+          {"Të gjitha projektet "}
+          <span aria-hidden>{"→"}</span>
         </Link>
       </div>
     </section>

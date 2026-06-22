@@ -17,8 +17,17 @@ const clients: Client[] = [
   { name: "Ilirjana Shehu Photography", logo: "/images/logos/ilirjana-shehu-photography.png" },
 ];
 
+type Stat = { value: number | null; suffix: string; label: string };
+
+const stats: Stat[] = [
+  { value: 6, suffix: "+", label: "vite eksperiencë" },
+  { value: 100, suffix: "+", label: "projekte" },
+  { value: null, suffix: "", label: "Biznese në Shqipëri & diasporë" },
+];
+
 export default function TrustedClients() {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const statRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const reduced = useReducedMotion();
 
   useIsomorphicLayoutEffect(() => {
@@ -43,9 +52,28 @@ export default function TrustedClients() {
           scrollTrigger: { trigger: ".tc-strip", start: "top 90%" },
         }
       );
+
+      stats.forEach((stat, i) => {
+        const el = statRefs.current[i];
+        if (!el || stat.value === null) return;
+        if (reduced) {
+          el.textContent = String(stat.value);
+          return;
+        }
+        const counter = { val: 0 };
+        gsap.to(counter, {
+          val: stat.value,
+          duration: 1.6,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 92%" },
+          onUpdate: () => {
+            el.textContent = String(Math.round(counter.val));
+          },
+        });
+      });
     }, sectionRef);
     return () => ctx.revert();
-  }, []);
+  }, [reduced]);
 
   return (
     <section
@@ -111,12 +139,20 @@ export default function TrustedClients() {
       {/* Trust stats */}
       <div className="section-wrap relative z-10 !pt-0 !pb-20 md:!pb-28">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-          {["6+ vite eksperiencë", "100+ projekte", "Biznese në Shqipëri & diasporë"].map((item, i) => (
-            <span key={item} className="inline-flex items-center gap-3">
+          {stats.map((stat, i) => (
+            <span key={stat.label} className="inline-flex items-center gap-3">
               {i > 0 && (
                 <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-accent/40" aria-hidden />
               )}
-              <span className="font-mono text-[11px] tracking-[0.14em] text-white/42">{item}</span>
+              <span className="font-mono text-[11px] tracking-[0.14em] text-white/42">
+                {stat.value !== null ? (
+                  <>
+                    <span ref={(el) => { statRefs.current[i] = el; }}>0</span>
+                    {stat.suffix}{" "}
+                  </>
+                ) : null}
+                {stat.label}
+              </span>
             </span>
           ))}
         </div>

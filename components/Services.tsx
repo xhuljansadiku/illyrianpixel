@@ -69,7 +69,7 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="mt-14 flex flex-col gap-6 md:gap-7">
+        <div className="mt-14 flex flex-col gap-6 [perspective:1500px] md:gap-7">
           {SERVICE_OVERVIEW_CARDS.map((service, idx) => (
             <ServiceBannerCard
               key={service.href}
