@@ -25,6 +25,14 @@ export default function Hero() {
     { x: 92, y: 17, s: 4, d: 1.68 }
   ];
 
+  const energyBursts = [
+    { left: 8, top: 14, dx: 130, dy: 80 },
+    { left: 92, top: 8, dx: -110, dy: 100 },
+    { left: 4, top: 78, dx: 150, dy: -60 },
+    { left: 96, top: 88, dx: -140, dy: -70 },
+    { left: 48, top: 4, dx: 10, dy: 120 }
+  ];
+
   const sectionRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const headlineRef = useRef<HTMLHeadingElement | null>(null);
@@ -91,6 +99,62 @@ export default function Hero() {
         );
       }
 
+      // Mobile: lighter entrance (no filter blur, no headline split) — keeps LCP safe
+      // while still avoiding the old "everything just appears instantly" feel.
+      if (isMobile && !reducedMotion) {
+        gsap.fromTo(
+          badgeRef.current,
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, delay: 0.05, ease: MOTION.ease.enter }
+        );
+        gsap.fromTo(
+          paragraphRef.current,
+          { y: 12, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, delay: 0.14, ease: MOTION.ease.enter }
+        );
+        gsap.fromTo(
+          ".hero-cta > *",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, stagger: 0.08, duration: 0.5, delay: 0.22, ease: MOTION.ease.enter }
+        );
+      }
+
+      // Power-up: depth glow "ignites" behind the helmet on load — cheap (one element,
+      // opacity/scale only) so it runs on mobile too.
+      if (!reducedMotion) {
+        gsap.fromTo(
+          depthGlowRef.current,
+          { opacity: 0, scale: 0.45 },
+          { opacity: 1, scale: 1, duration: 1, delay: 0.05, ease: "power2.out" }
+        );
+      }
+
+      // Energy streaks converge into the glow once on load — decorative flourish,
+      // desktop only to keep mobile light.
+      if (!isMobile && !reducedMotion) {
+        const streaks = sectionEl?.querySelectorAll<HTMLElement>(".hero-energy-streak");
+        if (streaks?.length) {
+          gsap.set(streaks, {
+            opacity: 0,
+            scale: 0.4,
+            x: (i: number) => Number(streaks[i].dataset.dx),
+            y: (i: number) => Number(streaks[i].dataset.dy)
+          });
+          gsap
+            .timeline({ delay: 0.05 })
+            .to(streaks, {
+              opacity: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              stagger: 0.05,
+              ease: "power3.out"
+            })
+            .to(streaks, { opacity: 0, duration: 0.35 }, "+=0.05");
+        }
+      }
+
       if (!isMobile) {
         gsap.fromTo(
           particlesRef.current,
@@ -120,6 +184,8 @@ export default function Hero() {
 
         if (visualRef.current) {
           if (!isMobile) {
+            gsap.set(visualRef.current, { transformPerspective: 800 });
+
             const setParallaxX = gsap.quickTo(visualRef.current, "--helmet-parallax-x", {
               duration: 0.85,
               ease: "power2.out"
@@ -137,6 +203,9 @@ export default function Hero() {
             const setParticleY = inner
               ? gsap.quickTo(inner, "y", { duration: 1.15, ease: "power2.out" })
               : null;
+            // True 3D tilt — the helmet reacts to the cursor like a physical object.
+            const setTiltY = gsap.quickTo(helmetRef.current, "rotationY", { duration: 0.7, ease: "power3.out" });
+            const setTiltX = gsap.quickTo(helmetRef.current, "rotationX", { duration: 0.7, ease: "power3.out" });
 
             onVisualMove = (event: PointerEvent) => {
               const rect = visualRef.current!.getBoundingClientRect();
@@ -148,6 +217,8 @@ export default function Hero() {
               yGlow(py * -7);
               setParticleX?.(px * 5);
               setParticleY?.(py * -4);
+              setTiltY(px * 10);
+              setTiltX(py * -8);
             };
 
             onVisualLeave = () => {
@@ -157,6 +228,8 @@ export default function Hero() {
               yGlow(0);
               setParticleX?.(0);
               setParticleY?.(0);
+              setTiltY(0);
+              setTiltX(0);
             };
 
             visualRef.current.addEventListener("pointermove", onVisualMove);
@@ -263,7 +336,7 @@ export default function Hero() {
             >
               Merr ofertë falas
             </Link>
-            <a href="/projektet" className="luxury-link">
+            <a href="/projektet" data-magnetic="true" className="luxury-link">
               Shiko projektet <span aria-hidden>→</span>
             </a>
           </div>
@@ -273,6 +346,17 @@ export default function Hero() {
           className="helmet-flow-scene hero-visual-shell relative h-[320px] overflow-visible md:h-[460px] lg:ml-[-10px]"
         >
           <div ref={depthGlowRef} className="absolute right-[12%] top-[8%] h-56 w-56 rounded-full bg-accent/20 blur-[90px] md:h-72 md:w-72" />
+          <div className="pointer-events-none absolute inset-0 z-[15]" aria-hidden>
+            {energyBursts.map((burst, index) => (
+              <span
+                key={index}
+                className="hero-energy-streak absolute"
+                data-dx={burst.dx}
+                data-dy={burst.dy}
+                style={{ left: `${burst.left}%`, top: `${burst.top}%` }}
+              />
+            ))}
+          </div>
           <div
             ref={particlesRef}
             className="helmet-particles pointer-events-none absolute -left-[76%] top-[7%] z-20 h-[84%] w-[130%] md:-left-[72%] md:top-[4%] md:h-[90%] md:w-[124%]"
@@ -310,6 +394,10 @@ export default function Hero() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="hero-scroll-cue" aria-hidden>
+        <span>Zbulo më shumë</span>
+        <span className="hero-scroll-cue-chevron" />
       </div>
     </section>
   );

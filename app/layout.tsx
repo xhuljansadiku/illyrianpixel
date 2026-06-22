@@ -19,6 +19,7 @@ const ScrollProgress        = dynamic(() => import("@/components/ScrollProgress"
 const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
 const Preloader             = dynamic(() => import("@/components/Preloader"),             { ssr: false });
 const ClientWidgets         = dynamic(() => import("@/components/ClientWidgets"),         { ssr: false });
+const AmbientParticles      = dynamic(() => import("@/components/AmbientParticles"),      { ssr: false });
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -176,17 +177,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <WebVitals />
         <PageViewTracker />
         <Preloader />
+        <AmbientParticles />
         <SmoothScroll>
-          <InteractiveGlow />
-          <MagneticButtons />
-          <GlobalReveals />
-          <CustomCursor />
-          <CursorTrail />
-          <ScrollProgress />
-          <PageTransitionOverlay />
-          <BackToTop />
-          <ClientWidgets />
-          {children}
+          <div className="relative z-[1]">
+            <InteractiveGlow />
+            <MagneticButtons />
+            <GlobalReveals />
+            <CustomCursor />
+            <CursorTrail />
+            <ScrollProgress />
+            <PageTransitionOverlay />
+            <BackToTop />
+            <ClientWidgets />
+            {children}
+          </div>
         </SmoothScroll>
         <InquiryModal />
 

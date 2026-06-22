@@ -190,7 +190,7 @@ export default function PseNe() {
     <section
       id="pse-ne"
       ref={sectionRef}
-      className="cinematic-section relative overflow-hidden border-b border-white/[0.06] bg-bg"
+      className="cinematic-section relative overflow-hidden border-b border-white/[0.06] bg-bg/92"
     >
       {/* BG grid */}
       <div

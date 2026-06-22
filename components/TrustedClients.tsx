@@ -51,7 +51,7 @@ export default function TrustedClients() {
     <section
       ref={sectionRef}
       id="klientet"
-      className="relative border-b border-white/[0.06] bg-[#080808]"
+      className="relative border-b border-white/[0.06] bg-[#080808]/92"
     >
       {/* Ambient glow */}
       <div
