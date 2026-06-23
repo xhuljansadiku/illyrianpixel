@@ -281,31 +281,12 @@ export default function ParticleCloudHero() {
     });
   }, [mounted, reducedMotion]);
 
-  if (!mounted) return null;
-
   return (
     <section
       id="hero"
-      className="cinematic-section section-tone-hero relative min-h-screen overflow-hidden"
+      className="cinematic-section section-tone-hero relative overflow-hidden lg:min-h-screen"
     >
-      <div className="absolute inset-0 z-0">
-        {!reducedMotion ? (
-          <Canvas
-            camera={{ position: [0, 0, 9], fov: 42 }}
-            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-            style={{ background: "transparent" }}
-          >
-            <ParticleDust />
-            <BrandGem />
-          </Canvas>
-        ) : (
-          <div className="hero-grid absolute inset-0 opacity-80" />
-        )}
-      </div>
-
-      <div className="pointer-events-none absolute inset-0 z-[1] hero-depth-vignette" aria-hidden />
-
-      <div className="hero-layout section-wrap relative z-10 grid min-h-[100svh] items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+      <div className="hero-layout section-wrap relative z-10 grid items-center gap-12 lg:min-h-[100svh] lg:grid-cols-[1fr_1fr] lg:gap-16">
         <div className="hero-copy space-y-7 text-center md:space-y-8 lg:pl-14 lg:text-left">
           <div
             ref={badgeRef}
@@ -358,9 +339,27 @@ export default function ParticleCloudHero() {
           </div>
         </div>
 
-        {/* Right column is empty in the DOM — the gem renders inside the full-bleed
-            Canvas behind everything, offset to sit visually in this area on desktop. */}
+        {/* Right column is empty in the DOM on desktop — the gem renders inside the
+            full-bleed Canvas behind everything, offset to sit visually in this area. */}
         <div className="hidden h-[460px] lg:block" aria-hidden />
+      </div>
+
+      {/* On mobile this is an in-flow block directly below the text (its own space,
+          not a background). On desktop it pops out via lg:absolute to full-bleed behind everything. */}
+      <div className="hero-visual relative z-0 h-[340px] w-full overflow-hidden lg:absolute lg:inset-0 lg:h-auto lg:w-auto lg:overflow-visible">
+        {mounted && !reducedMotion ? (
+          <Canvas
+            camera={{ position: [0, 0, 9], fov: 42 }}
+            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+            style={{ background: "transparent" }}
+          >
+            <ParticleDust />
+            <BrandGem />
+          </Canvas>
+        ) : (
+          <div className="hero-grid absolute inset-0 opacity-80" />
+        )}
+        <div className="pointer-events-none absolute inset-0 z-[1] hero-depth-vignette" aria-hidden />
       </div>
 
       <div className="hero-scroll-cue" aria-hidden>
