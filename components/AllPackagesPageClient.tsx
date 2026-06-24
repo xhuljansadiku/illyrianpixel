@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
 import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
+import FAQ, { type FaqItem } from "@/components/FAQ";
 import { serviceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
@@ -28,9 +30,41 @@ const CMIMET_FLOAT_ICONS: AmbientIconConfig[] = [
   { variant: "maintenance", className: "top-[80%] right-[12%]", depth: 0.75, scale: 0.62 },
 ];
 
-export default function AllPackagesPageClient({ overrides }: { overrides?: PricingOverrides }) {
+// Categories billed monthly — eligible for the mujore/vjetore toggle
+const RECURRING_SLUGS = new Set<ServiceCategory["slug"]>(["marketing-growth", "smm", "mirembajtja"]);
+const ANNUAL_DISCOUNT = 0.2;
+
+function withAnnualBilling(pkg: ServiceCategory["packages"][number]): ServiceCategory["packages"][number] {
+  const num = Number(pkg.price.replace(/[^\d]/g, ""));
+  if (!num) return pkg;
+  const discounted = Math.round(num * (1 - ANNUAL_DISCOUNT));
+  return {
+    ...pkg,
+    price: `€${discounted.toLocaleString("en-US")}`,
+    priceNote: "/ muaj · vjetor -20%",
+  };
+}
+
+export default function AllPackagesPageClient({ overrides, faqItems }: { overrides?: PricingOverrides; faqItems?: FaqItem[] }) {
   const heroRef = useRef<HTMLElement>(null);
-  const [active, setActive] = useState<ServiceCategory["slug"]>("website");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const slugFromUrl = searchParams.get("kategori");
+  const initialSlug = FILTERS.some((f) => f.slug === slugFromUrl)
+    ? (slugFromUrl as ServiceCategory["slug"])
+    : "website";
+
+  const [active, setActive] = useState<ServiceCategory["slug"]>(initialSlug);
+  const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+
+  function handleFilterClick(slug: ServiceCategory["slug"]) {
+    setActive(slug);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("kategori", slug);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }
 
   useIsomorphicLayoutEffect(() => {
     if (!heroRef.current) return;
@@ -63,7 +97,12 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
 
   const visible = serviceCategories
     .filter((c) => c.slug === active)
-    .map((c) => applyOverridesToCategory(c, overrides));
+    .map((c) => applyOverridesToCategory(c, overrides))
+    .map((c) =>
+      RECURRING_SLUGS.has(c.slug) && billing === "annual"
+        ? { ...c, packages: c.packages.map(withAnnualBilling) }
+        : c
+    );
 
   return (
     <>
@@ -107,7 +146,7 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
               <button
                 key={f.slug}
                 type="button"
-                onClick={() => setActive(f.slug)}
+                onClick={() => handleFilterClick(f.slug)}
                 className={`font-ui shrink-0 rounded-full border px-4 py-2 text-[12px] font-medium tracking-[0.8px] transition-all duration-300 md:px-5 md:text-[13px] ${
                   active === f.slug
                     ? "border-accent/50 bg-accent/[0.12] text-accent shadow-[0_0_24px_rgba(171,131,57,0.18)]"
@@ -148,6 +187,29 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
                   <p className="mt-3 max-w-[52ch] md:whitespace-pre-line text-[14px] leading-relaxed text-white/48">
                     {category.short}
                   </p>
+
+                  {RECURRING_SLUGS.has(category.slug) && (
+                    <div className="mt-5 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.02] p-1">
+                      <button
+                        type="button"
+                        onClick={() => setBilling("monthly")}
+                        className={`rounded-full px-4 py-1.5 font-ui text-[12px] font-medium transition-all duration-300 ${
+                          billing === "monthly" ? "bg-accent/[0.14] text-accent" : "text-white/50 hover:text-white/75"
+                        }`}
+                      >
+                        Mujore
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setBilling("annual")}
+                        className={`rounded-full px-4 py-1.5 font-ui text-[12px] font-medium transition-all duration-300 ${
+                          billing === "annual" ? "bg-accent/[0.14] text-accent" : "text-white/50 hover:text-white/75"
+                        }`}
+                      >
+                        Vjetore <span className="text-accent/85">-20%</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {category.slug === "marketing-growth" && (
@@ -187,6 +249,12 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
             </div>
           </section>
         ))}
+
+        {faqItems && faqItems.length > 0 && (
+          <div className="relative z-[1] border-b border-white/[0.07]">
+            <FAQ items={faqItems} />
+          </div>
+        )}
 
         <section className="relative z-[1]">
           <div className="section-wrap py-10 md:py-12">
