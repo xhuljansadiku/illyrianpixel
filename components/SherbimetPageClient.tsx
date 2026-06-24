@@ -4,9 +4,19 @@ import { useRef } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ServiceBannerCard from "@/components/ServiceBannerCard";
+import ServiceCompactCard from "@/components/ServiceCompactCard";
+import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
 import { SHERBIMET_PAGE_CARDS } from "@/lib/serviceOverviewCards";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
+
+const HERO_FLOAT_ICONS: AmbientIconConfig[] = [
+  { variant: "web", className: "top-[8%] right-[6%]", depth: 0.5, scale: 0.9 },
+  { variant: "ecommerce", className: "top-[27%] right-[23%]", depth: 0.85, scale: 0.75 },
+  { variant: "marketing", className: "top-[53%] right-[2%]", depth: 0.35, scale: 1 },
+  { variant: "smm", className: "top-[68%] right-[27%]", depth: 0.65, scale: 0.68 },
+  { variant: "branding", className: "top-[13%] right-[37%]", depth: 0.45, scale: 0.8 },
+  { variant: "maintenance", className: "top-[80%] right-[12%]", depth: 0.75, scale: 0.62 }
+];
 
 export default function SherbimetPageClient() {
   const heroRef = useRef<HTMLElement | null>(null);
@@ -97,6 +107,8 @@ export default function SherbimetPageClient() {
           {/* Decorative vertical line */}
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
+          <AmbientServiceIcons heroRef={heroRef} icons={HERO_FLOAT_ICONS} />
+
           <div className="section-wrap relative py-28 md:py-40">
             <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"SHËRBIMET"}</p>
 
@@ -122,14 +134,9 @@ export default function SherbimetPageClient() {
         {/* Cards */}
         <section className="relative z-[1] border-b border-white/10">
           <div className="section-wrap py-14 md:py-20">
-            <div className="flex flex-col gap-6 md:gap-8">
-              {SHERBIMET_PAGE_CARDS.map((service, idx) => (
-                <ServiceBannerCard
-                  key={service.href}
-                  service={service}
-                  reversed={idx % 2 !== 0}
-                  headingAs="h2"
-                />
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+              {SHERBIMET_PAGE_CARDS.map((service) => (
+                <ServiceCompactCard key={service.href} service={service} headingAs="h2" />
               ))}
             </div>
           </div>

@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
+import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
 import { serviceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
@@ -16,6 +17,15 @@ const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
   { slug: "marketing-growth", label: "Marketing" },
   { slug: "branding-content", label: "Branding" },
   { slug: "smm",              label: "Social Media" },
+];
+
+const CMIMET_FLOAT_ICONS: AmbientIconConfig[] = [
+  { variant: "web", className: "top-[8%] right-[6%]", depth: 0.5, scale: 0.9 },
+  { variant: "ecommerce", className: "top-[27%] right-[23%]", depth: 0.85, scale: 0.75 },
+  { variant: "marketing", className: "top-[53%] right-[2%]", depth: 0.35, scale: 1 },
+  { variant: "smm", className: "top-[68%] right-[27%]", depth: 0.65, scale: 0.68 },
+  { variant: "branding", className: "top-[13%] right-[37%]", depth: 0.45, scale: 0.8 },
+  { variant: "maintenance", className: "top-[80%] right-[12%]", depth: 0.75, scale: 0.62 },
 ];
 
 export default function AllPackagesPageClient({ overrides }: { overrides?: PricingOverrides }) {
@@ -69,6 +79,8 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
           <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#ab8339]/[0.07] blur-[130px]" />
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
+          <AmbientServiceIcons heroRef={heroRef} icons={CMIMET_FLOAT_ICONS} />
+
           <div className="section-wrap relative py-28 md:py-40">
             <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"ÇMIMET & PAKETAT"}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
@@ -90,22 +102,19 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
 
         {/* ── FILTER TABS ── */}
         <section className="sticky top-14 z-[50] border-b border-white/[0.07] bg-bg/90 backdrop-blur-[14px] md:top-[72px]">
-          <div className="mx-auto flex w-full max-w-[1280px] items-center gap-0 overflow-x-auto px-5 md:px-10 lg:px-14">
+          <div className="mx-auto flex w-full max-w-[1280px] items-center gap-2.5 overflow-x-auto px-5 py-3 md:px-10 lg:px-14">
             {FILTERS.map((f) => (
               <button
                 key={f.slug}
                 type="button"
                 onClick={() => setActive(f.slug)}
-                className={`font-ui relative shrink-0 px-4 py-4 text-[12px] font-medium tracking-[0.8px] transition-colors duration-200 md:px-5 md:text-[13px] ${
+                className={`font-ui shrink-0 rounded-full border px-4 py-2 text-[12px] font-medium tracking-[0.8px] transition-all duration-300 md:px-5 md:text-[13px] ${
                   active === f.slug
-                    ? "text-accent"
-                    : "text-white/45 hover:text-white/75"
+                    ? "border-accent/50 bg-accent/[0.12] text-accent shadow-[0_0_24px_rgba(171,131,57,0.18)]"
+                    : "border-white/10 bg-white/[0.02] text-white/55 hover:border-accent/30 hover:text-white"
                 }`}
               >
                 {f.label}
-                {active === f.slug && (
-                  <span className="absolute inset-x-0 bottom-0 h-[1.5px] bg-accent" />
-                )}
               </button>
             ))}
           </div>
@@ -124,7 +133,14 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
             <div className="section-wrap relative z-[1] !pb-0 pt-14 md:pt-20">
               <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <SectionMark label={category.title} eyebrowClassName="tracking-[0.18em]" />
+                  <div className="flex items-center gap-3">
+                    <SectionMark label={category.title} eyebrowClassName="tracking-[0.18em]" />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent/30">
+                      {String(serviceCategories.findIndex((c) => c.slug === category.slug) + 1).padStart(2, "0")}
+                      {" / "}
+                      {String(serviceCategories.length).padStart(2, "0")}
+                    </span>
+                  </div>
                   <h2 className="mt-2 max-w-2xl font-display text-[clamp(1.65rem,3.5vw,2.75rem)] leading-[1.06] tracking-[-0.02em] text-white">
                     Paketat për{" "}
                     <span className="text-accent/85">{category.title}</span>
@@ -156,9 +172,9 @@ export default function AllPackagesPageClient({ overrides }: { overrides?: Prici
               </div>
             </div>
 
-            {/* Cards — full width for 4 pkgs, centered for 3 */}
-            <div className={`relative z-[1] pb-14 md:pb-20 ${category.packages.length >= 4 ? 'px-5 md:px-10 lg:px-16 xl:px-28 2xl:px-40' : 'section-wrap !pt-0'}`}>
-              <div className={`mt-12 grid items-stretch gap-5 ${category.packages.length >= 4 ? 'sm:grid-cols-2 xl:grid-cols-4' : 'md:grid-cols-3'}`}>
+            {/* Cards — shared max-width frame so it doesn't jump between tabs; only the grid itself narrows for 3-pkg categories */}
+            <div className="relative z-[1] mx-auto w-full max-w-[1480px] px-5 pb-14 md:px-10 md:pb-20 lg:px-14">
+              <div className={`mt-12 grid items-stretch gap-5 ${category.packages.length >= 4 ? 'sm:grid-cols-2 xl:grid-cols-4' : 'mx-auto max-w-[980px] md:grid-cols-3'}`}>
                 {category.packages.map((pkg) => (
                   <ServicePackageCard
                     key={`${category.slug}-${pkg.name}`}

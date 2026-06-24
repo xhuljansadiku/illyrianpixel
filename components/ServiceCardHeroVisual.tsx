@@ -10,14 +10,17 @@ const FROST_SOFT = "rgba(255,255,255,0.18)";
 
 type Props = {
   variant: ServiceCardVisualVariant;
+  /** Smaller footprint for compact grid cards (vs. the default banner-card size) */
+  compact?: boolean;
 };
 
-export default function ServiceCardHeroVisual({ variant }: Props) {
+export default function ServiceCardHeroVisual({ variant, compact = false }: Props) {
   const raw = useId().replace(/:/g, "");
   const i = (s: string) => `${raw}-${s}`;
 
-  const wrap =
-    "pointer-events-none relative mx-auto flex h-[118px] w-full max-w-[196px] shrink-0 select-none items-center justify-center motion-safe:animate-[serviceCardFloat_4.8s_ease-in-out_infinite] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(0_0_22px_rgba(212,175,55,0.5))_drop-shadow(0_0_48px_rgba(212,175,55,0.22))] motion-reduce:animate-none motion-reduce:group-hover:filter-none md:h-[134px] md:max-w-[216px]";
+  const wrap = compact
+    ? "pointer-events-none relative mx-auto flex h-[64px] w-full max-w-[108px] shrink-0 select-none items-center justify-center motion-safe:animate-[serviceCardFloat_4.8s_ease-in-out_infinite] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(0_0_16px_rgba(212,175,55,0.45))_drop-shadow(0_0_32px_rgba(212,175,55,0.18))] motion-reduce:animate-none motion-reduce:group-hover:filter-none md:h-[76px] md:max-w-[128px]"
+    : "pointer-events-none relative mx-auto flex h-[118px] w-full max-w-[196px] shrink-0 select-none items-center justify-center motion-safe:animate-[serviceCardFloat_4.8s_ease-in-out_infinite] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(0_0_22px_rgba(212,175,55,0.5))_drop-shadow(0_0_48px_rgba(212,175,55,0.22))] motion-reduce:animate-none motion-reduce:group-hover:filter-none md:h-[134px] md:max-w-[216px]";
 
   if (variant === "web") {
     return (

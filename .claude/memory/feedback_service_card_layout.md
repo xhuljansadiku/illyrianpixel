@@ -1,12 +1,12 @@
 ---
 name: feedback_service_card_layout
-description: User prefers horizontal banner-style service cards over vertical grid cards
+description: Card layout choice depends on content density — compact grid for short overview teasers, banner/bento for richer content
 metadata:
   type: feedback
 ---
 
-User strongly prefers the horizontal banner card layout (`ServiceBannerCard`) over the previous vertical dark grid (`ServiceOverviewLuxCard`).
+Superseded 2026-06-24: the blanket preference for horizontal banner cards no longer holds. On `/sherbimet` (6 short service teasers), the user confirmed a compact vertical grid (`ServiceCompactCard`: icon, ordinal, title, 2-line description, CTA) reads better than the old horizontal `ServiceBannerCard` — banner-style doesn't scale past a few entries and forces excessive scrolling for a short-teaser "overview" page.
 
-**Why:** The horizontal layout (image/visual on one side, title + description + CTA button on the other) feels more premium and readable. Alternating the visual side (left/right on odd/even) adds visual rhythm.
+**Why:** Card shape should match content density and item count, not a fixed direction. Short teaser lists (many items, little text each) favor compact grids for fast scanning. Dense comparison content (price + feature list + CTA, e.g. `ServicePackageCard` on `/cmimet`) still needs a taller vertical "bento" card — that pattern was never banner-style and is unaffected by this.
 
-**How to apply:** When adding new services or redesigning card sections, default to the horizontal `ServiceBannerCard` pattern. The gold-filled button (`bg-[#D4AF37]` with dark text) is preferred over outline-only buttons for CTAs in cards.
+**How to apply:** For new "overview/teaser" listings with several short items, default to a compact grid card (see [[ambient-service-icons-pattern]] for the matching hero treatment), not the old banner pattern. For dense comparison/pricing content, keep the existing bento-card pattern. Don't apply either as a universal rule — check the content shape first.
