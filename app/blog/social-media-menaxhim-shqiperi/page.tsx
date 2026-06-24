@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 export const metadata: Metadata = buildMetadata(
-  "Social Media Menaxhim Shqipëri — Çmime 2026",
+  "Social Media Menaxhim Shqipëri: Çmime 2026",
   "Çmimet e menaxhimit të rrjeteve sociale në Shqipëri për 2026. Çfarë përfshin, sa kushton dhe si të zgjidhni agjencinë e duhur për biznesin tuaj.",
   "/blog/social-media-menaxhim-shqiperi",
   ["social media menaxhim shqipëri", "menaxhim rrjete sociale tiranë", "instagram menaxhim shqipëri", "facebook marketing shqipëri"]
@@ -17,13 +17,13 @@ export default function Page() {
       categoryColor="rgba(147,197,253,0.9)"
       breadcrumbLabel="Social Media Menaxhim"
       path="/blog/social-media-menaxhim-shqiperi"
-      title="Social Media Menaxhim në Shqipëri — Çmime dhe çfarë të prisni"
+      title="Social Media Menaxhim në Shqipëri: Çmime dhe çfarë të prisni"
       description="Çmimet e menaxhimit profesional të social media në Shqipëri, çfarë përfshin, platformat kryesore dhe si të zgjidhni agjencinë e duhur."
       date="Qershor 2026"
       readTime="7 min lexim"
       related={[
-        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri — Çmime reale dhe rezultate të pritshme" },
-        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë — Si të zgjidhni agjenci profesionale" },
+        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: Çmime reale dhe rezultate të pritshme" },
+        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë: Si të zgjidhni agjenci profesionale" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">

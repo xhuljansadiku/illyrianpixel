@@ -90,7 +90,7 @@ export default function BlogArticleLayout({
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-display text-[1.05rem] text-white">Keni pyetje rreth projektit tuaj?</p>
-              <p className="mt-1 text-[0.85rem] text-white/45">Na shkruani direkt — përgjigjemi brenda minutave.</p>
+              <p className="mt-1 text-[0.85rem] text-white/45">Na shkruani direkt, përgjigjemi brenda minutave.</p>
             </div>
             <a
               href={WA_HREF}

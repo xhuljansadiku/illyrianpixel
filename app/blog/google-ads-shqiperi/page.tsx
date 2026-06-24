@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 export const metadata: Metadata = buildMetadata(
-  "Google Ads Shqipëri — Çmime dhe rezultate 2026",
+  "Google Ads Shqipëri: Çmime dhe rezultate 2026",
   "Çmimet reale të Google Ads në Shqipëri dhe çfarë të prisni. Si funksionojnë reklamat në Google për bizneset shqiptare dhe kur ia vlen.",
   "/blog/google-ads-shqiperi",
   ["google ads shqipëri", "reklama google shqipëri", "google ads tiranë", "ppc shqipëri"]
@@ -17,13 +17,13 @@ export default function Page() {
       categoryColor="rgba(252,211,77,0.9)"
       breadcrumbLabel="Google Ads Shqipëri"
       path="/blog/google-ads-shqiperi"
-      title={<>Google Ads Shqipëri<br />— Çmime reale dhe rezultate të pritshme</>}
+      title={<>Google Ads Shqipëri<br />Çmime reale dhe rezultate të pritshme</>}
       description="Çmimet reale të Google Ads në Shqipëri, gabimet kryesore dhe si ta menaxhoni buxhetin tuaj reklamues për ROI maksimal në tregun shqiptar."
       date="Maj 2026"
       readTime="7 min lexim"
       related={[
-        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë — Si të dilni i pari në Google në 2026" },
-        { href: "/blog/social-media-menaxhim-shqiperi", category: "Social Media", categoryColor: "rgba(147,197,253,0.9)", title: "Social Media Menaxhim në Shqipëri — Çmime dhe çfarë të prisni" },
+        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: Si të dilni i pari në Google në 2026" },
+        { href: "/blog/social-media-menaxhim-shqiperi", category: "Social Media", categoryColor: "rgba(147,197,253,0.9)", title: "Social Media Menaxhim në Shqipëri: Çmime dhe çfarë të prisni" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -70,7 +70,7 @@ export default function Page() {
 
       <section className="space-y-4">
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-          Google Ads vs SEO — Cila strategji për ju?
+          Google Ads vs SEO: Cila strategji për ju?
         </h2>
         <div className="overflow-x-auto rounded-xl border border-white/10">
           <table className="w-full text-[0.93rem]">

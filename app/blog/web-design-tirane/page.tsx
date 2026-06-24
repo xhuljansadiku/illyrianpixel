@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 export const metadata: Metadata = buildMetadata(
-  "Web Design Tiranë — Si zgjidhni agjencinë profesionale",
+  "Web Design Tiranë: Si zgjidhni agjencinë profesionale",
   "Si të zgjidhni agjencinë e duhur të web design në Tiranë. Kriteret, pyetjet e duhura dhe gabimet të shmangni para se të nënshkruani kontratën.",
   "/blog/web-design-tirane",
   ["web design tiranë", "agjenci web design shqipëri", "website professional tiranë", "dizajn web shqipëri"]
@@ -17,13 +17,13 @@ export default function Page() {
       categoryColor="rgba(234,206,113,0.95)"
       breadcrumbLabel="Web Design Tiranë"
       path="/blog/web-design-tirane"
-      title={<>Web Design Tiranë<br />— Si të zgjidhni agjenci profesionale</>}
+      title={<>Web Design Tiranë<br />Si të zgjidhni agjenci profesionale</>}
       description={<>{"Si ta dalloni agjencinë serioze nga amatorët."}<br className="max-md:hidden" />{" Kriteret e sakta, pyetjet që duhet të bëni dhe shenjat paralajmëruese para nënshkrimit të kontratës."}</>}
       date="Maj 2026"
       readTime="6 min lexim"
       related={[
         { href: "/blog/sa-kushton-website-shqiperi", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Shqipëri në 2026?" },
-        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë — Si të dilni i pari në Google në 2026" },
+        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: Si të dilni i pari në Google në 2026" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">

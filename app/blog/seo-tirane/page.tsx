@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 export const metadata: Metadata = buildMetadata(
-  "SEO Tiranë — Si dilni i pari në Google 2026",
+  "SEO Tiranë: Si dilni i pari në Google 2026",
   "SEO profesional në Tiranë. Mësoni si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që funksionon.",
   "/blog/seo-tirane",
   ["seo tiranë", "seo shqipëri", "google ranking tiranë", "optimizim motorë kërkimi"]
@@ -17,12 +17,12 @@ export default function Page() {
       categoryColor="rgba(167,243,208,0.9)"
       breadcrumbLabel="SEO Tiranë"
       path="/blog/seo-tirane"
-      title="SEO Tiranë — Si të dilni i pari në Google në 2026"
+      title="SEO Tiranë: Si të dilni i pari në Google në 2026"
       description="Si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që jep rezultate reale në tregun shqiptar."
       date="Maj 2026"
       readTime="7 min lexim"
       related={[
-        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri — Çmime reale dhe rezultate të pritshme" },
+        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: Çmime reale dhe rezultate të pritshme" },
         { href: "/blog/sa-kushton-website-shqiperi", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Shqipëri në 2026?" },
       ]}
     >

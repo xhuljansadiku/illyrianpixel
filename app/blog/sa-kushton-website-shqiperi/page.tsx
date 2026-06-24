@@ -22,8 +22,8 @@ export default function Page() {
       date="Maj 2026"
       readTime="6 min lexim"
       related={[
-        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë — Si të zgjidhni agjenci profesionale" },
-        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë — Si të dilni i pari në Google në 2026" },
+        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë: Si të zgjidhni agjenci profesionale" },
+        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: Si të dilni i pari në Google në 2026" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">

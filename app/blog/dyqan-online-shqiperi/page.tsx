@@ -17,13 +17,13 @@ export default function Page() {
       categoryColor="rgba(196,181,253,0.9)"
       breadcrumbLabel="Dyqan Online Shqipëri"
       path="/blog/dyqan-online-shqiperi"
-      title="Si të hapni dyqan online në Shqipëri — Udhëzues i plotë 2026"
+      title="Si të hapni dyqan online në Shqipëri: Udhëzues i plotë 2026"
       description={<>{"Udhëzues praktik për hapjen e dyqanit online në Shqipëri."}<br className="max-md:hidden" />{" Platformat, pagesat, kostot reale dhe hapat e parë për të filluar shitjet online sot."}</>}
       date="Maj 2026"
       readTime="8 min lexim"
       related={[
         { href: "/blog/sa-kushton-website-shqiperi", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Shqipëri në 2026?" },
-        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri — Çmime reale dhe rezultate të pritshme" },
+        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: Çmime reale dhe rezultate të pritshme" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -32,7 +32,7 @@ export default function Page() {
 
       <section className="space-y-4">
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-          Hapi 1 — Zgjidhni platformën e duhur
+          Hapi 1: Zgjidhni platformën e duhur
         </h2>
         <div className="overflow-x-auto rounded-xl border border-white/10">
           <table className="w-full text-[0.93rem]">
@@ -57,20 +57,20 @@ export default function Page() {
 
       <section className="space-y-4">
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-          Hapi 2 — Zgjidhja e pagesave online
+          Hapi 2: Zgjidhja e pagesave online
         </h2>
         <p className="text-[1.02rem] leading-relaxed text-white/68">Ky është pengesa kryesore për bizneset shqiptare, por ka zgjidhje:</p>
         <ul className="space-y-2 text-[1.02rem] leading-relaxed text-white/68">
-          <li><strong className="text-white">Stripe</strong> — Disponueshëm në Shqipëri. Komisioni: 1.5% + 0.25€/transaksion.</li>
-          <li><strong className="text-white">PayPal</strong> — I njohur globalisht, ideal nëse shisni ndërkombëtarisht.</li>
-          <li><strong className="text-white">Kartë lokale</strong> — Raiffeisen, BKT, Credins ofrojnë terminale të integruara.</li>
-          <li><strong className="text-white">Cash on Delivery</strong> — Ende shumë e preferuar nga shqiptarët. Mos e hiqni nga opsionet.</li>
+          <li><strong className="text-white">Stripe</strong>: Disponueshëm në Shqipëri. Komisioni: 1.5% + 0.25€/transaksion.</li>
+          <li><strong className="text-white">PayPal</strong>: I njohur globalisht, ideal nëse shisni ndërkombëtarisht.</li>
+          <li><strong className="text-white">Kartë lokale</strong>: Raiffeisen, BKT, Credins ofrojnë terminale të integruara.</li>
+          <li><strong className="text-white">Cash on Delivery</strong>: Ende shumë e preferuar nga shqiptarët. Mos e hiqni nga opsionet.</li>
         </ul>
       </section>
 
       <section className="space-y-4">
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-          Hapi 3 — Çfarë duhet teknikisht
+          Hapi 3: Çfarë duhet teknikisht
         </h2>
         <ul className="space-y-2 text-[1.02rem] text-white/68">
           {["Domenin (.com ose .al)", "Hosting të shpejtë (nuk kurseni këtu)", "Certifikatë SSL (HTTPS)", "Sistem menaxhimi produktesh", "Integrim pagese", "Faqe produkti të optimizuara për SEO", "Konfirmim emaili porosie", "Politikë kthimi dhe kushte"].map((item) => (

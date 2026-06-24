@@ -9,6 +9,10 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 const ALL_LABEL = "Të gjitha";
 
+// Signature mood color per row — keeps the index feeling editorial
+// without relying on cover images, which blog posts don't have.
+const MOOD_COLORS = ["#ab8339", "#c2703d", "#3f8f86", "#4f6f93", "#9c4d4d", "#7a8450"];
+
 type DbPost = {
   slug: string;
   title: string;
@@ -19,8 +23,10 @@ type DbPost = {
 
 export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] }) {
   const heroRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const allPosts = [...dbPosts, ...blogPosts];
   const [active, setActive] = useState(ALL_LABEL);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   const categories = [ALL_LABEL, ...Array.from(new Set(allPosts.map((p) => p.category)))];
 
@@ -28,6 +34,8 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
     active === ALL_LABEL
       ? allPosts
       : allPosts.filter((p) => p.category === active);
+
+  const [featuredPost, ...restPosts] = filtered;
 
   useIsomorphicLayoutEffect(() => {
     if (!heroRef.current) return;
@@ -57,6 +65,22 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
     }, heroRef);
     return () => ctx.revert();
   }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!listRef.current) return;
+    const { gsap } = ensureGSAP();
+    const ctx = gsap.context(() => {
+      gsap.fromTo(".featured-post",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", scrollTrigger: { trigger: listRef.current, start: "top 85%" } }
+      );
+      gsap.fromTo(".blog-row",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power3.out", scrollTrigger: { trigger: listRef.current, start: "top 80%" } }
+      );
+    }, listRef);
+    return () => ctx.revert();
+  }, [active]);
 
   return (
     <>
@@ -107,24 +131,83 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
             </div>
 
             {/* Articles */}
-            <div className="space-y-5">
+            <div ref={listRef}>
               {filtered.length === 0 ? (
                 <p className="text-white/40 text-sm">Nuk ka artikuj për këtë kategori.</p>
               ) : (
-                filtered.map((post) => (
-                  <article key={post.slug} className="group border-t border-white/10 pt-6">
-                    <p className="text-[11px] tracking-[0.18em] text-accent/85">
-                      {post.category} • {post.date}
+                <>
+                  <Link
+                    href={`/blog/${featuredPost.slug}`}
+                    className="featured-post group relative block overflow-hidden rounded-[1.75rem] border border-accent/25 bg-[linear-gradient(135deg,rgba(171,131,57,0.12),rgba(171,131,57,0.02)_60%)] p-8 md:p-12"
+                  >
+                    <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/10 blur-[100px]" />
+                    <span className="relative z-[1] inline-flex items-center rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0a0a0a]">
+                      Më i fundit
+                    </span>
+                    <p className="relative z-[1] mt-5 text-[11px] tracking-[0.18em] text-accent/85">
+                      {featuredPost.category} • {featuredPost.date}
                     </p>
-                    <h2 className="mt-2 font-display text-[clamp(1.55rem,3vw,2.3rem)] leading-[1.02] text-white transition-transform duration-300 group-hover:-translate-y-[1px]">
-                      {post.title}
+                    <h2 className="relative z-[1] mt-3 max-w-3xl font-display text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.04] text-white transition-colors duration-300 group-hover:text-accent">
+                      {featuredPost.title}
                     </h2>
-                    <p className="mt-2 max-w-3xl whitespace-pre-line text-sm text-white/62">{post.excerpt}</p>
-                    <Link href={`/blog/${post.slug}`} className="luxury-link mt-4">
-                      Lexo më shumë <span aria-hidden>→</span>
-                    </Link>
-                  </article>
-                ))
+                    <p className="relative z-[1] mt-4 max-w-2xl whitespace-pre-line text-[15px] leading-relaxed text-white/60">
+                      {featuredPost.excerpt}
+                    </p>
+                    <span className="luxury-link relative z-[1] mt-6 inline-flex">
+                      Lexo artikullin <span aria-hidden>→</span>
+                    </span>
+                  </Link>
+
+                  {restPosts.length > 0 && (
+                    <div className="mt-12 border-t border-white/10">
+                      {restPosts.map((post, idx) => {
+                        const mood = MOOD_COLORS[idx % MOOD_COLORS.length];
+                        const isHovered = hoveredIdx === idx;
+                        return (
+                          <Link
+                            key={post.slug}
+                            href={`/blog/${post.slug}`}
+                            className="blog-row group relative flex items-start gap-5 border-b border-white/10 py-7 md:gap-6 md:py-8"
+                            onMouseEnter={() => setHoveredIdx(idx)}
+                            onMouseLeave={() => setHoveredIdx((cur) => (cur === idx ? null : cur))}
+                          >
+                            <span
+                              className="shrink-0 pt-2 font-mono text-[12px] tracking-[0.2em] transition-colors duration-300"
+                              style={{ color: isHovered ? mood : "rgba(255,255,255,0.3)" }}
+                            >
+                              {String(idx + 2).padStart(2, "0")}
+                            </span>
+
+                            <div className="min-w-0 flex-1">
+                              <p className="text-[11px] uppercase tracking-[0.18em] text-white/40">
+                                {post.category} • {post.date}
+                              </p>
+                              <h3
+                                className="mt-2 font-display text-[clamp(1.4rem,2.6vw,2rem)] leading-[1.05] transition-colors duration-300"
+                                style={{ color: isHovered ? mood : "#ffffff" }}
+                              >
+                                {post.title}
+                              </h3>
+                              <p className="mt-2 max-w-2xl line-clamp-2 whitespace-pre-line text-sm text-white/55">
+                                {post.excerpt}
+                              </p>
+                            </div>
+
+                            <span className="ml-2 shrink-0 pt-2 font-body text-[11px] uppercase tracking-[0.16em] text-white/35 transition-transform duration-300 group-hover:translate-x-1">
+                              →
+                            </span>
+
+                            <span
+                              className="pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left transition-transform duration-500"
+                              style={{ backgroundColor: mood, transform: isHovered ? "scaleX(1)" : "scaleX(0)" }}
+                              aria-hidden
+                            />
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
