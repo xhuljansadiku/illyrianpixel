@@ -1,17 +1,15 @@
 ﻿"use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import type { CaseStudy } from "@/lib/caseStudies";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalCTA from "@/components/GlobalCTA";
-import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
+import ProjectIndexList from "@/components/ProjectIndexList";
+import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) {
-  const containerRef = useRef<HTMLElement>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
 
   useIsomorphicLayoutEffect(() => {
     if (!heroRef.current) return;
@@ -42,87 +40,10 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
     return () => ctx.revert();
   }, []);
 
-  useIsomorphicLayoutEffect(() => {
-    if (reduced) return;
-    const { gsap, ScrollTrigger } = ensureGSAP();
-
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".wk-project").forEach((project) => {
-        const meta = project.querySelector(".wk-project-meta");
-        const title = project.querySelector(".wk-project-title");
-        const imgWrapper = project.querySelector(".wk-img-wrapper");
-        const imgInner = project.querySelector(".wk-img-inner");
-        const footer = project.querySelector(".wk-project-footer");
-
-        gsap.fromTo(
-          meta,
-          { opacity: 0, y: 10 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            ease: "power2.out",
-            scrollTrigger: { trigger: project, start: "top 88%", once: true }
-          }
-        );
-
-        gsap.fromTo(
-          title,
-          { opacity: 0, y: 36, filter: "blur(6px)" },
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: { trigger: project, start: "top 84%", once: true }
-          }
-        );
-
-        gsap.fromTo(
-          imgWrapper,
-          { clipPath: "inset(100% 0 0 0 round 1.1rem)" },
-          {
-            clipPath: "inset(0% 0 0 0 round 1.1rem)",
-            duration: 1.2,
-            ease: "power4.out",
-            scrollTrigger: { trigger: project, start: "top 78%", once: true }
-          }
-        );
-
-        gsap.fromTo(
-          imgInner,
-          { y: 0 },
-          {
-            y: -52,
-            ease: "none",
-            scrollTrigger: { trigger: imgWrapper, start: "top bottom", end: "bottom top", scrub: 1.4 }
-          }
-        );
-
-        gsap.fromTo(
-          footer,
-          { opacity: 0, y: 16 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.65,
-            ease: "power3.out",
-            scrollTrigger: { trigger: project, start: "top 72%", once: true }
-          }
-        );
-      });
-
-      ScrollTrigger.refresh();
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [reduced, projects.length]);
-
   return (
     <>
       <Navbar />
-      <main ref={containerRef} className="relative overflow-hidden bg-bg pt-14 text-text md:pt-16">
+      <main className="relative overflow-hidden bg-bg pt-14 text-text md:pt-16">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_8%_10%,rgba(171,131,57,0.09),transparent_30%)]" />
 
         <section ref={heroRef} className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
@@ -152,56 +73,7 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
 
         <section className="relative z-[1]">
           <div className="section-wrap py-14 md:py-20">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {projects.map((cs) => (
-                <article
-                  key={cs.slug}
-                  className="wk-project group flex h-full flex-col overflow-hidden rounded-[1.1rem] border border-white/10 bg-[#111111]/80 px-5 pb-5 pt-8 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:border-accent/35"
-                >
-                  <h2 className="wk-project-title min-h-[2.3em] line-clamp-2 text-center font-display text-[clamp(1.55rem,3.45vw,2.55rem)] font-medium tracking-[0.012em] leading-[0.95]">
-                    {cs.title === "ESM Group" ? (
-                      <>
-                        ESM
-                        <br className="hidden md:block" />
-                        Group
-                      </>
-                    ) : cs.title === "Bardhi Wellness" ? (
-                      <>
-                        Bardhi
-                        <br className="hidden md:block" />
-                        Wellness
-                      </>
-                    ) : (
-                      cs.title
-                    )}
-                  </h2>
-
-                  <div className="wk-img-wrapper relative mt-5 overflow-hidden rounded-[0.95rem]">
-                    <div className="wk-img-inner">
-                      <Image
-                        src={cs.heroImage}
-                        alt={cs.title}
-                        width={800}
-                        height={500}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 48vw, 32vw"
-                        className="w-full object-contain transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-105"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="wk-project-footer mt-auto flex items-center justify-end gap-4 pt-5">
-                    {cs.liveUrl ? (
-                      <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer" className="luxury-link">
-                        {"Shiko projektin "}
-                        <span aria-hidden>{"\u2192"}</span>
-                      </a>
-                    ) : (
-                      <span className="text-[11px] uppercase tracking-[0.18em] text-white/30">Se shpejti</span>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
+            <ProjectIndexList items={projects} />
           </div>
         </section>
 
