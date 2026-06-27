@@ -90,7 +90,7 @@ export default function Page() {
           </table>
         </div>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-          <strong className="text-white">Rekomandimi ynë:</strong>{"\nFilloni me Google Ads për rezultate të shpejta, ndërkohë ndërtoni SEO-in organik.\nZbuloni "}<Link href="/services/marketing-growth" className="text-accent underline underline-offset-4">strategjinë tonë të plotë të marketingut</Link>.
+          <strong className="text-white">Rekomandimi ynë:</strong>{"\nFilloni me Google Ads për rezultate të shpejta, ndërkohë ndërtoni SEO-in organik.\nZbuloni "}<Link href="/services/seo-google-ads" className="text-accent underline underline-offset-4">strategjinë tonë SEO & Google Ads</Link>.
         </p>
       </section>
 

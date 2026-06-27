@@ -30,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog",                     priority: 0.75, changefreq: "weekly",  date: new Date("2026-05-15") },
     { path: "/services/website",         priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/ecommerce",       priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/marketing-growth",priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/seo-google-ads",  priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/branding-content",priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/smm",             priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/mirembajtja",     priority: 0.7,  changefreq: "monthly", date: LAUNCH_DATE },

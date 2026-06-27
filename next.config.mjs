@@ -73,8 +73,9 @@ const nextConfig = {
       { source: "/services/web-ecommerce",     destination: "/services/website",        permanent: true },
       { source: "/services/websites",          destination: "/services/website",        permanent: true },
       { source: "/services/mirembajtje",       destination: "/services/website",        permanent: true },
-      { source: "/services/marketing",         destination: "/services/marketing-growth", permanent: true },
-      { source: "/services/social-media",      destination: "/services/marketing-growth", permanent: true },
+      { source: "/services/marketing",         destination: "/services/seo-google-ads", permanent: true },
+      { source: "/services/social-media",      destination: "/services/seo-google-ads", permanent: true },
+      { source: "/services/marketing-growth",  destination: "/services/seo-google-ads", permanent: true },
       { source: "/services/branding",          destination: "/services/branding-content", permanent: true },
       { source: "/services/photography",       destination: "/services/branding-content", permanent: true },
       { source: "/services",                   destination: "/sherbimet",               permanent: true }

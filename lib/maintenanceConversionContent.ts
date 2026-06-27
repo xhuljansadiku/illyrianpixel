@@ -17,32 +17,32 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       "Faqja ekziston, por është e ngadaltë,\ne vjetër ose rrezikon të dështojë.\nPa kujdes të rregullt,\nhumbni klientë çdo ditë pa e kuptuar.",
     items: [
       {
-        title: "Çdo minutë offline = humbje klientësh",
+        title: "Disa minuta offline, dhe humbni klientë",
         body: "Vizitorët ikin te konkurrenca. Nëse nuk monitorohet, mund të mos e kuptoni për orë të tëra.",
       },
       {
-        title: "Plugin-et e vjetra janë rrezik real",
+        title: "Plugin-et e vjetra hapin rrugë për sulme",
         body: "Shumica e sulmeve ndodhin nga përditësime të mungura. Pa mirëmbajtje, faqja juaj është e ekspozuar.",
       },
       {
-        title: "Faqe e ngadaltë = më pak shitje",
+        title: "Faqja e ngadaltë, klientë që largohen",
         body: "Nëse ngarkimi zgjat mbi 3 sekonda, shumica largohen. Shpejtësia nuk është detaj, është konvertim.",
       },
       {
-        title: "Pa backup, çdo gabim është i shtrenjtë",
+        title: "Pa backup, një gabim ju kushton shtrenjtë",
         body: "Një problem teknik mund të fshijë gjithçka. Pa backup aktiv, rikuperimi bëhet nga zero.",
       },
     ],
   },
   whyUsEyebrow: "Zgjidhja",
   whyUs: {
-    headingBefore: "Faqja juaj gjithmonë online,",
-    headingAccent: "e shpejtë dhe e optimizuar.",
+    headingBefore: "Faqja juaj",
+    headingAccent: "gjithmonë online dhe e shpejtë.",
     intro: "",
     items: [
       { icon: "support", title: "Monitorim 24/7 dhe reagim i menjëhershëm", body: "" },
-      { icon: "speed",   title: "Optimizim i vazhdueshëm i shpejtësisë", body: "" },
-      { icon: "seo",     title: "Rindërtim faqesh të vjetra ose të ngadalta", body: "" },
+      { icon: "speed",   title: "Faqja bëhet më e shpejtë çdo muaj", body: "" },
+      { icon: "seo",     title: "Rindërtojmë faqe të vjetra nga e para", body: "" },
       { icon: "convert", title: "Ju fokusoheni te biznesi, ne te teknika", body: "" },
     ],
   },

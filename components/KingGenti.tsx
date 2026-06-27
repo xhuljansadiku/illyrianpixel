@@ -23,7 +23,7 @@ type Message = {
 
 const SERVICE_KEYWORDS: { slug: string; words: RegExp }[] = [
   { slug: "ecommerce", words: /dyqan|shop|e-?commerce|botiq|shites online/i },
-  { slug: "marketing-growth", words: /marketing|reklam|ads|google ads|growth|fitim klient/i },
+  { slug: "seo-google-ads", words: /marketing|reklam|ads|google ads|seo|growth|fitim klient/i },
   { slug: "branding-content", words: /brand|identitet|logo|content|përmbajtje/i },
   { slug: "smm", words: /social|instagram|facebook|tiktok|smm|rrjete sociale/i },
   { slug: "mirembajtja", words: /mir[ëe]mbajt|maintenance|suport|mbeshtetje|mbështetje/i },

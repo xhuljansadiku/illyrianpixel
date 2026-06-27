@@ -6,6 +6,7 @@ import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
+import ServicePackageCard from "@/components/ServicePackageCard";
 import { brandingConversionLandingData } from "@/lib/brandingContentConversionContent";
 import { ecommerceConversionLandingData } from "@/lib/ecommerceConversionContent";
 import { smmConversionLandingData } from "@/lib/smmConversionContent";
@@ -21,7 +22,7 @@ function conversionLandingForSlug(slug: ServiceCategory["slug"]): ConversionLand
   switch (slug) {
     case "website":      return webConversionLandingData;
     case "ecommerce":    return ecommerceConversionLandingData;
-    case "marketing-growth": return marketingConversionLandingData;
+    case "seo-google-ads": return marketingConversionLandingData;
     case "branding-content": return brandingConversionLandingData;
     case "smm":          return smmConversionLandingData;
     case "mirembajtja":  return maintenanceConversionLandingData;
@@ -29,8 +30,17 @@ function conversionLandingForSlug(slug: ServiceCategory["slug"]): ConversionLand
   }
 }
 
-const PAIN_INTRO: Partial<Record<ServiceCategory["slug"], string>> = {
-  website: "Vizitorët hyjnë dhe dalin.\nNuk kuptohet çfarë ofroni.\nPa besim. Pa kontakt. Pa rezultate.",
+const PAIN_HEADING: Partial<Record<ServiceCategory["slug"], { before: string; accent: string }>> = {
+  website: { before: "Humbni klientë", accent: "çdo ditë." },
+};
+
+const PAIN_ITEMS: Partial<Record<ServiceCategory["slug"], string[]>> = {
+  website: [
+    "Website që nuk sjell asnjë klient",
+    "Strukturë e paqartë, vizitorët hutohen",
+    "Pa SEO",
+    "Pa mirëmbajtje pas publikimit",
+  ],
 };
 
 export default function ServiceCategoryDetailPage({ category }: { category: ServiceCategory }) {
@@ -65,8 +75,13 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
   const isConversionLanding = data !== null;
   const isWebPackages = category.slug === "website" || category.slug === "ecommerce";
 
-  const painIntro = PAIN_INTRO[category.slug] ?? data?.painSection?.intro ?? data?.solutionSection?.intro;
+  const painHeading = PAIN_HEADING[category.slug] ??
+    (data?.painSection?.headingBefore && data?.painSection?.headingAccent
+      ? { before: data.painSection.headingBefore, accent: data.painSection.headingAccent }
+      : undefined);
+  const painItems = PAIN_ITEMS[category.slug] ?? data?.painSection?.items?.slice(0, 4).map((i) => i.title) ?? [];
   const valueItems = data?.whyUs?.items?.slice(0, 4) ?? [];
+  const packages = category.packages.slice(0, 3);
   const testimonials = data?.testimonials?.slice(0, 2) ?? [];
   const portfolioItems = (data?.portfolioSlugs ?? [])
     .slice(0, 2)
@@ -123,7 +138,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               >
                 {isWebPackages
                   ? (category.ctaPrimary ?? "Merr ofertë falas")
-                  : category.slug === "marketing-growth" ? "Fillo sot"
+                  : category.slug === "seo-google-ads" ? "Fillo sot"
                   : category.slug === "branding-content" ? (category.ctaPrimary ?? "Transformo përshtypjen")
                   : category.slug === "smm" ? (category.ctaPrimary ?? "Fillo Tani")
                   : category.slug === "mirembajtja" ? (category.ctaPrimary ?? "Fillo Mirëmbajtjen")
@@ -139,7 +154,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               <p className="mt-4 text-[14px] tracking-[0.04em] text-white/60">
                 {isWebPackages
                   ? (category.trustLine ?? "0 kosto · 0 obligim · Strategji reale brenda 24 orësh")
-                  : category.slug === "marketing-growth"
+                  : category.slug === "seo-google-ads"
                     ? "Vendet janë të kufizuara · Pa obligim · Përgjigje brenda 24h"
                     : (category.trustLine ?? "Konsultim falas · Pa detyrim · Përgjigje brenda 24h")}
               </p>
@@ -162,23 +177,35 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
         </section>
 
         {/* ── 2. PROBLEM + VALUE ── */}
-        {(painIntro || valueItems.length > 0) && (
+        {(painItems.length > 0 || valueItems.length > 0) && (
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
-              {painIntro && (
-                <div className="svc-reveal-heading relative mb-14 overflow-hidden rounded-2xl border border-red-500/10 bg-[#0a0606] px-8 py-10">
+              <div className="grid gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">
+              {painItems.length > 0 && (
+                <div className="svc-reveal-heading relative overflow-hidden rounded-2xl border border-red-500/10 bg-[#0a0606] px-8 py-10">
                   <div aria-hidden className="pointer-events-none absolute -right-16 top-1/2 h-[320px] w-[320px] -translate-y-1/2 rounded-full bg-red-900/[0.12] blur-[100px]" />
                   <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
-                  <div aria-hidden className="pointer-events-none absolute right-[4%] top-1/2 -translate-y-1/2 select-none font-display text-[10rem] font-black leading-none text-red-500/[0.13] md:text-[14rem]">✕</div>
+                  <div aria-hidden className="pointer-events-none absolute right-[4%] top-1/2 -translate-y-1/2 select-none font-display text-[7rem] font-black leading-none text-red-500/[0.13] md:text-[9rem]">✕</div>
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-red-400/70" aria-hidden />
                       <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-400/60">Problemi</p>
                     </div>
-                    <p className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white md:whitespace-pre-line">
-                      {painIntro}
-                    </p>
-                    <div className="mt-7 h-px w-12 bg-gradient-to-r from-red-400/30 to-transparent" />
+                    {painHeading && (
+                      <h2 className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white">
+                        {painHeading.before}{" "}
+                        <span className="text-red-400/80">{painHeading.accent}</span>
+                      </h2>
+                    )}
+                    <ul className="mt-7 space-y-3">
+                      {painItems.map((title) => (
+                        <li key={title} className="flex items-start gap-4">
+                          <span className="mt-1 shrink-0 text-red-400/80 text-[14px]" aria-hidden>✕</span>
+                          <p className="font-display text-[1rem] tracking-[-0.01em] text-red-400/85">{title}</p>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8 h-px w-12 bg-gradient-to-r from-red-400/30 to-transparent" />
                   </div>
                 </div>
               )}
@@ -186,7 +213,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               {valueItems.length > 0 && (
                 <div className="svc-reveal-heading relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#080808] px-8 py-10">
                   <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/15 to-transparent" />
-                  <div aria-hidden className="pointer-events-none absolute right-[4%] top-1/2 -translate-y-1/2 select-none font-display text-[10rem] font-black leading-none text-emerald-500/[0.08] md:text-[14rem]">✔</div>
+                  <div aria-hidden className="pointer-events-none absolute right-[4%] top-1/2 -translate-y-1/2 select-none font-display text-[7rem] font-black leading-none text-emerald-500/[0.08] md:text-[9rem]">✔</div>
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-emerald-400/70" aria-hidden />
@@ -208,12 +235,57 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   </div>
                 </div>
               )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── 2.5 PACKAGES ── */}
+        {packages.length > 0 && (
+          <section className="relative z-[1] border-b border-white/[0.06]">
+            <div className="section-wrap py-20 md:py-28">
+              <div className="svc-reveal-heading">
+                <SectionMark label="Paketat" eyebrowClassName="tracking-[0.22em]" />
+                <h2 className="mt-1 max-w-xl font-display text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.05] tracking-[-0.02em] text-white">
+                  Zgjidh paketën tënde.
+                </h2>
+              </div>
+              <div className="mx-auto mt-12 grid max-w-[980px] items-stretch gap-5 md:grid-cols-3">
+                {packages.map((pkg) => (
+                  <ServicePackageCard key={pkg.name} pkg={pkg} conversionCta />
+                ))}
+              </div>
+
+              {category.slug === "mirembajtja" && (
+                <div className="relative mx-auto mt-8 max-w-[980px] overflow-hidden rounded-[24px] border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:px-12 md:py-10">
+                  <div aria-hidden className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent md:inset-x-16" />
+                  <div aria-hidden className="pointer-events-none absolute -right-16 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-accent/[0.1] blur-[90px]" />
+                  <div aria-hidden className="pointer-events-none absolute right-[6%] top-1/2 hidden -translate-y-1/2 select-none font-display text-[9rem] font-black leading-none text-accent/[0.06] md:block">↻</div>
+                  <div className="relative z-[1] flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
+                    <div>
+                      <p className="font-display text-[1.5rem] font-semibold leading-snug text-white md:text-[1.75rem]">
+                        Faqe e vjetër?<br className="hidden md:block" /> <span className="text-accent">E rindërtojmë nga e para.</span>
+                      </p>
+                      <p className="mt-2 text-[13px] tracking-[0.02em] text-white/45">Konsultim falas · Ofertë e personalizuar</p>
+                    </div>
+                    <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg shrink-0 !px-8">
+                      Na kontaktoni →
+                    </Link>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-8 text-center">
+                <Link href="/cmimet" className="luxury-link text-[12px]">
+                  Shiko të gjitha paketat <span aria-hidden>→</span>
+                </Link>
+              </div>
             </div>
           </section>
         )}
 
         {/* ── 3. PROOF ── */}
-        {(testimonials.length > 0 || portfolioItems.length > 0) && (
+        {category.slug !== "website" && category.slug !== "seo-google-ads" && category.slug !== "mirembajtja" && (testimonials.length > 0 || portfolioItems.length > 0) && (
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
               <div className="svc-reveal-heading">
@@ -293,7 +365,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               <div className="relative z-[1]">
                 <SectionMark label="Hapi i radhës" eyebrowClassName="tracking-[0.22em] !text-accent/80" />
                 <h2 className="mx-auto mt-3 max-w-[18ch] font-display text-[clamp(2.2rem,5.5vw,4.2rem)] leading-[0.96] tracking-[-0.02em] text-white md:max-w-none">
-                  {category.slug === "marketing-growth" ? (
+                  {category.slug === "seo-google-ads" ? (
                     <>Nesër do të jetë{" "}<span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">më shtrenjtë</span>{" "}se sot.</>
                   ) : category.slug === "branding-content" ? (
                     <>Prania juaj meriton<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">të njëjtin nivel si puna juaj.</span></>
@@ -301,9 +373,9 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                     <>{"Një bisedë pa pagesë."}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{"Një plan i qartë për më shumë klientë."}</span></>
                   )}
                 </h2>
-                <p className="mx-auto mt-6 max-w-[44ch] text-[14px] leading-relaxed text-white/50">
-                  {category.slug === "marketing-growth"
-                    ? "Çdo ditë pa sistem, dikush tjetër merr klientin tuaj. Flisni me ne sot, pa asnjë kosto."
+                <p className="mx-auto mt-6 max-w-[44ch] whitespace-pre-line text-[14px] leading-relaxed text-white/50">
+                  {category.slug === "seo-google-ads"
+                    ? "Çdo ditë pa sistem, dikush tjetër merr klientin tuaj.\nFlisni me ne sot, pa asnjë kosto."
                     : category.slug === "branding-content"
                       ? "30 minuta falas. Pa obligim. Plan i qartë për markën tuaj."
                       : "30 minuta · pa detyrim · përgjigje brenda 24 orëve."}
@@ -311,7 +383,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
 
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
                   <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-[#0e0d0c]">
-                    {category.slug === "marketing-growth" ? "Fillo sot →"
+                    {category.slug === "seo-google-ads" ? "Fillo sot →"
                       : category.slug === "branding-content" ? "Rezervo orën tuaj të parë →"
                       : "Fillo Sot →"}
                   </Link>

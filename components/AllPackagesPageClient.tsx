@@ -16,9 +16,10 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
   { slug: "website",          label: "Website" },
   { slug: "ecommerce",        label: "E-Commerce" },
-  { slug: "marketing-growth", label: "Marketing" },
-  { slug: "branding-content", label: "Branding" },
+  { slug: "seo-google-ads",   label: "SEO & Google Ads" },
   { slug: "smm",              label: "Social Media" },
+  { slug: "branding-content", label: "Branding" },
+  { slug: "mirembajtja",      label: "Mirëmbajtja" },
 ];
 
 const CMIMET_FLOAT_ICONS: AmbientIconConfig[] = [
@@ -31,7 +32,7 @@ const CMIMET_FLOAT_ICONS: AmbientIconConfig[] = [
 ];
 
 // Categories billed monthly — eligible for the mujore/vjetore toggle
-const RECURRING_SLUGS = new Set<ServiceCategory["slug"]>(["marketing-growth", "smm", "mirembajtja"]);
+const RECURRING_SLUGS = new Set<ServiceCategory["slug"]>(["seo-google-ads", "smm", "mirembajtja"]);
 const ANNUAL_DISCOUNT = 0.2;
 
 function withAnnualBilling(pkg: ServiceCategory["packages"][number]): ServiceCategory["packages"][number] {
@@ -212,7 +213,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                   )}
                 </div>
 
-                {category.slug === "marketing-growth" && (
+                {category.slug === "seo-google-ads" && (
                   <div className="flex shrink-0 flex-col items-start gap-2 md:items-end">
                     <p className="text-[10px] uppercase tracking-[0.2em] text-white/28">Vetëm një shërbim?</p>
                     <Link
@@ -245,6 +246,25 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                   />
                 ))}
               </div>
+
+              {category.slug === "mirembajtja" && (
+                <div className="relative mt-8 overflow-hidden rounded-[24px] border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:px-12 md:py-10">
+                  <div aria-hidden className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent md:inset-x-16" />
+                  <div aria-hidden className="pointer-events-none absolute -right-16 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-accent/[0.1] blur-[90px]" />
+                  <div aria-hidden className="pointer-events-none absolute right-[6%] top-1/2 hidden -translate-y-1/2 select-none font-display text-[9rem] font-black leading-none text-accent/[0.06] md:block">↻</div>
+                  <div className="relative z-[1] flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
+                    <div>
+                      <p className="font-display text-[1.5rem] font-semibold leading-snug text-white md:text-[1.75rem]">
+                        Faqe e vjetër?<br className="hidden md:block" /> <span className="text-accent">E rindërtojmë nga e para.</span>
+                      </p>
+                      <p className="mt-2 text-[13px] tracking-[0.02em] text-white/45">Konsultim falas · Ofertë e personalizuar</p>
+                    </div>
+                    <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg shrink-0 !px-8">
+                      Na kontaktoni →
+                    </Link>
+                  </div>
+                </div>
+              )}
 
             </div>
           </section>

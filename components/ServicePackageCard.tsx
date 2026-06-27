@@ -84,7 +84,7 @@ export default function ServicePackageCard({ pkg }: Props) {
               : pkg.features.map((f) => (
                   <li key={f} className="font-ui flex items-start gap-2.5 text-[13px] font-normal leading-[1.6] text-text">
                     <CheckIcon />
-                    <span className="font-ui font-light">{f}</span>
+                    <span className="font-ui font-light whitespace-pre-line">{f}</span>
                   </li>
                 ))}
           </ul>

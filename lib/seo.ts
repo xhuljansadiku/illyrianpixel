@@ -217,7 +217,7 @@ export const localBusinessSchema = {
           "@type": "Service",
           name: "SEO & Google Ads",
           description: "Strategji SEO dhe fushata Google Ads me ROI të matshëm.",
-          url: `${siteUrl}/services/marketing-growth`,
+          url: `${siteUrl}/services/seo-google-ads`,
           provider: { "@id": `${siteUrl}/#organization` }
         }
       },

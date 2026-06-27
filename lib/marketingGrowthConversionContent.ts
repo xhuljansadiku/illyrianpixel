@@ -11,25 +11,25 @@ export const marketingConversionLandingData: ConversionLandingData = {
   painSection: {
     anchorId: "situata",
     eyebrow: "Pa filtra",
-    headingBefore: "Këtu ju lëndoni veten —",
-    headingAccent: "dhe e ndjeni në xhiro.",
+    headingBefore: "Humbni klientë",
+    headingAccent: "çdo ditë.",
     intro:
       "Biznesi po punon.\nPor telefoni nuk bie.\nKlientët janë atje, ju nuk gjendeni.",
     items: [
       {
-        title: "Heshtja në telefon ju vret në heshtje",
+        title: "Telefoni nuk bie me ditë të tëra",
         body: "Çdo orë pa kërkesë të reja është para që nuk hyn në arkë, dhe nerv që shkon te konkurrenti pa asnjë fushatë ‘më të bukur’ se ju.",
       },
       {
-        title: "Reklama që djeg para, jo klientë",
+        title: "Shpenzoni në reklama, por nuk vijnë klientë",
         body: "Klikime pa fund, zero takime. Buxheti del nga llogaria, por zëri i klientit nuk del nga goja e tij drejt jush. Kjo është e dhimbshme, dhe e matshme.",
       },
       {
-        title: "Faqja ‘super’ që nuk të bën asnjë lek",
+        title: "Faqja duket mirë, por nuk sjell porosi",
         body: "Nëse vizitori nuk ndjen urgjencë dhe besim në 10 sekonda, mbyll. Ju mbeteni me dizajn, ata me shitjen.",
       },
       {
-        title: "Varësia nga goja ju bën të zbritshëm",
+        title: "Varësia nga referimet, pa klientë të rinj",
         body: "Referimet janë flori, por nëse rrjedha ndalet kur mbaron lista, ju jeni një shëtitje nga një muaj i keq.",
       },
     ],
@@ -51,8 +51,8 @@ export const marketingConversionLandingData: ConversionLandingData = {
         body: "Një veprim i qartë: thirrje, rezervim, formular. Asnjë ‘shiko edhe këtë’ që ju vjedh vëmendjen e blerësit.",
       },
       {
-        title: "Ads vetëm aty ku blerësi juaj është gati të hapë xhepin",
-        body: "Google, Meta, mjete. Ne i përdorim për të blerë vëmendje që kthehet në bisedë, jo në ‘like’ që nuk paguajnë faturën.",
+        title: "Google Ads vetëm aty ku blerësi juaj është gati të hapë xhepin",
+        body: "SEO dhe Google Ads. I përdorim për të blerë vëmendje që kthehet në bisedë, jo në klikime që nuk paguajnë faturën.",
       },
       {
         title: "Çdo javë: matim, prerje, rritje",

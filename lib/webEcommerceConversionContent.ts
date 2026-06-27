@@ -11,7 +11,7 @@ export const webConversionLandingData: ConversionLandingData = {
     items: [
       {
         icon: "convert",
-        title: "Website që sjell klientë",
+        title: "Website profesional",
         body: "",
       },
       {
@@ -26,7 +26,7 @@ export const webConversionLandingData: ConversionLandingData = {
       },
       {
         icon: "support",
-        title: "Partner afatgjatë për rritjen tuaj",
+        title: "Partner afatgjatë",
         body: "",
       },
     ],

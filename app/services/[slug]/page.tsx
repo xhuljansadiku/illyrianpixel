@@ -9,7 +9,7 @@ import ServiceCategoryDetailPage from "@/components/ServiceCategoryDetailPage";
 const SERVICE_SLUGS = [
   "website",
   "ecommerce",
-  "marketing-growth",
+  "seo-google-ads",
   "branding-content",
   "smm",
   "mirembajtja",
@@ -31,9 +31,9 @@ const SEO: Record<(typeof SERVICE_SLUGS)[number], { title: string; desc: string 
     title: "E-Commerce & Dyqane Online me ROI të Matshëm — Shqipëri",
     desc: "Dyqane online me checkout të optimizuar, pagesa të integruara dhe analitikë shitjesh. Çdo element është projektuar për të rritur vlerën mesatare të porosisë. 0 kosto konsultimi.",
   },
-  "marketing-growth": {
-    title: "Marketing Strategjik për Biznese — SEO, Ads & Konvertim",
-    desc: "Marketing strategjik me ROI të matshëm: SEO që ndërton autoritet, Google Ads të optimizuara dhe faqe landing që konvertojnë. Më shumë klientë, jo thjesht trafik.",
+  "seo-google-ads": {
+    title: "SEO & Google Ads për Biznese — Konvertim i Matshëm",
+    desc: "SEO që ndërton autoritet dhe Google Ads të optimizuara, ndërtuar si sistem konvertimi. Më shumë klientë, jo thjesht trafik.",
   },
   "branding-content": {
     title: "Branding Identitar Luksoz — Pozicionim & Identitet Premium",
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const SERVICE_LABELS: Record<(typeof SERVICE_SLUGS)[number], string> = {
   website: "Website Premium",
   ecommerce: "E-Commerce",
-  "marketing-growth": "Marketing & Growth",
+  "seo-google-ads": "SEO & Google Ads",
   "branding-content": "Branding & Content",
   smm: "Social Media",
   mirembajtja: "Mirëmbajtja",

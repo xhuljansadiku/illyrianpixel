@@ -85,7 +85,7 @@ export default function Page() {
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kuptoni pronësinë e llogarive.</strong>{"\nLlogaritë e social media duhet të jenë tuajat.\nKeni gjithmonë aksesin e administratorit."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Shmangni kontratat shumë të gjata pa rezultate.</strong>{"\nKontratat 3–6 mujore janë normale.\n12 muaj pa mundësi largimi shmangeni."}</p>
         <p className="text-[1.02rem] leading-relaxed text-white/68">
-          Zbuloni <Link href="/services/branding-content" className="text-accent underline underline-offset-4">strategjinë tonë të branding dhe content</Link> ose shikoni <Link href="/services/marketing-growth" className="text-accent underline underline-offset-4">paketën e plotë të marketingut</Link>.
+          Zbuloni <Link href="/services/branding-content" className="text-accent underline underline-offset-4">strategjinë tonë të branding dhe content</Link> ose shikoni <Link href="/services/seo-google-ads" className="text-accent underline underline-offset-4">paketën SEO & Google Ads</Link>.
         </p>
       </section>
 

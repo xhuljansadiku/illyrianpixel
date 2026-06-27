@@ -45,13 +45,13 @@ export const conversionTrustStatsDefault: ConversionTrustStats = {
 
 /** Shared “Pse ne” headline + intro, all service conversion landings */
 export const conversionWhyUsHeroDefault = {
-  headingBefore: "6+ vite në shërbim",
-  headingAccent: "të biznesit tuaj.",
+  headingBefore: "Zgjidhja =",
+  headingAccent: "Ne.",
   intro:
     "Punojmë me biznese shqiptare në Shqipëri dhe diasporë.\nProcese të qarta, komunikim profesional dhe rezultate reale, jo vetëm premtime.",
 } as const;
 
-/** Pain / solution / outcomes blocks (optional; e.g. marketing-growth CRO flow) */
+/** Pain / solution / outcomes blocks (optional; e.g. seo-google-ads CRO flow) */
 export type ConversionTextCardSection = {
   anchorId?: string;
   eyebrow: string;

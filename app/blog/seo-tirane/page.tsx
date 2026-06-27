@@ -85,7 +85,7 @@ export default function Page() {
         </div>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
           {"SEO është investim afatgjatë bizneset që investojnë sot do të dominojnë tregun digital shqiptar në vitet e ardhshme.\n"}
-          <Link href="/services/marketing-growth" className="text-accent underline underline-offset-4">Zbuloni si mund t&apos;ju ndihmojmë me strategjinë SEO dhe Marketing</Link>{"."}</p>
+          <Link href="/services/seo-google-ads" className="text-accent underline underline-offset-4">Zbuloni si mund t&apos;ju ndihmojmë me SEO dhe Google Ads</Link>{"."}</p>
       </section>
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">

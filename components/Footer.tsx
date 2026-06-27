@@ -179,7 +179,7 @@ export default function Footer() {
               {[
                 { label: "Website Premium", href: "/services/website" },
                 { label: "E-Commerce", href: "/services/ecommerce" },
-                { label: "SEO & Reklama", href: "/services/marketing-growth" },
+                { label: "SEO & Google Ads", href: "/services/seo-google-ads" },
                 { label: "Social Media", href: "/services/smm" },
                 { label: "Branding & Content", href: "/services/branding-content" },
                 { label: "Mirëmbajtja", href: "/services/mirembajtja" },

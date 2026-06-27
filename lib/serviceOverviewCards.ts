@@ -25,7 +25,7 @@ export const SERVICE_OVERVIEW_CARDS: ServiceOverviewCard[] = [
     ordinal: "02",
     title: "SEO & Reklama",
     desc: "Rrisim klientët tuaj përmes SEO dhe reklamave online (Google Ads & Social Media), duke sjellë trafik cilësor dhe kërkesa reale.",
-    href: "/services/marketing-growth",
+    href: "/services/seo-google-ads",
     visualVariant: "marketing",
     cta: "Shiko shërbimin →"
   },
@@ -59,9 +59,9 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   },
   {
     ordinal: "03",
-    title: "SEO & Reklama",
+    title: "SEO & Google Ads",
     desc: "Sjellim klientë të gatshëm të blejnë, përmes SEO organik dhe Google Ads. Trafik i kualifikuar, jo vetëm klikime.",
-    href: "/services/marketing-growth",
+    href: "/services/seo-google-ads",
     visualVariant: "marketing",
     cta: "Shiko shërbimin →"
   },
@@ -76,7 +76,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "05",
     title: "Branding & Content",
-    desc: "Logo, identitet vizual dhe foto/video profesionale, bëjmë brandin tuaj të duket serioz dhe të ndërtojë besim që në shikim të parë.",
+    desc: "Logo, identitet vizual dhe design, bëjmë brandin tuaj të duket serioz dhe të ndërtojë besim që në shikim të parë.",
     href: "/services/branding-content",
     visualVariant: "branding",
     cta: "Shiko shërbimin →"

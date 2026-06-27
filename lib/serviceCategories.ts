@@ -19,7 +19,7 @@ export type ServicePackage = {
 };
 
 export type ServiceCategory = {
-  slug: "website" | "ecommerce" | "marketing-growth" | "branding-content" | "smm" | "mirembajtja";
+  slug: "website" | "ecommerce" | "seo-google-ads" | "branding-content" | "smm" | "mirembajtja";
   title: string;
   headline: string;
   subheadline?: string;
@@ -169,15 +169,15 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 3. MARKETING & GROWTH ─────────────────────────────────────────────────
+  // ─── 3. SEO & GOOGLE ADS ─────────────────────────────────────────────────
   {
-    slug: "marketing-growth",
-    title: "Marketing & Growth",
-    headline: "Marketing dixhital për biznese që duan klientë, jo vetëm klikime.",
+    slug: "seo-google-ads",
+    title: "SEO & Google Ads",
+    headline: "SEO dhe Google Ads, që sjellin klientë, jo vetëm klikime.",
     subheadline:
-      "SEO, Google Ads dhe Social Media, ndërtuar si sistem konvertimi për biznese shqiptare.",
+      "SEO teknik dhe fushata Google Ads, ndërtuar si sistem konvertimi për biznese shqiptare.",
     short:
-      "Më shumë thirrje, mesazhe dhe shitje, jo më shumë pritje.\nStrategjia + faqe që konvertojnë + reklama të matura në para.",
+      "Më shumë thirrje, mesazhe dhe shitje, jo më shumë pritje.\nSEO + Google Ads + faqe që konvertojnë, matur në para.",
     description: "",
     icon: "◉",
     subServices: [
@@ -192,13 +192,13 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Starter",
         price: "€149",
         priceNote: "/ muaj",
-        ideal: "Reklamat e para me ROI real.\nPak buxhet, rezultate të matshme nga muaji i parë.",
+        ideal: "Filloni me Google Ads sot, plus bazat e SEO.\nBuxhet i vogël, rezultatet e para brenda muajit.",
         features: [
-          "Setup Google ose Meta Ads",
+          "Vendosja e Google Ads",
           "1 fushatë aktive",
-          "Targetim lokal i saktë",
-          "Tracking i rezultateve",
-          "Raport mujor i qartë",
+          "SEO bazë (on-page)",
+          "Ndjekje e rezultateve",
+          "Raport çdo muaj",
         ],
         cta: "Fillo Tani",
       },
@@ -206,13 +206,13 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Growth",
         price: "€249",
         priceNote: "/ muaj",
-        ideal: "Fushata të optimizuara çdo javë.\nKlientë të rinj çdo muaj, me buxhetin nën kontroll.",
+        ideal: "Google Ads optimizohen çdo javë, SEO ju ngjit në Google.\nKlientë të rinj çdo muaj, buxheti nën kontroll.",
         features: [
-          "Google Ads + Meta Ads",
+          "Google Ads i avancuar",
           "2–3 fushata aktive",
-          "Optimizim javor i buxhetit",
-          "Targetim i avancuar & audienca",
-          "Raport 2-javësh + call mujor",
+          "SEO i plotë (on-page)",
+          "Optimizim i buxhetit çdo javë",
+          "Raport çdo 2 javë + 1 takim në muaj",
         ],
         featured: true,
         cta: "Fillo Tani",
@@ -221,85 +221,20 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Pro",
         price: "€399",
         priceNote: "/ muaj",
-        ideal: "Të gjitha kanalet, SEO bazë dhe A/B testing.\nStrategjia që fiton, jo vetëm pret.",
+        ideal: "Google Ads i plotë, SEO teknik dhe teste A/B.\nÇdo vendim mbështetet në numra, jo në mendim.",
         features: [
-          "Google + Meta + SEO bazë",
-          "A/B testing i fushatave",
-          "Optimizim CPA / ROAS",
-          "Strategji funnel e plotë",
-          "Raport javor + 2 call mujore",
+          "Google Ads i plotë (Search + Display)",
+          "SEO teknik i avancuar",
+          "Teste A/B për fushatat",
+          "Optimizim i kostos për klient (CPA/ROAS)",
+          "Raport çdo javë + 2 takime në muaj",
         ],
         cta: "Fillo Tani",
       },
     ],
   },
 
-  // ─── 4. BRANDING & CONTENT ─────────────────────────────────────────────────
-  {
-    slug: "branding-content",
-    title: "Branding & Content",
-    headline: "Branding dhe identitet vizual profesional për biznese shqiptare.",
-    subheadline:
-      "Logo, identitet vizual dhe content që ndërtojnë besim dhe tërheqin klientët e duhur.",
-    short:
-      "Pozicionim, identitet dhe përmbajtje për marka që duan status, besim dhe klientë më të përzgjedhur, jo thjesht më shumë dukshmëri.",
-    description: "",
-    icon: "◆",
-    ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punet tona",
-    trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
-    subServices: [
-      "Logo & Identitet vizual",
-      "Brand i qartë",
-      "Dizajn premium",
-      "Content profesional",
-      "Besim i menjëhershëm",
-    ],
-    packages: [
-      {
-        name: "Basic",
-        price: "€250",
-        tagline: "Identitet vizual profesional",
-        ideal: "Logo profesionale, paleta ngjyrash dhe guidelines bazë, për bizneset që duan të fillojnë me prani të denjë.",
-        features: [
-          "Logo profesionale (koncepte + final)",
-          "Paleta ngjyrash + tipografi",
-          "Versione për web dhe print",
-          "Guidelines bazë PDF",
-          "Eksporte gati për rrjete sociale",
-        ],
-      },
-      {
-        name: "Standard",
-        price: "€500",
-        tagline: "Brand i plotë dhe i qëndrueshëm",
-        ideal: "Identitet i zgjeruar me strategji komunikimi dhe materiale gati për çdo skenë.",
-        features: [
-          "Gjithçka nga Basic",
-          "Brand Kit i zgjeruar",
-          "Strategji komunikimi dhe mesazhe kyçe",
-          "Templates social media",
-          "Kartëvizita + email signature",
-        ],
-        featured: true,
-      },
-      {
-        name: "Premium",
-        price: "€850",
-        tagline: "Identitet i plotë me foto profesionale",
-        ideal: "Brand i plotë me sesion fotografik, bankë materialesh dhe mbështetje pas dorëzimit.",
-        features: [
-          "Gjithçka nga Standard",
-          "Sesion fotografik (3 orë) + 30 foto të edituara",
-          "Identitet vizual i zgjeruar (ikona, pattern)",
-          "Bankë materialesh e organizuar",
-          "Mbështetje pas dorëzimit",
-        ],
-      },
-    ],
-  },
-
-  // ─── 5. SOCIAL MEDIA MARKETING ─────────────────────────────────────────────
+  // ─── 4. SOCIAL MEDIA MARKETING ─────────────────────────────────────────────
   {
     slug: "smm",
     title: "Social Media",
@@ -326,17 +261,14 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€200",
         priceNote: "/ muaj",
         tagline: "Prani e rregullt dhe profesionale",
-        ideal: "10 postime + 2 Reels çdo muaj. Dizajn sipas markës, caption dhe posting — gjithçka gati.",
+        ideal: "10 postime + 2 Reels çdo muaj.\nGjithçka gati: dizajn, caption, posting.",
         features: [
           "10 postime/muaj (feed + caption)",
           "2 Reels/muaj",
-          "1 platformë (Instagram ose Facebook)",
+          "2 platforma (Instagram + Facebook)",
           "Dizajn grafik sipas identitetit tuaj",
+          "Hashtags strategjikë",
           "Raport mujor i performancës",
-        ],
-        notIncluded: [
-          "Stories ditore",
-          "2 platforma",
         ],
       },
       {
@@ -344,12 +276,12 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€330",
         priceNote: "/ muaj",
         tagline: "Content që rrit audiencën çdo muaj",
-        ideal: "15 postime + 3 Reels në 2 platforma. Angazhim aktiv dhe raportim 2-javësh.",
+        ideal: "15 postime + 3 Reels në 3 platforma.\nAngazhim aktiv dhe raportim 2-javësh.",
         features: [
           "15 postime/muaj (feed + caption)",
           "3 Reels/muaj",
-          "2 platforma (Instagram + Facebook ose TikTok)",
-          "Menaxhim komentesh dhe DM",
+          "3 platforma\n(Instagram + Facebook + Threads)",
+          "Hashtags strategjikë",
           "Raport 2-javësh i detajuar",
         ],
         featured: true,
@@ -359,14 +291,78 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€400",
         priceNote: "/ muaj",
         tagline: "Prani maksimale në çdo platformë",
-        ideal: "20 postime + 5 Reels në të gjitha platformat. Strategji e plotë, ekzekutim dhe raportim javor.",
+        ideal: "20 postime + 5 Reels në të gjitha platformat.\nStrategji e plotë, ekzekutim dhe raportim javor.",
         features: [
           "20 postime/muaj + Stories ditore",
-          "5 Reels / Video / TikTok",
-          "Të gjitha platformat (IG, FB, TikTok)",
+          "5 Reels / Video",
+          "Të gjitha platformat",
           "Ads management bazë (Meta Ads)",
-          "Produksion content grafik dhe video",
+          "Hashtags strategjikë",
           "Call strategjik mujor + raport javor",
+        ],
+      },
+    ],
+  },
+
+  // ─── 5. BRANDING & CONTENT ─────────────────────────────────────────────────
+  {
+    slug: "branding-content",
+    title: "Branding & Content",
+    headline: "Branding dhe identitet vizual profesional për biznese shqiptare.",
+    subheadline:
+      "Logo, identitet vizual dhe content që ndërtojnë besim dhe tërheqin klientët e duhur.",
+    short:
+      "Pozicionim, identitet dhe përmbajtje për marka që duan status, besim dhe klientë më të përzgjedhur, jo thjesht më shumë dukshmëri.",
+    description: "",
+    icon: "◆",
+    ctaPrimary: "Fillo sot →",
+    ctaSecondary: "Punet tona",
+    trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
+    subServices: [
+      "Logo & Identitet vizual",
+      "Brand i qartë",
+      "Dizajn premium",
+      "Content profesional",
+      "Besim i menjëhershëm",
+    ],
+    packages: [
+      {
+        name: "Basic",
+        price: "€250",
+        tagline: "Logo dhe paleta e markës",
+        ideal: "Logo profesionale dhe paleta e ngjyrave, themeli i identitetit tuaj vizual.",
+        features: [
+          "Logo profesionale (koncepte + final)",
+          "Paleta e ngjyrave",
+          "Versione për web dhe print",
+          "Guidelines bazë (PDF)",
+        ],
+      },
+      {
+        name: "Standard",
+        price: "€500",
+        tagline: "Identitet vizual i plotë",
+        ideal: "Logo, paleta dhe identitet vizual i plotë, gati për çdo material dhe platformë.",
+        features: [
+          "Gjithçka nga Basic",
+          "Identitet vizual i plotë (ikona, pattern, elementë grafikë)",
+          "Paleta e zgjeruar (sekondare + neutrale)",
+          "Kartëvizita",
+          "1 Template",
+        ],
+        featured: true,
+      },
+      {
+        name: "Premium",
+        price: "€850",
+        tagline: "Design i plotë i markës",
+        ideal: "Logo, identitet vizual dhe design i plotë i markës, me paletë dhe brand kit për çdo skenë.",
+        features: [
+          "Gjithçka nga Standard",
+          "Design i plotë i materialeve (broshura, prezantime, packaging)",
+          "Brand Kit i plotë (PDF + Figma/Canva)",
+          "Paleta e ngjyrave për çdo platformë",
+          "Mbështetje pas dorëzimit",
         ],
       },
     ],
@@ -380,7 +376,7 @@ export const serviceCategories: ServiceCategory[] = [
     subheadline:
       "Mbajmë faqen tuaj gjithmonë online, e shpejtë dhe e sigurt. Edhe faqe të vjetra i rindërtojmë dhe i optimizojmë.",
     short:
-      "Mirëmbajtje profesionale e website dhe e-commerce: monitorim 24/7, siguri, shpejtësi dhe përditësime, për bizneset shqiptare që nuk mund të përballojnë ndërprerje.",
+      "Faqja juaj online, e shpejtë dhe e sigurt, çdo ditë.",
     description: "",
     icon: "◈",
     ctaPrimary: "Fillo sot →",
@@ -399,7 +395,7 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€49",
         priceNote: "/ muaj",
         tagline: "Mbrojtje bazë",
-        ideal: "Monitorim aktiv, backup javor dhe përditësime bazë, faqja juaj mbetet online dhe e mbrojtur pa kosto të lartë.",
+        ideal: "Faqja juaj e mbikëqyrur dhe e sigurt, pa kosto të lartë.",
         features: [
           "Monitorim uptime 24/7 me njoftime",
           "Backup javor i plotë",
@@ -408,10 +404,10 @@ export const serviceCategories: ServiceCategory[] = [
           "Support email me përgjigje brenda 48h",
         ],
         featureBullets: [
-          { emphasis: "Monitorim 24/7", detail: "njoftim i menjëhershëm kur faqja bie, jo pas orësh." },
-          { emphasis: "Backup javor", detail: "kopje e plotë çdo javë, faqja rikthehet shpejt nëse ndodh diçka." },
-          { emphasis: "Përditësime", detail: "CMS, plugin dhe tema, gjithmonë të sigurt dhe funksionalë." },
-          { emphasis: "Raport mujor", detail: "gjendja e faqes, problemet e zgjidhura dhe hapat e radhës." },
+          { emphasis: "Monitorim 24/7", detail: "ju njoftojmë menjëherë nëse faqja bie." },
+          { emphasis: "Backup javor", detail: "kopje e plotë çdo javë, gati për rikthim shpejt." },
+          { emphasis: "Përditësime", detail: "mbajmë gjithçka të përditësuar dhe të sigurt." },
+          { emphasis: "Raport mujor", detail: "ju tregojmë çdo muaj si po shkon faqja." },
         ],
       },
       {
@@ -419,7 +415,7 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€99",
         priceNote: "/ muaj",
         tagline: "Mirëmbajtje e plotë",
-        ideal: "Backup ditor, optimizim shpejtësie, siguri e avancuar dhe support prioritar, për bizneset që nuk tolerojnë ndërprerje.",
+        ideal: "Mbrojtje dhe shpejtësi maksimale, për biznese që nuk durojnë ndërprerje.",
         features: [
           "Monitorim uptime 24/7 me SMS dhe email",
           "Backup ditor i automatizuar",
@@ -429,10 +425,10 @@ export const serviceCategories: ServiceCategory[] = [
           "Support prioritar me përgjigje brenda 4h",
         ],
         featureBullets: [
-          { emphasis: "Backup ditor", detail: "çdo ditë, nëse ndodh diçka, humbet maksimum 24 orë punë." },
-          { emphasis: "Siguri e avancuar", detail: "firewall aktiv, skanim malware dhe SSL, faqja e mbrojtur si duhet." },
-          { emphasis: "Optimizim shpejtësie", detail: "cache dhe performancë të optimizuara çdo muaj, jo vetëm njëherë." },
-          { emphasis: "2h ndërhyrje/muaj", detail: "ndryshime, rregullime ose shtesa të vogla pa kosto shtesë." },
+          { emphasis: "Backup ditor", detail: "kopje e re çdo ditë, humbni maksimum një ditë pune." },
+          { emphasis: "Siguri e avancuar", detail: "firewall, skanim virusesh dhe SSL, faqja e mbrojtur mirë." },
+          { emphasis: "Optimizim shpejtësie", detail: "faqja bëhet më e shpejtë çdo muaj." },
+          { emphasis: "2h ndërhyrje/muaj", detail: "ndryshime dhe rregullime falas, sa herë të duhet." },
         ],
         featured: true,
       },
@@ -441,7 +437,7 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€149",
         priceNote: "/ muaj",
         tagline: "Partner teknik i plotë",
-        ideal: "Monitorim i avancuar, ndërhyrje pa limit, optimizim i vazhdueshëm dhe raportim javor, për bizneset me trafik të lartë ose e-commerce aktiv.",
+        ideal: "Mbështetje e plotë pa limit, për biznese me trafik të lartë ose dyqan online aktiv.",
         features: [
           "Monitorim avancuar me alarme në kohë reale",
           "Backup ditor + backup javor off-site",
@@ -452,9 +448,9 @@ export const serviceCategories: ServiceCategory[] = [
           "Raport javor i performancës dhe sigurisë",
         ],
         featureBullets: [
-          { emphasis: "Ndërhyrje pa limit", detail: "çdo ndryshim teknik, rregullim ose shtesë, pa faturë shtesë." },
-          { emphasis: "Siguri enterprise", detail: "WAF, anti-DDoS dhe skanim ditor, mbrojtje si platformat e mëdha." },
-          { emphasis: "Core Web Vitals", detail: "optimizim i vazhdueshëm, Google ju shpërblen me pozicion më të lartë." },
+          { emphasis: "Ndërhyrje pa limit", detail: "çdo ndryshim teknik, sa herë të duhet, pa kosto shtesë." },
+          { emphasis: "Siguri e nivelit më të lartë", detail: "mbrojtje si platformat e mëdha, kundër sulmeve dhe viruseve." },
+          { emphasis: "Optimizim për Google", detail: "faqja bëhet më e shpejtë, Google ju vendos më lart." },
           { emphasis: "Përgjigje brenda 1h", detail: "problemi nuk pret, as zgjidhja jonë." },
         ],
       },

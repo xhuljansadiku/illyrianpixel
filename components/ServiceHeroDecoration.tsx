@@ -166,7 +166,7 @@ export function ServiceHeroDecoration({ slug }: { slug: ServiceCategory["slug"] 
   if (slug === "website" || slug === "ecommerce") {
     return <WebWireframeCube className={SERVICE_HERO_DECOR_SHELL} />;
   }
-  if (slug === "marketing-growth") {
+  if (slug === "seo-google-ads") {
     return <MarketingGeometricA className={SERVICE_HERO_DECOR_SHELL} />;
   }
   if (slug === "branding-content") {

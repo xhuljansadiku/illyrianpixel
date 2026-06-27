@@ -8,25 +8,25 @@ export const brandingConversionLandingData: ConversionLandingData = {
   painSection: {
     anchorId: "realiteti",
     eyebrow: "Reflektim",
-    headingBefore: "Kur ekselenca juaj e brendshme",
-    headingAccent: "nuk përputhet me praninë e jashtme.",
+    headingBefore: "Brendi juaj",
+    headingAccent: "nuk tregon vlerën reale.",
     intro:
       "Biznesi është i mirë.\nPor marka nuk e tregon.\nKlientët e duhur nuk ju gjejnë.",
     items: [
       {
-        title: "Dukeni më të përballueshëm në pamje se sa është vlera juaj",
+        title: "Klientët mendojnë se jeni më të lirë sesa jeni",
         body: "Kur prezenca nuk mban të njëjtën peshë si cilësia, klienti i mirë largohet pa shpjegim: ai kërkon siguri, dhe siguria duket para se të dokumentohet.",
       },
       {
-        title: "Besimi nuk lindi nga broshura, lindi nga ndjesia e parë",
+        title: "Klientët gjykojnë në 10 sekonda, jo nga broshura",
         body: "Nëse nuk ndiejnë qëndrueshmëri dhe kujdes në detaj, ata nuk ju vendosin në të njëjtin raft me referencën që paguajnë me kënaqësi.",
       },
       {
-        title: "Konkurrim vetëm me numër është zbritje e statusit",
+        title: "Konkurroni vetëm me çmim, jo me vlerë",
         body: "Kur marka nuk mban narrativë, mbetet vetëm çmimi, dhe aty humbet loja e përzgjedhjes: ju doni klientë që zgjedhin, jo që krahasojnë.",
       },
       {
-        title: "Harresa është kundër prestigjit",
+        title: "Klientët nuk ju mbajnë mend pas takimit",
         body: "Marka që nuk ngulitet në mendje nuk humbet vetëm një klik, humbet vendi juaj në listën e atyre që konsiderohen ‘seriozë’ nesër.",
       },
     ],

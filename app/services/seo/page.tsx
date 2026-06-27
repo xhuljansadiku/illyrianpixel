@@ -93,8 +93,8 @@ export default function SeoPage() {
               <Link href="/services/google-ads" className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-[12px] text-white/50 transition-all duration-300 hover:border-accent/35 hover:text-white">
                 Google Ads <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
-              <Link href="/cmimet?tab=marketing-growth" className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-[12px] text-white/50 transition-all duration-300 hover:border-accent/35 hover:text-white">
-                Marketing & Growth <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <Link href="/cmimet?kategori=seo-google-ads" className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-[12px] text-white/50 transition-all duration-300 hover:border-accent/35 hover:text-white">
+                SEO & Google Ads <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
             </div>
           </div>
