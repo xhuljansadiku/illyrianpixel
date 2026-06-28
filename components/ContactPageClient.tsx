@@ -69,6 +69,7 @@ export default function ContactPageClient() {
     budget: budgets[1],
     timeline: timelines[2],
     message: "",
+    website: "", // honeypot — duhet të mbetet bosh; e mbushin vetëm bot-et
   });
 
   const handleDiscountChange = (v: string) => {
@@ -122,6 +123,7 @@ export default function ContactPageClient() {
           message: form.message,
           discountCode: discountStatus === "valid" ? "ILLYRIAN10" : undefined,
           sourcePath: typeof window !== "undefined" ? window.location.pathname : undefined,
+          website: form.website,
         }),
       });
 
@@ -150,6 +152,7 @@ export default function ContactPageClient() {
           budget: budgets[1],
           timeline: timelines[2],
           message: "",
+          website: "",
         });
         setDiscountCode("");
         setDiscountStatus("idle");
@@ -229,6 +232,17 @@ export default function ContactPageClient() {
                   </div>
                 ) : (
                   <form className="mt-7 space-y-6" onSubmit={onSubmit} noValidate>
+                    {/* Honeypot — e padukshme për njerëzit, e mbushur vetëm nga bot-et */}
+                    <input
+                      type="text"
+                      name="website"
+                      value={form.website}
+                      onChange={(e) => set("website")(e.target.value)}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden opacity-0"
+                    />
                     <div className="grid gap-6 md:grid-cols-2">
                       <LuxInput
                         label="Emri"

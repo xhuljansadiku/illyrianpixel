@@ -55,7 +55,25 @@ const nextConfig = {
           { key: "X-Content-Type-Options",    value: "nosniff" },
           { key: "X-Frame-Options",           value: "SAMEORIGIN" },
           { key: "Referrer-Policy",           value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy",        value: "camera=(), microphone=(), geolocation=()" }
+          { key: "Permissions-Policy",        value: "camera=(), microphone=(), geolocation=()" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
+          { key: "Content-Security-Policy",   value: [
+              "default-src 'self'",
+              // 'unsafe-eval' duhet: Next.js 14 (webpack) mbështjell modulet client-side
+              // në eval() në runtime-in e tij të brendshëm — edhe në build prodhimi, jo vetëm dev.
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https://images.unsplash.com https://flagcdn.com",
+              "font-src 'self' data:",
+              "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms",
+              "frame-src 'self'",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'self'",
+              "upgrade-insecure-requests"
+            ].join("; ")
+          }
         ]
       }
     ];

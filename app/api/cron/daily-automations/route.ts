@@ -14,6 +14,8 @@ import { insertQuoteWithNumber } from "@/lib/quotesServer";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { logActivity } from "@/lib/activityLog";
 import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
+import { buildWeeklyBackup, uploadBackupToStorage } from "@/lib/backup";
+import { sendTelegramMessage } from "@/lib/telegram";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -253,7 +255,30 @@ export async function GET(req: Request) {
     }
   }
 
-  // ── 7. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
+  // ── 7. Backup javor i databazës (vetëm të hënën, brenda këtij cron-i të
+  //      vetëm — Vercel Hobby lejon maksimumi 2 cron-e, s'shtojmë të tretin) ──
+  let backupSent = false;
+  if (new Date().getDay() === 1) {
+    try {
+      const { attachments, tableCounts } = await buildWeeklyBackup(supabase);
+      const totalRows = Object.values(tableCounts).reduce((sum, n) => sum + n, 0);
+      await uploadBackupToStorage(supabase, today, attachments);
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: process.env.CONTACT_TO_EMAIL!,
+        subject: `📦 Backup javor i databazës — ${today}`,
+        html: `<p>Backup automatik javor — ${attachments.length} tabela, ${totalRows} rreshtra gjithsej. Skedarët CSV janë bashkangjitur.</p>`,
+        attachments: attachments.map((a) => ({ filename: a.filename, content: Buffer.from(a.content, "utf-8") })),
+      });
+      backupSent = true;
+      await logActivity("auto", "backup", `U dërgua backup javor i databazës (${attachments.length} tabela, ${totalRows} rreshtra)`);
+      await sendTelegramMessage(`📦 <b>Backup javor</b> u dërgua — ${attachments.length} tabela, ${totalRows} rreshtra.`);
+    } catch {
+      // injoro — provohet sërish javën tjetër; backup-et e mëparshme mbeten të vlefshme
+    }
+  }
+
+  // ── 8. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
   const hasActivity =
     remindedQuotes.length > 0 ||
     remindedInvoices.length > 0 ||
@@ -291,5 +316,6 @@ export async function GET(req: Request) {
     generatedInvoices: generatedInvoices.length,
     sentBroadcasts: sentBroadcasts.length,
     staleContacts: staleContacts.length,
+    backupSent,
   });
 }

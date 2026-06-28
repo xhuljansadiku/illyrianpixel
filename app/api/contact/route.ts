@@ -77,7 +77,13 @@ export async function POST(req: Request) {
       message = "",
       discountCode = "",
       sourcePath = "",
+      website = "", // honeypot — fushë e padukshme; bot-et e mbushin, njerëzit jo
     } = body;
+
+    if (website) {
+      // "Sukses" i rremë — s'e njoftojmë bot-in që u kap, thjesht s'krijojmë kontakt
+      return NextResponse.json({ success: true });
+    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
