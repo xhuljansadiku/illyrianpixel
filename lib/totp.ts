@@ -72,7 +72,7 @@ export function totpUri(secret: string, account = "admin", issuer = "Illyrian Pi
 export function generateRecoveryCodes(count = 10): string[] {
   const codes: string[] = [];
   for (let i = 0; i < count; i++) {
-    const bytes = crypto.randomBytes(5);
+    const bytes = crypto.randomBytes(8); // 8 base32 chars needed for the XXXX-XXXX format below
     let raw = "";
     for (const byte of bytes) raw += BASE32_ALPHABET[byte & 31];
     codes.push(`${raw.slice(0, 4)}-${raw.slice(4, 8)}`);
