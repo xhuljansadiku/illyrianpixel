@@ -18,11 +18,13 @@ const Preloader             = dynamic(() => import("@/components/Preloader"),   
 const ClientWidgets         = dynamic(() => import("@/components/ClientWidgets"),         { ssr: false });
 const AmbientParticles      = dynamic(() => import("@/components/AmbientParticles"),      { ssr: false });
 
-// /admin is an internal tool, not the marketing site — skip the preloader,
+// Utility/transactional pages — not the marketing site — skip the preloader,
 // particle background and all the cursor/scroll decoration built for it.
+const NO_CHROME_PREFIXES = ["/admin", "/oferta", "/klienti", "/feedback"];
+
 export default function MarketingChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  if (pathname?.startsWith("/admin")) {
+  if (NO_CHROME_PREFIXES.some((p) => pathname?.startsWith(p))) {
     return <>{children}</>;
   }
 

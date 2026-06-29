@@ -68,110 +68,6 @@ function formItemsToQuoteItems(items: QuoteForm["items"]): QuoteItem[] {
     .filter((it) => it.description && it.qty > 0);
 }
 
-// PDF — hap dritare printimi me dizajn të pastër faturimi
-export function printQuote(quote: QuoteRecord) {
-  const totals = quoteTotals(quote.items, quote.discount, quote.tax_rate);
-  const kindLabel = QUOTE_KIND_LABELS[quote.kind];
-
-  const rows = quote.items
-    .map(
-      (it) => `<tr>
-        <td>${it.description}</td>
-        <td class="num">${it.qty}</td>
-        <td class="num">${formatMoney(it.price)}</td>
-        <td class="num">${formatMoney(it.qty * it.price)}</td>
-      </tr>`
-    )
-    .join("");
-
-  const html = `<!DOCTYPE html>
-<html lang="sq">
-<head>
-<meta charset="UTF-8">
-<title>${kindLabel} ${quote.number}</title>
-<style>
-  * { box-sizing: border-box; }
-  body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #141414; padding: 48px 56px; max-width: 800px; margin: 0 auto; }
-  .head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #ab8339; padding-bottom: 20px; }
-  .brand { font-size: 20px; font-weight: 700; letter-spacing: 0.02em; }
-  .brand small { display: block; font-weight: 400; font-size: 11px; color: #888; margin-top: 4px; letter-spacing: 0.12em; text-transform: uppercase; }
-  .doc { text-align: right; }
-  .doc h1 { margin: 0; font-size: 22px; color: #ab8339; letter-spacing: 0.04em; text-transform: uppercase; }
-  .doc p { margin: 6px 0 0; font-size: 12px; color: #666; }
-  .meta { display: flex; justify-content: space-between; margin-top: 28px; font-size: 13px; line-height: 1.7; }
-  .meta h3 { margin: 0 0 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #999; }
-  table { width: 100%; border-collapse: collapse; margin-top: 32px; font-size: 13px; }
-  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; border-bottom: 1.5px solid #ddd; padding: 8px 10px; }
-  th.num, td.num { text-align: right; }
-  td { padding: 10px; border-bottom: 1px solid #eee; }
-  .totals { margin-top: 16px; margin-left: auto; width: 280px; font-size: 13px; }
-  .totals div { display: flex; justify-content: space-between; padding: 5px 10px; }
-  .totals .grand { border-top: 2px solid #ab8339; margin-top: 6px; padding-top: 10px; font-size: 16px; font-weight: 700; color: #ab8339; }
-  .notes { margin-top: 32px; font-size: 12px; color: #555; line-height: 1.7; background: #faf8f4; border: 1px solid #eee2c8; border-radius: 8px; padding: 14px 18px; white-space: pre-wrap; }
-  .foot { margin-top: 48px; border-top: 1px solid #eee; padding-top: 16px; font-size: 11px; color: #999; display: flex; justify-content: space-between; }
-  @media print { body { padding: 24px; } }
-</style>
-</head>
-<body>
-  <div class="head">
-    <div class="brand">
-      ILLYRIAN PIXEL
-      <small>Agjenci Dixhitale Premium</small>
-    </div>
-    <div class="doc">
-      <h1>${kindLabel}</h1>
-      <p><strong>${quote.number}</strong></p>
-      <p>Data: ${formatDay(quote.issued_at)}</p>
-      ${quote.due_at ? `<p>${quote.kind === "invoice" ? "Afati i pagesës" : "E vlefshme deri"}: ${formatDay(quote.due_at)}</p>` : ""}
-    </div>
-  </div>
-
-  <div class="meta">
-    <div>
-      <h3>Për</h3>
-      <strong>${quote.client_name}</strong><br>
-      ${quote.client_business ? `${quote.client_business}<br>` : ""}
-      ${quote.client_email ?? ""}
-    </div>
-    <div style="text-align:right">
-      <h3>Nga</h3>
-      Illyrian Pixel<br>
-      Tiranë, Shqipëri<br>
-      info@illyrianpixel.com
-    </div>
-  </div>
-
-  <table>
-    <thead>
-      <tr><th>Përshkrimi</th><th class="num">Sasia</th><th class="num">Çmimi</th><th class="num">Totali</th></tr>
-    </thead>
-    <tbody>${rows}</tbody>
-  </table>
-
-  <div class="totals">
-    <div><span>Nëntotali</span><span>${formatMoney(totals.subtotal)}</span></div>
-    ${totals.discount > 0 ? `<div><span>Zbritje</span><span>-${formatMoney(totals.discount)}</span></div>` : ""}
-    ${quote.tax_rate > 0 ? `<div><span>TVSH (${quote.tax_rate}%)</span><span>${formatMoney(totals.tax)}</span></div>` : ""}
-    <div class="grand"><span>Totali</span><span>${formatMoney(totals.total)}</span></div>
-  </div>
-
-  ${quote.notes ? `<div class="notes">${quote.notes}</div>` : ""}
-
-  <div class="foot">
-    <span>illyrianpixel.com</span>
-    <span>Faleminderit për besimin!</span>
-  </div>
-
-  <script>window.onload = () => window.print();</script>
-</body>
-</html>`;
-
-  const win = window.open("", "_blank");
-  if (!win) return;
-  win.document.write(html);
-  win.document.close();
-}
-
 function csvCell(value: string) {
   return `"${value.replace(/"/g, '""')}"`;
 }
@@ -1030,12 +926,14 @@ export default function QuotesTab({
                     <option key={k} value={k}>{v}</option>
                   ))}
                 </select>
-                <button
-                  onClick={() => printQuote(q)}
+                <a
+                  href={`/api/admin/quotes/${q.id}/pdf`}
+                  target="_blank"
+                  rel="noreferrer"
                   className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                 >
                   🖨 PDF
-                </button>
+                </a>
                 <button
                   onClick={() => sendEmail(q)}
                   disabled={!q.client_email || busyId === q.id}

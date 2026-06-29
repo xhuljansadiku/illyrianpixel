@@ -267,6 +267,33 @@ export async function paymentThankYouEmailHtml(quote: QuoteRecord): Promise<{ su
   return { subject, html: shell(subject, body) };
 }
 
+// Kërkesë vlerësimi pas mbylljes së projektit ("Përfunduar").
+export function projectFeedbackRequestEmailHtml(clientName: string, projectName: string, feedbackUrl: string): string {
+  const body = `
+        <tr>
+          <td style="padding:36px 48px;">
+            <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);">Përshëndetje ${escapeHtml(clientName)},</p>
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">
+              Projekti "${escapeHtml(projectName)}" u përfundua! Do të na ndihmonit shumë nëse na jepni 1 minutë për të na thënë si shkoi përvoja juaj.
+            </p>
+            <table cellpadding="0" cellspacing="0" style="margin-top:24px;">
+              <tr>
+                <td style="background:#ab8339;border-radius:8px;">
+                  <a href="${feedbackUrl}" style="display:inline-block;padding:13px 28px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
+                    Jep vlerësimin →
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:24px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
+              Me respekt,<br>
+              <span style="color:#ab8339;font-weight:600;">Ekipi i Illyrian Pixel</span>
+            </p>
+          </td>
+        </tr>`;
+  return shell("Si shkoi përvoja juaj? — Illyrian Pixel", body);
+}
+
 // ── Njoftim për adminin kur klienti përgjigjet ───────────────────────────────
 export function adminQuoteResponseEmailHtml(
   quote: QuoteRecord,

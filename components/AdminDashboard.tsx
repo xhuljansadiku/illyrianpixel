@@ -236,18 +236,24 @@ function isOverdue(c: Contact) {
   return new Date(`${c.follow_up_date}T00:00:00`) < today;
 }
 
+// "sq-AL" formatting differs between Node's ICU data and the browser's, and
+// the server (UTC) vs the admin's own browser (Europe/Tirane) can disagree on
+// the hour — both cause React hydration mismatches. Pin the timezone and use
+// "en-GB" (always fully supported) to extract numeric parts, then assemble
+// the display string ourselves so server and client always agree byte-for-byte.
+function dateParts(iso: string, opts: Intl.DateTimeFormatOptions) {
+  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Tirane", ...opts }).formatToParts(new Date(iso));
+  return (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+}
+
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleString("sq-AL", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const get = dateParts(iso, { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+  return `${get("day")}/${get("month")}/${get("year")}, ${get("hour")}:${get("minute")}`;
 }
 
 function formatDay(iso: string) {
-  return new Date(iso).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit" });
+  const get = dateParts(iso, { day: "2-digit", month: "2-digit" });
+  return `${get("day")}/${get("month")}`;
 }
 
 function whatsappHref(phone: string) {
@@ -1106,7 +1112,7 @@ export default function AdminDashboard({
               />
             )}
             {tab === "analytics" && (
-              <AnalyticsTab stats={stats} contacts={contacts} quotes={quotes} visitors30={visitors30} />
+              <AnalyticsTab stats={stats} contacts={contacts} quotes={quotes} visitors30={visitors30} recurring={recurringList} />
             )}
             {tab === "history" && <ActivityTab />}
             {tab === "assistant" && <AssistantTab />}
@@ -1388,7 +1394,7 @@ function OverviewTab({
               >
                 <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">{b.subject}</span>
                 <span className="text-[11px] font-semibold text-accent">
-                  {new Date(b.scheduled_for!).toLocaleString("sq-AL", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                  {formatDate(b.scheduled_for!)}
                 </span>
               </li>
             ))}
@@ -1721,6 +1727,15 @@ function ContactsTab({
     () => ["Të gjitha", ...Array.from(new Set(contacts.flatMap((c) => c.tags ?? []))).sort()],
     [contacts]
   );
+
+  const duplicateCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const c of contacts) {
+      const key = c.email.trim().toLowerCase();
+      map.set(key, (map.get(key) ?? 0) + 1);
+    }
+    return map;
+  }, [contacts]);
 
   const filtered = useMemo(() => {
     const q = debouncedSearch.trim().toLowerCase();
@@ -2328,6 +2343,14 @@ function ContactsTab({
                                   {overdue && (
                                     <span className="rounded-full border border-red-400/30 bg-red-400/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-red-400">
                                       ⚠ Vonuar
+                                    </span>
+                                  )}
+                                  {(duplicateCounts.get(c.email.trim().toLowerCase()) ?? 1) > 1 && (
+                                    <span
+                                      title="Ky email ka shkruar më parë"
+                                      className="rounded-full border border-blue-400/30 bg-blue-400/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-blue-300"
+                                    >
+                                      🔁 {duplicateCounts.get(c.email.trim().toLowerCase())}×
                                     </span>
                                   )}
                                   {(c.tags ?? []).map((tag) => (
@@ -3730,11 +3753,13 @@ function AnalyticsTab({
   contacts,
   quotes,
   visitors30,
+  recurring,
 }: {
   stats: Stats;
   contacts: Contact[];
   quotes: QuoteRecord[];
   visitors30: number;
+  recurring: RecurringInvoice[];
 }) {
   const [rangeOption, setRangeOption] = useState<"7" | "30" | "90" | "custom">("30");
   const [customFrom, setCustomFrom] = useState("");
@@ -3780,6 +3805,31 @@ function AnalyticsTab({
       .reduce((sum, q) => sum + quoteTotals(q.items, q.discount, q.tax_rate).total, 0);
     return { open, won, invoicesPaid };
   }, [contacts, quotes]);
+
+  const monthlyRevenue = useMemo(() => {
+    const months: { key: string; label: string; total: number }[] = [];
+    const now = new Date();
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push({ key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`, label: d.toLocaleDateString("sq-AL", { month: "short" }), total: 0 });
+    }
+    const byKey = new Map(months.map((m) => [m.key, m]));
+    quotes
+      .filter((q) => q.kind === "invoice" && q.status === "paid")
+      .forEach((q) => {
+        const key = q.updated_at.slice(0, 7);
+        const m = byKey.get(key);
+        if (m) m.total += quoteTotals(q.items, q.discount, q.tax_rate).total;
+      });
+    return months;
+  }, [quotes]);
+
+  const mrr = useMemo(
+    () => recurring.filter((r) => r.active).reduce((sum, r) => sum + quoteTotals(r.items, r.discount, r.tax_rate).total, 0),
+    [recurring]
+  );
+
+  const monthlyRevenueMax = Math.max(1, ...monthlyRevenue.map((m) => m.total));
 
   const sources = useMemo(() => {
     const map = new Map<string, number>();
@@ -3860,6 +3910,34 @@ function AnalyticsTab({
         <div className={CARD + " p-5"}>
           <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{formatMoney(pipeline.invoicesPaid)}</p>
           <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Fatura të paguara (gjithsej)</p>
+        </div>
+      </div>
+
+      {/* Monthly revenue */}
+      <div className={CARD + " p-5"}>
+        <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+            Të ardhurat mujore — 6 muajt e fundit
+          </p>
+          {mrr > 0 && (
+            <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">
+              + <span className="font-semibold text-accent">{formatMoney(mrr)}</span> rekurrente / muaj
+            </p>
+          )}
+        </div>
+        <div className="flex h-32 items-end gap-3">
+          {monthlyRevenue.map((m) => (
+            <div key={m.key} className="group relative flex-1">
+              <div
+                className="rounded-sm bg-accent/40 transition-colors group-hover:bg-accent"
+                style={{ height: `${Math.max(3, (m.total / monthlyRevenueMax) * 120)}px` }}
+              />
+              <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
+                {formatMoney(m.total)}
+              </div>
+              <p className="mt-2 text-center text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</p>
+            </div>
+          ))}
         </div>
       </div>
 
