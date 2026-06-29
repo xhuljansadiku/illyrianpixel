@@ -1,25 +1,11 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { localBusinessSchema, organizationSchema, websiteSchema, seo } from "@/lib/seo";
-import SmoothScroll from "@/components/SmoothScroll";
 import WebVitals from "@/components/WebVitals";
 import PageViewTracker from "@/components/PageViewTracker";
-// Defer non-critical layout components — do not block initial HTML paint
-const InteractiveGlow       = dynamic(() => import("@/components/InteractiveGlow"),       { ssr: false });
-const MagneticButtons       = dynamic(() => import("@/components/MagneticButtons"),       { ssr: false });
-const GlobalReveals         = dynamic(() => import("@/components/GlobalReveals"),         { ssr: false });
-const InquiryModal          = dynamic(() => import("@/components/InquiryModal"),          { ssr: false });
-const CustomCursor          = dynamic(() => import("@/components/CustomCursor"),          { ssr: false });
-const CursorTrail           = dynamic(() => import("@/components/CursorTrail"),           { ssr: false });
-const BackToTop             = dynamic(() => import("@/components/BackToTop"),             { ssr: false });
-const ScrollProgress        = dynamic(() => import("@/components/ScrollProgress"),        { ssr: false });
-const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
-const Preloader             = dynamic(() => import("@/components/Preloader"),             { ssr: false });
-const ClientWidgets         = dynamic(() => import("@/components/ClientWidgets"),         { ssr: false });
-const AmbientParticles      = dynamic(() => import("@/components/AmbientParticles"),      { ssr: false });
+import MarketingChrome from "@/components/MarketingChrome";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -176,23 +162,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
         <WebVitals />
         <PageViewTracker />
-        <Preloader />
-        <AmbientParticles />
-        <SmoothScroll>
-          <div className="relative z-[1]">
-            <InteractiveGlow />
-            <MagneticButtons />
-            <GlobalReveals />
-            <CustomCursor />
-            <CursorTrail />
-            <ScrollProgress />
-            <PageTransitionOverlay />
-            <BackToTop />
-            <ClientWidgets />
-            {children}
-          </div>
-        </SmoothScroll>
-        <InquiryModal />
+        <MarketingChrome>{children}</MarketingChrome>
 
         {/* ── Analytics (afterInteractive = non-blocking) ── */}
         <Script

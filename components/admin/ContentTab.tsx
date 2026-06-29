@@ -36,7 +36,7 @@ export default function ContentTab({
 
   return (
     <div>
-      <div className="mb-5 flex gap-2 overflow-x-auto">
+      <div className="mb-5 flex flex-wrap gap-2">
         {([
           ["testimonials", `💬 Testimoniale (${testimonials.length})`],
           ["portfolio", `🖼️ Portofoli (${portfolioItems.length})`],

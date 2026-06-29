@@ -599,7 +599,7 @@ export default function QuotesTab({
   return (
     <div>
       {/* Nën-seksionet: dokumente / të rikurrueshme */}
-      <div className="mb-5 flex gap-2 overflow-x-auto">
+      <div className="mb-5 flex flex-wrap gap-2">
         {([
           ["docs", `🧾 Dokumentet (${quotes.length})`],
           ["recurring", `🔁 Të rikurrueshme (${recurring.length})`],
