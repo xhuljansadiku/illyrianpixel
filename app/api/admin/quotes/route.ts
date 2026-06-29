@@ -16,6 +16,7 @@ export async function GET(req: Request) {
   const { data, error } = await supabase
     .from("quotes")
     .select("*")
+    .is("deleted_at", null)
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 

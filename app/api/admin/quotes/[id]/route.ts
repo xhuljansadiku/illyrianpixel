@@ -1,24 +1,32 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { parseQuoteItems, QUOTE_STATUS_LABELS } from "@/lib/quotes";
+import { Resend } from "resend";
+import { parseQuoteItems, QUOTE_STATUS_LABELS, type QuoteRecord } from "@/lib/quotes";
 import { logActivity } from "@/lib/activityLog";
+import { paymentThankYouEmailHtml } from "@/lib/adminEmails";
+import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const ALLOWED_STATUS = ["draft", "sent", "accepted", "rejected", "paid"];
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   const body = await req.json();
   const update: Record<string, unknown> = {};
+  let previousStatus: string | null = null;
 
   if (typeof body.status === "string") {
     if (!ALLOWED_STATUS.includes(body.status)) {
       return NextResponse.json({ success: false, error: "Status i pavlefshëm." }, { status: 400 });
     }
     update.status = body.status;
+    const { data: existing } = await supabase.from("quotes").select("status").eq("id", params.id).maybeSingle();
+    previousStatus = existing?.status ?? null;
   }
   if (body.items !== undefined) {
     const items = parseQuoteItems(body.items);
@@ -40,6 +48,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (body.due_at !== undefined) update.due_at = body.due_at || null;
   if (body.issued_at !== undefined && body.issued_at) update.issued_at = body.issued_at;
   if (body.contact_id !== undefined) update.contact_id = body.contact_id || null;
+  if (body.restore === true) update.deleted_at = null;
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ success: false, error: "Asgjë për të përditësuar." }, { status: 400 });
@@ -59,15 +68,51 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
   if (typeof body.status === "string") {
     await logActivity("quote", "update", `${data.number} kaloi në status "${QUOTE_STATUS_LABELS[body.status as keyof typeof QUOTE_STATUS_LABELS] ?? body.status}"`);
+  } else if (body.restore === true) {
+    await logActivity("quote", "update", `U rikthye ${data.number} nga koshi`);
   } else {
     await logActivity("quote", "update", `U editua ${data.number} (${data.client_name})`);
+  }
+
+  const justPaid = body.status === "paid" && previousStatus !== "paid";
+  if (justPaid && data.kind === "invoice" && data.client_email) {
+    try {
+      const { subject, html } = await paymentThankYouEmailHtml(data as QuoteRecord);
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: data.client_email,
+        replyTo: "info@illyrianpixel.com",
+        subject,
+        html,
+      });
+      await logActivity("quote", "send", `U dërgua email falënderimi për pagesën e ${data.number}`);
+    } catch {
+      // injoro — fatura mbetet "Paguar"; email-i mund të ridërgohet manualisht nga paneli
+    }
   }
 
   return NextResponse.json({ success: true, quote: data });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { data, error } = await supabase.from("quotes").delete().eq("id", params.id).select("number, client_name");
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+  const permanent = new URL(req.url).searchParams.get("permanent") === "1";
+
+  if (permanent) {
+    const { data, error } = await supabase.from("quotes").delete().eq("id", params.id).select("number, client_name");
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+    if (data?.[0]) {
+      await logActivity("quote", "delete", `U fshi përgjithmonë ${data[0].number} (${data[0].client_name})`);
+    }
+    return NextResponse.json({ success: true });
+  }
+
+  const { data, error } = await supabase
+    .from("quotes")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", params.id)
+    .select("number, client_name");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

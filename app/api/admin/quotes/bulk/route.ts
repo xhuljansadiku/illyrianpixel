@@ -29,7 +29,9 @@ export async function POST(req: Request) {
   }
 
   if (body.action === "delete") {
-    const { error } = await supabase.from("quotes").delete().in("id", ids);
+    const { error } = body.permanent === true
+      ? await supabase.from("quotes").delete().in("id", ids)
+      : await supabase.from("quotes").update({ deleted_at: new Date().toISOString() }).in("id", ids);
     if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     await logActivity("quote", "delete", `U fshinë ${ids.length} dokumente oferte/fature`);
     return NextResponse.json({ success: true });

@@ -17,6 +17,7 @@ export async function GET(req: Request) {
   const { data, error } = await supabase
     .from("contacts")
     .select("*")
+    .is("deleted_at", null)
     .gt("created_at", after)
     .order("created_at", { ascending: false })
     .limit(20);

@@ -32,10 +32,14 @@ export default async function AdminPage() {
     projectsRes,
     projectTasksRes,
     faqsRes,
+    trashedContactsRes,
+    trashedQuotesRes,
+    autoActivityRes,
   ] = await Promise.all([
     supabase
       .from("contacts")
       .select("*")
+      .is("deleted_at", null)
       .order("created_at", { ascending: false })
       .limit(300),
     supabase
@@ -61,6 +65,7 @@ export default async function AdminPage() {
     supabase
       .from("quotes")
       .select("*")
+      .is("deleted_at", null)
       .order("created_at", { ascending: false })
       .limit(300),
     supabase
@@ -103,6 +108,24 @@ export default async function AdminPage() {
       .select("*")
       .order("sort", { ascending: true })
       .order("id", { ascending: true }),
+    supabase
+      .from("contacts")
+      .select("id, name, email, business_name, service, deleted_at")
+      .not("deleted_at", "is", null)
+      .order("deleted_at", { ascending: false })
+      .limit(100),
+    supabase
+      .from("quotes")
+      .select("id, number, kind, client_name, deleted_at")
+      .not("deleted_at", "is", null)
+      .order("deleted_at", { ascending: false })
+      .limit(100),
+    supabase
+      .from("admin_activity")
+      .select("entity, action, label, created_at")
+      .eq("entity", "auto")
+      .order("created_at", { ascending: false })
+      .limit(8),
   ]);
 
   const contacts = contactsRes.data ?? [];
@@ -115,6 +138,10 @@ export default async function AdminPage() {
   const portfolioItems = portfolioRes.data ?? [];
   const recurring = recurringRes.data ?? [];
   const faqs = faqsRes.data ?? [];
+
+  const trashedContacts = trashedContactsRes.data ?? [];
+  const trashedQuotes = trashedQuotesRes.data ?? [];
+  const autoActivity = autoActivityRes.data ?? [];
 
   const projectTasks = projectTasksRes.data ?? [];
   const projects = (projectsRes.data ?? []).map((p) => ({
@@ -221,6 +248,9 @@ export default async function AdminPage() {
       recurring={recurring}
       projects={projects}
       faqs={faqs}
+      trashedContacts={trashedContacts}
+      trashedQuotes={trashedQuotes}
+      autoActivity={autoActivity}
     />
   );
 }

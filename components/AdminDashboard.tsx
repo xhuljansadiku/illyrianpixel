@@ -11,7 +11,7 @@ import {
   useSensors,
   type DragEndEvent,
 } from "@dnd-kit/core";
-import QuotesTab, { type QuoteContact } from "@/components/admin/QuotesTab";
+import QuotesTab, { type QuoteContact, type TrashedQuote } from "@/components/admin/QuotesTab";
 import ContentTab, { type PricingCatalogEntry } from "@/components/admin/ContentTab";
 import ProjectsTab from "@/components/admin/ProjectsTab";
 import ActivityTab from "@/components/admin/ActivityTab";
@@ -88,6 +88,22 @@ type Contact = {
   source_path: string | null;
   viewed_at: string | null;
   portal_token: string | null;
+};
+
+export type TrashedContact = {
+  id: number;
+  name: string;
+  email: string;
+  business_name: string | null;
+  service: string;
+  deleted_at: string;
+};
+
+type AutoActivity = {
+  entity: string;
+  action: string;
+  label: string;
+  created_at: string;
 };
 
 type BroadcastStat = {
@@ -408,6 +424,9 @@ export default function AdminDashboard({
   recurring,
   projects,
   faqs,
+  trashedContacts: initialTrashedContacts,
+  trashedQuotes: initialTrashedQuotes,
+  autoActivity,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
@@ -426,6 +445,9 @@ export default function AdminDashboard({
   recurring: RecurringInvoice[];
   projects: ProjectRecord[];
   faqs: FaqRow[];
+  trashedContacts: TrashedContact[];
+  trashedQuotes: TrashedQuote[];
+  autoActivity: AutoActivity[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<
@@ -451,6 +473,8 @@ export default function AdminDashboard({
   const [projectsList, setProjectsList] = useState(projects);
   const [recurringList, setRecurringList] = useState(recurring);
   const [faqsList, setFaqsList] = useState(faqs);
+  const [trashedContacts, setTrashedContacts] = useState(initialTrashedContacts);
+  const [trashedQuotes, setTrashedQuotes] = useState(initialTrashedQuotes);
   const [collapsed, setCollapsed] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -1025,10 +1049,17 @@ export default function AdminDashboard({
           {/* Content */}
           <div className="mt-6">
             {tab === "overview" && (
-              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} projects={projectsList} broadcasts={broadcasts} onGoToContact={goToContact} />
+              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} projects={projectsList} broadcasts={broadcasts} onGoToContact={goToContact} autoActivity={autoActivity} />
             )}
             {tab === "contacts" && (
-              <ContactsTab contacts={contacts} setContacts={setContacts} jumpSearch={contactsJump} onCreateQuote={createQuoteForContact} />
+              <ContactsTab
+                contacts={contacts}
+                setContacts={setContacts}
+                jumpSearch={contactsJump}
+                onCreateQuote={createQuoteForContact}
+                trashedContacts={trashedContacts}
+                setTrashedContacts={setTrashedContacts}
+              />
             )}
             {tab === "quotes" && (
               <QuotesTab
@@ -1039,6 +1070,8 @@ export default function AdminDashboard({
                 setRecurring={setRecurringList}
                 prefill={quotePrefill}
                 jumpSearch={quotesJump}
+                trashedQuotes={trashedQuotes}
+                setTrashedQuotes={setTrashedQuotes}
               />
             )}
             {tab === "projects" && (
@@ -1170,6 +1203,7 @@ function OverviewTab({
   projects,
   broadcasts,
   onGoToContact,
+  autoActivity,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
@@ -1178,8 +1212,20 @@ function OverviewTab({
   projects: ProjectRecord[];
   broadcasts: BroadcastStat[];
   onGoToContact: (term: string) => void;
+  autoActivity: AutoActivity[];
 }) {
   const today = new Date().toISOString().slice(0, 10);
+
+  const overdueFollowUps = useMemo(() => contacts.filter(isOverdue).length, [contacts]);
+
+  const lastBackup = useMemo(
+    () => autoActivity.find((a) => a.action === "backup") ?? null,
+    [autoActivity]
+  );
+  const daysSinceBackup = lastBackup
+    ? Math.floor((Date.now() - new Date(lastBackup.created_at).getTime()) / 86400000)
+    : null;
+  const backupHealthy = daysSinceBackup !== null && daysSinceBackup <= 8;
 
   const scheduledBroadcasts = useMemo(
     () =>
@@ -1226,6 +1272,35 @@ function OverviewTab({
         <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
         <StatCard label="Subscriber-a aktivë" value={subscribers.filter((s) => !s.unsubscribed).length} />
         <StatCard label="Norma e konvertimit (%)" value={Math.round(stats.conversionRate)} />
+      </div>
+
+      {/* Shëndeti i sistemit */}
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          Shëndeti i sistemit
+        </p>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          <div className={`rounded-[2px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Backup javor</p>
+            <p className={`mt-1 text-[14px] font-semibold ${backupHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
+              {lastBackup
+                ? `${backupHealthy ? "✅" : "⚠️"} ${daysSinceBackup === 0 ? "sot" : `${daysSinceBackup} ditë më parë`}`
+                : "⚠️ Asnjë backup ende"}
+            </p>
+          </div>
+          <div className={`rounded-[2px] border px-4 py-3 ${overdueFollowUps === 0 ? "border-emerald-400/25 bg-emerald-400/5" : "border-red-400/25 bg-red-400/5"}`}>
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Follow-up të vonuara</p>
+            <p className={`mt-1 text-[14px] font-semibold ${overdueFollowUps === 0 ? "text-emerald-300" : "text-red-300"}`}>
+              {overdueFollowUps === 0 ? "✅ Asnjë" : `🔴 ${overdueFollowUps}`}
+            </p>
+          </div>
+          <div className="rounded-[2px] border border-[var(--a-border)] px-4 py-3">
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Automatizimi i fundit</p>
+            <p className="mt-1 truncate text-[13px] font-medium text-[var(--a-text)]" title={autoActivity[0]?.label}>
+              {autoActivity[0] ? autoActivity[0].label : "Asnjë veprim ende"}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Follow-ups */}
@@ -1527,12 +1602,18 @@ function ContactsTab({
   setContacts,
   jumpSearch,
   onCreateQuote,
+  trashedContacts,
+  setTrashedContacts,
 }: {
   contacts: Contact[];
   setContacts: (c: Contact[]) => void;
   jumpSearch?: { term: string; key: number } | null;
   onCreateQuote: (c: Contact) => void;
+  trashedContacts: TrashedContact[];
+  setTrashedContacts: (c: TrashedContact[]) => void;
 }) {
+  const [showTrash, setShowTrash] = useState(false);
+  const [trashBusyId, setTrashBusyId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [serviceFilter, setServiceFilter] = useState("Të gjitha");
   const [tagFilter, setTagFilter] = useState("Të gjitha");
@@ -1864,13 +1945,20 @@ function ContactsTab({
   };
 
   const removeContact = async (id: number) => {
-    if (!(await confirm({ title: "Fshi kontaktin", message: "Të fshihet ky kontakt? Ky veprim nuk kthehet mbrapsht.", danger: true, confirmText: "Fshi" }))) return;
+    if (!(await confirm({ title: "Fshi kontaktin", message: "Të fshihet ky kontakt? Mund ta rikthesh nga koshi më vonë.", danger: true, confirmText: "Fshi" }))) return;
     setDeletingId(id);
     try {
       const res = await fetch(`/api/admin/contacts/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
+        const removed = contacts.find((c) => c.id === id);
         setContacts(contacts.filter((c) => c.id !== id));
+        if (removed) {
+          setTrashedContacts([
+            { id: removed.id, name: removed.name, email: removed.email, business_name: removed.business_name, service: removed.service, deleted_at: new Date().toISOString() },
+            ...trashedContacts,
+          ]);
+        }
         setSelected((s) => {
           const next = new Set(s);
           next.delete(id);
@@ -1913,7 +2001,7 @@ function ContactsTab({
 
   const bulkDelete = async () => {
     if (selected.size === 0) return;
-    if (!(await confirm({ title: "Fshi kontaktet", message: `Të fshihen ${selected.size} kontakte? Ky veprim nuk kthehet mbrapsht.`, danger: true, confirmText: "Fshi" }))) return;
+    if (!(await confirm({ title: "Fshi kontaktet", message: `Të fshihen ${selected.size} kontakte? Mund t'i rikthesh nga koshi më vonë.`, danger: true, confirmText: "Fshi" }))) return;
     const ids = Array.from(selected);
     const removed = contacts.filter((c) => ids.includes(c.id));
     const remaining = contacts.filter((c) => !ids.includes(c.id));
@@ -1935,6 +2023,38 @@ function ContactsTab({
         }
       }
     );
+  };
+
+  const restoreContact = async (tc: TrashedContact) => {
+    setTrashBusyId(tc.id);
+    try {
+      const res = await fetch(`/api/admin/contacts/${tc.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ restore: true }),
+      });
+      const data = await res.json();
+      if (data.success && data.contact) {
+        setTrashedContacts(trashedContacts.filter((c) => c.id !== tc.id));
+        setContacts([data.contact, ...contacts]);
+      }
+    } finally {
+      setTrashBusyId(null);
+    }
+  };
+
+  const permanentlyDeleteContact = async (tc: TrashedContact) => {
+    if (!(await confirm({ title: "Fshi përgjithmonë", message: `Të fshihet "${tc.name}" përgjithmonë? Ky veprim NUK kthehet mbrapsht.`, danger: true, confirmText: "Fshi përgjithmonë" }))) return;
+    setTrashBusyId(tc.id);
+    try {
+      const res = await fetch(`/api/admin/contacts/${tc.id}?permanent=1`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        setTrashedContacts(trashedContacts.filter((c) => c.id !== tc.id));
+      }
+    } finally {
+      setTrashBusyId(null);
+    }
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -2022,7 +2142,53 @@ function ContactsTab({
             📅 Kalendar
           </button>
         </div>
+        <button
+          onClick={() => setShowTrash((v) => !v)}
+          className={`font-ui rounded-[2px] border px-4 py-2.5 text-[12px] font-semibold transition-colors ${
+            showTrash ? "border-accent/50 bg-accent/10 text-accent" : "border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
+          }`}
+        >
+          🗑 Koshi {trashedContacts.length > 0 ? `(${trashedContacts.length})` : ""}
+        </button>
       </div>
+
+      {showTrash && (
+        <div className="mb-5 rounded-[2px] border border-[var(--a-border)] p-4">
+          <p className="mb-3 font-ui text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
+            Kontakte të fshira — rikthej ose fshi përgjithmonë
+          </p>
+          {trashedContacts.length === 0 ? (
+            <p className="text-[13px] text-[rgb(var(--a-text-rgb)/0.4)]">Koshi është bosh.</p>
+          ) : (
+            <div className="space-y-2">
+              {trashedContacts.map((tc) => (
+                <div key={tc.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[2px] border border-[var(--a-border)] px-3 py-2.5">
+                  <div>
+                    <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{tc.name} <span className="text-[rgb(var(--a-text-rgb)/0.4)]">— {tc.service}</span></p>
+                    <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">{tc.email} · fshirë më {formatDate(tc.deleted_at)}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => restoreContact(tc)}
+                      disabled={trashBusyId === tc.id}
+                      className="font-ui rounded-[2px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                    >
+                      ↩ Rikthe
+                    </button>
+                    <button
+                      onClick={() => permanentlyDeleteContact(tc)}
+                      disabled={trashBusyId === tc.id}
+                      className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                    >
+                      Fshi përgjithmonë
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Saved filters */}
       <div className="mb-5 flex flex-wrap items-center gap-2">

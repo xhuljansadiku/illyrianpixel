@@ -207,6 +207,14 @@ function downloadQuotesCSV(rows: QuoteRecord[]) {
   URL.revokeObjectURL(url);
 }
 
+export type TrashedQuote = {
+  id: number;
+  number: string;
+  kind: QuoteRecord["kind"];
+  client_name: string;
+  deleted_at: string;
+};
+
 export default function QuotesTab({
   quotes,
   setQuotes,
@@ -215,6 +223,8 @@ export default function QuotesTab({
   setRecurring,
   prefill,
   jumpSearch,
+  trashedQuotes,
+  setTrashedQuotes,
 }: {
   quotes: QuoteRecord[];
   setQuotes: (q: QuoteRecord[]) => void;
@@ -223,8 +233,12 @@ export default function QuotesTab({
   setRecurring: React.Dispatch<React.SetStateAction<RecurringInvoice[]>>;
   prefill?: { contact: QuoteContact; key: number } | null;
   jumpSearch?: { term: string; key: number } | null;
+  trashedQuotes: TrashedQuote[];
+  setTrashedQuotes: (q: TrashedQuote[]) => void;
 }) {
   const [view, setView] = useState<"docs" | "recurring">("docs");
+  const [showTrash, setShowTrash] = useState(false);
+  const [trashBusyId, setTrashBusyId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState<QuoteForm>(EMPTY_FORM);
@@ -501,7 +515,7 @@ export default function QuotesTab({
 
   const bulkDelete = async () => {
     if (selected.size === 0) return;
-    if (!(await confirm({ title: "Fshi dokumentet", message: `Të fshihen ${selected.size} dokumente? Ky veprim nuk kthehet mbrapsht.`, danger: true, confirmText: "Fshi" }))) return;
+    if (!(await confirm({ title: "Fshi dokumentet", message: `Të fshihen ${selected.size} dokumente? Mund t'i rikthesh nga koshi më vonë.`, danger: true, confirmText: "Fshi" }))) return;
     const ids = Array.from(selected);
     const removed = quotes.filter((q) => ids.includes(q.id));
     setQuotes(quotes.filter((q) => !selected.has(q.id)));
@@ -517,6 +531,10 @@ export default function QuotesTab({
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ids, action: "delete" }),
           });
+          setTrashedQuotes([
+            ...removed.map((q) => ({ id: q.id, number: q.number, kind: q.kind, client_name: q.client_name, deleted_at: new Date().toISOString() })),
+            ...trashedQuotes,
+          ]);
         } finally {
           setBulkBusy(false);
         }
@@ -525,13 +543,17 @@ export default function QuotesTab({
   };
 
   const remove = async (q: QuoteRecord) => {
-    if (!(await confirm({ title: "Fshi dokumentin", message: `Të fshihet ${q.number}? Ky veprim nuk kthehet mbrapsht.`, danger: true, confirmText: "Fshi" }))) return;
+    if (!(await confirm({ title: "Fshi dokumentin", message: `Të fshihet ${q.number}? Mund ta rikthesh nga koshi më vonë.`, danger: true, confirmText: "Fshi" }))) return;
     setBusyId(q.id);
     try {
       const res = await fetch(`/api/admin/quotes/${q.id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setQuotes(quotes.filter((x) => x.id !== q.id));
+        setTrashedQuotes([
+          { id: q.id, number: q.number, kind: q.kind, client_name: q.client_name, deleted_at: new Date().toISOString() },
+          ...trashedQuotes,
+        ]);
         if (editingId === q.id) {
           setShowForm(false);
           setEditingId(null);
@@ -539,6 +561,38 @@ export default function QuotesTab({
       }
     } finally {
       setBusyId(null);
+    }
+  };
+
+  const restoreQuote = async (tq: TrashedQuote) => {
+    setTrashBusyId(tq.id);
+    try {
+      const res = await fetch(`/api/admin/quotes/${tq.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ restore: true }),
+      });
+      const data = await res.json();
+      if (data.success && data.quote) {
+        setTrashedQuotes(trashedQuotes.filter((x) => x.id !== tq.id));
+        setQuotes([data.quote, ...quotes]);
+      }
+    } finally {
+      setTrashBusyId(null);
+    }
+  };
+
+  const permanentlyDeleteQuote = async (tq: TrashedQuote) => {
+    if (!(await confirm({ title: "Fshi përgjithmonë", message: `Të fshihet ${tq.number} përgjithmonë? Ky veprim NUK kthehet mbrapsht.`, danger: true, confirmText: "Fshi përgjithmonë" }))) return;
+    setTrashBusyId(tq.id);
+    try {
+      const res = await fetch(`/api/admin/quotes/${tq.id}?permanent=1`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        setTrashedQuotes(trashedQuotes.filter((x) => x.id !== tq.id));
+      }
+    } finally {
+      setTrashBusyId(null);
     }
   };
 
@@ -562,7 +616,53 @@ export default function QuotesTab({
             {label}
           </button>
         ))}
+        <button
+          onClick={() => setShowTrash((v) => !v)}
+          className={`font-ui whitespace-nowrap rounded-[2px] px-4 py-2 text-[12px] font-semibold transition-colors ${
+            showTrash ? "border border-accent/30 bg-accent/10 text-accent" : "border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
+          }`}
+        >
+          🗑 Koshi {trashedQuotes.length > 0 ? `(${trashedQuotes.length})` : ""}
+        </button>
       </div>
+
+      {showTrash && (
+        <div className="mb-5 rounded-[2px] border border-[var(--a-border)] p-4">
+          <p className="mb-3 font-ui text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
+            Oferta/fatura të fshira — rikthej ose fshi përgjithmonë
+          </p>
+          {trashedQuotes.length === 0 ? (
+            <p className="text-[13px] text-[rgb(var(--a-text-rgb)/0.4)]">Koshi është bosh.</p>
+          ) : (
+            <div className="space-y-2">
+              {trashedQuotes.map((tq) => (
+                <div key={tq.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[2px] border border-[var(--a-border)] px-3 py-2.5">
+                  <div>
+                    <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{tq.number} <span className="text-[rgb(var(--a-text-rgb)/0.4)]">— {tq.client_name}</span></p>
+                    <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">fshirë më {new Date(tq.deleted_at).toLocaleDateString("sq-AL")}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => restoreQuote(tq)}
+                      disabled={trashBusyId === tq.id}
+                      className="font-ui rounded-[2px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                    >
+                      ↩ Rikthe
+                    </button>
+                    <button
+                      onClick={() => permanentlyDeleteQuote(tq)}
+                      disabled={trashBusyId === tq.id}
+                      className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                    >
+                      Fshi përgjithmonë
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {view === "recurring" && <RecurringInvoices rows={recurring} setRows={setRecurring} contacts={contacts} />}
 

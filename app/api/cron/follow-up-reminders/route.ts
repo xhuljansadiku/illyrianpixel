@@ -24,6 +24,7 @@ export async function GET(req: Request) {
   const { data: contacts, error } = await supabase
     .from("contacts")
     .select("id, name, email, phone, follow_up_date, assigned_to")
+    .is("deleted_at", null)
     .lte("follow_up_date", cutoffStr)
     .neq("status", "done")
     .order("follow_up_date", { ascending: true });

@@ -21,6 +21,7 @@ export default async function ClientPortalPage({ params }: { params: { token: st
     .from("contacts")
     .select("id, name, business_name")
     .eq("portal_token", params.token)
+    .is("deleted_at", null)
     .single();
 
   if (!contact) {
@@ -48,7 +49,7 @@ export default async function ClientPortalPage({ params }: { params: { token: st
       .select("*")
       .order("sort", { ascending: true })
       .order("id", { ascending: true }),
-    supabase.from("quotes").select("*").eq("contact_id", contact.id).order("created_at", { ascending: false }),
+    supabase.from("quotes").select("*").eq("contact_id", contact.id).is("deleted_at", null).order("created_at", { ascending: false }),
   ]);
 
   const projectList = (projects ?? []) as ProjectRecord[];

@@ -39,13 +39,15 @@ export async function PATCH(req: Request) {
 
 export async function DELETE(req: Request) {
   const body = await req.json();
-  const { ids } = body;
+  const { ids, permanent } = body;
 
   if (!Array.isArray(ids) || ids.length === 0) {
     return NextResponse.json({ success: false, error: "Asnjë kontakt i zgjedhur." }, { status: 400 });
   }
 
-  const { error } = await supabase.from("contacts").delete().in("id", ids);
+  const { error } = permanent === true
+    ? await supabase.from("contacts").delete().in("id", ids)
+    : await supabase.from("contacts").update({ deleted_at: new Date().toISOString() }).in("id", ids);
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

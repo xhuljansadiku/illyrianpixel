@@ -20,6 +20,7 @@ export default async function QuotePublicPage({ params }: { params: { token: str
     .from("quotes")
     .select("*")
     .eq("public_token", params.token)
+    .is("deleted_at", null)
     .single();
 
   // Regjistro shikimin — admini sheh "Parë nga klienti" në panel

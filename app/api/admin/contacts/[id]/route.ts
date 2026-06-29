@@ -32,6 +32,10 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     update.viewed_at = new Date().toISOString();
   }
 
+  if (body.restore === true) {
+    update.deleted_at = null;
+  }
+
   if (typeof body.notes === "string") {
     update.notes = body.notes.slice(0, 4000);
   }
@@ -69,7 +73,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     return NextResponse.json({ success: false, error: "Asgjë për të përditësuar." }, { status: 400 });
   }
 
-  const { data, error } = await supabase.from("contacts").update(update).eq("id", params.id).select("name");
+  const { data, error } = await supabase.from("contacts").update(update).eq("id", params.id).select("*");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -82,15 +86,34 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   const contactName = data?.[0]?.name ?? "kontakti";
   if (typeof body.status === "string") {
     await logActivity("contact", "update", `Kontakti ${contactName} kaloi në "${STATUS_LABELS[body.status]}"`);
+  } else if (body.restore === true) {
+    await logActivity("contact", "update", `U rikthye kontakti ${contactName} nga koshi`);
   } else if (typeof body.follow_up_date === "string" && body.follow_up_date) {
     await logActivity("contact", "update", `U vendos follow-up për ${contactName} më ${body.follow_up_date}`);
   }
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true, contact: data?.[0] ?? null });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const { data, error } = await supabase.from("contacts").delete().eq("id", params.id).select("name, email");
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+  const permanent = new URL(req.url).searchParams.get("permanent") === "1";
+
+  if (permanent) {
+    const { data, error } = await supabase.from("contacts").delete().eq("id", params.id).select("name, email");
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+    if (data?.[0]) {
+      await logActivity("contact", "delete", `U fshi përgjithmonë kontakti ${data[0].name} (${data[0].email})`);
+    }
+    return NextResponse.json({ success: true });
+  }
+
+  const { data, error } = await supabase
+    .from("contacts")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", params.id)
+    .select("name, email");
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

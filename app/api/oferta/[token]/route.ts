@@ -41,6 +41,7 @@ export async function POST(req: Request, { params }: { params: { token: string }
     .from("quotes")
     .select("*")
     .eq("public_token", token)
+    .is("deleted_at", null)
     .single();
 
   if (error || !quote) {

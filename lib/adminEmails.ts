@@ -234,6 +234,39 @@ export async function invoiceOverdueEmailHtml(quote: QuoteRecord): Promise<{ sub
   return { subject, html: shell(subject, body) };
 }
 
+// Email falënderimi automatik kur fatura kalon në statusin "Paguar".
+export async function paymentThankYouEmailHtml(quote: QuoteRecord): Promise<{ subject: string; html: string }> {
+  const totals = quoteTotals(quote.items, quote.discount, quote.tax_rate);
+  const url = quote.public_token ? quotePublicUrl(quote.public_token) : NEWSLETTER_BRAND.website;
+  const vars = { number: quote.number, total: formatMoney(totals.total) };
+  const template = await getEmailTemplate("payment_thank_you");
+  const subject = template ? applyPlaceholders(template.subject, vars) : `Faleminderit për pagesën — fatura ${quote.number}`;
+  const intro = template
+    ? applyPlaceholders(template.intro, vars)
+    : `Konfirmojmë me kënaqësi se pagesa për faturën ${quote.number} (${formatMoney(totals.total)}) u krye me sukses. Faleminderit për besimin!`;
+  const body = `
+        <tr>
+          <td style="padding:36px 48px;">
+            <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);">Përshëndetje ${escapeHtml(quote.client_name)},</p>
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">${escapeHtml(intro)}</p>
+            <table cellpadding="0" cellspacing="0" style="margin-top:24px;">
+              <tr>
+                <td style="background:#ab8339;border-radius:8px;">
+                  <a href="${url}" style="display:inline-block;padding:13px 28px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
+                    Shiko faturën →
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:24px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
+              Me respekt,<br>
+              <span style="color:#ab8339;font-weight:600;">Ekipi i Illyrian Pixel</span>
+            </p>
+          </td>
+        </tr>`;
+  return { subject, html: shell(subject, body) };
+}
+
 // ── Njoftim për adminin kur klienti përgjigjet ───────────────────────────────
 export function adminQuoteResponseEmailHtml(
   quote: QuoteRecord,

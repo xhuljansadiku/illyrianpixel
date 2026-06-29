@@ -62,6 +62,7 @@ export async function GET(req: Request) {
   const { data: pendingQuotes } = await supabase
     .from("quotes")
     .select("*")
+    .is("deleted_at", null)
     .eq("kind", "quote")
     .eq("status", "sent")
     .not("client_email", "is", null)
@@ -95,6 +96,7 @@ export async function GET(req: Request) {
   const { data: overdueInvoices } = await supabase
     .from("quotes")
     .select("*")
+    .is("deleted_at", null)
     .eq("kind", "invoice")
     .eq("status", "sent")
     .not("client_email", "is", null)
@@ -221,6 +223,7 @@ export async function GET(req: Request) {
   const { data: staleRows } = await supabase
     .from("contacts")
     .select("id, name, email, phone, service, created_at")
+    .is("deleted_at", null)
     .eq("status", "new")
     .is("follow_up_date", null)
     .is("stale_reminder_sent_at", null)
