@@ -105,7 +105,7 @@ export default function ClientsTab() {
       <div className={CARD + " p-5"}>
         <p className="font-ui text-[13px] font-semibold text-[var(--a-text)] mb-2">Si funksionon zona e klientëve</p>
         <ul className="space-y-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">
-          <li>• Klientët aksesojnë <span className="text-[var(--a-text)]">/klientet</span> dhe fusin PIN-in për t'u identifikuar</li>
+          <li>• Klientët aksesojnë <span className="text-[var(--a-text)]">/klientet</span> dhe fusin PIN-in për t&apos;u identifikuar</li>
           <li>• Shohin projektet, faturat dhe statusin e pagesave të tyre</li>
           <li>• Nuk kanë akses në panelin admin</li>
           <li>• PIN-i ruhet i enkriptuar (SHA-256) në bazën e të dhënave</li>
