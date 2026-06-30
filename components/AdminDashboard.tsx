@@ -16,6 +16,9 @@ import ContentTab, { type PricingCatalogEntry } from "@/components/admin/Content
 import ProjectsTab from "@/components/admin/ProjectsTab";
 import ActivityTab from "@/components/admin/ActivityTab";
 import AssistantTab from "@/components/admin/AssistantTab";
+import NotesTab from "@/components/admin/NotesTab";
+import TodosTab from "@/components/admin/TodosTab";
+import ClientsTab from "@/components/admin/ClientsTab";
 import NotificationsBell from "@/components/admin/NotificationsBell";
 import CommandPalette, { type CommandPaletteAction } from "@/components/admin/CommandPalette";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
@@ -63,6 +66,9 @@ const VALID_TABS = [
   "history",
   "assistant",
   "settings",
+  "notes",
+  "todos",
+  "clients",
 ] as const;
 
 export type AdminTab = (typeof VALID_TABS)[number];
@@ -456,19 +462,7 @@ export default function AdminDashboard({
   autoActivity: AutoActivity[];
 }) {
   const router = useRouter();
-  const [tab, setTab] = useState<
-    | "overview"
-    | "contacts"
-    | "quotes"
-    | "projects"
-    | "subscribers"
-    | "blog"
-    | "content"
-    | "analytics"
-    | "history"
-    | "assistant"
-    | "settings"
-  >("overview");
+  const [tab, setTab] = useState<AdminTab>("overview");
   const [contacts, setContacts] = useState(initialContacts);
   const [subscribers, setSubscribers] = useState(initialSubscribers);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
@@ -481,7 +475,8 @@ export default function AdminDashboard({
   const [faqsList, setFaqsList] = useState(faqs);
   const [trashedContacts, setTrashedContacts] = useState(initialTrashedContacts);
   const [trashedQuotes, setTrashedQuotes] = useState(initialTrashedQuotes);
-  const [collapsed, setCollapsed] = useState(false);
+  const [mgmtOpen, setMgmtOpen] = useState(false);
+  const mgmtRef = useRef<HTMLDivElement>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
@@ -507,7 +502,6 @@ export default function AdminDashboard({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (window.localStorage.getItem("admin_sidebar_collapsed") === "1") setCollapsed(true);
     if (window.localStorage.getItem("admin_theme") === "light") setTheme("light");
     const urlTab = new URLSearchParams(window.location.search).get("tab");
     if (urlTab && VALID_TABS.includes(urlTab as typeof tab)) {
@@ -592,15 +586,21 @@ export default function AdminDashboard({
     });
   };
 
-  const toggleCollapsed = () => {
-    setCollapsed((c) => {
-      const next = !c;
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem("admin_sidebar_collapsed", next ? "1" : "0");
-      }
-      return next;
-    });
-  };
+  useEffect(() => {
+    if (!mgmtOpen) return;
+    const onPointerDown = (e: MouseEvent) => {
+      if (!mgmtRef.current?.contains(e.target as Node)) setMgmtOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMgmtOpen(false);
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [mgmtOpen]);
 
   const logout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -624,6 +624,9 @@ export default function AdminDashboard({
     { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
     { id: "content", icon: "🎨", label: "Përmbajtja" },
     { id: "analytics", icon: "📊", label: "Analitika" },
+    { id: "clients", icon: "💼", label: "Klientët" },
+    { id: "notes", icon: "🗒️", label: "Notes" },
+    { id: "todos", icon: "✅", label: "To Do" },
     { id: "history", icon: "🕘", label: "Historia" },
     { id: "assistant", icon: "👑", label: "Mbreti Genti" },
     { id: "settings", icon: "⚙️", label: "Cilësimet" },
@@ -641,6 +644,9 @@ export default function AdminDashboard({
     history: { title: "Historia", subtitle: "Çdo veprim i regjistruar — çfarë ke bërë dhe kur" },
     assistant: { title: "Mbreti Genti", subtitle: "Bisedat me asistentin virtual — çfarë pyesin vizitorët" },
     settings: { title: "Cilësimet", subtitle: "Konfigurime dhe siguria" },
+    clients: { title: "Klientët", subtitle: "Klientët që kanë paguar — projektet, pagesat dhe rekurrenca" },
+    notes: { title: "Notes", subtitle: "Shënime të shpejta, personale" },
+    todos: { title: "To Do", subtitle: "Lista jote e detyrave" },
   };
 
   const globalResults = useMemo(() => {
@@ -756,7 +762,7 @@ export default function AdminDashboard({
   ];
 
   return (
-    <div data-theme={theme} className="admin-shell flex min-h-screen bg-[var(--a-bg)] text-[var(--a-text)]">
+    <div data-theme={theme} className="admin-shell flex min-h-screen flex-col bg-[var(--a-bg)] text-[var(--a-text)]">
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
       {/* Toasts */}
       {toasts.length > 0 && (
@@ -836,180 +842,229 @@ export default function AdminDashboard({
         </div>
       )}
 
-      {/* Sidebar (desktop) */}
-      <aside
-        className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[var(--a-border)] bg-[var(--a-card2)] py-8 transition-all duration-200 md:flex ${
-          collapsed ? "w-[68px] px-2" : "w-60 px-4"
-        }`}
-      >
-        <div className={`flex items-center gap-3 ${collapsed ? "flex-col" : "px-2"}`}>
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[15px] font-bold text-accent">
+      {/* Top bar (desktop) */}
+      <header className="sticky top-0 z-30 hidden h-16 shrink-0 items-center gap-1 overflow-visible border-b border-[var(--a-border)] bg-[var(--a-card2)] px-5 md:flex">
+        {/* Logo */}
+        <div className="relative flex shrink-0 items-center gap-2.5 pr-3">
+          <div className="pointer-events-none absolute -left-3 -top-3 h-14 w-14">
+            <div className="admin-glow" />
+          </div>
+          <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[14px] font-bold text-accent">
             IP
           </div>
-          {!collapsed && (
-            <div className="min-w-0">
-              <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-              <h1 className="font-display text-[1.25rem] font-bold leading-tight text-[var(--a-text)]">Admin Panel</h1>
+          <span className="relative hidden font-display text-[1.05rem] font-bold leading-tight text-[var(--a-text)] lg:inline">
+            Admin Panel
+          </span>
+        </div>
+
+        <div className="h-7 w-px shrink-0 bg-[var(--a-border)]" />
+
+        {/* Main nav links */}
+        <nav className="flex items-center gap-0.5 px-2">
+          {NAV_ITEMS.slice(0, MAIN_NAV_COUNT).map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setTab(item.id)}
+              className={`font-ui relative flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-semibold transition-colors ${
+                tab === item.id
+                  ? "text-[var(--a-text)]"
+                  : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.04)] hover:text-[rgb(var(--a-text-rgb)/0.85)]"
+              }`}
+            >
+              <span className="text-[13px]">{item.icon}</span>
+              {item.label}
+              {!!item.alert && (
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white">
+                  {item.alert}
+                </span>
+              )}
+              {tab === item.id && <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-accent" />}
+            </button>
+          ))}
+
+          {/* "Menaxhimi" — pjesa tjetër e tab-eve, grupuar te dropdown */}
+          <div className="relative" ref={mgmtRef}>
+            <button
+              onClick={() => setMgmtOpen((v) => !v)}
+              className={`font-ui relative flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-semibold transition-colors ${
+                mgmtOpen || NAV_ITEMS.slice(MAIN_NAV_COUNT).some((i) => i.id === tab)
+                  ? "text-[var(--a-text)]"
+                  : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.04)] hover:text-[rgb(var(--a-text-rgb)/0.85)]"
+              }`}
+            >
+              Menaxhimi
+              <span className={`text-[9px] transition-transform duration-150 ${mgmtOpen ? "rotate-180" : ""}`}>▾</span>
+              {NAV_ITEMS.slice(MAIN_NAV_COUNT).some((i) => i.id === tab) && (
+                <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-accent" />
+              )}
+            </button>
+            {mgmtOpen && (
+              <div className="absolute left-0 top-full z-40 mt-2 w-56 rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] p-2 shadow-[var(--a-card-shadow)] backdrop-blur-[12px]">
+                {NAV_ITEMS.slice(MAIN_NAV_COUNT).map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setTab(item.id);
+                      setMgmtOpen(false);
+                    }}
+                    className={`font-ui flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-semibold transition-colors ${
+                      tab === item.id
+                        ? "bg-accent/10 text-accent"
+                        : "text-[rgb(var(--a-text-rgb)/0.6)] hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                    }`}
+                  >
+                    <span>{item.icon}</span>
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </nav>
+
+        <div className="flex-1" />
+
+        {/* Global search */}
+        <div className="relative w-56 shrink-0">
+          <input
+            type="text"
+            value={globalSearch}
+            onChange={(e) => setGlobalSearch(e.target.value)}
+            placeholder="🔍 Kërko gjithçka..."
+            className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 pr-12 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          />
+          <button
+            type="button"
+            onClick={() => setPaletteOpen(true)}
+            title="Hap command palette (Ctrl/⌘ + K)"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-[6px] border border-[var(--a-border)] px-1.5 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+          >
+            ⌘K
+          </button>
+          {globalResults && (
+            <div className="absolute right-0 top-full z-40 mt-2 w-80 max-h-80 overflow-y-auto rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] shadow-xl">
+              {globalResults.contactMatches.length === 0 &&
+              globalResults.subscriberMatches.length === 0 &&
+              globalResults.blogMatches.length === 0 &&
+              globalResults.quoteMatches.length === 0 &&
+              globalResults.projectMatches.length === 0 &&
+              globalResults.faqMatches.length === 0 ? (
+                <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
+              ) : (
+                <>
+                  {globalResults.contactMatches.length > 0 && (
+                    <div className="border-b border-[var(--a-border)] py-1.5">
+                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
+                      {globalResults.contactMatches.map((c) => (
+                        <button
+                          key={c.id}
+                          onClick={() => goToContact(c.email)}
+                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                        >
+                          {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.email}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {globalResults.subscriberMatches.length > 0 && (
+                    <div className="border-b border-[var(--a-border)] py-1.5">
+                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
+                      {globalResults.subscriberMatches.map((s) => (
+                        <button
+                          key={s.id}
+                          onClick={() => goToSubscriber(s.email)}
+                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                        >
+                          {s.email}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {globalResults.blogMatches.length > 0 && (
+                    <div className="border-b border-[var(--a-border)] py-1.5">
+                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
+                      {globalResults.blogMatches.map((p) => (
+                        <button
+                          key={p.slug}
+                          onClick={() => {
+                            setTab("blog");
+                            setGlobalSearch("");
+                          }}
+                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                        >
+                          {p.title}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {globalResults.quoteMatches.length > 0 && (
+                    <div className="border-b border-[var(--a-border)] py-1.5">
+                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
+                      {globalResults.quoteMatches.map((doc) => (
+                        <button
+                          key={doc.id}
+                          onClick={() => goToQuote(doc.number)}
+                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                        >
+                          {doc.number} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {doc.client_name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {globalResults.projectMatches.length > 0 && (
+                    <div className="border-b border-[var(--a-border)] py-1.5">
+                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
+                      {globalResults.projectMatches.map((p) => (
+                        <button
+                          key={p.id}
+                          onClick={() => goToProject(p.name)}
+                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                        >
+                          {p.name} {p.client_name && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {p.client_name}</span>}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {globalResults.faqMatches.length > 0 && (
+                    <div className="py-1.5">
+                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
+                      {globalResults.faqMatches.map((f) => (
+                        <button
+                          key={f.id}
+                          onClick={() => goToFaq()}
+                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                        >
+                          {f.question}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
         </div>
 
-        <div className={`mt-4 flex items-center gap-1.5 ${collapsed ? "flex-col" : "px-2"}`}>
-          <button
-            onClick={toggleTheme}
-            title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
-            className={`flex items-center justify-center rounded-lg border border-[var(--a-border)] p-1.5 text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] ${
-              collapsed ? "" : "flex-1"
-            }`}
-          >
-            {theme === "dark" ? <SunIcon className="h-3.5 w-3.5" /> : <MoonIcon className="h-3.5 w-3.5" />}
-          </button>
-          <button
-            onClick={toggleCollapsed}
-            title={collapsed ? "Zgjero menynë" : "Mbylle menynë"}
-            className="rounded-lg border border-[var(--a-border)] p-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
-          >
-            {collapsed ? "»" : "«"}
-          </button>
-        </div>
+        <NotificationsBell setTab={setTab} />
 
-        {/* Global search */}
-        {!collapsed && (
-          <div className="relative mt-5 px-2">
-            <input
-              type="text"
-              value={globalSearch}
-              onChange={(e) => setGlobalSearch(e.target.value)}
-              placeholder="🔍 Kërko gjithçka..."
-              className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 pr-12 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
-            />
-            <button
-              type="button"
-              onClick={() => setPaletteOpen(true)}
-              title="Hap command palette (Ctrl/⌘ + K)"
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded-[2px] border border-[var(--a-border)] px-1.5 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
-            >
-              ⌘K
-            </button>
-            {globalResults && (
-              <div className="absolute left-2 right-2 top-full z-40 mt-1 max-h-80 overflow-y-auto rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] shadow-xl">
-                {globalResults.contactMatches.length === 0 &&
-                globalResults.subscriberMatches.length === 0 &&
-                globalResults.blogMatches.length === 0 &&
-                globalResults.quoteMatches.length === 0 &&
-                globalResults.projectMatches.length === 0 &&
-                globalResults.faqMatches.length === 0 ? (
-                  <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
-                ) : (
-                  <>
-                    {globalResults.contactMatches.length > 0 && (
-                      <div className="border-b border-[var(--a-border)] py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
-                        {globalResults.contactMatches.map((c) => (
-                          <button
-                            key={c.id}
-                            onClick={() => goToContact(c.email)}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                          >
-                            {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.email}</span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {globalResults.subscriberMatches.length > 0 && (
-                      <div className="border-b border-[var(--a-border)] py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
-                        {globalResults.subscriberMatches.map((s) => (
-                          <button
-                            key={s.id}
-                            onClick={() => goToSubscriber(s.email)}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                          >
-                            {s.email}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {globalResults.blogMatches.length > 0 && (
-                      <div className="border-b border-[var(--a-border)] py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
-                        {globalResults.blogMatches.map((p) => (
-                          <button
-                            key={p.slug}
-                            onClick={() => {
-                              setTab("blog");
-                              setGlobalSearch("");
-                            }}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                          >
-                            {p.title}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {globalResults.quoteMatches.length > 0 && (
-                      <div className="border-b border-[var(--a-border)] py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
-                        {globalResults.quoteMatches.map((doc) => (
-                          <button
-                            key={doc.id}
-                            onClick={() => goToQuote(doc.number)}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                          >
-                            {doc.number} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {doc.client_name}</span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {globalResults.projectMatches.length > 0 && (
-                      <div className="border-b border-[var(--a-border)] py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
-                        {globalResults.projectMatches.map((p) => (
-                          <button
-                            key={p.id}
-                            onClick={() => goToProject(p.name)}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                          >
-                            {p.name} {p.client_name && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {p.client_name}</span>}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {globalResults.faqMatches.length > 0 && (
-                      <div className="py-1.5">
-                        <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
-                        {globalResults.faqMatches.map((f) => (
-                          <button
-                            key={f.id}
-                            onClick={() => goToFaq()}
-                            className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                          >
-                            {f.question}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        )}
+        <button
+          onClick={toggleTheme}
+          title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+        >
+          {theme === "dark" ? <SunIcon className="h-3.5 w-3.5" /> : <MoonIcon className="h-3.5 w-3.5" />}
+        </button>
 
-        <nav className="mt-6 flex flex-1 flex-col gap-1 overflow-y-auto">
-          <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} collapsed={collapsed} />
-          <div className={collapsed ? "mt-1 flex justify-center" : "mt-1 px-1"}>
-            <NotificationsBell setTab={setTab} collapsed={collapsed} inline />
-          </div>
-        </nav>
+        <div className="h-7 w-px shrink-0 bg-[var(--a-border)]" />
+
         <button
           onClick={logout}
-          title={collapsed ? "Dil" : undefined}
-          className="font-ui mt-4 flex items-center justify-center gap-2 rounded-xl border border-[var(--a-border)] px-5 py-2.5 text-[12px] font-semibold tracking-[0.5px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors duration-300 hover:border-red-400/40 hover:text-red-400"
+          title="Dil"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-red-400/40 hover:text-red-400"
         >
-          {collapsed ? "⏻" : "⏻ Dil"}
+          ⏻
         </button>
-      </aside>
+      </header>
 
       {/* Main */}
       <main className="min-w-0 flex-1 px-5 py-8 md:px-10 md:py-10">
@@ -1040,7 +1095,7 @@ export default function AdminDashboard({
             <>
               {/* Stats */}
               <div className="mt-4 grid grid-cols-2 gap-4 md:mt-4 md:grid-cols-3 lg:grid-cols-5">
-                <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
+                <StatCard label="Kontakte gjithsej" value={stats.totalContacts} featured />
                 <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
                 <StatCard label="Subscriber-a" value={stats.totalSubscribers} />
                 <StatCard label="Subscriber-a (javë)" value={stats.subscribersThisWeek} />
@@ -1117,6 +1172,9 @@ export default function AdminDashboard({
             {tab === "history" && <ActivityTab />}
             {tab === "assistant" && <AssistantTab />}
             {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
+            {tab === "notes" && <NotesTab />}
+            {tab === "todos" && <TodosTab />}
+            {tab === "clients" && <ClientsTab />}
           </div>
         </div>
       </main>
@@ -1125,10 +1183,12 @@ export default function AdminDashboard({
 }
 
 // ── Stat card ──────────────────────────────────────────────────────────────
-function StatCard({ label, value }: { label: string; value: number }) {
+function StatCard({ label, value, featured }: { label: string; value: number; featured?: boolean }) {
   return (
-    <div className={CARD + " p-5"}>
-      <p className="font-display text-[2rem] font-bold text-[var(--a-text)]">{value}</p>
+    <div className={CARD + (featured ? " border-accent/30 p-5" : " p-5")}>
+      <p className={`font-display font-bold ${featured ? "text-[2.5rem] text-accent" : "text-[2rem] text-[var(--a-text)]"}`}>
+        {value}
+      </p>
       <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">{label}</p>
     </div>
   );
@@ -1169,12 +1229,15 @@ function SidebarNav({
               onNavigate?.();
             }}
             title={collapsed ? item.label : undefined}
-            className={`font-ui flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-all duration-200 ${
+            className={`font-ui relative flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-all duration-200 ${
               tab === item.id
                 ? "bg-[rgb(var(--a-text-rgb)/0.07)] text-[var(--a-text)]"
                 : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.03)] hover:text-[rgb(var(--a-text-rgb)/0.8)]"
             } ${collapsed ? "justify-center" : "justify-between"}`}
           >
+            {tab === item.id && (
+              <span className="absolute left-0 top-1/2 h-4 w-[2.5px] -translate-y-1/2 rounded-full bg-accent" />
+            )}
             <span className="flex min-w-0 items-center gap-3">
               <span
                 className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[15px] transition-colors ${
@@ -1277,7 +1340,7 @@ function OverviewTab({
         <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
         <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
         <StatCard label="Subscriber-a aktivë" value={subscribers.filter((s) => !s.unsubscribed).length} />
-        <StatCard label="Norma e konvertimit (%)" value={Math.round(stats.conversionRate)} />
+        <StatCard label="Norma e konvertimit (%)" value={Math.round(stats.conversionRate)} featured />
       </div>
 
       {/* Shëndeti i sistemit */}
@@ -1469,17 +1532,23 @@ function ContactsChart({ contacts }: { contacts: Contact[] }) {
   }, [contacts]);
 
   const max = Math.max(1, ...days.map(([, count]) => count));
+  const isEmpty = days.every(([, count]) => count === 0);
 
   return (
     <div className={CARD + " mt-4 p-5"}>
       <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
         Kontakte — 30 ditët e fundit
       </p>
-      <div className="flex h-24 items-end gap-[3px]">
+      <div className="relative flex h-24 items-end gap-[3px]">
+        {isEmpty && (
+          <p className="absolute inset-0 flex items-center justify-center text-[12px] text-[rgb(var(--a-text-rgb)/0.3)]">
+            Asnjë kontakt ende këtë periudhë.
+          </p>
+        )}
         {days.map(([date, count]) => (
           <div key={date} className="group relative flex-1">
             <div
-              className="rounded-sm bg-accent/40 transition-colors group-hover:bg-accent"
+              className="rounded-sm bg-gradient-to-t from-accent/40 to-accent/90 transition-colors group-hover:to-accent"
               style={{ height: `${Math.max(3, (count / max) * 96)}px` }}
             />
             <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">

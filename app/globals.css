@@ -71,13 +71,21 @@ body {
   color: var(--color-text-body);
 }
 
-/* ── Admin dashboard theme (dark default, light override) ── */
+/* ── Admin dashboard theme (dark default, light override) ──
+   Card borders use a gold-tinted token (--a-card-border) instead of a
+   neutral gray — the one signature element that ties every card back to
+   the brand in both themes. --a-glow powers a subtle ambient radial behind
+   the sidebar logo / page corner, echoing the marketing site at zero
+   performance cost (no particles, no Three.js). */
 .admin-shell {
-  --a-bg: #0a0a0a;
-  --a-card: rgba(10, 10, 10, 0.72);
-  --a-card2: rgba(10, 10, 10, 0.6);
+  --a-bg: #0b0a08;
+  --a-card: rgba(22, 18, 13, 0.62);
+  --a-card2: rgba(16, 13, 9, 0.55);
   --a-input: #0a0a0a;
   --a-border: #262626;
+  --a-card-border: rgba(171, 131, 57, 0.14);
+  --a-card-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+  --a-glow: rgba(171, 131, 57, 0.08);
   --a-text: #ffffff;
   --a-text-rgb: 255 255 255;
 }
@@ -107,13 +115,25 @@ body {
 }
 
 .admin-shell[data-theme="light"] {
-  --a-bg: #f4f3ef;
-  --a-card: rgba(255, 255, 255, 0.85);
-  --a-card2: rgba(255, 255, 255, 0.75);
+  --a-bg: #f7f1e6;
+  --a-card: #fffdf8;
+  --a-card2: rgba(255, 253, 248, 0.85);
   --a-input: #ffffff;
   --a-border: #e0ddd4;
+  --a-card-border: rgba(171, 131, 57, 0.22);
+  --a-card-shadow: 0 1px 2px rgba(60, 42, 16, 0.05), 0 10px 28px rgba(60, 42, 16, 0.06);
+  --a-glow: rgba(171, 131, 57, 0.05);
   --a-text: #18170f;
   --a-text-rgb: 24 23 15;
+}
+
+/* Ambient gold glow — pure CSS, no particles. Place on a positioned
+   ancestor (e.g. the sidebar header or main content wrapper). */
+.admin-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, var(--a-glow), transparent 70%);
 }
 
 /* Status badge colors — pale dark-mode shades become unreadable on the

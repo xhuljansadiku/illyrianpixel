@@ -503,7 +503,7 @@ export default function QuotesTab({
           <button
             key={id}
             onClick={() => setView(id)}
-            className={`font-ui whitespace-nowrap rounded-[2px] px-4 py-2 text-[12px] font-semibold transition-colors ${
+            className={`font-ui whitespace-nowrap rounded-[10px] px-4 py-2 text-[12px] font-semibold transition-colors ${
               view === id
                 ? "bg-accent/10 text-accent border border-accent/30"
                 : "border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
@@ -514,7 +514,7 @@ export default function QuotesTab({
         ))}
         <button
           onClick={() => setShowTrash((v) => !v)}
-          className={`font-ui whitespace-nowrap rounded-[2px] px-4 py-2 text-[12px] font-semibold transition-colors ${
+          className={`font-ui whitespace-nowrap rounded-[10px] px-4 py-2 text-[12px] font-semibold transition-colors ${
             showTrash ? "border border-accent/30 bg-accent/10 text-accent" : "border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
           }`}
         >
@@ -523,7 +523,7 @@ export default function QuotesTab({
       </div>
 
       {showTrash && (
-        <div className="mb-5 rounded-[2px] border border-[var(--a-border)] p-4">
+        <div className="mb-5 rounded-[10px] border border-[var(--a-border)] p-4">
           <p className="mb-3 font-ui text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
             Oferta/fatura të fshira — rikthej ose fshi përgjithmonë
           </p>
@@ -532,7 +532,7 @@ export default function QuotesTab({
           ) : (
             <div className="space-y-2">
               {trashedQuotes.map((tq) => (
-                <div key={tq.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[2px] border border-[var(--a-border)] px-3 py-2.5">
+                <div key={tq.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-[var(--a-border)] px-3 py-2.5">
                   <div>
                     <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{tq.number} <span className="text-[rgb(var(--a-text-rgb)/0.4)]">— {tq.client_name}</span></p>
                     <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">fshirë më {new Date(tq.deleted_at).toLocaleDateString("sq-AL")}</p>
@@ -541,14 +541,14 @@ export default function QuotesTab({
                     <button
                       onClick={() => restoreQuote(tq)}
                       disabled={trashBusyId === tq.id}
-                      className="font-ui rounded-[2px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                      className="font-ui rounded-[10px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                     >
                       ↩ Rikthe
                     </button>
                     <button
                       onClick={() => permanentlyDeleteQuote(tq)}
                       disabled={trashBusyId === tq.id}
-                      className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                      className="font-ui rounded-[10px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
                     >
                       Fshi përgjithmonë
                     </button>
@@ -566,8 +566,8 @@ export default function QuotesTab({
       <>
       {/* Stats */}
       <div className="mb-5 grid grid-cols-2 gap-4 md:grid-cols-3">
-        <div className={CARD + " p-5"}>
-          <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{formatMoney(stats.acceptedValue)}</p>
+        <div className={CARD + " border-accent/30 p-5"}>
+          <p className="font-display text-[2rem] font-bold text-accent">{formatMoney(stats.acceptedValue)}</p>
           <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Të pranuara / paguara</p>
         </div>
         <div className={CARD + " p-5"}>
@@ -584,7 +584,7 @@ export default function QuotesTab({
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <button
           onClick={openCreate}
-          className="font-ui rounded-[2px] bg-accent px-5 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)]"
+          className="font-ui rounded-[10px] bg-accent px-5 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)]"
         >
           ＋ Ofertë / Faturë e re
         </button>
@@ -608,7 +608,7 @@ export default function QuotesTab({
         </select>
         <button
           onClick={() => downloadQuotesCSV(filtered)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-2 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] px-4 py-2 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
           ⬇ Eksporto CSV
         </button>
@@ -733,7 +733,7 @@ export default function QuotesTab({
           </div>
           <button
             onClick={() => setForm((f) => ({ ...f, items: [...f.items, { description: "", qty: "1", price: "" }] }))}
-            className="font-ui mt-2 rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+            className="font-ui mt-2 rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
           >
             ＋ Shto rresht
           </button>
@@ -781,7 +781,7 @@ export default function QuotesTab({
             <button
               onClick={submit}
               disabled={saving}
-              className="font-ui rounded-[2px] bg-accent px-6 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)] disabled:opacity-50"
+              className="font-ui rounded-[10px] bg-accent px-6 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)] disabled:opacity-50"
             >
               {saving ? "Duke ruajtur…" : editingId ? "Ruaj ndryshimet" : "Krijo dokumentin"}
             </button>
@@ -790,7 +790,7 @@ export default function QuotesTab({
                 setShowForm(false);
                 setEditingId(null);
               }}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] px-6 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] px-6 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
             >
               Anulo
             </button>
@@ -805,21 +805,21 @@ export default function QuotesTab({
           <button
             onClick={() => bulkSetStatus("paid")}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-emerald-400/30 px-3 py-1.5 text-[11px] font-semibold text-emerald-300 transition-colors hover:bg-emerald-400/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-emerald-400/30 px-3 py-1.5 text-[11px] font-semibold text-emerald-300 transition-colors hover:bg-emerald-400/10 disabled:opacity-50"
           >
             Shëno paguar
           </button>
           <button
             onClick={() => bulkSetStatus("sent")}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
           >
             Shëno dërguar
           </button>
           <button
             onClick={bulkDelete}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
           >
             Fshi
           </button>
@@ -887,7 +887,7 @@ export default function QuotesTab({
               {/* Përgjigja e klientit nga faqja publike */}
               {(clientResponse || q.client_note) && (
                 <div
-                  className={`mt-3 rounded-[2px] border px-3.5 py-2.5 text-[12px] ${
+                  className={`mt-3 rounded-[10px] border px-3.5 py-2.5 text-[12px] ${
                     clientResponse
                       ? clientResponse.accepted
                         ? "border-emerald-400/25 bg-emerald-400/5"
@@ -930,7 +930,7 @@ export default function QuotesTab({
                   href={`/api/admin/quotes/${q.id}/pdf`}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                  className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                 >
                   🖨 PDF
                 </a>
@@ -938,7 +938,7 @@ export default function QuotesTab({
                   onClick={() => sendEmail(q)}
                   disabled={!q.client_email || busyId === q.id}
                   title={q.client_email ? `Dërgo te ${q.client_email}` : "Klienti s'ka email"}
-                  className="font-ui rounded-[2px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
+                  className="font-ui rounded-[10px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
                 >
                   {busyId === q.id ? "…" : sentId === q.id ? "U dërgua ✓" : "✉️ Dërgo me email"}
                 </button>
@@ -946,21 +946,21 @@ export default function QuotesTab({
                   <button
                     onClick={() => copyPublicLink(q)}
                     title="Kopjo lidhjen publike që klienti hap për ta parë e pranuar online"
-                    className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                    className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                   >
                     {copiedId === q.id ? "U kopjua ✓" : "🔗 Lidhja publike"}
                   </button>
                 )}
                 <button
                   onClick={() => openEdit(q)}
-                  className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                  className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                 >
                   Edito
                 </button>
                 <button
                   onClick={() => remove(q)}
                   disabled={busyId === q.id}
-                  className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                  className="font-ui rounded-[10px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
                 >
                   Fshi
                 </button>
@@ -974,7 +974,7 @@ export default function QuotesTab({
           <button
             onClick={loadMore}
             disabled={loadingMore}
-            className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-[var(--a-border)] px-4 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
           >
             {loadingMore ? "Duke ngarkuar…" : "Ngarko më shumë"}
           </button>

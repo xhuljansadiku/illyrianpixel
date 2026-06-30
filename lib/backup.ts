@@ -22,13 +22,13 @@ export const BACKUP_TABLES = [
   "email_templates",
 ] as const;
 
-function csvEscape(value: unknown): string {
+export function csvEscape(value: unknown): string {
   if (value === null || value === undefined) return "";
   const s = typeof value === "object" ? JSON.stringify(value) : String(value);
   return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
-function rowsToCsv(rows: Record<string, unknown>[]): string {
+export function rowsToCsv(rows: Record<string, unknown>[]): string {
   if (rows.length === 0) return "";
   const headers = Object.keys(rows[0]);
   const lines = [headers.join(",")];

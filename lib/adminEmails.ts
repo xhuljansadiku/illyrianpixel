@@ -3,7 +3,7 @@ import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { quoteTotals, formatMoney, quotePublicUrl, QUOTE_KIND_LABELS, type QuoteRecord } from "@/lib/quotes";
 import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
 
-function escapeHtml(value: string) {
+export function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")

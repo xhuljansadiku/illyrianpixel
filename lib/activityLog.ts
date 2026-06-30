@@ -21,7 +21,9 @@ export type ActivityEntity =
   | "newsletter"
   | "settings"
   | "auto"
-  | "client";
+  | "client"
+  | "note"
+  | "todo";
 
 export async function logActivity(entity: ActivityEntity, action: string, label: string): Promise<void> {
   try {
