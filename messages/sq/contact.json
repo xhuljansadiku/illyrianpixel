@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "eyebrow": "KONTAKT",
+    "title": "Nisni rritjen e biznesit sot.",
+    "subtext": "Plotësoni formën për një konsultë.\nDo t'ju kontaktojmë brenda 24 orëve."
+  },
+  "timelines": {
+    "asap": "ASAP",
+    "weeks": "2-4 javë",
+    "months": "1-2 muaj",
+    "flexible": "Fleksibël"
+  },
+  "form": {
+    "nameLabel": "Emri",
+    "namePlaceholder": "Emri juaj i plotë",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Email-i juaj",
+    "phoneLabel": "Numri i telefonit",
+    "businessNameLabel": "Emri i biznesit (Nëse keni një të tillë)",
+    "businessNamePlaceholder": "Emri i kompanisë...",
+    "serviceLabel": "Shërbimi",
+    "budgetLabel": "Buxheti",
+    "timelineLabel": "Afati kohor",
+    "messageLabel": "Mesazhi",
+    "messagePlaceholder": "Na tregoni më shumë rreth projektit tuaj...",
+    "discountLabel": "Kodi i zbritjes",
+    "discountOptional": "(opsional)",
+    "discountPlaceholder": "Kodi juaj",
+    "discountValid": "10% zbritje u aplikua.",
+    "discountInvalid": "Kodi i pavlefshëm.",
+    "noDiscountCode": "Nuk keni kod?",
+    "getDiscountCta": "Merrni 10% zbritje këtu →",
+    "submitting": "Duke dërguar...",
+    "submit": "Dërgoje Kërkesën →"
+  },
+  "errors": {
+    "validation": "Ju lutem plotësoni emrin, email-in, numrin e telefonit dhe mesazhin.",
+    "generic": "Diçka shkoi keq. Provo sërish ose shkruaj direkt: info@illyrianpixel.com",
+    "network": "Nuk u dërgua kërkesa. Kontakto direkt: info@illyrianpixel.com"
+  },
+  "success": {
+    "title": "Faleminderit.",
+    "body": "Kërkesa u regjistrua. Do t'ju kontaktojmë me plan të qartë brenda 24 orësh."
+  }
+}

@@ -1,45 +1,52 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { caseStudies, caseStudyBySlug } from "@/lib/caseStudies";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { caseStudies, getCaseStudyBySlug } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalCTA from "@/components/GlobalCTA";
+import type { Locale } from "@/i18n/routing";
 
-type Props = { params: { slug: string } };
+type Props = { params: { locale: Locale; slug: string } | Promise<{ locale: Locale; slug: string }> };
 
 export function generateStaticParams() {
   return caseStudies.map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const cs = caseStudyBySlug(params.slug);
+  const { locale, slug } = await Promise.resolve(params);
+  const cs = getCaseStudyBySlug(locale, slug);
   if (!cs) return {};
+  const t = await getTranslations({ locale, namespace: "projects.detail" });
   const cleanIntro = cs.intro.replace(/\n/g, " ");
   return {
     title: `${cs.title} | Illyrian Pixel`,
     description: cleanIntro,
     alternates: { canonical: `${seo.siteUrl}/projektet/${cs.slug}` },
     openGraph: {
-      title: `${cs.title} — Rast Studimi | Illyrian Pixel`,
+      title: `${cs.title} — ${t("ogCaseStudy")} | Illyrian Pixel`,
       description: cleanIntro,
       images: [{ url: cs.heroImage || seo.ogImage, width: 1200, height: 630, alt: `${cs.title} — ${cs.category}` }]
     }
   };
 }
 
-export default function CaseStudyPage({ params }: Props) {
-  const cs = caseStudyBySlug(params.slug);
+export default async function CaseStudyPage({ params }: Props) {
+  const { locale, slug } = await Promise.resolve(params);
+  const cs = getCaseStudyBySlug(locale, slug);
   if (!cs) notFound();
+  const t = await getTranslations({ locale, namespace: "projects" });
+  const tNav = await getTranslations({ locale, namespace: "common.nav" });
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: seo.siteUrl },
-      { "@type": "ListItem", position: 2, name: "Projektet", item: `${seo.siteUrl}/projektet` },
+      { "@type": "ListItem", position: 2, name: tNav("work"), item: `${seo.siteUrl}/projektet` },
       { "@type": "ListItem", position: 3, name: cs.title, item: `${seo.siteUrl}/projektet/${cs.slug}` }
     ]
   };
@@ -102,13 +109,13 @@ export default function CaseStudyPage({ params }: Props) {
         <section className="relative z-[1] section-wrap max-w-5xl">
           <div className="grid gap-4 md:grid-cols-2">
             <article className="rounded-[1rem] border border-white/10 bg-[#151515] p-6">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-accent/78">Problemi</p>
-              <h2 className="mt-2 font-display text-2xl leading-tight">Çfarë nuk funksiononte?</h2>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-accent/78">{t("detail.problemLabel")}</p>
+              <h2 className="mt-2 font-display text-2xl leading-tight">{t("detail.problemHeading")}</h2>
               <p className="mt-3 text-sm leading-relaxed text-white/62">{cs.problem}</p>
             </article>
             <article className="rounded-[1rem] border border-white/10 bg-[#151515] p-6">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-accent/78">Zgjidhja</p>
-              <h2 className="mt-2 font-display text-2xl leading-tight">Si e trajtuam?</h2>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-accent/78">{t("detail.solutionLabel")}</p>
+              <h2 className="mt-2 font-display text-2xl leading-tight">{t("detail.solutionHeading")}</h2>
               <p className="mt-3 text-sm leading-relaxed text-white/62">{cs.solution}</p>
             </article>
           </div>
@@ -117,7 +124,7 @@ export default function CaseStudyPage({ params }: Props) {
         {/* Result + Metrics */}
         <section className="relative z-[1] section-wrap max-w-5xl">
           <article className="rounded-[1rem] border border-accent/25 bg-accent/[0.04] p-6 md:p-8">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-accent/80">Rezultati</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-accent/80">{t("detail.resultLabel")}</p>
             <h2 className="mt-2 font-display text-[clamp(1.6rem,3.5vw,2.4rem)] leading-tight">
               {cs.result}
             </h2>

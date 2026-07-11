@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { blogPosts } from "@/lib/blogPosts";
+import { getBlogPostsForLocale } from "@/lib/blogPosts";
+import type { Locale } from "@/i18n/routing";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
-
-const ALL_LABEL = "Të gjitha";
 
 // Signature mood color per row — keeps the index feeling editorial
 // without relying on cover images, which blog posts don't have.
@@ -22,16 +22,19 @@ type DbPost = {
 };
 
 export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] }) {
+  const t = useTranslations("blog.index");
+  const locale = useLocale() as Locale;
+  const allLabel = t("allLabel");
   const heroRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const allPosts = [...dbPosts, ...blogPosts];
-  const [active, setActive] = useState(ALL_LABEL);
+  const allPosts = [...dbPosts, ...getBlogPostsForLocale(locale)];
+  const [active, setActive] = useState(allLabel);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
-  const categories = [ALL_LABEL, ...Array.from(new Set(allPosts.map((p) => p.category)))];
+  const categories = [allLabel, ...Array.from(new Set(allPosts.map((p) => p.category)))];
 
   const filtered =
-    active === ALL_LABEL
+    active === allLabel
       ? allPosts
       : allPosts.filter((p) => p.category === active);
 
@@ -96,16 +99,16 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"BLOG & INSIGHTS"}</p>
+            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{t("eyebrow")}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
-                {"Ide, lajme "}
-                <span className="text-accent">{"& udhëzime."}</span>
+                {t("titleLine1")}
+                <span className="text-accent">{t("titleAccent")}</span>
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p className="hero-subtext mt-6 font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
-              {"Artikuj për UX, SEO dhe rritje të qëndrueshme për biznese serioze."}
+              {t("subtitle")}
             </p>
           </div>
         </section>
@@ -133,7 +136,7 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
             {/* Articles */}
             <div ref={listRef}>
               {filtered.length === 0 ? (
-                <p className="text-white/40 text-sm">Nuk ka artikuj për këtë kategori.</p>
+                <p className="text-white/40 text-sm">{t("empty")}</p>
               ) : (
                 <>
                   <Link
@@ -142,7 +145,7 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
                   >
                     <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/10 blur-[100px]" />
                     <span className="relative z-[1] inline-flex items-center rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0a0a0a]">
-                      Më i fundit
+                      {t("latest")}
                     </span>
                     <p className="relative z-[1] mt-5 text-[11px] tracking-[0.18em] text-accent/85">
                       {featuredPost.category} • {featuredPost.date}
@@ -154,7 +157,7 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
                       {featuredPost.excerpt}
                     </p>
                     <span className="luxury-link relative z-[1] mt-6 inline-flex">
-                      Lexo artikullin <span aria-hidden>→</span>
+                      {t("readArticle")} <span aria-hidden>→</span>
                     </span>
                   </Link>
 

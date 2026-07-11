@@ -4,7 +4,8 @@ import { useRef, useMemo, useEffect, useState, type RefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useReducedMotion } from "@/lib/gsap";
 
 const SERVICES = ["Website", "E-Commerce", "SEO", "Google Ads", "Branding", "Social Media"];
@@ -222,6 +223,7 @@ function ServiceNodes({ occluder, isMobile }: { occluder: RefObject<THREE.Mesh>;
 }
 
 export default function ParticleCloudHero() {
+  const t = useTranslations("home.hero");
   const reducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -293,7 +295,7 @@ export default function ParticleCloudHero() {
             className="inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/10 px-4 py-1.5 text-[11px] tracking-[0.22em] text-accent"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-            ILLYRIAN PIXEL
+            {t("badge")}
           </div>
 
           <h1
@@ -302,26 +304,26 @@ export default function ParticleCloudHero() {
           >
             <span className="headline-mask block overflow-hidden">
               <span className="headline-word block">
-                Ktheje biznesin në{" "}
+                {t("headlineLine1")}
                 <span className="hero-brand-word">
                   <span className="hero-brand-accent text-accent inline-block font-black uppercase">
-                    brand.
+                    {t("headlineAccent")}
                   </span>
                 </span>
               </span>
             </span>
-            <span className="sr-only"> Website, SEO dhe Marketing për biznese shqiptare</span>
+            <span className="sr-only"> {t("srSubtitle")}</span>
           </h1>
 
           <div ref={paragraphRef} className="cadence-body space-y-4">
             <p className="font-body text-[1.05rem] font-light leading-[1.75] tracking-[0.01em] text-white/62">
-              {"Ndërtojmë Website & E-Commerce moderne, dominojmë Google me SEO dhe rrisim shitjet përmes Reklamave, Social Media & Branding."}
+              {t("paragraph1")}
             </p>
             <p className="font-body text-[0.9rem] font-medium tracking-[0.02em] text-accent/85 text-center lg:text-left">
-              {"Plan konkret brenda 24 orëve, 100% pa pagesë."}
+              {t("paragraph2")}
             </p>
             <p className="font-body text-[0.83rem] font-light tracking-[0.02em] text-white/38 text-center lg:text-left">
-              {"Ju fokusohuni te biznesi. Klientët i sjellim ne."}
+              {t("paragraph3")}
             </p>
           </div>
 
@@ -331,11 +333,11 @@ export default function ParticleCloudHero() {
               data-magnetic="true"
               className="interactive-button ip-cta-primary ip-cta-primary--lg"
             >
-              Merr ofertë falas
+              {t("ctaPrimary")}
             </Link>
-            <a href="/projektet" data-magnetic="true" className="luxury-link">
-              Shiko projektet <span aria-hidden>→</span>
-            </a>
+            <Link href="/projektet" data-magnetic="true" className="luxury-link">
+              {t("ctaSecondary")} <span aria-hidden>→</span>
+            </Link>
           </div>
         </div>
 
@@ -363,7 +365,7 @@ export default function ParticleCloudHero() {
       </div>
 
       <div className="hero-scroll-cue" aria-hidden>
-        <span>Zbulo më shumë</span>
+        <span>{t("scrollCue")}</span>
         <span className="hero-scroll-cue-chevron" />
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import ServiceCardHeroVisual from "@/components/ServiceCardHeroVisual";
 import type { ServiceOverviewCard } from "@/lib/serviceOverviewCards";
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default function ServiceCompactCard({ service, headingAs = "h3" }: Props) {
+  const t = useTranslations("services.overview");
   const Heading = headingAs;
   const spaceIdx = service.title.indexOf(" ");
   const firstWord = spaceIdx > -1 ? service.title.slice(0, spaceIdx) : service.title;
@@ -38,7 +40,7 @@ export default function ServiceCompactCard({ service, headingAs = "h3" }: Props)
       </p>
 
       <span className="mt-4 inline-flex items-center gap-2 self-start font-body text-[10px] font-bold uppercase tracking-[1.2px] text-[#D4AF37] transition-colors duration-300 group-hover:text-[#eace71]">
-        Shiko shërbimin
+        {t("cardLinkLabel")}
         <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
           →
         </span>

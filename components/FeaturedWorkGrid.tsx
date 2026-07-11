@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 import ProjectIndexList, { type FeaturedItem } from "@/components/ProjectIndexList";
@@ -10,6 +11,7 @@ import { caseStudies } from "@/lib/caseStudies";
 export type { FeaturedItem };
 
 export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) {
+  const t = useTranslations("home.featuredWork");
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const featuredProjects: FeaturedItem[] =
@@ -47,13 +49,13 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.025] [background-image:repeating-radial-gradient(circle_at_0_0,rgba(255,255,255,0.4)_0_1px,transparent_1px_4px)]" />
 
       <div className="section-wrap featured-chapters-intro">
-        <SectionMark label="PROJEKTET" />
+        <SectionMark label={t("eyebrow")} />
         <h2 className="section-title mt-3 max-w-4xl">
-          {"Projekte që sjellin "}
-          <span className="text-accent">{"klientë realë"}</span>
+          {t("headlineLine1")}
+          <span className="text-accent">{t("headlineAccent")}</span>
         </h2>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/55 md:text-lg">
-          {"Ndërtuar për performancë dhe rritje të biznesit."}
+          {t("intro")}
         </p>
       </div>
 
@@ -63,7 +65,7 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
 
       <div className="section-wrap pb-2 pt-12">
         <Link href="/projektet" className="luxury-link">
-          {"Të gjitha projektet "}
+          {t("allProjectsCta")}
           <span aria-hidden>{"→"}</span>
         </Link>
       </div>

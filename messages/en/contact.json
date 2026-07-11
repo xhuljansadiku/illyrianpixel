@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "eyebrow": "CONTACT",
+    "title": "Start growing your business today.",
+    "subtext": "Fill out the form for a consultation.\nWe'll get back to you within 24 hours."
+  },
+  "timelines": {
+    "asap": "ASAP",
+    "weeks": "2-4 weeks",
+    "months": "1-2 months",
+    "flexible": "Flexible"
+  },
+  "form": {
+    "nameLabel": "Name",
+    "namePlaceholder": "Your full name",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Your email",
+    "phoneLabel": "Phone number",
+    "businessNameLabel": "Business name (if you have one)",
+    "businessNamePlaceholder": "Your company name...",
+    "serviceLabel": "Service",
+    "budgetLabel": "Budget",
+    "timelineLabel": "Timeline",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us more about your project...",
+    "discountLabel": "Discount code",
+    "discountOptional": "(optional)",
+    "discountPlaceholder": "Your code",
+    "discountValid": "10% discount applied.",
+    "discountInvalid": "Invalid code.",
+    "noDiscountCode": "Don't have a code?",
+    "getDiscountCta": "Get 10% off here →",
+    "submitting": "Sending...",
+    "submit": "Send Request →"
+  },
+  "errors": {
+    "validation": "Please fill in your name, email, phone number and message.",
+    "generic": "Something went wrong. Please try again or email us directly: info@illyrianpixel.com",
+    "network": "The request wasn't sent. Contact us directly: info@illyrianpixel.com"
+  },
+  "success": {
+    "title": "Thank you.",
+    "body": "Your request has been received. We'll get back to you with a clear plan within 24 hours."
+  }
+}

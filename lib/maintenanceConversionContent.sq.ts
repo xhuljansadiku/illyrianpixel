@@ -1,11 +1,11 @@
 import {
-  conversionTrustStatsDefault,
+  getConversionTrustStatsDefault,
   type ConversionLandingData,
 } from "@/lib/conversionLandingShared";
 
 export const maintenanceConversionLandingData: ConversionLandingData = {
   trustStats: {
-    ...conversionTrustStatsDefault,
+    ...getConversionTrustStatsDefault("sq"),
     reachLabel: "Website që nuk ndalet, i shpejtë, i sigurt dhe gjithmonë online.",
   },
   painSection: {

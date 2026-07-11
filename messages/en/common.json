@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "pricing": "Pricing",
+    "work": "Work",
+    "blog": "Blog",
+    "contact": "Contact",
+    "cta": "Get started",
+    "logoAria": "Go to homepage (Alt+click for a small surprise)",
+    "menuAria": "Open menu",
+    "closeMenuAria": "Close menu",
+    "menuLabel": "Menu",
+    "langSwitchAria": "Choose language",
+    "langAl": "Shqip",
+    "langEn": "English"
+  },
+  "footer": {
+    "brandTitleLine1": "Turn your business into a ",
+    "brandTitleAccent": "brand.",
+    "tagline": "Just one click away.",
+    "bookConsult": "Book a consultation",
+    "navHeading": "Navigate",
+    "nav": {
+      "services": "Services",
+      "work": "Work",
+      "pricing": "Pricing",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+    "servicesHeading": "Services",
+    "services": {
+      "website": "Premium Website",
+      "ecommerce": "E-Commerce",
+      "seoAds": "SEO & Google Ads",
+      "social": "Social Media",
+      "branding": "Branding & Content",
+      "maintenance": "Maintenance"
+    },
+    "contactHeading": "Contact",
+    "contactNow": "Contact Us",
+    "whatsapp": "WhatsApp",
+    "email": "info@illyrianpixel.com",
+    "locationLine": "Albania · Germany · Online",
+    "followHeading": "Follow us",
+    "copyright": "© 2026 Illyrian Pixel",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "backToTop": "Back to top"
+  },
+  "projectCard": {
+    "view": "View",
+    "comingSoon": "Coming soon"
+  },
+  "globalCta": {
+    "label": "NEXT STEP",
+    "title": "Ready for the next step?",
+    "body": "Book a call and let's turn direction into a concrete plan with clear priorities.",
+    "primaryActionText": "Start the Conversation",
+    "secondaryActionText": "Contact Us"
+  },
+  "exitPopup": {
+    "dialogAria": "Special offer",
+    "closeAria": "Close",
+    "decline": "No, thanks",
+    "eyebrow": "Before you go",
+    "title": "Get a free consultation today.",
+    "text": "Tell us about your project and we'll put together a concrete plan at no cost, no obligation.",
+    "cta": "Free consultation →"
+  }
+}

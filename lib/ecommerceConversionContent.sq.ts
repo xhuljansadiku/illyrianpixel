@@ -1,11 +1,11 @@
 import {
-  conversionTrustStatsDefault,
+  getConversionTrustStatsDefault,
   type ConversionLandingData,
 } from "@/lib/conversionLandingShared";
 
 export const ecommerceConversionLandingData: ConversionLandingData = {
   trustStats: {
-    ...conversionTrustStatsDefault,
+    ...getConversionTrustStatsDefault("sq"),
     reachLabel: "Dyqane online që shesin çdo ditë, 24/7",
   },
   painSection: {

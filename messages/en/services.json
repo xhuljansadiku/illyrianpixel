@@ -1,0 +1,76 @@
+{
+  "problemLabel": "The Problem",
+  "solutionLabel": "The Solution",
+  "packagesEyebrow": "Packages",
+  "choosePackage": "Choose your package.",
+  "seeAllPackages": "See all packages",
+  "clientsFallbackLabel": "Clients",
+  "realResultsFallback": "Real results.",
+  "viewProject": "View the project",
+  "seeAllProjects": "See all projects",
+  "nextStepEyebrow": "Next Step",
+  "backToServices": "← Back to services",
+  "contactUs": "Contact us",
+  "secondaryCtaFallback": "Our work",
+  "seoMicroLine": "A service for businesses in Albania and the diaspora.",
+  "oldSite": {
+    "line1": "Old website?",
+    "line2": "We rebuild it from scratch.",
+    "note": "Free consultation · Custom offer",
+    "cta": "Contact us →"
+  },
+  "website": {
+    "painHeadingBefore": "You're losing clients",
+    "painHeadingAccent": "every day.",
+    "painItems": [
+      "A website that brings in no clients",
+      "Unclear structure, visitors get confused",
+      "No SEO",
+      "No maintenance after launch"
+    ],
+    "heroCtaFallback": "Get a free quote",
+    "trustLineFallback": "0 cost · 0 obligation · Real strategy within 24 hours"
+  },
+  "seoGoogleAds": {
+    "heroCta": "Start today",
+    "trustLine": "Spots are limited · No obligation · Reply within 24h",
+    "finalHeadlinePre": "Tomorrow will be",
+    "finalHeadlineAccent": "more expensive",
+    "finalHeadlinePost": "than today.",
+    "finalSubtext": "Every day without a system, someone else gets your client.\nTalk to us today, at no cost.",
+    "finalCta": "Start today →"
+  },
+  "brandingContent": {
+    "heroCtaFallback": "Transform the impression",
+    "finalHeadlineLine1": "Your presence deserves",
+    "finalHeadlineAccent": "the same level as your work.",
+    "finalSubtext": "30 free minutes. No obligation. A clear plan for your brand.",
+    "finalCta": "Book your first session →"
+  },
+  "overview": {
+    "heroEyebrow": "SERVICES",
+    "heroLine1": "Digital systems",
+    "heroLine2": "that bring in clients.",
+    "heroSubtext": "From websites and SEO to ads and branding, we build complete solutions for Albanian businesses.",
+    "howWeWorkEyebrow": "How we work",
+    "howWeWorkHeadline": "One service or a complete system.",
+    "howWeWorkHeadlineAccent": "You choose.",
+    "howWeWorkSubtext": "When website, SEO and marketing work together, results multiply.",
+    "ctaEyebrow": "Next step",
+    "ctaHeadline": "Ready to grow your business?",
+    "ctaSubtext": "Book a free consultation and we'll put together a concrete plan within 24 hours, no obligation.",
+    "ctaPrimary": "Start the Conversation",
+    "ctaSecondary": "Contact Us",
+    "ctaFootnote": "No obligation · Reply within 24h",
+    "seoLine": "Digital agency for Albanian businesses — Website, E-Commerce, SEO, Google Ads, Branding and Social Media Marketing for the local market and the diaspora.",
+    "cardLinkLabel": "View service"
+  },
+  "smm": { "heroCtaFallback": "Start Now" },
+  "mirembajtja": { "heroCtaFallback": "Start Maintenance" },
+  "defaultHeroCta": "Book Now",
+  "defaultTrustLine": "Free consultation · No obligation · Reply within 24h",
+  "defaultFinalHeadlineLine1": "A free conversation.",
+  "defaultFinalHeadlineAccent": "A clear plan for more clients.",
+  "defaultFinalSubtext": "30 minutes · no obligation · reply within 24 hours.",
+  "defaultFinalCta": "Start Today →"
+}

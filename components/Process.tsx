@@ -1,50 +1,15 @@
 ﻿"use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { ensureGSAP, getIsMobile, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
-const processSteps = [
-  {
-    label: "FAZA 01",
-    duration: "3–5 ditë",
-    title: "Plani",
-    points: [
-      "Kuptojmë biznesin dhe ndërtojmë strategjinë.",
-      "Përcaktojmë klientët që synoni dhe mënyrën si do t'i tërheqim."
-    ],
-    result: "Në fund keni: një plan të qartë për rritje dhe strukturë të gatshme për ekzekutim."
-  },
-  {
-    label: "FAZA 02",
-    duration: "5–7 ditë",
-    title: "Dizajni",
-    points: [
-      "Krijojmë një dizajn që komunikon qartë vlerën tuaj dhe ndërton besim që në sekondat e para."
-    ],
-    result: "Në fund keni: dizajn profesional që udhëheq vizitorin drejt kontaktit."
-  },
-  {
-    label: "FAZA 03",
-    duration: "7–14 ditë",
-    title: "Zhvillimi",
-    points: [
-      "E kthejmë dizajnin në një website të shpejtë, të optimizuar dhe funksional në çdo pajisje."
-    ],
-    result: "Në fund keni: një faqe të gatshme për të kthyer vizitorët në klientë."
-  },
-  {
-    label: "FAZA 04",
-    duration: "1–2 ditë",
-    title: "Publikimi",
-    points: [
-      "Publikojmë faqen dhe e bëjmë gati për të marrë klientë që nga dita e parë."
-    ],
-    result: "Në fund keni: website live, i sigurt dhe i përgatitur për rritje."
-  }
-];
+type ProcessStep = { label: string; duration: string; title: string; points: string[]; result: string };
 
 export default function Process() {
+  const t = useTranslations("home.process");
+  const processSteps = t.raw("steps") as ProcessStep[];
   const sectionRef = useRef<HTMLElement | null>(null);
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -230,11 +195,11 @@ export default function Process() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_28%_34%,rgba(171, 131, 57,0.16),transparent_42%),radial-gradient(circle_at_72%_70%,rgba(255,255,255,0.05),transparent_38%)]"
       />
       <div className="section-wrap">
-        <SectionMark label="PROCESI" />
+        <SectionMark label={t("eyebrow")} />
         <h2 ref={headingRef} className="section-title mt-3 mb-14 max-w-5xl">
-          Proces i qartë, pa surpriza
+          {t("headlineLine1")}
           <br className="hidden md:block" />
-          <span className="block text-accent md:inline">Nga ideja te një website që sjell klientë</span>
+          <span className="block text-accent md:inline">{t("headlineAccent")}</span>
         </h2>
         <div ref={timelineRef} className="process-timeline relative pb-2">
           <span className="process-line-track absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-white/14 md:block" />

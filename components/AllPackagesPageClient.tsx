@@ -1,26 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
 import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
 import FAQ, { type FaqItem } from "@/components/FAQ";
-import { serviceCategories, type ServiceCategory } from "@/lib/serviceCategories";
+import { getServiceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
-
-const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
-  { slug: "website",          label: "Website" },
-  { slug: "ecommerce",        label: "E-Commerce" },
-  { slug: "seo-google-ads",   label: "SEO & Google Ads" },
-  { slug: "smm",              label: "Social Media" },
-  { slug: "branding-content", label: "Branding" },
-  { slug: "mirembajtja",      label: "Mirëmbajtja" },
-];
+import type { Locale } from "@/i18n/routing";
 
 const CMIMET_FLOAT_ICONS: AmbientIconConfig[] = [
   { variant: "web", className: "top-[8%] right-[6%]", depth: 0.5, scale: 0.9 },
@@ -35,18 +28,29 @@ const CMIMET_FLOAT_ICONS: AmbientIconConfig[] = [
 const RECURRING_SLUGS = new Set<ServiceCategory["slug"]>(["seo-google-ads", "smm", "mirembajtja"]);
 const ANNUAL_DISCOUNT = 0.2;
 
-function withAnnualBilling(pkg: ServiceCategory["packages"][number]): ServiceCategory["packages"][number] {
+function withAnnualBilling(pkg: ServiceCategory["packages"][number], annualNote: string): ServiceCategory["packages"][number] {
   const num = Number(pkg.price.replace(/[^\d]/g, ""));
   if (!num) return pkg;
   const discounted = Math.round(num * (1 - ANNUAL_DISCOUNT));
   return {
     ...pkg,
     price: `€${discounted.toLocaleString("en-US")}`,
-    priceNote: "/ muaj · vjetor -20%",
+    priceNote: annualNote,
   };
 }
 
 export default function AllPackagesPageClient({ overrides, faqItems }: { overrides?: PricingOverrides; faqItems?: FaqItem[] }) {
+  const t = useTranslations("pricing");
+  const locale = useLocale() as Locale;
+  const serviceCategories = getServiceCategories(locale);
+  const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
+    { slug: "website",          label: t("filters.website") },
+    { slug: "ecommerce",        label: t("filters.ecommerce") },
+    { slug: "seo-google-ads",   label: t("filters.seoAds") },
+    { slug: "smm",              label: t("filters.smm") },
+    { slug: "branding-content", label: t("filters.branding") },
+    { slug: "mirembajtja",      label: t("filters.maintenance") },
+  ];
   const heroRef = useRef<HTMLElement>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -101,7 +105,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
     .map((c) => applyOverridesToCategory(c, overrides))
     .map((c) =>
       RECURRING_SLUGS.has(c.slug) && billing === "annual"
-        ? { ...c, packages: c.packages.map(withAnnualBilling) }
+        ? { ...c, packages: c.packages.map((pkg) => withAnnualBilling(pkg, t("billing.annualNote"))) }
         : c
     );
 
@@ -122,20 +126,20 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
           <AmbientServiceIcons heroRef={heroRef} icons={CMIMET_FLOAT_ICONS} />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"ÇMIMET & PAKETAT"}</p>
+            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{t("hero.eyebrow")}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
-                {"Të gjitha paketat"}
+                {t("hero.titleLine1")}
               </h1>
             </div>
             <div className="hero-line2 overflow-hidden">
               <h1 className="cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
-                {"në një vend."}
+                {t("hero.titleLine2")}
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p className="hero-subtext mt-6 md:whitespace-pre-line font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
-              {"Krahaso paketat për Website, E-Commerce, Marketing, Branding dhe Social Media.\nÇdo ofertë personalizohet falas."}
+              {t("hero.subtext")}
             </p>
           </div>
         </section>
@@ -182,7 +186,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                     </span>
                   </div>
                   <h2 className="mt-2 max-w-2xl font-display text-[clamp(1.65rem,3.5vw,2.75rem)] leading-[1.06] tracking-[-0.02em] text-white">
-                    Paketat për{" "}
+                    {t("packagesFor")}{" "}
                     <span className="text-accent/85">{category.title}</span>
                   </h2>
                   <p className="mt-3 max-w-[52ch] md:whitespace-pre-line text-[14px] leading-relaxed text-white/48">
@@ -198,7 +202,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                           billing === "monthly" ? "bg-accent/[0.14] text-accent" : "text-white/50 hover:text-white/75"
                         }`}
                       >
-                        Mujore
+                        {t("billing.monthly")}
                       </button>
                       <button
                         type="button"
@@ -207,7 +211,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                           billing === "annual" ? "bg-accent/[0.14] text-accent" : "text-white/50 hover:text-white/75"
                         }`}
                       >
-                        Vjetore <span className="text-accent/85">-20%</span>
+                        {t("billing.annual")} <span className="text-accent/85">-20%</span>
                       </button>
                     </div>
                   )}
@@ -215,7 +219,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
 
                 {category.slug === "seo-google-ads" && (
                   <div className="flex shrink-0 flex-col items-start gap-2 md:items-end">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/28">Vetëm një shërbim?</p>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/28">{t("onlyOneService")}</p>
                     <Link
                       href="/services/seo"
                       className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-[12px] text-white/55 transition-all duration-300 hover:border-accent/35 hover:text-white"
@@ -255,12 +259,12 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                   <div className="relative z-[1] flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
                     <div>
                       <p className="font-display text-[1.5rem] font-semibold leading-snug text-white md:text-[1.75rem]">
-                        Faqe e vjetër?<br className="hidden md:block" /> <span className="text-accent">E rindërtojmë nga e para.</span>
+                        {t("oldSite.line1")}<br className="hidden md:block" /> <span className="text-accent">{t("oldSite.line2")}</span>
                       </p>
-                      <p className="mt-2 text-[13px] tracking-[0.02em] text-white/45">Konsultim falas · Ofertë e personalizuar</p>
+                      <p className="mt-2 text-[13px] tracking-[0.02em] text-white/45">{t("oldSite.note")}</p>
                     </div>
                     <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg shrink-0 !px-8">
-                      Na kontaktoni →
+                      {t("oldSite.cta")}
                     </Link>
                   </div>
                 </div>
@@ -279,7 +283,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
         <section className="relative z-[1]">
           <div className="section-wrap py-10 md:py-12">
             <p className="text-center text-[11px] text-white/28">
-              Të gjitha çmimet janë pa TVSH · Konsultimi fillestar është gjithmonë falas
+              {t("vatNote")}
             </p>
           </div>
         </section>

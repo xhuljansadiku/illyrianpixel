@@ -1,4 +1,4 @@
-﻿import { activeWebHeroVariant } from "@/lib/webHeroVariants";
+﻿import { activeWebHeroVariant } from "@/lib/webHeroVariants.sq";
 
 export type ServiceFeatureBullet = {
   emphasis: string;

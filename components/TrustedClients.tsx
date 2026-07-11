@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
@@ -17,15 +18,13 @@ const clients: Client[] = [
   { name: "Ilirjana Shehu Photography", logo: "/images/logos/ilirjana-shehu-photography.png" },
 ];
 
-type Stat = { value: number | null; suffix: string; label: string };
-
-const stats: Stat[] = [
-  { value: 6, suffix: "+", label: "vite eksperiencë" },
-  { value: 100, suffix: "+", label: "projekte" },
-  { value: null, suffix: "", label: "Biznese në Shqipëri & diasporë" },
-];
-
 export default function TrustedClients() {
+  const t = useTranslations("home.trustedClients");
+  const stats = [
+    { value: 6, suffix: "+", label: t("statYears") },
+    { value: 100, suffix: "+", label: t("statProjects") },
+    { value: null, suffix: "", label: t("statBusinesses") },
+  ];
   const sectionRef = useRef<HTMLElement | null>(null);
   const statRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const reduced = useReducedMotion();
@@ -91,13 +90,13 @@ export default function TrustedClients() {
       <div className="section-wrap relative z-10 !pb-12 md:!pb-14">
         <div className="flex flex-col items-start">
           <div className="tc-header">
-            <SectionMark label="Klientët tanë" />
+            <SectionMark label={t("eyebrow")} />
           </div>
           <h2 className="tc-header section-title mt-2 text-white">
-            Marka dhe biznese që na besojnë
+            {t("headline")}
           </h2>
           <p className="tc-header mt-4 max-w-[480px] font-body text-[0.94rem] font-light leading-relaxed tracking-[0.02em] text-white/45">
-            Nga Shqipëria në tregun ndërkombëtar, bashkëpunojmë me biznese që kërkojnë rritje dhe rezultate reale.
+            {t("intro")}
           </p>
         </div>
       </div>

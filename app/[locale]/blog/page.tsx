@@ -1,13 +1,29 @@
+import type { Metadata } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { buildMetadata } from "@/lib/seo";
 import BlogPageClient from "@/components/BlogPageClient";
+import type { Locale } from "@/i18n/routing";
 
-export const metadata = buildMetadata(
-  "Blog: Strategji Dixhitale & SEO për Biznese",
-  "Artikuj praktikë për UX, SEO, marketing dixhital dhe rritje të qëndrueshme për biznese shqiptare serioze.",
-  "/blog",
-  ["blog seo shqipëri", "strategji dixhitale", "marketing online albania", "web design tips", "rritje biznesi online"]
-);
+const META: Record<Locale, { title: string; desc: string; keywords: string[] }> = {
+  sq: {
+    title: "Blog: Strategji Dixhitale & SEO për Biznese",
+    desc: "Artikuj praktikë për UX, SEO, marketing dixhital dhe rritje të qëndrueshme për biznese shqiptare serioze.",
+    keywords: ["blog seo shqipëri", "strategji dixhitale", "marketing online albania", "web design tips", "rritje biznesi online"],
+  },
+  en: {
+    title: "Blog: Digital Strategy & SEO for Businesses",
+    desc: "Practical articles on UX, SEO, digital marketing and sustainable growth for serious Albanian businesses.",
+    keywords: ["seo blog albania", "digital strategy", "online marketing albania", "web design tips", "business growth online"],
+  },
+};
+
+type Props = { params: { locale: Locale } | Promise<{ locale: Locale }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await Promise.resolve(params);
+  const m = META[locale];
+  return buildMetadata(m.title, m.desc, "/blog", m.keywords, locale);
+}
 
 export const revalidate = 60;
 

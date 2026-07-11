@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
@@ -33,6 +36,7 @@ export default function BlogArticleLayout({
   children,
   related = [],
 }: Props) {
+  const t = useTranslations("blog.layout");
   const breadcrumbSchema = path && breadcrumbLabel
     ? buildBreadcrumb([
         { name: "Home", url: seo.siteUrl },
@@ -56,7 +60,7 @@ export default function BlogArticleLayout({
         <section className="border-b border-white/10">
           <div className="section-wrap pb-12 pt-6">
             <Link href="/blog" className="luxury-link">
-              <span aria-hidden>←</span> Kthehu te blogu
+              <span aria-hidden>←</span> {t("back")}
             </Link>
             <div className="mt-8">
               <span
@@ -89,8 +93,8 @@ export default function BlogArticleLayout({
         <section className="section-wrap border-t border-white/10 py-8">
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="font-display text-[1.05rem] text-white">Keni pyetje rreth projektit tuaj?</p>
-              <p className="mt-1 text-[0.85rem] text-white/45">Na shkruani direkt, përgjigjemi brenda minutave.</p>
+              <p className="font-display text-[1.05rem] text-white">{t("ctaHeading")}</p>
+              <p className="mt-1 text-[0.85rem] text-white/45">{t("ctaBody")}</p>
             </div>
             <a
               href={WA_HREF}
@@ -108,7 +112,7 @@ export default function BlogArticleLayout({
         {related.length > 0 && (
           <section className="section-wrap border-t border-white/10 py-12 md:py-16">
             <h3 className="font-display text-[clamp(1.35rem,2.8vw,1.9rem)] text-white">
-              Artikuj të ngjashëm
+              {t("related")}
             </h3>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               {related.map((r) => (

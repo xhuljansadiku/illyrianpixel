@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Locale } from "@/i18n/routing";
 
 const siteUrl = "https://illyrianpixel.com";
 const defaultTitle = "Illyrian Pixel";
@@ -17,46 +18,54 @@ export const buildMetadata = (
   title?: string,
   description?: string,
   path = "",
-  keywords?: string[]
-): Metadata => ({
-  metadataBase: new URL(siteUrl),
-  title: title ? `${title} | ${defaultTitle}` : defaultTitle,
-  description: description ?? defaultDescription,
-  ...(keywords?.length ? { keywords } : {}),
-  alternates: {
-    canonical: path ? `${siteUrl}${path}` : siteUrl,
-    languages: {
-      "sq":    path ? `${siteUrl}${path}` : siteUrl,
-      "sq-AL": path ? `${siteUrl}${path}` : siteUrl,
-      "x-default": path ? `${siteUrl}${path}` : siteUrl,
+  keywords?: string[],
+  locale: Locale = "sq"
+): Metadata => {
+  const sqUrl = path ? `${siteUrl}${path}` : siteUrl;
+  const enUrl = path ? `${siteUrl}/en${path}` : `${siteUrl}/en`;
+  const canonicalUrl = locale === "en" ? enUrl : sqUrl;
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: title ? `${title} | ${defaultTitle}` : defaultTitle,
+    description: description ?? defaultDescription,
+    ...(keywords?.length ? { keywords } : {}),
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        "sq": sqUrl,
+        "sq-AL": sqUrl,
+        "en": enUrl,
+        "x-default": sqUrl,
+      }
+    },
+    openGraph: {
+      title: title ? `${title} | ${defaultTitle}` : defaultTitle,
+      description: description ?? defaultDescription,
+      url: canonicalUrl,
+      siteName: "Illyrian Pixel",
+      images: [{
+        url: seo.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "Illyrian Pixel — Agjenci Dixhitale Premium për Biznese Shqiptare"
+      }],
+      locale: locale === "en" ? "en_US" : "sq_AL",
+      type: "website"
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@illyrianpixel",
+      creator: "@illyrianpixel",
+      title: title ? `${title} | ${defaultTitle}` : defaultTitle,
+      description: description ?? defaultDescription,
+      images: [{
+        url: seo.ogImage,
+        alt: "Illyrian Pixel — Agjenci Dixhitale Premium"
+      }]
     }
-  },
-  openGraph: {
-    title: title ? `${title} | ${defaultTitle}` : defaultTitle,
-    description: description ?? defaultDescription,
-    url: path ? `${siteUrl}${path}` : siteUrl,
-    siteName: "Illyrian Pixel",
-    images: [{
-      url: seo.ogImage,
-      width: 1200,
-      height: 630,
-      alt: "Illyrian Pixel — Agjenci Dixhitale Premium për Biznese Shqiptare"
-    }],
-    locale: "sq_AL",
-    type: "website"
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@illyrianpixel",
-    creator: "@illyrianpixel",
-    title: title ? `${title} | ${defaultTitle}` : defaultTitle,
-    description: description ?? defaultDescription,
-    images: [{
-      url: seo.ogImage,
-      alt: "Illyrian Pixel — Agjenci Dixhitale Premium"
-    }]
-  }
-});
+  };
+};
 
 // ── Organization Schema ───────────────────────────────────────────────────────
 export const organizationSchema = {

@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import SectionMark from "@/components/SectionMark";
 
 export type FaqItem = { q: string; a: string; category?: string | null };
@@ -34,6 +35,7 @@ const defaultFaqs: FaqItem[] = [
 ];
 
 export default function FAQ({ items }: { items?: FaqItem[] }) {
+  const t = useTranslations("home.faq");
   const [open, setOpen] = useState(0);
   const faqs = items && items.length > 0 ? items : defaultFaqs;
   const hasCategories = faqs.some((f) => "category" in f && f.category);
@@ -42,7 +44,7 @@ export default function FAQ({ items }: { items?: FaqItem[] }) {
   if (hasCategories) {
     const map = new Map<string, FaqItem[]>();
     for (const f of faqs) {
-      const key = f.category || "Të tjera";
+      const key = f.category || t("otherCategory");
       if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(f);
     }
@@ -56,8 +58,8 @@ export default function FAQ({ items }: { items?: FaqItem[] }) {
   return (
     <section id="faq" className="cinematic-section section-tone-about">
       <div className="section-wrap">
-        <SectionMark label="FAQ" />
-        <h2 className="section-title mt-3 max-w-4xl">Pyetje të shpeshta.</h2>
+        <SectionMark label={t("eyebrow")} />
+        <h2 className="section-title mt-3 max-w-4xl">{t("headline")}</h2>
         <div className="mt-8 max-w-4xl space-y-8">
           {groups.map((group) => (
             <div key={group.category ?? "all"}>

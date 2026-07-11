@@ -1,9 +1,11 @@
 ﻿import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import Link from "next/link";
-import { faqSchema } from "@/lib/seo";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { buildMetadata, faqSchema } from "@/lib/seo";
 import { getVisibleTestimonials, getVisiblePortfolioItems, getVisibleFaqs } from "@/lib/publicContent";
 import type { FeaturedItem } from "@/components/FeaturedWorkGrid";
+import type { Locale } from "@/i18n/routing";
 // Critical above-fold — static imports (SSR + no layout shift)
 import Navbar from "@/components/Navbar";
 import SectionAura from "@/components/SectionAura";
@@ -25,28 +27,40 @@ const NewsletterSection  = dynamic(() => import("@/components/NewsletterSection"
 const BrandSignature    = dynamic(() => import("@/components/BrandSignature"),    { ssr: false });
 const EasterEggOverlay  = dynamic(() => import("@/components/EasterEggOverlay"),  { ssr: false });
 
-export const metadata: Metadata = {
-  title: "Web Design & Marketing Premium Shqipëri | Illyrian Pixel",
-  description:
-    "Website premium, SEO & marketing dixhital për biznese shqiptare. Konsultim falas, plan konkret brenda 24h. Illyrian Pixel — agjenci dixhitale premium.",
-  keywords: [
-    "web design shqipëri", "agjenci dixhitale tiranë", "website premium albania",
-    "seo shqipëri", "marketing online", "e-commerce albania", "google ads shqipëri",
-    "branding biznese", "landing page konvertim", "illyrian pixel"
-  ],
-  alternates: { canonical: "https://illyrianpixel.com" },
-  openGraph: {
-    title: "Web Design & Marketing Premium | Illyrian Pixel",
-    description: "Website premium, SEO & marketing dixhital për biznese shqiptare. Konsultim falas, plan brenda 24h.",
-    url: "https://illyrianpixel.com",
-    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630, alt: "Illyrian Pixel — Web Design & Marketing Premium Shqipëri" }]
-  }
+const META: Record<Locale, { title: string; desc: string; keywords: string[] }> = {
+  sq: {
+    title: "Web Design & Marketing Premium Shqipëri",
+    desc: "Website premium, SEO & marketing dixhital për biznese shqiptare. Konsultim falas, plan konkret brenda 24h. Illyrian Pixel — agjenci dixhitale premium.",
+    keywords: [
+      "web design shqipëri", "agjenci dixhitale tiranë", "website premium albania",
+      "seo shqipëri", "marketing online", "e-commerce albania", "google ads shqipëri",
+      "branding biznese", "landing page konvertim", "illyrian pixel"
+    ],
+  },
+  en: {
+    title: "Premium Web Design & Marketing Albania",
+    desc: "Premium websites, SEO & digital marketing for Albanian businesses. Free consultation, concrete plan within 24h. Illyrian Pixel — premium digital agency.",
+    keywords: [
+      "web design albania", "digital agency tirana", "premium website albania",
+      "seo albania", "online marketing", "e-commerce albania", "google ads albania",
+      "business branding", "landing page conversion", "illyrian pixel"
+    ],
+  },
 };
+
+type Props = { params: { locale: Locale } | Promise<{ locale: Locale }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await Promise.resolve(params);
+  const m = META[locale];
+  return buildMetadata(m.title, m.desc, "", m.keywords, locale);
+}
 
 // Rifresko çdo 5 min — testimonialet/portofoli menaxhohen nga admini
 export const revalidate = 300;
 
 export default async function HomePage() {
+  const t = await getTranslations("home");
   const [testimonialRows, portfolioRows, faqRows] = await Promise.all([
     getVisibleTestimonials().catch(() => []),
     getVisiblePortfolioItems().catch(() => []),
@@ -109,14 +123,14 @@ export default async function HomePage() {
               <div className="pointer-events-none absolute -left-14 top-1/2 h-28 w-28 -translate-y-1/2 rounded-full bg-accent/20 blur-2xl" />
               <div className="max-w-[640px]">
                 <p className="mb-3 font-display text-[clamp(1.4rem,3vw,2.2rem)] leading-[1.08] text-white">
-                  {"Gati për më shumë klientë?"}
+                  {t("ctaAfterFaq.title")}
                 </p>
                 <p className="text-[14px] leading-[1.65] text-white/52 md:text-[15px]">
-                  {"Rezervo një konsultë falas dhe fillojmë me një plan të qartë."}
+                  {t("ctaAfterFaq.body")}
                 </p>
               </div>
               <Link href="/contact" className="interactive-button ip-cta-primary shrink-0">
-                {"Rezervo konsultë"} <span aria-hidden>→</span>
+                {t("ctaAfterFaq.cta")} <span aria-hidden>→</span>
               </Link>
             </div>
           </div>
@@ -126,16 +140,16 @@ export default async function HomePage() {
         <section className="relative border-b border-white/[0.06]">
           <div className="section-wrap py-14 md:py-20 text-center">
             <p className="font-body text-[0.95rem] font-light tracking-[0.04em] text-white/50">
-              Klientët tuaj të ardhshëm po ju kërkojnë tani në Google.
+              {t("miniSales.line1")}
             </p>
             <p className="font-display mt-3 text-[clamp(1.6rem,3.5vw,2.6rem)] font-bold leading-[1.1] tracking-[-0.02em] text-white">
-              A po ju gjejnë?
+              {t("miniSales.line2")}
             </p>
             <Link
               href="/contact"
               className="interactive-button ip-cta-primary ip-cta-primary--lg mt-8 inline-flex"
             >
-              Rezervo konsultë
+              {t("miniSales.cta")}
             </Link>
           </div>
         </section>
@@ -146,7 +160,7 @@ export default async function HomePage() {
         <div className="border-t border-white/[0.04]">
           <div className="section-wrap py-4">
             <p className="text-center font-body text-[11px] font-light leading-relaxed tracking-[0.04em] text-white/18">
-              {"Agjenci digjitale për biznese Shqiptare Website, E-Commerce, SEO, Google Ads, Branding dhe Social Media Marketing për tregun vendor dhe diasporën."}
+              {t("seoBoostLine")}
             </p>
           </div>
         </div>

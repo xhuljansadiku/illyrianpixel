@@ -1,0 +1,32 @@
+{
+  "filters": {
+    "website": "Website",
+    "ecommerce": "E-Commerce",
+    "seoAds": "SEO & Google Ads",
+    "smm": "Social Media",
+    "branding": "Branding",
+    "maintenance": "Maintenance"
+  },
+  "hero": {
+    "eyebrow": "PRICING & PACKAGES",
+    "titleLine1": "Every package",
+    "titleLine2": "in one place.",
+    "subtext": "Compare packages for Website, E-Commerce, Marketing, Branding and Social Media.\nEvery offer is customized for free."
+  },
+  "billing": {
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "annualNote": "/ month · annual -20%"
+  },
+  "packagesFor": "Packages for",
+  "onlyOneService": "Just one service?",
+  "oldSite": {
+    "line1": "Old website?",
+    "line2": "We rebuild it from scratch.",
+    "note": "Free consultation · Custom offer",
+    "cta": "Contact us →"
+  },
+  "vatNote": "All prices exclude VAT · The initial consultation is always free",
+  "mostChosenBadge": "Most popular",
+  "defaultCta": "Start Now"
+}

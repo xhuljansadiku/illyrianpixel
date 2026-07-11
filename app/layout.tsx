@@ -5,7 +5,6 @@ import "./globals.css";
 import { localBusinessSchema, organizationSchema, websiteSchema, seo } from "@/lib/seo";
 import WebVitals from "@/components/WebVitals";
 import PageViewTracker from "@/components/PageViewTracker";
-import MarketingChrome from "@/components/MarketingChrome";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -25,10 +24,9 @@ const display = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(seo.siteUrl),
   applicationName: "Illyrian Pixel",
-  title: {
-    default: "Illyrian Pixel — Agjenci Dixhitale Premium",
-    template: "%s | Illyrian Pixel"
-  },
+  // No template here — every page already appends "| Illyrian Pixel" via
+  // buildMetadata()/its own title, a template would double it up.
+  title: "Illyrian Pixel — Agjenci Dixhitale Premium",
   description: seo.defaultDescription,
   keywords: [
     "agjenci dixhitale shqipëri",
@@ -162,7 +160,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
         <WebVitals />
         <PageViewTracker />
-        <MarketingChrome>{children}</MarketingChrome>
+        {children}
 
         {/* ── Analytics (afterInteractive = non-blocking) ── */}
         <Script

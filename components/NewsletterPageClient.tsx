@@ -1,19 +1,46 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 type State = "idle" | "loading" | "success" | "error";
 
-const perks = [
-  { label: "Website & E-Commerce", icon: "◈" },
-  { label: "SEO & Google Ads",     icon: "◈" },
-  { label: "Branding & Dizajn",    icon: "◈" },
-  { label: "Social Media",         icon: "◈" },
-];
+const PERKS: Record<string, { label: string; icon: string }[]> = {
+  sq: [
+    { label: "Website & E-Commerce", icon: "◈" },
+    { label: "SEO & Google Ads", icon: "◈" },
+    { label: "Branding & Dizajn", icon: "◈" },
+    { label: "Social Media", icon: "◈" },
+  ],
+  en: [
+    { label: "Website & E-Commerce", icon: "◈" },
+    { label: "SEO & Google Ads", icon: "◈" },
+    { label: "Branding & Design", icon: "◈" },
+    { label: "Social Media", icon: "◈" },
+  ],
+};
+
+const STEPS: Record<string, string[]> = {
+  sq: [
+    "Shkruani email-in tuaj",
+    "Merrni kodin menjëherë në inbox",
+    "Citoni kodin kur kontaktoni",
+    "10% zbritje aplikohet automatikisht",
+  ],
+  en: [
+    "Enter your email",
+    "Get your code instantly in your inbox",
+    "Quote the code when you contact us",
+    "10% discount applied automatically",
+  ],
+};
 
 export default function NewsletterPageClient() {
+  const locale = useLocale();
+  const perks = PERKS[locale] ?? PERKS.sq;
+  const steps = STEPS[locale] ?? STEPS.sq;
   const [state, setState] = useState<State>("idle");
   const [code, setCode]   = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -39,11 +66,11 @@ export default function NewsletterPageClient() {
         setCode(data.code);
         setState("success");
       } else {
-        setErrorMsg(data.error ?? "Diçka nuk funksionoi. Provoni sërish.");
+        setErrorMsg(data.error ?? (locale === "en" ? "Something went wrong. Please try again." : "Diçka nuk funksionoi. Provoni sërish."));
         setState("error");
       }
     } catch {
-      setErrorMsg("Gabim lidhjeje. Kontrolloni internetin.");
+      setErrorMsg(locale === "en" ? "Connection error. Check your internet." : "Gabim lidhjeje. Kontrolloni internetin.");
       setState("error");
     }
   }
@@ -72,14 +99,20 @@ export default function NewsletterPageClient() {
           <div className="section-wrap relative py-28 md:py-40">
             <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Ofertë ekskluzive
+              {locale === "en" ? "Exclusive offer" : "Ofertë ekskluzive"}
             </div>
             <h1 className="mt-8 font-display text-[clamp(2.2rem,5vw,4.4rem)] font-bold leading-[1.1] tracking-[-0.025em] text-white">
-              10% zbritje për<br className="hidden md:block" /> çdo shërbim
+              {locale === "en" ? (
+                <>10% off<br className="hidden md:block" /> every service</>
+              ) : (
+                <>10% zbritje për<br className="hidden md:block" /> çdo shërbim</>
+              )}
             </h1>
             <div className="mt-8 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p className="mt-6 max-w-md font-body text-[1rem] font-light leading-[1.75] text-white/42">
-              Abonohu dhe merr kodin tënd ekskluziv direkt në email.
+              {locale === "en"
+                ? "Subscribe and get your exclusive code sent straight to your email."
+                : "Abonohu dhe merr kodin tënd ekskluziv direkt në email."}
             </p>
           </div>
         </section>
@@ -90,7 +123,9 @@ export default function NewsletterPageClient() {
 
             {/* Left — perks */}
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55 mb-7">Çfarë përfshihet</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55 mb-7">
+                {locale === "en" ? "What's included" : "Çfarë përfshihet"}
+              </p>
               <ul className="space-y-4">
                 {perks.map((p) => (
                   <li key={p.label} className="flex items-center gap-3">
@@ -102,15 +137,10 @@ export default function NewsletterPageClient() {
 
               <div className="mt-10 rounded-2xl border border-white/[0.07] bg-white/[0.025] px-6 py-6">
                 <p className="font-display text-[1.05rem] font-semibold text-white leading-[1.4]">
-                  Si funksionon?
+                  {locale === "en" ? "How does it work?" : "Si funksionon?"}
                 </p>
                 <ol className="mt-4 space-y-3">
-                  {[
-                    "Shkruani email-in tuaj",
-                    "Merrni kodin menjëherë në inbox",
-                    "Citoni kodin kur kontaktoni",
-                    "10% zbritje aplikohet automatikisht",
-                  ].map((step, i) => (
+                  {steps.map((step, i) => (
                     <li key={i} className="flex items-start gap-3 text-[13px] font-light text-white/50 leading-[1.6]">
                       <span className="mt-0.5 shrink-0 font-mono text-[10px] text-accent/50">{i + 1}.</span>
                       {step}
@@ -134,40 +164,48 @@ export default function NewsletterPageClient() {
                     <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-full border border-accent/30 bg-accent/8 text-[22px] text-accent">
                       ✓
                     </div>
-                    <p className="font-display text-[1.3rem] font-semibold text-white">Kodi juaj është gati!</p>
-                    <p className="mt-2 text-[13px] text-white/40">U dërgua edhe në email.</p>
+                    <p className="font-display text-[1.3rem] font-semibold text-white">
+                      {locale === "en" ? "Your code is ready!" : "Kodi juaj është gati!"}
+                    </p>
+                    <p className="mt-2 text-[13px] text-white/40">
+                      {locale === "en" ? "Also sent to your email." : "U dërgua edhe në email."}
+                    </p>
 
                     <div className="mt-7 rounded-xl border border-accent/30 bg-accent/8 px-6 py-5">
-                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/60">Kodi juaj</p>
+                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/60">
+                        {locale === "en" ? "Your code" : "Kodi juaj"}
+                      </p>
                       <p className="font-mono text-[2rem] font-bold tracking-[0.12em] text-accent">{code}</p>
                     </div>
 
                     <p className="mt-5 text-[12px] leading-[1.7] text-white/35">
-                      Citoni kodin kur kontaktoni për çdo shërbim.
+                      {locale === "en"
+                        ? "Quote the code when you contact us for any service."
+                        : "Citoni kodin kur kontaktoni për çdo shërbim."}
                     </p>
 
                     <a
                       href="/contact"
                       className="interactive-button ip-cta-primary mt-7 inline-flex"
                     >
-                      Rezervo konsultë →
+                      {locale === "en" ? "Book a consultation →" : "Rezervo konsultë →"}
                     </a>
                   </div>
                 ) : (
                   <>
                     <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55 mb-6">
-                      Merr kodin tënd
+                      {locale === "en" ? "Get your code" : "Merr kodin tënd"}
                     </p>
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div>
                         <label className="font-display mb-2 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
-                          Email-i juaj
+                          {locale === "en" ? "Your email" : "Email-i juaj"}
                         </label>
                         <input
                           ref={inputRef}
                           type="email"
                           required
-                          placeholder="email@kompania.com"
+                          placeholder={locale === "en" ? "email@company.com" : "email@kompania.com"}
                           disabled={state === "loading"}
                           className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 focus:border-accent disabled:opacity-50"
                         />
@@ -182,12 +220,14 @@ export default function NewsletterPageClient() {
                         disabled={state === "loading"}
                         className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
                       >
-                        {state === "loading" ? "Duke dërguar…" : "Merr 10% zbritje →"}
+                        {state === "loading"
+                          ? (locale === "en" ? "Sending…" : "Duke dërguar…")
+                          : (locale === "en" ? "Get 10% off →" : "Merr 10% zbritje →")}
                       </button>
                     </form>
 
                     <p className="mt-5 text-[11px] text-white/20 tracking-[0.04em]">
-                      Pa spam.
+                      {locale === "en" ? "No spam." : "Pa spam."}
                     </p>
                   </>
                 )}

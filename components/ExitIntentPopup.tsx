@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
@@ -9,17 +10,22 @@ const SESSION_KEY = "ip_exit_shown";
 const TOTAL_SHOWN_KEY = "ip_exit_shown_total";
 const MAX_TOTAL_SHOWS = 2;
 
-// Tekstet default — mbivendosen nga cilësimet e adminit (site_settings)
-const DEFAULTS = {
-  eyebrow: "Para se të largoheni",
-  title: "Merrni një konsultë falas sot.",
-  text: "Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.",
-  cta: "Konsultë falas →",
-};
+// Accent word to highlight inside the title — admin-provided titles are
+// Albanian-only (site_settings has no locale column yet), so this only
+// ever matches for the sq defaults/admin content, never the en fallback.
+const ACCENT_WORD: Record<string, string> = { sq: "falas", en: "free" };
 
 export default function ExitIntentPopup() {
+  const t = useTranslations("common.exitPopup");
+  const locale = useLocale();
+  const defaults = {
+    eyebrow: t("eyebrow"),
+    title: t("title"),
+    text: t("text"),
+    cta: t("cta"),
+  };
   const [visible, setVisible] = useState(false);
-  const [content, setContent] = useState(DEFAULTS);
+  const [content, setContent] = useState(defaults);
   const readyRef = useRef(false);
   const enabledRef = useRef(true);
 
@@ -30,20 +36,23 @@ export default function ExitIntentPopup() {
     if (totalShows >= MAX_TOTAL_SHOWS) return;
 
     // Merr cilësimet nga admini — nëse popup-i është i çaktivizuar, mos e shfaq fare
-    fetch("/api/popup")
-      .then((res) => res.json())
-      .then((data) => {
-        enabledRef.current = data.enabled !== false;
-        setContent({
-          eyebrow: data.eyebrow || DEFAULTS.eyebrow,
-          title: data.title || DEFAULTS.title,
-          text: data.text || DEFAULTS.text,
-          cta: data.cta || DEFAULTS.cta,
+    // Admin-authored overrides are Albanian-only; only apply them for the sq locale.
+    if (locale === "sq") {
+      fetch("/api/popup")
+        .then((res) => res.json())
+        .then((data) => {
+          enabledRef.current = data.enabled !== false;
+          setContent({
+            eyebrow: data.eyebrow || defaults.eyebrow,
+            title: data.title || defaults.title,
+            text: data.text || defaults.text,
+            cta: data.cta || defaults.cta,
+          });
+        })
+        .catch(() => {
+          // mbaj default-et
         });
-      })
-      .catch(() => {
-        // mbaj default-et
-      });
+    }
 
     // Prit 5 sekonda para se ta aktivizosh — vizitori duhet të ketë lexuar diçka
     const readyTimer = setTimeout(() => {
@@ -74,7 +83,7 @@ export default function ExitIntentPopup() {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Ofertë e veçantë"
+      aria-label={t("dialogAria")}
       className="fixed inset-0 z-[200] flex items-center justify-center p-4"
     >
       {/* Overlay */}
@@ -90,7 +99,7 @@ export default function ExitIntentPopup() {
         <button
           type="button"
           onClick={close}
-          aria-label="Mbyll"
+          aria-label={t("closeAria")}
           className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 text-white/40 transition-colors hover:border-white/25 hover:text-white/70"
         >
           <svg viewBox="0 0 12 12" className="h-3 w-3 fill-current" aria-hidden>
@@ -103,15 +112,18 @@ export default function ExitIntentPopup() {
           {content.eyebrow}
         </p>
         <h2 className="font-display mt-3 text-[clamp(1.5rem,4vw,2rem)] leading-tight text-white">
-          {content.title.includes("falas") ? (
-            <>
-              {content.title.split("falas")[0]}
-              <span className="text-accent">falas</span>
-              {content.title.split("falas").slice(1).join("falas")}
-            </>
-          ) : (
-            content.title
-          )}
+          {(() => {
+            const accent = ACCENT_WORD[locale] ?? ACCENT_WORD.sq;
+            if (!content.title.includes(accent)) return content.title;
+            const [before, ...restParts] = content.title.split(accent);
+            return (
+              <>
+                {before}
+                <span className="text-accent">{accent}</span>
+                {restParts.join(accent)}
+              </>
+            );
+          })()}
         </h2>
         <p className="mt-3 text-[0.9rem] leading-relaxed text-white/55">
           {content.text}
@@ -145,7 +157,7 @@ export default function ExitIntentPopup() {
           onClick={close}
           className="mt-4 w-full text-center text-[11px] text-white/28 transition-colors hover:text-white/50"
         >
-          Jo, faleminderit
+          {t("decline")}
         </button>
       </div>
     </div>

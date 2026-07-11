@@ -1,13 +1,20 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
-import { blogPosts, getBlogPostBySlug } from "@/lib/blogPosts";
+import { blogPosts, getBlogPostBySlugForLocale } from "@/lib/blogPosts";
+import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type BlogPostPageProps = {
-  params: { slug: string };
+  params: { locale: Locale; slug: string } | Promise<{ locale: Locale; slug: string }>;
+};
+
+const T: Record<Locale, { backToBlog: string; minRead: string }> = {
+  sq: { backToBlog: "Kthehu te blogu", minRead: "min lexim" },
+  en: { backToBlog: "Back to blog", minRead: "min read" },
 };
 
 const DEDICATED_BLOG_SLUGS = new Set([
@@ -37,9 +44,9 @@ function categoryColor(category: string) {
   return CATEGORY_COLORS[category] ?? DEFAULT_CATEGORY_COLOR;
 }
 
-function estimateReadTime(content: string[]) {
+function estimateReadTime(content: string[], locale: Locale) {
   const words = content.join(" ").split(/\s+/).filter(Boolean).length;
-  return `${Math.max(2, Math.round(words / 200))} min lexim`;
+  return `${Math.max(2, Math.round(words / 200))} ${T[locale].minRead}`;
 }
 
 const supabase = createClient(
@@ -73,19 +80,21 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
-  const post = getBlogPostBySlug(params.slug) ?? (await getDbPostBySlug(params.slug));
-  if (!post) return buildMetadata("Blog", undefined, "/blog");
-  return buildMetadata(post.title, post.meta_description || post.excerpt, `/blog/${params.slug}`);
+  const { locale, slug } = await Promise.resolve(params);
+  const post = getBlogPostBySlugForLocale(locale, slug) ?? (await getDbPostBySlug(slug));
+  if (!post) return buildMetadata("Blog", undefined, "/blog", undefined, locale);
+  return buildMetadata(post.title, post.meta_description || post.excerpt, `/blog/${slug}`, undefined, locale);
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const staticPost = getBlogPostBySlug(params.slug);
+  const { locale, slug } = await Promise.resolve(params);
+  const staticPost = getBlogPostBySlugForLocale(locale, slug);
 
   if (staticPost) {
     const breadcrumbSchema = buildBreadcrumb([
       { name: "Home", url: seo.siteUrl },
       { name: "Blog", url: `${seo.siteUrl}/blog` },
-      { name: staticPost.title, url: `${seo.siteUrl}/blog/${params.slug}` },
+      { name: staticPost.title, url: `${seo.siteUrl}/blog/${slug}` },
     ]);
 
     const articleSchema = {
@@ -123,9 +132,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </p>
             ))}
           </div>
-          <a href="/blog" className="luxury-link mt-10">
-            Kthehu te blogu <span aria-hidden>→</span>
-          </a>
+          <Link href="/blog" className="luxury-link mt-10">
+            {T[locale].backToBlog} <span aria-hidden>→</span>
+          </Link>
           </section>
         </main>
         <Footer />
@@ -133,12 +142,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     );
   }
 
-  const post = await getDbPostBySlug(params.slug);
+  const post = await getDbPostBySlug(slug);
   if (!post) notFound();
 
-  const others = await getOtherPosts(params.slug);
+  const others = await getOtherPosts(slug);
   const otherStatic = blogPosts
-    .filter((p) => p.slug !== params.slug)
+    .filter((p) => p.slug !== slug)
     .map((p) => ({ slug: p.slug, title: p.title, category: p.category, excerpt: p.excerpt, date: p.date }));
   const candidates = [...others, ...otherStatic];
   const sameCategory = candidates.filter((p) => p.category === post.category);
@@ -175,7 +184,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         path={`/blog/${post.slug}`}
         description={post.excerpt}
         date={post.date}
-        readTime={estimateReadTime(post.content)}
+        readTime={estimateReadTime(post.content, locale)}
         related={related}
       >
         {post.content.map((paragraph: string, i: number) => (

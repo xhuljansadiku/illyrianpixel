@@ -1,16 +1,134 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
-export const metadata: Metadata = buildMetadata(
-  "Web Design Tiranë: Si zgjidhni agjencinë profesionale",
-  "Si të zgjidhni agjencinë e duhur të web design në Tiranë. Kriteret, pyetjet e duhura dhe gabimet të shmangni para se të nënshkruani kontratën.",
-  "/blog/web-design-tirane",
-  ["web design tiranë", "agjenci web design shqipëri", "website professional tiranë", "dizajn web shqipëri"]
-);
+type Props = { params: { locale: string } | Promise<{ locale: string }> };
 
-export default function Page() {
+const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
+  sq: {
+    title: "Web Design Tiranë: Si zgjidhni agjencinë profesionale",
+    description:
+      "Si të zgjidhni agjencinë e duhur të web design në Tiranë. Kriteret, pyetjet e duhura dhe gabimet të shmangni para se të nënshkruani kontratën.",
+    keywords: ["web design tiranë", "agjenci web design shqipëri", "website professional tiranë", "dizajn web shqipëri"],
+  },
+  en: {
+    title: "Web Design Tirana: How to Choose a Professional Agency",
+    description:
+      "How to choose the right web design agency in Tirana. The right criteria, the questions to ask, and the mistakes to avoid before signing the contract.",
+    keywords: ["web design tirana", "web design agency albania", "professional website tirana", "web design albania"],
+  },
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await Promise.resolve(params);
+  const m = META[locale as Locale] ?? META.sq;
+  return buildMetadata(m.title, m.description, "/blog/web-design-tirane", m.keywords);
+}
+
+export default async function Page({ params }: Props) {
+  const { locale } = await Promise.resolve(params);
+
+  if (locale === "en") {
+    return (
+      <BlogArticleLayout
+        category="Web Design"
+        categoryColor="rgba(234,206,113,0.95)"
+        breadcrumbLabel="Web Design Tirana"
+        path="/blog/web-design-tirane"
+        title={<>Web Design Tirana<br />How to Choose a Professional Agency</>}
+        description={<>{"How to tell a serious agency apart from amateurs."}<br className="max-md:hidden" />{" The right criteria, the questions to ask, and the warning signs before signing a contract."}</>}
+        date="May 2026"
+        readTime="6 min read"
+        related={[
+          { href: "/blog/sa-kushton-website-shqiperi", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "How Much Does a Professional Website Cost in Albania in 2026?" },
+          { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tirana: How to Rank First on Google in 2026" },
+        ]}
+      >
+        <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
+          {"Tirana has dozens of web design agencies and hundreds of freelancers.\nMost promise the same thing.\nOnly a few deliver results.\nHow do you tell a truly professional agency apart from one that just sells words?\nThis article gives you the right criteria before you sign any contract."}
+        </p>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            What sets a professional agency apart from amateurs
+          </h2>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">A real portfolio, not templates.</strong>{"\nAsk for live URLs of projects.\nIf every site looks the same, they're probably working off the same template."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Price transparency.</strong>{"\nA serious agency gives you a detailed quote with a breakdown by component design, development, SEO, hosting."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">A structured process.</strong>{"\nProfessional projects are preceded by a planning and briefing phase.\nIf the agency starts designing without understanding your business that's not a good sign."}</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            7 questions to ask every web design agency
+          </h2>
+          <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
+            <li><strong className="text-white">1.</strong> Can I see projects similar to my industry?</li>
+            <li><strong className="text-white">2.</strong> Who will actually build the project? (some subcontract)</li>
+            <li><strong className="text-white">3.</strong> What will the site look like in 2 years is it built with modern technology?</li>
+            <li><strong className="text-white">4.</strong> What exactly does the SEO you offer include?</li>
+            <li><strong className="text-white">5.</strong> Who owns the code and the domain after the project?</li>
+            <li><strong className="text-white">6.</strong> How are changes handled after delivery are they free or paid?</li>
+            <li><strong className="text-white">7.</strong> Can you show me references or testimonials from your clients?</li>
+          </ol>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            Warning signs to walk away
+          </h2>
+          <ul className="space-y-2 text-[1.02rem] text-white/68">
+            {[
+              'They offer a website "within 3 days"',
+              'They promise "first page of Google within a week"',
+              "They have no contract or only a one-page contract",
+              "They don't ask anything about your business before the quote",
+              "The price changes during the process with no justification",
+            ].map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <span className="mt-1 text-red-400">⚠</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            What web design contracts should specify
+          </h2>
+          <ul className="space-y-2 text-[1.02rem] text-white/68">
+            {[
+              "The exact number of pages and features",
+              "The delivery deadline with intermediate milestones",
+              "The number of revisions included",
+              "Ownership of the code, design, and domain",
+              "Post-launch maintenance terms",
+              "Total price and payment terms",
+            ].map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <span className="mt-1 text-accent">✓</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-[1.02rem] leading-relaxed text-white/68">
+            Discover how we build projects with full transparency and <Link href="/services/website" className="text-accent underline underline-offset-4">professional web design service</Link> with no surprises.
+          </p>
+        </section>
+
+        <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
+          <p className="font-display text-[1.1rem] text-white">Want to discuss your project?</p>
+          <p className="mt-2 text-[0.95rem] text-white/65">The first consultation is free, no obligation.</p>
+          <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
+            Contact us here →
+          </Link>
+        </div>
+      </BlogArticleLayout>
+    );
+  }
+
   return (
     <BlogArticleLayout
       category="Web Design"

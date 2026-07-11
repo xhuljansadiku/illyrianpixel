@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Shërbimet",
+    "pricing": "Çmimet",
+    "work": "Projektet",
+    "blog": "Blog",
+    "contact": "Kontakt",
+    "cta": "Fillo sot",
+    "logoAria": "Shko te fillimi (Alt+klik për surprizë të vogël)",
+    "menuAria": "Hap menunë",
+    "closeMenuAria": "Mbyll menunë",
+    "menuLabel": "Menu",
+    "langSwitchAria": "Zgjidh gjuhën",
+    "langAl": "Shqip",
+    "langEn": "English"
+  },
+  "footer": {
+    "brandTitleLine1": "Ktheje biznesin në ",
+    "brandTitleAccent": "brand.",
+    "tagline": "Vetëm një klikim larg jush.",
+    "bookConsult": "Rezervo konsultë",
+    "navHeading": "Navigim",
+    "nav": {
+      "services": "Shërbimet",
+      "work": "Projektet",
+      "pricing": "Çmimet",
+      "blog": "Blog",
+      "contact": "Kontakt"
+    },
+    "servicesHeading": "Shërbime",
+    "services": {
+      "website": "Website Premium",
+      "ecommerce": "E-Commerce",
+      "seoAds": "SEO & Google Ads",
+      "social": "Social Media",
+      "branding": "Branding & Content",
+      "maintenance": "Mirëmbajtja"
+    },
+    "contactHeading": "Kontakt",
+    "contactNow": "Kontakto Tani",
+    "whatsapp": "WhatsApp",
+    "email": "info@illyrianpixel.com",
+    "locationLine": "Shqipëri · Gjermani · Online",
+    "followHeading": "Na ndiqni",
+    "copyright": "© 2026 Illyrian Pixel",
+    "privacy": "Privatësia",
+    "terms": "Kushtet",
+    "backToTop": "Kthehu sipër"
+  },
+  "projectCard": {
+    "view": "Shiko",
+    "comingSoon": "Së shpejti"
+  },
+  "globalCta": {
+    "label": "NEXT STEP",
+    "title": "Gati për hapin tjetër?",
+    "body": "Rezervo një call dhe kthejmë drejtimin në plan konkret me prioritete të qarta.",
+    "primaryActionText": "Fillo Bisedën",
+    "secondaryActionText": "Kontakto Tani"
+  },
+  "exitPopup": {
+    "dialogAria": "Ofertë e veçantë",
+    "closeAria": "Mbyll",
+    "decline": "Jo, faleminderit",
+    "eyebrow": "Para se të largoheni",
+    "title": "Merrni një konsultë falas sot.",
+    "text": "Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.",
+    "cta": "Konsultë falas →"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "hero": {
+    "badge": "ILLYRIAN PIXEL",
+    "headlineLine1": "Ktheje biznesin në ",
+    "headlineAccent": "brand.",
+    "srSubtitle": "Website, SEO dhe Marketing për biznese shqiptare",
+    "paragraph1": "Ndërtojmë Website & E-Commerce moderne, dominojmë Google me SEO dhe rrisim shitjet përmes Reklamave, Social Media & Branding.",
+    "paragraph2": "Plan konkret brenda 24 orëve, 100% pa pagesë.",
+    "paragraph3": "Ju fokusohuni te biznesi. Klientët i sjellim ne.",
+    "ctaPrimary": "Merr ofertë falas",
+    "ctaSecondary": "Shiko projektet",
+    "scrollCue": "Zbulo më shumë"
+  },
+  "whyUs": {
+    "eyebrow": "PSE NE",
+    "headlineLine1": "Rritje reale për ",
+    "headlineAccent": "biznesin tuaj.",
+    "subtext": "Ne nuk ndërtojmë vetëm website. Ndërtojmë sisteme dixhitale që sjellin klientë, kërkesa dhe rritje reale për biznesin tuaj.",
+    "quote": "Zgjidhja që funksionon për biznesin tuaj fillon këtu.",
+    "cta": "Rezervo konsultë falas →",
+    "panels": [
+      {
+        "number": "01",
+        "title": "Fokus te rezultati",
+        "body": "Qëllimi ynë nuk është një website i bukur, por një sistem që ju sjell klientë dhe kërkesa reale."
+      },
+      {
+        "number": "02",
+        "title": "Strategji para dizajnit",
+        "body": "Para se të ndërtojmë, kuptojmë biznesin, tregun dhe klientët tuaj. Pastaj krijojmë zgjidhjen që funksionon."
+      },
+      {
+        "number": "03",
+        "title": "SEO & performancë",
+        "body": "Website që shfaqen në Google dhe janë të ndërtuara për të kthyer vizitorët në klientë."
+      },
+      {
+        "number": "04",
+        "title": "Partneritet afatgjatë",
+        "body": "Nuk zhdukemi pas publikimit. Ju ndihmojmë me përmirësime, marketing dhe rritje të vazhdueshme."
+      }
+    ]
+  },
+  "ctaAfterFaq": {
+    "title": "Gati për më shumë klientë?",
+    "body": "Rezervo një konsultë falas dhe fillojmë me një plan të qartë.",
+    "cta": "Rezervo konsultë"
+  },
+  "miniSales": {
+    "line1": "Klientët tuaj të ardhshëm po ju kërkojnë tani në Google.",
+    "line2": "A po ju gjejnë?",
+    "cta": "Rezervo konsultë"
+  },
+  "seoBoostLine": "Agjenci digjitale për biznese Shqiptare Website, E-Commerce, SEO, Google Ads, Branding dhe Social Media Marketing për tregun vendor dhe diasporën.",
+  "servicesSection": {
+    "eyebrow": "SHËRBIMET TONA",
+    "headlineLine1": "Website, Marketing dhe Branding ",
+    "headlineLine2Pre": "për më shumë ",
+    "headlineAccent": "klientë dhe shitje",
+    "intro": "Bashkëpunojmë me biznese Shqiptare që duan më shumë se një faqe interneti, duan rezultate reale dhe klientë të rinj.",
+    "allServicesCta": "TË GJITHA SHËRBIMET ",
+    "cardCta": "Shiko shërbimin"
+  },
+  "trustedClients": {
+    "eyebrow": "Klientët tanë",
+    "headline": "Marka dhe biznese që na besojnë",
+    "intro": "Nga Shqipëria në tregun ndërkombëtar, bashkëpunojmë me biznese që kërkojnë rritje dhe rezultate reale.",
+    "statYears": "vite eksperiencë",
+    "statProjects": "projekte",
+    "statBusinesses": "Biznese në Shqipëri & diasporë"
+  },
+  "featuredWork": {
+    "eyebrow": "PROJEKTET",
+    "headlineLine1": "Projekte që sjellin ",
+    "headlineAccent": "klientë realë",
+    "intro": "Ndërtuar për performancë dhe rritje të biznesit.",
+    "allProjectsCta": "Të gjitha projektet "
+  },
+  "testimonials": {
+    "eyebrow": "ZËRI I KLIENTËVE",
+    "headline": "Çfarë thonë klientët",
+    "intro": "Rezultate reale nga bashkëpunime reale.",
+    "otherCategory": "Të tjera"
+  },
+  "process": {
+    "eyebrow": "PROCESI",
+    "headlineLine1": "Proces i qartë, pa surpriza",
+    "headlineAccent": "Nga ideja te një website që sjell klientë",
+    "steps": [
+      {
+        "label": "FAZA 01",
+        "duration": "3–5 ditë",
+        "title": "Plani",
+        "points": [
+          "Kuptojmë biznesin dhe ndërtojmë strategjinë.",
+          "Përcaktojmë klientët që synoni dhe mënyrën si do t'i tërheqim."
+        ],
+        "result": "Në fund keni: një plan të qartë për rritje dhe strukturë të gatshme për ekzekutim."
+      },
+      {
+        "label": "FAZA 02",
+        "duration": "5–7 ditë",
+        "title": "Dizajni",
+        "points": [
+          "Krijojmë një dizajn që komunikon qartë vlerën tuaj dhe ndërton besim që në sekondat e para."
+        ],
+        "result": "Në fund keni: dizajn profesional që udhëheq vizitorin drejt kontaktit."
+      },
+      {
+        "label": "FAZA 03",
+        "duration": "7–14 ditë",
+        "title": "Zhvillimi",
+        "points": [
+          "E kthejmë dizajnin në një website të shpejtë, të optimizuar dhe funksional në çdo pajisje."
+        ],
+        "result": "Në fund keni: një faqe të gatshme për të kthyer vizitorët në klientë."
+      },
+      {
+        "label": "FAZA 04",
+        "duration": "1–2 ditë",
+        "title": "Publikimi",
+        "points": [
+          "Publikojmë faqen dhe e bëjmë gati për të marrë klientë që nga dita e parë."
+        ],
+        "result": "Në fund keni: website live, i sigurt dhe i përgatitur për rritje."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "headline": "Pyetje të shpeshta.",
+    "otherCategory": "Të tjera"
+  },
+  "newsletter": {
+    "badge": "Ofertë ekskluzive",
+    "headline": "10% zbritje për çdo shërbim",
+    "introLine1": "Abonohu dhe merr kodin tënd të zbritjes direkt në email",
+    "introLine2": "Website, SEO, Google Ads, Branding, Social Media.",
+    "yourCode": "Kodi juaj",
+    "codeSentLine1": "E-mail me kodin u dërgua.",
+    "codeSentLine2": "Citoni kodin kur të kontaktoni për çdo shërbim.",
+    "bookConsult": "Rezervo konsultë →",
+    "emailPlaceholder": "email@kompania.com",
+    "submitting": "Duke dërguar…",
+    "submitCta": "Merr 10% →",
+    "genericError": "Diçka nuk funksionoi. Provoni sërish.",
+    "connectionError": "Gabim lidhjeje. Kontrolloni internetin.",
+    "disclaimer": "Pa spam. Çabonohuni kurdo. Kodi vlen për çdo shërbim të ri."
+  }
+}

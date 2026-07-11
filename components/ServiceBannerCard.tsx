@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import ServiceCardHeroVisual from "@/components/ServiceCardHeroVisual";
 import { useReducedMotion } from "@/lib/gsap";
 import type { ServiceOverviewCard } from "@/lib/serviceOverviewCards";
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export default function ServiceBannerCard({ service, reversed = false, headingAs = "h2", cardRef }: Props) {
+  const t = useTranslations("home.servicesSection");
   const spaceIdx = service.title.indexOf(" ");
   const firstWord = spaceIdx > -1 ? service.title.slice(0, spaceIdx) : service.title;
   const rest = spaceIdx > -1 ? service.title.slice(spaceIdx) : "";
@@ -119,7 +121,7 @@ export default function ServiceBannerCard({ service, reversed = false, headingAs
 
         <div>
           <span className="inline-flex items-center gap-2.5 rounded-[6px] bg-[#D4AF37] px-5 py-2.5 font-body text-[11px] font-bold uppercase tracking-[1.5px] text-[#0a0a0a] shadow-[0_2px_12px_rgba(212,175,55,0.3)] transition-all duration-300 group-hover:bg-[#eace71] group-hover:shadow-[0_4px_20px_rgba(212,175,55,0.45)]">
-            Shiko shërbimin
+            {t("cardCta")}
             <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>

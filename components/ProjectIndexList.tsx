@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 
 export type FeaturedItem = {
@@ -24,6 +25,7 @@ const MOOD_COLORS = ["#ab8339", "#c2703d", "#3f8f86", "#4f6f93", "#9c4d4d", "#7a
 // Numbered editorial row list with a cursor-follow image preview on desktop.
 // Shared by the homepage teaser (FeaturedWorkGrid) and the full /projektet index.
 export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
+  const t = useTranslations("common.projectCard");
   const listRef = useRef<HTMLDivElement | null>(null);
   const previewRef = useRef<HTMLDivElement | null>(null);
   const reducedMotion = useReducedMotion();
@@ -103,7 +105,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
 
             const ctaLabel = (
               <>
-                {isLink ? "Shiko" : "Së shpejti"}
+                {isLink ? t("view") : t("comingSoon")}
                 {isLink && <span aria-hidden>{"→"}</span>}
               </>
             );

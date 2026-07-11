@@ -1,13 +1,13 @@
 import {
-  conversionTrustStatsDefault,
-  conversionWhyUsHeroDefault,
+  getConversionTrustStatsDefault,
+  getConversionWhyUsHeroDefault,
   type ConversionLandingData,
 } from "@/lib/conversionLandingShared";
 
 export const webConversionLandingData: ConversionLandingData = {
-  trustStats: { ...conversionTrustStatsDefault },
+  trustStats: { ...getConversionTrustStatsDefault("sq") },
   whyUs: {
-    ...conversionWhyUsHeroDefault,
+    ...getConversionWhyUsHeroDefault("sq"),
     items: [
       {
         icon: "convert",

@@ -1,0 +1,32 @@
+{
+  "filters": {
+    "website": "Website",
+    "ecommerce": "E-Commerce",
+    "seoAds": "SEO & Google Ads",
+    "smm": "Social Media",
+    "branding": "Branding",
+    "maintenance": "Mirëmbajtja"
+  },
+  "hero": {
+    "eyebrow": "ÇMIMET & PAKETAT",
+    "titleLine1": "Të gjitha paketat",
+    "titleLine2": "në një vend.",
+    "subtext": "Krahaso paketat për Website, E-Commerce, Marketing, Branding dhe Social Media.\nÇdo ofertë personalizohet falas."
+  },
+  "billing": {
+    "monthly": "Mujore",
+    "annual": "Vjetore",
+    "annualNote": "/ muaj · vjetor -20%"
+  },
+  "packagesFor": "Paketat për",
+  "onlyOneService": "Vetëm një shërbim?",
+  "oldSite": {
+    "line1": "Faqe e vjetër?",
+    "line2": "E rindërtojmë nga e para.",
+    "note": "Konsultim falas · Ofertë e personalizuar",
+    "cta": "Na kontaktoni →"
+  },
+  "vatNote": "Të gjitha çmimet janë pa TVSH · Konsultimi fillestar është gjithmonë falas",
+  "mostChosenBadge": "Më e zgjedhura",
+  "defaultCta": "Fillo Tani"
+}

@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
@@ -46,6 +47,7 @@ const quotes: TestimonialItem[] = [
 ];
 
 export default function Testimonials({ items }: { items?: TestimonialItem[] }) {
+  const t = useTranslations("home.testimonials");
   const list = items && items.length > 0 ? items : quotes;
   const hasCategories = list.some((item) => "category" in item && item.category);
 
@@ -53,7 +55,7 @@ export default function Testimonials({ items }: { items?: TestimonialItem[] }) {
   if (hasCategories) {
     const map = new Map<string, TestimonialItem[]>();
     for (const item of list) {
-      const key = item.category || "Të tjera";
+      const key = item.category || t("otherCategory");
       if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(item);
     }
@@ -88,10 +90,10 @@ export default function Testimonials({ items }: { items?: TestimonialItem[] }) {
     <section id="testimonials" ref={sectionRef} className="cinematic-section section-tone-about">
       <div className="section-wrap">
         <div className="testimonial-reveal">
-          <SectionMark label="ZËRI I KLIENTËVE" />
+          <SectionMark label={t("eyebrow")} />
         </div>
-        <h2 className="testimonial-reveal section-title mt-3 max-w-4xl">{"Çfarë thonë klientët"}</h2>
-        <p className="testimonial-reveal mt-4 max-w-[480px] font-body text-[0.94rem] font-light leading-relaxed tracking-[0.02em] text-white/45">{"Rezultate reale nga bashkëpunime reale."}</p>
+        <h2 className="testimonial-reveal section-title mt-3 max-w-4xl">{t("headline")}</h2>
+        <p className="testimonial-reveal mt-4 max-w-[480px] font-body text-[0.94rem] font-light leading-relaxed tracking-[0.02em] text-white/45">{t("intro")}</p>
         <div className="mt-10 space-y-10">
           {groups.map((group) => (
             <div key={group.category ?? "all"}>

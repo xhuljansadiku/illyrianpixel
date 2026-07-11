@@ -1,11 +1,11 @@
 ﻿import {
-  conversionTrustStatsDefault,
+  getConversionTrustStatsDefault,
   type ConversionLandingData,
 } from "@/lib/conversionLandingShared";
 
 export const marketingConversionLandingData: ConversionLandingData = {
   trustStats: {
-    ...conversionTrustStatsDefault,
+    ...getConversionTrustStatsDefault("sq"),
     reachLabel: "Sot fillon me një vendim, jo me një shpresë",
   },
   painSection: {

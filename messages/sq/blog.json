@@ -1,0 +1,24 @@
+{
+  "layout": {
+    "back": "Kthehu te blogu",
+    "ctaHeading": "Keni pyetje rreth projektit tuaj?",
+    "ctaBody": "Na shkruani direkt, përgjigjemi brenda minutave.",
+    "related": "Artikuj të ngjashëm"
+  },
+  "index": {
+    "allLabel": "Të gjitha",
+    "eyebrow": "BLOG & INSIGHTS",
+    "titleLine1": "Ide, lajme ",
+    "titleAccent": "& udhëzime.",
+    "subtitle": "Artikuj për UX, SEO dhe rritje të qëndrueshme për biznese serioze.",
+    "latest": "Më i fundit",
+    "readArticle": "Lexo artikullin",
+    "empty": "Nuk ka artikuj për këtë kategori."
+  },
+  "preview": {
+    "title": "Ide, lajme & udhëzime.",
+    "subtitle": "Gjëra që ia vlen t'i dini.",
+    "viewAll": "Shiko të gjitha",
+    "readMore": "Lexo më shumë"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "layout": {
+    "back": "Back to blog",
+    "ctaHeading": "Have questions about your project?",
+    "ctaBody": "Message us directly, we reply within minutes.",
+    "related": "Related articles"
+  },
+  "index": {
+    "allLabel": "All",
+    "eyebrow": "BLOG & INSIGHTS",
+    "titleLine1": "Ideas, news ",
+    "titleAccent": "& guides.",
+    "subtitle": "Articles on UX, SEO and sustainable growth for serious businesses.",
+    "latest": "Latest",
+    "readArticle": "Read the article",
+    "empty": "No articles in this category."
+  },
+  "preview": {
+    "title": "Ideas, news & guides.",
+    "subtitle": "Things worth knowing.",
+    "viewAll": "View all",
+    "readMore": "Read more"
+  }
+}

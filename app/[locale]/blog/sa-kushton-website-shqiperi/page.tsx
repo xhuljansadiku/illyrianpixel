@@ -1,16 +1,119 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
-export const metadata: Metadata = buildMetadata(
-  "Sa kushton website profesional në Shqipëri 2026?",
-  "Çmimet reale të website-ve në Shqipëri për 2026. Zbuloni sa kushton faqja profesionale, çfarë përfshin dhe si të shmangni gabimet e shtrenjta.",
-  "/blog/sa-kushton-website-shqiperi",
-  ["sa kushton website shqipëri 2026", "çmimi website shqipëri", "web design çmim", "agjenci web tiranë"]
-);
+type Props = { params: { locale: string } | Promise<{ locale: string }> };
 
-export default function Page() {
+const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
+  sq: {
+    title: "Sa kushton website profesional në Shqipëri 2026?",
+    description:
+      "Çmimet reale të website-ve në Shqipëri për 2026. Zbuloni sa kushton faqja profesionale, çfarë përfshin dhe si të shmangni gabimet e shtrenjta.",
+    keywords: ["sa kushton website shqipëri 2026", "çmimi website shqipëri", "web design çmim", "agjenci web tiranë"],
+  },
+  en: {
+    title: "How Much Does a Professional Website Cost in Albania in 2026?",
+    description:
+      "Real website pricing in Albania for 2026. Find out what a professional site costs, what it includes, and how to avoid costly mistakes.",
+    keywords: ["website cost albania 2026", "website price albania", "web design price", "web agency tirana"],
+  },
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await Promise.resolve(params);
+  const m = META[locale as Locale] ?? META.sq;
+  return buildMetadata(m.title, m.description, "/blog/sa-kushton-website-shqiperi", m.keywords);
+}
+
+export default async function Page({ params }: Props) {
+  const { locale } = await Promise.resolve(params);
+
+  if (locale === "en") {
+    return (
+      <BlogArticleLayout
+        category="Web Design"
+        categoryColor="rgba(234,206,113,0.95)"
+        breadcrumbLabel="Website Cost?"
+        path="/blog/sa-kushton-website-shqiperi"
+        title="How Much Does a Professional Website Cost in Albania in 2026?"
+        description={<>{"Real website pricing in Albania for 2026."}<br className="max-md:hidden" />{" Find out what a professional site costs, what it includes, and how to avoid costly mistakes."}</>}
+        date="May 2026"
+        readTime="6 min read"
+        related={[
+          { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tirana: How to Choose a Professional Agency" },
+          { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tirana: How to Rank First on Google in 2026" },
+        ]}
+      >
+        <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
+          {"This is the question every Albanian business owner asks sooner or later.\nAnd it usually gets different answers ranging from 300 euros to 5,000 euros with no logical explanation.\nThe Albanian web design market is unstructured: there are freelancers who build sites for 300 euros and agencies asking 3,000 euros for the same visual result."}
+        </p>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            Average website price in Albania by type
+          </h2>
+          <div className="overflow-x-auto rounded-xl border border-white/10">
+            <table className="w-full text-[0.93rem]">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/[0.04]">
+                  <th className="px-4 py-3 text-left font-semibold text-white/80">Page type</th>
+                  <th className="px-4 py-3 text-left font-semibold text-white/80">Average price</th>
+                  <th className="px-4 py-3 text-left font-semibold text-white/80">What it includes</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.06] text-white/65">
+                <tr><td className="px-4 py-3">Presentation site (5–7 pages)</td><td className="px-4 py-3 text-accent">€400 – 800</td><td className="px-4 py-3">Design, basic SEO, 1 year hosting</td></tr>
+                <tr><td className="px-4 py-3">Business website (10–20 pages)</td><td className="px-4 py-3 text-accent">€800 – 1,800</td><td className="px-4 py-3">CMS, blog, contact form</td></tr>
+                <tr><td className="px-4 py-3">E-commerce (online store)</td><td className="px-4 py-3 text-accent">€1,200 – 4,000</td><td className="px-4 py-3">Products, payments, analytics</td></tr>
+                <tr><td className="px-4 py-3">Landing page</td><td className="px-4 py-3 text-accent">€200 – 500</td><td className="px-4 py-3">1 page, optimized CTAs</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            What affects the price of a website
+          </h2>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">1. Design complexity.</strong>{"\nA site with custom design costs 2–3 times more than one built on a template. Original design requires real work hours."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">2. Technical features.</strong>{"\nOnline bookings, payment systems, CRM integrations — every new feature adds development time."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">3. SEO and optimization.</strong>{"\nSites with good SEO are built differently — with precise structure, high speed, and optimized meta tags.\nThis takes extra time."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">4. Maintenance and hosting.</strong>{"\nGood hosting costs €100–300/year, monthly maintenance €50–200.\nWithout them, your site will slow down and run into security issues."}</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            What to avoid when choosing a price
+          </h2>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">The freelancer with a very low price.</strong>{"\n€300–500 doesn't even cover the minimum time needed for quality work.\nYou'll usually get a modified template with no SEO and no optimization."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Contracts without specifications.</strong>{"\nIf the contract doesn't precisely list the pages, features, and deadline you'll get surprises with extra costs."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Free&rdquo; hosting and domain.</strong>{"\nWhen someone offers you everything \"free,\" you'll pay for it with poor performance and limited control."}</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
+            When is it worth investing more?
+          </h2>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
+            {"If your business gets 60–70% of its customers online, your website is your main sales channel.\nAlbanian businesses that invest €1,200–3,000 in a professional website report an average return within 6–12 months.\n"}
+            <Link href="/cmimet" className="text-accent underline underline-offset-4">See our full pricing</Link>
+            {" or contact us for a quote based on your needs."}
+          </p>
+        </section>
+
+        <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
+          <p className="font-display text-[1.1rem] text-white">Want to discuss your project?</p>
+          <p className="mt-2 text-[0.95rem] text-white/65">The first consultation is free, no obligation.</p>
+          <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
+            Contact us here →
+          </Link>
+        </div>
+      </BlogArticleLayout>
+    );
+  }
+
   return (
     <BlogArticleLayout
       category="Web Design"

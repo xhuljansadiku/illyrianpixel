@@ -1,12 +1,14 @@
 ﻿"use client";
 
 import { useRef } from "react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServiceCompactCard from "@/components/ServiceCompactCard";
 import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
-import { SHERBIMET_PAGE_CARDS } from "@/lib/serviceOverviewCards";
+import { getSherbimetPageCards } from "@/lib/serviceOverviewCards";
+import type { Locale } from "@/i18n/routing";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 const HERO_FLOAT_ICONS: AmbientIconConfig[] = [
@@ -19,6 +21,9 @@ const HERO_FLOAT_ICONS: AmbientIconConfig[] = [
 ];
 
 export default function SherbimetPageClient() {
+  const t = useTranslations("services.overview");
+  const locale = useLocale() as Locale;
+  const sherbimetCards = getSherbimetPageCards(locale);
   const heroRef = useRef<HTMLElement | null>(null);
   const siPunojmeRef = useRef<HTMLElement | null>(null);
 
@@ -110,23 +115,23 @@ export default function SherbimetPageClient() {
           <AmbientServiceIcons heroRef={heroRef} icons={HERO_FLOAT_ICONS} />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"SHËRBIMET"}</p>
+            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{t("heroEyebrow")}</p>
 
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
-                {"Sisteme digjitale"}
+                {t("heroLine1")}
               </h1>
             </div>
             <div className="hero-line2 overflow-hidden">
               <h1 className="cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
-                {"që sjellin klientë."}
+                {t("heroLine2")}
               </h1>
             </div>
 
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
 
             <p className="hero-subtext mt-6 font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42 md:whitespace-nowrap">
-              {"Nga website dhe SEO, te reklamat dhe branding, ndërtojmë zgjidhje të plota për bizneset shqiptare."}
+              {t("heroSubtext")}
             </p>
           </div>
         </section>
@@ -135,7 +140,7 @@ export default function SherbimetPageClient() {
         <section className="relative z-[1] border-b border-white/10">
           <div className="section-wrap py-14 md:py-20">
             <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-              {SHERBIMET_PAGE_CARDS.map((service) => (
+              {sherbimetCards.map((service) => (
                 <ServiceCompactCard key={service.href} service={service} headingAs="h2" />
               ))}
             </div>
@@ -145,14 +150,14 @@ export default function SherbimetPageClient() {
         {/* Si punojmë, minimal */}
         <section ref={siPunojmeRef} className="relative z-[1] border-b border-white/[0.06] bg-[#0a0a0a]">
           <div className="section-wrap py-20 md:py-28">
-            <p className="sp-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/50">{"Si punojmë"}</p>
+            <p className="sp-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/50">{t("howWeWorkEyebrow")}</p>
             <h2 className="sp-headline mt-5 font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-white">
-              {"Një shërbim ose sistem i plotë."}
+              {t("howWeWorkHeadline")}
               <br className="hidden md:block" />
-              <span className="block text-accent md:inline">{"Zgjidhni ju."}</span>
+              <span className="block text-accent md:inline">{t("howWeWorkHeadlineAccent")}</span>
             </h2>
             <p className="sp-subtext mt-6 max-w-[50ch] font-body text-[0.95rem] font-light leading-[1.7] text-white/45">
-              {"Kur website, SEO dhe marketing punojnë bashkë, rezultatet shumëfishohen."}
+              {t("howWeWorkSubtext")}
             </p>
           </div>
         </section>
@@ -163,24 +168,24 @@ export default function SherbimetPageClient() {
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
           <div className="section-wrap relative py-28 md:py-36 text-center">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent/55">{"Hapi tjetër"}</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent/55">{t("ctaEyebrow")}</p>
             <h2 className="mt-6 font-display text-[clamp(2.2rem,5vw,4.4rem)] font-bold leading-[1.06] tracking-[-0.03em] text-white">
-              {"Gati të rritni biznesin?"}
+              {t("ctaHeadline")}
             </h2>
             <p className="mt-5 font-body text-[0.95rem] font-light leading-relaxed text-white/48">
-              {"Rezervo një konsultë falas dhe marrim një plan konkret brenda 24 orëve, pa detyrim."}
+              {t("ctaSubtext")}
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
               <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg">
-                {"Fillo Bisedën"}
+                {t("ctaPrimary")}
               </Link>
               <Link href="/contact" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.06em] text-white/50 transition-colors duration-300 hover:text-white">
-                {"Kontakto Tani"}
+                {t("ctaSecondary")}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
             </div>
             <p className="mt-8 font-mono text-[10px] tracking-[0.14em] text-white/22">
-              {"Pa detyrim · Përgjigje brenda 24h"}
+              {t("ctaFootnote")}
             </p>
           </div>
         </section>
@@ -189,7 +194,7 @@ export default function SherbimetPageClient() {
         <div className="border-t border-white/[0.04]">
           <div className="section-wrap py-4">
             <p className="text-center font-body text-[11px] font-light leading-relaxed tracking-[0.04em] text-white/18">
-              {"Agjenci digjitale për biznese Shqiptare Website, E-Commerce, SEO, Google Ads, Branding dhe Social Media Marketing për tregun vendor dhe diasporën."}
+              {t("seoLine")}
             </p>
           </div>
         </div>

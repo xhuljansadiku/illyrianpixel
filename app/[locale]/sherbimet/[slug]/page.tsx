@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { permanentRedirect, notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo";
 import { serviceCategories, serviceCategoryBySlug } from "@/lib/serviceCategories";
+import { getPathname } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 
-type RouteParams = { slug: string };
+type RouteParams = { locale: Locale; slug: string };
 
 type Props = { params: RouteParams | Promise<RouteParams> };
 
@@ -21,8 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SherbimetCategoryPage({ params }: Props) {
-  const { slug } = await Promise.resolve(params);
+  const { locale, slug } = await Promise.resolve(params);
   const category = serviceCategoryBySlug(slug);
   if (!category) notFound();
-  permanentRedirect(`/services/${category.slug}`);
+  permanentRedirect(getPathname({ locale, href: `/services/${category.slug}` }));
 }

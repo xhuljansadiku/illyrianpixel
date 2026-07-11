@@ -2,21 +2,22 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { ensureGSAP, MOTION, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import MobileMenu from "@/components/MobileMenu";
-
-const navItems = [
-  { id: "hero",          label: "Home",       href: "/" },
-  { id: "services",     label: "Sh\u00ebrbimet",  href: "/sherbimet" },
-  { id: "pricing",      label: "\u00c7mimet",     href: "/cmimet" },
-  { id: "featured-work",label: "Projektet",  href: "/projektet" },
-  { id: "blog",         label: "Blog",       href: "/blog" },
-  { id: "contact",      label: "Kontakt",    href: "/contact" },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Navbar() {
+  const t = useTranslations("common.nav");
+  const navItems = [
+    { id: "hero",          label: t("home"),     href: "/" },
+    { id: "services",      label: t("services"), href: "/sherbimet" },
+    { id: "pricing",       label: t("pricing"),  href: "/cmimet" },
+    { id: "featured-work", label: t("work"),     href: "/projektet" },
+    { id: "blog",          label: t("blog"),     href: "/blog" },
+    { id: "contact",       label: t("contact"),  href: "/contact" },
+  ];
   const pathname = usePathname();
   const router = useRouter();
   const reduced = useReducedMotion();
@@ -136,7 +137,7 @@ export default function Navbar() {
               navigate(navItems[0]);
             }}
             className="flex min-w-0 flex-1 items-center text-left sm:flex-initial sm:min-w-0"
-            aria-label="Shko te fillimi (Alt+klik p\u00ebr surpriz\u00eb t\u00eb vog\u00ebl)"
+            aria-label={t("logoAria")}
           >
             <span className="inline-flex min-w-0 max-w-full items-center gap-1.5 transition-opacity duration-300 hover:opacity-90 sm:gap-2.5 md:gap-[10px]">
               <Image
@@ -179,18 +180,19 @@ export default function Navbar() {
           </div>
 
           <div ref={actionsRef} className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
+            <LanguageSwitcher className="hidden sm:flex" />
             <Link
               href="/contact"
               data-magnetic="true"
               className="interactive-button ip-cta-primary ip-cta-navbar inline-flex items-center justify-center self-center"
             >
-              Fillo sot
+              {t("cta")}
             </Link>
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
               className="inline-flex h-10 min-h-[40px] w-10 min-w-[40px] touch-manipulation items-center justify-center rounded-full border border-white/18 bg-white/[0.03] text-white/85 transition-colors duration-300 hover:border-accent/55 hover:bg-white/[0.06] hover:text-accentLight lg:hidden"
-              aria-label="Hap menun\u00eb"
+              aria-label={t("menuAria")}
             >
               <span className="flex h-5 w-5 flex-col items-center justify-center gap-[5px]" aria-hidden>
                 <span className="block h-0.5 w-[18px] rounded-full bg-current" />

@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import type { CaseStudy } from "@/lib/caseStudies";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +10,7 @@ import ProjectIndexList from "@/components/ProjectIndexList";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) {
+  const t = useTranslations("projects");
   const heroRef = useRef<HTMLElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -54,19 +56,19 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"PROJEKTET TONA"}</p>
+            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{t("hero.eyebrow")}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
-                {"\u00c7far\u00eb kemi "}
-                <span className="text-accent">{"nd\u00ebrtuar."}</span>
+                {t("hero.headlineLine1")}
+                <span className="text-accent">{t("hero.headlineAccent")}</span>
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p className="hero-subtext mt-6 max-w-3xl font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
-              {"Bashkëpunojmë me një rrjet të gjerë klientësh në Gjermani, Itali, Angli, Kosovë dhe Shqipëri."}
+              {t("hero.subtext1")}
             </p>
             <p className="hero-subtext mt-5 max-w-3xl font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
-              {"Eksploroni më poshtë disa nga projektet tona."}
+              {t("hero.subtext2")}
             </p>
           </div>
         </section>
@@ -78,10 +80,8 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
         </section>
 
         <GlobalCTA
-          title={"Gati p\u00ebr t\u00eb nd\u00ebrtuar di\u00e7ka t\u00eb jasht\u00ebzakonshme?"}
-          body={
-            "Rezervo nj\u00eb thirrje hyr\u00ebse p\u00ebr t\u00eb transformuar vizionin t\u00ebnd n\u00eb nj\u00eb ekzekutim strategjik."
-          }
+          title={t("cta.title")}
+          body={t("cta.body")}
         />
         <Footer />
       </main>

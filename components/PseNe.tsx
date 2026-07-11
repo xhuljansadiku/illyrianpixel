@@ -1,51 +1,24 @@
 ﻿"use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ensureGSAP, MOTION, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
-const panels = [
-  {
-    number: "01",
-    title: "Fokus te rezultati",
-    body: "Qëllimi ynë nuk është një website i bukur, por një sistem që ju sjell klientë dhe kërkesa reale.",
-    pos: "top-[4%] left-[2%]",
-    rest: { rotateX: 3, rotateY: -5, z: 35 },
-    depth: 1.0,
-    w: 230,
-  },
-  {
-    number: "02",
-    title: "Strategji para dizajnit",
-    body: "Para se të ndërtojmë, kuptojmë biznesin, tregun dhe klientët tuaj. Pastaj krijojmë zgjidhjen që funksionon.",
-    pos: "top-[2%] right-[0%]",
-    rest: { rotateX: -2, rotateY: 7, z: 5 },
-    depth: 0.45,
-    w: 220,
-  },
-  {
-    number: "03",
-    title: "SEO & performancë",
-    body: "Website që shfaqen në Google dhe janë të ndërtuara për të kthyer vizitorët në klientë.",
-    pos: "bottom-[6%] left-[6%]",
-    rest: { rotateX: 4, rotateY: -6, z: 3 },
-    depth: 0.35,
-    w: 210,
-  },
-  {
-    number: "04",
-    title: "Partneritet afatgjatë",
-    body: "Nuk zhdukemi pas publikimit. Ju ndihmojmë me përmirësime, marketing dhe rritje të vazhdueshme.",
-    pos: "bottom-[2%] right-[2%]",
-    rest: { rotateX: -3, rotateY: 5, z: 18 },
-    depth: 0.7,
-    w: 240,
-  },
+const panelLayout = [
+  { pos: "top-[4%] left-[2%]", rest: { rotateX: 3, rotateY: -5, z: 35 }, depth: 1.0, w: 230 },
+  { pos: "top-[2%] right-[0%]", rest: { rotateX: -2, rotateY: 7, z: 5 }, depth: 0.45, w: 220 },
+  { pos: "bottom-[6%] left-[6%]", rest: { rotateX: 4, rotateY: -6, z: 3 }, depth: 0.35, w: 210 },
+  { pos: "bottom-[2%] right-[2%]", rest: { rotateX: -3, rotateY: 5, z: 18 }, depth: 0.7, w: 240 },
 ];
 
 
+type Panel = { number: string; title: string; body: string };
+
 export default function PseNe() {
+  const t = useTranslations("home.whyUs");
+  const panels = (t.raw("panels") as Panel[]).map((panel, i) => ({ ...panel, ...panelLayout[i] }));
   const sectionRef   = useRef<HTMLElement | null>(null);
   const bgGridRef    = useRef<HTMLDivElement | null>(null);
   const bgGlowRef    = useRef<HTMLDivElement | null>(null);
@@ -230,7 +203,7 @@ export default function PseNe() {
             />
 
             <div ref={eyebrowRef}>
-              <SectionMark label="PSE NE" eyebrowClassName="tracking-[0.3em]" />
+              <SectionMark label={t("eyebrow")} eyebrowClassName="tracking-[0.3em]" />
             </div>
 
             {/* Headline, editorial line breaks + gold gradient on klientë */}
@@ -240,9 +213,9 @@ export default function PseNe() {
             >
               <span className="block overflow-hidden">
                 <span className="psene-line-inner block">
-                  {"Rritje reale për "}
+                  {t("headlineLine1")}
                   <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">
-                    {"biznesin tuaj."}
+                    {t("headlineAccent")}
                   </span>
                 </span>
               </span>
@@ -253,7 +226,7 @@ export default function PseNe() {
               ref={subtextRef}
               className="font-body max-w-[40ch] text-[0.9375rem] leading-[1.65] text-white/55"
             >
-              Ne nuk ndërtojmë vetëm website. Ndërtojmë sisteme dixhitale që sjellin klientë, kërkesa dhe rritje reale për biznesin tuaj.
+              {t("subtext")}
             </p>
 
             <div ref={bottomRef} className="flex flex-col items-start gap-6">
@@ -262,7 +235,7 @@ export default function PseNe() {
                 <div className="flex items-center gap-2.5">
                   <span className="block h-px w-5 shrink-0 bg-accent/45" aria-hidden />
                   <p className="font-body text-[0.8rem] font-light italic text-white/35">
-                    Zgjidhja që funksionon për biznesin tuaj fillon këtu.
+                    {t("quote")}
                   </p>
                 </div>
                 <Link
@@ -273,7 +246,7 @@ export default function PseNe() {
                   onPointerMove={onCtaMove}
                   onPointerLeave={onCtaLeave}
                 >
-                  Rezervo konsultë falas →
+                  {t("cta")}
                 </Link>
               </div>
             </div>

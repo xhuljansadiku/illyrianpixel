@@ -1,0 +1,150 @@
+{
+  "hero": {
+    "badge": "ILLYRIAN PIXEL",
+    "headlineLine1": "Turn your business into a ",
+    "headlineAccent": "brand.",
+    "srSubtitle": "Website, SEO and Marketing for Albanian businesses",
+    "paragraph1": "We build modern Websites & E-Commerce stores, dominate Google with SEO, and grow your sales through Ads, Social Media & Branding.",
+    "paragraph2": "A concrete plan within 24 hours, 100% free.",
+    "paragraph3": "You focus on the business. We bring you the clients.",
+    "ctaPrimary": "Get a free quote",
+    "ctaSecondary": "See our work",
+    "scrollCue": "Discover more"
+  },
+  "whyUs": {
+    "eyebrow": "WHY US",
+    "headlineLine1": "Real growth for ",
+    "headlineAccent": "your business.",
+    "subtext": "We don't just build websites. We build digital systems that bring your business real clients, leads, and growth.",
+    "quote": "The solution that works for your business starts here.",
+    "cta": "Book a free consultation →",
+    "panels": [
+      {
+        "number": "01",
+        "title": "Focused on results",
+        "body": "Our goal isn't just a beautiful website, but a system that brings you real clients and inquiries."
+      },
+      {
+        "number": "02",
+        "title": "Strategy before design",
+        "body": "Before we build, we understand your business, market and clients. Then we create the solution that works."
+      },
+      {
+        "number": "03",
+        "title": "SEO & performance",
+        "body": "Websites that show up on Google and are built to turn visitors into clients."
+      },
+      {
+        "number": "04",
+        "title": "Long-term partnership",
+        "body": "We don't disappear after launch. We help you with improvements, marketing and continuous growth."
+      }
+    ]
+  },
+  "ctaAfterFaq": {
+    "title": "Ready for more clients?",
+    "body": "Book a free consultation and let's start with a clear plan.",
+    "cta": "Book a consultation"
+  },
+  "miniSales": {
+    "line1": "Your next clients are searching for you on Google right now.",
+    "line2": "Are they finding you?",
+    "cta": "Book a consultation"
+  },
+  "seoBoostLine": "Digital agency for Albanian businesses — Website, E-Commerce, SEO, Google Ads, Branding and Social Media Marketing for the local market and the diaspora.",
+  "servicesSection": {
+    "eyebrow": "OUR SERVICES",
+    "headlineLine1": "Website, Marketing and Branding ",
+    "headlineLine2Pre": "for more ",
+    "headlineAccent": "clients and sales",
+    "intro": "We partner with Albanian businesses that want more than just a website — they want real results and new clients.",
+    "allServicesCta": "ALL SERVICES ",
+    "cardCta": "See the service"
+  },
+  "trustedClients": {
+    "eyebrow": "Our Clients",
+    "headline": "Brands and businesses that trust us",
+    "intro": "From Albania to the international market, we partner with businesses seeking real growth and results.",
+    "statYears": "years of experience",
+    "statProjects": "projects",
+    "statBusinesses": "Businesses in Albania & the diaspora"
+  },
+  "featuredWork": {
+    "eyebrow": "OUR WORK",
+    "headlineLine1": "Projects that bring ",
+    "headlineAccent": "real clients",
+    "intro": "Built for performance and business growth.",
+    "allProjectsCta": "All projects "
+  },
+  "testimonials": {
+    "eyebrow": "CLIENT VOICES",
+    "headline": "What our clients say",
+    "intro": "Real results from real partnerships.",
+    "otherCategory": "Other"
+  },
+  "process": {
+    "eyebrow": "PROCESS",
+    "headlineLine1": "A clear process, no surprises",
+    "headlineAccent": "From idea to a website that brings clients",
+    "steps": [
+      {
+        "label": "PHASE 01",
+        "duration": "3–5 days",
+        "title": "Plan",
+        "points": [
+          "We understand your business and build the strategy.",
+          "We define your target clients and how we'll attract them."
+        ],
+        "result": "At the end you get: a clear growth plan and a structure ready for execution."
+      },
+      {
+        "label": "PHASE 02",
+        "duration": "5–7 days",
+        "title": "Design",
+        "points": [
+          "We create a design that clearly communicates your value and builds trust from the first seconds."
+        ],
+        "result": "At the end you get: a professional design that guides the visitor toward contact."
+      },
+      {
+        "label": "PHASE 03",
+        "duration": "7–14 days",
+        "title": "Development",
+        "points": [
+          "We turn the design into a fast website, optimized and functional on every device."
+        ],
+        "result": "At the end you get: a page ready to turn visitors into clients."
+      },
+      {
+        "label": "PHASE 04",
+        "duration": "1–2 days",
+        "title": "Launch",
+        "points": [
+          "We publish the site and get it ready to bring in clients from day one."
+        ],
+        "result": "At the end you get: a live website, secure and prepared for growth."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "headline": "Frequently asked questions.",
+    "otherCategory": "Other"
+  },
+  "newsletter": {
+    "badge": "Exclusive offer",
+    "headline": "10% off any service",
+    "introLine1": "Subscribe and get your discount code straight to your email",
+    "introLine2": "Website, SEO, Google Ads, Branding, Social Media.",
+    "yourCode": "Your code",
+    "codeSentLine1": "An email with the code has been sent.",
+    "codeSentLine2": "Quote the code when you contact us for any service.",
+    "bookConsult": "Book a consultation →",
+    "emailPlaceholder": "email@company.com",
+    "submitting": "Sending…",
+    "submitCta": "Get 10% →",
+    "genericError": "Something went wrong. Please try again.",
+    "connectionError": "Connection error. Check your internet.",
+    "disclaimer": "No spam. Unsubscribe anytime. The code is valid for any new service."
+  }
+}

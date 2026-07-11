@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import { SOCIAL_LINKS, type SocialIconId } from "@/lib/socialLinks";
 
@@ -39,6 +41,7 @@ function SocialIcon({ icon }: { icon: SocialIconId }) {
 
 
 export default function Footer() {
+  const t = useTranslations("common.footer");
   const footerRef = useRef<HTMLElement | null>(null);
   const auraRef = useRef<HTMLDivElement | null>(null);
   const reducedMotion = useReducedMotion();
@@ -142,81 +145,81 @@ export default function Footer() {
               <Image src="/images/illyrianpixel_text.png" alt="Illyrian Pixel" width={360} height={72} className="h-7 w-auto object-contain opacity-70" />
             </div>
             <h3 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.14] md:leading-[1.06] tracking-[-0.01em] md:tracking-[-0.025em] text-white">
-              {"Ktheje biznesin në "}
-              <span className="font-bold text-accent uppercase">{"brand."}</span>
+              {t("brandTitleLine1")}
+              <span className="font-bold text-accent uppercase">{t("brandTitleAccent")}</span>
             </h3>
             <p className="footer-reveal mt-4 font-body text-[0.82rem] font-light text-white/50" style={{ letterSpacing: "1.2px" }}>
-              {"Vetëm një klikim larg jush."}
+              {t("tagline")}
             </p>
-            <a href="/contact" className="footer-reveal group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 px-5 py-2.5 font-body text-[0.8rem] font-light tracking-[0.06em] text-accent transition-all duration-300 hover:border-accent/70 hover:bg-accent/8 hover:text-accentLight">
-              {"Rezervo konsultë"}
+            <Link href="/contact" className="footer-reveal group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 px-5 py-2.5 font-body text-[0.8rem] font-light tracking-[0.06em] text-accent transition-all duration-300 hover:border-accent/70 hover:bg-accent/8 hover:text-accentLight">
+              {t("bookConsult")}
               <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </a>
+            </Link>
           </div>
 
           {/* ── Col 2: Navigim ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Navigim"}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("navHeading")}</p>
             <nav className="flex flex-col items-center gap-[14px] md:items-start" aria-label="Footer navigation">
               {[
-                { label: "Shërbimet", href: "/sherbimet" },
-                { label: "Projektet", href: "/projektet" },
-                { label: "Çmimet", href: "/cmimet" },
-                { label: "Blog", href: "/blog" },
-                { label: "Kontakt", href: "/contact" },
+                { label: t("nav.services"), href: "/sherbimet" },
+                { label: t("nav.work"), href: "/projektet" },
+                { label: t("nav.pricing"), href: "/cmimet" },
+                { label: t("nav.blog"), href: "/blog" },
+                { label: t("nav.contact"), href: "/contact" },
               ].map(({ label, href }) => (
-                <a key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
+                <Link key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
                   {label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
 
           {/* ── Col 3: Shërbime ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Shërbime"}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("servicesHeading")}</p>
             <nav className="flex flex-col items-center gap-[14px] md:items-start">
               {[
-                { label: "Website Premium", href: "/services/website" },
-                { label: "E-Commerce", href: "/services/ecommerce" },
-                { label: "SEO & Google Ads", href: "/services/seo-google-ads" },
-                { label: "Social Media", href: "/services/smm" },
-                { label: "Branding & Content", href: "/services/branding-content" },
-                { label: "Mirëmbajtja", href: "/services/mirembajtja" },
+                { label: t("services.website"), href: "/services/website" },
+                { label: t("services.ecommerce"), href: "/services/ecommerce" },
+                { label: t("services.seoAds"), href: "/services/seo-google-ads" },
+                { label: t("services.social"), href: "/services/smm" },
+                { label: t("services.branding"), href: "/services/branding-content" },
+                { label: t("services.maintenance"), href: "/services/mirembajtja" },
               ].map(({ label, href }) => (
-                <a key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
+                <Link key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
                   {label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
 
           {/* ── Col 4: Kontakt ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Kontakt"}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("contactHeading")}</p>
             <div className="footer-reveal flex flex-col items-center gap-3 md:items-start">
-              <a href="/contact" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent transition-colors duration-300 hover:text-accentLight">
-                {"Kontakto Tani"}
+              <Link href="/contact" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent transition-colors duration-300 hover:text-accentLight">
+                {t("contactNow")}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </a>
+              </Link>
               <a href="https://wa.me/355694726827" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent/75 transition-colors duration-300 hover:text-accent">
-                {"WhatsApp"}
+                {t("whatsapp")}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
             </div>
             <div className="footer-reveal mt-6 flex flex-col items-center gap-2.5 md:items-start">
               <a href="mailto:info@illyrianpixel.com" className="footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/40 underline-offset-[3px] transition-colors duration-300 hover:text-white hover:[text-decoration:underline]">
-                {"info@illyrianpixel.com"}
+                {t("email")}
               </a>
               <span className="font-body text-[0.82rem] font-light tracking-[0.05em] text-white/25">
-                {"Shqipëri · Gjermani · Online"}
+                {t("locationLine")}
               </span>
             </div>
           </div>
 
           {/* ── Col 5: Na ndiqni ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{"Na ndiqni"}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("followHeading")}</p>
             <div className="flex flex-col items-center gap-[14px] md:items-start">
               {SOCIAL_LINKS.map((item) => (
                 <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
@@ -235,30 +238,30 @@ export default function Footer() {
         {/* ── Bottom bar ── */}
         <div className="footer-reveal footer-bottom mt-16 flex flex-col items-center gap-4 border-t border-white/[0.07] pt-5 pb-[40px] text-center md:mt-20 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-3 md:text-left">
           <p className="font-body text-[12px] font-light tracking-[0.08em] text-white/25 md:tracking-[0.1em]">
-            © 2026 Illyrian Pixel
+            {t("copyright")}
           </p>
           <div className="flex items-center justify-center gap-6">
 
-            <a
+            <Link
               href="/privacy"
               className="footer-link font-body text-[12px] font-light tracking-[0.05em] text-white/[0.38] transition-colors duration-300 hover:text-white"
             >
-              Privatësia
-            </a>
-            <a
+              {t("privacy")}
+            </Link>
+            <Link
               href="/terms"
               className="footer-link font-body text-[12px] font-light tracking-[0.05em] text-white/[0.38] transition-colors duration-300 hover:text-white"
             >
-              Kushtet
-            </a>
+              {t("terms")}
+            </Link>
           </div>
-          <a
+          <Link
             href="/"
             className="footer-link group inline-flex items-center gap-2 font-body text-[12px] font-light tracking-[0.08em] text-white/25 transition-colors duration-300 hover:text-white md:tracking-[0.1em]"
           >
-            Kthehu sipër{" "}
+            {t("backToTop")}{" "}
             <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-[2px]">↑</span>
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

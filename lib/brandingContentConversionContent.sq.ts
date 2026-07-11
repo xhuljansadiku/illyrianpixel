@@ -1,8 +1,8 @@
-﻿import { conversionTrustStatsDefault, type ConversionLandingData } from "@/lib/conversionLandingShared";
+﻿import { getConversionTrustStatsDefault, type ConversionLandingData } from "@/lib/conversionLandingShared";
 
 export const brandingConversionLandingData: ConversionLandingData = {
   trustStats: {
-    ...conversionTrustStatsDefault,
+    ...getConversionTrustStatsDefault("sq"),
     reachLabel: "Tiranë · diasporë · ku statusi bëhet prani",
   },
   painSection: {

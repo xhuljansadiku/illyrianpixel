@@ -1,11 +1,11 @@
 ﻿import {
-  conversionTrustStatsDefault,
+  getConversionTrustStatsDefault,
   type ConversionLandingData,
 } from "@/lib/conversionLandingShared";
 
 export const smmConversionLandingData: ConversionLandingData = {
   trustStats: {
-    ...conversionTrustStatsDefault,
+    ...getConversionTrustStatsDefault("sq"),
     reachLabel: "Prezencë sociale aktive dhe profesionale çdo ditë",
   },
   painSection: {

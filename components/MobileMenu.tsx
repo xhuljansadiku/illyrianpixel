@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type NavItem = { id: string; label: string; href: string; sectionId?: string };
 
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export default function MobileMenu({ isOpen, navItems, active, onClose, onNavigate }: Props) {
+  const t = useTranslations("common.nav");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -30,10 +33,13 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
     <div className="fixed inset-0 z-[80] bg-bg/94 backdrop-blur-md">
       <div className="flex h-full flex-col px-5 py-5 sm:px-6 sm:py-6">
         <div className="flex items-center justify-between">
-          <p className="font-ui text-[11px] font-bold tracking-[1px] text-muted">Menu</p>
-          <button aria-label="Mbyll menunë" onClick={onClose} className="text-2xl text-white/82">
-            ×
-          </button>
+          <p className="font-ui text-[11px] font-bold tracking-[1px] text-muted">{t("menuLabel")}</p>
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <button aria-label={t("closeMenuAria")} onClick={onClose} className="text-2xl text-white/82">
+              ×
+            </button>
+          </div>
         </div>
         <div className="mt-5 flex flex-1 flex-col gap-3.5">
           {navItems.map((item) => (
@@ -56,7 +62,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
           onClick={() => onClose()}
           className="interactive-button ip-cta-primary mt-3 inline-flex w-full justify-center sm:w-auto"
         >
-          Fillo sot
+          {t("cta")}
         </Link>
       </div>
     </div>

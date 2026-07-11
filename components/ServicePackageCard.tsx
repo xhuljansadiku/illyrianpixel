@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { ServicePackage } from "@/lib/serviceCategories";
 
 function CheckIcon() {
@@ -25,7 +26,8 @@ type Props = {
 };
 
 export default function ServicePackageCard({ pkg }: Props) {
-  const ctaLabel = pkg.cta ?? "Fillo Tani";
+  const t = useTranslations("pricing");
+  const ctaLabel = pkg.cta ?? t("defaultCta");
 
   return (
     /* Wrapper gives room above the card for the badge */
@@ -33,7 +35,7 @@ export default function ServicePackageCard({ pkg }: Props) {
       {pkg.featured && (
         <div className="absolute top-0 left-1/2 z-10 -translate-x-1/2">
           <span className="inline-flex items-center rounded-full bg-accent px-4 py-[5px] text-[10px] font-semibold uppercase tracking-[0.22em] text-[#0e0d0c] shadow-[0_0_24px_rgba(171,131,57,0.45)]">
-            Më e zgjedhura
+            {t("mostChosenBadge")}
           </span>
         </div>
       )}

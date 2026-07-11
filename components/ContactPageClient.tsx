@@ -1,6 +1,8 @@
 ﻿"use client";
 
 import { FormEvent, KeyboardEvent as ReactKeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
@@ -8,7 +10,6 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
 const budgets = ["< €1,000", "€1,000 – €3,000", "€3,000 – €7,000", "€7,000+"];
-const timelines = ["ASAP", "2-4 javë", "1-2 muaj", "Fleksibël"];
 type DropdownOption = {
   value: string;
   label: string;
@@ -29,6 +30,13 @@ function normalizeDropdownText(value: string) {
 }
 
 export default function ContactPageClient() {
+  const t = useTranslations("contact");
+  const timelines = [
+    t("timelines.asap"),
+    t("timelines.weeks"),
+    t("timelines.months"),
+    t("timelines.flexible"),
+  ];
   const heroRef = useRef<HTMLElement>(null);
   const [success, setSuccess] = useState(false);
 
@@ -99,7 +107,7 @@ export default function ContactPageClient() {
     e.preventDefault();
 
     if (!canSubmit) {
-      setError("Ju lutem plotësoni emrin, email-in, numrin e telefonit dhe mesazhin.");
+      setError(t("errors.validation"));
       return;
     }
 
@@ -157,14 +165,10 @@ export default function ContactPageClient() {
         setDiscountCode("");
         setDiscountStatus("idle");
       } else {
-        setError(
-          "Diçka shkoi keq. Provo sërish ose shkruaj direkt: info@illyrianpixel.com"
-        );
+        setError(t("errors.generic"));
       }
     } catch {
-      setError(
-        "Nuk u dërgua kërkesa. Kontakto direkt: info@illyrianpixel.com"
-      );
+      setError(t("errors.network"));
     } finally {
       setLoading(false);
     }
@@ -187,15 +191,15 @@ export default function ContactPageClient() {
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{"KONTAKT"}</p>
+            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{t("hero.eyebrow")}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="md:whitespace-pre-line font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
-                {"Nisni rritjen e biznesit sot."}
+                {t("hero.title")}
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p className="hero-subtext mt-6 whitespace-pre-line font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
-              {"Plotësoni formën për një konsultë.\nDo t'ju kontaktojmë brenda 24 orëve."}
+              {t("hero.subtext")}
             </p>
           </div>
         </section>
@@ -224,10 +228,10 @@ export default function ContactPageClient() {
                 {success ? (
                   <div className="mt-8 rounded-[3px] border border-[#ab8339]/30 bg-[#ab8339]/6 px-5 py-5">
                     <p className="font-display text-[1.2rem] font-medium tracking-[0.01em] text-[#ab8339]">
-                      Faleminderit.
+                      {t("success.title")}
                     </p>
                     <p className="font-ui mt-2 text-[13px] font-light leading-relaxed tracking-[0.3px] text-[#A0A0A0]">
-                      Kërkesa u regjistrua. Do t&apos;ju kontaktojmë me plan të qartë brenda 24 orësh.
+                      {t("success.body")}
                     </p>
                   </div>
                 ) : (
@@ -245,14 +249,14 @@ export default function ContactPageClient() {
                     />
                     <div className="grid gap-6 md:grid-cols-2">
                       <LuxInput
-                        label="Emri"
-                        placeholder="Emri juaj i plotë"
+                        label={t("form.nameLabel")}
+                        placeholder={t("form.namePlaceholder")}
                         value={form.name}
                         onChange={set("name")}
                       />
                       <LuxInput
-                        label="E-mail"
-                        placeholder="Email-i juaj"
+                        label={t("form.emailLabel")}
+                        placeholder={t("form.emailPlaceholder")}
                         type="email"
                         value={form.email}
                         onChange={set("email")}
@@ -260,7 +264,7 @@ export default function ContactPageClient() {
                     </div>
 
                     <LuxInput
-                      label="Numri i telefonit"
+                      label={t("form.phoneLabel")}
                       placeholder="+355 69 123 4567"
                       type="tel"
                       value={form.phone}
@@ -268,21 +272,21 @@ export default function ContactPageClient() {
                     />
 
                     <LuxInput
-                      label="Emri i biznesit (Nëse keni një të tillë)"
-                      placeholder="Emri i kompanisë..."
+                      label={t("form.businessNameLabel")}
+                      placeholder={t("form.businessNamePlaceholder")}
                       value={form.businessName}
                       onChange={set("businessName")}
                     />
 
                     <div className="grid gap-6 md:grid-cols-2">
                       <LuxSelect
-                        label="Shërbimi"
+                        label={t("form.serviceLabel")}
                         value={form.service}
                         onChange={set("service")}
                         items={services}
                       />
                       <LuxSelect
-                        label="Buxheti"
+                        label={t("form.budgetLabel")}
                         value={form.budget}
                         onChange={set("budget")}
                         items={budgets}
@@ -290,7 +294,7 @@ export default function ContactPageClient() {
                     </div>
 
                     <LuxSelect
-                      label="Afati kohor"
+                      label={t("form.timelineLabel")}
                       value={form.timeline}
                       onChange={set("timeline")}
                       items={timelines}
@@ -298,13 +302,13 @@ export default function ContactPageClient() {
 
                     <label className="block">
                       <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
-                        Mesazhi
+                        {t("form.messageLabel")}
                       </span>
                       <textarea
                         rows={4}
                         value={form.message}
                         onChange={(e) => set("message")(e.target.value)}
-                        placeholder="Na tregoni më shumë rreth projektit tuaj..."
+                        placeholder={t("form.messagePlaceholder")}
                         className="font-ui w-full resize-none border-b border-[#262626] bg-transparent py-3 text-[14px] font-light leading-relaxed tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 focus:border-[#ab8339]"
                       />
                     </label>
@@ -312,15 +316,15 @@ export default function ContactPageClient() {
                     {/* Discount code field */}
                     <div className="block">
                       <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
-                        Kodi i zbritjes{" "}
-                        <span className="text-white/30 font-light">(opsional)</span>
+                        {t("form.discountLabel")}{" "}
+                        <span className="text-white/30 font-light">{t("form.discountOptional")}</span>
                       </span>
                       <div className="relative">
                         <input
                           type="text"
                           value={discountCode}
                           onChange={(e) => handleDiscountChange(e.target.value)}
-                          placeholder="Kodi juaj"
+                          placeholder={t("form.discountPlaceholder")}
                           className={`font-ui w-full border-b bg-transparent py-3 pr-8 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 ${
                             discountStatus === "valid"
                               ? "border-emerald-500/70"
@@ -337,20 +341,20 @@ export default function ContactPageClient() {
                         )}
                       </div>
                       {discountStatus === "valid" && (
-                        <p className="mt-1.5 text-[12px] text-emerald-400/80">10% zbritje u aplikua.</p>
+                        <p className="mt-1.5 text-[12px] text-emerald-400/80">{t("form.discountValid")}</p>
                       )}
                       {discountStatus === "invalid" && (
-                        <p className="mt-1.5 text-[12px] text-red-400/75">Kodi i pavlefshëm.</p>
+                        <p className="mt-1.5 text-[12px] text-red-400/75">{t("form.discountInvalid")}</p>
                       )}
                       {discountStatus === "idle" && (
                         <p className="mt-1.5 text-[12px] text-white/28">
-                          Nuk keni kod?{" "}&#8202;&#8202;
-                          <a
+                          {t("form.noDiscountCode")}{" "}&#8202;&#8202;
+                          <Link
                             href="/newsletter"
                             className="text-accent/70 underline underline-offset-2 hover:text-accent transition-colors duration-200"
                           >
-                            Merrni 10% zbritje këtu →
-                          </a>
+                            {t("form.getDiscountCta")}
+                          </Link>
                         </p>
                       )}
                     </div>
@@ -366,7 +370,7 @@ export default function ContactPageClient() {
                       disabled={!canSubmit || loading}
                       className="font-ui mt-2 w-full rounded-[2px] bg-[#ab8339] px-8 py-4 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      {loading ? "Duke dërguar..." : "Dërgoje Kërkesën →"}
+                      {loading ? t("form.submitting") : t("form.submit")}
                     </button>
                   </form>
                 )}

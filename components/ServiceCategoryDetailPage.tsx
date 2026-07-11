@@ -1,49 +1,47 @@
 ﻿"use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
-import { brandingConversionLandingData } from "@/lib/brandingContentConversionContent";
-import { ecommerceConversionLandingData } from "@/lib/ecommerceConversionContent";
-import { smmConversionLandingData } from "@/lib/smmConversionContent";
-import { maintenanceConversionLandingData } from "@/lib/maintenanceConversionContent";
+import { brandingConversionLandingData as brandingConversionLandingData_sq } from "@/lib/brandingContentConversionContent.sq";
+import { brandingConversionLandingData as brandingConversionLandingData_en } from "@/lib/brandingContentConversionContent.en";
+import { ecommerceConversionLandingData as ecommerceConversionLandingData_sq } from "@/lib/ecommerceConversionContent.sq";
+import { ecommerceConversionLandingData as ecommerceConversionLandingData_en } from "@/lib/ecommerceConversionContent.en";
+import { smmConversionLandingData as smmConversionLandingData_sq } from "@/lib/smmConversionContent.sq";
+import { smmConversionLandingData as smmConversionLandingData_en } from "@/lib/smmConversionContent.en";
+import { maintenanceConversionLandingData as maintenanceConversionLandingData_sq } from "@/lib/maintenanceConversionContent.sq";
+import { maintenanceConversionLandingData as maintenanceConversionLandingData_en } from "@/lib/maintenanceConversionContent.en";
 import type { ConversionLandingData } from "@/lib/conversionLandingShared";
-import { marketingConversionLandingData } from "@/lib/marketingGrowthConversionContent";
+import { marketingConversionLandingData as marketingConversionLandingData_sq } from "@/lib/marketingGrowthConversionContent.sq";
+import { marketingConversionLandingData as marketingConversionLandingData_en } from "@/lib/marketingGrowthConversionContent.en";
 import type { ServiceCategory } from "@/lib/serviceCategories";
-import { webConversionLandingData } from "@/lib/webEcommerceConversionContent";
+import { webConversionLandingData as webConversionLandingData_sq } from "@/lib/webEcommerceConversionContent.sq";
+import { webConversionLandingData as webConversionLandingData_en } from "@/lib/webEcommerceConversionContent.en";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import { caseStudies } from "@/lib/caseStudies";
+import type { Locale } from "@/i18n/routing";
 
-function conversionLandingForSlug(slug: ServiceCategory["slug"]): ConversionLandingData | null {
+function conversionLandingForSlug(locale: Locale, slug: ServiceCategory["slug"]): ConversionLandingData | null {
+  const isEn = locale === "en";
   switch (slug) {
-    case "website":      return webConversionLandingData;
-    case "ecommerce":    return ecommerceConversionLandingData;
-    case "seo-google-ads": return marketingConversionLandingData;
-    case "branding-content": return brandingConversionLandingData;
-    case "smm":          return smmConversionLandingData;
-    case "mirembajtja":  return maintenanceConversionLandingData;
+    case "website":      return isEn ? webConversionLandingData_en : webConversionLandingData_sq;
+    case "ecommerce":    return isEn ? ecommerceConversionLandingData_en : ecommerceConversionLandingData_sq;
+    case "seo-google-ads": return isEn ? marketingConversionLandingData_en : marketingConversionLandingData_sq;
+    case "branding-content": return isEn ? brandingConversionLandingData_en : brandingConversionLandingData_sq;
+    case "smm":          return isEn ? smmConversionLandingData_en : smmConversionLandingData_sq;
+    case "mirembajtja":  return isEn ? maintenanceConversionLandingData_en : maintenanceConversionLandingData_sq;
     default:             return null;
   }
 }
 
-const PAIN_HEADING: Partial<Record<ServiceCategory["slug"], { before: string; accent: string }>> = {
-  website: { before: "Humbni klientë", accent: "çdo ditë." },
-};
-
-const PAIN_ITEMS: Partial<Record<ServiceCategory["slug"], string[]>> = {
-  website: [
-    "Website që nuk sjell asnjë klient",
-    "Strukturë e paqartë, vizitorët hutohen",
-    "Pa SEO",
-    "Pa mirëmbajtje pas publikimit",
-  ],
-};
-
 export default function ServiceCategoryDetailPage({ category }: { category: ServiceCategory }) {
+  const t = useTranslations("services");
+  const locale = useLocale() as Locale;
   const mainRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
 
@@ -71,15 +69,18 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
   }, [reduced, category.slug]);
 
   const eyebrow = category.title.toUpperCase();
-  const data = conversionLandingForSlug(category.slug);
+  const data = conversionLandingForSlug(locale, category.slug);
   const isConversionLanding = data !== null;
   const isWebPackages = category.slug === "website" || category.slug === "ecommerce";
 
-  const painHeading = PAIN_HEADING[category.slug] ??
-    (data?.painSection?.headingBefore && data?.painSection?.headingAccent
+  const painHeading = category.slug === "website"
+    ? { before: t("website.painHeadingBefore"), accent: t("website.painHeadingAccent") }
+    : (data?.painSection?.headingBefore && data?.painSection?.headingAccent
       ? { before: data.painSection.headingBefore, accent: data.painSection.headingAccent }
       : undefined);
-  const painItems = PAIN_ITEMS[category.slug] ?? data?.painSection?.items?.slice(0, 4).map((i) => i.title) ?? [];
+  const painItems = category.slug === "website"
+    ? t.raw("website.painItems") as string[]
+    : data?.painSection?.items?.slice(0, 4).map((i) => i.title) ?? [];
   const valueItems = data?.whyUs?.items?.slice(0, 4) ?? [];
   const packages = category.packages.slice(0, 3);
   const testimonials = data?.testimonials?.slice(0, 2) ?? [];
@@ -137,15 +138,15 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                 className={`interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-[#0e0d0c] ${isConversionLanding ? "svc-web-hero-cta-pulse" : ""}`}
               >
                 {isWebPackages
-                  ? (category.ctaPrimary ?? "Merr ofertë falas")
-                  : category.slug === "seo-google-ads" ? "Fillo sot"
-                  : category.slug === "branding-content" ? (category.ctaPrimary ?? "Transformo përshtypjen")
-                  : category.slug === "smm" ? (category.ctaPrimary ?? "Fillo Tani")
-                  : category.slug === "mirembajtja" ? (category.ctaPrimary ?? "Fillo Mirëmbajtjen")
-                  : "Rezervo Tani"}
+                  ? (category.ctaPrimary ?? t("website.heroCtaFallback"))
+                  : category.slug === "seo-google-ads" ? t("seoGoogleAds.heroCta")
+                  : category.slug === "branding-content" ? (category.ctaPrimary ?? t("brandingContent.heroCtaFallback"))
+                  : category.slug === "smm" ? (category.ctaPrimary ?? t("smm.heroCtaFallback"))
+                  : category.slug === "mirembajtja" ? (category.ctaPrimary ?? t("mirembajtja.heroCtaFallback"))
+                  : t("defaultHeroCta")}
               </Link>
               <Link href="/projektet" className="luxury-link !text-[15px]">
-                {category.ctaSecondary ?? "Punet tona"} <span aria-hidden>→</span>
+                {category.ctaSecondary ?? t("secondaryCtaFallback")} <span aria-hidden>→</span>
               </Link>
             </div>
 
@@ -153,10 +154,10 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
             {isConversionLanding && (
               <p className="mt-4 text-[14px] tracking-[0.04em] text-white/60">
                 {isWebPackages
-                  ? (category.trustLine ?? "0 kosto · 0 obligim · Strategji reale brenda 24 orësh")
+                  ? (category.trustLine ?? t("website.trustLineFallback"))
                   : category.slug === "seo-google-ads"
-                    ? "Vendet janë të kufizuara · Pa obligim · Përgjigje brenda 24h"
-                    : (category.trustLine ?? "Konsultim falas · Pa detyrim · Përgjigje brenda 24h")}
+                    ? t("seoGoogleAds.trustLine")
+                    : (category.trustLine ?? t("defaultTrustLine"))}
               </p>
             )}
 
@@ -171,7 +172,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
 
             {/* SEO micro-line */}
             <p className="mt-6 font-mono text-[10px] tracking-[0.18em] text-white/25">
-              Shërbim për biznese në Shqipëri dhe diasporë.
+              {t("seoMicroLine")}
             </p>
           </div>
         </section>
@@ -189,7 +190,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-red-400/70" aria-hidden />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-400/60">Problemi</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-400/60">{t("problemLabel")}</p>
                     </div>
                     {painHeading && (
                       <h2 className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white">
@@ -217,7 +218,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-emerald-400/70" aria-hidden />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-emerald-400/60">Zgjidhja</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-emerald-400/60">{t("solutionLabel")}</p>
                     </div>
                     <h2 className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white">
                       {data?.whyUs?.headingBefore}{" "}
@@ -245,9 +246,9 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
               <div className="svc-reveal-heading">
-                <SectionMark label="Paketat" eyebrowClassName="tracking-[0.22em]" />
+                <SectionMark label={t("packagesEyebrow")} eyebrowClassName="tracking-[0.22em]" />
                 <h2 className="mt-1 max-w-xl font-display text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.05] tracking-[-0.02em] text-white">
-                  Zgjidh paketën tënde.
+                  {t("choosePackage")}
                 </h2>
               </div>
               <div className="mx-auto mt-12 grid max-w-[980px] items-stretch gap-5 md:grid-cols-3">
@@ -264,12 +265,12 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   <div className="relative z-[1] flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
                     <div>
                       <p className="font-display text-[1.5rem] font-semibold leading-snug text-white md:text-[1.75rem]">
-                        Faqe e vjetër?<br className="hidden md:block" /> <span className="text-accent">E rindërtojmë nga e para.</span>
+                        {t("oldSite.line1")}<br className="hidden md:block" /> <span className="text-accent">{t("oldSite.line2")}</span>
                       </p>
-                      <p className="mt-2 text-[13px] tracking-[0.02em] text-white/45">Konsultim falas · Ofertë e personalizuar</p>
+                      <p className="mt-2 text-[13px] tracking-[0.02em] text-white/45">{t("oldSite.note")}</p>
                     </div>
                     <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg shrink-0 !px-8">
-                      Na kontaktoni →
+                      {t("oldSite.cta")}
                     </Link>
                   </div>
                 </div>
@@ -277,7 +278,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
 
               <div className="mt-8 text-center">
                 <Link href="/cmimet" className="luxury-link text-[12px]">
-                  Shiko të gjitha paketat <span aria-hidden>→</span>
+                  {t("seeAllPackages")} <span aria-hidden>→</span>
                 </Link>
               </div>
             </div>
@@ -289,9 +290,9 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
               <div className="svc-reveal-heading">
-                <SectionMark label={data?.feedbackLabel ?? "Klientët"} eyebrowClassName="tracking-[0.22em]" />
+                <SectionMark label={data?.feedbackLabel ?? t("clientsFallbackLabel")} eyebrowClassName="tracking-[0.22em]" />
                 <h2 className="mt-1 max-w-xl font-display text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.05] tracking-[-0.02em] text-white md:whitespace-pre-line">
-                  {data?.feedbackHeadline ?? "Rezultate reale."}
+                  {data?.feedbackHeadline ?? t("realResultsFallback")}
                 </h2>
               </div>
 
@@ -334,7 +335,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                         <p className="text-[10px] uppercase tracking-[0.2em] text-accent/75">{item.category}</p>
                         <h3 className="mt-1 font-display text-[1.05rem] tracking-[-0.01em] text-white transition-colors group-hover:text-accent/90">{item.title}</h3>
                         <span className="mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-light tracking-[0.04em] text-white/40 transition-colors group-hover:text-accent/65">
-                          Shiko projektin <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+                          {t("viewProject")} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
                         </span>
                       </div>
                     </Link>
@@ -344,7 +345,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
 
               <div className="mt-8 text-center">
                 <Link href="/projektet" className="luxury-link text-[12px]">
-                  Shiko të gjitha projektet <span aria-hidden>→</span>
+                  {t("seeAllProjects")} <span aria-hidden>→</span>
                 </Link>
               </div>
             </div>
@@ -363,38 +364,38 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               <div className="pointer-events-none absolute -right-16 bottom-0 h-48 w-48 rounded-full bg-accent/[0.05] blur-3xl" />
 
               <div className="relative z-[1]">
-                <SectionMark label="Hapi i radhës" eyebrowClassName="tracking-[0.22em] !text-accent/80" />
+                <SectionMark label={t("nextStepEyebrow")} eyebrowClassName="tracking-[0.22em] !text-accent/80" />
                 <h2 className="mx-auto mt-3 max-w-[18ch] font-display text-[clamp(2.2rem,5.5vw,4.2rem)] leading-[0.96] tracking-[-0.02em] text-white md:max-w-none">
                   {category.slug === "seo-google-ads" ? (
-                    <>Nesër do të jetë{" "}<span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">më shtrenjtë</span>{" "}se sot.</>
+                    <>{t("seoGoogleAds.finalHeadlinePre")}{" "}<span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t("seoGoogleAds.finalHeadlineAccent")}</span>{" "}{t("seoGoogleAds.finalHeadlinePost")}</>
                   ) : category.slug === "branding-content" ? (
-                    <>Prania juaj meriton<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">të njëjtin nivel si puna juaj.</span></>
+                    <>{t("brandingContent.finalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t("brandingContent.finalHeadlineAccent")}</span></>
                   ) : (
-                    <>{"Një bisedë pa pagesë."}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{"Një plan i qartë për më shumë klientë."}</span></>
+                    <>{t("defaultFinalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t("defaultFinalHeadlineAccent")}</span></>
                   )}
                 </h2>
                 <p className="mx-auto mt-6 max-w-[44ch] whitespace-pre-line text-[14px] leading-relaxed text-white/50">
                   {category.slug === "seo-google-ads"
-                    ? "Çdo ditë pa sistem, dikush tjetër merr klientin tuaj.\nFlisni me ne sot, pa asnjë kosto."
+                    ? t("seoGoogleAds.finalSubtext")
                     : category.slug === "branding-content"
-                      ? "30 minuta falas. Pa obligim. Plan i qartë për markën tuaj."
-                      : "30 minuta · pa detyrim · përgjigje brenda 24 orëve."}
+                      ? t("brandingContent.finalSubtext")
+                      : t("defaultFinalSubtext")}
                 </p>
 
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
                   <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-[#0e0d0c]">
-                    {category.slug === "seo-google-ads" ? "Fillo sot →"
-                      : category.slug === "branding-content" ? "Rezervo orën tuaj të parë →"
-                      : "Fillo Sot →"}
+                    {category.slug === "seo-google-ads" ? t("seoGoogleAds.finalCta")
+                      : category.slug === "branding-content" ? t("brandingContent.finalCta")
+                      : t("defaultFinalCta")}
                   </Link>
                   <Link href="/contact" className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.06em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white">
-                    Na kontaktoni <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    {t("contactUs")} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </Link>
                 </div>
 
                 <div className="mt-12">
                   <Link href="/sherbimet" className="text-[11px] uppercase tracking-[0.2em] text-white/30 transition-colors duration-300 hover:text-white/60">
-                    ← Kthehu te shërbimet
+                    {t("backToServices")}
                   </Link>
                 </div>
               </div>
