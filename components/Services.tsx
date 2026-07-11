@@ -13,6 +13,14 @@ export default function Services() {
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current || reducedMotion) return;
+
+    // If any part of the section is already on screen at mount (e.g. reloading
+    // mid-scroll, or it just peeks into view below the hero), skip the entrance
+    // animation entirely — otherwise it sits frozen in its blurred "from" state
+    // until the user scrolls enough to cross the scrollTrigger threshold.
+    const rect = sectionRef.current.getBoundingClientRect();
+    if (rect.top < window.innerHeight) return;
+
     const { gsap } = ensureGSAP();
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -24,7 +32,11 @@ export default function Services() {
           filter: "blur(0px)",
           duration: 0.82,
           stagger: 0.1,
-          ease: "power3.out"
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%"
+          }
         }
       );
 
@@ -37,7 +49,11 @@ export default function Services() {
           clearProps: "transform,opacity",
           stagger: 0.12,
           duration: 0.88,
-          ease: "power3.out"
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%"
+          }
         }
       );
     }, sectionRef);

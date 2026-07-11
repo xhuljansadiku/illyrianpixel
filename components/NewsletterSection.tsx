@@ -93,7 +93,7 @@ export default function NewsletterSection() {
                   required
                   placeholder="email@kompania.com"
                   disabled={state === "loading"}
-                  className="h-12 w-full flex-1 rounded-full border border-white/12 bg-white/[0.04] px-5 text-[14px] text-white placeholder:text-white/30 outline-none transition-colors duration-200 focus:border-accent/50 focus:bg-white/[0.06] disabled:opacity-50"
+                  className="h-14 w-full flex-1 rounded-2xl border border-white/15 bg-white/[0.06] px-6 text-[15px] text-white placeholder:text-white/35 outline-none transition-colors duration-200 focus:border-accent/60 focus:bg-white/[0.08] disabled:opacity-50 sm:h-12 sm:rounded-full sm:border-white/12 sm:bg-white/[0.04] sm:px-5 sm:text-[14px]"
                 />
                 <button
                   type="submit"

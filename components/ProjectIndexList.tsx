@@ -84,54 +84,104 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
             const isHovered = hoveredIdx === idx;
             const isLink = Boolean(project.liveUrl);
 
+            const flagsPill = project.flagCodes.length > 0 && (
+              <span className="inline-flex items-center gap-1 rounded-md bg-white/8 px-1.5 py-0.5 normal-case" aria-hidden>
+                {project.flagCodes.map((code) => (
+                  <Image
+                    key={code}
+                    src={`https://flagcdn.com/w20/${code}.png`}
+                    alt=""
+                    width={20}
+                    height={14}
+                    className="h-3.5 w-5 rounded-[2px] object-cover"
+                    loading="lazy"
+                    unoptimized
+                  />
+                ))}
+              </span>
+            );
+
+            const ctaLabel = (
+              <>
+                {isLink ? "Shiko" : "Së shpejti"}
+                {isLink && <span aria-hidden>{"→"}</span>}
+              </>
+            );
+
             const rowInner = (
               <>
-                <span
-                  className="font-mono text-[12px] tracking-[0.2em] transition-colors duration-300"
-                  style={{ color: isHovered ? mood : "rgba(255,255,255,0.3)" }}
-                >
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-
-                <div className="flex min-w-0 flex-1 flex-col gap-1.5 px-6 md:px-10">
-                  <span
-                    className="font-display text-[clamp(1.6rem,4.2vw,3.4rem)] font-normal leading-[1.02] tracking-[-0.01em] transition-colors duration-300"
-                    style={{ color: isHovered ? mood : "#ffffff" }}
-                  >
-                    {project.title}
-                  </span>
-                  <span className="flex items-center gap-2 font-body text-[11px] uppercase tracking-[0.18em] text-white/40">
-                    {project.flagCodes.length > 0 && (
-                      <span className="inline-flex items-center gap-1 rounded-md bg-white/8 px-1.5 py-0.5 normal-case" aria-hidden>
-                        {project.flagCodes.map((code) => (
-                          <Image
-                            key={code}
-                            src={`https://flagcdn.com/w20/${code}.png`}
-                            alt=""
-                            width={20}
-                            height={14}
-                            className="h-3.5 w-5 rounded-[2px] object-cover"
-                            loading="lazy"
-                            unoptimized
-                          />
-                        ))}
+                {/* Mobile layout: split text / photo */}
+                <div className="flex w-full items-stretch gap-4 md:hidden">
+                  <div className="flex min-w-0 flex-1 flex-col justify-between gap-3 py-0.5">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-[11px] tracking-[0.2em]">
+                      <span
+                        className="shrink-0 transition-colors duration-300"
+                        style={{ color: isHovered ? mood : "rgba(255,255,255,0.35)" }}
+                      >
+                        {String(idx + 1).padStart(2, "0")}
                       </span>
-                    )}
-                    {project.category}
-                    {project.location ? ` — ${project.location}` : ""}
-                  </span>
+                      <span className="h-1 w-1 shrink-0 rounded-full bg-white/20" aria-hidden />
+                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-[11px] uppercase leading-normal tracking-[0.14em] text-white/40">
+                        <span>
+                          {project.category}
+                          {project.location ? ` — ${project.location}` : ""}
+                        </span>
+                        {flagsPill}
+                      </span>
+                    </div>
+
+                    <span
+                      className="font-display text-[1.5rem] font-normal leading-[1.12] tracking-[-0.01em] transition-colors duration-300"
+                      style={{ color: isHovered ? mood : "#ffffff" }}
+                    >
+                      {project.title}
+                    </span>
+
+                    <span className="flex w-fit items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.16em] text-white/45">
+                      {ctaLabel}
+                    </span>
+                  </div>
+
+                  {project.heroImage && (
+                    <span className="relative block aspect-[4/5] w-[36%] shrink-0 overflow-hidden rounded-xl border border-white/10">
+                      <Image src={project.heroImage} alt="" fill sizes="40vw" className="object-cover" />
+                    </span>
+                  )}
                 </div>
 
-                {project.heroImage && (
-                  <span className="relative block h-12 w-16 shrink-0 overflow-hidden rounded-md border border-white/10 lg:hidden">
-                    <Image src={project.heroImage} alt="" fill sizes="64px" className="object-cover" />
+                {/* Desktop / tablet layout: single row */}
+                <div className="hidden w-full items-center md:flex">
+                  <span
+                    className="font-mono text-[12px] tracking-[0.2em] transition-colors duration-300"
+                    style={{ color: isHovered ? mood : "rgba(255,255,255,0.3)" }}
+                  >
+                    {String(idx + 1).padStart(2, "0")}
                   </span>
-                )}
 
-                <span className="ml-4 flex shrink-0 items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.16em] text-white/35 transition-transform duration-300 group-hover:translate-x-1">
-                  {isLink ? "Shiko" : "Së shpejti"}
-                  {isLink && <span aria-hidden>{"→"}</span>}
-                </span>
+                  <div className="flex min-w-0 flex-1 flex-col gap-1.5 px-6 md:px-10">
+                    <span
+                      className="font-display text-[clamp(1.6rem,4.2vw,3.4rem)] font-normal leading-[1.02] tracking-[-0.01em] transition-colors duration-300"
+                      style={{ color: isHovered ? mood : "#ffffff" }}
+                    >
+                      {project.title}
+                    </span>
+                    <span className="flex items-center gap-2 font-body text-[11px] uppercase tracking-[0.18em] text-white/40">
+                      {flagsPill}
+                      {project.category}
+                      {project.location ? ` — ${project.location}` : ""}
+                    </span>
+                  </div>
+
+                  {project.heroImage && (
+                    <span className="relative block h-12 w-16 shrink-0 overflow-hidden rounded-md border border-white/10 lg:hidden">
+                      <Image src={project.heroImage} alt="" fill sizes="64px" className="object-cover" />
+                    </span>
+                  )}
+
+                  <span className="ml-4 flex shrink-0 items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.16em] text-white/35 transition-transform duration-300 group-hover:translate-x-1">
+                    {ctaLabel}
+                  </span>
+                </div>
 
                 <span
                   className="pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left transition-transform duration-500"
@@ -142,7 +192,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
             );
 
             const rowClassName =
-              "featured-row group relative flex w-full items-center border-b border-white/10 py-7 text-left transition-colors duration-300 hover:bg-white/[0.02] md:py-9";
+              "featured-row group relative flex w-full items-center border-b border-white/10 py-6 text-left transition-colors duration-300 hover:bg-white/[0.02] md:py-9";
 
             return isLink ? (
               <a

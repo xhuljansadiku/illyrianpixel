@@ -4,17 +4,13 @@ import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import Image from "next/image";
 import { ensureGSAP } from "@/lib/gsap";
 
+const BOT_UA_PATTERN = /bot|googlebot|crawl|spider|robot|crawling|lighthouse|pagespeed|chrome-lighthouse/i;
+
 export default function Preloader() {
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") return false;
-    // Skip for crawlers, Lighthouse, and PageSpeed — they must measure real LCP
-    const ua = navigator.userAgent;
-    const isBot = /bot|googlebot|crawl|spider|robot|crawling|lighthouse|pagespeed|chrome-lighthouse/i.test(ua);
-    if (isBot) return false;
-    if (sessionStorage.getItem("ip_seen")) return false;
-    sessionStorage.setItem("ip_seen", "1");
-    return true;
-  });
+  // Always true on both server and client's first render (no window-dependent
+  // check here) so this is part of the very first paint — no flash of the real
+  // page underneath. The bot check below hides it again before paint if needed.
+  const [visible, setVisible] = useState(true);
   const [offline, setOffline] = useState(() =>
     typeof window !== "undefined" ? !navigator.onLine : false
   );
@@ -34,6 +30,13 @@ export default function Preloader() {
 
   useLayoutEffect(() => {
     if (!visible || offline) return;
+
+    // Skip for crawlers, Lighthouse, and PageSpeed — they must measure real LCP.
+    if (BOT_UA_PATTERN.test(navigator.userAgent)) {
+      setVisible(false);
+      return;
+    }
+
     const { gsap } = ensureGSAP();
     const counter = { value: 0 };
 

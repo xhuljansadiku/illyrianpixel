@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import SmoothScroll from "@/components/SmoothScroll";
 import InquiryModal from "@/components/InquiryModal";
+import NewsletterPopup from "@/components/NewsletterPopup";
 
 // Defer non-critical layout components — do not block initial HTML paint
 const InteractiveGlow       = dynamic(() => import("@/components/InteractiveGlow"),       { ssr: false });
@@ -14,7 +15,10 @@ const CursorTrail           = dynamic(() => import("@/components/CursorTrail"), 
 const BackToTop             = dynamic(() => import("@/components/BackToTop"),             { ssr: false });
 const ScrollProgress        = dynamic(() => import("@/components/ScrollProgress"),        { ssr: false });
 const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
-const Preloader             = dynamic(() => import("@/components/Preloader"),             { ssr: false });
+// Preloader stays SSR'd (unlike the rest of this list) so it's part of the very
+// first painted HTML — otherwise real page content flashes underneath it while
+// client JS is still loading in before the client-only version could mount.
+const Preloader             = dynamic(() => import("@/components/Preloader"));
 const ClientWidgets         = dynamic(() => import("@/components/ClientWidgets"),         { ssr: false });
 const AmbientParticles      = dynamic(() => import("@/components/AmbientParticles"),      { ssr: false });
 
@@ -47,6 +51,7 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
         </div>
       </SmoothScroll>
       <InquiryModal />
+      <NewsletterPopup />
     </>
   );
 }
