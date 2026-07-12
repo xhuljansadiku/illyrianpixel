@@ -42,12 +42,12 @@ export default function ExitIntentPopup() {
         .then((res) => res.json())
         .then((data) => {
           enabledRef.current = data.enabled !== false;
-          setContent({
-            eyebrow: data.eyebrow || defaults.eyebrow,
-            title: data.title || defaults.title,
-            text: data.text || defaults.text,
-            cta: data.cta || defaults.cta,
-          });
+          setContent((prev) => ({
+            eyebrow: data.eyebrow || prev.eyebrow,
+            title: data.title || prev.title,
+            text: data.text || prev.text,
+            cta: data.cta || prev.cta,
+          }));
         })
         .catch(() => {
           // mbaj default-et
@@ -73,7 +73,7 @@ export default function ExitIntentPopup() {
       clearTimeout(readyTimer);
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, []);
+  }, [locale]);
 
   const close = () => setVisible(false);
 

@@ -9,9 +9,9 @@ import type { Locale } from "@/i18n/routing";
 // Critical above-fold — static imports (SSR + no layout shift)
 import Navbar from "@/components/Navbar";
 import SectionAura from "@/components/SectionAura";
-
-// Hero with Canvas — must be client-side (no SSR)
-const Hero = dynamic(() => import("@/components/ParticleCloudHero"), { ssr: false });
+// Hero text is SSR'd for instant LCP and zero CLS; only the 3D Canvas inside it
+// is client-only (lazy-loaded after idle by the component itself).
+import Hero from "@/components/ParticleCloudHero";
 
 // Below-fold — dynamic imports (code-split, deferred JS)
 const FAQ           = dynamic(() => import("@/components/FAQ"));
@@ -119,7 +119,10 @@ export default async function HomePage() {
         <section className="relative border-b border-white/[0.06] bg-[#080808]/92">
           <div className="section-wrap py-16 md:py-20">
             <div className="relative flex flex-wrap items-center justify-between gap-8 overflow-hidden rounded-[1.1rem] border border-white/10 bg-[linear-gradient(135deg,rgba(10,10,10,0.92)_0%,rgba(16,16,16,0.92)_52%,rgba(171,131,57,0.18)_100%)] px-7 py-10 shadow-[0_24px_70px_rgba(0,0,0,0.38)] md:px-12 md:py-14">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_24%,rgba(255,255,255,0.07),transparent_38%),radial-gradient(circle_at_84%_78%,rgba(171,131,57,0.16),transparent_44%)]" />
+              <div
+                data-parallax="0.5"
+                className="pointer-events-none absolute -inset-y-[12%] inset-x-0 bg-[radial-gradient(circle_at_14%_24%,rgba(255,255,255,0.07),transparent_38%),radial-gradient(circle_at_84%_78%,rgba(171,131,57,0.16),transparent_44%)]"
+              />
               <div className="pointer-events-none absolute -left-14 top-1/2 h-28 w-28 -translate-y-1/2 rounded-full bg-accent/20 blur-2xl" />
               <div className="max-w-[640px]">
                 <p className="mb-3 font-display text-[clamp(1.4rem,3vw,2.2rem)] leading-[1.08] text-white">
