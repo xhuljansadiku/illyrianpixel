@@ -18,12 +18,14 @@ type ClientRow = {
   business: string | null;
   email: string | null;
   phone: string | null;
+  service: string | null;
   contact: Contact | null;
   projects: ProjectRecord[];
   paidTotal: number;
   pendingTotal: number;
   recurringMonthly: number;
   recurringCount: number;
+  since: string;
   lastActivity: string;
 };
 
@@ -48,18 +50,36 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     business: string | null,
     email: string | null,
     phone: string | null,
+    service: string | null,
     contact: Contact | null,
     at: string
   ) => {
     let row = map.get(key);
     if (!row) {
-      row = { key, name, business, email, phone, contact, projects: [], paidTotal: 0, pendingTotal: 0, recurringMonthly: 0, recurringCount: 0, lastActivity: at };
+      row = {
+        key,
+        name,
+        business,
+        email,
+        phone,
+        service,
+        contact,
+        projects: [],
+        paidTotal: 0,
+        pendingTotal: 0,
+        recurringMonthly: 0,
+        recurringCount: 0,
+        since: at,
+        lastActivity: at,
+      };
       map.set(key, row);
     }
     if (!row.contact && contact) row.contact = contact;
     if (!row.business && business) row.business = business;
     if (!row.email && email) row.email = email;
     if (!row.phone && phone) row.phone = phone;
+    if (!row.service && service) row.service = service;
+    if (at && at < row.since) row.since = at;
     if (at && at > row.lastActivity) row.lastActivity = at;
     return row;
   };
@@ -67,21 +87,23 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
   for (const c of contacts) {
     if ((c.status || "new") !== "done") continue;
     const key = keyFor(c.id, c.name);
-    ensure(key, c.name, c.business_name, c.email, c.phone, c, c.created_at);
+    ensure(key, c.name, c.business_name, c.email, c.phone, c.service || null, c, c.created_at);
   }
 
   for (const p of projects) {
     const name = p.client_name || "Klient pa emër";
     const contact = findContact(p.contact_id);
     const key = keyFor(p.contact_id, name);
-    const row = ensure(key, name, contact?.business_name ?? null, contact?.email ?? null, contact?.phone ?? null, contact, p.updated_at || p.created_at);
+    const service = contact?.service || p.tags?.[0] || null;
+    const row = ensure(key, name, contact?.business_name ?? null, contact?.email ?? null, contact?.phone ?? null, service, contact, p.updated_at || p.created_at);
     row.projects.push(p);
   }
 
   for (const q of quotes) {
     const contact = findContact(q.contact_id);
     const key = keyFor(q.contact_id, q.client_name);
-    const row = ensure(key, q.client_name, q.client_business, q.client_email, contact?.phone ?? null, contact, q.updated_at || q.created_at);
+    const service = contact?.service || q.items?.[0]?.description || null;
+    const row = ensure(key, q.client_name, q.client_business, q.client_email, contact?.phone ?? null, service, contact, q.updated_at || q.created_at);
     const totals = quoteTotals(q.items, q.discount, q.tax_rate);
     if (q.status === "paid") row.paidTotal += totals.total;
     else if (q.status === "sent" || q.status === "accepted") row.pendingTotal += totals.total;
@@ -91,7 +113,8 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     if (!r.active) continue;
     const contact = findContact(r.contact_id);
     const key = keyFor(r.contact_id, r.client_name);
-    const row = ensure(key, r.client_name, r.client_business, r.client_email, contact?.phone ?? null, contact, r.created_at);
+    const service = contact?.service || r.items?.[0]?.description || null;
+    const row = ensure(key, r.client_name, r.client_business, r.client_email, contact?.phone ?? null, service, contact, r.created_at);
     const totals = quoteTotals(r.items, r.discount, r.tax_rate);
     row.recurringMonthly += totals.total;
     row.recurringCount += 1;
@@ -102,9 +125,10 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
   );
 }
 
-function formatDay(iso: string) {
+function formatMonth(iso: string) {
   if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+  const label = new Date(iso).toLocaleDateString("sq-AL", { month: "long", year: "numeric" });
+  return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 export default function ClientsTab({
@@ -134,7 +158,8 @@ export default function ClientsTab({
       (c) =>
         c.name.toLowerCase().includes(term) ||
         (c.business ?? "").toLowerCase().includes(term) ||
-        (c.email ?? "").toLowerCase().includes(term)
+        (c.email ?? "").toLowerCase().includes(term) ||
+        (c.service ?? "").toLowerCase().includes(term)
     );
   }, [clients, debouncedSearch]);
 
@@ -196,77 +221,95 @@ export default function ClientsTab({
           />
         </div>
       ) : (
-        <div className="space-y-2.5">
-          {filtered.map((row) => (
-            <div key={row.key} className={CARD + " p-4"}>
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
+        <div className={CARD + " overflow-x-auto"}>
+          <table className="w-full min-w-[920px] border-collapse text-[12px]">
+            <thead>
+              <tr className="border-b border-[var(--a-border)] text-left text-[10px] uppercase tracking-[0.08em] text-[rgb(var(--a-text-rgb)/0.45)]">
+                <th className="px-4 py-3 font-medium">Klienti</th>
+                <th className="px-4 py-3 font-medium">Shërbimi</th>
+                <th className="px-4 py-3 font-medium">Klient që nga</th>
+                <th className="px-4 py-3 font-medium">Projektet</th>
+                <th className="px-4 py-3 text-right font-medium">Paguar / Mujore</th>
+                <th className="px-4 py-3 font-medium">Kontakt</th>
+                <th className="px-4 py-3 font-medium">Veprime</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((row) => (
+                <tr key={row.key} className="border-b border-[var(--a-border)] last:border-0 hover:bg-[rgb(var(--a-text-rgb)/0.02)]">
+                  <td className="px-4 py-3 align-top">
                     <button
                       onClick={() => onGoToContact(row.name)}
-                      className="font-ui text-[14px] font-semibold text-[var(--a-text)] hover:text-accent"
+                      className="block font-ui text-[13px] font-semibold text-[var(--a-text)] hover:text-accent"
                     >
                       {row.name}
                     </button>
-                    {row.business && (
-                      <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</span>
-                    )}
+                    {row.business && <p className="mt-0.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</p>}
                     {row.recurringCount > 0 && (
-                      <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                      <span className="mt-1 inline-block rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
                         rekurrent
                       </span>
                     )}
-                  </div>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.55)]">
-                    {row.email && (
-                      <a href={`mailto:${row.email}`} className="hover:text-accent">
-                        {row.email}
-                      </a>
+                  </td>
+                  <td className="px-4 py-3 align-top text-[rgb(var(--a-text-rgb)/0.7)]">{row.service || "—"}</td>
+                  <td className="px-4 py-3 align-top text-[rgb(var(--a-text-rgb)/0.7)]">{formatMonth(row.since)}</td>
+                  <td className="px-4 py-3 align-top">
+                    {row.projects.length === 0 ? (
+                      <span className="text-[rgb(var(--a-text-rgb)/0.35)]">—</span>
+                    ) : (
+                      <div className="flex flex-wrap gap-1.5">
+                        {row.projects.map((p) => (
+                          <span
+                            key={p.id}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[10.5px] text-[rgb(var(--a-text-rgb)/0.65)]"
+                          >
+                            <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[p.status]}`} />
+                            {p.name} · {PROJECT_STATUS_LABELS[p.status]}
+                          </span>
+                        ))}
+                      </div>
                     )}
-                    {row.phone && (
-                      <a href={`tel:${row.phone}`} className="hover:text-accent">
-                        {row.phone}
-                      </a>
-                    )}
-                    <span>Aktivitet i fundit: {formatDay(row.lastActivity)}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 text-right">
-                  <div>
+                  </td>
+                  <td className="px-4 py-3 align-top text-right">
                     {row.paidTotal > 0 && (
-                      <p className="font-ui text-[14px] font-semibold text-emerald-400">{formatMoney(row.paidTotal)}</p>
+                      <p className="font-ui text-[13px] font-semibold text-emerald-400">{formatMoney(row.paidTotal)}</p>
                     )}
                     {row.recurringMonthly > 0 && (
                       <p className="text-[11px] text-accent">{formatMoney(row.recurringMonthly)}/muaj</p>
                     )}
                     {row.pendingTotal > 0 && (
-                      <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.45)]">{formatMoney(row.pendingTotal)} në pritje</p>
+                      <p className="text-[10.5px] text-[rgb(var(--a-text-rgb)/0.45)]">{formatMoney(row.pendingTotal)} në pritje</p>
                     )}
-                  </div>
-                  {row.contact?.portal_token && (
-                    <button onClick={() => copyPortalLink(row)} className={BTN_PLAIN}>
-                      {copiedKey === row.key ? "U kopjua ✓" : "Lidhja e portalit"}
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {row.projects.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1.5 border-t border-[var(--a-border)] pt-3">
-                  {row.projects.map((p) => (
-                    <span
-                      key={p.id}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2.5 py-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.65)]"
-                    >
-                      <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[p.status]}`} />
-                      {p.name} · {PROJECT_STATUS_LABELS[p.status]}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+                    {row.paidTotal === 0 && row.recurringMonthly === 0 && row.pendingTotal === 0 && (
+                      <span className="text-[rgb(var(--a-text-rgb)/0.35)]">—</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 align-top">
+                    <div className="flex flex-col gap-0.5">
+                      {row.email && (
+                        <a href={`mailto:${row.email}`} className="text-[rgb(var(--a-text-rgb)/0.6)] hover:text-accent">
+                          {row.email}
+                        </a>
+                      )}
+                      {row.phone && (
+                        <a href={`tel:${row.phone}`} className="text-[rgb(var(--a-text-rgb)/0.6)] hover:text-accent">
+                          {row.phone}
+                        </a>
+                      )}
+                      {!row.email && !row.phone && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">—</span>}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 align-top">
+                    {row.contact?.portal_token && (
+                      <button onClick={() => copyPortalLink(row)} className={BTN_PLAIN}>
+                        {copiedKey === row.key ? "U kopjua ✓" : "Portali"}
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
