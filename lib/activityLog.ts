@@ -23,7 +23,8 @@ export type ActivityEntity =
   | "auto"
   | "client"
   | "note"
-  | "todo";
+  | "todo"
+  | "expense";
 
 export async function logActivity(entity: ActivityEntity, action: string, label: string): Promise<void> {
   try {

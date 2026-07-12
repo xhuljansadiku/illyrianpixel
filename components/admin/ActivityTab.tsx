@@ -26,6 +26,7 @@ const ENTITY_META: Record<string, { icon: string; label: string }> = {
   settings: { icon: "⚙️", label: "Cilësime" },
   auto: { icon: "🤖", label: "Automatike" },
   client: { icon: "👤", label: "Nga klientët" },
+  expense: { icon: "💸", label: "Shpenzime" },
 };
 
 function relativeTime(iso: string): string {

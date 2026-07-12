@@ -19,6 +19,7 @@ import AssistantTab from "@/components/admin/AssistantTab";
 import NotesTab from "@/components/admin/NotesTab";
 import TodosTab from "@/components/admin/TodosTab";
 import ClientsTab from "@/components/admin/ClientsTab";
+import FinancesTab from "@/components/admin/FinancesTab";
 import NotificationsBell from "@/components/admin/NotificationsBell";
 import CommandPalette, { type CommandPaletteAction } from "@/components/admin/CommandPalette";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
@@ -69,6 +70,7 @@ const VALID_TABS = [
   "notes",
   "todos",
   "clients",
+  "finances",
 ] as const;
 
 export type AdminTab = (typeof VALID_TABS)[number];
@@ -621,6 +623,7 @@ export default function AdminDashboard({
     { id: "quotes", icon: "🧾", label: "Oferta & Fatura", count: quotes.length },
     { id: "projects", icon: "📁", label: "Projektet", count: projectsList.length },
     { id: "clients", icon: "💼", label: "Klientët" },
+    { id: "finances", icon: "💰", label: "Financat" },
     { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
     { id: "subscribers", icon: "✉️", label: "Newsletter", count: subscribers.length },
     { id: "content", icon: "🎨", label: "Përmbajtja" },
@@ -647,6 +650,7 @@ export default function AdminDashboard({
     clients: { title: "Klientët", subtitle: "Klientët që kanë paguar — projektet, pagesat dhe rekurrenca" },
     notes: { title: "Notes", subtitle: "Shënime të shpejta, personale" },
     todos: { title: "To Do", subtitle: "Lista jote e detyrave" },
+    finances: { title: "Financat", subtitle: "Fitime, shpenzime dhe fitimi neto" },
   };
 
   const globalResults = useMemo(() => {
@@ -1189,6 +1193,7 @@ export default function AdminDashboard({
             {tab === "clients" && (
               <ClientsTab contacts={contacts} projects={projectsList} quotes={quotes} recurring={recurringList} onGoToContact={goToContact} />
             )}
+            {tab === "finances" && <FinancesTab quotes={quotes} recurring={recurringList} />}
           </div>
         </div>
       </main>
@@ -1209,7 +1214,7 @@ function StatCard({ label, value, featured }: { label: string; value: number; fe
 }
 
 // Numri i item-eve "kryesore" para ndarëses "Menaxhimi" në sidebar
-const MAIN_NAV_COUNT = 6;
+const MAIN_NAV_COUNT = 7;
 
 // ── Sidebar / drawer navigation (e ndarë mes desktop dhe mobile) ────────────
 function SidebarNav({
