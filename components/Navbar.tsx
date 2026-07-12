@@ -183,7 +183,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               data-magnetic="true"
-              className="interactive-button ip-cta-primary ip-cta-navbar inline-flex items-center justify-center self-center"
+              className="interactive-button ip-cta-primary ip-cta-navbar !hidden items-center justify-center self-center lg:!inline-flex"
             >
               {t("cta")}
             </Link>
