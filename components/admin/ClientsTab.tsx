@@ -12,13 +12,30 @@ const STATUS_DOT: Record<ProjectRecord["status"], string> = {
   done: "bg-emerald-400",
 };
 
+type ManualClient = {
+  id: number;
+  contact_id: string | null;
+  name: string;
+  business_name: string | null;
+  email: string | null;
+  phone: string | null;
+  service: string | null;
+  since_date: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 type ClientRow = {
   key: string;
+  manualId: number | null;
+  contactId: string | null;
   name: string;
   business: string | null;
   email: string | null;
   phone: string | null;
   service: string | null;
+  notes: string | null;
   contact: Contact | null;
   projects: ProjectRecord[];
   paidTotal: number;
@@ -52,17 +69,21 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     phone: string | null,
     service: string | null,
     contact: Contact | null,
+    contactId: string | null,
     at: string
   ) => {
     let row = map.get(key);
     if (!row) {
       row = {
         key,
+        manualId: null,
+        contactId,
         name,
         business,
         email,
         phone,
         service,
+        notes: null,
         contact,
         projects: [],
         paidTotal: 0,
@@ -75,6 +96,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
       map.set(key, row);
     }
     if (!row.contact && contact) row.contact = contact;
+    if (!row.contactId && contactId) row.contactId = contactId;
     if (!row.business && business) row.business = business;
     if (!row.email && email) row.email = email;
     if (!row.phone && phone) row.phone = phone;
@@ -87,7 +109,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
   for (const c of contacts) {
     if ((c.status || "new") !== "done") continue;
     const key = keyFor(c.id, c.name);
-    ensure(key, c.name, c.business_name, c.email, c.phone, c.service || null, c, c.created_at);
+    ensure(key, c.name, c.business_name, c.email, c.phone, c.service || null, c, String(c.id), c.created_at);
   }
 
   for (const p of projects) {
@@ -95,7 +117,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     const contact = findContact(p.contact_id);
     const key = keyFor(p.contact_id, name);
     const service = contact?.service || p.tags?.[0] || null;
-    const row = ensure(key, name, contact?.business_name ?? null, contact?.email ?? null, contact?.phone ?? null, service, contact, p.updated_at || p.created_at);
+    const row = ensure(key, name, contact?.business_name ?? null, contact?.email ?? null, contact?.phone ?? null, service, contact, p.contact_id, p.updated_at || p.created_at);
     row.projects.push(p);
   }
 
@@ -103,7 +125,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     const contact = findContact(q.contact_id);
     const key = keyFor(q.contact_id, q.client_name);
     const service = contact?.service || q.items?.[0]?.description || null;
-    const row = ensure(key, q.client_name, q.client_business, q.client_email, contact?.phone ?? null, service, contact, q.updated_at || q.created_at);
+    const row = ensure(key, q.client_name, q.client_business, q.client_email, contact?.phone ?? null, service, contact, q.contact_id, q.updated_at || q.created_at);
     const totals = quoteTotals(q.items, q.discount, q.tax_rate);
     if (q.status === "paid") row.paidTotal += totals.total;
     else if (q.status === "sent" || q.status === "accepted") row.pendingTotal += totals.total;
@@ -114,16 +136,85 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     const contact = findContact(r.contact_id);
     const key = keyFor(r.contact_id, r.client_name);
     const service = contact?.service || r.items?.[0]?.description || null;
-    const row = ensure(key, r.client_name, r.client_business, r.client_email, contact?.phone ?? null, service, contact, r.created_at);
+    const row = ensure(key, r.client_name, r.client_business, r.client_email, contact?.phone ?? null, service, contact, r.contact_id, r.created_at);
     const totals = quoteTotals(r.items, r.discount, r.tax_rate);
     row.recurringMonthly += totals.total;
     row.recurringCount += 1;
   }
 
-  return Array.from(map.values()).sort(
-    (a, b) => b.paidTotal + b.recurringMonthly * 12 - (a.paidTotal + a.recurringMonthly * 12)
-  );
+  return Array.from(map.values());
 }
+
+// Overlays manually-added/edited client records onto the auto-derived rows —
+// matched by the same key (contact_id, falling back to normalized name) so
+// editing an auto-derived row and editing a freestanding manual entry behave
+// the same way. Manual fields win when present; financial totals always come
+// from real projects/quotes/recurring since those reflect actual transactions.
+function applyManualOverrides(autoRows: ClientRow[], manual: ManualClient[]): ClientRow[] {
+  const rows = [...autoRows];
+
+  for (const m of manual) {
+    const key = keyFor(m.contact_id, m.name);
+    const idx = rows.findIndex((r) => r.key === key);
+    if (idx >= 0) {
+      const r = rows[idx];
+      rows[idx] = {
+        ...r,
+        manualId: m.id,
+        contactId: m.contact_id ?? r.contactId,
+        name: m.name || r.name,
+        business: m.business_name ?? r.business,
+        email: m.email ?? r.email,
+        phone: m.phone ?? r.phone,
+        service: m.service ?? r.service,
+        notes: m.notes,
+        since: m.since_date ?? r.since,
+      };
+    } else {
+      rows.push({
+        key,
+        manualId: m.id,
+        contactId: m.contact_id,
+        name: m.name,
+        business: m.business_name,
+        email: m.email,
+        phone: m.phone,
+        service: m.service,
+        notes: m.notes,
+        contact: null,
+        projects: [],
+        paidTotal: 0,
+        pendingTotal: 0,
+        recurringMonthly: 0,
+        recurringCount: 0,
+        since: m.since_date || m.created_at,
+        lastActivity: m.updated_at || m.created_at,
+      });
+    }
+  }
+
+  return rows.sort((a, b) => b.paidTotal + b.recurringMonthly * 12 - (a.paidTotal + a.recurringMonthly * 12));
+}
+
+type ClientForm = {
+  name: string;
+  business_name: string;
+  email: string;
+  phone: string;
+  service: string;
+  since_date: string;
+  notes: string;
+};
+
+const EMPTY_CLIENT_FORM: ClientForm = {
+  name: "",
+  business_name: "",
+  email: "",
+  phone: "",
+  service: "",
+  since_date: "",
+  notes: "",
+};
 
 function formatMonth(iso: string) {
   if (!iso) return "—";
@@ -147,9 +238,88 @@ export default function ClientsTab({
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounced(search, 250);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const { renderToasts } = useToasts();
+  const [manualClients, setManualClients] = useState<ManualClient[]>([]);
+  const [formOpen, setFormOpen] = useState(false);
+  const [form, setForm] = useState<ClientForm>(EMPTY_CLIENT_FORM);
+  const [editingRow, setEditingRow] = useState<ClientRow | null>(null);
+  const [saving, setSaving] = useState(false);
+  const { pushToast, renderToasts } = useToasts();
+  const [confirm, renderConfirm] = useConfirm();
 
-  const clients = useMemo(() => buildClients(contacts, projects, quotes, recurring), [contacts, projects, quotes, recurring]);
+  useEffect(() => {
+    fetch("/api/admin/clients")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success) setManualClients(d.clients);
+      });
+  }, []);
+
+  const autoClients = useMemo(() => buildClients(contacts, projects, quotes, recurring), [contacts, projects, quotes, recurring]);
+  const clients = useMemo(() => applyManualOverrides(autoClients, manualClients), [autoClients, manualClients]);
+
+  const openCreate = () => {
+    setEditingRow(null);
+    setForm(EMPTY_CLIENT_FORM);
+    setFormOpen(true);
+  };
+
+  const openEdit = (row: ClientRow) => {
+    setEditingRow(row);
+    setForm({
+      name: row.name,
+      business_name: row.business ?? "",
+      email: row.email ?? "",
+      phone: row.phone ?? "",
+      service: row.service ?? "",
+      since_date: row.since ? row.since.slice(0, 10) : "",
+      notes: row.notes ?? "",
+    });
+    setFormOpen(true);
+  };
+
+  const handleSaveClient = async () => {
+    if (!form.name.trim()) return pushToast("Emri i klientit është i detyrueshëm.", "error");
+    setSaving(true);
+    const payload = {
+      name: form.name.trim(),
+      business_name: form.business_name || null,
+      email: form.email || null,
+      phone: form.phone || null,
+      service: form.service || null,
+      since_date: form.since_date || null,
+      notes: form.notes || null,
+      contact_id: editingRow?.contactId ?? null,
+    };
+    const isEdit = !!editingRow?.manualId;
+    const res = await fetch(isEdit ? `/api/admin/clients/${editingRow!.manualId}` : "/api/admin/clients", {
+      method: isEdit ? "PATCH" : "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).then((r) => r.json());
+    setSaving(false);
+    if (!res.success) return pushToast(res.error ?? "Gabim.", "error");
+
+    if (isEdit) setManualClients((list) => list.map((c) => (c.id === res.client.id ? res.client : c)));
+    else setManualClients((list) => [res.client, ...list]);
+    setFormOpen(false);
+    pushToast(isEdit ? "Klienti u përditësua." : "Klienti u shtua.", "success");
+  };
+
+  const handleDeleteClient = async (row: ClientRow) => {
+    if (!row.manualId) return;
+    const ok = await confirm({
+      title: "Fshi klientin",
+      message: `"${row.name}" do të hiqet nga lista. Nëse ka projekte/fatura reale të lidhura, ai do të vazhdojë të shfaqet automatikisht me të dhënat origjinale.`,
+      danger: true,
+      confirmText: "Fshi",
+    });
+    if (!ok) return;
+    const res = await fetch(`/api/admin/clients/${row.manualId}`, { method: "DELETE" }).then((r) => r.json());
+    if (res.success) {
+      setManualClients((list) => list.filter((c) => c.id !== row.manualId));
+      pushToast("Klienti u fshi.", "success");
+    } else pushToast(res.error ?? "Gabim.", "error");
+  };
 
   const filtered = useMemo(() => {
     const term = debouncedSearch.trim().toLowerCase();
@@ -187,6 +357,7 @@ export default function ClientsTab({
   return (
     <div className="space-y-6">
       {renderToasts()}
+      {renderConfirm()}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className={CARD + " p-4"}>
@@ -203,12 +374,73 @@ export default function ClientsTab({
         </div>
       </div>
 
-      <input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Kërko klient, biznes ose email…"
-        className={INPUT + " w-full max-w-sm"}
-      />
+      <div className="flex flex-wrap items-center gap-3">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Kërko klient, biznes ose email…"
+          className={INPUT + " w-full max-w-sm"}
+        />
+        <button onClick={formOpen ? () => setFormOpen(false) : openCreate} className={BTN_GOLD}>
+          {formOpen ? "Anulo" : "+ Shto klient"}
+        </button>
+      </div>
+
+      {formOpen && (
+        <div className={CARD + " space-y-3 p-5"}>
+          <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">
+            {editingRow ? `Redakto klientin — ${editingRow.name}` : "Klient i ri"}
+          </p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Emri *</label>
+              <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} className={INPUT + " w-full"} />
+            </div>
+            <div>
+              <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Biznesi</label>
+              <input value={form.business_name} onChange={(e) => setForm((f) => ({ ...f, business_name: e.target.value }))} className={INPUT + " w-full"} />
+            </div>
+            <div>
+              <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Shërbimi</label>
+              <input
+                value={form.service}
+                onChange={(e) => setForm((f) => ({ ...f, service: e.target.value }))}
+                placeholder="p.sh. Website, SEO, Social Media…"
+                className={INPUT + " w-full"}
+              />
+            </div>
+            <div>
+              <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Email</label>
+              <input type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} className={INPUT + " w-full"} />
+            </div>
+            <div>
+              <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Telefoni</label>
+              <input value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} className={INPUT + " w-full"} />
+            </div>
+            <div>
+              <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Klient që nga</label>
+              <input type="date" value={form.since_date} onChange={(e) => setForm((f) => ({ ...f, since_date: e.target.value }))} className={INPUT + " w-full"} />
+            </div>
+          </div>
+          <div>
+            <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Shënime</label>
+            <textarea
+              value={form.notes}
+              onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+              rows={2}
+              className={INPUT + " w-full resize-none"}
+            />
+          </div>
+          <div className="flex gap-2">
+            <button onClick={handleSaveClient} disabled={saving || !form.name.trim()} className={BTN_GOLD}>
+              {saving ? "Duke ruajtur…" : editingRow ? "Ruaj ndryshimet" : "Shto klientin"}
+            </button>
+            <button onClick={() => setFormOpen(false)} className={BTN_PLAIN}>
+              Anulo
+            </button>
+          </div>
+        </div>
+      )}
 
       {filtered.length === 0 ? (
         <div className={CARD}>
@@ -300,11 +532,21 @@ export default function ClientsTab({
                     </div>
                   </td>
                   <td className="px-4 py-3 align-top">
-                    {row.contact?.portal_token && (
-                      <button onClick={() => copyPortalLink(row)} className={BTN_PLAIN}>
-                        {copiedKey === row.key ? "U kopjua ✓" : "Portali"}
+                    <div className="flex flex-wrap gap-1.5">
+                      <button onClick={() => openEdit(row)} className={BTN_PLAIN}>
+                        Redakto
                       </button>
-                    )}
+                      {row.contact?.portal_token && (
+                        <button onClick={() => copyPortalLink(row)} className={BTN_PLAIN}>
+                          {copiedKey === row.key ? "U kopjua ✓" : "Portali"}
+                        </button>
+                      )}
+                      {row.manualId && (
+                        <button onClick={() => handleDeleteClient(row)} className={BTN_DANGER}>
+                          Fshi
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
