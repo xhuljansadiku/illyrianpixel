@@ -86,8 +86,11 @@ body {
   --a-card-border: rgba(171, 131, 57, 0.14);
   --a-card-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
   --a-glow: rgba(171, 131, 57, 0.08);
-  --a-text: #ffffff;
-  --a-text-rgb: 255 255 255;
+  /* Off-white, not pure #fff — same reasoning as the public site's
+     --color-text-body: less glare/halation on a near-black background
+     over long reading sessions, at a barely-perceptible contrast cost. */
+  --a-text: #f0eee8;
+  --a-text-rgb: 240 238 232;
 }
 
 @keyframes fadeIn {
@@ -165,6 +168,31 @@ body {
 }
 .admin-shell[data-theme="light"] .border-yellow-400\/30 {
   border-color: rgb(161 98 7 / 0.35);
+}
+
+/* Secondary/muted admin text (labels, timestamps, captions) is written all
+   over the dashboard as text-[rgb(var(--a-text-rgb)/0.NN)] with opacities as
+   low as 0.25–0.4. Measured against WCAG 2.1 AA (4.5:1 for body text), those
+   fail — worse in light mode, where the near-black text needs a much higher
+   opacity than white text does to read against a near-white card. Rather
+   than touch every one of the 300+ call sites, remap the failing fractions
+   here, matched by substring so Tailwind's escaping of the arbitrary-value
+   class name doesn't matter. Values chosen clear 4.5:1 with margin. */
+.admin-shell:not([data-theme="light"]) [class*="text-[rgb(var(--a-text-rgb)/0.25)"],
+.admin-shell:not([data-theme="light"]) [class*="text-[rgb(var(--a-text-rgb)/0.3)"],
+.admin-shell:not([data-theme="light"]) [class*="text-[rgb(var(--a-text-rgb)/0.35)"],
+.admin-shell:not([data-theme="light"]) [class*="text-[rgb(var(--a-text-rgb)/0.4)"] {
+  color: rgb(var(--a-text-rgb) / 0.58) !important;
+}
+
+.admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.25)"],
+.admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.3)"],
+.admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.35)"],
+.admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.4)"],
+.admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.45)"],
+.admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.5)"],
+.admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.55)"] {
+  color: rgb(var(--a-text-rgb) / 0.7) !important;
 }
 
 body {
