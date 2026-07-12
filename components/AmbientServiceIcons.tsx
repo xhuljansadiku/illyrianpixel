@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, type RefObject } from "react";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import ServiceCardHeroVisual from "@/components/ServiceCardHeroVisual";
 import type { ServiceCardVisualVariant } from "@/components/ServiceCardHeroVisual";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
@@ -37,6 +38,22 @@ export default function AmbientServiceIcons({ heroRef, icons }: Props) {
         { opacity: 0, y: 14 },
         { opacity: 0.55, y: 0, duration: 0.9, stagger: 0.08, ease: "power3.out", delay: 0.5 }
       );
+
+      // DrawSVG (falas që nga GSAP 3.13): stroke-t e ikonave "vizatohen" gjatë
+      // hyrjes — line-art i gjallë në vend të një fade-i të thjeshtë.
+      if (!reducedMotion) {
+        gsap.registerPlugin(DrawSVGPlugin);
+        const strokes = heroRef.current!.querySelectorAll(
+          '.hero-float-icon svg :is(path, line, rect, circle, ellipse, polyline)[stroke]:not([stroke="none"])'
+        );
+        if (strokes.length > 0) {
+          gsap.fromTo(
+            strokes,
+            { drawSVG: "0%" },
+            { drawSVG: "100%", duration: 1.5, stagger: 0.015, ease: "power2.inOut", delay: 0.55 }
+          );
+        }
+      }
     }, heroRef);
 
     let onMove: ((e: PointerEvent) => void) | null = null;

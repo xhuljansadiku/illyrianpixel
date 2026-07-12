@@ -31,6 +31,28 @@ export default function GlobalReveals() {
                 scrollTrigger: { trigger: el, start: "top 88%", once: true } }
             );
           });
+
+        // Parallax me thellësi: çdo element me data-parallax="0.x" lëviz me
+        // shpejtësi të ndryshme nga scroll-i — shtresa dekorative marrin jetë.
+        gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
+          const speed = parseFloat(el.dataset.parallax || "0");
+          if (!speed) return;
+          gsap.fromTo(
+            el,
+            { yPercent: -speed * 8 },
+            {
+              yPercent: speed * 8,
+              ease: "none",
+              scrollTrigger: {
+                trigger: el.parentElement ?? el,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.1,
+              },
+            }
+          );
+        });
+
         ScrollTrigger.refresh();
       });
       cleanup = () => ctx.revert();

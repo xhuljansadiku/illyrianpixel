@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
+
+// WebGL vetëm në desktop me fine pointer — ngarkohet lazy që mos prekë bundle-in kryesor
+const DistortionPreview = dynamic(() => import("@/components/DistortionPreview"), { ssr: false });
 
 export type FeaturedItem = {
   slug: string;
@@ -240,6 +244,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
                 className="object-cover"
               />
             )}
+            <DistortionPreview src={hoveredProject?.heroImage ?? null} active={hoveredProject !== null} />
           </div>
         </div>
       )}
