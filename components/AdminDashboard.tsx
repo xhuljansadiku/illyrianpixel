@@ -37,6 +37,7 @@ import {
   type EmailTemplateKey,
 } from "@/lib/emailTemplateTypes";
 import { CARD, EmptyState, Skeleton, useDebounced, useConfirm, useUndoToast } from "@/components/admin/ui";
+import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
 function SunIcon({ className }: { className?: string }) {
   return (
@@ -477,8 +478,6 @@ export default function AdminDashboard({
   const [faqsList, setFaqsList] = useState(faqs);
   const [trashedContacts, setTrashedContacts] = useState(initialTrashedContacts);
   const [trashedQuotes, setTrashedQuotes] = useState(initialTrashedQuotes);
-  const [mgmtOpen, setMgmtOpen] = useState(false);
-  const mgmtRef = useRef<HTMLDivElement>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
@@ -588,22 +587,6 @@ export default function AdminDashboard({
     });
   };
 
-  useEffect(() => {
-    if (!mgmtOpen) return;
-    const onPointerDown = (e: MouseEvent) => {
-      if (!mgmtRef.current?.contains(e.target as Node)) setMgmtOpen(false);
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMgmtOpen(false);
-    };
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [mgmtOpen]);
-
   const logout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
     router.push("/admin/login");
@@ -617,22 +600,22 @@ export default function AdminDashboard({
     return c.follow_up_date <= today;
   }).length;
 
-  const NAV_ITEMS: { id: typeof tab; icon: string; label: string; count?: number; alert?: number }[] = [
-    { id: "overview", icon: "🏠", label: "Përmbledhje" },
-    { id: "contacts", icon: "📇", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
-    { id: "quotes", icon: "🧾", label: "Oferta & Fatura", count: quotes.length },
-    { id: "projects", icon: "📁", label: "Projektet", count: projectsList.length },
-    { id: "clients", icon: "💼", label: "Klientët" },
-    { id: "finances", icon: "💰", label: "Financat" },
-    { id: "blog", icon: "📝", label: "Blog", count: blogPosts.length + staticPosts.length },
-    { id: "subscribers", icon: "✉️", label: "Newsletter", count: subscribers.length },
-    { id: "content", icon: "🎨", label: "Përmbajtja" },
-    { id: "analytics", icon: "📊", label: "Analitika" },
-    { id: "notes", icon: "🗒️", label: "Notes" },
-    { id: "todos", icon: "✅", label: "To Do" },
-    { id: "history", icon: "🕘", label: "Historia" },
-    { id: "assistant", icon: "👑", label: "Mbreti Genti" },
-    { id: "settings", icon: "⚙️", label: "Cilësimet" },
+  const NAV_ITEMS: { id: typeof tab; icon: AdminIconName; label: string; count?: number; alert?: number }[] = [
+    { id: "overview", icon: "home", label: "Përmbledhje" },
+    { id: "contacts", icon: "inbox", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
+    { id: "quotes", icon: "receipt", label: "Oferta & Fatura", count: quotes.length },
+    { id: "projects", icon: "folder", label: "Projektet", count: projectsList.length },
+    { id: "clients", icon: "briefcase", label: "Klientët" },
+    { id: "finances", icon: "wallet", label: "Financat" },
+    { id: "blog", icon: "pen", label: "Blog", count: blogPosts.length + staticPosts.length },
+    { id: "subscribers", icon: "mail", label: "Newsletter", count: subscribers.length },
+    { id: "content", icon: "layers", label: "Përmbajtja" },
+    { id: "analytics", icon: "chart", label: "Analitika" },
+    { id: "notes", icon: "note", label: "Notes" },
+    { id: "todos", icon: "check", label: "To Do" },
+    { id: "history", icon: "clock", label: "Historia" },
+    { id: "assistant", icon: "crown", label: "Mbreti Genti" },
+    { id: "settings", icon: "settings", label: "Cilësimet" },
   ];
 
   const TAB_TITLES: Record<typeof tab, { title: string; subtitle: string }> = {
@@ -714,42 +697,42 @@ export default function AdminDashboard({
   const paletteActions: CommandPaletteAction[] = [
     ...NAV_ITEMS.map((item) => ({
       id: `nav-${item.id}`,
-      icon: item.icon,
+      icon: <AdminIcon name={item.icon} className="h-4 w-4" />,
       label: TAB_TITLES[item.id].title,
       hint: "Shko te",
       onRun: () => setTab(item.id),
     })),
     {
       id: "new-quote",
-      icon: "🧾",
+      icon: <AdminIcon name="plus" className="h-4 w-4" />,
       label: "Ofertë / Faturë e re",
       hint: "Krijo",
       onRun: () => setTab("quotes"),
     },
     {
       id: "new-project",
-      icon: "📁",
+      icon: <AdminIcon name="plus" className="h-4 w-4" />,
       label: "Projekt i ri",
       hint: "Krijo",
       onRun: () => setTab("projects"),
     },
     {
       id: "new-post",
-      icon: "📝",
+      icon: <AdminIcon name="plus" className="h-4 w-4" />,
       label: "Artikull i ri blogu",
       hint: "Krijo",
       onRun: () => setTab("blog"),
     },
     {
       id: "toggle-theme",
-      icon: theme === "dark" ? "☀️" : "🌙",
+      icon: theme === "dark" ? <SunIcon className="h-4 w-4" /> : <MoonIcon className="h-4 w-4" />,
       label: theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët",
       hint: "Pamja",
       onRun: () => toggleTheme(),
     },
     {
       id: "export-backup",
-      icon: "⬇️",
+      icon: <AdminIcon name="download" className="h-4 w-4" />,
       label: "Shkarko backup (JSON)",
       hint: "Eksport",
       onRun: () => {
@@ -758,7 +741,7 @@ export default function AdminDashboard({
     },
     {
       id: "logout",
-      icon: "🚪",
+      icon: <AdminIcon name="logout" className="h-4 w-4" />,
       label: "Dil nga llogaria",
       hint: "Siguri",
       onRun: () => logout(),
@@ -766,7 +749,7 @@ export default function AdminDashboard({
   ];
 
   return (
-    <div data-theme={theme} className="admin-shell flex min-h-screen flex-col bg-[var(--a-bg)] text-[var(--a-text)]">
+    <div data-theme={theme} className="admin-shell flex min-h-screen flex-col bg-[var(--a-bg)] text-[var(--a-text)] md:flex-row">
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
       {/* Toasts */}
       {toasts.length > 0 && (
@@ -774,7 +757,7 @@ export default function AdminDashboard({
           {toasts.map((t) => (
             <div
               key={t.id}
-              className="rounded-[2px] border border-accent/40 bg-[var(--a-card)] px-4 py-3 text-[12px] text-[var(--a-text)] shadow-xl backdrop-blur-[12px] animate-[fadeIn_0.2s_ease-out]"
+              className="rounded-xl border border-accent/40 bg-[var(--a-card)] px-4 py-3 text-[12px] text-[var(--a-text)] shadow-xl backdrop-blur-[12px] animate-[fadeIn_0.2s_ease-out]"
             >
               🔔 {t.text}
             </div>
@@ -846,96 +829,56 @@ export default function AdminDashboard({
         </div>
       )}
 
-      {/* Top bar (desktop) */}
-      <header className="sticky top-0 z-30 hidden h-16 shrink-0 items-center gap-1 overflow-visible border-b border-[var(--a-border)] bg-[var(--a-card2)] px-5 md:flex">
-        {/* Logo */}
-        <div className="relative flex shrink-0 items-center gap-2.5 pr-3">
-          <div className="pointer-events-none absolute -left-3 -top-3 h-14 w-14">
+      {/* Sidebar (desktop) */}
+      <aside className="sticky top-0 z-40 hidden h-screen w-[240px] shrink-0 flex-col border-r border-[var(--a-border)] bg-[var(--a-card2)] md:flex">
+        <div className="relative flex items-center gap-2.5 px-5 pb-4 pt-5">
+          <div className="pointer-events-none absolute left-1 top-1 h-14 w-14">
             <div className="admin-glow" />
           </div>
           <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[14px] font-bold text-accent">
             IP
           </div>
-          <span className="relative hidden font-display text-[1.05rem] font-bold leading-tight text-[var(--a-text)] lg:inline">
-            Admin Panel
-          </span>
+          <div className="relative min-w-0">
+            <p className="font-mono text-[8px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+            <p className="font-display text-[0.95rem] font-bold leading-tight text-[var(--a-text)]">Admin Panel</p>
+          </div>
         </div>
 
-        <div className="h-7 w-px shrink-0 bg-[var(--a-border)]" />
-
-        {/* Main nav links */}
-        <nav className="flex items-center gap-0.5 px-2">
-          {NAV_ITEMS.slice(0, MAIN_NAV_COUNT).map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setTab(item.id)}
-              className={`font-ui relative flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-semibold transition-colors ${
-                tab === item.id
-                  ? "text-[var(--a-text)]"
-                  : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.04)] hover:text-[rgb(var(--a-text-rgb)/0.85)]"
-              }`}
-            >
-              <span className="text-[13px]">{item.icon}</span>
-              {item.label}
-              {!!item.alert && (
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white">
-                  {item.alert}
-                </span>
-              )}
-              {tab === item.id && <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-accent" />}
-            </button>
-          ))}
-
-          {/* "Menaxhimi" — pjesa tjetër e tab-eve, grupuar te dropdown */}
-          <div className="relative" ref={mgmtRef}>
-            <button
-              onClick={() => setMgmtOpen((v) => !v)}
-              className={`font-ui relative flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-semibold transition-colors ${
-                mgmtOpen || NAV_ITEMS.slice(MAIN_NAV_COUNT).some((i) => i.id === tab)
-                  ? "text-[var(--a-text)]"
-                  : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.04)] hover:text-[rgb(var(--a-text-rgb)/0.85)]"
-              }`}
-            >
-              Menaxhimi
-              <span className={`text-[9px] transition-transform duration-150 ${mgmtOpen ? "rotate-180" : ""}`}>▾</span>
-              {NAV_ITEMS.slice(MAIN_NAV_COUNT).some((i) => i.id === tab) && (
-                <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-accent" />
-              )}
-            </button>
-            {mgmtOpen && (
-              <div className="absolute left-0 top-full z-40 mt-2 w-56 rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] p-2 shadow-[var(--a-card-shadow)] backdrop-blur-[12px]">
-                {NAV_ITEMS.slice(MAIN_NAV_COUNT).map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setTab(item.id);
-                      setMgmtOpen(false);
-                    }}
-                    className={`font-ui flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-semibold transition-colors ${
-                      tab === item.id
-                        ? "bg-accent/10 text-accent"
-                        : "text-[rgb(var(--a-text-rgb)/0.6)] hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                    }`}
-                  >
-                    <span>{item.icon}</span>
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4 pt-1">
+          <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} />
         </nav>
 
-        <div className="flex-1" />
+        <div className="border-t border-[var(--a-border)] p-3">
+          <a
+            href="/"
+            target="_blank"
+            rel="noreferrer"
+            className="font-ui flex items-center gap-2.5 rounded-xl px-3 py-2 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.45)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.04)] hover:text-[var(--a-text)]"
+          >
+            <AdminIcon name="external" className="h-3.5 w-3.5" />
+            Shiko faqen live
+          </a>
+        </div>
+      </aside>
+
+      {/* Content column */}
+      <div className="flex min-w-0 flex-1 flex-col">
+
+      {/* Top bar (desktop) */}
+      <header className="sticky top-0 z-30 hidden h-16 shrink-0 items-center gap-2 border-b border-[var(--a-border)] bg-[var(--a-bg)]/85 px-6 backdrop-blur-md md:flex lg:px-8">
 
         {/* Global search */}
-        <div className="relative w-56 shrink-0">
+        <div className="relative w-full max-w-sm">
+          <AdminIcon
+            name="search"
+            className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[rgb(var(--a-text-rgb)/0.35)]"
+          />
           <input
             type="text"
             value={globalSearch}
             onChange={(e) => setGlobalSearch(e.target.value)}
-            placeholder="🔍 Kërko gjithçka..."
-            className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 pr-12 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            placeholder="Kërko kontakte, oferta, projekte…"
+            className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] py-2 pl-9 pr-14 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
           />
           <button
             type="button"
@@ -946,7 +889,7 @@ export default function AdminDashboard({
             ⌘K
           </button>
           {globalResults && (
-            <div className="absolute right-0 top-full z-40 mt-2 w-80 max-h-80 overflow-y-auto rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] shadow-xl">
+            <div className="absolute left-0 top-full z-40 mt-2 max-h-96 w-96 overflow-y-auto rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px]">
               {globalResults.contactMatches.length === 0 &&
               globalResults.subscriberMatches.length === 0 &&
               globalResults.blogMatches.length === 0 &&
@@ -1049,30 +992,32 @@ export default function AdminDashboard({
           )}
         </div>
 
+        <div className="flex-1" />
+
         <NotificationsBell setTab={setTab} />
 
         <button
           onClick={toggleTheme}
           title={theme === "dark" ? "Mënyra e ndritshme" : "Mënyra e errët"}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
           {theme === "dark" ? <SunIcon className="h-3.5 w-3.5" /> : <MoonIcon className="h-3.5 w-3.5" />}
         </button>
 
-        <div className="h-7 w-px shrink-0 bg-[var(--a-border)]" />
+        <div className="mx-1 h-7 w-px shrink-0 bg-[var(--a-border)]" />
 
         <button
           onClick={logout}
           title="Dil"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-red-400/40 hover:text-red-400"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:border-red-400/40 hover:text-red-400"
         >
-          ⏻
+          <AdminIcon name="logout" className="h-3.5 w-3.5" />
         </button>
       </header>
 
       {/* Main */}
-      <main className="min-w-0 flex-1 px-5 py-8 md:px-10 md:py-10">
-        <div className="mx-auto max-w-5xl">
+      <main className="min-w-0 flex-1 px-5 py-8 md:px-8 md:py-8 lg:px-10">
+        <div className="mx-auto max-w-6xl">
           {/* Mobile header */}
           <div className="sticky top-0 z-30 -mx-5 mb-1 flex items-center gap-3 border-b border-[var(--a-border)] bg-[var(--a-bg)]/85 px-5 py-3 backdrop-blur-md md:hidden">
             <button
@@ -1090,9 +1035,9 @@ export default function AdminDashboard({
           </div>
 
           {/* Page title (desktop) */}
-          <div className="mt-6 hidden md:block">
-            <h2 className="font-display text-[1.6rem] font-bold text-[var(--a-text)]">{TAB_TITLES[tab].title}</h2>
-            <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{TAB_TITLES[tab].subtitle}</p>
+          <div className="hidden md:block">
+            <h2 className="font-display text-[1.7rem] font-bold tracking-[-0.01em] text-[var(--a-text)]">{TAB_TITLES[tab].title}</h2>
+            <p className="mt-1.5 text-[12.5px] text-[rgb(var(--a-text-rgb)/0.45)]">{TAB_TITLES[tab].subtitle}</p>
           </div>
 
           {tab === "contacts" && (
@@ -1197,6 +1142,7 @@ export default function AdminDashboard({
           </div>
         </div>
       </main>
+      </div>
     </div>
   );
 }
@@ -1205,10 +1151,16 @@ export default function AdminDashboard({
 function StatCard({ label, value, featured }: { label: string; value: number; featured?: boolean }) {
   return (
     <div className={CARD + (featured ? " border-accent/30 p-5" : " p-5")}>
-      <p className={`font-display font-bold ${featured ? "text-[2.5rem] text-accent" : "text-[2rem] text-[var(--a-text)]"}`}>
+      <p className="font-ui text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[rgb(var(--a-text-rgb)/0.45)]">
+        {label}
+      </p>
+      <p
+        className={`mt-2 font-display font-bold leading-none tabular-nums ${
+          featured ? "text-[2.1rem] text-accent" : "text-[1.8rem] text-[var(--a-text)]"
+        }`}
+      >
         {value}
       </p>
-      <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">{label}</p>
     </div>
   );
 }
@@ -1224,7 +1176,7 @@ function SidebarNav({
   collapsed,
   onNavigate,
 }: {
-  navItems: { id: AdminTab; icon: string; label: string; count?: number; alert?: number }[];
+  navItems: { id: AdminTab; icon: AdminIconName; label: string; count?: number; alert?: number }[];
   tab: AdminTab;
   setTab: (t: AdminTab) => void;
   collapsed?: boolean;
@@ -1259,11 +1211,11 @@ function SidebarNav({
             )}
             <span className="flex min-w-0 items-center gap-3">
               <span
-                className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[15px] transition-colors ${
-                  tab === item.id ? "bg-accent/15" : "bg-[rgb(var(--a-text-rgb)/0.04)]"
+                className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                  tab === item.id ? "bg-accent/15 text-accent" : "bg-[rgb(var(--a-text-rgb)/0.04)]"
                 }`}
               >
-                {item.icon}
+                <AdminIcon name={item.icon} className="h-[15px] w-[15px]" />
                 {!!item.alert && (
                   <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-[var(--a-card2)]">
                     {item.alert > 9 ? "9+" : item.alert}

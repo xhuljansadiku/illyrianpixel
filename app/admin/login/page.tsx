@@ -44,14 +44,33 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-bg px-5 text-text">
-      <div className="w-full max-w-sm rounded-[1.5rem] border border-[#262626] bg-[rgba(10,10,10,0.72)] p-8 backdrop-blur-[12px]">
-        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
-        <h1 className="mt-3 font-display text-[1.6rem] font-bold text-white">Admin</h1>
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0b0a08] px-5 text-text">
+      {/* Sfond dekorativ — shkëlqim i artë, i qetë */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60"
+        style={{ background: "radial-gradient(circle, rgba(171,131,57,0.14) 0%, transparent 65%)" }}
+        aria-hidden
+      />
 
-        <form onSubmit={onSubmit} className="mt-7 space-y-4">
+      <div className="relative w-full max-w-sm rounded-[1.5rem] border border-[rgba(171,131,57,0.14)] bg-[rgba(22,18,13,0.72)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-[12px]">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[16px] font-bold text-accent">
+            IP
+          </div>
+          <div>
+            <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+            <h1 className="font-display text-[1.3rem] font-bold leading-tight text-white">Admin Panel</h1>
+          </div>
+        </div>
+        <p className="mt-5 text-[12.5px] leading-relaxed text-white/45">
+          {step === "token"
+            ? "Hapi i fundit — verifiko identitetin me kodin 2FA."
+            : "Hyr me fjalëkalimin tënd për të vazhduar."}
+        </p>
+
+        <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div className={step === "token" ? "hidden" : ""}>
-            <label className="font-display mb-2 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
+            <label className="font-ui mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">
               Fjalëkalimi
             </label>
             <div className="relative">
@@ -60,14 +79,14 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoFocus
-                className="font-ui w-full border-b border-[#262626] bg-transparent py-3 pr-9 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 focus:border-accent"
+                className="font-ui w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] px-4 py-3 pr-11 text-[14px] tracking-[0.3px] text-white outline-none transition-colors duration-300 focus:border-accent"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
                 tabIndex={-1}
                 aria-label={showPassword ? "Fshih fjalëkalimin" : "Shfaq fjalëkalimin"}
-                className="absolute right-0 top-1/2 -translate-y-1/2 p-1 text-white/35 transition-colors hover:text-white/70"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/35 transition-colors hover:text-white/70"
               >
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -86,7 +105,7 @@ export default function AdminLoginPage() {
 
           {step === "token" && (
             <div>
-              <label className="font-display mb-2 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
+              <label className="font-ui mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">
                 Kodi 2FA
               </label>
               <input
@@ -97,7 +116,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
                 autoFocus
                 placeholder="000000"
-                className="w-full border-b border-[#262626] bg-transparent py-3 text-center font-mono text-[22px] tracking-[0.4em] text-white outline-none transition-colors duration-300 focus:border-accent"
+                className="w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] py-3 text-center font-mono text-[22px] tracking-[0.4em] text-white outline-none transition-colors duration-300 focus:border-accent"
               />
               <p className="mt-2 text-[11px] text-white/35">
                 Shkruaj kodin 6-shifror nga aplikacioni autentifikues.
@@ -125,16 +144,24 @@ export default function AdminLoginPage() {
             </div>
           )}
 
-          {error && <p className="text-[12px] text-red-400/80">{error}</p>}
+          {error && (
+            <p className="rounded-xl border border-red-400/25 bg-red-400/10 px-3.5 py-2.5 text-[12px] text-red-300">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
             disabled={loading || !password || (step === "token" && token.length !== 6)}
-            className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
+            className="font-ui mt-2 w-full rounded-xl bg-accent px-8 py-3.5 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
           >
             {loading ? "Duke hyrë…" : step === "token" ? "Verifiko" : "Hyr"}
           </button>
         </form>
+
+        <p className="mt-6 border-t border-white/10 pt-4 text-center text-[10.5px] uppercase tracking-[0.18em] text-white/25">
+          Qasje e mbrojtur · Illyrian Pixel
+        </p>
       </div>
     </main>
   );

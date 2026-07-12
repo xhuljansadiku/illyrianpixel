@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 export type CommandPaletteAction = {
   id: string;
-  icon: string;
+  icon: ReactNode;
   label: string;
   hint?: string;
   onRun: () => void;
@@ -57,7 +57,7 @@ export default function CommandPalette({
         role="dialog"
         aria-modal="true"
         aria-label="Paleta e komandave"
-        className="w-full max-w-lg overflow-hidden rounded-[2px] border border-[var(--a-border)] bg-[var(--a-card)] shadow-2xl"
+        className="w-full max-w-lg overflow-hidden rounded-2xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px]"
         onClick={(e) => e.stopPropagation()}
       >
         <input
@@ -106,7 +106,13 @@ export default function CommandPalette({
                     : "text-[rgb(var(--a-text-rgb)/0.7)] hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
                 }`}
               >
-                <span className="text-[15px]">{action.icon}</span>
+                <span
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
+                    i === activeIndex ? "bg-accent/15 text-accent" : "bg-[rgb(var(--a-text-rgb)/0.05)] text-[rgb(var(--a-text-rgb)/0.6)]"
+                  }`}
+                >
+                  {action.icon}
+                </span>
                 <span className="flex-1">{action.label}</span>
                 {action.hint && (
                   <span className="text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">

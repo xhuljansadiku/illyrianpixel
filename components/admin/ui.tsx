@@ -58,7 +58,7 @@ export function useToasts() {
     return (
       <div className="fixed right-4 top-4 z-[100] flex flex-col gap-2">
         {toasts.map((t) => (
-          <div key={t.id} className={`rounded-[2px] border px-4 py-2.5 text-[12px] shadow-2xl ${TOAST_STYLES[t.kind]}`}>
+          <div key={t.id} className={`rounded-xl border px-4 py-2.5 text-[12px] shadow-2xl ${TOAST_STYLES[t.kind]}`}>
             {t.text}
           </div>
         ))}
@@ -70,7 +70,7 @@ export function useToasts() {
 }
 
 export function Skeleton({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-[2px] bg-[rgb(var(--a-text-rgb)/0.08)] ${className}`} />;
+  return <div className={`animate-pulse rounded-lg bg-[rgb(var(--a-text-rgb)/0.08)] ${className}`} />;
 }
 
 export function SkeletonRows({ rows = 5, className = "" }: { rows?: number; className?: string }) {
@@ -129,7 +129,7 @@ export function useUndoToast(delayMs = 5000) {
   const renderUndoToast = () => {
     if (!toast) return null;
     return (
-      <div className="fixed bottom-4 right-4 z-[100] flex items-center gap-3 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-card)] px-4 py-2.5 text-[12px] text-[var(--a-text)] shadow-2xl">
+      <div className="fixed bottom-4 right-4 z-[100] flex items-center gap-3 rounded-xl border border-[var(--a-border)] bg-[var(--a-card)] px-4 py-2.5 text-[12px] text-[var(--a-text)] shadow-2xl">
         <span>{toast.message}</span>
         <button onClick={toast.onUndo} className="font-ui font-semibold text-accent transition-colors hover:underline">
           Zhbëj

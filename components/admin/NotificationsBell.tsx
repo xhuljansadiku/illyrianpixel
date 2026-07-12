@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { AdminTab } from "@/components/AdminDashboard";
+import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
 type NotificationRow = {
   id: number;
@@ -13,10 +14,10 @@ type NotificationRow = {
 
 const WHITELIST_ENTITIES = "client,newsletter,auto";
 
-const ENTITY_META: Record<string, { icon: string; tab: AdminTab }> = {
-  client: { icon: "📇", tab: "contacts" },
-  newsletter: { icon: "✉️", tab: "subscribers" },
-  auto: { icon: "🤖", tab: "history" },
+const ENTITY_META: Record<string, { icon: AdminIconName; tab: AdminTab }> = {
+  client: { icon: "inbox", tab: "contacts" },
+  newsletter: { icon: "mail", tab: "subscribers" },
+  auto: { icon: "zap", tab: "history" },
 };
 
 const SEEN_KEY = "admin_notif_last_seen";
@@ -176,7 +177,13 @@ export default function NotificationsBell({
                   }}
                   className="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.04)]"
                 >
-                  <span className="mt-0.5 text-[15px]">{ENTITY_META[r.entity]?.icon ?? "•"}</span>
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[rgb(var(--a-text-rgb)/0.05)] text-[rgb(var(--a-text-rgb)/0.55)]">
+                    {ENTITY_META[r.entity] ? (
+                      <AdminIcon name={ENTITY_META[r.entity].icon} className="h-3.5 w-3.5" />
+                    ) : (
+                      <AdminIcon name="clock" className="h-3.5 w-3.5" />
+                    )}
+                  </span>
                   <span className="min-w-0 flex-1 text-[12px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.75)]">
                     {r.label}
                   </span>
@@ -198,7 +205,7 @@ export default function NotificationsBell({
         <button
           onClick={toggleOpen}
           title={collapsed ? "Njoftimet" : undefined}
-          className={`font-ui flex w-full items-center justify-between rounded-[2px] px-3 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-colors duration-200 ${
+          className={`font-ui flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-colors duration-200 ${
             open
               ? "bg-accent/10 text-[var(--a-text)] border-l-2 border-accent"
               : "text-[rgb(var(--a-text-rgb)/0.45)] border-l-2 border-transparent hover:text-[rgb(var(--a-text-rgb)/0.8)] hover:bg-[rgb(var(--a-text-rgb)/0.03)]"
@@ -221,7 +228,7 @@ export default function NotificationsBell({
         </button>
         {open && (
           <div
-            className={`absolute z-50 w-80 max-w-[calc(100vw-2rem)] rounded-[2px] border border-[var(--a-border)] bg-[var(--a-card)] shadow-xl backdrop-blur-[12px] ${
+            className={`absolute z-50 w-80 max-w-[calc(100vw-2rem)] rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px] ${
               dropUp ?? true ? "bottom-full mb-2" : "top-full mt-2"
             } left-0`}
           >
@@ -237,7 +244,7 @@ export default function NotificationsBell({
       <button
         onClick={toggleOpen}
         title="Njoftimet"
-        className="relative rounded-[2px] border border-[var(--a-border)] p-2 text-[rgb(var(--a-text-rgb)/0.45)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+        className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.45)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
       >
         <BellIcon className="h-4 w-4" />
         {unread > 0 && (
@@ -249,7 +256,7 @@ export default function NotificationsBell({
 
       {open && (
         <div
-          className={`absolute z-50 w-80 max-w-[80vw] rounded-[2px] border border-[var(--a-border)] bg-[var(--a-card)] shadow-xl backdrop-blur-[12px] ${
+          className={`absolute z-50 w-80 max-w-[80vw] rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px] ${
             dropUp ? "bottom-full mb-2" : "top-full mt-2"
           } ${collapsed ? "left-0" : "right-0"}`}
         >
