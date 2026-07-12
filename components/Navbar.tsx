@@ -193,11 +193,24 @@ export default function Navbar() {
               onClick={() => setMobileOpen(true)}
               className="inline-flex h-10 min-h-[40px] w-10 min-w-[40px] touch-manipulation items-center justify-center rounded-full border border-white/18 bg-white/[0.03] text-white/85 transition-colors duration-300 hover:border-accent/55 hover:bg-white/[0.06] hover:text-accentLight lg:hidden"
               aria-label={t("menuAria")}
+              aria-expanded={mobileOpen}
             >
-              <span className="flex h-5 w-5 flex-col items-center justify-center gap-[5px]" aria-hidden>
-                <span className="block h-0.5 w-[18px] rounded-full bg-current" />
-                <span className="block h-0.5 w-[18px] rounded-full bg-current" />
-                <span className="block h-0.5 w-[18px] rounded-full bg-current" />
+              <span className="relative flex h-4 w-[18px] items-center justify-center" aria-hidden>
+                <span
+                  className={`absolute h-0.5 rounded-full bg-current transition-all duration-300 ease-out ${
+                    mobileOpen ? "w-[18px] translate-y-0 rotate-45" : "w-[18px] -translate-y-[6px] rotate-0"
+                  }`}
+                />
+                <span
+                  className={`absolute h-0.5 w-[11px] rounded-full bg-current transition-all duration-300 ease-out ${
+                    mobileOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute h-0.5 rounded-full bg-current transition-all duration-300 ease-out ${
+                    mobileOpen ? "w-[18px] translate-y-0 -rotate-45" : "w-[18px] translate-y-[6px] rotate-0"
+                  }`}
+                />
               </span>
             </button>
           </div>
