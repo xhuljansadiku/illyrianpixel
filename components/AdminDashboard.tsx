@@ -73,7 +73,7 @@ const VALID_TABS = [
 
 export type AdminTab = (typeof VALID_TABS)[number];
 
-type Contact = {
+export type Contact = {
   id: number;
   created_at: string;
   name: string;
@@ -1174,7 +1174,9 @@ export default function AdminDashboard({
             {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
             {tab === "notes" && <NotesTab />}
             {tab === "todos" && <TodosTab />}
-            {tab === "clients" && <ClientsTab />}
+            {tab === "clients" && (
+              <ClientsTab contacts={contacts} projects={projectsList} quotes={quotes} recurring={recurringList} onGoToContact={goToContact} />
+            )}
           </div>
         </div>
       </main>
