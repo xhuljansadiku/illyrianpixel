@@ -50,6 +50,13 @@ function normalize(name: string) {
   return name.trim().toLowerCase();
 }
 
+// Fallback "service" when there's no linked contact to pull a clean label from —
+// truncate so a full invoice line item doesn't blow out the table column.
+function shortService(text: string | null | undefined): string | null {
+  if (!text) return null;
+  return text.length > 40 ? `${text.slice(0, 40).trim()}…` : text;
+}
+
 function keyFor(contactId: string | number | null | undefined, name: string) {
   if (contactId !== null && contactId !== undefined && contactId !== "") return `c:${contactId}`;
   return `n:${normalize(name || "klient")}`;
@@ -106,12 +113,6 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     return row;
   };
 
-  for (const c of contacts) {
-    if ((c.status || "new") !== "done") continue;
-    const key = keyFor(c.id, c.name);
-    ensure(key, c.name, c.business_name, c.email, c.phone, c.service || null, c, String(c.id), c.created_at);
-  }
-
   for (const p of projects) {
     const name = p.client_name || "Klient pa emër";
     const contact = findContact(p.contact_id);
@@ -124,7 +125,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
   for (const q of quotes) {
     const contact = findContact(q.contact_id);
     const key = keyFor(q.contact_id, q.client_name);
-    const service = contact?.service || q.items?.[0]?.description || null;
+    const service = contact?.service || shortService(q.items?.[0]?.description) || null;
     const row = ensure(key, q.client_name, q.client_business, q.client_email, contact?.phone ?? null, service, contact, q.contact_id, q.updated_at || q.created_at);
     const totals = quoteTotals(q.items, q.discount, q.tax_rate);
     if (q.status === "paid") row.paidTotal += totals.total;
@@ -135,7 +136,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     if (!r.active) continue;
     const contact = findContact(r.contact_id);
     const key = keyFor(r.contact_id, r.client_name);
-    const service = contact?.service || r.items?.[0]?.description || null;
+    const service = contact?.service || shortService(r.items?.[0]?.description) || null;
     const row = ensure(key, r.client_name, r.client_business, r.client_email, contact?.phone ?? null, service, contact, r.contact_id, r.created_at);
     const totals = quoteTotals(r.items, r.discount, r.tax_rate);
     row.recurringMonthly += totals.total;
@@ -447,7 +448,7 @@ export default function ClientsTab({
           <EmptyState
             text={
               clients.length === 0
-                ? "Ende s'ka klientë. Një kontakt bëhet klient kur shënohet 'Përfunduar' te Kontaktet, ose kur i krijohet një projekt/faturë/pagesë rekurrente."
+                ? "Ende s'ka klientë. Një klient shfaqet këtu kur i krijohet një projekt, faturë e paguar ose pagesë rekurrente — ose shtoje manualisht me '+ Shto klient'."
                 : "Asnjë klient nuk përputhet me kërkimin."
             }
           />
@@ -552,120 +553,6 @@ export default function ClientsTab({
               ))}
             </tbody>
           </table>
-        </div>
-      )}
-
-      <ClientPortalSettings />
-    </div>
-  );
-}
-
-function ClientPortalSettings() {
-  const [hasPin, setHasPin] = useState<boolean | null>(null);
-  const [pinForm, setPinForm] = useState({ pin: "", confirm: "" });
-  const [saving, setSaving] = useState(false);
-  const { pushToast, renderToasts } = useToasts();
-  const [confirm, renderConfirm] = useConfirm();
-
-  useEffect(() => {
-    fetch("/api/admin/clients-pin")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.success) setHasPin(d.hasPin);
-      })
-      .catch(() => setHasPin(false));
-  }, []);
-
-  const handleSetPin = async () => {
-    if (pinForm.pin.length < 4) return pushToast("PIN-i duhet të jetë të paktën 4 shifra.", "error");
-    if (pinForm.pin !== pinForm.confirm) return pushToast("PIN-at nuk përputhen.", "error");
-    setSaving(true);
-    const res = await fetch("/api/admin/clients-pin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pin: pinForm.pin }),
-    }).then((r) => r.json());
-    setSaving(false);
-    if (res.success) {
-      setHasPin(true);
-      setPinForm({ pin: "", confirm: "" });
-      pushToast("PIN-i u vendos me sukses.", "success");
-    } else pushToast(res.error ?? "Gabim.", "error");
-  };
-
-  const handleRemovePin = async () => {
-    const ok = await confirm({ title: "Hiq PIN-in", message: "Zona e klientëve do të bëhet e aksesueshme pa PIN.", danger: true, confirmText: "Hiq PIN" });
-    if (!ok) return;
-    const res = await fetch("/api/admin/clients-pin", { method: "DELETE" }).then((r) => r.json());
-    if (res.success) {
-      setHasPin(false);
-      pushToast("PIN-i u hoq.", "success");
-    } else pushToast(res.error ?? "Gabim.", "error");
-  };
-
-  return (
-    <div className={CARD + " p-5 space-y-4"}>
-      {renderToasts()}
-      {renderConfirm()}
-      <div>
-        <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">PIN i portalit individual (opsionale)</p>
-        <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.55)]">
-          Çdo klient ka linkun e vet (<span className="text-[var(--a-text)]">/klienti/token</span>) te lista më sipër. Ky PIN shtesë kërkohet çdo herë që hapet ai link, si mbrojtje shtesë.
-        </p>
-      </div>
-
-      {hasPin === null ? (
-        <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Duke ngarkuar…</p>
-      ) : hasPin ? (
-        <div className="flex items-center gap-4">
-          <span className="text-[12px] text-emerald-400">● PIN aktiv</span>
-          <div className="flex gap-2">
-            <button
-              onClick={() => {
-                setHasPin(false);
-                setTimeout(() => setHasPin(null), 0);
-                setPinForm({ pin: "", confirm: "" });
-              }}
-              className={BTN_PLAIN}
-            >
-              Ndrysho PIN
-            </button>
-            <button onClick={handleRemovePin} className={BTN_DANGER}>
-              Hiq PIN
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="max-w-xs space-y-3">
-          <div>
-            <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">PIN i ri (4–12 shifra)</label>
-            <input
-              type="password"
-              inputMode="numeric"
-              value={pinForm.pin}
-              onChange={(e) => setPinForm((f) => ({ ...f, pin: e.target.value.replace(/\D/g, "").slice(0, 12) }))}
-              placeholder="••••"
-              className={INPUT + " w-full"}
-            />
-          </div>
-          <div>
-            <label className="mb-1 block font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">Konfirmo PIN</label>
-            <input
-              type="password"
-              inputMode="numeric"
-              value={pinForm.confirm}
-              onChange={(e) => setPinForm((f) => ({ ...f, confirm: e.target.value.replace(/\D/g, "").slice(0, 12) }))}
-              placeholder="••••"
-              className={INPUT + " w-full"}
-            />
-          </div>
-          <button
-            onClick={handleSetPin}
-            disabled={saving || pinForm.pin.length < 4 || pinForm.pin !== pinForm.confirm}
-            className={BTN_GOLD}
-          >
-            {saving ? "Duke ruajtur…" : "Vendos PIN"}
-          </button>
         </div>
       )}
     </div>
