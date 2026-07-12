@@ -1110,7 +1110,19 @@ export default function AdminDashboard({
           {/* Content */}
           <div className="mt-6">
             {tab === "overview" && (
-              <OverviewTab contacts={contacts} subscribers={subscribers} stats={stats} adminLogins={adminLogins} projects={projectsList} broadcasts={broadcasts} onGoToContact={goToContact} autoActivity={autoActivity} />
+              <OverviewTab
+                contacts={contacts}
+                subscribers={subscribers}
+                stats={stats}
+                adminLogins={adminLogins}
+                projects={projectsList}
+                quotes={quotes}
+                broadcasts={broadcasts}
+                onGoToContact={goToContact}
+                onGoToQuote={goToQuote}
+                onGoToProject={goToProject}
+                autoActivity={autoActivity}
+              />
             )}
             {tab === "contacts" && (
               <ContactsTab
@@ -1272,8 +1284,11 @@ function OverviewTab({
   stats,
   adminLogins,
   projects,
+  quotes,
   broadcasts,
   onGoToContact,
+  onGoToQuote,
+  onGoToProject,
   autoActivity,
 }: {
   contacts: Contact[];
@@ -1281,13 +1296,43 @@ function OverviewTab({
   stats: Stats;
   adminLogins: AdminLogin[];
   projects: ProjectRecord[];
+  quotes: QuoteRecord[];
   broadcasts: BroadcastStat[];
   onGoToContact: (term: string) => void;
+  onGoToQuote: (term: string) => void;
+  onGoToProject: (term: string) => void;
   autoActivity: AutoActivity[];
 }) {
   const today = new Date().toISOString().slice(0, 10);
 
   const overdueFollowUps = useMemo(() => contacts.filter(isOverdue).length, [contacts]);
+
+  const overdueInvoices = useMemo(
+    () =>
+      quotes
+        .filter((q) => q.kind === "invoice" && q.status !== "paid" && q.status !== "draft" && q.due_at && q.due_at < today)
+        .sort((a, b) => (a.due_at! < b.due_at! ? -1 : 1)),
+    [quotes, today]
+  );
+  const overdueInvoicesTotal = useMemo(
+    () => overdueInvoices.reduce((sum, q) => sum + quoteTotals(q.items, q.discount, q.tax_rate).total, 0),
+    [overdueInvoices]
+  );
+
+  const upcomingDeadlines = useMemo(() => {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() + 3);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    return projects
+      .filter((p) => p.status !== "done" && p.deadline && p.deadline <= cutoffStr)
+      .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1));
+  }, [projects]);
+  const overdueDeadlinesCount = useMemo(
+    () => upcomingDeadlines.filter((p) => p.deadline! < today).length,
+    [upcomingDeadlines, today]
+  );
+
+  const needsAttention = overdueInvoices.length > 0 || overdueFollowUps > 0 || upcomingDeadlines.length > 0;
 
   const lastBackup = useMemo(
     () => autoActivity.find((a) => a.action === "backup") ?? null,
@@ -1345,24 +1390,83 @@ function OverviewTab({
         <StatCard label="Norma e konvertimit (%)" value={Math.round(stats.conversionRate)} featured />
       </div>
 
+      {/* Kërkon vëmendjen sot — bashkon fatura të vonuara, follow-up të vonuara dhe afate projektesh */}
+      <div className={`${CARD} p-5 ${needsAttention ? "border-red-400/25" : ""}`}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          Kërkon vëmendjen sot
+        </p>
+        {!needsAttention ? (
+          <p className="text-[13px] text-emerald-300">✅ Asgjë urgjente — fatura, follow-up dhe afate janë në rregull.</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            <button
+              onClick={() => onGoToQuote("")}
+              disabled={overdueInvoices.length === 0}
+              className={`rounded-[2px] border px-4 py-3 text-left transition-colors ${
+                overdueInvoices.length === 0
+                  ? "border-emerald-400/25 bg-emerald-400/5"
+                  : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
+              }`}
+            >
+              <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Fatura të vonuara</p>
+              <p className={`mt-1 text-[14px] font-semibold ${overdueInvoices.length === 0 ? "text-emerald-300" : "text-red-300"}`}>
+                {overdueInvoices.length === 0
+                  ? "✅ Asnjë"
+                  : `🔴 ${overdueInvoices.length} · ${formatMoney(overdueInvoicesTotal)}`}
+              </p>
+            </button>
+            <button
+              onClick={() => onGoToContact("")}
+              disabled={overdueFollowUps === 0}
+              className={`rounded-[2px] border px-4 py-3 text-left transition-colors ${
+                overdueFollowUps === 0
+                  ? "border-emerald-400/25 bg-emerald-400/5"
+                  : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
+              }`}
+            >
+              <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Follow-up të vonuara</p>
+              <p className={`mt-1 text-[14px] font-semibold ${overdueFollowUps === 0 ? "text-emerald-300" : "text-red-300"}`}>
+                {overdueFollowUps === 0 ? "✅ Asnjë" : `🔴 ${overdueFollowUps}`}
+              </p>
+            </button>
+            <button
+              onClick={() => onGoToProject("")}
+              disabled={upcomingDeadlines.length === 0}
+              className={`rounded-[2px] border px-4 py-3 text-left transition-colors ${
+                upcomingDeadlines.length === 0
+                  ? "border-emerald-400/25 bg-emerald-400/5"
+                  : overdueDeadlinesCount > 0
+                    ? "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
+                    : "border-yellow-400/25 bg-yellow-400/5 hover:border-yellow-400/45"
+              }`}
+            >
+              <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Afate projektesh (3 ditë)</p>
+              <p
+                className={`mt-1 text-[14px] font-semibold ${
+                  upcomingDeadlines.length === 0 ? "text-emerald-300" : overdueDeadlinesCount > 0 ? "text-red-300" : "text-yellow-300"
+                }`}
+              >
+                {upcomingDeadlines.length === 0
+                  ? "✅ Asnjë"
+                  : `${overdueDeadlinesCount > 0 ? "🔴" : "⏳"} ${upcomingDeadlines.length}${overdueDeadlinesCount > 0 ? ` (${overdueDeadlinesCount} vonuar)` : ""}`}
+              </p>
+            </button>
+          </div>
+        )}
+      </div>
+
       {/* Shëndeti i sistemit */}
       <div className={CARD + " p-5"}>
         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Shëndeti i sistemit
         </p>
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <div className={`rounded-[2px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Backup javor</p>
             <p className={`mt-1 text-[14px] font-semibold ${backupHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
               {lastBackup
                 ? `${backupHealthy ? "✅" : "⚠️"} ${daysSinceBackup === 0 ? "sot" : `${daysSinceBackup} ditë më parë`}`
                 : "⚠️ Asnjë backup ende"}
-            </p>
-          </div>
-          <div className={`rounded-[2px] border px-4 py-3 ${overdueFollowUps === 0 ? "border-emerald-400/25 bg-emerald-400/5" : "border-red-400/25 bg-red-400/5"}`}>
-            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Follow-up të vonuara</p>
-            <p className={`mt-1 text-[14px] font-semibold ${overdueFollowUps === 0 ? "text-emerald-300" : "text-red-300"}`}>
-              {overdueFollowUps === 0 ? "✅ Asnjë" : `🔴 ${overdueFollowUps}`}
             </p>
           </div>
           <div className="rounded-[2px] border border-[var(--a-border)] px-4 py-3">

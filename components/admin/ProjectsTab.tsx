@@ -550,6 +550,7 @@ export default function ProjectsTab({
           const doneTasks = p.tasks.filter((t) => t.done).length;
           const progress = p.tasks.length > 0 ? Math.round((doneTasks / p.tasks.length) * 100) : 0;
           const phaseIdx = PROJECT_PHASES.indexOf(p.phase);
+          const isOverdueProject = p.status !== "done" && !!p.deadline && p.deadline < new Date().toISOString().slice(0, 10);
           return (
             <div key={p.id} className={CARD + " p-5"}>
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -574,7 +575,13 @@ export default function ProjectsTab({
                   </div>
                   <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">
                     {p.client_name ? `${p.client_name} · ` : ""}
-                    {p.deadline ? `afati: ${formatDay(p.deadline)}` : "pa afat"}
+                    {p.deadline ? (
+                      <span className={isOverdueProject ? "font-semibold text-red-400" : undefined}>
+                        {isOverdueProject ? "🔴 " : ""}afati: {formatDay(p.deadline)}
+                      </span>
+                    ) : (
+                      "pa afat"
+                    )}
                     {p.tasks.length > 0 ? ` · ${doneTasks}/${p.tasks.length} detyra` : ""}
                     {p.tasks.reduce((s, t) => s + (t.time_spent_minutes ?? 0), 0) > 0
                       ? ` · ${formatMinutes(p.tasks.reduce((s, t) => s + (t.time_spent_minutes ?? 0), 0))} regjistruar`

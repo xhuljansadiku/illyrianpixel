@@ -154,6 +154,7 @@ export default function QuotesTab({
   const debouncedSearch = useDebounced(search, 250);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(quotes.length >= 300);
+  const todayStr = new Date().toISOString().slice(0, 10);
 
   const loadMore = async () => {
     setLoadingMore(true);
@@ -837,6 +838,8 @@ export default function QuotesTab({
         {filtered.length === 0 && <EmptyState text="Asnjë dokument ende. Krijo ofertën e parë me butonin lart." />}
         {filtered.map((q) => {
           const totals = quoteTotals(q.items, q.discount, q.tax_rate);
+          const isOverdueInvoice =
+            q.kind === "invoice" && q.status !== "paid" && q.status !== "draft" && !!q.due_at && q.due_at < todayStr;
           // Përgjigja e klientit ndjek statusin AKTUAL (jo datat — mund të ekzistojnë të dyja nga ndryshime statusi)
           const clientResponse =
             q.status === "rejected" && q.declined_at
@@ -863,6 +866,11 @@ export default function QuotesTab({
                     <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[q.status]}`}>
                       {QUOTE_STATUS_LABELS[q.status]}
                     </span>
+                    {isOverdueInvoice && (
+                      <span className="rounded-full border border-red-400/35 bg-red-400/8 px-2 py-0.5 text-[10px] font-semibold text-red-400">
+                        🔴 Vonuar
+                      </span>
+                    )}
                     {q.viewed_at && (
                       <span
                         title={`Klienti e ka hapur ${q.view_count ?? 1} herë`}
