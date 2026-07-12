@@ -28,8 +28,10 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
     if (!isOpen) return;
     const original = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("ip-mobile-menu-open");
     return () => {
       document.body.style.overflow = original;
+      document.body.classList.remove("ip-mobile-menu-open");
     };
   }, [isOpen]);
 

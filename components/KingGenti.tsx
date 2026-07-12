@@ -600,7 +600,7 @@ export default function KingGenti() {
           aria-hidden
         />
       ) : null}
-      <div className="fixed bottom-[88px] right-4 z-[96] flex flex-col items-end md:right-6">
+      <div className="ip-genti-widget fixed bottom-[88px] right-4 z-[96] flex flex-col items-end md:right-6">
         {open ? (
           <div
             ref={panelRef}

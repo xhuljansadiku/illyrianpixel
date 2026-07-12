@@ -180,7 +180,6 @@ export default function Navbar() {
           </div>
 
           <div ref={actionsRef} className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
-            <LanguageSwitcher className="hidden sm:flex" />
             <Link
               href="/contact"
               data-magnetic="true"
@@ -188,6 +187,7 @@ export default function Navbar() {
             >
               {t("cta")}
             </Link>
+            <LanguageSwitcher />
             <button
               type="button"
               onClick={() => setMobileOpen(true)}

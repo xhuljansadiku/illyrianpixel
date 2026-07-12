@@ -500,6 +500,12 @@ body::before {
   mix-blend-mode: soft-light;
 }
 
+/* Hide the King Genti assistant bubble while the full-screen mobile nav is open
+   so it doesn't float above the menu overlay. */
+body.ip-mobile-menu-open .ip-genti-widget {
+  display: none;
+}
+
 .site-grade {
   pointer-events: none;
   position: fixed;
