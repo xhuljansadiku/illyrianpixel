@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 const fabButtonClass =
@@ -10,6 +11,7 @@ const hoverLabelClass =
   "pointer-events-none absolute left-full top-1/2 ml-3 -translate-y-1/2 whitespace-nowrap rounded-full border border-white/14 bg-[#111]/92 px-3 py-2 text-[11px] font-medium tracking-wide text-accent shadow-[0_12px_28px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-all duration-300 ease-out";
 
 export default function BackToTop() {
+  const t = useTranslations("common.backToTop");
   const [visible, setVisible] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
@@ -34,14 +36,14 @@ export default function BackToTop() {
           className={`${hoverLabelClass} -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100`}
           aria-hidden
         >
-          Kthehu sipër
+          {t("label")}
         </span>
         <button
           type="button"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          aria-label="Kthehu sipër"
+          aria-label={t("label")}
           className={fabButtonClass}
         >
           <svg viewBox="0 0 24 24" aria-hidden className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">

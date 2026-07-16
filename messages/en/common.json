@@ -67,5 +67,72 @@
     "title": "Get a free consultation today.",
     "text": "Tell us about your project and we'll put together a concrete plan at no cost, no obligation.",
     "cta": "Free consultation →"
+  },
+  "backToTop": {
+    "label": "Back to top"
+  },
+  "cookieConsent": {
+    "title": "Cookies & Privacy",
+    "body": "We use analytics cookies (Google Analytics, Clarity) to understand how visitors interact with the site.",
+    "privacyLink": "Privacy policy",
+    "acceptAll": "Accept all",
+    "essentialOnly": "Essential only"
+  },
+  "whatsapp": {
+    "popoverText": "Message us on WhatsApp for a quick quote.",
+    "openChat": "Open WhatsApp",
+    "close": "Close",
+    "fabAria": "Open WhatsApp popup"
+  },
+  "inquiry": {
+    "title": "Start your project",
+    "closeAria": "Close the form",
+    "success": "Thank you. Your message was received and we'll be in touch shortly.",
+    "name": "Name",
+    "email": "Email",
+    "businessName": "Business name",
+    "service": "Service",
+    "budget": "Budget",
+    "timeline": "Timeline",
+    "message": "Message",
+    "note": "After you submit, we'll get back to you with a clear plan.",
+    "submit": "SEND REQUEST",
+    "sending": "Sending...",
+    "errFields": "Please fill in the required fields.",
+    "errGeneric": "Something went wrong. Please try again.",
+    "errNetwork": "Couldn't send. Email us directly: info@illyrianpixel.com",
+    "serviceMaintenance": "Maintenance",
+    "timelineWeeks": "2-4 weeks",
+    "timelineMonths": "1-2 months",
+    "timelineFlexible": "Flexible"
+  },
+  "newsletterPopup": {
+    "closeAria": "Close",
+    "badge": "Exclusive offer",
+    "title": "10% off every service",
+    "body": "Subscribe and get your discount code sent straight to your email.",
+    "placeholder": "email@company.com",
+    "submit": "Get 10% →",
+    "sending": "Sending…",
+    "codeLabel": "Your code",
+    "successLine1": "An email with your code is on its way.",
+    "successLine2": "Quote the code when you contact us for any service.",
+    "close": "Close",
+    "noSpam": "No spam. Unsubscribe anytime.",
+    "errGeneric": "Something went wrong. Please try again.",
+    "errNetwork": "Connection error. Check your internet."
+  },
+  "genti": {
+    "greeting": "Hi there!\nI'm King Genti 👑\nIllyrian Pixel's assistant.\nAsk me about pricing, services, or timelines and I'll help right away.",
+    "header": "KING GENTI",
+    "dialogAria": "King Genti — Illyrian Pixel's assistant",
+    "openAria": "Open King Genti — Illyrian Pixel's assistant",
+    "closeAria": "Close",
+    "placeholder": "Type your question…",
+    "send": "SEND",
+    "s1": "How much is a website?",
+    "s2": "How do I contact you?",
+    "s3": "Where are you based?",
+    "s4": "How long does a project take?"
   }
 }

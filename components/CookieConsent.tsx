@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 const STORAGE_KEY = "ip_cookie_consent";
 
 export default function CookieConsent() {
+  const t = useTranslations("common.cookieConsent");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -35,11 +38,11 @@ export default function CookieConsent() {
       <div className="flex items-start gap-3.5">
         <div className="min-w-0">
           <p className="font-display text-[1.05rem] font-semibold leading-snug text-white">
-            Cookies & Privatësia
+            {t("title")}
           </p>
           <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/55">
-            Përdorim cookies analitike (Google Analytics, Clarity) për të kuptuar si ndërveprojnë vizitorët me faqen.{" "}
-            <a href="/privacy" className="text-accent/80 underline underline-offset-2 hover:text-accent">Politika e privatësisë</a>.
+            {t("body")}{" "}
+            <Link href="/privacy" className="text-accent/80 underline underline-offset-2 hover:text-accent">{t("privacyLink")}</Link>.
           </p>
         </div>
       </div>
@@ -50,14 +53,14 @@ export default function CookieConsent() {
           onClick={accept}
           className="interactive-button ip-cta-primary flex-1 justify-center text-[12px] sm:flex-none"
         >
-          Prano të gjitha
+          {t("acceptAll")}
         </button>
         <button
           type="button"
           onClick={decline}
           className="flex-1 justify-center rounded-full border border-white/14 px-5 py-2.5 text-[12px] tracking-[0.1em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 sm:flex-none"
         >
-          Vetëm të nevojshme
+          {t("essentialOnly")}
         </button>
       </div>
     </div>

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164, WHATSAPP_PREFILL_LINES } from "@/lib/whatsappPrefill";
+import { useLocale, useTranslations } from "next-intl";
+import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164, whatsappPreviewLines } from "@/lib/whatsappPrefill";
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164;
-const whatsappHref = buildWhatsAppChatHref(WHATSAPP_NUMBER);
 
 /** Same footprint as BackToTop FAB */
 const fabButtonClass =
@@ -14,7 +14,10 @@ const hoverPreviewClass =
   "pointer-events-none absolute right-full top-1/2 z-[6] mr-3 w-[min(240px,calc(100vw-6rem))] -translate-y-1/2 rounded-2xl border border-white/12 bg-[#111]/92 p-3 text-left shadow-[0_12px_28px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-all duration-300 ease-out";
 
 export default function WhatsAppButton() {
-  const href = whatsappHref;
+  const t = useTranslations("common.whatsapp");
+  const locale = useLocale();
+  const href = buildWhatsAppChatHref(WHATSAPP_NUMBER, locale);
+  const previewLines = whatsappPreviewLines(locale);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -50,7 +53,7 @@ export default function WhatsAppButton() {
           }`}
         >
           <p id="whatsapp-fab-title" className="text-xs text-white/82">
-            Na shkruaj në WhatsApp për një ofertë të shpejtë.
+            {t("popoverText")}
           </p>
           <div className="mt-3 flex items-center gap-2">
             <a
@@ -59,14 +62,14 @@ export default function WhatsAppButton() {
               rel="noopener noreferrer"
               className="inline-flex items-center rounded-full border border-[#ab8339]/55 bg-[#ab8339] px-3 py-1.5 text-[11px] font-medium text-[#0e0d0c] transition-transform duration-300 hover:scale-[1.03]"
             >
-              Hap WhatsApp
+              {t("openChat")}
             </a>
             <button
               type="button"
               onClick={() => setOpen(false)}
               className="inline-flex items-center rounded-full border border-white/18 px-3 py-1.5 text-[11px] text-white/80 transition-colors duration-200 hover:text-white"
             >
-              Mbyll
+              {t("close")}
             </button>
           </div>
         </div>
@@ -80,14 +83,14 @@ export default function WhatsAppButton() {
             }`}
             aria-hidden
           >
-            <p className="text-[12px] font-medium leading-snug text-white/90">{WHATSAPP_PREFILL_LINES[0]}</p>
-            <p className="mt-1.5 text-[11px] leading-snug text-white/75">{WHATSAPP_PREFILL_LINES[1]}</p>
+            <p className="text-[12px] font-medium leading-snug text-white/90">{previewLines[0]}</p>
+            <p className="mt-1.5 text-[11px] leading-snug text-white/75">{previewLines[1]}</p>
           </div>
           <button
             ref={buttonRef}
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Hap popup WhatsApp"
+            aria-label={t("fabAria")}
             aria-expanded={open}
             aria-controls="whatsapp-fab-popover"
             className={fabButtonClass}

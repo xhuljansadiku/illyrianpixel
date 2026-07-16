@@ -67,5 +67,72 @@
     "title": "Merrni një konsultë falas sot.",
     "text": "Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.",
     "cta": "Konsultë falas →"
+  },
+  "backToTop": {
+    "label": "Kthehu sipër"
+  },
+  "cookieConsent": {
+    "title": "Cookies & Privatësia",
+    "body": "Përdorim cookies analitike (Google Analytics, Clarity) për të kuptuar si ndërveprojnë vizitorët me faqen.",
+    "privacyLink": "Politika e privatësisë",
+    "acceptAll": "Prano të gjitha",
+    "essentialOnly": "Vetëm të nevojshme"
+  },
+  "whatsapp": {
+    "popoverText": "Na shkruaj në WhatsApp për një ofertë të shpejtë.",
+    "openChat": "Hap WhatsApp",
+    "close": "Mbyll",
+    "fabAria": "Hap popup WhatsApp"
+  },
+  "inquiry": {
+    "title": "Nis projektin",
+    "closeAria": "Mbyll formularin",
+    "success": "Faleminderit. Mesazhi u regjistrua dhe do të kontaktoheni shpejt.",
+    "name": "Emri",
+    "email": "Email",
+    "businessName": "Emri i biznesit",
+    "service": "Shërbimi",
+    "budget": "Buxheti",
+    "timeline": "Afati kohor",
+    "message": "Mesazhi",
+    "note": "Pas dërgimit, do t'ju kontaktojmë me plan të qartë.",
+    "submit": "DËRGO KËRKESËN",
+    "sending": "Duke dërguar...",
+    "errFields": "Ju lutem plotësoni fushat kryesore.",
+    "errGeneric": "Diçka shkoi keq. Provo sërish.",
+    "errNetwork": "Nuk u dërgua. Shkruaj direkt: info@illyrianpixel.com",
+    "serviceMaintenance": "Mirëmbajtje",
+    "timelineWeeks": "2-4 javë",
+    "timelineMonths": "1-2 muaj",
+    "timelineFlexible": "Fleksibël"
+  },
+  "newsletterPopup": {
+    "closeAria": "Mbyll",
+    "badge": "Ofertë ekskluzive",
+    "title": "10% zbritje për çdo shërbim",
+    "body": "Abonohu dhe merr kodin tënd të zbritjes direkt në email.",
+    "placeholder": "email@kompania.com",
+    "submit": "Merr 10% →",
+    "sending": "Duke dërguar…",
+    "codeLabel": "Kodi juaj",
+    "successLine1": "E-mail me kodin u dërgua.",
+    "successLine2": "Citoni kodin kur të kontaktoni për çdo shërbim.",
+    "close": "Mbyll",
+    "noSpam": "Pa spam. Çabonohuni kurdo.",
+    "errGeneric": "Diçka nuk funksionoi. Provoni sërish.",
+    "errNetwork": "Gabim lidhjeje. Kontrolloni internetin."
+  },
+  "genti": {
+    "greeting": "Tungjatjeta!\nUnë jam Mbreti Genti 👑\nAsistenti i Illyrian Pixel.\nPyesni për çmime, shërbime, ose afate dhe ju ndihmoj menjëherë.",
+    "header": "MBRETI GENTI",
+    "dialogAria": "Mbreti Genti — asistenti i Illyrian Pixel",
+    "openAria": "Hap Mbretin Genti — asistenti i Illyrian Pixel",
+    "closeAria": "Mbyll",
+    "placeholder": "Shkruaj pyetjen tënde…",
+    "send": "DËRGO",
+    "s1": "Sa kushton një website?",
+    "s2": "Si ju kontaktoj?",
+    "s3": "Ku ndodheni?",
+    "s4": "Sa kohë zgjat një projekt?"
   }
 }

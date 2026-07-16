@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 
@@ -67,13 +68,6 @@ const EN_PROCESS = /how does it work|process|how do you work/i;
 const EN_PAYMENT = /payment|pay|installment/i;
 const EN_PORTFOLIO = /portfolio|examples|previous work|case stud/i;
 const EN_PRICE = /how much|price|cost|pricing/i;
-
-const SUGGESTIONS = [
-  "Sa kushton një website?",
-  "Si ju kontaktoj?",
-  "Ku ndodheni?",
-  "Sa kohë zgjat një projekt?",
-];
 
 function normalize(text: string): string {
   return text
@@ -287,8 +281,22 @@ function buildEnglishReply(text: string, data: AssistantData | null, ctx: Conver
   };
 }
 
-function buildReply(rawText: string, data: AssistantData | null, ctx: ConversationContext): Message {
+// Fjalë tipike shqipe (pas normalize — pa ë/ç) që tregojnë se useri po shkruan shqip
+const ALBANIAN_HINT =
+  /\b(sa|si|ku|cmim|kushton|faleminderit|flm|tung|tungjatjeta|pershendetje|ckemi|dua|deshiroj|jeni|ndodheni|kontaktoj|zgjat|afat|sherbim|faqe|paket)\b/i;
+
+function buildReply(
+  rawText: string,
+  data: AssistantData | null,
+  ctx: ConversationContext,
+  preferEnglish = false
+): Message {
   const text = normalize(rawText);
+
+  // Vizitor në /en: përgjigju në anglisht, veç kur mesazhi duket qartë shqip
+  if (preferEnglish && !ALBANIAN_HINT.test(text)) {
+    return buildEnglishReply(text, data, ctx);
+  }
 
   // Po presim që useri të zgjedhë shërbimin pas pyetjes sqaruese
   if (ctx.awaitingService && data) {
@@ -493,15 +501,20 @@ function buildReply(rawText: string, data: AssistantData | null, ctx: Conversati
 }
 
 export default function KingGenti() {
+  const t = useTranslations("common.genti");
+  const locale = useLocale();
+  const preferEnglish = locale === "en";
+  const suggestions = [t("s1"), t("s2"), t("s3"), t("s4")];
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [data, setData] = useState<AssistantData | null>(null);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "bot",
-      text: "Tungjatjeta!\nUnë jam Mbreti Genti 👑\nAsistenti i Illyrian Pixel.\nPyesni për çmime, shërbime, ose afate dhe ju ndihmoj menjëherë.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([{ role: "bot", text: t("greeting") }]);
+
+  // Nëse gjuha ndërrohet para se të fillojë biseda, rifresko përshëndetjen
+  useEffect(() => {
+    setMessages((m) => (m.length === 1 && m[0].role === "bot" ? [{ role: "bot", text: t("greeting") }] : m));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
   const reduced = useReducedMotion();
   const panelRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -578,7 +591,7 @@ export default function KingGenti() {
 
   const sendText = (trimmed: string) => {
     if (!trimmed.trim()) return;
-    const reply = buildReply(trimmed, data, contextRef.current);
+    const reply = buildReply(trimmed, data, contextRef.current, preferEnglish);
     setMessages((m) => [...m, { role: "you", text: trimmed }, reply]);
     logMessage("you", trimmed);
     logMessage("bot", reply.text, reply.matched);
@@ -606,19 +619,19 @@ export default function KingGenti() {
             ref={panelRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Mbreti Genti — asistenti i Illyrian Pixel"
+            aria-label={t("dialogAria")}
             className="fixed inset-x-0 bottom-0 z-[96] flex max-h-[min(640px,85dvh)] flex-col rounded-t-[1.25rem] border-t border-white/12 bg-[#0c0c0c]/98 p-4 shadow-[0_-16px_48px_rgba(0,0,0,0.5)] backdrop-blur-xl md:static md:mb-3 md:max-h-none md:w-[min(100vw-2rem,340px)] md:rounded-[1rem] md:border md:border-white/12 md:bg-[#0c0c0c]/95 md:shadow-[0_16px_48px_rgba(0,0,0,0.45)]"
             style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
           >
             <div className="mb-3 flex shrink-0 items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <Image src="/images/king-gentius-portrait.png" alt="" width={22} height={22} className="rounded-full object-cover" />
-                <p className="text-[11px] tracking-[0.2em] text-accent/90">MBRETI GENTI</p>
+                <p className="text-[11px] tracking-[0.2em] text-accent/90">{t("header")}</p>
               </div>
               <button
                 type="button"
                 className="-m-2 flex h-9 w-9 items-center justify-center text-xl text-white/55 hover:text-white"
-                aria-label="Mbyll"
+                aria-label={t("closeAria")}
                 onClick={() => setOpen(false)}
               >
                 ×
@@ -664,7 +677,7 @@ export default function KingGenti() {
             </div>
             {messages.length === 1 ? (
               <div className="mt-2 flex shrink-0 flex-wrap gap-1.5">
-                {SUGGESTIONS.map((s) => (
+                {suggestions.map((s) => (
                   <button
                     key={s}
                     type="button"
@@ -681,7 +694,7 @@ export default function KingGenti() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder="Shkruaj pyetjen tënde…"
+                placeholder={t("placeholder")}
                 className="min-w-0 flex-1 rounded-full border border-white/12 bg-black/40 px-3.5 py-2.5 text-base text-white outline-none ring-0 placeholder:text-white/35 focus:border-accent/45 md:text-xs"
               />
               <button
@@ -689,7 +702,7 @@ export default function KingGenti() {
                 onClick={send}
                 className="interactive-button ip-cta-primary ip-cta-primary--sm shrink-0 !px-4 !py-2.5"
               >
-                DËRGO
+                {t("send")}
               </button>
             </div>
           </div>
@@ -700,7 +713,7 @@ export default function KingGenti() {
           data-magnetic="true"
           className={`${open ? "hidden md:flex" : "flex"} h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/14 bg-[#0b0b0b]/85 shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition hover:border-accent/45`}
           aria-expanded={open}
-          aria-label="Hap Mbretin Genti — asistenti i Illyrian Pixel"
+          aria-label={t("openAria")}
         >
           <Image src="/images/king-gentius-portrait.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
         </button>

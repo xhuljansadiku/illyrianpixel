@@ -5,7 +5,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 
-const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 const SESSION_KEY = "ip_exit_shown";
 const TOTAL_SHOWN_KEY = "ip_exit_shown_total";
 const MAX_TOTAL_SHOWS = 2;
@@ -18,6 +17,7 @@ const ACCENT_WORD: Record<string, string> = { sq: "falas", en: "free" };
 export default function ExitIntentPopup() {
   const t = useTranslations("common.exitPopup");
   const locale = useLocale();
+  const waHref = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164, locale);
   const defaults = {
     eyebrow: t("eyebrow"),
     title: t("title"),
@@ -139,7 +139,7 @@ export default function ExitIntentPopup() {
             {content.cta}
           </Link>
           <a
-            href={WA_HREF}
+            href={waHref}
             target="_blank"
             rel="noopener noreferrer"
             onClick={close}

@@ -1,13 +1,15 @@
 ﻿"use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
-const services = ["Website", "E-commerce", "Marketing", "SEO", "Branding", "Mirëmbajtje"];
 const budgets = ["< €500", "€500 – €1,000", "€1,000 – €2,500", "€2,500+"];
-const timelines = ["ASAP", "2-4 javë", "1-2 muaj", "Fleksibël"];
 
 export default function InquiryModal() {
+  const t = useTranslations("common.inquiry");
+  const services = ["Website", "E-commerce", "Marketing", "SEO", "Branding", t("serviceMaintenance")];
+  const timelines = ["ASAP", t("timelineWeeks"), t("timelineMonths"), t("timelineFlexible")];
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -54,7 +56,7 @@ export default function InquiryModal() {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!canSubmit) {
-      setError("Ju lutem plotësoni fushat kryesore.");
+      setError(t("errFields"));
       return;
     }
     setError("");
@@ -84,10 +86,10 @@ export default function InquiryModal() {
           close();
         }, 1800);
       } else {
-        setError("Diçka shkoi keq. Provo sërish.");
+        setError(t("errGeneric"));
       }
     } catch {
-      setError("Nuk u dërgua. Shkruaj direkt: info@illyrianpixel.com");
+      setError(t("errNetwork"));
     } finally {
       setLoading(false);
     }
@@ -102,34 +104,34 @@ export default function InquiryModal() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-5 flex items-center justify-between">
-          <h3 className="font-display text-3xl leading-none">Nis projektin</h3>
-          <button onClick={close} aria-label="Mbyll formularin" className="text-xl text-white/70">
+          <h3 className="font-display text-3xl leading-none">{t("title")}</h3>
+          <button onClick={close} aria-label={t("closeAria")} className="text-xl text-white/70">
             ×
           </button>
         </div>
         {success ? (
           <p className="rounded-lg border border-accent/35 bg-accent/10 px-4 py-4 text-sm text-accent/95">
-            Faleminderit. Mesazhi u regjistrua dhe do të kontaktoheni shpejt.
+            {t("success")}
           </p>
         ) : (
           <form className="space-y-4" onSubmit={onSubmit}>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm">
-                <span className="mb-1 block text-white/72">Emri</span>
+                <span className="mb-1 block text-white/72">{t("name")}</span>
                 <input className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.name} onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))} />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-white/72">Email</span>
+                <span className="mb-1 block text-white/72">{t("email")}</span>
                 <input type="email" className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.email} onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))} />
               </label>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm">
-                <span className="mb-1 block text-white/72">Emri i biznesit</span>
+                <span className="mb-1 block text-white/72">{t("businessName")}</span>
                 <input className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.businessName} onChange={(e) => setForm((s) => ({ ...s, businessName: e.target.value }))} />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-white/72">Shërbimi</span>
+                <span className="mb-1 block text-white/72">{t("service")}</span>
                 <select className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.service} onChange={(e) => setForm((s) => ({ ...s, service: e.target.value }))}>
                   {services.map((item) => (
                     <option key={item}>{item}</option>
@@ -139,7 +141,7 @@ export default function InquiryModal() {
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm">
-                <span className="mb-1 block text-white/72">Buxheti</span>
+                <span className="mb-1 block text-white/72">{t("budget")}</span>
                 <select className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.budget} onChange={(e) => setForm((s) => ({ ...s, budget: e.target.value }))}>
                   {budgets.map((item) => (
                     <option key={item}>{item}</option>
@@ -147,7 +149,7 @@ export default function InquiryModal() {
                 </select>
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-white/72">Afati kohor</span>
+                <span className="mb-1 block text-white/72">{t("timeline")}</span>
                 <select className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.timeline} onChange={(e) => setForm((s) => ({ ...s, timeline: e.target.value }))}>
                   {timelines.map((item) => (
                     <option key={item}>{item}</option>
@@ -156,15 +158,15 @@ export default function InquiryModal() {
               </label>
             </div>
             <label className="text-sm">
-              <span className="mb-1 block text-white/72">Mesazhi</span>
+              <span className="mb-1 block text-white/72">{t("message")}</span>
               <textarea rows={5} className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2" value={form.message} onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))} />
             </label>
             <p className="text-xs tracking-[0.08em] text-white/45">
-              Pas dërgimit, do t&apos;ju kontaktojmë me plan të qartë.
+              {t("note")}
             </p>
             {error ? <p className="text-xs text-red-300">{error}</p> : null}
             <button type="submit" disabled={loading} className="interactive-button ip-cta-primary !text-xs !tracking-[0.14em] disabled:opacity-50">
-              {loading ? "Duke dërguar..." : "DËRGO KËRKESËN"}
+              {loading ? t("sending") : t("submit")}
             </button>
           </form>
         )}

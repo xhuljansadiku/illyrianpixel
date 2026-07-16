@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { FormEvent, KeyboardEvent as ReactKeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,9 +15,7 @@ type DropdownOption = {
   label: string;
 };
 
-const whatsappHref = buildWhatsAppChatHref(
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164
-);
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164;
 
 const CARD =
   "relative overflow-hidden rounded-[1.5rem] border border-[#262626] bg-[rgba(10,10,10,0.72)] backdrop-blur-[12px]";
@@ -31,6 +29,8 @@ function normalizeDropdownText(value: string) {
 
 export default function ContactPageClient() {
   const t = useTranslations("contact");
+  const locale = useLocale();
+  const whatsappHref = buildWhatsAppChatHref(WHATSAPP_NUMBER, locale);
   const timelines = [
     t("timelines.asap"),
     t("timelines.weeks"),
