@@ -28,5 +28,52 @@
   },
   "vatNote": "Të gjitha çmimet janë pa TVSH · Konsultimi fillestar është gjithmonë falas",
   "mostChosenBadge": "Më e zgjedhura",
-  "defaultCta": "Fillo Tani"
+  "defaultCta": "Fillo Tani",
+  "calculator": {
+    "eyebrow": "KALKULATORI I ÇMIMIT",
+    "title": "Llogarit investimin tënd",
+    "intro": "Zgjidh çfarë të duhet dhe merr një vlerësim orientues në sekonda. Pa email, pa detyrime.",
+    "stepService": "Çfarë të duhet?",
+    "stepOptions": "Përshtate sipas biznesit",
+    "stepResult": "Vlerësimi yt",
+    "extrasLabel": "Shtesa (opsionale)",
+    "estimateLabel": "Investimi i vlerësuar",
+    "perMonth": "/ muaj",
+    "oneTime": "pagesë një herë",
+    "fromPrefix": "nga",
+    "plusMaintenance": "+ {price}/muaj mirëmbajtja",
+    "timelineLabel": "Koha e realizimit",
+    "roiTitle": "Sa shpejt kthehet investimi?",
+    "roiQuestion": "Sa vlen mesatarisht një klient i ri për biznesin tënd? (€)",
+    "roiOnce": "Me rreth {count} klientë të rinj të sjellë nga prezenca e re online, investimi është kthyer plotësisht.",
+    "roiMonthly": "Rreth {count} klientë të rinj në muaj e mbulojnë investimin mujor. Çdo klient mbi këtë numër është fitim.",
+    "maintenanceNote": "Mirëmbajtja mbron investimin tënd: backup, siguri, përditësime dhe ndryshime të vogla pa stres.",
+    "disclaimer": "Vlerësim orientues. Oferta finale personalizohet falas pas një bisede të shkurtër.",
+    "ctaWhatsApp": "Dërgo vlerësimin në WhatsApp",
+    "ctaContact": "Merr ofertën e saktë",
+    "waIntro": "Përshëndetje 👋, sapo përdora kalkulatorin e çmimeve në faqen tuaj.",
+    "waService": "Shërbimi",
+    "waTier": "Niveli",
+    "waExtras": "Shtesa",
+    "waEstimate": "Vlerësimi",
+    "waOutro": "Më intereson një ofertë e saktë.",
+    "tiers": {
+      "website": ["Deri 5 faqe (prezantuese)", "6 deri 10 faqe (biznes)", "10+ faqe (premium)", "Platformë / custom"],
+      "ecommerce": ["Deri 30 produkte", "30 deri 100 produkte", "100+ produkte / custom"],
+      "branding-content": ["Logo + bazat e brandit", "Identitet i plotë vizual", "Identitet + content premium"]
+    },
+    "timelines": {
+      "website": ["5 deri 10 ditë", "2 deri 3 javë", "3 deri 4 javë", "4 deri 6 javë"],
+      "ecommerce": ["2 deri 3 javë", "3 deri 4 javë", "4 deri 6 javë"],
+      "branding-content": ["rreth 1 javë", "1 deri 2 javë", "2 deri 3 javë"],
+      "seo-google-ads": "rezultatet e para brenda 4 deri 8 javësh",
+      "smm": "rezultatet e para brenda 3 deri 4 javësh",
+      "mirembajtja": "aktivizohet brenda 24 orësh"
+    },
+    "extras": {
+      "secondLanguage": "Gjuhë e dytë (p.sh. Anglisht)",
+      "blog": "Blog / seksion lajmesh",
+      "maintenance": "Mirëmbajtje mujore (Basic)"
+    }
+  }
 }

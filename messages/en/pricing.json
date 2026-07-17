@@ -28,5 +28,52 @@
   },
   "vatNote": "All prices exclude VAT · The initial consultation is always free",
   "mostChosenBadge": "Most popular",
-  "defaultCta": "Start Now"
+  "defaultCta": "Start Now",
+  "calculator": {
+    "eyebrow": "PRICE CALCULATOR",
+    "title": "Estimate your investment",
+    "intro": "Pick what you need and get a ballpark estimate in seconds. No email, no obligation.",
+    "stepService": "What do you need?",
+    "stepOptions": "Tailor it to your business",
+    "stepResult": "Your estimate",
+    "extrasLabel": "Extras (optional)",
+    "estimateLabel": "Estimated investment",
+    "perMonth": "/ month",
+    "oneTime": "one-time payment",
+    "fromPrefix": "from",
+    "plusMaintenance": "+ {price}/month maintenance",
+    "timelineLabel": "Delivery time",
+    "roiTitle": "How fast does it pay off?",
+    "roiQuestion": "How much is a new client worth to your business, on average? (€)",
+    "roiOnce": "With around {count} new clients brought in by your new online presence, the investment has fully paid for itself.",
+    "roiMonthly": "Around {count} new clients per month cover the monthly investment. Every client beyond that is profit.",
+    "maintenanceNote": "Maintenance protects your investment: backups, security, updates and small changes without stress.",
+    "disclaimer": "Ballpark estimate. The final offer is customized for free after a short conversation.",
+    "ctaWhatsApp": "Send the estimate on WhatsApp",
+    "ctaContact": "Get an exact offer",
+    "waIntro": "Hello 👋, I just used the price calculator on your website.",
+    "waService": "Service",
+    "waTier": "Level",
+    "waExtras": "Extras",
+    "waEstimate": "Estimate",
+    "waOutro": "I'm interested in an exact offer.",
+    "tiers": {
+      "website": ["Up to 5 pages (presentation)", "6 to 10 pages (business)", "10+ pages (premium)", "Platform / custom"],
+      "ecommerce": ["Up to 30 products", "30 to 100 products", "100+ products / custom"],
+      "branding-content": ["Logo + brand basics", "Full visual identity", "Identity + premium content"]
+    },
+    "timelines": {
+      "website": ["5 to 10 days", "2 to 3 weeks", "3 to 4 weeks", "4 to 6 weeks"],
+      "ecommerce": ["2 to 3 weeks", "3 to 4 weeks", "4 to 6 weeks"],
+      "branding-content": ["about 1 week", "1 to 2 weeks", "2 to 3 weeks"],
+      "seo-google-ads": "first results within 4 to 8 weeks",
+      "smm": "first results within 3 to 4 weeks",
+      "mirembajtja": "activated within 24 hours"
+    },
+    "extras": {
+      "secondLanguage": "Second language (e.g. English)",
+      "blog": "Blog / news section",
+      "maintenance": "Monthly maintenance (Basic)"
+    }
+  }
 }

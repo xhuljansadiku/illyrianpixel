@@ -10,6 +10,7 @@ import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
 import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
 import FAQ, { type FaqItem } from "@/components/FAQ";
+import PricingCalculator from "@/components/PricingCalculator";
 import { getServiceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
@@ -273,6 +274,8 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
             </div>
           </section>
         ))}
+
+        <PricingCalculator overrides={overrides} />
 
         {faqItems && faqItems.length > 0 && (
           <div className="relative z-[1] border-b border-white/[0.07]">
