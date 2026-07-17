@@ -125,8 +125,8 @@
   "genti": {
     "greeting": "Hi there!\nI'm King Genti 👑\nIllyrian Pixel's assistant.\nAsk me about pricing, services, or timelines and I'll help right away.",
     "header": "KING GENTI",
-    "dialogAria": "King Genti — Illyrian Pixel's assistant",
-    "openAria": "Open King Genti — Illyrian Pixel's assistant",
+    "dialogAria": "King Genti, Illyrian Pixel's assistant",
+    "openAria": "Open King Genti, Illyrian Pixel's assistant",
     "closeAria": "Close",
     "placeholder": "Type your question…",
     "send": "SEND",

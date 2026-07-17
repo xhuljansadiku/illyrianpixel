@@ -23,7 +23,7 @@ import type { ServiceCategory } from "@/lib/serviceCategories";
 import { webConversionLandingData as webConversionLandingData_sq } from "@/lib/webEcommerceConversionContent.sq";
 import { webConversionLandingData as webConversionLandingData_en } from "@/lib/webEcommerceConversionContent.en";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
-import { caseStudies } from "@/lib/caseStudies";
+import { getCaseStudies } from "@/lib/caseStudies";
 import type { Locale } from "@/i18n/routing";
 
 function conversionLandingForSlug(locale: Locale, slug: ServiceCategory["slug"]): ConversionLandingData | null {
@@ -84,10 +84,11 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
   const valueItems = data?.whyUs?.items?.slice(0, 4) ?? [];
   const packages = category.packages.slice(0, 3);
   const testimonials = data?.testimonials?.slice(0, 2) ?? [];
+  const localizedCaseStudies = getCaseStudies(locale);
   const portfolioItems = (data?.portfolioSlugs ?? [])
     .slice(0, 2)
-    .map((slug) => caseStudies.find((c) => c.slug === slug))
-    .filter(Boolean) as typeof caseStudies;
+    .map((slug) => localizedCaseStudies.find((c) => c.slug === slug))
+    .filter(Boolean) as typeof localizedCaseStudies;
 
   return (
     <>

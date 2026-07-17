@@ -1,23 +1,25 @@
 "use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 import ProjectIndexList, { type FeaturedItem } from "@/components/ProjectIndexList";
-import { caseStudies } from "@/lib/caseStudies";
+import { getCaseStudies } from "@/lib/caseStudies";
+import type { Locale } from "@/i18n/routing";
 
 export type { FeaturedItem };
 
 export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) {
   const t = useTranslations("home.featuredWork");
+  const locale = useLocale() as Locale;
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const featuredProjects: FeaturedItem[] =
     items && items.length > 0
       ? items
-      : caseStudies.filter((project) =>
+      : getCaseStudies(locale).filter((project) =>
           ["esm-group", "bardhi-wellness", "palushi-brothers"].includes(project.slug)
         );
 

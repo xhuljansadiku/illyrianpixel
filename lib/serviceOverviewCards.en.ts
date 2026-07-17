@@ -41,7 +41,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "02",
     title: "E-Commerce",
-    desc: "An online store that sells 24/7. Optimized checkout, integrated payments and full analytics — your automatic sales system.",
+    desc: "An online store that sells 24/7. Optimized checkout, integrated payments and full analytics: your automatic sales system.",
     href: "/services/ecommerce",
     visualVariant: "ecommerce",
     cta: "See the service →"
@@ -65,7 +65,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "05",
     title: "Branding & Content",
-    desc: "Logo, visual identity and design — we make your brand look serious and build trust at first glance.",
+    desc: "Logo, visual identity and design. We make your brand look serious and build trust at first glance.",
     href: "/services/branding-content",
     visualVariant: "branding",
     cta: "See the service →"

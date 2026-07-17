@@ -147,7 +147,7 @@ function serviceReplyEn(service: ServiceInfo): Message {
     .join("\n");
   return {
     role: "bot",
-    text: `${service.title} — our packages:\n${lines}\n\nWant a custom quote?`,
+    text: `${service.title}, our packages:\n${lines}\n\nWant a custom quote?`,
     link: { href: whatsappHref, label: "Message us on WhatsApp →" },
   };
 }
@@ -184,13 +184,13 @@ function buildEnglishReply(text: string, data: AssistantData | null, ctx: Conver
   }
 
   if (EN_BYE.test(text)) {
-    return { role: "bot", text: "Goodbye! 👋 Feel free to reach out anytime — Illyrian Pixel is always here." };
+    return { role: "bot", text: "Goodbye! 👋 Feel free to reach out anytime, Illyrian Pixel is always here." };
   }
 
   if (EN_WHO.test(text)) {
     return {
       role: "bot",
-      text: "I'm King Genti 👑 — Illyrian Pixel's virtual assistant. I can help with pricing, services, and common questions. What would you like to know?",
+      text: "I'm King Genti 👑, Illyrian Pixel's virtual assistant. I can help with pricing, services, and common questions. What would you like to know?",
     };
   }
 
@@ -204,14 +204,14 @@ function buildEnglishReply(text: string, data: AssistantData | null, ctx: Conver
   if (EN_LOCATION.test(text)) {
     return {
       role: "bot",
-      text: "The Illyrian Pixel team is based in Albania · Germany · Online — we work with clients worldwide, everything is coordinated online (calls, email, WhatsApp).",
+      text: "The Illyrian Pixel team is based in Albania · Germany · Online. We work with clients worldwide, everything is coordinated online (calls, email, WhatsApp).",
     };
   }
 
   if (EN_CONTACT.test(text)) {
     return {
       role: "bot",
-      text: "You can reach us via:\n📱 WhatsApp — message us directly\n📧 Email: info@illyrianpixel.com\n\nOr fill out the contact form and we'll get back to you quickly.",
+      text: "You can reach us via:\n📱 WhatsApp: message us directly\n📧 Email: info@illyrianpixel.com\n\nOr fill out the contact form and we'll get back to you quickly.",
       link: { href: whatsappHref, label: "Open WhatsApp →" },
     };
   }
@@ -226,7 +226,7 @@ function buildEnglishReply(text: string, data: AssistantData | null, ctx: Conver
   if (EN_GUARANTEE.test(text)) {
     return {
       role: "bot",
-      text: "Every package includes revisions until you're happy with the result. If something isn't working as expected, just tell us — we'll always find a solution together.",
+      text: "Every package includes revisions until you're happy with the result. If something isn't working as expected, just tell us and we'll always find a solution together.",
     };
   }
 
