@@ -258,6 +258,74 @@ export async function paymentThankYouEmailHtml(quote: QuoteRecord): Promise<{ su
                 </td>
               </tr>
             </table>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;border:1px solid rgba(171,131,57,0.25);border-radius:12px;background:rgba(171,131,57,0.05);">
+              <tr>
+                <td style="padding:18px 20px;">
+                  <p style="margin:0;font-size:13.5px;color:rgba(255,255,255,0.75);line-height:1.8;">
+                    💡 <span style="color:#ab8339;font-weight:600;">A e dini?</span> Me planin e mirëmbajtjes nga €49/muaj,
+                    website-i juaj mbetet gjithmonë i sigurt, i shpejtë dhe i përditësuar, me backup automatik dhe ndryshime
+                    të vogla pa kosto shtesë.
+                    <a href="${NEWSLETTER_BRAND.website}/services/mirembajtja" style="color:#ab8339;text-decoration:none;font-weight:600;">Shiko planet →</a>
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:24px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
+              Me respekt,<br>
+              <span style="color:#ab8339;font-weight:600;">Ekipi i Illyrian Pixel</span>
+            </p>
+          </td>
+        </tr>`;
+  return { subject, html: shell(subject, body) };
+}
+
+// Ofertë mirëmbajtjeje për klientët ekzistues pa plan rekurrent — dërgohet
+// manualisht nga tab-i Klientët. Paketat vijnë nga katalogu real (me overrides).
+export function maintenanceOfferEmailHtml(
+  clientName: string,
+  packages: { name: string; price: string; priceNote?: string }[]
+): { subject: string; html: string } {
+  const subject = "Website-i juaj meriton kujdes të vazhdueshëm";
+  const planRows = packages
+    .map(
+      (p) => `<tr>
+        <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;font-weight:600;color:#ffffff;">${escapeHtml(p.name)}</td>
+        <td align="right" style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;color:#ab8339;font-weight:700;">${escapeHtml(p.price)}${p.priceNote ? `<span style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:400;">${escapeHtml(p.priceNote)}</span>` : ""}</td>
+      </tr>`
+    )
+    .join("");
+  const body = `
+        <tr>
+          <td style="padding:36px 48px;">
+            <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);">Përshëndetje ${escapeHtml(clientName)},</p>
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">
+              Website-i juaj punon çdo ditë për biznesin tuaj. Por si çdo resurs i rëndësishëm, ka nevojë për kujdes:
+              përditësime sigurie, backup të rregullt, monitorim dhe ndryshime të vogla kur ju duhen.
+            </p>
+            <p style="margin:16px 0 0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">
+              Me planin e mirëmbajtjes nuk keni pse mendoni për asgjë nga këto. Ne kujdesemi, ju merreni me biznesin:
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:20px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden;background:#0d0d0d;">
+              ${planRows}
+            </table>
+            <ul style="margin:20px 0 0;padding-left:18px;font-size:13.5px;color:rgba(255,255,255,0.6);line-height:2;">
+              <li>Backup automatik dhe siguri e përditësuar</li>
+              <li>Monitorim që faqja të jetë gjithmonë online dhe e shpejtë</li>
+              <li>Ndryshime të vogla përmbajtjeje pa kosto shtesë</li>
+              <li>Përgjigje me prioritet kur ju duhet ndihmë</li>
+            </ul>
+            <table cellpadding="0" cellspacing="0" style="margin-top:24px;">
+              <tr>
+                <td style="background:#ab8339;border-radius:8px;">
+                  <a href="${NEWSLETTER_BRAND.website}/services/mirembajtja" style="display:inline-block;padding:13px 28px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;">
+                    Shiko planet →
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:20px 0 0;font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7;">
+              Mjafton të na ktheni përgjigje këtij email-i ose të na shkruani në WhatsApp dhe e aktivizojmë brenda 24 orësh.
+            </p>
             <p style="margin:24px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
               Me respekt,<br>
               <span style="color:#ab8339;font-weight:600;">Ekipi i Illyrian Pixel</span>

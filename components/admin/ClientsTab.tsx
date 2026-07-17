@@ -239,6 +239,8 @@ export default function ClientsTab({
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounced(search, 250);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [offerBusyKey, setOfferBusyKey] = useState<string | null>(null);
+  const [offerSentKeys, setOfferSentKeys] = useState<Set<string>>(new Set());
   const [manualClients, setManualClients] = useState<ManualClient[]>([]);
   const [formOpen, setFormOpen] = useState(false);
   const [form, setForm] = useState<ClientForm>(EMPTY_CLIENT_FORM);
@@ -342,6 +344,34 @@ export default function ClientsTab({
     }),
     [clients]
   );
+
+  const sendMaintenanceOffer = async (row: ClientRow) => {
+    if (!row.email) return;
+    const ok = await confirm({
+      title: "Ofertë mirëmbajtjeje",
+      message: `T'i dërgohet ${row.name} (${row.email}) email-i me planet e mirëmbajtjes (€49/€99/€149 muaj)?`,
+      confirmText: "Dërgo",
+    });
+    if (!ok) return;
+    setOfferBusyKey(row.key);
+    try {
+      const res = await fetch("/api/admin/clients/maintenance-offer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: row.email, name: row.name, contact_id: row.contactId }),
+      }).then((r) => r.json());
+      if (res.success) {
+        setOfferSentKeys((prev) => new Set(prev).add(row.key));
+        pushToast(`Oferta e mirëmbajtjes iu dërgua ${row.name}.`, "success");
+      } else {
+        pushToast(res.error ?? "Dërgimi dështoi.", "error");
+      }
+    } catch {
+      pushToast("Gabim lidhjeje.", "error");
+    } finally {
+      setOfferBusyKey(null);
+    }
+  };
 
   const copyPortalLink = async (row: ClientRow) => {
     if (!row.contact?.portal_token) return;
@@ -478,10 +508,19 @@ export default function ClientsTab({
                       {row.name}
                     </button>
                     {row.business && <p className="mt-0.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</p>}
-                    {row.recurringCount > 0 && (
+                    {row.recurringCount > 0 ? (
                       <span className="mt-1 inline-block rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
                         rekurrent
                       </span>
+                    ) : (
+                      (row.paidTotal > 0 || row.projects.length > 0) && (
+                        <span
+                          className="mt-1 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90"
+                          title="Klient pa plan mirëmbajtjeje — mundësi upsell-i"
+                        >
+                          pa mirëmbajtje
+                        </span>
+                      )
                     )}
                   </td>
                   <td className="px-4 py-3 align-top text-[rgb(var(--a-text-rgb)/0.7)]">{row.service || "—"}</td>
@@ -540,6 +579,16 @@ export default function ClientsTab({
                       {row.contact?.portal_token && (
                         <button onClick={() => copyPortalLink(row)} className={BTN_PLAIN}>
                           {copiedKey === row.key ? "U kopjua ✓" : "Portali"}
+                        </button>
+                      )}
+                      {row.recurringCount === 0 && row.email && (
+                        <button
+                          onClick={() => sendMaintenanceOffer(row)}
+                          disabled={offerBusyKey === row.key || offerSentKeys.has(row.key)}
+                          className={BTN_PLAIN + " disabled:opacity-40"}
+                          title="Dërgo email me planet e mirëmbajtjes"
+                        >
+                          {offerBusyKey === row.key ? "Duke dërguar…" : offerSentKeys.has(row.key) ? "Oferta u dërgua ✓" : "🛡 Mirëmbajtja"}
                         </button>
                       )}
                       {row.manualId && (
