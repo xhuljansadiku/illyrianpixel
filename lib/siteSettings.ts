@@ -13,6 +13,10 @@ export const SITE_SETTINGS_DEFAULTS = {
   popup_title: "Merrni një konsultë falas sot.",
   popup_text: "Tregoni për projektin tuaj dhe marrim një plan konkret pa kosto, pa detyrime.",
   popup_cta: "Konsultë falas →",
+  popup_eyebrow_en: "Before you go",
+  popup_title_en: "Get a free consultation today.",
+  popup_text_en: "Tell us about your project and we'll put together a concrete plan at no cost, no obligation.",
+  popup_cta_en: "Free consultation →",
 };
 
 export type SiteSettingsKey = keyof typeof SITE_SETTINGS_DEFAULTS;

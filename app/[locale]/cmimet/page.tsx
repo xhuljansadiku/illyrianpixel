@@ -26,10 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const revalidate = 300;
 
-export default async function CmimetPage() {
+export default async function CmimetPage({ params }: Props) {
+  const { locale } = await Promise.resolve(params);
   const [overrides, faqRows] = await Promise.all([
     getPricingOverrides().catch(() => ({})),
-    getVisibleFaqs().catch(() => []),
+    getVisibleFaqs(locale).catch(() => []),
   ]);
   const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer, category: f.category }));
   return (

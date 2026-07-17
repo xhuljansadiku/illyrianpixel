@@ -38,6 +38,9 @@ export async function POST(req: Request) {
       result: String(body.result ?? "").trim().slice(0, 160) || null,
       logo: String(body.logo ?? "").trim().slice(0, 500) || null,
       category: String(body.category ?? "").trim().slice(0, 100) || null,
+      quote_en: String(body.quote_en ?? "").trim().slice(0, 2000) || null,
+      result_en: String(body.result_en ?? "").trim().slice(0, 160) || null,
+      category_en: String(body.category_en ?? "").trim().slice(0, 100) || null,
       visible: body.visible !== false,
       sort: Number.isFinite(Number(body.sort)) ? Number(body.sort) : 0,
     })

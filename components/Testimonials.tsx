@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
@@ -46,9 +46,44 @@ const quotes: TestimonialItem[] = [
   }
 ];
 
+const quotesEn: TestimonialItem[] = [
+  {
+    quote: "Before, we had to explain everything to people from scratch over the phone. The website has been a lifesaver, because now clients arrive already informed. They browse, see our work, and when they write to us they know exactly what they want. It has saved us endless time.",
+    name: "Mariglent S.",
+    company: "ESM Group",
+    result: "Milan, Italy",
+    logo: "/images/logos/esm-group.png"
+  },
+  {
+    quote: "In fitness it's hard to build trust, but this brand-new website has completely changed the game for us. Before, people would send us endless questions about the programs and get confused. Now that every package is laid out so clearly, clients come in, get convinced and contact us directly to get started, without those long back-and-forths.",
+    name: "Bardhi U.",
+    company: "Bardhi Wellness",
+    result: "Pristina & Cologne",
+    logo: "/images/logos/bardhi-wellness.png"
+  },
+  {
+    quote: "We thought doing good work was enough, but without a proper website we weren't taken seriously. Since the new site went live, everything has changed. German clients come in, see our services laid out clearly, and the inquiries we receive are far more precise and professional, with no time lost on phone calls.",
+    name: "Amir S.",
+    company: "Hauswerk Niederbayern",
+    result: "Straubing, Germany",
+    logo: "/images/logos/hauswerk-niederbayern.png"
+  },
+  {
+    quote: "In the construction market it's very hard to find serious clients. This brand-new website and the Google Ads system saved us from long phone calls that never turned into actual work. Now we get real inquiries from people who have already made up their mind; they contact us knowing exactly what they want and what we offer from the very first second.",
+    name: "Vehbi P.",
+    company: "Palushi Brothers",
+    result: "London, UK",
+    logo: "/images/logos/palushi-brothers.webp"
+  }
+];
+
 export default function Testimonials({ items }: { items?: TestimonialItem[] }) {
   const t = useTranslations("home.testimonials");
-  const list = items && items.length > 0 ? items : quotes;
+  const locale = useLocale();
+  // Items vijnë nga admini tashmë të lokalizuara (getVisibleTestimonials(locale)).
+  // Kur s'ka asnjë me përkthim, biem te citatet statike sipas gjuhës.
+  const fallback = locale === "en" ? quotesEn : quotes;
+  const list = items && items.length > 0 ? items : fallback;
   const hasCategories = list.some((item) => "category" in item && item.category);
 
   // Track-u horizontal punon mbi një listë të sheshtë — kategoria (nëse ka)

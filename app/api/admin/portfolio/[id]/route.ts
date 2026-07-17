@@ -30,6 +30,10 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (body.year !== undefined) update.year = String(body.year).trim().slice(0, 10) || null;
   if (body.description !== undefined) update.description = String(body.description).trim().slice(0, 2000) || null;
   if (body.result !== undefined) update.result = String(body.result).trim().slice(0, 300) || null;
+  if (body.category_en !== undefined) update.category_en = String(body.category_en).trim().slice(0, 120) || null;
+  if (body.location_en !== undefined) update.location_en = String(body.location_en).trim().slice(0, 120) || null;
+  if (body.description_en !== undefined) update.description_en = String(body.description_en).trim().slice(0, 2000) || null;
+  if (body.result_en !== undefined) update.result_en = String(body.result_en).trim().slice(0, 300) || null;
   if (body.tags !== undefined) update.tags = parseTags(body.tags);
   if (body.image_url !== undefined) update.image_url = String(body.image_url).trim().slice(0, 600) || null;
   if (body.live_url !== undefined) update.live_url = String(body.live_url).trim().slice(0, 600) || null;

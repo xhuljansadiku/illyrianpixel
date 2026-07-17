@@ -9,9 +9,7 @@ const SESSION_KEY = "ip_exit_shown";
 const TOTAL_SHOWN_KEY = "ip_exit_shown_total";
 const MAX_TOTAL_SHOWS = 2;
 
-// Accent word to highlight inside the title — admin-provided titles are
-// Albanian-only (site_settings has no locale column yet), so this only
-// ever matches for the sq defaults/admin content, never the en fallback.
+// Accent word to highlight inside the title, per locale.
 const ACCENT_WORD: Record<string, string> = { sq: "falas", en: "free" };
 
 export default function ExitIntentPopup() {
@@ -35,24 +33,21 @@ export default function ExitIntentPopup() {
     const totalShows = Number(localStorage.getItem(TOTAL_SHOWN_KEY) || "0");
     if (totalShows >= MAX_TOTAL_SHOWS) return;
 
-    // Merr cilësimet nga admini — nëse popup-i është i çaktivizuar, mos e shfaq fare
-    // Admin-authored overrides are Albanian-only; only apply them for the sq locale.
-    if (locale === "sq") {
-      fetch("/api/popup")
-        .then((res) => res.json())
-        .then((data) => {
-          enabledRef.current = data.enabled !== false;
-          setContent((prev) => ({
-            eyebrow: data.eyebrow || prev.eyebrow,
-            title: data.title || prev.title,
-            text: data.text || prev.text,
-            cta: data.cta || prev.cta,
-          }));
-        })
-        .catch(() => {
-          // mbaj default-et
-        });
-    }
+    // Merr cilësimet nga admini sipas gjuhës — nëse popup-i është i çaktivizuar, mos e shfaq fare
+    fetch(`/api/popup?locale=${locale}`)
+      .then((res) => res.json())
+      .then((data) => {
+        enabledRef.current = data.enabled !== false;
+        setContent((prev) => ({
+          eyebrow: data.eyebrow || prev.eyebrow,
+          title: data.title || prev.title,
+          text: data.text || prev.text,
+          cta: data.cta || prev.cta,
+        }));
+      })
+      .catch(() => {
+        // mbaj default-et
+      });
 
     // Prit 5 sekonda para se ta aktivizosh — vizitori duhet të ketë lexuar diçka
     const readyTimer = setTimeout(() => {

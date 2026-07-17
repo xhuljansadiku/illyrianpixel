@@ -26,6 +26,9 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     updates.answer = answer;
   }
   if (typeof body.category === "string") updates.category = body.category.trim().slice(0, 100) || null;
+  if (typeof body.question_en === "string") updates.question_en = body.question_en.trim().slice(0, 300) || null;
+  if (typeof body.answer_en === "string") updates.answer_en = body.answer_en.trim().slice(0, 2000) || null;
+  if (typeof body.category_en === "string") updates.category_en = body.category_en.trim().slice(0, 100) || null;
   if (typeof body.visible === "boolean") updates.visible = body.visible;
   if (body.sort !== undefined && Number.isFinite(Number(body.sort))) updates.sort = Number(body.sort);
 

@@ -59,12 +59,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // Rifresko çdo 5 min — testimonialet/portofoli menaxhohen nga admini
 export const revalidate = 300;
 
-export default async function HomePage() {
+export default async function HomePage({ params }: Props) {
+  const { locale } = await Promise.resolve(params);
   const t = await getTranslations("home");
   const [testimonialRows, portfolioRows, faqRows] = await Promise.all([
-    getVisibleTestimonials().catch(() => []),
-    getVisiblePortfolioItems().catch(() => []),
-    getVisibleFaqs().catch(() => []),
+    getVisibleTestimonials(locale).catch(() => []),
+    getVisiblePortfolioItems(locale).catch(() => []),
+    getVisibleFaqs(locale).catch(() => []),
   ]);
 
   const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer, category: f.category }));

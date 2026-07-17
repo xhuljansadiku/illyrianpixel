@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
 import { pricingKey, type PricingOverrides } from "@/lib/pricingOverrides";
 import FaqManager from "@/components/admin/FaqManager";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, EnglishFieldsSection, EnBadge, useConfirm } from "@/components/admin/ui";
 
 export type PricingCatalogEntry = {
   slug: string;
@@ -66,7 +66,10 @@ export default function ContentTab({
 }
 
 // ── Testimoniale ─────────────────────────────────────────────────────────────
-const EMPTY_TESTIMONIAL = { quote: "", name: "", company: "", result: "", logo: "", category: "" };
+const EMPTY_TESTIMONIAL = {
+  quote: "", name: "", company: "", result: "", logo: "", category: "",
+  quote_en: "", result_en: "", category_en: "",
+};
 
 function TestimonialsManager({
   items,
@@ -91,6 +94,9 @@ function TestimonialsManager({
       result: t.result ?? "",
       logo: t.logo ?? "",
       category: t.category ?? "",
+      quote_en: t.quote_en ?? "",
+      result_en: t.result_en ?? "",
+      category_en: t.category_en ?? "",
     });
     setError("");
   };
@@ -216,6 +222,19 @@ function TestimonialsManager({
           <input type="text" placeholder="URL e logos (ops.)" value={form.logo} onChange={(e) => setForm((f) => ({ ...f, logo: e.target.value }))} className={INPUT} />
           <input type="text" placeholder="Kategoria (ops.)" value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))} className={INPUT} />
         </div>
+        <EnglishFieldsSection hasContent={Boolean(form.quote_en || form.result_en || form.category_en)}>
+          <textarea
+            rows={3}
+            placeholder="Client quote in English — pa këtë, testimoniali s'shfaqet në /en"
+            value={form.quote_en}
+            onChange={(e) => setForm((f) => ({ ...f, quote_en: e.target.value }))}
+            className={INPUT + " w-full resize-none"}
+          />
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <input type="text" placeholder="Location/result in English (p.sh. Milan, Italy)" value={form.result_en} onChange={(e) => setForm((f) => ({ ...f, result_en: e.target.value }))} className={INPUT} />
+            <input type="text" placeholder="Category in English (ops.)" value={form.category_en} onChange={(e) => setForm((f) => ({ ...f, category_en: e.target.value }))} className={INPUT} />
+          </div>
+        </EnglishFieldsSection>
         {error && <p className="mt-2 text-[12px] text-red-400/80">{error}</p>}
         <div className="mt-4 flex gap-3">
           <button onClick={submit} disabled={saving} className={BTN_GOLD}>
@@ -236,6 +255,7 @@ function TestimonialsManager({
               {t.company && <span>· {t.company}</span>}
               {t.result && <span className="rounded-full border border-accent/30 px-2 py-0.5 text-[10px] text-accent/85">{t.result}</span>}
               {t.category && <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-accent">{t.category}</span>}
+              <EnBadge translated={Boolean(t.quote_en)} />
               {!t.visible && <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.2)] px-2 py-0.5 text-[10px] uppercase">I fshehur</span>}
             </div>
             <div className="mt-3 flex flex-wrap gap-2 border-t border-[var(--a-border)] pt-3">
@@ -269,6 +289,10 @@ const EMPTY_PORTFOLIO = {
   tags: "",
   image_url: "",
   live_url: "",
+  category_en: "",
+  location_en: "",
+  description_en: "",
+  result_en: "",
 };
 
 function PortfolioManager({
@@ -298,6 +322,10 @@ function PortfolioManager({
       tags: (p.tags ?? []).join(", "),
       image_url: p.image_url ?? "",
       live_url: p.live_url ?? "",
+      category_en: p.category_en ?? "",
+      location_en: p.location_en ?? "",
+      description_en: p.description_en ?? "",
+      result_en: p.result_en ?? "",
     });
     setError("");
   };
@@ -469,6 +497,20 @@ function PortfolioManager({
             )}
           </div>
         </div>
+        <EnglishFieldsSection hasContent={Boolean(form.category_en || form.location_en || form.description_en || form.result_en)}>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <input type="text" placeholder="Category in English — pa këtë, projekti s'shfaqet në /en" value={form.category_en} onChange={(e) => setForm((f) => ({ ...f, category_en: e.target.value }))} className={INPUT} />
+            <input type="text" placeholder="Location in English (p.sh. Milan, Italy)" value={form.location_en} onChange={(e) => setForm((f) => ({ ...f, location_en: e.target.value }))} className={INPUT} />
+          </div>
+          <textarea
+            rows={3}
+            placeholder="Project description in English"
+            value={form.description_en}
+            onChange={(e) => setForm((f) => ({ ...f, description_en: e.target.value }))}
+            className={INPUT + " mt-3 w-full resize-none"}
+          />
+          <input type="text" placeholder="Main result in English (p.sh. +40% inquiries)" value={form.result_en} onChange={(e) => setForm((f) => ({ ...f, result_en: e.target.value }))} className={INPUT + " mt-3 w-full"} />
+        </EnglishFieldsSection>
         {error && <p className="mt-2 text-[12px] text-red-400/80">{error}</p>}
         <div className="mt-4 flex gap-3">
           <button onClick={submit} disabled={saving || uploading} className={BTN_GOLD}>
@@ -489,9 +531,12 @@ function PortfolioManager({
             )}
             <div className="min-w-0 flex-1">
               <p className="font-display font-semibold text-[var(--a-text)]">{p.title}</p>
-              <p className="mt-0.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">
-                {[p.category, p.location, p.year].filter(Boolean).join(" · ")}
-                {!p.visible && " · I fshehur"}
+              <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">
+                <span>
+                  {[p.category, p.location, p.year].filter(Boolean).join(" · ")}
+                  {!p.visible && " · I fshehur"}
+                </span>
+                <EnBadge translated={Boolean(p.category_en)} />
               </p>
             </div>
             <div className="flex flex-wrap gap-2">

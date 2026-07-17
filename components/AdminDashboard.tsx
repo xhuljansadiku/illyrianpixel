@@ -211,6 +211,10 @@ type SiteSettings = {
   popup_title: string;
   popup_text: string;
   popup_cta: string;
+  popup_eyebrow_en: string;
+  popup_title_en: string;
+  popup_text_en: string;
+  popup_cta_en: string;
 };
 
 const PAGE_SIZE = 10;
@@ -4677,6 +4681,55 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_cta}
               onChange={(e) => setSettings((s) => ({ ...s, popup_cta: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+        </div>
+        <p className="mb-3 mt-5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          🇬🇧 Versioni anglisht (faqja /en)
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              Eyebrow (EN)
+            </label>
+            <input
+              type="text"
+              value={settings.popup_eyebrow_en}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_eyebrow_en: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              Title (EN)
+            </label>
+            <input
+              type="text"
+              value={settings.popup_title_en}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_title_en: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              Text (EN)
+            </label>
+            <input
+              type="text"
+              value={settings.popup_text_en}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_text_en: e.target.value }))}
+              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              CTA (EN)
+            </label>
+            <input
+              type="text"
+              value={settings.popup_cta_en}
+              onChange={(e) => setSettings((s) => ({ ...s, popup_cta_en: e.target.value }))}
               className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>

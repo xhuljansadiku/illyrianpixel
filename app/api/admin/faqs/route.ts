@@ -37,6 +37,9 @@ export async function POST(req: Request) {
       question,
       answer,
       category,
+      question_en: String(body.question_en ?? "").trim().slice(0, 300) || null,
+      answer_en: String(body.answer_en ?? "").trim().slice(0, 2000) || null,
+      category_en: String(body.category_en ?? "").trim().slice(0, 100) || null,
       visible: body.visible !== false,
       sort: Number.isFinite(Number(body.sort)) ? Number(body.sort) : 0,
     })

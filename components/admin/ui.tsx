@@ -34,6 +34,27 @@ export function EmptyState({ text }: { text: string }) {
   return <p className="p-8 text-center text-[13px] text-[rgb(var(--a-text-rgb)/0.35)]">{text}</p>;
 }
 
+// Seksion i palosshëm "English" për formularët e përmbajtjes publike (testimoniale, portofol, FAQ).
+export function EnglishFieldsSection({ children, hasContent }: { children: ReactNode; hasContent: boolean }) {
+  return (
+    <details className="mt-3 rounded-[10px] border border-[var(--a-border)] p-3" open={hasContent}>
+      <summary className="cursor-pointer select-none text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)]">
+        🇬🇧 English (opsionale) — plotësoje që të dalë edhe në faqen /en
+      </summary>
+      <div className="mt-3">{children}</div>
+    </details>
+  );
+}
+
+// Etiketë e vogël në lista: a e ka rreshti përkthimin anglisht?
+export function EnBadge({ translated }: { translated: boolean }) {
+  return translated ? (
+    <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">EN ✓</span>
+  ) : (
+    <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90" title="Pa përkthim — nuk shfaqet në /en">pa EN</span>
+  );
+}
+
 type Toast = { id: string; text: string; kind: "info" | "error" | "success" };
 
 const TOAST_STYLES: Record<Toast["kind"], string> = {

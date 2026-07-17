@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import type { FaqRow } from "@/lib/publicContent";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, EnglishFieldsSection, EnBadge, useConfirm } from "@/components/admin/ui";
 
-const EMPTY_FAQ = { question: "", answer: "", category: "" };
+const EMPTY_FAQ = { question: "", answer: "", category: "", question_en: "", answer_en: "", category_en: "" };
 
 export default function FaqManager({
   items,
@@ -22,7 +22,14 @@ export default function FaqManager({
 
   const startEdit = (f: FaqRow) => {
     setEditingId(f.id);
-    setForm({ question: f.question, answer: f.answer, category: f.category ?? "" });
+    setForm({
+      question: f.question,
+      answer: f.answer,
+      category: f.category ?? "",
+      question_en: f.question_en ?? "",
+      answer_en: f.answer_en ?? "",
+      category_en: f.category_en ?? "",
+    });
     setError("");
   };
 
@@ -163,6 +170,29 @@ export default function FaqManager({
           onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
           className={INPUT + " mt-3 w-full"}
         />
+        <EnglishFieldsSection hasContent={Boolean(form.question_en || form.answer_en || form.category_en)}>
+          <input
+            type="text"
+            placeholder="Question in English — pa këtë, pyetja s'shfaqet në /en"
+            value={form.question_en}
+            onChange={(e) => setForm((f) => ({ ...f, question_en: e.target.value }))}
+            className={INPUT + " w-full"}
+          />
+          <textarea
+            rows={3}
+            placeholder="Answer in English"
+            value={form.answer_en}
+            onChange={(e) => setForm((f) => ({ ...f, answer_en: e.target.value }))}
+            className={INPUT + " mt-3 w-full resize-none"}
+          />
+          <input
+            type="text"
+            placeholder="Category in English (ops.)"
+            value={form.category_en}
+            onChange={(e) => setForm((f) => ({ ...f, category_en: e.target.value }))}
+            className={INPUT + " mt-3 w-full"}
+          />
+        </EnglishFieldsSection>
         {error && <p className="mt-2 text-[12px] text-red-400/80">{error}</p>}
         <div className="mt-3 flex gap-2">
           <button onClick={submit} disabled={saving} className={BTN_GOLD}>
@@ -187,6 +217,7 @@ export default function FaqManager({
               <div className="min-w-0 flex-1">
                 <p className="font-display text-[1rem] font-semibold text-[var(--a-text)]">
                   {f.question}
+                  <span className="ml-2 inline-block align-middle"><EnBadge translated={Boolean(f.question_en && f.answer_en)} /></span>
                   {f.category && (
                     <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
                       {f.category}

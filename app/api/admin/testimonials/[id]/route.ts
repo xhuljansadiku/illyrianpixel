@@ -25,6 +25,9 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (body.result !== undefined) update.result = String(body.result).trim().slice(0, 160) || null;
   if (body.logo !== undefined) update.logo = String(body.logo).trim().slice(0, 500) || null;
   if (body.category !== undefined) update.category = String(body.category).trim().slice(0, 100) || null;
+  if (body.quote_en !== undefined) update.quote_en = String(body.quote_en).trim().slice(0, 2000) || null;
+  if (body.result_en !== undefined) update.result_en = String(body.result_en).trim().slice(0, 160) || null;
+  if (body.category_en !== undefined) update.category_en = String(body.category_en).trim().slice(0, 100) || null;
   if (body.visible !== undefined) update.visible = !!body.visible;
   if (body.sort !== undefined && Number.isFinite(Number(body.sort))) update.sort = Number(body.sort);
 
