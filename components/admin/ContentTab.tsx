@@ -551,7 +551,7 @@ function PortfolioManager({
           </div>
         ))}
         {items.length === 0 && (
-          <EmptyState text="Asnjë projekt nga admini — faqja kryesore shfaq projektet statike të kodit. Sapo të shtosh të parin, ato zëvendësohen." />
+          <EmptyState text="Asnjë projekt nga admini — faqja kryesore shfaq projektet statike të kodit. Kur shton një projekt këtu, ai del i pari në faqe, para statikëve (max 6 gjithsej)." />
         )}
       </div>
       {renderConfirm()}

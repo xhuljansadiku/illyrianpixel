@@ -19,13 +19,16 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
   // 3 projekte live + 1 "coming soon" në fund — renditja ndjek këtë listë
   const featuredSlugs = ["esm-group", "hauswerk-niederbayern", "palushi-brothers", "bardhi-wellness"];
   const localizedCaseStudies = getCaseStudies(locale);
-  const featuredProjects: FeaturedItem[] =
-    items && items.length > 0
-      ? items
-      : featuredSlugs.flatMap((slug) => {
-          const project = localizedCaseStudies.find((p) => p.slug === slug);
-          return project ? [project] : [];
-        });
+  // Projektet e shtuara nga admini dalin të parët; statiket e kodit vijnë pas.
+  // Nëse një projekt admini ka të njëjtin titull si një statik, statiku hiqet
+  // (kështu një projekt i ri-futur nga admini e zëvendëson, jo e dyfishon).
+  const adminItems = items ?? [];
+  const adminTitles = new Set(adminItems.map((p) => p.title.trim().toLowerCase()));
+  const staticItems = featuredSlugs.flatMap((slug) => {
+    const project = localizedCaseStudies.find((p) => p.slug === slug);
+    return project && !adminTitles.has(project.title.trim().toLowerCase()) ? [project] : [];
+  });
+  const featuredProjects: FeaturedItem[] = [...adminItems, ...staticItems].slice(0, 6);
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current) return;
