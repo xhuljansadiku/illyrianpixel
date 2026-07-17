@@ -16,12 +16,16 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
   const locale = useLocale() as Locale;
   const sectionRef = useRef<HTMLElement | null>(null);
 
+  // 3 projekte live + 1 "coming soon" në fund — renditja ndjek këtë listë
+  const featuredSlugs = ["esm-group", "hauswerk-niederbayern", "palushi-brothers", "bardhi-wellness"];
+  const localizedCaseStudies = getCaseStudies(locale);
   const featuredProjects: FeaturedItem[] =
     items && items.length > 0
       ? items
-      : getCaseStudies(locale).filter((project) =>
-          ["esm-group", "bardhi-wellness", "palushi-brothers"].includes(project.slug)
-        );
+      : featuredSlugs.flatMap((slug) => {
+          const project = localizedCaseStudies.find((p) => p.slug === slug);
+          return project ? [project] : [];
+        });
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current) return;
