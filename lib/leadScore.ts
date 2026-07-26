@@ -32,7 +32,7 @@ const TIMELINE_POINTS: [string, number][] = [
 
 const HIGH_VALUE_SERVICES = ["e-commerce", "ecommerce", "website", "web"];
 
-export function leadScore(c: ScorableContact): LeadScore {
+export function leadScore(c: ScorableContact, duplicateCount = 1): LeadScore {
   let score = 0;
   const reasons: string[] = [];
 
@@ -77,6 +77,11 @@ export function leadScore(c: ScorableContact): LeadScore {
   if (c.discount_code) {
     score += 5;
     reasons.push("Përdori kod zbritjeje (+5)");
+  }
+
+  if (duplicateCount >= 2) {
+    score += 8;
+    reasons.push(`Na kontaktoi ${duplicateCount}× (+8)`);
   }
 
   const ageHours = (Date.now() - new Date(c.created_at).getTime()) / 3_600_000;

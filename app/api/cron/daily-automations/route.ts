@@ -9,8 +9,10 @@ import {
   quoteReminderEmailHtml,
   invoiceOverdueEmailHtml,
   adminDailySummaryHtml,
+  maintenanceQuarterlyReportEmailHtml,
 } from "@/lib/adminEmails";
 import { insertQuoteWithNumber } from "@/lib/quotesServer";
+import { quoteTotals, formatMoney } from "@/lib/quotes";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { logActivity } from "@/lib/activityLog";
 import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
@@ -24,8 +26,9 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const QUOTE_REMINDER_MAX = 2;       // maksimumi i kujtuesve për ofertë
-const QUOTE_REMINDER_GAP_DAYS = 3;  // ditë pas dërgimit / kujtuesit të fundit
+// Sekuencë follow-up: gap-e kumulative që japin kujtues në ditën 2, 5 dhe 10
+// pas dërgimit të ofertës (2, 2+3, 2+3+5), jo më vetëm 2 kujtues me gap fiks.
+const QUOTE_REMINDER_GAPS = [2, 3, 5];
 const INVOICE_REMINDER_MAX = 3;     // maksimumi i kujtuesve për faturë të vonuar
 const INVOICE_REMINDER_GAP_DAYS = 4;
 const STALE_CONTACT_DAYS = 3;       // kontakte "të reja" pa kontaktim pas kaq ditësh
@@ -66,12 +69,13 @@ export async function GET(req: Request) {
     .eq("kind", "quote")
     .eq("status", "sent")
     .not("client_email", "is", null)
-    .lt("reminders_sent", QUOTE_REMINDER_MAX)
+    .lt("reminders_sent", QUOTE_REMINDER_GAPS.length)
     .limit(20);
 
   for (const q of (pendingQuotes ?? []) as QuoteRecord[]) {
     const lastActivity = q.last_reminder_at ?? q.updated_at;
-    if (lastActivity > daysAgoIso(QUOTE_REMINDER_GAP_DAYS)) continue;
+    const gapDays = QUOTE_REMINDER_GAPS[q.reminders_sent ?? 0];
+    if (lastActivity > daysAgoIso(gapDays)) continue;
     try {
       const { subject, html } = await quoteReminderEmailHtml(q);
       await resend.emails.send({
@@ -281,6 +285,70 @@ export async function GET(req: Request) {
     }
   }
 
+  // ── 9. Raporte tremujore për klientët me mirëmbajtje aktive (vetëm më 1
+  //      Janar/Prill/Korrik/Tetor, raporton tremujorin e sapombyllur). Përmban
+  //      vetëm të dhëna reale (plani aktiv + oferta/fatura të lëshuara) — jo
+  //      metrika të pagjurmuara ende në CRM (p.sh. "calls").
+  const sentQuarterlyReports: string[] = [];
+  const currentMonthIdx = new Date().getMonth(); // 0-11
+  if (dayOfMonth === 1 && [0, 3, 6, 9].includes(currentMonthIdx)) {
+    const now = new Date();
+    const qStart = new Date(now.getFullYear(), currentMonthIdx - 3, 1);
+    const qEnd = new Date(now.getFullYear(), currentMonthIdx, 1);
+    const QUARTER_LABELS = ["Janar–Mars", "Prill–Qershor", "Korrik–Shtator", "Tetor–Dhjetor"];
+    const qIndex = (((currentMonthIdx - 3) / 3) + 4) % 4;
+    const qYear = currentMonthIdx === 0 ? now.getFullYear() - 1 : now.getFullYear();
+    const quarterLabel = `${QUARTER_LABELS[qIndex]} ${qYear}`;
+
+    const { data: activeMaintenance } = await supabase
+      .from("recurring_invoices")
+      .select("*")
+      .eq("active", true)
+      .limit(50);
+
+    for (const r of (activeMaintenance ?? []) as RecurringInvoice[]) {
+      if (!r.client_email) continue;
+      try {
+        const { data: periodQuotes } = await supabase
+          .from("quotes")
+          .select("kind")
+          .is("deleted_at", null)
+          .eq("contact_id", r.contact_id)
+          .gte("created_at", qStart.toISOString())
+          .lt("created_at", qEnd.toISOString());
+
+        const quotesCount = (periodQuotes ?? []).filter((q) => q.kind === "quote").length;
+        const invoicesCount = (periodQuotes ?? []).filter((q) => q.kind === "invoice").length;
+        const planName = r.items?.[0]?.description || "Mirëmbajtje";
+        const planPrice = `${formatMoney(quoteTotals(r.items, r.discount, r.tax_rate).total)}/muaj`;
+
+        const { subject, html } = maintenanceQuarterlyReportEmailHtml(
+          r.client_name,
+          quarterLabel,
+          planName,
+          planPrice,
+          quotesCount,
+          invoicesCount
+        );
+        await resend.emails.send({
+          from: NEWSLETTER_BRAND.from,
+          to: r.client_email,
+          replyTo: "info@illyrianpixel.com",
+          subject,
+          html,
+        });
+        if (r.contact_id) {
+          await supabase
+            .from("contact_notes")
+            .insert({ contact_id: r.contact_id, text: `📊 Raporti tremujor u dërgua — ${quarterLabel}` });
+        }
+        sentQuarterlyReports.push(`${r.client_name} (${quarterLabel})`);
+      } catch {
+        // injoro — nuk ka retry brenda ditës, tremujori tjetër do ta rikapë
+      }
+    }
+  }
+
   // ── 8. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
   const hasActivity =
     remindedQuotes.length > 0 ||
@@ -288,7 +356,8 @@ export async function GET(req: Request) {
     generatedInvoices.length > 0 ||
     publishedPosts > 0 ||
     sentBroadcasts.length > 0 ||
-    staleContacts.length > 0;
+    staleContacts.length > 0 ||
+    sentQuarterlyReports.length > 0;
 
   if (hasActivity) {
     // Regjistro në Histori çfarë bënë automatizimet sot
@@ -298,13 +367,14 @@ export async function GET(req: Request) {
     for (const q of generatedInvoices) await logActivity("auto", "create", `U gjenerua vetë fatura e rikurruese ${q}`);
     for (const b of sentBroadcasts) await logActivity("newsletter", "send", `U dërgua broadcast i planifikuar "${b}"`);
     if (staleContacts.length > 0) await logActivity("auto", "send", `U dërgua kujtues për ${staleContacts.length} kontakt pa përgjigje`);
+    for (const r of sentQuarterlyReports) await logActivity("auto", "send", `U dërgua raporti tremujor për ${r}`);
     try {
       const summaryTemplate = await getEmailTemplate("daily_summary");
       await resend.emails.send({
         from: NEWSLETTER_BRAND.from,
         to: process.env.CONTACT_TO_EMAIL!,
         subject: summaryTemplate?.subject ?? "Përmbledhja e automatizimeve të sotme",
-        html: await adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts, staleContacts }),
+        html: await adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts, staleContacts, sentQuarterlyReports }),
       });
     } catch {
       // injoro
@@ -320,5 +390,6 @@ export async function GET(req: Request) {
     sentBroadcasts: sentBroadcasts.length,
     staleContacts: staleContacts.length,
     backupSent,
+    sentQuarterlyReports: sentQuarterlyReports.length,
   });
 }

@@ -233,6 +233,11 @@ const STATUS_COLORS: Record<string, string> = {
 
 const STATUS_COLUMNS = ["new", "in-progress", "done"] as const;
 
+// Statike (jo toLocaleDateString) qëllimisht — Node.js në server shpesh s'ka
+// të dhëna të plota ICU për "sq-AL" dhe prodhon tekst tjetër nga browser-i,
+// duke shkaktuar hydration mismatch. Kjo garanton identitet server/klient.
+const SHORT_MONTH_LABELS = ["Jan", "Shk", "Mar", "Pri", "Maj", "Qer", "Kor", "Gsh", "Sht", "Tet", "Nën", "Dhj"];
+
 const LOG_ACTION_LABELS: Record<string, (detail: string | null) => string> = {
   status: (d) => `Statusi u ndryshua → ${d}`,
   assigned_to: (d) => (d ? `U caktua tek ${d}` : "U hoq caktimi"),
@@ -1304,6 +1309,65 @@ function OverviewTab({
     : null;
   const backupHealthy = daysSinceBackup !== null && daysSinceBackup <= 8;
 
+  // SLA — koha mesatare deri sa admini hap kontaktin e ri për herë të parë
+  // (viewed_at), llogaritur nga kontaktet e 30 ditëve të fundit. Përdor vetëm
+  // të dhëna që ekzistojnë tashmë (viewed_at bulk-loaded), pa query të re.
+  const avgResponseHours = useMemo(() => {
+    const cutoff = Date.now() - 30 * 86400000;
+    const durations = contacts
+      .filter((c) => c.viewed_at && new Date(c.created_at).getTime() >= cutoff)
+      .map((c) => (new Date(c.viewed_at!).getTime() - new Date(c.created_at).getTime()) / 3600000)
+      .filter((h) => h >= 0);
+    if (durations.length === 0) return null;
+    return durations.reduce((sum, h) => sum + h, 0) / durations.length;
+  }, [contacts]);
+  const responseHealthy = avgResponseHours !== null && avgResponseHours <= 24;
+
+  // KPI Marketing — leads/muaj (6 muajt e fundit), konvertimi ofertë→klient
+  // (oferta të dërguara që u pranuan/u paguan) dhe burimet kryesore të leads.
+  // Gjithçka nga contacts/quotes që ekzistojnë tashmë si props, pa query të re.
+  const leadsByMonth = useMemo(() => {
+    const counts = new Map<string, number>();
+    const months: string[] = [];
+    const ref = new Date();
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(ref.getFullYear(), ref.getMonth() - i, 1);
+      const key = d.toISOString().slice(0, 7);
+      months.push(key);
+      counts.set(key, 0);
+    }
+    for (const c of contacts) {
+      const key = c.created_at.slice(0, 7);
+      if (counts.has(key)) counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return months.map((key) => {
+      const monthIdx = Number(key.slice(5, 7)) - 1;
+      return { key, label: SHORT_MONTH_LABELS[monthIdx], count: counts.get(key) ?? 0 };
+    });
+  }, [contacts]);
+  const maxLeadsInMonth = Math.max(1, ...leadsByMonth.map((m) => m.count));
+
+  const quoteConversion = useMemo(() => {
+    const sent = quotes.filter((q) => q.kind === "quote" && q.status !== "draft");
+    const won = sent.filter((q) => q.status === "accepted" || q.status === "paid");
+    return {
+      sent: sent.length,
+      won: won.length,
+      rate: sent.length > 0 ? (won.length / sent.length) * 100 : null,
+    };
+  }, [quotes]);
+
+  const topLeadSources = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const c of contacts) {
+      const src = c.source_path?.trim() || "(i panjohur)";
+      counts.set(src, (counts.get(src) ?? 0) + 1);
+    }
+    return Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+  }, [contacts]);
+
   const scheduledBroadcasts = useMemo(
     () =>
       broadcasts
@@ -1421,13 +1485,24 @@ function OverviewTab({
         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Shëndeti i sistemit
         </p>
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           <div className={`rounded-[2px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Backup javor</p>
             <p className={`mt-1 text-[14px] font-semibold ${backupHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
               {lastBackup
                 ? `${backupHealthy ? "✅" : "⚠️"} ${daysSinceBackup === 0 ? "sot" : `${daysSinceBackup} ditë më parë`}`
                 : "⚠️ Asnjë backup ende"}
+            </p>
+          </div>
+          <div
+            className={`rounded-[2px] border px-4 py-3 ${avgResponseHours === null ? "border-[var(--a-border)]" : responseHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}
+            title="Koha mesatare deri sa admini hap kontaktin e ri për herë të parë, 30 ditët e fundit"
+          >
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">SLA · Koha e parë përgjigjeje</p>
+            <p className={`mt-1 text-[14px] font-semibold ${avgResponseHours === null ? "text-[var(--a-text)]" : responseHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
+              {avgResponseHours === null
+                ? "— pa të dhëna ende"
+                : `${responseHealthy ? "✅" : "⚠️"} ${avgResponseHours < 1 ? "< 1 orë" : avgResponseHours < 24 ? `${Math.round(avgResponseHours)} orë` : `${Math.round(avgResponseHours / 24)} ditë`} mesatarisht`}
             </p>
           </div>
           <div className="rounded-[2px] border border-[var(--a-border)] px-4 py-3">
@@ -1437,6 +1512,67 @@ function OverviewTab({
             </p>
           </div>
         </div>
+      </div>
+
+      {/* KPI Marketing */}
+      <div className={CARD + " p-5"}>
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+          KPI Marketing
+        </p>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
+              Leads / muaj (6 muajt e fundit)
+            </p>
+            <div className="flex items-end gap-2.5" style={{ height: 84 }}>
+              {leadsByMonth.map((m) => (
+                <div key={m.key} className="flex flex-1 flex-col items-center gap-1.5">
+                  <div
+                    className="w-full rounded-t-[2px] bg-accent/70"
+                    style={{ height: `${Math.max(4, (m.count / maxLeadsInMonth) * 56)}px` }}
+                    title={`${m.count} leads`}
+                  />
+                  <span className="text-[10px] font-semibold text-[var(--a-text)]">{m.count}</span>
+                  <span className="text-[9px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="font-display text-[1.7rem] font-bold text-accent">
+                {quoteConversion.rate !== null ? `${quoteConversion.rate.toFixed(0)}%` : "—"}
+              </p>
+              <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">
+                Konvertimi ofertë→klient ({quoteConversion.won}/{quoteConversion.sent})
+              </p>
+            </div>
+            <div>
+              <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">
+                {leadsByMonth[leadsByMonth.length - 1]?.count ?? 0}
+              </p>
+              <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Leads këtë muaj</p>
+            </div>
+          </div>
+        </div>
+
+        {topLeadSources.length > 0 && (
+          <div className="mt-5 border-t border-[var(--a-border)] pt-4">
+            <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Burimet kryesore</p>
+            <div className="flex flex-wrap gap-2">
+              {topLeadSources.map(([src, count]) => (
+                <span
+                  key={src}
+                  className="rounded-full border border-[var(--a-border)] bg-[var(--a-input)] px-2.5 py-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)]"
+                  title={src}
+                >
+                  {src} · {count}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Follow-ups */}
@@ -2427,7 +2563,7 @@ function ContactsTab({
                   {items.map((c) => {
                     const status = c.status || "new";
                     const overdue = isOverdue(c);
-                    const score = leadScore(c);
+                    const score = leadScore(c, duplicateCounts.get(c.email.trim().toLowerCase()) ?? 1);
                     return (
                       <DraggableCard key={c.id} id={c.id}>
                         <div className={CARD}>

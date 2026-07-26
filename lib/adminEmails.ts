@@ -335,6 +335,51 @@ export function maintenanceOfferEmailHtml(
   return { subject, html: shell(subject, body) };
 }
 
+// Raport tremujor automatik për klientët me plan mirëmbajtjeje aktiv —
+// përmban vetëm të dhëna reale (plani aktiv + oferta/fatura të lëshuara),
+// pa metrika të trilluara (p.sh. "calls") që s'gjurmohen ende në CRM.
+export function maintenanceQuarterlyReportEmailHtml(
+  clientName: string,
+  quarterLabel: string,
+  planName: string,
+  planPrice: string,
+  quotesCount: number,
+  invoicesCount: number
+): { subject: string; html: string } {
+  const subject = `Raporti juaj tremujor — ${quarterLabel}`;
+  const body = `
+        <tr>
+          <td style="padding:36px 48px;">
+            <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.8);">Përshëndetje ${escapeHtml(clientName)},</p>
+            <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">
+              Një përmbledhje e shkurtër e planit tuaj të mirëmbajtjes për <strong style="color:#ffffff;">${escapeHtml(quarterLabel)}</strong>:
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:20px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden;background:#0d0d0d;">
+              <tr>
+                <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;color:rgba(255,255,255,0.6);">Plani aktiv</td>
+                <td align="right" style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;font-weight:600;color:#ffffff;">${escapeHtml(planName)} · ${escapeHtml(planPrice)}</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;color:rgba(255,255,255,0.6);">Oferta të reja</td>
+                <td align="right" style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;font-weight:600;color:#ab8339;">${quotesCount}</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 16px;font-size:14px;color:rgba(255,255,255,0.6);">Fatura të lëshuara</td>
+                <td align="right" style="padding:12px 16px;font-size:14px;font-weight:600;color:#ab8339;">${invoicesCount}</td>
+              </tr>
+            </table>
+            <p style="margin:20px 0 0;font-size:13.5px;color:rgba(255,255,255,0.55);line-height:1.8;">
+              Faqja juaj vazhdon të monitorohet dhe mirëmbahet siç e keni zgjedhur. Nëse keni ndonjë kërkesë apo ndryshim për tremujorin e ardhshëm, na shkruani — jemi këtu.
+            </p>
+            <p style="margin:24px 0 0;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;">
+              Me respekt,<br>
+              <span style="color:#ab8339;font-weight:600;">Ekipi i Illyrian Pixel</span>
+            </p>
+          </td>
+        </tr>`;
+  return { subject, html: shell(subject, body) };
+}
+
 // Kërkesë vlerësimi pas mbylljes së projektit ("Përfunduar").
 export function projectFeedbackRequestEmailHtml(clientName: string, projectName: string, feedbackUrl: string): string {
   const body = `
@@ -408,6 +453,7 @@ export async function adminDailySummaryHtml(summary: {
   publishedPosts: number;
   sentBroadcasts?: string[];
   staleContacts?: string[];
+  sentQuarterlyReports?: string[];
 }): Promise<string> {
   const line = (label: string, items: string[]) =>
     items.length
@@ -428,6 +474,7 @@ export async function adminDailySummaryHtml(summary: {
             ${line("🔁 Fatura të rikurruese u gjeneruan", summary.generatedInvoices)}
             ${line("✉️ Broadcast-e të planifikuara u dërguan", summary.sentBroadcasts ?? [])}
             ${line("⏰ Kontakte pa përgjigje (kujtues)", summary.staleContacts ?? [])}
+            ${line("📊 Raporte tremujore u dërguan", summary.sentQuarterlyReports ?? [])}
             ${summary.publishedPosts > 0 ? `<p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.7);"><strong style="color:#ab8339;">📝 Artikuj të publikuar:</strong> ${summary.publishedPosts}</p>` : ""}
             <table cellpadding="0" cellspacing="0" style="margin-top:24px;">
               <tr>
