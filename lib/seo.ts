@@ -114,41 +114,11 @@ export const organizationSchema = {
     "https://www.facebook.com/illyrianpixel",
     "https://www.linkedin.com/company/illyrianpixel/",
     "https://www.tiktok.com/@illyrianpixel"
-  ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5",
-    ratingCount: "24",
-    reviewCount: "24",
-    bestRating: "5",
-    worstRating: "1"
-  },
-  review: [
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Mariglent S." },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-      reviewBody:
-        "Na ndihmoi shumë mënyra si u organizua përmbajtja e faqes. Klientët e kuptojnë më shpejt çfarë bëjmë dhe bisedat që vijnë janë më konkrete.",
-      datePublished: "2026-03-01"
-    },
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Bardhi U." },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-      reviewBody:
-        "Procesi ishte i qartë nga fillimi në fund. Prezantimi i paketave dhe mesazhi i brandit personal tani duken më profesionalë dhe më të besueshëm.",
-      datePublished: "2026-03-15"
-    },
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Vehbi P." },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-      reviewBody:
-        "Që nga përditësimi i faqes, klientët na kontaktojnë me pritshmëri më të qarta. Projektet dhe vlerësimet e klientëve japin besim që në kontaktin e parë.",
-      datePublished: "2026-04-01"
-    }
   ]
+  // aggregateRating/review u hoqën qëllimisht (2026-07-25): biznesi është i ri,
+  // s'ka ende review reale në Google Business Profile. Google ndalon shprehimisht
+  // review të rreme/vetë-krijuara në schema — rrezikon çaktivizim të rich
+  // results ose "manual action". Shtoji këtu vetëm kur të ketë review reale nga GBP.
 };
 
 // ── Local Business Schema ─────────────────────────────────────────────────────
@@ -251,15 +221,8 @@ export const localBusinessSchema = {
         }
       }
     ]
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5",
-    ratingCount: "24",
-    reviewCount: "24",
-    bestRating: "5",
-    worstRating: "1"
   }
+  // aggregateRating u hoq qëllimisht (2026-07-25) — shih shënimin te organizationSchema.
 };
 
 // ── WebSite Schema ────────────────────────────────────────────────────────────

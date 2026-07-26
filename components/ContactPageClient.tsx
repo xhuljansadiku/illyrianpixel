@@ -399,6 +399,14 @@ export default function ContactPageClient() {
                   >
                     Instagram
                   </a>
+                  <a
+                    href="https://maps.google.com/?q=41.3275,19.8187"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-ui text-[12px] font-light tracking-[0.5px] text-[#A0A0A0] transition-colors duration-300 hover:text-[#ab8339]"
+                  >
+                    {t("location")}
+                  </a>
                 </div>
               </div>
             </article>

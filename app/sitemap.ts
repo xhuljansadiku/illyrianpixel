@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
-import { blogPosts } from "@/lib/blogPosts";
-import { caseStudies } from "@/lib/caseStudies";
+import { getBlogPostsForLocale } from "@/lib/blogPosts";
+import { getCaseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 
 const LAUNCH_DATE = new Date("2026-01-15");
 const BLOG_DATES: Record<string, Date> = {
@@ -17,7 +18,16 @@ const BLOG_DATES: Record<string, Date> = {
   "google-ads-shqiperi": new Date("2026-05-26"),
   "web-design-tirane": new Date("2026-05-28"),
   "social-media-menaxhim-shqiperi": new Date("2026-05-30"),
+  "menaxho-biznesin-nga-diaspora": new Date("2026-07-25"),
+  "website-dygjuhesh-biznes-diaspore": new Date("2026-07-25"),
+  "si-te-gjejne-klientet-shqiptare-biznesin-tend": new Date("2026-07-25"),
 };
+
+// localePrefix "as-needed": sq has no prefix, en is prefixed with /en
+const localizedUrl = (locale: Locale, path: string) =>
+  locale === "en" ? `${seo.siteUrl}/en${path}` : `${seo.siteUrl}${path}`;
+
+const LOCALES: Locale[] = ["sq", "en"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: { path: string; priority: number; changefreq: MetadataRoute.Sitemap[number]["changeFrequency"]; date: Date }[] = [
@@ -53,42 +63,51 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "google-ads-shqiperi",
     "web-design-tirane",
     "social-media-menaxhim-shqiperi",
+    "menaxho-biznesin-nga-diaspora",
+    "website-dygjuhesh-biznes-diaspore",
+    "si-te-gjejne-klientet-shqiptare-biznesin-tend",
   ]);
 
-  const dedicatedBlogRoutes = [...dedicatedBlogSlugs].map((slug) => ({
-    url: `${seo.siteUrl}/blog/${slug}`,
-    lastModified: BLOG_DATES[slug] ?? LAUNCH_DATE,
-    priority: 0.7,
-    changeFrequency: "monthly" as const,
-  }));
-
-  const blogRoutes = blogPosts
-    .filter((item) => !dedicatedBlogSlugs.has(item.slug))
-    .map((item) => ({
-      url: `${seo.siteUrl}/blog/${item.slug}`,
-      lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
-      priority: 0.65,
-      changeFrequency: "monthly" as const,
-    }));
-
-  const projectRoutes = caseStudies.map((cs) => ({
-    url: `${seo.siteUrl}/projektet/${cs.slug}`,
-    lastModified: LAUNCH_DATE,
-    priority: 0.75,
-    changeFrequency: "monthly" as const,
-  }));
-
-  return [
-    ...staticRoutes.map(({ path, priority, changefreq, date }) => ({
-      url: `${seo.siteUrl}${path}`,
+  const staticEntries = LOCALES.flatMap((locale) =>
+    staticRoutes.map(({ path, priority, changefreq, date }) => ({
+      url: localizedUrl(locale, path),
       lastModified: date,
       priority,
       changeFrequency: changefreq,
-    })),
-    ...projectRoutes,
-    ...blogRoutes,
-    ...dedicatedBlogRoutes,
-  ];
+    }))
+  );
+
+  const blogEntries = LOCALES.flatMap((locale) => {
+    const posts = getBlogPostsForLocale(locale);
+    const dedicated = posts
+      .filter((item) => dedicatedBlogSlugs.has(item.slug))
+      .map((item) => ({
+        url: localizedUrl(locale, `/blog/${item.slug}`),
+        lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
+        priority: 0.7,
+        changeFrequency: "monthly" as const,
+      }));
+    const rest = posts
+      .filter((item) => !dedicatedBlogSlugs.has(item.slug))
+      .map((item) => ({
+        url: localizedUrl(locale, `/blog/${item.slug}`),
+        lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
+        priority: 0.65,
+        changeFrequency: "monthly" as const,
+      }));
+    return [...dedicated, ...rest];
+  });
+
+  const projectEntries = LOCALES.flatMap((locale) =>
+    getCaseStudies(locale).map((cs) => ({
+      url: localizedUrl(locale, `/projektet/${cs.slug}`),
+      lastModified: LAUNCH_DATE,
+      priority: 0.75,
+      changeFrequency: "monthly" as const,
+    }))
+  );
+
+  return [...staticEntries, ...projectEntries, ...blogEntries];
 }
 
 
