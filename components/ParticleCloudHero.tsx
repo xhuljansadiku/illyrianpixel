@@ -26,9 +26,16 @@ export default function ParticleCloudHero() {
     setMounted(true);
   }, []);
 
-  // Skena 3D montohet vetëm kur browser-i është idle — LCP/TBT mbrohen
+  // Skena 3D montohet vetëm kur browser-i është idle — LCP/TBT mbrohen.
+  // Nën breakpoint-in lg (1024px) skena as nuk ngarkohet: bundle-i three.js/r3f
+  // (~700KB, ~10s script evaluation në CPU mesatare mobile) rrit LCP mobile
+  // në ~5s dhe TBT në ~2.9s (matur me Lighthouse mobile) — mobile merr vetëm
+  // fallback-un statik .hero-grid.
   useEffect(() => {
     if (!mounted || reducedMotion) return;
+    if (typeof window.matchMedia === "function" && !window.matchMedia("(min-width: 1024px)").matches) {
+      return;
+    }
     let idleId: number | undefined;
     let timerId: ReturnType<typeof setTimeout> | undefined;
     const arm = () => setShowScene(true);
@@ -50,13 +57,18 @@ export default function ParticleCloudHero() {
 
     let split: { revert: () => void } | null = null;
     let cancelled = false;
+    // Nën lg (1024px) anashkalojmë SplitText: ndarja shkronjë-për-shkronjë e
+    // titullit kushtonte ~2.3s script evaluation në CPU mesatare mobile
+    // (matur me Lighthouse) për një efekt që amortizohet vetëm në ekrane të
+    // mëdha. Mobile merr reveal-in e thjeshtë (i njëjti fallback si më poshtë)
+    // dhe s'e shkarkon fare modulin gsap/SplitText.
+    const isDesktop = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
 
-    Promise.all([import("gsap"), import("gsap/SplitText")]).then(([{ default: gsap }, { SplitText }]) => {
-      if (cancelled) return;
-      gsap.registerPlugin(SplitText);
+    const runHeadlineReveal = (gsap: typeof import("gsap").default, SplitText?: typeof import("gsap/SplitText").SplitText) => {
       const headlineTarget = headlineRef.current?.querySelector<HTMLElement>(".headline-word");
+      if (!headlineTarget || reducedMotion) return;
 
-      if (headlineTarget && !reducedMotion) {
+      if (SplitText) {
         // SplitText (falas që nga GSAP 3.13): çdo shkronjë ngrihet nga "sloti" i vet
         // i maskuar — reveal karakteristik i faqeve award-winning.
         // KUJDES: fjala e artë (.hero-brand-word) NUK ndahet — gradienti i saj përdor
@@ -85,15 +97,29 @@ export default function ParticleCloudHero() {
             delay: 0.1 + Math.min(0.45, s.chars.length * 0.016),
             ease: "power4.out",
           });
+          return;
         } catch {
-          // Fallback: reveal i thjeshtë i të gjithë rreshtit nëse split dështon
-          gsap.fromTo(
-            headlineTarget,
-            { yPercent: 105, opacity: 0 },
-            { yPercent: 0, opacity: 1, duration: 1.05, delay: 0.08, ease: "power4.out" }
-          );
+          // rrëzohet te reveal-i i thjeshtë poshtë
         }
       }
+
+      // Mobile + fallback: reveal i thjeshtë i të gjithë rreshtit
+      gsap.fromTo(
+        headlineTarget,
+        { yPercent: 105, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 1.05, delay: 0.08, ease: "power4.out" }
+      );
+    };
+
+    const gsapPromise = import("gsap");
+    const splitTextPromise = isDesktop ? import("gsap/SplitText") : Promise.resolve(undefined);
+
+    Promise.all([gsapPromise, splitTextPromise]).then(([{ default: gsap }, splitTextModule]) => {
+      if (cancelled) return;
+      const SplitText = splitTextModule?.SplitText;
+      if (SplitText) gsap.registerPlugin(SplitText);
+
+      runHeadlineReveal(gsap, SplitText);
 
       if (!reducedMotion) {
         gsap.fromTo(

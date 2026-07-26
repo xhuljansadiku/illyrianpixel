@@ -95,21 +95,26 @@ function Dust({ isMobile }: { isMobile: boolean }) {
 
 // Persistent, fixed-position particle dust behind every page (except admin) —
 // keeps the constellation motif from the hero visible site-wide as you scroll.
+//
+// Skipped entirely below the lg breakpoint (1024px): this mounts a WebGL
+// context immediately on hydration (no idle defer, unlike the hero), so on
+// mobile CPUs it was adding real script-evaluation cost to every single page
+// for a purely decorative background — measured via Lighthouse mobile audit.
 export default function AmbientParticles() {
   const pathname = usePathname();
   const reducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    setIsMobile(window.innerWidth < 768);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
+    setIsDesktop(window.innerWidth >= 1024);
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  if (!mounted || reducedMotion) return null;
+  if (!mounted || reducedMotion || !isDesktop) return null;
   if (pathname?.startsWith("/admin")) return null;
 
   return (
@@ -120,7 +125,7 @@ export default function AmbientParticles() {
         gl={{ antialias: false, alpha: true, powerPreference: "low-power" }}
         style={{ background: "transparent" }}
       >
-        <Dust isMobile={isMobile} />
+        <Dust isMobile={false} />
       </Canvas>
     </div>
   );
