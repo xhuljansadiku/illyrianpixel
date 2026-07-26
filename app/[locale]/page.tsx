@@ -14,6 +14,8 @@ import SectionAura from "@/components/SectionAura";
 import Hero from "@/components/ParticleCloudHero";
 
 // Below-fold — dynamic imports (code-split, deferred JS)
+const BeforeAfter   = dynamic(() => import("@/components/BeforeAfter"));
+const GlobalCTA     = dynamic(() => import("@/components/GlobalCTA"));
 const FAQ           = dynamic(() => import("@/components/FAQ"));
 const FeaturedWork  = dynamic(() => import("@/components/FeaturedWork"));
 const Footer        = dynamic(() => import("@/components/Footer"));
@@ -112,6 +114,8 @@ export default async function HomePage({ params }: Props) {
         <PseNe />
         <TrustedClients />
         <FeaturedWork items={portfolioItems} />
+        <BeforeAfter />
+        <GlobalCTA />
         <Testimonials items={testimonialItems} />
         <Process />
         <FAQ items={faqItems} />

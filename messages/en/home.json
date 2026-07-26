@@ -61,6 +61,15 @@
     "allServicesCta": "ALL SERVICES ",
     "cardCta": "See the service"
   },
+  "beforeAfter": {
+    "eyebrow": "BEFORE / AFTER",
+    "title": "A clear transformation.",
+    "badge": "Real project",
+    "labelBefore": "BEFORE",
+    "labelAfter": "AFTER",
+    "altBefore": "website before the redesign",
+    "altAfter": "website after the redesign"
+  },
   "trustedClients": {
     "eyebrow": "Our Clients",
     "headline": "Brands and businesses that trust us",

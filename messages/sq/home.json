@@ -61,6 +61,15 @@
     "allServicesCta": "TË GJITHA SHËRBIMET ",
     "cardCta": "Shiko shërbimin"
   },
+  "beforeAfter": {
+    "eyebrow": "PARA / PAS",
+    "title": "Transformimi i qartë.",
+    "badge": "Projekt real",
+    "labelBefore": "PARA",
+    "labelAfter": "PAS",
+    "altBefore": "website para ridizajnimit",
+    "altAfter": "website pas ridizajnimit"
+  },
   "trustedClients": {
     "eyebrow": "Klientët tanë",
     "headline": "Marka dhe biznese që na besojnë",

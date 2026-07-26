@@ -1,105 +1,127 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useRef } from "react";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 import SectionMark from "@/components/SectionMark";
+import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
+
+const ITEM = {
+  name: "Palushi Brothers Construction",
+  before: "/images/before-after/palushi-brothers-before.png",
+  before_w: 1323,
+  before_h: 936,
+  after: "/images/before-after/palushi-brothers-after.png",
+  after_w: 1440,
+  after_h: 760,
+};
+
+// Të dyja fotot ndajnë të njëjtën lartësi — gjerësia e secilës rrjedh vetë
+// nga aspect-ratio i saj real (jo e prerë, jo e shtrembëruar).
+const SHARED_HEIGHT = "h-[220px] sm:h-[300px] md:h-[360px] lg:h-[420px]";
+
+function Frame({
+  src,
+  alt,
+  label,
+  width,
+  height,
+  tone,
+}: {
+  src: string;
+  alt: string;
+  label: string;
+  width: number;
+  height: number;
+  tone: "before" | "after";
+}) {
+  const isAfter = tone === "after";
+  return (
+    <div
+      className={`before-after-frame group relative flex flex-col self-start overflow-hidden rounded-[1.1rem] border bg-[#0d0d0d] transition-all duration-500 hover:-translate-y-1 ${
+        isAfter
+          ? "border-accent/30 shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-accent/60 hover:shadow-[0_26px_70px_rgba(171,131,57,0.22)]"
+          : "border-white/12 shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-white/25"
+      }`}
+    >
+      {isAfter && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-px z-0 rounded-[1.1rem] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40"
+          style={{ background: "radial-gradient(circle at 50% 0%, rgba(171,131,57,0.55), transparent 60%)" }}
+        />
+      )}
+      <div className="relative z-[1] flex items-center gap-2 border-b border-white/10 bg-[#141414] px-4 py-3">
+        <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+        <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+        <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+        <span
+          className={`ml-3 rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.14em] ${
+            isAfter ? "bg-accent/15 text-accent" : "bg-red-500/10 text-red-400/70"
+          }`}
+        >
+          {label}
+        </span>
+      </div>
+      <div
+        className={`relative z-[1] bg-[#111111] ${SHARED_HEIGHT}`}
+        style={{ aspectRatio: `${width} / ${height}` }}
+      >
+        <Image src={src} alt={alt} fill sizes="(max-width: 768px) 90vw, 45vw" className="object-contain" />
+      </div>
+    </div>
+  );
+}
 
 export default function BeforeAfter() {
-  const [pct, setPct] = useState(52);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const dragging = useRef(false);
+  const t = useTranslations("home.beforeAfter");
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const reducedMotion = useReducedMotion();
 
-  const setFromClientX = useCallback((clientX: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const next = ((clientX - r.left) / r.width) * 100;
-    setPct(Math.min(92, Math.max(8, next)));
-  }, []);
+  useIsomorphicLayoutEffect(() => {
+    if (!sectionRef.current || reducedMotion) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    if (rect.top < window.innerHeight) return;
+
+    const { gsap } = ensureGSAP();
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".before-after-heading",
+        { opacity: 0, y: 22, filter: "blur(4px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.75, ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 85%" } }
+      );
+      gsap.fromTo(
+        ".before-after-frame",
+        { opacity: 0, y: 36 },
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" } }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, [reducedMotion]);
 
   return (
-    <section id="before-after" className="cinematic-section section-tone-work">
-      <div className="section-wrap">
-        <SectionMark label="BEFORE / AFTER" />
-        <h2 className="section-title mt-3 max-w-4xl">Transformimi i qartë i eksperiencës.</h2>
-        <p className="mt-3 max-w-xl text-sm text-white/55">Tërhiq dorezën ose përdor butonat, krahasim i butë.</p>
+    <section id="before-after" ref={sectionRef} className="cinematic-section section-tone-work relative overflow-hidden">
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(171,131,57,0.1),transparent_38%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_75%,rgba(171,131,57,0.07),transparent_42%)]" />
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setPct(18)}
-            className="rounded-full border border-white/14 px-4 py-1.5 text-[10px] tracking-[0.18em] text-white/65 transition hover:border-accent/45 hover:text-white"
-          >
-            BEFORE
-          </button>
-          <button
-            type="button"
-            onClick={() => setPct(82)}
-            className="rounded-full border border-accent/35 bg-accent/10 px-4 py-1.5 text-[10px] tracking-[0.18em] text-accent/90 transition hover:bg-accent/16"
-          >
-            AFTER
-          </button>
-        </div>
-
-        <div
-          ref={trackRef}
-          className="before-after-track relative mt-8 h-[320px] cursor-ew-resize select-none overflow-hidden rounded-[1.2rem] border border-white/12 bg-[#111111] touch-pan-y md:h-[440px]"
-          onPointerDown={(e) => {
-            dragging.current = true;
-            (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
-            setFromClientX(e.clientX);
-          }}
-          onPointerMove={(e) => {
-            if (!dragging.current) return;
-            setFromClientX(e.clientX);
-          }}
-          onPointerUp={(e) => {
-            dragging.current = false;
-            try {
-              (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId);
-            } catch {
-              /* ignore */
-            }
-          }}
-          onPointerCancel={() => {
-            dragging.current = false;
-          }}
-        >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(171, 131, 57,0.22),transparent_52%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.01))]" />
-          <div
-            className="pointer-events-none absolute inset-y-0 left-0 overflow-hidden border-r border-white/10 bg-black/50 transition-[width] duration-200 ease-out"
-            style={{ width: `${pct}%` }}
-          >
-            <p className="absolute left-4 top-4 text-xs tracking-[0.14em] text-white/72">BEFORE</p>
-            <p className="absolute bottom-4 left-4 max-w-[28ch] text-[11px] leading-relaxed text-white/45">
-              Mesazh i përzier, hierarki e dobët, ritëm i ngadaltë.
-            </p>
-          </div>
-          <div className="pointer-events-none absolute inset-y-0 right-0" style={{ width: `${100 - pct}%` }}>
-            <p className="absolute right-4 top-4 text-xs tracking-[0.14em] text-accent/85">AFTER</p>
-            <p className="absolute bottom-4 right-4 max-w-[28ch] text-right text-[11px] leading-relaxed text-white/55">
-              Ofertë e qartë, kontrast i kontrolluar, rrjedhë drejt veprimit.
-            </p>
-          </div>
-          <div
-            className="before-after-handle absolute inset-y-0 z-20 w-px bg-accent/90 transition-[left] duration-200 ease-out"
-            style={{ left: `${pct}%` }}
-          >
-            <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-accent/80 bg-[#0b0b0b] text-[10px] tracking-[0.12em] text-accent shadow-[0_0_24px_rgba(171, 131, 57,0.18)]">
-              ↔
-            </div>
+      <div className="section-wrap relative z-[1]">
+        <div className="before-after-heading">
+          <SectionMark label={t("eyebrow")} />
+          <h2 className="section-title mt-3 max-w-4xl">{t("title")}</h2>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <span className="rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent/90">
+              {t("badge")}
+            </span>
+            <p className="text-sm text-white/55">{ITEM.name}</p>
           </div>
         </div>
 
-        <input
-          type="range"
-          min={8}
-          max={92}
-          value={pct}
-          onChange={(event) => setPct(Number(event.target.value))}
-          className="mt-5 w-full max-w-md accent-[#ab8339]"
-          aria-label="Pozicioni before / after"
-        />
+        <div className="mt-10 flex flex-col items-center gap-6 md:flex-row md:items-start md:justify-center md:gap-8">
+          <Frame src={ITEM.before} alt={`${ITEM.name} — ${t("altBefore")}`} label={t("labelBefore")} width={ITEM.before_w} height={ITEM.before_h} tone="before" />
+          <Frame src={ITEM.after} alt={`${ITEM.name} — ${t("altAfter")}`} label={t("labelAfter")} width={ITEM.after_w} height={ITEM.after_h} tone="after" />
+        </div>
       </div>
     </section>
   );
