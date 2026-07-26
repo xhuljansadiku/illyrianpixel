@@ -10,6 +10,54 @@ export type BlogPost = {
 export const blogPosts: BlogPost[] = [
   // ── Artikujt e rinj (shfaqen të parët) ──────────────────────────
   {
+    slug: "menaxho-biznesin-nga-diaspora",
+    title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë — si e menaxhoj online pa qenë atje",
+    category: "Diasporë",
+    excerpt: "Si e drejtoni një biznes në atdhe kur jetoni në Gjermani, Zvicër apo SHBA.\nWebsite si zyra juaj digjitale që punon edhe kur ju flini në një timezone tjetër.",
+    date: "Korrik 2026",
+    content: [
+      "Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë. Sfida është e njëjtë për të gjithë: si e menaxhon një biznes kur je fizikisht 2.000 km larg, në një timezone tjetër, dhe s'mund të jesh atje çdo ditë për të mbikëqyrur gjithçka?",
+      "Zgjidhja tradicionale ka qenë telefoni dhe një person besnik në vend, zakonisht familje, që përgjigjet për gjithçka. Kjo funksionon deri në një pikë, por ka limite reale: personi në Shqipëri nuk mund t'i përgjigjet çdo mesazhi Facebook në kohë reale, nuk di gjithmonë çmimet e sakta të përditësuara, dhe klientët e rinj shpesh dorëzohen para se të marrin përgjigje.",
+      "Website-i i mirë-ndërtuar bëhet zyra juaj digjitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje. Klienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih. Nuk pret që dikush t'i përgjigjet, informacioni është aty, gati.",
+      "Çfarë duhet të ketë realisht një website i tillë: faqe shërbimesh/çmimesh të qarta që s'kanë nevojë përditësim të shpeshtë manual, buton direkt WhatsApp që bie në telefonin tuaj kudo që jeni (jo në një numër lokal që dikush tjetër duhet ta mbajë), Google Maps dhe orari i saktë i biznesit në vend, dhe një panel administrimi aq i thjeshtë sa një person i besuar në Shqipëri mund të ngarkojë foto apo të ndryshojë një çmim vetë, pa ju pyetur çdo herë.",
+      "Roli juaj nga jashtë ndryshon: nuk jeni më ai që përgjigjet çdo mesazhi, jeni ai që merr vendimet strategjike, ndërsa website-i dhe një person lokal me akses admin trajtojnë ditën-për-ditë. Shumë pronarë biznesesh në diasporë na thonë të njëjtën gjë: 'Website-i më dha kohën time mbrapsht, tani s'më duhet të jem në telefon çdo minutë.'",
+      "Raportimi është pjesa që shpesh harrohet. Nëse jeni jashtë, doni të dini çfarë ndodh pa qenë atje: sa mesazhe kontakti vijnë në muaj, cilat shërbime kërkohen më shumë, nga cilat qytete apo vende po ju gjejnë klientët. Një panel i thjeshtë me këto numra ju jep kontroll real, pa pasur nevojë të thërrisni dikë për të pyetur 'si po shkon?'",
+      "Nëse keni biznes në Shqipëri apo Kosovë dhe jetoni jashtë, pyetja e parë s'është 'a më duhet website', është 'sa para po humbas çdo javë sepse klientët nuk më gjejnë ose nuk marrin përgjigje kur unë flej'. Për shumicën e bizneseve që kemi ndihmuar në këtë situatë, përgjigja e asaj pyetjeje justifikon investimin brenda 2-3 muajve."
+    ]
+  },
+  {
+    slug: "website-dygjuhesh-biznes-diaspore",
+    title: "Website dygjuhësh (shqip + gjuha e vendit) — pse i duhet çdo biznesi shqiptar në diasporë",
+    category: "Diasporë",
+    excerpt: "Bizneset e hapura nga shqiptarë në Gjermani, Zvicër apo SHBA kanë dy audienca njëherësh.\nSi ndërton një website që flet të dyja gjuhët pa e ndarë besueshmërinë.",
+    date: "Korrik 2026",
+    content: [
+      "Nëse keni hapur biznes në Gjermani, Zvicër, Austri apo SHBA, keni në fakt dy audienca njëherësh: klientët/partnerët vendas që presin një website profesional në gjuhën e tyre, dhe komunitetin shqiptar, klientë, punonjës, nënkontraktorë, që ju gjejnë dhe ju besojnë më shpejt kur website-i flet edhe shqip.",
+      "Shumë biznese shqiptare në diasporë zgjidhin vetëm një gjuhë dhe humbasin gjysmën e mundësisë. Një kompani ndërtimi në Gjermani me website vetëm gjermanisht e ka të vështirë të tërheqë punonjës apo nënkontraktorë shqiptarë që e njohin cilësinë e punës shqiptare por parapëlqejnë të komunikojnë në gjuhën e tyre. Anasjelltas, një website vetëm shqip humbet besueshmërinë tek klientët gjermanë që presin standard lokal profesional.",
+      "Zgjidhja e saktë nuk është një widget 'Google Translate' i ngjitur sipër faqes, përkthimet automatike janë të dukshme dhe ulin besueshmërinë menjëherë. Zgjidhja është strukturë e vërtetë dygjuhëshe: çdo faqe e përkthyer nga një njeri, URL të veçanta për secilën gjuhë (p.sh. domain.com dhe domain.com/en), dhe sinjalizim i qartë tek Google (hreflang) se cila faqe i shërben cilit vizitor.",
+      "Rasti ynë konkret: e kemi ndërtuar këtë saktësisht për klientë si Hauswerk Niederbayern (kompani ndërtimi në Straubing, Gjermani) dhe Suli Group Trockenbau, biznese të themeluara nga shqiptarë që operojnë në tregun gjerman por kanë ekip dhe rrjet kontaktesh shqiptar. Website dygjuhësh u dha atyre kërkesa më të sakta nga të dyja anët, pa humbur kohë me telefonata për të sqaruar gjuhën.",
+      "Çka duhet të përfshijë praktikisht: faqja kryesore dhe shërbimet plotësisht të përkthyera (jo vetëm titujt), numri i telefonit/WhatsApp funksional për të dyja audiencat, çmimet e paraqitura në monedhën e duhur për secilin treg (EUR për Gjermani/Zvicër, mund të shtohet CHF nëse jeni në Zvicër), dhe dëshmi/portofol që tregojnë cilësinë e punës në të dyja gjuhët.",
+      "Përfitimi SEO është real: Google e indekson secilën gjuhë veç e veç, që do të thotë se rankoni njëkohësisht për kërkime gjermane/angleze (nga klientë vendas) dhe kërkime shqipe (nga komuniteti dhe familjet që kërkojnë 'firma ndërtimi shqiptare gjermani' apo të ngjashme). Një website vetëm-gjuhësh ju mbyll gjysmën e këtij trafiku që në start.",
+      "Nëse biznesi juaj në diasporë ende ka website vetëm në një gjuhë, kjo është ndoshta arsyeja pse humbisni gjysmën e kërkesave që mund t'i kishit. Dygjuhësia e vërtetë (jo përkthim automatik) është investim i vogël krahasuar me numrin e klientëve që hapni prej saj."
+    ]
+  },
+  {
+    slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend",
+    title: "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë",
+    category: "Diasporë",
+    excerpt: "Shqiptarët në Shqipëri, Kosovë dhe diasporë kërkojnë ndryshe nga tregjet perëndimore.\nÇfarë duhet të dijë biznesi juaj për t'u gjetur nga e gjithë kjo audiencë e shpërndarë.",
+    date: "Korrik 2026",
+    content: [
+      "Audienca shqiptare sot nuk është e përqendruar në një vend të vetëm. Është e ndarë mes Shqipërisë, Kosovës, dhe komuniteteve të mëdha në Gjermani, Zvicër, Itali, Belgjikë, SHBA e Kanada. Për një biznes që dëshiron t'i shërbejë kësaj audience, kjo do të thotë një gjë të rëndësishme: strategjia juaj online s'mund të mendohet vetëm 'për Shqipërinë' apo vetëm 'për diasporën', duhet të mbulojë të dyja.",
+      "Shqiptarët kërkojnë shumë shpesh në gjuhën shqipe, pavarësisht se jetojnë në Mynih apo Toronto. Dikush në diasporë që kërkon 'avokat për çështje trashëgimie shqipëri' apo 'dërgesa parash shqipëri gjermani' e shkruan kërkimin në shqip, jo në gjermanisht. Bizneset që kanë përmbajtje shqip të mirë-optimizuar kapin këtë trafik që konkurrentët me website vetëm në gjuhë të huaj e humbasin plotësisht.",
+      "Kanalet e komunikimit ndryshojnë nga tregjet perëndimore. WhatsApp është mbizotërues për kontakt direkt, edhe në diasporë. Grupet e Facebook (qytetare, profesionale, të diasporës në qytete specifike gjermane apo zvicerane) janë burim i fortë referimi. Google Maps/Business Profile mbetet kritik për këdo që kërkon të gjejë një biznes fizik në Shqipëri apo Kosovë nga jashtë, para se të udhëtojë apo të kontaktojë familjen atje.",
+      "Citations dhe përmendje në direktoret e komunitetit shqiptar (shoqata biznesi, dhoma tregtie shqiptaro-gjermane/zvicerane, grupe LinkedIn/Facebook të profesionistëve shqiptarë jashtë vendit) kanë vlerë të dyfishtë: japin backlink real për SEO, dhe ju vendosin drejtpërdrejt para audiencës që kërkoni, jo thjesht para algoritmit të Google.",
+      "Rasti tipik: një biznes në Tiranë me klientë të rregullt nga diaspora (p.sh. shërbime avokatie, transport mallrash, apo ndërtim/renovim shtëpish për familje që jetojnë jashtë) fiton më shumë nga një postim i mirë-shpërndarë në një grup Facebook të diasporës gjermane sesa nga muaj të tërë reklamash gjenerike Google drejtuar vetëm publikut brenda Shqipërisë.",
+      "Struktura praktike që rekomandojmë: website me përmbajtje shqip si bazë (jo dytësore), buton WhatsApp të dukshëm në çdo faqe, prani aktive në Google Business Profile me adresën e saktë në Shqipëri/Kosovë, dhe të paktën një prezencë (postim, listim, apo partneritet) në një kanal komuniteti të diasporës relevant për biznesin tuaj specifik.",
+      "Nëse audienca juaj reale përfshin Shqipërinë, Kosovën dhe diasporën njëkohësisht, mos e ndani strategjinë sikur të ishin tregje të veçanta e të pavarura. Janë e njëjta audiencë, e shpërndarë gjeografikisht por e bashkuar nga gjuha, kultura dhe kanalet e komunikimit, dhe kjo është pikërisht arsyeja pse duhet t'i qaseni si një treg i vetëm, jo disa."
+    ]
+  },
+  {
     slug: "sa-kushton-website-shqiperi",
     title: "Sa kushton një website profesional në Shqipëri në 2026?",
     category: "Web Design",

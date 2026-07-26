@@ -2,6 +2,33 @@ import type { BlogPost } from "./blogPosts.sq";
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "menaxho-biznesin-nga-diaspora",
+    title: "I run a business in Albania or Kosovo but live abroad — how to manage it online",
+    category: "Diaspora",
+    excerpt:
+      "How to run a business back home while living in Germany, Switzerland or the US.\nA website as your digital office that keeps working while you sleep in a different timezone.",
+    date: "July 2026",
+    content: []
+  },
+  {
+    slug: "website-dygjuhesh-biznes-diaspore",
+    title: "A bilingual website (Albanian + local language) — why every diaspora Albanian business needs one",
+    category: "Diaspora",
+    excerpt:
+      "Businesses started by Albanians in Germany, Switzerland or the US serve two audiences at once.\nHow to build a site that speaks both languages without splitting your credibility.",
+    date: "July 2026",
+    content: []
+  },
+  {
+    slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend",
+    title: "How Albanian customers find your business online, wherever they are",
+    category: "Diaspora",
+    excerpt:
+      "Albanians in Albania, Kosovo and the diaspora search differently than Western markets.\nWhat your business needs to know to be found by this entire spread-out audience.",
+    date: "July 2026",
+    content: []
+  },
+  {
     slug: "sa-kushton-website-shqiperi",
     title: "How Much Does a Professional Website Cost in Albania in 2026?",
     category: "Web Design",
