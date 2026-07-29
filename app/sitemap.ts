@@ -4,6 +4,7 @@ import { getCaseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
 
+// Actual site go-live date (confirmed by owner), not the first commit date
 const LAUNCH_DATE = new Date("2026-05-10");
 const BLOG_DATES: Record<string, Date> = {
   "si-te-rrisesh-klientet-online": new Date("2026-04-10"),
