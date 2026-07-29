@@ -10,8 +10,24 @@ export type BlogPost = {
 export const blogPosts: BlogPost[] = [
   // ── Artikujt e rinj (shfaqen të parët) ──────────────────────────
   {
+    slug: "sa-kushton-website-kosove",
+    title: "Sa kushton një website profesional në Kosovë në 2026?",
+    category: "Web Design",
+    excerpt: "Çmimet reale të website-ve në Kosovë (Prishtinë, Prizren, Pejë) për 2026.\nÇfarë përfshin një faqe profesionale dhe si e zgjidhni agjencinë e duhur, brenda apo jashtë Kosovës.",
+    date: "Korrik 2026",
+    content: [
+      "Në Kosovë, pyetja 'sa kushton një website' merr shpesh përgjigje edhe më kontradiktore se në Shqipëri: nga 250 € te 4.000 € pa asnjë shpjegim se çfarë ndryshon mes ofertave. Tregu i web design-it në Prishtinë, Prizren apo Pejë është ende relativisht i vogël dhe i pastrukturuar, ndaj çmimet variojnë sipas përvojës së ofruesit, jo gjithmonë sipas cilësisë reale.",
+      "Çmimi mesatar sipas llojit të faqes është i ngjashëm me tregun shqiptar, meqë shumica e agjencive serioze punojnë njëkohësisht me klientë në të dy vendet: faqe prezantuese (5–7 faqe) 400–800 €, website biznesi (10–20 faqe) 800–1.800 €, e-commerce (dyqan online) 1.200–4.000 €, landing page 200–500 €.",
+      "Faktorët që ndikojnë çmimin janë të njëjtë kudo: kompleksiteti i dizajnit (template i modifikuar kundrejt dizajni origjinal), funksionet teknike (rezervime online, pagesa, integrime CRM), niveli i SEO-s dhe optimizimit, dhe kostot e vazhdueshme të mirëmbajtjes/hosting-ut (100–300 €/vit hosting, 50–200 €/muaj mirëmbajtje nëse zgjidhni kontratë).",
+      "Pyetja që dëgjojmë shpesh nga klientët në Kosovë: 'a ka rëndësi nëse agjencia është nga Prishtina apo nga Tirana?' Përgjigja e ndershme: jo, për sa kohë procesi është plotësisht online (call-e video, WhatsApp, dokumente të dixhitalizuara) dhe agjencia ka portofol të dëshmuar me klientë konkretë nga Kosova, jo vetëm nga Shqipëria. Gjuha, monedha (euro në të dyja vendet) dhe kultura e biznesit janë praktikisht identike, ndaj distanca fizike s'është pengesë reale.",
+      "Çfarë duhet të shmangni: oferta nën 250 € (zakonisht template i lirë pa SEO dhe pa mbështetje), kontrata pa specifikime të qarta të faqeve/funksioneve/afatit, dhe premtimet për 'renditje #1 në Google' brenda javësh, gjë që askush s'mund ta garantojë realisht.",
+      "Kosova ka gjithashtu një audiencë specifike që Shqipëria e ka më pak të theksuar në po të njëjtën masë: diaspora e madhe në Zvicër dhe Gjermani që mban lidhje të forta biznesi me familjen dhe partnerët në Kosovë. Nëse keni klientë apo partnerë në diasporë, një website dygjuhësh (shqip + gjermanisht) e zgjeron ndjeshëm rrezen e biznesit tuaj që në fillim.",
+      "Rekomandimi ynë praktik: mos zgjidhni bazuar vetëm në çmimin më të ulët apo vendndodhjen gjeografike të agjencisë. Kërkoni portofol me projekte reale (jo mockup), pyesni konkretisht se çfarë përfshin çmimi (SEO bazë? Mirëmbajtje? Trajnim?), dhe verifikoni a ka agjencia eksperiencë reale me biznese nga Kosova, jo thjesht një faqe të përkthyer nga shqipja e Shqipërisë."
+    ]
+  },
+  {
     slug: "menaxho-biznesin-nga-diaspora",
-    title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë — si e menaxhoj online pa qenë atje",
+    title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje",
     category: "Diasporë",
     excerpt: "Si e drejtoni një biznes në atdhe kur jetoni në Gjermani, Zvicër apo SHBA.\nWebsite si zyra juaj digjitale që punon edhe kur ju flini në një timezone tjetër.",
     date: "Korrik 2026",
@@ -27,7 +43,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "website-dygjuhesh-biznes-diaspore",
-    title: "Website dygjuhësh (shqip + gjuha e vendit) — pse i duhet çdo biznesi shqiptar në diasporë",
+    title: "Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë",
     category: "Diasporë",
     excerpt: "Bizneset e hapura nga shqiptarë në Gjermani, Zvicër apo SHBA kanë dy audienca njëherësh.\nSi ndërton një website që flet të dyja gjuhët pa e ndarë besueshmërinë.",
     date: "Korrik 2026",

@@ -47,7 +47,7 @@ export default async function Page({ params }: Props) {
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"Google Ads is the most direct digital marketing channel — you pay and appear immediately in front of customers searching for exactly what you offer.\nBut many Albanian businesses lose money with Google Ads because they don't set it up correctly.\nHere are the real prices and what you can expect."}
+          {"Google Ads is the most direct digital marketing channel: you pay and appear immediately in front of customers searching for exactly what you offer.\nBut many Albanian businesses lose money with Google Ads because they don't set it up correctly.\nHere are the real prices and what you can expect."}
         </p>
 
         <section className="space-y-4">
@@ -81,7 +81,7 @@ export default async function Page({ params }: Props) {
           </h2>
           <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
             <li className="whitespace-pre-line"><strong className="text-white">1. Keywords that are too broad.</strong>{"\n\"Car\" as a keyword will cost you a lot.\n\"Buy a car Tirana 2026\" is far more effective."}</li>
-            <li className="whitespace-pre-line"><strong className="text-white">2. No negative keywords.</strong>{"\nYour ads show up for completely unrelated searches — eating your budget with no results."}</li>
+            <li className="whitespace-pre-line"><strong className="text-white">2. No negative keywords.</strong>{"\nYour ads show up for completely unrelated searches, eating your budget with no results."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">3. Sending traffic to the homepage.</strong>{"\nEvery ad should go to a specific landing page."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">4. No conversion tracking.</strong>{"\nIf you don't know which ads bring in customers, you're flying blind."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">5. Budget spread too thin.</strong>{"\nFocus on 2–3 core services and dominate those keywords."}</li>

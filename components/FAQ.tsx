@@ -1,13 +1,13 @@
 ﻿"use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import SectionMark from "@/components/SectionMark";
 
 export type FaqItem = { q: string; a: string; category?: string | null };
 
 // Fallback nëse tabela faqs në DB është bosh / e paarritshme
-const defaultFaqs: FaqItem[] = [
+const defaultFaqsSq: FaqItem[] = [
   {
     q: "Sa zgjat ndërtimi i një website?",
     a: "Mesatarisht 2–4 javë, varësisht kompleksitetit dhe sasisë së përmbajtjes.\nProjektet me funksione të avancuara mund të zgjasin deri në 6 javë.\nNë fazën e planifikimit ju japim një afat të saktë."
@@ -34,10 +34,38 @@ const defaultFaqs: FaqItem[] = [
   }
 ];
 
+const defaultFaqsEn: FaqItem[] = [
+  {
+    q: "How long does building a website take?",
+    a: "On average 2–4 weeks, depending on complexity and amount of content.\nProjects with advanced features can take up to 6 weeks.\nWe give you an exact timeline during the planning phase."
+  },
+  {
+    q: "Is SEO included?",
+    a: "Yes, every website we build comes with baseline SEO installed: correct structure, fast pages and optimized meta tags. Advanced SEO and content strategy is a separate service."
+  },
+  {
+    q: "Do you offer maintenance after launch?",
+    a: "Yes, we offer monthly maintenance packages that include updates, security monitoring and small changes.\nWe don't leave you on your own after launch."
+  },
+  {
+    q: "Do you work with international clients?",
+    a: "Yes, we have clients in Italy, Germany, England and the US.\nWe communicate in Albanian, English and German.\nMeetings happen online, the process is the same for everyone."
+  },
+  {
+    q: "How does payment work?",
+    a: "50% upfront to reserve the project and start work immediately, and 50% before final launch."
+  },
+  {
+    q: "What do I need to prepare before we start?",
+    a: "Just tell us what your business does, who you're targeting and what you don't like about your current presence.\nWe take care of the rest: structure, copy and design."
+  }
+];
+
 export default function FAQ({ items }: { items?: FaqItem[] }) {
   const t = useTranslations("home.faq");
+  const locale = useLocale();
   const [open, setOpen] = useState(0);
-  const faqs = items && items.length > 0 ? items : defaultFaqs;
+  const faqs = items && items.length > 0 ? items : locale === "en" ? defaultFaqsEn : defaultFaqsSq;
   const hasCategories = faqs.some((f) => "category" in f && f.category);
 
   const groups: { category: string | null; items: FaqItem[] }[] = [];

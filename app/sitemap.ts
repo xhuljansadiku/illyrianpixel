@@ -4,7 +4,7 @@ import { getCaseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
 
-const LAUNCH_DATE = new Date("2026-01-15");
+const LAUNCH_DATE = new Date("2026-05-10");
 const BLOG_DATES: Record<string, Date> = {
   "si-te-rrisesh-klientet-online": new Date("2026-04-10"),
   "gabimet-kryesore-ne-website": new Date("2026-04-15"),
@@ -21,6 +21,7 @@ const BLOG_DATES: Record<string, Date> = {
   "menaxho-biznesin-nga-diaspora": new Date("2026-07-25"),
   "website-dygjuhesh-biznes-diaspore": new Date("2026-07-25"),
   "si-te-gjejne-klientet-shqiptare-biznesin-tend": new Date("2026-07-25"),
+  "sa-kushton-website-kosove": new Date("2026-07-29"),
 };
 
 // localePrefix "as-needed": sq has no prefix, en is prefixed with /en
@@ -66,6 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "menaxho-biznesin-nga-diaspora",
     "website-dygjuhesh-biznes-diaspore",
     "si-te-gjejne-klientet-shqiptare-biznesin-tend",
+    "sa-kushton-website-kosove",
   ]);
 
   const staticEntries = LOCALES.flatMap((locale) =>

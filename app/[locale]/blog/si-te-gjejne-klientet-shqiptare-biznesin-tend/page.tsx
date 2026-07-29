@@ -11,13 +11,13 @@ const CATEGORY_COLOR = "rgba(125,211,252,0.9)";
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Si Ju Gjejnë Klientët Shqiptarë Online — Shqipëri, Kosovë, Diasporë",
+    title: "Si Ju Gjejnë Klientët Shqiptarë Online: Shqipëri, Kosovë, Diasporë",
     description:
       "Si kërkojnë online shqiptarët në Shqipëri, Kosovë dhe diasporë, dhe çfarë duhet të bëjë biznesi juaj për t'u gjetur nga e gjithë kjo audiencë.",
     keywords: ["si te gjejne klientet shqiptare", "seo shqiptare diaspore", "marketing per shqiptaret jashte vendit", "biznes shqiptar online"],
   },
   en: {
-    title: "How Albanian Customers Find You Online — Albania, Kosovo, Diaspora",
+    title: "How Albanian Customers Find You Online: Albania, Kosovo, Diaspora",
     description:
       "How Albanians in Albania, Kosovo and the diaspora search online, and what your business needs to do to be found by this whole audience.",
     keywords: ["how albanians find businesses online", "albanian diaspora seo", "marketing to albanians abroad", "albanian business online"],
@@ -67,8 +67,8 @@ export default async function Page({ params }: Props) {
           date="July 2026"
           readTime="6 min read"
           related={[
-            { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diaspora", categoryColor: CATEGORY_COLOR, title: "I run a business in Albania or Kosovo but live abroad — how to manage it online" },
-            { href: "/blog/website-dygjuhesh-biznes-diaspore", category: "Diaspora", categoryColor: CATEGORY_COLOR, title: "A bilingual website (Albanian + local language) — why every diaspora Albanian business needs one" },
+            { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diaspora", categoryColor: CATEGORY_COLOR, title: "I run a business in Albania or Kosovo but live abroad: how to manage it online" },
+            { href: "/blog/website-dygjuhesh-biznes-diaspore", category: "Diaspora", categoryColor: CATEGORY_COLOR, title: "A bilingual website (Albanian + local language): why every diaspora Albanian business needs one" },
           ]}
         >
           <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -152,8 +152,8 @@ export default async function Page({ params }: Props) {
         date="Korrik 2026"
         readTime="6 min lexim"
         related={[
-          { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë — si e menaxhoj online pa qenë atje" },
-          { href: "/blog/website-dygjuhesh-biznes-diaspore", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Website dygjuhësh (shqip + gjuha e vendit) — pse i duhet çdo biznesi shqiptar në diasporë" },
+          { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje" },
+          { href: "/blog/website-dygjuhesh-biznes-diaspore", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë" },
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">

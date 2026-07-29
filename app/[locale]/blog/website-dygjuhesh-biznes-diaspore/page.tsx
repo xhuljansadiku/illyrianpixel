@@ -62,12 +62,12 @@ export default async function Page({ params }: Props) {
           categoryColor={CATEGORY_COLOR}
           breadcrumbLabel="Bilingual Websites for Diaspora Businesses"
           path={`/blog/${SLUG}`}
-          title="A bilingual website (Albanian + local language) — why every diaspora Albanian business needs one"
+          title="A bilingual website (Albanian + local language): why every diaspora Albanian business needs one"
           description="How to build a site that speaks both languages without splitting your credibility."
           date="July 2026"
           readTime="6 min read"
           related={[
-            { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diaspora", categoryColor: CATEGORY_COLOR, title: "I run a business in Albania or Kosovo but live abroad — how to manage it online" },
+            { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diaspora", categoryColor: CATEGORY_COLOR, title: "I run a business in Albania or Kosovo but live abroad: how to manage it online" },
             { href: "/blog/si-te-gjejne-klientet-shqiptare-biznesin-tend", category: "Diaspora", categoryColor: CATEGORY_COLOR, title: "How Albanian customers find your business online, wherever they are" },
           ]}
         >
@@ -146,12 +146,12 @@ export default async function Page({ params }: Props) {
         categoryColor={CATEGORY_COLOR}
         breadcrumbLabel="Website Dygjuhësh për Biznesin në Diasporë"
         path={`/blog/${SLUG}`}
-        title="Website dygjuhësh (shqip + gjuha e vendit) — pse i duhet çdo biznesi shqiptar në diasporë"
+        title="Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë"
         description="Si ndërton një website që flet të dyja gjuhët pa e ndarë besueshmërinë."
         date="Korrik 2026"
         readTime="6 min lexim"
         related={[
-          { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë — si e menaxhoj online pa qenë atje" },
+          { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje" },
           { href: "/blog/si-te-gjejne-klientet-shqiptare-biznesin-tend", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë" },
         ]}
       >

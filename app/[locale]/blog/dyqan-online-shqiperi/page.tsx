@@ -71,7 +71,7 @@ export default async function Page({ params }: Props) {
             </table>
           </div>
           <p className="text-[1.02rem] leading-relaxed text-white/68">
-            For most Albanian businesses, <strong className="text-white">WooCommerce</strong> is the optimal solution — a reasonable price and full flexibility.
+            For most Albanian businesses, <strong className="text-white">WooCommerce</strong> is the optimal solution: a reasonable price and full flexibility.
           </p>
         </section>
 

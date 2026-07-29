@@ -8,10 +8,10 @@ type Props = { params: { locale: string } | Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Web Design Tiranë: Si zgjidhni agjencinë profesionale",
+    title: "Agjenci Web Tiranë: Si të Zgjidhni Web Design Profesional (2026)",
     description:
-      "Si të zgjidhni agjencinë e duhur të web design në Tiranë. Kriteret, pyetjet e duhura dhe gabimet të shmangni para se të nënshkruani kontratën.",
-    keywords: ["web design tiranë", "agjenci web design shqipëri", "website professional tiranë", "dizajn web shqipëri"],
+      "Si të zgjidhni agjenci web tiranë të besueshme. Kriteret, pyetjet e duhura dhe gabimet të shmangni para se të nënshkruani kontratën.",
+    keywords: ["agjenci web tiranë", "web design tiranë", "agjenci web design shqipëri", "website professional tiranë"],
   },
   en: {
     title: "Web Design Tirana: How to Choose a Professional Agency",

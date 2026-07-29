@@ -42,8 +42,8 @@ export default async function Page({ params }: Props) {
         date="May 2026"
         readTime="6 min read"
         related={[
+          { href: "/blog/sa-kushton-website-kosove", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "How Much Does a Professional Website Cost in Kosovo in 2026?" },
           { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tirana: How to Choose a Professional Agency" },
-          { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tirana: How to Rank First on Google in 2026" },
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -78,8 +78,8 @@ export default async function Page({ params }: Props) {
             What affects the price of a website
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">1. Design complexity.</strong>{"\nA site with custom design costs 2–3 times more than one built on a template. Original design requires real work hours."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">2. Technical features.</strong>{"\nOnline bookings, payment systems, CRM integrations — every new feature adds development time."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">3. SEO and optimization.</strong>{"\nSites with good SEO are built differently — with precise structure, high speed, and optimized meta tags.\nThis takes extra time."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">2. Technical features.</strong>{"\nOnline bookings, payment systems, CRM integrations. Every new feature adds development time."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">3. SEO and optimization.</strong>{"\nSites with good SEO are built differently: with precise structure, high speed, and optimized meta tags.\nThis takes extra time."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">4. Maintenance and hosting.</strong>{"\nGood hosting costs €100–300/year, monthly maintenance €50–200.\nWithout them, your site will slow down and run into security issues."}</p>
         </section>
 
@@ -125,8 +125,8 @@ export default async function Page({ params }: Props) {
       date="Maj 2026"
       readTime="6 min lexim"
       related={[
+        { href: "/blog/sa-kushton-website-kosove", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Kosovë në 2026?" },
         { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë: Si të zgjidhni agjenci profesionale" },
-        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: Si të dilni i pari në Google në 2026" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">

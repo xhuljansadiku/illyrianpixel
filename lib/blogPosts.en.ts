@@ -2,8 +2,17 @@ import type { BlogPost } from "./blogPosts.sq";
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "sa-kushton-website-kosove",
+    title: "How Much Does a Professional Website Cost in Kosovo in 2026?",
+    category: "Web Design",
+    excerpt:
+      "Real website pricing in Kosovo (Pristina, Prizren, Peja) for 2026.\nWhat a professional website includes and how to choose the right agency, local or not.",
+    date: "July 2026",
+    content: []
+  },
+  {
     slug: "menaxho-biznesin-nga-diaspora",
-    title: "I run a business in Albania or Kosovo but live abroad — how to manage it online",
+    title: "I run a business in Albania or Kosovo but live abroad: how to manage it online",
     category: "Diaspora",
     excerpt:
       "How to run a business back home while living in Germany, Switzerland or the US.\nA website as your digital office that keeps working while you sleep in a different timezone.",
@@ -12,7 +21,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "website-dygjuhesh-biznes-diaspore",
-    title: "A bilingual website (Albanian + local language) — why every diaspora Albanian business needs one",
+    title: "A bilingual website (Albanian + local language): why every diaspora Albanian business needs one",
     category: "Diaspora",
     excerpt:
       "Businesses started by Albanians in Germany, Switzerland or the US serve two audiences at once.\nHow to build a site that speaks both languages without splitting your credibility.",
