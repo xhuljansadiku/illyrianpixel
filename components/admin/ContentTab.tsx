@@ -571,6 +571,7 @@ function PricingManager({
   const [drafts, setDrafts] = useState<Record<string, { price: string; note: string }>>({});
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [savedKey, setSavedKey] = useState<string | null>(null);
+  const [confirm, renderConfirm] = useConfirm();
 
   const draftFor = (key: string, fallbackPrice: string, fallbackNote: string) =>
     drafts[key] ?? {
@@ -600,6 +601,8 @@ function PricingManager({
   };
 
   const reset = async (key: string) => {
+    const ok = await confirm({ title: "Rikthe çmimin origjinal", message: "Çmimi i personalizuar për këtë paketë do të hiqet dhe do të kthehet te vlera e katalogut.", confirmText: "Rikthe" });
+    if (!ok) return;
     setBusyKey(key);
     try {
       const res = await fetch("/api/admin/pricing", {
@@ -627,6 +630,7 @@ function PricingManager({
 
   return (
     <div className="space-y-5">
+      {renderConfirm()}
       {catalog.map((cat) => (
         <div key={cat.slug} className={CARD + " p-5"}>
           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">

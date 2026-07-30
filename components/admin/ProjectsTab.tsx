@@ -334,6 +334,8 @@ export default function ProjectsTab({
   };
 
   const removeTask = async (p: ProjectRecord, taskId: number) => {
+    const ok = await confirm({ title: "Fshi detyrën", message: "Kjo detyrë do të fshihet përgjithmonë.", danger: true, confirmText: "Fshi" });
+    if (!ok) return;
     const res = await fetch(`/api/admin/project-tasks/${taskId}`, { method: "DELETE" });
     const data = await res.json();
     if (data.success) {
@@ -365,7 +367,7 @@ export default function ProjectsTab({
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <button
           onClick={openCreate}
-          className="font-ui rounded-[2px] bg-accent px-5 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)]"
+          className="font-ui rounded-[10px] bg-accent px-5 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)]"
         >
           ＋ Projekt i ri
         </button>
@@ -389,7 +391,7 @@ export default function ProjectsTab({
             ))}
           </select>
         )}
-        <div className="flex rounded-[2px] border border-[var(--a-border)]">
+        <div className="flex rounded-[10px] border border-[var(--a-border)]">
           <button
             onClick={() => setView("list")}
             className={`font-ui px-3 py-2 text-[11px] font-semibold transition-colors ${view === "list" ? "bg-accent/15 text-accent" : "text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"}`}
@@ -414,7 +416,7 @@ export default function ProjectsTab({
               key={k}
               onClick={() => bulkSetStatus(k as ProjectStatus)}
               disabled={bulkBusy}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
             >
               Shëno {v}
             </button>
@@ -422,7 +424,7 @@ export default function ProjectsTab({
           <button
             onClick={bulkDelete}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
           >
             Fshi
           </button>
@@ -510,7 +512,7 @@ export default function ProjectsTab({
             <button
               onClick={submit}
               disabled={saving}
-              className="font-ui rounded-[2px] bg-accent px-6 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)] disabled:opacity-50"
+              className="font-ui rounded-[10px] bg-accent px-6 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)] disabled:opacity-50"
             >
               {saving ? "Duke ruajtur…" : editingId ? "Ruaj ndryshimet" : "Krijo projektin"}
             </button>
@@ -519,7 +521,7 @@ export default function ProjectsTab({
                 setShowForm(false);
                 setEditingId(null);
               }}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] px-6 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] px-6 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
             >
               Anulo
             </button>
@@ -676,7 +678,7 @@ export default function ProjectsTab({
                   />
                   <button
                     onClick={() => addTask(p)}
-                    className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-2 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                    className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-2 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                   >
                     Shto
                   </button>
@@ -696,14 +698,14 @@ export default function ProjectsTab({
               <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[var(--a-border)] pt-3">
                 <button
                   onClick={() => openEdit(p)}
-                  className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                  className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                 >
                   Edito
                 </button>
                 <button
                   onClick={() => removeProject(p)}
                   disabled={busyId === p.id}
-                  className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                  className="font-ui rounded-[10px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
                 >
                   Fshi
                 </button>
@@ -718,7 +720,7 @@ export default function ProjectsTab({
           <button
             onClick={loadMore}
             disabled={loadingMore}
-            className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-[var(--a-border)] px-4 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
           >
             {loadingMore ? "Duke ngarkuar…" : "Ngarko më shumë"}
           </button>

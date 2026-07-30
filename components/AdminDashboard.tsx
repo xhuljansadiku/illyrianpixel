@@ -1427,7 +1427,7 @@ function OverviewTab({
             <button
               onClick={() => onGoToQuote("")}
               disabled={overdueInvoices.length === 0}
-              className={`rounded-[2px] border px-4 py-3 text-left transition-colors ${
+              className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
                 overdueInvoices.length === 0
                   ? "border-emerald-400/25 bg-emerald-400/5"
                   : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
@@ -1443,7 +1443,7 @@ function OverviewTab({
             <button
               onClick={() => onGoToContact("")}
               disabled={overdueFollowUps === 0}
-              className={`rounded-[2px] border px-4 py-3 text-left transition-colors ${
+              className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
                 overdueFollowUps === 0
                   ? "border-emerald-400/25 bg-emerald-400/5"
                   : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
@@ -1457,7 +1457,7 @@ function OverviewTab({
             <button
               onClick={() => onGoToProject("")}
               disabled={upcomingDeadlines.length === 0}
-              className={`rounded-[2px] border px-4 py-3 text-left transition-colors ${
+              className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
                 upcomingDeadlines.length === 0
                   ? "border-emerald-400/25 bg-emerald-400/5"
                   : overdueDeadlinesCount > 0
@@ -1486,7 +1486,7 @@ function OverviewTab({
           Shëndeti i sistemit
         </p>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          <div className={`rounded-[2px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
+          <div className={`rounded-[10px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Backup javor</p>
             <p className={`mt-1 text-[14px] font-semibold ${backupHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
               {lastBackup
@@ -1495,7 +1495,7 @@ function OverviewTab({
             </p>
           </div>
           <div
-            className={`rounded-[2px] border px-4 py-3 ${avgResponseHours === null ? "border-[var(--a-border)]" : responseHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}
+            className={`rounded-[10px] border px-4 py-3 ${avgResponseHours === null ? "border-[var(--a-border)]" : responseHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}
             title="Koha mesatare deri sa admini hap kontaktin e ri për herë të parë, 30 ditët e fundit"
           >
             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">SLA · Koha e parë përgjigjeje</p>
@@ -1505,7 +1505,7 @@ function OverviewTab({
                 : `${responseHealthy ? "✅" : "⚠️"} ${avgResponseHours < 1 ? "< 1 orë" : avgResponseHours < 24 ? `${Math.round(avgResponseHours)} orë` : `${Math.round(avgResponseHours / 24)} ditë`} mesatarisht`}
             </p>
           </div>
-          <div className="rounded-[2px] border border-[var(--a-border)] px-4 py-3">
+          <div className="rounded-[10px] border border-[var(--a-border)] px-4 py-3">
             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Automatizimi i fundit</p>
             <p className="mt-1 truncate text-[13px] font-medium text-[var(--a-text)]" title={autoActivity[0]?.label}>
               {autoActivity[0] ? autoActivity[0].label : "Asnjë veprim ende"}
@@ -1591,7 +1591,7 @@ function OverviewTab({
                 <li key={c.id}>
                   <button
                     onClick={() => onGoToContact(c.email)}
-                    className="flex w-full items-center justify-between rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-left transition-colors hover:border-accent/50"
+                    className="flex w-full items-center justify-between rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-left transition-colors hover:border-accent/50"
                   >
                     <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">
                       {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.service}</span>
@@ -1656,7 +1656,7 @@ function OverviewTab({
             {scheduledBroadcasts.map((b) => (
               <li
                 key={b.id}
-                className="flex items-center justify-between rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5"
+                className="flex items-center justify-between rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5"
               >
                 <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">{b.subject}</span>
                 <span className="text-[11px] font-semibold text-accent">
@@ -1680,7 +1680,7 @@ function OverviewTab({
                 <li key={c.id}>
                   <button
                     onClick={() => onGoToContact(c.email)}
-                    className="flex w-full items-center justify-between rounded-[2px] px-2 py-1.5 text-left transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)]"
+                    className="flex w-full items-center justify-between rounded-[10px] px-2 py-1.5 text-left transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)]"
                   >
                     <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.75)]">{c.name}</span>
                     <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(c.created_at)}</span>
@@ -2363,12 +2363,12 @@ function ContactsTab({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Kërko emër, email, telefon..."
-          className="font-ui min-w-[200px] flex-1 rounded-[2px] border border-[var(--a-border)] bg-transparent px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui min-w-[200px] flex-1 rounded-[10px] border border-[var(--a-border)] bg-transparent px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <select
           value={serviceFilter}
           onChange={(e) => setServiceFilter(e.target.value)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         >
           {services.map((s) => (
             <option key={s} value={s}>{s}</option>
@@ -2377,7 +2377,7 @@ function ContactsTab({
         <select
           value={tagFilter}
           onChange={(e) => setTagFilter(e.target.value)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         >
           {allTags.map((t) => (
             <option key={t} value={t}>{t === "Të gjitha" ? "Të gjitha etiketat" : t}</option>
@@ -2387,18 +2387,18 @@ function ContactsTab({
           type="date"
           value={dateFrom}
           onChange={(e) => setDateFrom(e.target.value)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <input
           type="date"
           value={dateTo}
           onChange={(e) => setDateTo(e.target.value)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <select
           value={followUpFilter}
           onChange={(e) => setFollowUpFilter(e.target.value as typeof followUpFilter)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         >
           <option value="all">Çdo ndjekje</option>
           <option value="none">Pa datë ndjekjeje</option>
@@ -2407,11 +2407,11 @@ function ContactsTab({
         </select>
         <button
           onClick={() => downloadContactsCSV(filtered)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
           ⬇ Export CSV
         </button>
-        <div className="flex rounded-[2px] border border-[var(--a-border)]">
+        <div className="flex rounded-[10px] border border-[var(--a-border)]">
           <button
             onClick={() => setViewMode("kanban")}
             className={`font-ui px-4 py-2.5 text-[12px] font-semibold transition-colors ${
@@ -2431,7 +2431,7 @@ function ContactsTab({
         </div>
         <button
           onClick={() => setShowTrash((v) => !v)}
-          className={`font-ui rounded-[2px] border px-4 py-2.5 text-[12px] font-semibold transition-colors ${
+          className={`font-ui rounded-[10px] border px-4 py-2.5 text-[12px] font-semibold transition-colors ${
             showTrash ? "border-accent/50 bg-accent/10 text-accent" : "border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
           }`}
         >
@@ -2440,7 +2440,7 @@ function ContactsTab({
       </div>
 
       {showTrash && (
-        <div className="mb-5 rounded-[2px] border border-[var(--a-border)] p-4">
+        <div className="mb-5 rounded-[10px] border border-[var(--a-border)] p-4">
           <p className="mb-3 font-ui text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
             Kontakte të fshira — rikthej ose fshi përgjithmonë
           </p>
@@ -2449,7 +2449,7 @@ function ContactsTab({
           ) : (
             <div className="space-y-2">
               {trashedContacts.map((tc) => (
-                <div key={tc.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[2px] border border-[var(--a-border)] px-3 py-2.5">
+                <div key={tc.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-[var(--a-border)] px-3 py-2.5">
                   <div>
                     <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{tc.name} <span className="text-[rgb(var(--a-text-rgb)/0.4)]">— {tc.service}</span></p>
                     <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">{tc.email} · fshirë më {formatDate(tc.deleted_at)}</p>
@@ -2458,14 +2458,14 @@ function ContactsTab({
                     <button
                       onClick={() => restoreContact(tc)}
                       disabled={trashBusyId === tc.id}
-                      className="font-ui rounded-[2px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                      className="font-ui rounded-[10px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                     >
                       ↩ Rikthe
                     </button>
                     <button
                       onClick={() => permanentlyDeleteContact(tc)}
                       disabled={trashBusyId === tc.id}
-                      className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                      className="font-ui rounded-[10px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
                     >
                       Fshi përgjithmonë
                     </button>
@@ -2507,7 +2507,7 @@ function ContactsTab({
 
       {/* Bulk actions toolbar */}
       {selected.size > 0 && (
-        <div className="mb-5 flex flex-wrap items-center gap-3 rounded-[2px] border border-accent/30 bg-accent/5 px-4 py-3">
+        <div className="mb-5 flex flex-wrap items-center gap-3 rounded-[10px] border border-accent/30 bg-accent/5 px-4 py-3">
           <span className="font-ui text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{selected.size} të zgjedhur</span>
           <select
             defaultValue=""
@@ -2516,7 +2516,7 @@ function ContactsTab({
               bulkUpdateStatus(e.target.value);
               e.target.value = "";
             }}
-            className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
           >
             <option value="" disabled>Ndrysho statusin...</option>
             <option value="new">I ri</option>
@@ -2526,7 +2526,7 @@ function ContactsTab({
           <button
             onClick={bulkDelete}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
           >
             Fshi të zgjedhurit
           </button>
@@ -2693,7 +2693,7 @@ function ContactsTab({
 
                               {/* Reply composer */}
                               {replyOpenFor === c.id && (
-                                <div className="mt-3 rounded-[2px] border border-accent/25 bg-accent/[0.04] p-4">
+                                <div className="mt-3 rounded-[10px] border border-accent/25 bg-accent/[0.04] p-4">
                                   <div className="flex flex-wrap items-center gap-2">
                                     <label className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
                                       Template:
@@ -2713,20 +2713,20 @@ function ContactsTab({
                                     value={replySubject}
                                     onChange={(e) => setReplySubject(e.target.value)}
                                     placeholder="Subjekti"
-                                    className="font-ui mt-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                    className="font-ui mt-3 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                   <textarea
                                     rows={5}
                                     value={replyMessage}
                                     onChange={(e) => setReplyMessage(e.target.value)}
                                     placeholder="Mesazhi..."
-                                    className="font-ui mt-2 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                    className="font-ui mt-2 w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                   <div className="mt-2 flex items-center gap-3">
                                     <button
                                       onClick={() => sendReply(c)}
                                       disabled={replySending || !replySubject.trim() || !replyMessage.trim()}
-                                      className="font-ui rounded-[2px] bg-accent px-4 py-2 text-[11px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
+                                      className="font-ui rounded-[10px] bg-accent px-4 py-2 text-[11px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
                                     >
                                       {replySending ? "Duke dërguar…" : `Dërgo te ${c.email}`}
                                     </button>
@@ -2776,12 +2776,12 @@ function ContactsTab({
                                       }
                                     }}
                                     placeholder="Shto etiketë..."
-                                    className="font-ui w-28 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2.5 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-28 rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-2.5 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                   <button
                                     onClick={() => addTag(c)}
                                     disabled={savingId === c.id || !(tagDraft[c.id] ?? "").trim()}
-                                    className="font-ui rounded-[2px] border border-accent/40 px-2.5 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                                    className="font-ui rounded-[10px] border border-accent/40 px-2.5 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                                   >
                                     +
                                   </button>
@@ -2795,7 +2795,7 @@ function ContactsTab({
                                   value={status}
                                   onChange={(e) => updateContact(c.id, { status: e.target.value })}
                                   disabled={savingId === c.id}
-                                  className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
+                                  className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
                                 >
                                   <option value="new">I ri</option>
                                   <option value="in-progress">Në proces</option>
@@ -2812,7 +2812,7 @@ function ContactsTab({
                                     value={assignedDraft[c.id] ?? c.assigned_to ?? ""}
                                     onChange={(e) => setAssignedDraft((d) => ({ ...d, [c.id]: e.target.value }))}
                                     placeholder="p.sh. Ardit"
-                                    className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                 </div>
                                 <div>
@@ -2821,7 +2821,7 @@ function ContactsTab({
                                     type="date"
                                     value={followUpDraft[c.id] ?? c.follow_up_date ?? ""}
                                     onChange={(e) => setFollowUpDraft((d) => ({ ...d, [c.id]: e.target.value }))}
-                                    className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                 </div>
                                 <div>
@@ -2832,7 +2832,7 @@ function ContactsTab({
                                     value={valueDraft[c.id] ?? (c.value === null || c.value === undefined ? "" : String(c.value))}
                                     onChange={(e) => setValueDraft((d) => ({ ...d, [c.id]: e.target.value }))}
                                     placeholder="p.sh. 900"
-                                    className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                 </div>
                               </div>
@@ -2842,7 +2842,7 @@ function ContactsTab({
                                 <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Shënime private</label>
 
                                 {c.notes ? (
-                                  <div className="mb-2 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2">
+                                  <div className="mb-2 rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2">
                                     <p className="whitespace-pre-wrap text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{c.notes}</p>
                                     <div className="mt-1.5 flex items-center justify-between">
                                       <span className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">Shënim i vjetër</span>
@@ -2861,14 +2861,14 @@ function ContactsTab({
                                 ) : (notesList[c.id] ?? []).length > 0 ? (
                                   <ul className="space-y-2">
                                     {(notesList[c.id] ?? []).map((n) => (
-                                      <li key={n.id} className="rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2">
+                                      <li key={n.id} className="rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2">
                                         {editingNoteId === n.id ? (
                                           <>
                                             <textarea
                                               rows={2}
                                               value={editNoteDraft[n.id] ?? n.text}
                                               onChange={(e) => setEditNoteDraft((d) => ({ ...d, [n.id]: e.target.value }))}
-                                              className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                              className="font-ui w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                             />
                                             <div className="mt-1.5 flex gap-3">
                                               <button
@@ -2928,12 +2928,12 @@ function ContactsTab({
                                     value={newNoteDraft[c.id] ?? ""}
                                     onChange={(e) => setNewNoteDraft((d) => ({ ...d, [c.id]: e.target.value }))}
                                     placeholder="Shto shënim..."
-                                    className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                                    className="font-ui w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
                                   />
                                   <button
                                     onClick={() => addNote(c)}
                                     disabled={addingNoteFor === c.id || !(newNoteDraft[c.id] ?? "").trim()}
-                                    className="font-ui mt-2 rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                                    className="font-ui mt-2 rounded-[10px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                                   >
                                     {addingNoteFor === c.id ? "Duke ruajtur…" : "Shto shënim"}
                                   </button>
@@ -2950,14 +2950,14 @@ function ContactsTab({
                                 <button
                                   onClick={() => saveDetails(c)}
                                   disabled={savingId === c.id}
-                                  className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                                  className="font-ui rounded-[10px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                                 >
                                   {savingId === c.id ? "Duke ruajtur…" : "Ruaj"}
                                 </button>
                                 <button
                                   onClick={() => removeContact(c.id)}
                                   disabled={deletingId === c.id}
-                                  className="font-ui rounded-[2px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+                                  className="font-ui rounded-[10px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
                                 >
                                   {deletingId === c.id ? "Duke fshirë…" : "Fshi kontaktin"}
                                 </button>
@@ -3073,14 +3073,14 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
       <div className="mb-4 flex items-center justify-between">
         <button
           onClick={() => setMonthOffset((m) => m - 1)}
-          className="rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+          className="rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
           ← Para
         </button>
         <p className="font-display text-[1.1rem] font-semibold capitalize text-[var(--a-text)]">{label}</p>
         <button
           onClick={() => setMonthOffset((m) => m + 1)}
-          className="rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+          className="rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
           Pas →
         </button>
@@ -3098,7 +3098,7 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
           return (
             <div
               key={key}
-              className={`min-h-[80px] rounded-[2px] border border-[var(--a-border)] p-1.5 ${
+              className={`min-h-[80px] rounded-[10px] border border-[var(--a-border)] p-1.5 ${
                 inMonth ? "" : "opacity-30"
               } ${isToday ? "ring-1 ring-accent/50" : ""}`}
             >
@@ -3113,7 +3113,7 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
                       key={c.id}
                       onClick={() => onSelectContact(c)}
                       title={`${c.name} · ${c.service}`}
-                      className={`block w-full truncate rounded-[2px] px-1.5 py-0.5 text-left text-[10px] transition-colors ${
+                      className={`block w-full truncate rounded-[10px] px-1.5 py-0.5 text-left text-[10px] transition-colors ${
                         overdue
                           ? "bg-red-400/10 text-red-400 hover:bg-red-400/20"
                           : "bg-accent/10 text-accent hover:bg-accent/20"
@@ -3343,20 +3343,20 @@ function SubscribersTab({
           value={broadcastSubject}
           onChange={(e) => setBroadcastSubject(e.target.value)}
           placeholder="Subjekti"
-          className="font-ui mb-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui mb-3 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <textarea
           rows={5}
           value={broadcastMessage}
           onChange={(e) => setBroadcastMessage(e.target.value)}
           placeholder="Mesazhi..."
-          className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             onClick={sendBroadcast}
             disabled={broadcastSending || !broadcastSubject.trim() || !broadcastMessage.trim() || activeCount === 0}
-            className="font-ui rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
+            className="font-ui rounded-[10px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
           >
             {broadcastSending
               ? "Duke dërguar…"
@@ -3370,7 +3370,7 @@ function SubscribersTab({
               type="datetime-local"
               value={broadcastScheduled}
               onChange={(e) => setBroadcastScheduled(e.target.value)}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
             {broadcastScheduled && (
               <button
@@ -3411,7 +3411,7 @@ function SubscribersTab({
                   const ctr = b.sent_count > 0 ? (b.clicks / b.sent_count) * 100 : 0;
                   return (
                     <tr key={b.id} className="border-t border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.65)]">
-                      <td className="max-w-[220px] truncate py-2.5 pr-4 text-[var(--a-text)]">
+                      <td className="max-w-[220px] truncate py-2.5 pr-4 text-[var(--a-text)]" title={b.subject}>
                         {b.subject}
                         {pending && (
                           <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
@@ -3449,12 +3449,12 @@ function SubscribersTab({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Kërko email..."
-          className="font-ui min-w-[200px] flex-1 rounded-[2px] border border-[var(--a-border)] bg-transparent px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui min-w-[200px] flex-1 rounded-[10px] border border-[var(--a-border)] bg-transparent px-4 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
-          className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         >
           <option value="all">Të gjithë</option>
           <option value="active">Aktivë</option>
@@ -3463,7 +3463,7 @@ function SubscribersTab({
         <button
           onClick={() => downloadCSV(subscribers)}
           disabled={subscribers.length === 0}
-          className="font-ui rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
+          className="font-ui rounded-[10px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
         >
           ⬇ Export CSV
         </button>
@@ -3471,12 +3471,12 @@ function SubscribersTab({
 
       {/* Bulk actions toolbar */}
       {selected.size > 0 && (
-        <div className="mb-4 flex flex-wrap items-center gap-3 rounded-[2px] border border-accent/30 bg-accent/5 px-4 py-3">
+        <div className="mb-4 flex flex-wrap items-center gap-3 rounded-[10px] border border-accent/30 bg-accent/5 px-4 py-3">
           <span className="font-ui text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{selected.size} të zgjedhur</span>
           <button
             onClick={bulkDelete}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-red-400/30 px-4 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
           >
             Fshi të zgjedhurit
           </button>
@@ -3505,7 +3505,7 @@ function SubscribersTab({
                 onChange={() => toggleSelect(s.id)}
                 className="accent-accent"
               />
-              <span className="truncate text-[14px] text-[rgb(var(--a-text-rgb)/0.8)]">{s.email}</span>
+              <span className="truncate text-[14px] text-[rgb(var(--a-text-rgb)/0.8)]" title={s.email}>{s.email}</span>
               {s.unsubscribed && (
                 <span className="shrink-0 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]">
                   Çregjistruar
@@ -3555,7 +3555,7 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
       <button
         onClick={() => onChange(Math.max(1, page - 1))}
         disabled={page === 1}
-        className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-30"
+        className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-30"
       >
         ← Prapa
       </button>
@@ -3565,7 +3565,7 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
       <button
         onClick={() => onChange(Math.min(totalPages, page + 1))}
         disabled={page === totalPages}
-        className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-30"
+        className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-30"
       >
         Tjetër →
       </button>
@@ -3792,7 +3792,7 @@ function BlogTab({
             value={form.slug}
             onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
             disabled={!!editingId}
-            className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
           />
           <div>
             <select
@@ -3806,7 +3806,7 @@ function BlogTab({
                   setForm((f) => ({ ...f, category: e.target.value }));
                 }
               }}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             >
               <option value="" disabled>
                 Zgjedh kategorinë
@@ -3824,7 +3824,7 @@ function BlogTab({
                 placeholder="Emri i kategorisë së re"
                 value={form.category}
                 onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                className="font-ui mt-2 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-ui mt-2 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
             )}
           </div>
@@ -3834,28 +3834,28 @@ function BlogTab({
           placeholder="Titulli"
           value={form.title}
           onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-          className="font-ui mt-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <textarea
           placeholder="Përmbledhje (excerpt)"
           rows={2}
           value={form.excerpt}
           onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
-          className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <input
           type="text"
           placeholder="Data (p.sh. Qershor 2026)"
           value={form.date}
           onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-          className="font-ui mt-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <textarea
           placeholder="Përmbajtja — ndaj paragrafët me një rresht bosh"
           rows={6}
           value={form.content}
           onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-          className="font-ui mt-3 w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+          className="font-ui mt-3 w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] leading-relaxed text-[var(--a-text)] outline-none transition-colors focus:border-accent"
         />
         <div className="mt-3">
           <textarea
@@ -3864,7 +3864,7 @@ function BlogTab({
             maxLength={160}
             value={form.meta_description}
             onChange={(e) => setForm((f) => ({ ...f, meta_description: e.target.value }))}
-            className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+            className="font-ui w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
           />
           <p className="mt-1 text-right text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
             {form.meta_description.length}/160 — nëse lihet bosh, përdoret përmbledhja
@@ -3880,7 +3880,7 @@ function BlogTab({
               type="datetime-local"
               value={form.scheduled}
               onChange={(e) => setForm((f) => ({ ...f, scheduled: e.target.value }))}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
             {form.scheduled && (
               <button
@@ -3899,14 +3899,14 @@ function BlogTab({
           <button
             onClick={submit}
             disabled={saving}
-            className="font-ui rounded-[2px] bg-accent px-6 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)] disabled:opacity-50"
+            className="font-ui rounded-[10px] bg-accent px-6 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)] disabled:opacity-50"
           >
             {saving ? "Duke ruajtur…" : editingId ? "Ruaj ndryshimet" : "Shto artikullin"}
           </button>
           {editingId && (
             <button
               onClick={cancelEdit}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] px-6 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] px-6 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
             >
               Anulo
             </button>
@@ -3926,21 +3926,21 @@ function BlogTab({
           <button
             onClick={() => bulkSetPublished(true)}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-emerald-400/30 px-3 py-1.5 text-[11px] font-semibold text-emerald-300 transition-colors hover:bg-emerald-400/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-emerald-400/30 px-3 py-1.5 text-[11px] font-semibold text-emerald-300 transition-colors hover:bg-emerald-400/10 disabled:opacity-50"
           >
             Publiko
           </button>
           <button
             onClick={() => bulkSetPublished(false)}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
           >
             Çpubliko
           </button>
           <button
             onClick={bulkDelete}
             disabled={bulkBusy}
-            className="font-ui rounded-[2px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-red-400/30 px-3 py-1.5 text-[11px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10 disabled:opacity-50"
           >
             Fshi
           </button>
@@ -3978,13 +3978,13 @@ function BlogTab({
             <div className="flex shrink-0 gap-2">
               <button
                 onClick={() => startEdit(p)}
-                className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
               >
                 Edito
               </button>
               <button
                 onClick={() => remove(p.id)}
-                className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-red-400/70 transition-colors hover:border-red-400/50 hover:text-red-400"
+                className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-red-400/70 transition-colors hover:border-red-400/50 hover:text-red-400"
               >
                 Fshi
               </button>
@@ -4004,7 +4004,7 @@ function BlogTab({
               <p className="font-display font-semibold text-[var(--a-text)]">{p.title}</p>
               <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.35)]">{p.category} · {p.date} · /blog/{p.slug}</p>
             </div>
-            <span className="shrink-0 rounded-[2px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
+            <span className="shrink-0 rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
               Statik
             </span>
           </div>
@@ -4122,7 +4122,7 @@ function AnalyticsTab({
             <button
               key={opt}
               onClick={() => setRangeOption(opt)}
-              className={`font-ui rounded-[2px] border px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+              className={`font-ui rounded-[10px] border px-3 py-1.5 text-[12px] font-semibold transition-colors ${
                 rangeOption === opt
                   ? "border-accent/50 bg-accent/10 text-accent"
                   : "border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
@@ -4133,7 +4133,7 @@ function AnalyticsTab({
           ))}
           <button
             onClick={() => setRangeOption("custom")}
-            className={`font-ui rounded-[2px] border px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+            className={`font-ui rounded-[10px] border px-3 py-1.5 text-[12px] font-semibold transition-colors ${
               rangeOption === "custom"
                 ? "border-accent/50 bg-accent/10 text-accent"
                 : "border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
@@ -4148,7 +4148,7 @@ function AnalyticsTab({
                 value={customFrom}
                 onChange={(e) => setCustomFrom(e.target.value)}
                 max={customTo || undefined}
-                className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
               <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">—</span>
               <input
@@ -4156,14 +4156,14 @@ function AnalyticsTab({
                 value={customTo}
                 onChange={(e) => setCustomTo(e.target.value)}
                 min={customFrom || undefined}
-                className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
             </div>
           )}
         </div>
         <button
           onClick={() => printMonthlyReport(contacts, stats)}
-          className="font-ui rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10"
+          className="font-ui rounded-[10px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10"
         >
           🖨 Eksporto raport (PDF)
         </button>
@@ -4485,7 +4485,7 @@ function TwoFactorCard() {
           <button
             onClick={startSetup}
             disabled={busy}
-            className="font-ui mt-4 rounded-[2px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+            className="font-ui mt-4 rounded-[10px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
           >
             {busy ? "Duke përgatitur…" : "Aktivizo 2FA"}
           </button>
@@ -4501,7 +4501,7 @@ function TwoFactorCard() {
               1. Skano kodin QR me aplikacionin autentifikues.<br />
               2. Ose shtoje manualisht me këtë sekret:
             </p>
-            <code className="mt-2 block break-all rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 font-mono text-[11px] text-accent">
+            <code className="mt-2 block break-all rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 font-mono text-[11px] text-accent">
               {setup.secret}
             </code>
             <p className="mt-3 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)]">3. Shkruaj kodin 6-shifror për ta konfirmuar:</p>
@@ -4513,12 +4513,12 @@ function TwoFactorCard() {
                 value={token}
                 onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
                 placeholder="000000"
-                className="font-mono w-32 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[16px] tracking-[0.3em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-mono w-32 rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[16px] tracking-[0.3em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
               <button
                 onClick={confirmEnable}
                 disabled={busy || token.length !== 6}
-                className="font-ui rounded-[2px] bg-accent px-4 py-2 text-[12px] font-bold text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
+                className="font-ui rounded-[10px] bg-accent px-4 py-2 text-[12px] font-bold text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
               >
                 {busy ? "…" : "Konfirmo"}
               </button>
@@ -4540,13 +4540,13 @@ function TwoFactorCard() {
           </p>
 
           {recoveryCodes && (
-            <div className="mt-4 rounded-[2px] border border-accent/30 bg-accent/5 p-4">
+            <div className="mt-4 rounded-[10px] border border-accent/30 bg-accent/5 p-4">
               <p className="text-[12px] font-semibold text-[var(--a-text)]">
                 Kodet e rezervës — ruaji tani, nuk do të shfaqen përsëri:
               </p>
               <div className="mt-2 grid grid-cols-2 gap-1.5 font-mono text-[12px] tracking-[0.05em] text-accent sm:grid-cols-3">
                 {recoveryCodes.map((c) => (
-                  <code key={c} className="rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-center">
+                  <code key={c} className="rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-center">
                     {c}
                   </code>
                 ))}
@@ -4554,7 +4554,7 @@ function TwoFactorCard() {
               <div className="mt-3 flex items-center gap-3">
                 <button
                   onClick={() => downloadRecoveryCodes(recoveryCodes)}
-                  className="font-ui rounded-[2px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10"
+                  className="font-ui rounded-[10px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10"
                 >
                   Shkarko kodet
                 </button>
@@ -4576,7 +4576,7 @@ function TwoFactorCard() {
                   setRegenToken("");
                   setError("");
                 }}
-                className="font-ui rounded-[2px] border border-[var(--a-border)] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+                className="font-ui rounded-[10px] border border-[var(--a-border)] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
               >
                 Rigjenero kodet e rezervës
               </button>
@@ -4586,7 +4586,7 @@ function TwoFactorCard() {
                   setToken("");
                   setError("");
                 }}
-                className="font-ui rounded-[2px] border border-red-400/30 px-4 py-2 text-[12px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10"
+                className="font-ui rounded-[10px] border border-red-400/30 px-4 py-2 text-[12px] font-semibold text-red-400/80 transition-colors hover:bg-red-400/10"
               >
                 Çaktivizo 2FA
               </button>
@@ -4605,12 +4605,12 @@ function TwoFactorCard() {
                 value={regenToken}
                 onChange={(e) => setRegenToken(e.target.value.replace(/\D/g, ""))}
                 placeholder="000000"
-                className="font-mono w-32 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[14px] tracking-[0.25em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-mono w-32 rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[14px] tracking-[0.25em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
               <button
                 onClick={confirmRegenerate}
                 disabled={busy || regenToken.length !== 6}
-                className="font-ui rounded-[2px] bg-accent px-4 py-2 text-[12px] font-bold text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
+                className="font-ui rounded-[10px] bg-accent px-4 py-2 text-[12px] font-bold text-[#0a0a0a] transition-all hover:shadow-[0_0_16px_rgba(171,131,57,0.4)] disabled:opacity-40"
               >
                 {busy ? "…" : "Konfirmo"}
               </button>
@@ -4632,12 +4632,12 @@ function TwoFactorCard() {
                 value={token}
                 onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
                 placeholder="Kodi aktual"
-                className="font-mono w-36 rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[14px] tracking-[0.25em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-mono w-36 rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-center text-[14px] tracking-[0.25em] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
               <button
                 onClick={confirmDisable}
                 disabled={busy || token.length !== 6}
-                className="font-ui rounded-[2px] border border-red-400/40 px-4 py-2 text-[12px] font-semibold text-red-400 transition-colors hover:bg-red-400/10 disabled:opacity-40"
+                className="font-ui rounded-[10px] border border-red-400/40 px-4 py-2 text-[12px] font-semibold text-red-400 transition-colors hover:bg-red-400/10 disabled:opacity-40"
               >
                 {busy ? "…" : "Konfirmo çaktivizimin"}
               </button>
@@ -4729,7 +4729,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.newsletter_discount_code}
               onChange={(e) => setSettings((s) => ({ ...s, newsletter_discount_code: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
@@ -4740,7 +4740,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.whatsapp_number}
               onChange={(e) => setSettings((s) => ({ ...s, whatsapp_number: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
         </div>
@@ -4748,7 +4748,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
           <button
             onClick={save}
             disabled={saving}
-            className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
           >
             {saving ? "Duke ruajtur…" : "Ruaj"}
           </button>
@@ -4784,7 +4784,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_eyebrow}
               onChange={(e) => setSettings((s) => ({ ...s, popup_eyebrow: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
@@ -4795,7 +4795,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_title}
               onChange={(e) => setSettings((s) => ({ ...s, popup_title: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
@@ -4806,7 +4806,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_text}
               onChange={(e) => setSettings((s) => ({ ...s, popup_text: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
@@ -4817,7 +4817,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_cta}
               onChange={(e) => setSettings((s) => ({ ...s, popup_cta: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
         </div>
@@ -4833,7 +4833,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_eyebrow_en}
               onChange={(e) => setSettings((s) => ({ ...s, popup_eyebrow_en: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
@@ -4844,7 +4844,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_title_en}
               onChange={(e) => setSettings((s) => ({ ...s, popup_title_en: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
@@ -4855,7 +4855,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_text_en}
               onChange={(e) => setSettings((s) => ({ ...s, popup_text_en: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
           <div>
@@ -4866,7 +4866,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="text"
               value={settings.popup_cta_en}
               onChange={(e) => setSettings((s) => ({ ...s, popup_cta_en: e.target.value }))}
-              className="font-ui w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
           </div>
         </div>
@@ -4874,7 +4874,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
           <button
             onClick={save}
             disabled={saving}
-            className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+            className="font-ui rounded-[10px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
           >
             {saving ? "Duke ruajtur…" : "Ruaj"}
           </button>
@@ -4898,19 +4898,19 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
               type="date"
               value={loginsSince}
               onChange={(e) => setLoginsSince(e.target.value)}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
             <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">—</span>
             <input
               type="date"
               value={loginsUntil}
               onChange={(e) => setLoginsUntil(e.target.value)}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-2 py-1 text-[11px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
             />
             <button
               onClick={filterLogins}
               disabled={loginsLoading}
-              className="font-ui rounded-[2px] border border-accent/40 px-3 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+              className="font-ui rounded-[10px] border border-accent/40 px-3 py-1 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
             >
               {loginsLoading ? "…" : "Filtro"}
             </button>
@@ -4925,7 +4925,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
             <button
               onClick={() => downloadLoginHistoryCSV(logins)}
               disabled={logins.length === 0}
-              className="font-ui rounded-[2px] border border-[var(--a-border)] px-3 py-1 text-[11px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
+              className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1 text-[11px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
             >
               ⬇ CSV
             </button>
@@ -4960,7 +4960,7 @@ function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin
         <a
           href="/api/admin/export"
           download
-          className="font-ui inline-flex items-center gap-2 rounded-[2px] border border-accent/40 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-accent transition-colors hover:bg-accent/10"
+          className="font-ui inline-flex items-center gap-2 rounded-[10px] border border-accent/40 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-accent transition-colors hover:bg-accent/10"
         >
           ⬇ Shkarko backup (JSON)
         </a>
@@ -5032,7 +5032,7 @@ function EmailTemplatesEditor() {
         {EMAIL_TEMPLATE_KEYS.map((key) => {
           const draft = drafts[key] ?? { subject: "", intro: "" };
           return (
-            <div key={key} className="rounded-[2px] border border-[var(--a-border)] p-4">
+            <div key={key} className="rounded-[10px] border border-[var(--a-border)] p-4">
               <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                 <p className="text-[12px] font-semibold text-[var(--a-text)]">{EMAIL_TEMPLATE_LABELS[key]}</p>
                 {EMAIL_TEMPLATE_PLACEHOLDERS[key].length > 0 && (
@@ -5052,7 +5052,7 @@ function EmailTemplatesEditor() {
                 onChange={(e) =>
                   setDrafts((d) => ({ ...d, [key]: { ...draft, subject: e.target.value } }))
                 }
-                className="font-ui mb-3 w-full rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-ui mb-3 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
               <label className="mb-1 block text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
                 Teksti
@@ -5063,13 +5063,13 @@ function EmailTemplatesEditor() {
                 onChange={(e) =>
                   setDrafts((d) => ({ ...d, [key]: { ...draft, intro: e.target.value } }))
                 }
-                className="font-ui w-full resize-none rounded-[2px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+                className="font-ui w-full resize-none rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
               <div className="mt-2 flex items-center gap-3">
                 <button
                   onClick={() => save(key)}
                   disabled={savingKey === key}
-                  className="font-ui rounded-[2px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                  className="font-ui rounded-[10px] border border-accent/40 px-4 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                 >
                   {savingKey === key ? "Duke ruajtur…" : "Ruaj"}
                 </button>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, useDebounced, useToasts, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm } from "@/components/admin/ui";
 import type { Contact } from "@/components/AdminDashboard";
 import { PROJECT_STATUS_LABELS, type ProjectRecord } from "@/lib/projects";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
@@ -223,6 +223,54 @@ function formatMonth(iso: string) {
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
+function ClientRowActions({
+  row,
+  copiedKey,
+  offerBusyKey,
+  offerSentKeys,
+  onEdit,
+  onCopyPortalLink,
+  onSendOffer,
+  onDelete,
+}: {
+  row: ClientRow;
+  copiedKey: string | null;
+  offerBusyKey: string | null;
+  offerSentKeys: Set<string>;
+  onEdit: (row: ClientRow) => void;
+  onCopyPortalLink: (row: ClientRow) => void;
+  onSendOffer: (row: ClientRow) => void;
+  onDelete: (row: ClientRow) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      <button onClick={() => onEdit(row)} className={BTN_PLAIN}>
+        Redakto
+      </button>
+      {row.contact?.portal_token && (
+        <button onClick={() => onCopyPortalLink(row)} className={BTN_PLAIN}>
+          {copiedKey === row.key ? "U kopjua ✓" : "Portali"}
+        </button>
+      )}
+      {row.recurringCount === 0 && row.email && (
+        <button
+          onClick={() => onSendOffer(row)}
+          disabled={offerBusyKey === row.key || offerSentKeys.has(row.key)}
+          className={BTN_PLAIN + " disabled:opacity-40"}
+          title="Dërgo email me planet e mirëmbajtjes"
+        >
+          {offerBusyKey === row.key ? "Duke dërguar…" : offerSentKeys.has(row.key) ? "Oferta u dërgua ✓" : "🛡 Mirëmbajtja"}
+        </button>
+      )}
+      {row.manualId && (
+        <button onClick={() => onDelete(row)} className={BTN_DANGER}>
+          Fshi
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function ClientsTab({
   contacts,
   projects,
@@ -242,6 +290,7 @@ export default function ClientsTab({
   const [offerBusyKey, setOfferBusyKey] = useState<string | null>(null);
   const [offerSentKeys, setOfferSentKeys] = useState<Set<string>>(new Set());
   const [manualClients, setManualClients] = useState<ManualClient[]>([]);
+  const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
   const [form, setForm] = useState<ClientForm>(EMPTY_CLIENT_FORM);
   const [editingRow, setEditingRow] = useState<ClientRow | null>(null);
@@ -254,7 +303,11 @@ export default function ClientsTab({
       .then((r) => r.json())
       .then((d) => {
         if (d.success) setManualClients(d.clients);
-      });
+        else pushToast(d.error ?? "S'u ngarkuan dot klientët manualë.", "error");
+      })
+      .catch(() => pushToast("Gabim lidhjeje gjatë ngarkimit të klientëve.", "error"))
+      .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const autoClients = useMemo(() => buildClients(contacts, projects, quotes, recurring), [contacts, projects, quotes, recurring]);
@@ -473,7 +526,9 @@ export default function ClientsTab({
         </div>
       )}
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <SkeletonRows rows={3} />
+      ) : filtered.length === 0 ? (
         <div className={CARD}>
           <EmptyState
             text={
@@ -484,7 +539,101 @@ export default function ClientsTab({
           />
         </div>
       ) : (
-        <div className={CARD + " overflow-x-auto"}>
+        <>
+        {/* Mobile: reflowing cards instead of a fixed-width table that needs horizontal scroll */}
+        <div className="space-y-3 sm:hidden">
+          {filtered.map((row) => (
+            <div key={row.key} className={CARD + " space-y-3 p-4"}>
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <button
+                    onClick={() => onGoToContact(row.name)}
+                    className="block font-ui text-[13px] font-semibold text-[var(--a-text)] hover:text-accent"
+                  >
+                    {row.name}
+                  </button>
+                  {row.business && <p className="mt-0.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</p>}
+                </div>
+                {row.recurringCount > 0 ? (
+                  <span className="shrink-0 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                    rekurrent
+                  </span>
+                ) : (
+                  (row.paidTotal > 0 || row.projects.length > 0) && (
+                    <span
+                      className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90"
+                      title="Klient pa plan mirëmbajtjeje — mundësi upsell-i"
+                    >
+                      pa mirëmbajtje
+                    </span>
+                  )
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-[11px]">
+                <div>
+                  <p className="text-[rgb(var(--a-text-rgb)/0.4)]">Shërbimi</p>
+                  <p className="mt-0.5 text-[rgb(var(--a-text-rgb)/0.75)]" title={row.service ?? undefined}>{row.service || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-[rgb(var(--a-text-rgb)/0.4)]">Klient që nga</p>
+                  <p className="mt-0.5 text-[rgb(var(--a-text-rgb)/0.75)]">{formatMonth(row.since)}</p>
+                </div>
+              </div>
+
+              {row.projects.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {row.projects.map((p) => (
+                    <span
+                      key={p.id}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[10.5px] text-[rgb(var(--a-text-rgb)/0.65)]"
+                    >
+                      <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[p.status]}`} />
+                      {p.name} · {PROJECT_STATUS_LABELS[p.status]}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {(row.paidTotal > 0 || row.recurringMonthly > 0 || row.pendingTotal > 0) && (
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
+                  {row.paidTotal > 0 && <span className="font-ui font-semibold text-emerald-400">{formatMoney(row.paidTotal)}</span>}
+                  {row.recurringMonthly > 0 && <span className="text-accent">{formatMoney(row.recurringMonthly)}/muaj</span>}
+                  {row.pendingTotal > 0 && <span className="text-[rgb(var(--a-text-rgb)/0.45)]">{formatMoney(row.pendingTotal)} në pritje</span>}
+                </div>
+              )}
+
+              {(row.email || row.phone) && (
+                <div className="flex flex-col gap-0.5 text-[11px]">
+                  {row.email && (
+                    <a href={`mailto:${row.email}`} className="text-[rgb(var(--a-text-rgb)/0.6)] hover:text-accent">
+                      {row.email}
+                    </a>
+                  )}
+                  {row.phone && (
+                    <a href={`tel:${row.phone}`} className="text-[rgb(var(--a-text-rgb)/0.6)] hover:text-accent">
+                      {row.phone}
+                    </a>
+                  )}
+                </div>
+              )}
+
+              <ClientRowActions
+                row={row}
+                copiedKey={copiedKey}
+                offerBusyKey={offerBusyKey}
+                offerSentKeys={offerSentKeys}
+                onEdit={openEdit}
+                onCopyPortalLink={copyPortalLink}
+                onSendOffer={sendMaintenanceOffer}
+                onDelete={handleDeleteClient}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop/tablet: full table */}
+        <div className={CARD + " hidden overflow-x-auto sm:block"}>
           <table className="w-full min-w-[920px] border-collapse text-[12px]">
             <thead>
               <tr className="border-b border-[var(--a-border)] text-left text-[10px] uppercase tracking-[0.08em] text-[rgb(var(--a-text-rgb)/0.45)]">
@@ -523,7 +672,7 @@ export default function ClientsTab({
                       )
                     )}
                   </td>
-                  <td className="px-4 py-3 align-top text-[rgb(var(--a-text-rgb)/0.7)]">{row.service || "—"}</td>
+                  <td className="px-4 py-3 align-top text-[rgb(var(--a-text-rgb)/0.7)]" title={row.service ?? undefined}>{row.service || "—"}</td>
                   <td className="px-4 py-3 align-top text-[rgb(var(--a-text-rgb)/0.7)]">{formatMonth(row.since)}</td>
                   <td className="px-4 py-3 align-top">
                     {row.projects.length === 0 ? (
@@ -572,37 +721,23 @@ export default function ClientsTab({
                     </div>
                   </td>
                   <td className="px-4 py-3 align-top">
-                    <div className="flex flex-wrap gap-1.5">
-                      <button onClick={() => openEdit(row)} className={BTN_PLAIN}>
-                        Redakto
-                      </button>
-                      {row.contact?.portal_token && (
-                        <button onClick={() => copyPortalLink(row)} className={BTN_PLAIN}>
-                          {copiedKey === row.key ? "U kopjua ✓" : "Portali"}
-                        </button>
-                      )}
-                      {row.recurringCount === 0 && row.email && (
-                        <button
-                          onClick={() => sendMaintenanceOffer(row)}
-                          disabled={offerBusyKey === row.key || offerSentKeys.has(row.key)}
-                          className={BTN_PLAIN + " disabled:opacity-40"}
-                          title="Dërgo email me planet e mirëmbajtjes"
-                        >
-                          {offerBusyKey === row.key ? "Duke dërguar…" : offerSentKeys.has(row.key) ? "Oferta u dërgua ✓" : "🛡 Mirëmbajtja"}
-                        </button>
-                      )}
-                      {row.manualId && (
-                        <button onClick={() => handleDeleteClient(row)} className={BTN_DANGER}>
-                          Fshi
-                        </button>
-                      )}
-                    </div>
+                    <ClientRowActions
+                      row={row}
+                      copiedKey={copiedKey}
+                      offerBusyKey={offerBusyKey}
+                      offerSentKeys={offerSentKeys}
+                      onEdit={openEdit}
+                      onCopyPortalLink={copyPortalLink}
+                      onSendOffer={sendMaintenanceOffer}
+                      onDelete={handleDeleteClient}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        </>
       )}
     </div>
   );

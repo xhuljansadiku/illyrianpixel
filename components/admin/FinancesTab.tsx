@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, useDebounced, useToasts, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm } from "@/components/admin/ui";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
 
 type Expense = {
@@ -358,7 +358,7 @@ export default function FinancesTab({ quotes, recurring }: { quotes: QuoteRecord
       )}
 
       {loading ? (
-        <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">Duke ngarkuar…</p>
+        <SkeletonRows rows={3} />
       ) : filtered.length === 0 ? (
         <div className={CARD}>
           <EmptyState text={expenses.length === 0 ? "Ende s'ka shpenzime të regjistruara." : "Asnjë shpenzim nuk përputhet me kërkimin."} />
