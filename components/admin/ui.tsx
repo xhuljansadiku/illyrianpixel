@@ -20,6 +20,14 @@ export function formatDay(iso: string) {
   return `${get("day")}/${get("month")}`;
 }
 
+export function isOverdue(c: { follow_up_date: string | null; status: string | null }) {
+  if (!c.follow_up_date) return false;
+  if ((c.status || "new") === "done") return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(`${c.follow_up_date}T00:00:00`) < today;
+}
+
 export const STATUS_LABELS: Record<string, string> = {
   new: "I ri",
   "in-progress": "Në proces",
