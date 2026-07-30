@@ -15,6 +15,11 @@ export function formatDate(iso: string) {
   return `${get("day")}/${get("month")}/${get("year")}, ${get("hour")}:${get("minute")}`;
 }
 
+export function formatDay(iso: string) {
+  const get = dateParts(iso, { day: "2-digit", month: "2-digit" });
+  return `${get("day")}/${get("month")}`;
+}
+
 export const STATUS_LABELS: Record<string, string> = {
   new: "I ri",
   "in-progress": "Në proces",
