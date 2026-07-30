@@ -16,8 +16,9 @@ const ITEM = {
   after_h: 760,
 };
 
-// Të dyja fotot ndajnë të njëjtën lartësi — gjerësia e secilës rrjedh vetë
-// nga aspect-ratio i saj real (jo e prerë, jo e shtrembëruar).
+// Mobile: të dyja kutitë kanë gjerësi+lartësi fikse identike (object-contain
+// letterbox-on nëse s'përputhet raporti). Desktop (md+): gjerësia rrjedh nga
+// aspect-ratio real i secilës foto, vetëm lartësia ndahet.
 const SHARED_HEIGHT = "h-[220px] sm:h-[300px] md:h-[360px] lg:h-[420px]";
 
 function Frame({
@@ -64,10 +65,10 @@ function Frame({
         </span>
       </div>
       <div
-        className={`relative z-[1] bg-[#111111] ${SHARED_HEIGHT}`}
+        className={`relative z-[1] w-[86vw] max-w-sm bg-[#111111] md:w-auto md:max-w-none ${SHARED_HEIGHT}`}
         style={{ aspectRatio: `${width} / ${height}` }}
       >
-        <Image src={src} alt={alt} fill sizes="(max-width: 768px) 90vw, 45vw" className="object-contain" />
+        <Image src={src} alt={alt} fill sizes="(max-width: 768px) 86vw, 45vw" className="object-contain" />
       </div>
     </div>
   );
@@ -107,10 +108,10 @@ export default function BeforeAfter() {
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_75%,rgba(171,131,57,0.07),transparent_42%)]" />
 
       <div className="section-wrap relative z-[1]">
-        <div className="before-after-heading">
+        <div className="before-after-heading flex flex-col items-center text-center md:items-start md:text-left">
           <SectionMark label={t("eyebrow")} />
           <h2 className="section-title mt-3 max-w-4xl">{t("title")}</h2>
-          <div className="mt-3 flex flex-wrap items-center gap-3">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-3 md:justify-start">
             <span className="rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent/90">
               {t("badge")}
             </span>

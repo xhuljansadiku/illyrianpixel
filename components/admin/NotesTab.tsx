@@ -16,12 +16,22 @@ export default function NotesTab() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Note | null>(null);
+  const [viewing, setViewing] = useState<Note | null>(null);
   const [form, setForm] = useState({ title: "", content: "" });
   const [saving, setSaving] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const addTitle = useRef<HTMLInputElement>(null);
   const { pushToast, renderToasts } = useToasts();
   const [confirm, renderConfirm] = useConfirm();
+
+  useEffect(() => {
+    if (!viewing) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setViewing(null);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [viewing]);
 
   useEffect(() => {
     fetch("/api/admin/notes")
@@ -86,6 +96,24 @@ export default function NotesTab() {
       {renderToasts()}
       {renderConfirm()}
 
+      {viewing && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+          onMouseDown={(e) => { if (e.target === e.currentTarget) setViewing(null); }}
+        >
+          <div role="dialog" aria-modal="true" className={CARD + " w-full max-w-lg max-h-[80vh] overflow-y-auto p-5"}>
+            <div className="flex items-start justify-between gap-3">
+              {viewing.title && <h3 className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{viewing.title}</h3>}
+              <button onClick={() => setViewing(null)} className="shrink-0 text-[13px] opacity-60 hover:opacity-100 transition-opacity">✕</button>
+            </div>
+            <p className="mt-3 text-[13px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.8)] whitespace-pre-wrap">{viewing.content}</p>
+            <p className="mt-4 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+              {new Date(viewing.updated_at).toLocaleDateString("sq-AL")}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Add button */}
       {!showAdd && !editing && (
         <button onClick={() => setShowAdd(true)} className={BTN_GOLD}>+ Shënim i ri</button>
@@ -139,6 +167,7 @@ export default function NotesTab() {
                 </button>
               </div>
               <div className="flex gap-2 mt-auto pt-1">
+                <button onClick={() => setViewing(note)} className={BTN_PLAIN + " text-[10px] px-2 py-1"}>Shiko</button>
                 <button onClick={() => startEdit(note)} className={BTN_PLAIN + " text-[10px] px-2 py-1"}>Ndrysho</button>
                 <button onClick={() => handleDelete(note)} className={BTN_DANGER + " text-[10px] px-2 py-1"}>Fshi</button>
               </div>
