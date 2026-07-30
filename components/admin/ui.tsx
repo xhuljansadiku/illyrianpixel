@@ -15,6 +15,12 @@ export function formatDate(iso: string) {
   return `${get("day")}/${get("month")}/${get("year")}, ${get("hour")}:${get("minute")}`;
 }
 
+export const STATUS_LABELS: Record<string, string> = {
+  new: "I ri",
+  "in-progress": "Në proces",
+  done: "Mbyllur",
+};
+
 export const CARD =
   "relative overflow-hidden rounded-[1.25rem] border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-[var(--a-card-shadow)] backdrop-blur-[12px]";
 
