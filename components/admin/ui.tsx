@@ -2,6 +2,19 @@
 
 import { forwardRef, useEffect, useRef, useState, type ReactNode } from "react";
 
+// Uses "en-GB" (always fully supported) to extract numeric date parts, then
+// assembles the display string ourselves so server and client always agree
+// byte-for-byte — avoids hydration mismatches from locale data gaps in Node.
+export function dateParts(iso: string, opts: Intl.DateTimeFormatOptions) {
+  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Tirane", ...opts }).formatToParts(new Date(iso));
+  return (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+}
+
+export function formatDate(iso: string) {
+  const get = dateParts(iso, { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+  return `${get("day")}/${get("month")}/${get("year")}, ${get("hour")}:${get("minute")}`;
+}
+
 export const CARD =
   "relative overflow-hidden rounded-[1.25rem] border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-[var(--a-card-shadow)] backdrop-blur-[12px]";
 
