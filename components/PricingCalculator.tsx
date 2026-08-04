@@ -41,7 +41,12 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
   const locale = useLocale() as Locale;
 
   const categories = useMemo(
-    () => getServiceCategories(locale).map((c) => applyOverridesToCategory(c, overrides)),
+    // "aplikacione-mobile" is quote-only (no public numeric price), so it's excluded
+    // from this calculator, whose totals assume a parseable € amount.
+    () =>
+      getServiceCategories(locale)
+        .filter((c) => c.slug !== "aplikacione-mobile")
+        .map((c) => applyOverridesToCategory(c, overrides)),
     [locale, overrides]
   );
 
@@ -62,6 +67,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
     smm: tf("smm"),
     "branding-content": tf("branding"),
     mirembajtja: tf("maintenance"),
+    "aplikacione-mobile": tf("mobileApp"),
   };
 
   // Etiketat e niveleve: "njerëzore" për shërbimet një-herë, emri i paketës për mujoret.

@@ -219,6 +219,16 @@ export const localBusinessSchema = {
           url: `${siteUrl}/services/branding-content`,
           provider: { "@id": `${siteUrl}/#organization` }
         }
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Zhvillim Aplikacionesh Mobile",
+          description: "Aplikacione mobile cross-platform për iOS dhe Android, nga ideja deri te App Store dhe Google Play.",
+          url: `${siteUrl}/services/aplikacione-mobile`,
+          provider: { "@id": `${siteUrl}/#organization` }
+        }
       }
     ]
   }

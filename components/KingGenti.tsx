@@ -28,6 +28,7 @@ const SERVICE_KEYWORDS: { slug: string; words: RegExp }[] = [
   { slug: "branding-content", words: /brand|identitet|logo|content|përmbajtje/i },
   { slug: "smm", words: /social|instagram|facebook|tiktok|smm|rrjete sociale/i },
   { slug: "mirembajtja", words: /mir[ëe]mbajt|maintenance|suport|mbeshtetje|mbështetje/i },
+  { slug: "aplikacione-mobile", words: /aplikacion|mobile app|\bios\b|\bandroid\b|app mobil/i },
   { slug: "website", words: /website|faqe|web|sajt/i },
 ];
 

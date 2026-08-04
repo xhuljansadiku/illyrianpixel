@@ -59,6 +59,14 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   },
   {
     ordinal: "03",
+    title: "Aplikacione Mobile",
+    desc: "Zhvillim aplikacionesh mobile për iOS dhe Android, nga ideja deri te App Store dhe Google Play, që sjellin biznesin tuaj në xhepin e klientit.",
+    href: "/services/aplikacione-mobile",
+    visualVariant: "web",
+    cta: "Shiko shërbimin →"
+  },
+  {
+    ordinal: "04",
     title: "SEO & Google Ads",
     desc: "Sjellim klientë të gatshëm të blejnë, përmes SEO organik dhe Google Ads. Trafik i kualifikuar, jo vetëm klikime.",
     href: "/services/seo-google-ads",
@@ -66,7 +74,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
     cta: "Shiko shërbimin →"
   },
   {
-    ordinal: "04",
+    ordinal: "05",
     title: "Social Media",
     desc: "Menaxhojmë Instagram, Facebook dhe TikTok me përmbajtje që ndërton komunitet dhe gjeneron kërkesa reale.",
     href: "/services/smm",
@@ -74,7 +82,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
     cta: "Shiko shërbimin →"
   },
   {
-    ordinal: "05",
+    ordinal: "06",
     title: "Branding & Content",
     desc: "Logo, identitet vizual dhe design, bëjmë brandin tuaj të duket serioz dhe të ndërtojë besim që në shikim të parë.",
     href: "/services/branding-content",
@@ -82,7 +90,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
     cta: "Shiko shërbimin →"
   },
   {
-    ordinal: "06",
+    ordinal: "07",
     title: "Mirëmbajtja",
     desc: "Mirëmbajtje për website dhe e-commerce të ndërtuar nga ne ose nga të tjerë. Shpejtësi, siguri dhe përditësime të vazhdueshme me monitorim 24/7.",
     href: "/services/mirembajtja",

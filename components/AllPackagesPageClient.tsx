@@ -47,6 +47,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
   const FILTERS: { slug: ServiceCategory["slug"]; label: string }[] = [
     { slug: "website",          label: t("filters.website") },
     { slug: "ecommerce",        label: t("filters.ecommerce") },
+    { slug: "aplikacione-mobile", label: t("filters.mobileApp") },
     { slug: "seo-google-ads",   label: t("filters.seoAds") },
     { slug: "smm",              label: t("filters.smm") },
     { slug: "branding-content", label: t("filters.branding") },

@@ -19,7 +19,7 @@ export type ServicePackage = {
 };
 
 export type ServiceCategory = {
-  slug: "website" | "ecommerce" | "seo-google-ads" | "branding-content" | "smm" | "mirembajtja";
+  slug: "website" | "ecommerce" | "seo-google-ads" | "branding-content" | "smm" | "mirembajtja" | "aplikacione-mobile";
   title: string;
   headline: string;
   subheadline?: string;
@@ -169,7 +169,75 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 3. SEO & GOOGLE ADS ─────────────────────────────────────────────────
+  // ─── 3. APLIKACIONE MOBILE ──────────────────────────────────────────────────
+  {
+    slug: "aplikacione-mobile",
+    title: "Aplikacione Mobile",
+    headline: "Zhvillim aplikacionesh mobile për iOS dhe Android, që sjellin biznesin tuaj në xhepin e klientit.",
+    subheadline:
+      "Ndërtojmë aplikacione mobile cross-platform (një kod, të dyja platformat), nga ideja deri te App Store dhe Google Play.",
+    short:
+      "Aplikacione mobile profesionale për iOS dhe Android,\npër biznese që duan të jenë gjithmonë pranë klientit.",
+    description: "",
+    icon: "▣",
+    ctaPrimary: "Fillo sot →",
+    ctaSecondary: "Punet tona",
+    trustLine: "Konsultim falas · Strategji brenda 24h · Pa detyrim",
+    subServices: [
+      "iOS & Android nga një kod",
+      "Dizajn i thjeshtë dhe modern",
+      "Njoftime push",
+      "Publikim në App Store & Google Play",
+      "Mbështetje pas lançimit",
+    ],
+    packages: [
+      {
+        name: "Starter",
+        price: "Ofertë",
+        tagline: "App bazë, gati për lançim",
+        ideal: "Aplikacion i thjeshtë me funksionet thelbësore, për të testuar idenë tuaj në treg.",
+        features: [
+          "Deri në 6 ekrane",
+          "Dizajn modern iOS + Android",
+          "Lidhje me website/API ekzistues",
+          "Publikim në App Store & Google Play",
+          "Mbështetje 30 ditë pas lançimit",
+        ],
+        cta: "Kërko Ofertë",
+      },
+      {
+        name: "Business",
+        price: "Ofertë",
+        tagline: "App me funksione të plota",
+        ideal: "Aplikacion me llogari përdoruesish, njoftime dhe panel admin, gati për rritje.",
+        features: [
+          "Gjithçka nga Starter",
+          "Deri në 12 ekrane",
+          "Login/regjistrim përdoruesish",
+          "Njoftime push",
+          "Panel admin bazë për menaxhim përmbajtjeje",
+        ],
+        featured: true,
+        cta: "Kërko Ofertë",
+      },
+      {
+        name: "Premium",
+        price: "Ofertë",
+        tagline: "App i plotë, i personalizuar",
+        ideal: "Aplikacion kompleks me pagesa, integrime dhe dizajn 100% custom, sipas specifikave tuaja.",
+        features: [
+          "Gjithçka nga Business",
+          "Pagesa të integruara",
+          "Backend/API i personalizuar",
+          "Dizajn 100% custom",
+          "Panel admin i plotë",
+        ],
+        cta: "Kërko Ofertë",
+      },
+    ],
+  },
+
+  // ─── 4. SEO & GOOGLE ADS ─────────────────────────────────────────────────
   {
     slug: "seo-google-ads",
     title: "SEO & Google Ads",
@@ -234,7 +302,7 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 4. SOCIAL MEDIA MARKETING ─────────────────────────────────────────────
+  // ─── 5. SOCIAL MEDIA MARKETING ─────────────────────────────────────────────
   {
     slug: "smm",
     title: "Social Media",
@@ -304,7 +372,7 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 5. BRANDING & CONTENT ─────────────────────────────────────────────────
+  // ─── 6. BRANDING & CONTENT ─────────────────────────────────────────────────
   {
     slug: "branding-content",
     title: "Branding & Content",
@@ -368,7 +436,7 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 6. MIRËMBAJTJA ────────────────────────────────────────────────────────
+  // ─── 7. MIRËMBAJTJA ────────────────────────────────────────────────────────
   {
     slug: "mirembajtja",
     title: "Mirëmbajtja",

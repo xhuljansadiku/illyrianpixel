@@ -10,6 +10,7 @@ import type { Locale } from "@/i18n/routing";
 const SERVICE_SLUGS = [
   "website",
   "ecommerce",
+  "aplikacione-mobile",
   "seo-google-ads",
   "branding-content",
   "smm",
@@ -49,6 +50,10 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
       title: "Mirëmbajtje Website & E-Commerce — Monitorim 24/7 & Siguri",
       desc: "Mirëmbajtje profesionale e faqes suaj: monitorim 24/7, backup ditor, siguri aktive dhe optimizim i vazhdueshëm. Faqja juaj gjithmonë online dhe e shpejtë.",
     },
+    "aplikacione-mobile": {
+      title: "Zhvillim Aplikacionesh Mobile — iOS & Android",
+      desc: "Ndërtojmë aplikacione mobile cross-platform për iOS dhe Android, nga ideja deri te App Store dhe Google Play. Konsultim falas · Ofertë e personalizuar.",
+    },
   },
   en: {
     website: {
@@ -75,6 +80,10 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
       title: "Website & E-Commerce Maintenance — 24/7 Monitoring & Security",
       desc: "Professional maintenance for your site: 24/7 monitoring, daily backup, active security and continuous optimization. Your site always online and fast.",
     },
+    "aplikacione-mobile": {
+      title: "Mobile App Development — iOS & Android",
+      desc: "We build cross-platform mobile apps for iOS and Android, from idea to the App Store and Google Play. Free consultation · Custom quote.",
+    },
   },
 };
 
@@ -93,6 +102,7 @@ const SERVICE_LABELS: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], stri
     "branding-content": "Branding & Content",
     smm: "Social Media",
     mirembajtja: "Mirëmbajtja",
+    "aplikacione-mobile": "Aplikacione Mobile",
   },
   en: {
     website: "Premium Website",
@@ -101,6 +111,7 @@ const SERVICE_LABELS: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], stri
     "branding-content": "Branding & Content",
     smm: "Social Media",
     mirembajtja: "Maintenance",
+    "aplikacione-mobile": "Mobile Apps",
   },
 };
 

@@ -150,6 +150,7 @@ export default function Footer() {
               {[
                 { label: t("services.website"), href: "/services/website" },
                 { label: t("services.ecommerce"), href: "/services/ecommerce" },
+                { label: t("services.mobileApp"), href: "/services/aplikacione-mobile" },
                 { label: t("services.seoAds"), href: "/services/seo-google-ads" },
                 { label: t("services.social"), href: "/services/smm" },
                 { label: t("services.branding"), href: "/services/branding-content" },

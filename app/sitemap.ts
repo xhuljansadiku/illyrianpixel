@@ -46,6 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/services/branding-content",priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/smm",             priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/mirembajtja",     priority: 0.7,  changefreq: "monthly", date: LAUNCH_DATE },
+    { path: "/services/aplikacione-mobile", priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/seo",             priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/services/google-ads",      priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
     { path: "/privacy",                  priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },

@@ -48,6 +48,14 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   },
   {
     ordinal: "03",
+    title: "Mobile Apps",
+    desc: "Mobile app development for iOS and Android, from idea to the App Store and Google Play, bringing your business into your client's pocket.",
+    href: "/services/aplikacione-mobile",
+    visualVariant: "web",
+    cta: "See the service →"
+  },
+  {
+    ordinal: "04",
     title: "SEO & Google Ads",
     desc: "We bring you clients ready to buy, through organic SEO and Google Ads. Qualified traffic, not just clicks.",
     href: "/services/seo-google-ads",
@@ -55,7 +63,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
     cta: "See the service →"
   },
   {
-    ordinal: "04",
+    ordinal: "05",
     title: "Social Media",
     desc: "We manage Instagram, Facebook and TikTok with content that builds community and generates real inquiries.",
     href: "/services/smm",
@@ -63,7 +71,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
     cta: "See the service →"
   },
   {
-    ordinal: "05",
+    ordinal: "06",
     title: "Branding & Content",
     desc: "Logo, visual identity and design. We make your brand look serious and build trust at first glance.",
     href: "/services/branding-content",
@@ -71,7 +79,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
     cta: "See the service →"
   },
   {
-    ordinal: "06",
+    ordinal: "07",
     title: "Maintenance",
     desc: "Maintenance for websites and e-commerce built by us or by others. Speed, security and continuous updates with 24/7 monitoring.",
     href: "/services/mirembajtja",

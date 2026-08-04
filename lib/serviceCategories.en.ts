@@ -137,7 +137,75 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 3. SEO & GOOGLE ADS ─────────────────────────────────────────────────
+  // ─── 3. MOBILE APPS ─────────────────────────────────────────────────────────
+  {
+    slug: "aplikacione-mobile",
+    title: "Mobile Apps",
+    headline: "Mobile app development for iOS and Android, bringing your business into your client's pocket.",
+    subheadline:
+      "We build cross-platform mobile apps (one codebase, both platforms), from idea to the App Store and Google Play.",
+    short:
+      "Professional mobile apps for iOS and Android,\nfor businesses that want to stay close to their clients.",
+    description: "",
+    icon: "▣",
+    ctaPrimary: "Start today →",
+    ctaSecondary: "Our work",
+    trustLine: "Free consultation · Strategy within 24h · No obligation",
+    subServices: [
+      "iOS & Android from one codebase",
+      "Simple, modern design",
+      "Push notifications",
+      "App Store & Google Play publishing",
+      "Support after launch",
+    ],
+    packages: [
+      {
+        name: "Starter",
+        price: "Quote",
+        tagline: "Basic app, ready to launch",
+        ideal: "A simple app with the essential features, to test your idea in the market.",
+        features: [
+          "Up to 6 screens",
+          "Modern iOS + Android design",
+          "Connects to your existing website/API",
+          "Published to the App Store & Google Play",
+          "30 days of support after launch",
+        ],
+        cta: "Request a Quote",
+      },
+      {
+        name: "Business",
+        price: "Quote",
+        tagline: "Full-featured app",
+        ideal: "An app with user accounts, notifications and an admin panel, ready to grow.",
+        features: [
+          "Everything in Starter",
+          "Up to 12 screens",
+          "User login/registration",
+          "Push notifications",
+          "Basic admin panel for content management",
+        ],
+        featured: true,
+        cta: "Request a Quote",
+      },
+      {
+        name: "Premium",
+        price: "Quote",
+        tagline: "Complete, custom-built app",
+        ideal: "A complex app with payments, integrations and 100% custom design, built to your specification.",
+        features: [
+          "Everything in Business",
+          "Integrated payments",
+          "Custom backend/API",
+          "100% custom design",
+          "Full admin panel",
+        ],
+        cta: "Request a Quote",
+      },
+    ],
+  },
+
+  // ─── 4. SEO & GOOGLE ADS ─────────────────────────────────────────────────
   {
     slug: "seo-google-ads",
     title: "SEO & Google Ads",
@@ -202,7 +270,7 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 4. SOCIAL MEDIA MARKETING ─────────────────────────────────────────────
+  // ─── 5. SOCIAL MEDIA MARKETING ─────────────────────────────────────────────
   {
     slug: "smm",
     title: "Social Media",
@@ -272,7 +340,7 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 5. BRANDING & CONTENT ─────────────────────────────────────────────────
+  // ─── 6. BRANDING & CONTENT ─────────────────────────────────────────────────
   {
     slug: "branding-content",
     title: "Branding & Content",
@@ -336,7 +404,7 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 
-  // ─── 6. MAINTENANCE ────────────────────────────────────────────────────────
+  // ─── 7. MAINTENANCE ────────────────────────────────────────────────────────
   {
     slug: "mirembajtja",
     title: "Maintenance",
