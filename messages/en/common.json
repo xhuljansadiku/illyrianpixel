@@ -5,6 +5,7 @@
     "pricing": "Pricing",
     "work": "Work",
     "blog": "Blog",
+    "diaspora": "Diaspora",
     "contact": "Contact",
     "cta": "Get started",
     "logoAria": "Go to homepage (Alt+click for a small surprise)",
@@ -26,6 +27,7 @@
       "work": "Work",
       "pricing": "Pricing",
       "blog": "Blog",
+      "diaspora": "Diaspora",
       "contact": "Contact"
     },
     "servicesHeading": "Services",

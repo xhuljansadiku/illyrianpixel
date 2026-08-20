@@ -37,6 +37,34 @@ describe("buildMetadata", () => {
   });
 });
 
+describe("buildMetadata sqOnly option", () => {
+  it("keeps the sq canonical even when locale is en", () => {
+    const meta = buildMetadata("X", "Y", "/diaspora/gjermani", undefined, "en", { sqOnly: true });
+    expect(meta.alternates?.canonical).toBe("https://illyrianpixel.com/diaspora/gjermani");
+  });
+
+  it("omits the en hreflang alternate", () => {
+    const meta = buildMetadata("X", "Y", "/diaspora/gjermani", undefined, "en", { sqOnly: true });
+    const langs = meta.alternates?.languages as Record<string, string>;
+    expect(langs.en).toBeUndefined();
+    expect(langs.sq).toBe("https://illyrianpixel.com/diaspora/gjermani");
+  });
+
+  it("marks the en render noindex,follow but leaves sq indexable", () => {
+    const enMeta = buildMetadata("X", "Y", "/diaspora/gjermani", undefined, "en", { sqOnly: true });
+    expect(enMeta.robots).toEqual({ index: false, follow: true });
+
+    const sqMeta = buildMetadata("X", "Y", "/diaspora/gjermani", undefined, "sq", { sqOnly: true });
+    expect(sqMeta.robots).toBeUndefined();
+  });
+
+  it("does not change existing call sites that omit the option", () => {
+    const meta = buildMetadata("X", "Y", "/sherbimet", undefined, "en");
+    expect(meta.alternates?.canonical).toBe("https://illyrianpixel.com/en/sherbimet");
+    expect((meta.alternates?.languages as Record<string, string>).en).toBe("https://illyrianpixel.com/en/sherbimet");
+  });
+});
+
 describe("buildBreadcrumb", () => {
   it("numbers items starting at 1 in the given order", () => {
     const crumb = buildBreadcrumb([

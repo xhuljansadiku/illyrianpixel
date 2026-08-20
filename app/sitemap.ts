@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getBlogPostsForLocale } from "@/lib/blogPosts";
 import { getCaseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
+import { DIASPORA_COUNTRY_SLUGS } from "@/lib/diasporaShared";
 import type { Locale } from "@/i18n/routing";
 
 // Actual site go-live date (confirmed by owner), not the first commit date
@@ -111,7 +112,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...staticEntries, ...projectEntries, ...blogEntries];
+  // Faqet e diasporës janë vetëm në shqip (v1) — jo brenda LOCALES.flatMap,
+  // pikërisht që të mos listohet /en/diaspora/* (do dyfishonte përmbajtjen).
+  const DIASPORA_DATE = new Date("2026-08-21");
+  const diasporaEntries: MetadataRoute.Sitemap = [
+    {
+      url: localizedUrl("sq", "/diaspora"),
+      lastModified: DIASPORA_DATE,
+      priority: 0.8,
+      changeFrequency: "monthly",
+    },
+    ...DIASPORA_COUNTRY_SLUGS.map((slug) => ({
+      url: localizedUrl("sq", `/diaspora/${slug}`),
+      lastModified: DIASPORA_DATE,
+      priority: 0.75,
+      changeFrequency: "monthly" as const,
+    })),
+  ];
+
+  return [...staticEntries, ...projectEntries, ...blogEntries, ...diasporaEntries];
 }
 
 

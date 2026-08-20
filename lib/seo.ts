@@ -19,25 +19,25 @@ export const buildMetadata = (
   description?: string,
   path = "",
   keywords?: string[],
-  locale: Locale = "sq"
+  locale: Locale = "sq",
+  opts?: { sqOnly?: boolean }
 ): Metadata => {
   const sqUrl = path ? `${siteUrl}${path}` : siteUrl;
   const enUrl = path ? `${siteUrl}/en${path}` : `${siteUrl}/en`;
-  const canonicalUrl = locale === "en" ? enUrl : sqUrl;
+  const sqOnly = opts?.sqOnly ?? false;
+  const canonicalUrl = sqOnly || locale !== "en" ? sqUrl : enUrl;
 
   return {
     metadataBase: new URL(siteUrl),
     title: title ? `${title} | ${defaultTitle}` : defaultTitle,
     description: description ?? defaultDescription,
     ...(keywords?.length ? { keywords } : {}),
+    ...(sqOnly && locale === "en" ? { robots: { index: false, follow: true } } : {}),
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        "sq": sqUrl,
-        "sq-AL": sqUrl,
-        "en": enUrl,
-        "x-default": sqUrl,
-      }
+      languages: sqOnly
+        ? { "sq": sqUrl, "sq-AL": sqUrl, "x-default": sqUrl }
+        : { "sq": sqUrl, "sq-AL": sqUrl, "en": enUrl, "x-default": sqUrl }
     },
     openGraph: {
       title: title ? `${title} | ${defaultTitle}` : defaultTitle,
@@ -94,6 +94,10 @@ export const organizationSchema = {
     { "@type": "Country", name: "Kosovo" },
     { "@type": "Country", name: "Germany" },
     { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "Switzerland" },
+    { "@type": "Country", name: "Italy" },
+    { "@type": "Country", name: "United States" },
+    { "@type": "Country", name: "Canada" },
     { "@type": "AdministrativeArea", name: "Europe" }
   ],
   knowsAbout: [
@@ -106,7 +110,7 @@ export const organizationSchema = {
     contactType: "customer service",
     email: "info@illyrianpixel.com",
     availableLanguage: ["Albanian", "English", "Italian"],
-    areaServed: ["AL", "XK", "DE", "GB"],
+    areaServed: ["AL", "XK", "DE", "GB", "CH", "IT", "US", "CA"],
     contactOption: "TollFree"
   },
   sameAs: [
@@ -164,7 +168,11 @@ export const localBusinessSchema = {
     { "@type": "Country", name: "Albania" },
     { "@type": "Country", name: "Kosovo" },
     { "@type": "Country", name: "Germany" },
-    { "@type": "Country", name: "United Kingdom" }
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "Switzerland" },
+    { "@type": "Country", name: "Italy" },
+    { "@type": "Country", name: "United States" },
+    { "@type": "Country", name: "Canada" }
   ],
   hasOfferCatalog: {
     "@type": "OfferCatalog",

@@ -16,6 +16,7 @@ export default function Navbar() {
     { id: "pricing",       label: t("pricing"),  href: "/cmimet" },
     { id: "featured-work", label: t("work"),     href: "/projektet" },
     { id: "blog",          label: t("blog"),     href: "/blog" },
+    { id: "diaspora",      label: t("diaspora"), href: "/diaspora" },
     { id: "contact",       label: t("contact"),  href: "/contact" },
   ];
   const pathname = usePathname();
@@ -31,6 +32,7 @@ export default function Navbar() {
     if (pathname.startsWith("/services") || pathname.startsWith("/sherbimet")) return "services";
     if (pathname.startsWith("/work") || pathname.startsWith("/projektet")) return "featured-work";
     if (pathname.startsWith("/blog")) return "blog";
+    if (pathname.startsWith("/diaspora")) return "diaspora";
     if (pathname.startsWith("/contact")) return "contact";
     return "hero";
   })();

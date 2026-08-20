@@ -134,6 +134,7 @@ export default function Footer() {
                 { label: t("nav.work"), href: "/projektet" },
                 { label: t("nav.pricing"), href: "/cmimet" },
                 { label: t("nav.blog"), href: "/blog" },
+                { label: t("nav.diaspora"), href: "/diaspora" },
                 { label: t("nav.contact"), href: "/contact" },
               ].map(({ label, href }) => (
                 <Link key={href} href={href} className="footer-reveal footer-link font-body text-[0.875rem] font-light tracking-[0.05em] text-white/45 transition-colors duration-300 hover:text-white">
