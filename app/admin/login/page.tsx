@@ -8,6 +8,8 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [token, setToken] = useState("");
+  const [recoveryCode, setRecoveryCode] = useState("");
+  const [useRecovery, setUseRecovery] = useState(false);
   const [rememberDevice, setRememberDevice] = useState(false);
   const [step, setStep] = useState<"password" | "token">("password");
   const [error, setError] = useState("");
@@ -22,7 +24,12 @@ export default function AdminLoginPage() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password, token: token || undefined, rememberDevice }),
+        body: JSON.stringify({
+          password,
+          token: !useRecovery && token ? token : undefined,
+          recoveryCode: useRecovery && recoveryCode ? recoveryCode : undefined,
+          rememberDevice,
+        }),
       });
       const data = await res.json();
 
@@ -106,20 +113,35 @@ export default function AdminLoginPage() {
           {step === "token" && (
             <div>
               <label className="font-ui mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">
-                Kodi 2FA
+                {useRecovery ? "Kod rezervë" : "Kodi 2FA"}
               </label>
-              <input
-                type="text"
-                inputMode="numeric"
-                maxLength={6}
-                value={token}
-                onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
-                autoFocus
-                placeholder="000000"
-                className="w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] py-3 text-center font-mono text-[22px] tracking-[0.4em] text-white outline-none transition-colors duration-300 focus:border-accent"
-              />
+              {useRecovery ? (
+                <input
+                  type="text"
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  value={recoveryCode}
+                  onChange={(e) => setRecoveryCode(e.target.value)}
+                  autoFocus
+                  placeholder="XXXX-XXXX"
+                  className="w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] py-3 text-center font-mono text-[18px] tracking-[0.2em] text-white outline-none transition-colors duration-300 focus:border-accent"
+                />
+              ) : (
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={6}
+                  value={token}
+                  onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
+                  autoFocus
+                  placeholder="000000"
+                  className="w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] py-3 text-center font-mono text-[22px] tracking-[0.4em] text-white outline-none transition-colors duration-300 focus:border-accent"
+                />
+              )}
               <p className="mt-2 text-[11px] text-white/35">
-                Shkruaj kodin 6-shifror nga aplikacioni autentifikues.
+                {useRecovery
+                  ? "Shkruaj një nga kodet e rezervës që ruajte kur aktivizove 2FA."
+                  : "Shkruaj kodin 6-shifror nga aplikacioni autentifikues."}
               </p>
               <label className="mt-3 flex items-center gap-2 text-[12px] text-white/55">
                 <input
@@ -130,17 +152,33 @@ export default function AdminLoginPage() {
                 />
                 Mbaj mend këtë pajisje për 3 muaj
               </label>
-              <button
-                type="button"
-                onClick={() => {
-                  setStep("password");
-                  setToken("");
-                  setError("");
-                }}
-                className="mt-2 text-[11px] text-white/35 transition-colors hover:text-white/70"
-              >
-                ← Kthehu te fjalëkalimi
-              </button>
+              <div className="mt-2 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep("password");
+                    setToken("");
+                    setRecoveryCode("");
+                    setUseRecovery(false);
+                    setError("");
+                  }}
+                  className="text-[11px] text-white/35 transition-colors hover:text-white/70"
+                >
+                  ← Kthehu te fjalëkalimi
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseRecovery((v) => !v);
+                    setToken("");
+                    setRecoveryCode("");
+                    setError("");
+                  }}
+                  className="text-[11px] text-accent/80 transition-colors hover:text-accent"
+                >
+                  {useRecovery ? "Përdor kodin 2FA" : "Përdor një kod rezervë"}
+                </button>
+              </div>
             </div>
           )}
 
@@ -152,7 +190,12 @@ export default function AdminLoginPage() {
 
           <button
             type="submit"
-            disabled={loading || !password || (step === "token" && token.length !== 6)}
+            disabled={
+              loading ||
+              !password ||
+              (step === "token" &&
+                (useRecovery ? recoveryCode.trim().length === 0 : token.length !== 6))
+            }
             className="font-ui mt-2 w-full rounded-xl bg-accent px-8 py-3.5 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
           >
             {loading ? "Duke hyrë…" : step === "token" ? "Verifiko" : "Hyr"}

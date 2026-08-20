@@ -9,12 +9,19 @@ export const config = {
   matcher: [
     "/admin/:path*",
     "/api/admin/:path*",
-    "/((?!api|admin|oferta|klienti|feedback|_next|_vercel|.*\\..*).*)",
+    "/((?!api(?:/|$)|admin(?:/|$)|oferta(?:/|$)|klienti(?:/|$)|feedback(?:/|$)|_next|_vercel|.*\\..*).*)",
   ],
 };
 
+// Kontrollon që pathname të jetë saktësisht `prefix` ose të fillojë me `prefix/` —
+// jo thjesht çdo path që fillon me të njëjtat shkronja (p.sh. "/apihealth" s'duhet të
+// trajtohet si "/api").
+function hasPathPrefix(pathname: string, prefix: string) {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
 async function adminAuthMiddleware(req: NextRequest, pathname: string) {
-  if (pathname.startsWith("/admin/login") || pathname === "/api/admin/login") {
+  if (hasPathPrefix(pathname, "/admin/login") || pathname === "/api/admin/login") {
     return NextResponse.next();
   }
 
@@ -35,16 +42,16 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Admin auth — unchanged behavior, never locale-prefixed.
-  if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+  if (hasPathPrefix(pathname, "/admin") || hasPathPrefix(pathname, "/api/admin")) {
     return adminAuthMiddleware(req, pathname);
   }
 
   // API + token/portal routes — no locale concept at all.
   if (
-    pathname.startsWith("/api") ||
-    pathname.startsWith("/oferta") ||
-    pathname.startsWith("/klienti") ||
-    pathname.startsWith("/feedback")
+    hasPathPrefix(pathname, "/api") ||
+    hasPathPrefix(pathname, "/oferta") ||
+    hasPathPrefix(pathname, "/klienti") ||
+    hasPathPrefix(pathname, "/feedback")
   ) {
     return NextResponse.next();
   }

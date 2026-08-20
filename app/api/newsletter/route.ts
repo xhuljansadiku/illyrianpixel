@@ -16,8 +16,44 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const BRAND = NEWSLETTER_BRAND;
 
+const RATE_LIMIT = 5;
+const WINDOW_SECONDS = 60 * 60; // 1 orë
+
+// Pa këtë, kushdo mund të abonojë çdo adresë email pafundësisht — spam/ngacmim i
+// palëve të treta me email-in "mirësevini" dhe shpenzim i kuotës Resend.
+async function checkRateLimit(ip: string): Promise<boolean> {
+  const now = new Date();
+  const windowStart = new Date(now.getTime() - WINDOW_SECONDS * 1000);
+
+  const { count, error } = await supabase
+    .from("rate_limits")
+    .select("*", { count: "exact", head: true })
+    .eq("scope", "newsletter")
+    .eq("ip", ip)
+    .gte("created_at", windowStart.toISOString());
+
+  if (error) return true; // fail open — nuk bllokojmë nëse DB ka problem
+
+  if ((count ?? 0) >= RATE_LIMIT) return false;
+
+  await supabase.from("rate_limits").insert({ scope: "newsletter", ip, created_at: now.toISOString() });
+  return true;
+}
+
 export async function POST(req: Request) {
   try {
+    const ip =
+      req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+      req.headers.get("x-real-ip") ??
+      "unknown";
+
+    if (!(await checkRateLimit(ip))) {
+      return NextResponse.json(
+        { success: false, error: "Shumë kërkesa. Provoni sërish pas 1 ore." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const email = String(body.email ?? "").trim().toLowerCase().slice(0, 254);
 

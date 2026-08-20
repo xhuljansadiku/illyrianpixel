@@ -30,6 +30,7 @@ async function checkRateLimit(ip: string): Promise<boolean> {
   const { count, error } = await supabase
     .from("rate_limits")
     .select("*", { count: "exact", head: true })
+    .eq("scope", "contact")
     .eq("ip", ip)
     .gte("created_at", windowStart.toISOString());
 
@@ -37,7 +38,7 @@ async function checkRateLimit(ip: string): Promise<boolean> {
 
   if ((count ?? 0) >= RATE_LIMIT) return false;
 
-  await supabase.from("rate_limits").insert({ ip, created_at: now.toISOString() });
+  await supabase.from("rate_limits").insert({ scope: "contact", ip, created_at: now.toISOString() });
   return true;
 }
 

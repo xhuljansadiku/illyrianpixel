@@ -83,20 +83,11 @@ export async function POST(req: Request) {
       if (totpToken && verifyTotp(totp.totp_secret, String(totpToken))) {
         verified = true;
       } else if (recoveryCode) {
-        try {
-          const codes = JSON.parse(totp.totp_recovery_codes ?? "[]") as { hash: string; used: boolean }[];
-          const codeHash = hashRecoveryCode(String(recoveryCode));
-          const codeMatch = codes.find((c) => c.hash === codeHash && !c.used);
-          if (codeMatch) {
-            codeMatch.used = true;
-            await supabase
-              .from("site_settings")
-              .upsert({ key: "totp_recovery_codes", value: JSON.stringify(codes), updated_at: new Date().toISOString() });
-            verified = true;
-          }
-        } catch {
-          // injoro — trajtohet si kod i pavlefshëm
-        }
+        // RPC atomike (kyç rreshtin + shënon "used" brenda të njëjtit transaksion) —
+        // parandalon që i njëjti kod rezervë të përdoret dy herë nga kërkesa njëkohshme.
+        const codeHash = hashRecoveryCode(String(recoveryCode));
+        const { data: consumed } = await supabase.rpc("consume_recovery_code", { p_code_hash: codeHash });
+        verified = consumed === true;
       }
 
       if (!verified) {
