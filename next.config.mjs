@@ -67,7 +67,7 @@ const nextConfig = {
               // në eval() në runtime-in e tij të brendshëm — edhe në build prodhimi, jo vetëm dev.
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: https://images.unsplash.com https://flagcdn.com https://*.supabase.co",
+              "img-src 'self' data: https://images.unsplash.com https://flagcdn.com https://*.supabase.co https://*.clarity.ms",
               "font-src 'self' data:",
               "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms",
               "frame-src 'self'",

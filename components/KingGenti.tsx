@@ -609,19 +609,19 @@ export default function KingGenti() {
     <>
       {open ? (
         <div
-          className="fixed inset-0 z-[95] bg-black/55 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-[111] bg-black/55 backdrop-blur-sm md:hidden"
           onClick={() => setOpen(false)}
           aria-hidden
         />
       ) : null}
-      <div className="ip-genti-widget fixed bottom-[88px] right-4 z-[96] flex flex-col items-end md:right-6">
+      <div className="ip-genti-widget fixed bottom-[88px] right-4 z-[111] flex flex-col items-end md:right-6">
         {open ? (
           <div
             ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label={t("dialogAria")}
-            className="fixed inset-x-0 bottom-0 z-[96] flex max-h-[min(640px,85dvh)] flex-col rounded-t-[1.25rem] border-t border-white/12 bg-[#0c0c0c]/98 p-4 shadow-[0_-16px_48px_rgba(0,0,0,0.5)] backdrop-blur-xl md:static md:mb-3 md:max-h-none md:w-[min(100vw-2rem,340px)] md:rounded-[1rem] md:border md:border-white/12 md:bg-[#0c0c0c]/95 md:shadow-[0_16px_48px_rgba(0,0,0,0.45)]"
+            className="fixed inset-x-0 bottom-0 z-[112] flex max-h-[min(640px,85dvh)] flex-col rounded-t-[1.25rem] border-t border-white/12 bg-[#0c0c0c]/98 p-4 shadow-[0_-16px_48px_rgba(0,0,0,0.5)] backdrop-blur-xl md:static md:mb-3 md:max-h-none md:w-[min(100vw-2rem,340px)] md:rounded-[1rem] md:border md:border-white/12 md:bg-[#0c0c0c]/95 md:shadow-[0_16px_48px_rgba(0,0,0,0.45)]"
             style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
           >
             <div className="mb-3 flex shrink-0 items-center justify-between gap-2">
