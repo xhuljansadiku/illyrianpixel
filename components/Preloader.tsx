@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ensureGSAP } from "@/lib/gsap";
 
 const BOT_UA_PATTERN = /bot|googlebot|crawl|spider|robot|crawling|lighthouse|pagespeed|chrome-lighthouse/i;
+const SESSION_KEY = "ip_preloader_shown";
 
 export default function Preloader() {
   // Always true on both server and client's first render (no window-dependent
@@ -35,6 +36,20 @@ export default function Preloader() {
     if (BOT_UA_PATTERN.test(navigator.userAgent)) {
       setVisible(false);
       return;
+    }
+
+    // Once per tab session — replaying the full intro+exit on every reload means
+    // its wipe/glow plays over whatever the page happens to be scrolled to (a
+    // reload restores scroll position), which looks broken over mid-page content
+    // instead of the top-of-page reveal it was designed for.
+    try {
+      if (sessionStorage.getItem(SESSION_KEY)) {
+        setVisible(false);
+        return;
+      }
+      sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      // sessionStorage unavailable (private mode etc.) — fall through and show it.
     }
 
     const { gsap } = ensureGSAP();

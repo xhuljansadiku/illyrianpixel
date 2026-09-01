@@ -36,6 +36,10 @@ export default function NewsletterPopup() {
   useIsomorphicLayoutEffect(() => {
     if (!open) return;
     const { gsap } = ensureGSAP();
+    // Fade the backdrop in too — without this it snaps to bg-black/62 + blur
+    // instantly while the panel is still animating in, so for ~0.3s the page
+    // behind it just looks washed out with no visible popup content yet.
+    gsap.fromTo(".newsletter-popup-backdrop", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
     gsap.fromTo(
       ".newsletter-popup-panel",
       { opacity: 0, y: 20, scale: 0.97 },
@@ -82,7 +86,7 @@ export default function NewsletterPopup() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] grid place-items-center bg-black/62 px-4 backdrop-blur-sm"
+      className="newsletter-popup-backdrop fixed inset-0 z-[100] grid place-items-center bg-black/62 px-4 backdrop-blur-sm"
       onClick={close}
     >
       <div

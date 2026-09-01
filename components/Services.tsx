@@ -77,7 +77,12 @@ export default function Services() {
       <div className="pointer-events-none absolute right-[18%] top-[46%] h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(171, 131, 57,0.045)_0%,rgba(171, 131, 57,0.022)_32%,transparent_74%)] blur-[16px] animate-[servicesBreath_7s_ease-in-out_infinite]" />
       <div className="pointer-events-none absolute right-[14%] top-[44%] h-[470px] w-[470px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[170px] opacity-55" />
       <div className="services-grain pointer-events-none absolute inset-0 opacity-30" />
-      <div className="section-wrap">
+      {/* relative z-10: without this, being position:static, this content would
+          paint BELOW the absolutely-positioned decorative divs above regardless
+          of DOM order — CSS always stacks positioned elements over static ones.
+          services-ambient-gradient's near-opaque linear-gradient layer was
+          washing out the heading/paragraph text as a result. */}
+      <div className="section-wrap relative z-10">
         <div className="cadence-label services-intro-item">
           <SectionMark label={t("eyebrow")} eyebrowClassName="!tracking-[0.32em] md:!tracking-[0.4em]" />
         </div>

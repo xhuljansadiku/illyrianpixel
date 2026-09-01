@@ -40,6 +40,9 @@ export default function InquiryModal() {
   useIsomorphicLayoutEffect(() => {
     if (!open) return;
     const { gsap } = ensureGSAP();
+    // Fade the backdrop in too — without this it snaps to bg-black/62 + blur
+    // instantly while the panel is still animating in (see NewsletterPopup).
+    gsap.fromTo(".inquiry-modal-backdrop", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
     gsap.fromTo(".inquiry-modal-panel", { opacity: 0, y: 20, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" });
   }, [open]);
 
@@ -98,7 +101,7 @@ export default function InquiryModal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] grid place-items-center bg-black/62 px-4 backdrop-blur-sm" onClick={close}>
+    <div className="inquiry-modal-backdrop fixed inset-0 z-[100] grid place-items-center bg-black/62 px-4 backdrop-blur-sm" onClick={close}>
       <div
         className="inquiry-modal-panel w-full max-w-xl rounded-[1.2rem] border border-white/12 bg-[#111111]/95 p-6 md:p-7"
         onClick={(e) => e.stopPropagation()}

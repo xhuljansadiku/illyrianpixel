@@ -19,8 +19,20 @@ export default function GlobalReveals() {
         const targets = gsap.utils.toArray<HTMLElement>(
           ".cinematic-section .section-title, .cinematic-section .premium-card, .cinematic-section article, .cinematic-section .luxury-link"
         );
+        // Sections below already run their own dedicated GSAP ScrollTrigger reveal
+        // (with blur/stagger). Letting this generic pass also target their
+        // .section-title creates two competing tweens on the same element — the
+        // loser can get stuck at opacity:0 permanently instead of fading in.
         targets
-          .filter((el) => !el.closest("#hero") && !el.closest("#process"))
+          .filter(
+            (el) =>
+              !el.closest("#hero") &&
+              !el.closest("#process") &&
+              !el.closest("#services") &&
+              !el.closest("#before-after") &&
+              !el.closest("#testimonials") &&
+              !el.closest("#featured-work")
+          )
           .forEach((el) => {
             if (revealed.current.has(el)) return;
             revealed.current.add(el);

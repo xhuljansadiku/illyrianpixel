@@ -147,7 +147,10 @@ export default function CTA() {
           />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_84%_72%,rgba(171, 131, 57,0.14),transparent_42%)]" />
           <div className="pointer-events-none absolute inset-0 cta-cinematic-vignette" />
-          <div ref={contentRef} className="grid items-center gap-8 md:gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+          {/* relative z-10: cta-cinematic-bg's linear-gradient stop is ~97% opaque.
+              Without this, being position:static, this content paints BELOW that
+              absolutely-positioned div regardless of DOM order (see Services.tsx). */}
+          <div ref={contentRef} className="relative z-10 grid items-center gap-8 md:gap-10 lg:grid-cols-[1.08fr_0.92fr]">
             <div className="max-w-[40rem]">
               <div className="cta-body-step cadence-step">
                 <SectionMark label="LE TË KRIJOJMË" />

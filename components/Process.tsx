@@ -18,7 +18,6 @@ export default function Process() {
   const lineDotRef = useRef<HTMLSpanElement | null>(null);
   const lineGlowRef = useRef<HTMLSpanElement | null>(null);
   const bgShiftRef = useRef<HTMLDivElement | null>(null);
-  const ctaRef = useRef<HTMLDivElement | null>(null);
   const reducedMotion = useReducedMotion();
 
   useIsomorphicLayoutEffect(() => {
@@ -48,21 +47,6 @@ export default function Process() {
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 76%"
-            }
-          }
-        );
-        gsap.fromTo(
-          ctaRef.current,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.75,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: ctaRef.current,
-              start: "top 92%",
-              once: true
             }
           }
         );
@@ -155,22 +139,6 @@ export default function Process() {
           }
         );
       });
-
-      gsap.fromTo(
-        ctaRef.current,
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.85,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ctaRef.current,
-            start: "top 88%",
-            once: true
-          }
-        }
-      );
 
       gsap.to(bgShiftRef.current, {
         yPercent: 8,

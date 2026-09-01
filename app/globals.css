@@ -239,6 +239,7 @@ body::before {
 
 .section-title {
   font-size: var(--type-h2);
+  font-weight: 600;
   @apply font-display leading-[0.92] tracking-[-0.004em];
 }
 
