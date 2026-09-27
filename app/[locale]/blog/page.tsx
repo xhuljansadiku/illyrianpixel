@@ -17,10 +17,10 @@ const META: Record<Locale, { title: string; desc: string; keywords: string[] }> 
   },
 };
 
-type Props = { params: { locale: Locale } | Promise<{ locale: Locale }> };
+type Props = { params: Promise<{ locale: Locale }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
   const m = META[locale];
   return buildMetadata(m.title, m.desc, "/blog", m.keywords, locale);
 }

@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-type Props = { params: { locale: string } | Promise<{ locale: string }> };
+type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string }> = {
   sq: {
@@ -16,8 +16,8 @@ const META: Record<Locale, { title: string; description: string }> = {
   },
 };
 
-export async function generateMetadata({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props) {
+  const { locale } = await props.params;
   const m = META[locale as Locale] ?? META.sq;
   return buildMetadata(m.title, m.description, "/terms", undefined, locale as Locale);
 }
@@ -242,8 +242,8 @@ The applicable law will be that of the client's country if the client is a consu
   },
 };
 
-export default async function TermsPage({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export default async function TermsPage(props: Props) {
+  const { locale } = await props.params;
   const c = CONTENT[locale as Locale] ?? CONTENT.sq;
 
   return (

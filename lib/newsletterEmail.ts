@@ -1,3 +1,5 @@
+import { confirmUrl, unsubscribeUrl } from "@/lib/newsletterTokens";
+
 export const NEWSLETTER_BRAND = {
   name: "Illyrian Pixel",
   from: "Illyrian Pixel <info@illyrianpixel.com>",
@@ -6,8 +8,30 @@ export const NEWSLETTER_BRAND = {
   whatsapp: "https://wa.me/355694726827",
 };
 
-export function welcomeEmailHtml(code: string, whatsappUrl: string = NEWSLETTER_BRAND.whatsapp): string {
+function escapeHtml(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// Rreshti i çregjistrimit në fund të çdo email-i marketingu (GDPR / kërkesat e Gmail)
+function unsubscribeFooterHtml(email: string): string {
+  return `<br><a href="${unsubscribeUrl(email)}" style="color:rgba(255,255,255,0.35);text-decoration:underline;">Çregjistrohu nga newsletter-i</a>`;
+}
+
+// "email" — kur jepet, email-i përmban butonin e konfirmimit (double opt-in) dhe linkun e çregjistrimit
+export function welcomeEmailHtml(code: string, whatsappUrl: string = NEWSLETTER_BRAND.whatsapp, email?: string): string {
   const BRAND = { ...NEWSLETTER_BRAND, whatsapp: whatsappUrl };
+  const confirmBlock = email
+    ? `<tr>
+          <td style="padding:0 48px 32px;">
+            <div style="background:#151515;border:1px solid rgba(171,131,57,0.3);border-radius:12px;padding:20px 24px;">
+              <p style="margin:0 0 14px;font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;">Doni të merrni edhe ofertat dhe këshillat tona? Konfirmoni abonimin — pa konfirmim nuk ju dërgojmë asgjë tjetër.</p>
+              <a href="${confirmUrl(email)}" style="display:inline-block;padding:12px 24px;border:1px solid #ab8339;border-radius:8px;font-size:13px;font-weight:700;color:#ab8339;text-decoration:none;">Konfirmo abonimin</a>
+            </div>
+          </td>
+        </tr>
+
+        `
+    : "";
   return `<!DOCTYPE html>
 <html lang="sq">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kodi juaj 10% — Illyrian Pixel</title></head>
@@ -45,7 +69,7 @@ export function welcomeEmailHtml(code: string, whatsappUrl: string = NEWSLETTER_
           </td>
         </tr>
 
-        <!-- CTA -->
+        ${confirmBlock}<!-- CTA -->
         <tr>
           <td style="padding:0 48px 40px;">
             <table cellpadding="0" cellspacing="0">
@@ -71,8 +95,7 @@ export function welcomeEmailHtml(code: string, whatsappUrl: string = NEWSLETTER_
               <tr>
                 <td style="padding-right:16px;"><a href="${BRAND.website}/services/website" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">Website</a></td>
                 <td style="padding-right:16px;"><a href="${BRAND.website}/services/ecommerce" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">E-Commerce</a></td>
-                <td style="padding-right:16px;"><a href="${BRAND.website}/services/seo" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">SEO</a></td>
-                <td><a href="${BRAND.website}/services/google-ads" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">Google Ads</a></td>
+                <td><a href="${BRAND.website}/services/seo-google-ads" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;">SEO &amp; Google Ads</a></td>
               </tr>
             </table>
           </td>
@@ -85,7 +108,7 @@ export function welcomeEmailHtml(code: string, whatsappUrl: string = NEWSLETTER_
               Illyrian Pixel · Agjenci Dixhitale Premium · Tiranë, Shqipëri<br>
               <a href="${BRAND.website}" style="color:rgba(171,131,57,0.5);text-decoration:none;">illyrianpixel.com</a>
               &nbsp;·&nbsp;
-              <a href="${BRAND.whatsapp}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>
+              <a href="${BRAND.whatsapp}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>${email ? unsubscribeFooterHtml(email) : ""}
             </p>
           </td>
         </tr>
@@ -315,15 +338,12 @@ export function broadcastEmailHtml(
     ? `<img src="${NEWSLETTER_BRAND.website}/api/newsletter/track/open?b=${tracking.broadcastId}&e=${enc}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0;" />`
     : "";
 
-  const safeMessage = message
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replaceAll("\n", "<br>");
+  const safeMessage = escapeHtml(message).replaceAll("\n", "<br>");
+  const safeSubject = escapeHtml(subject);
 
   return `<!DOCTYPE html>
 <html lang="sq">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${subject}</title></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${safeSubject}</title></head>
 <body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#e0e0e0;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 20px;">
     <tr><td align="center">
@@ -333,7 +353,7 @@ export function broadcastEmailHtml(
         <tr>
           <td style="background:linear-gradient(135deg,#0e0e0e,#161410);padding:40px 48px 32px;border-bottom:1px solid rgba(171,131,57,0.2);">
             <img src="${BRAND.logo}" alt="Illyrian Pixel" height="36" style="height:36px;width:auto;display:block;margin-bottom:24px;" />
-            <h1 style="margin:0;font-size:24px;font-weight:700;color:#ffffff;line-height:1.3;letter-spacing:-0.01em;">${subject}</h1>
+            <h1 style="margin:0;font-size:24px;font-weight:700;color:#ffffff;line-height:1.3;letter-spacing:-0.01em;">${safeSubject}</h1>
           </td>
         </tr>
 
@@ -366,7 +386,7 @@ export function broadcastEmailHtml(
               Illyrian Pixel · Agjenci Dixhitale Premium · Tiranë, Shqipëri<br>
               <a href="${wrap(BRAND.website)}" style="color:rgba(171,131,57,0.5);text-decoration:none;">illyrianpixel.com</a>
               &nbsp;·&nbsp;
-              <a href="${wrap(BRAND.whatsapp)}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>
+              <a href="${wrap(BRAND.whatsapp)}" style="color:rgba(171,131,57,0.5);text-decoration:none;">WhatsApp</a>${tracking ? unsubscribeFooterHtml(tracking.email) : ""}
             </p>
           </td>
         </tr>
@@ -375,6 +395,22 @@ export function broadcastEmailHtml(
     </td></tr>
   </table>
   ${pixel}
+</body>
+</html>`;
+}
+
+// Faqja e thjeshtë që shfaqet pas klikimit të linkut të konfirmimit / çregjistrimit
+export function newsletterStatusPageHtml(title: string, text: string): string {
+  return `<!DOCTYPE html>
+<html lang="sq">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${escapeHtml(title)} — Illyrian Pixel</title></head>
+<body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0a0a;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#e0e0e0;padding:20px;box-sizing:border-box;">
+  <div style="max-width:480px;width:100%;background:#111111;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:40px 32px;text-align:center;">
+    <img src="${NEWSLETTER_BRAND.logo}" alt="Illyrian Pixel" height="32" style="height:32px;width:auto;margin-bottom:24px;" />
+    <h1 style="margin:0 0 12px;font-size:22px;color:#ffffff;">${escapeHtml(title)}</h1>
+    <p style="margin:0 0 28px;font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;">${escapeHtml(text)}</p>
+    <a href="${NEWSLETTER_BRAND.website}" style="display:inline-block;padding:12px 24px;background:#ab8339;border-radius:8px;font-size:13px;font-weight:700;color:#0a0a0a;text-decoration:none;">Kthehu te faqja</a>
+  </div>
 </body>
 </html>`;
 }

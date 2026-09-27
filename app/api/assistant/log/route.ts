@@ -1,12 +1,21 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+// Një bisedë reale ka disa dhjetëra mesazhe; pa kufi, kushdo mund të mbushë tabelën.
+const RATE_LIMIT = 120;
+const WINDOW_SECONDS = 60 * 60;
+
 export async function POST(req: Request) {
+  if (!(await checkRateLimit(supabase, "assistant", getClientIp(req), RATE_LIMIT, WINDOW_SECONDS))) {
+    return NextResponse.json({ success: false }, { status: 429 });
+  }
+
   let body: { sessionId?: unknown; role?: unknown; text?: unknown; matched?: unknown };
   try {
     body = await req.json();
@@ -35,7 +44,7 @@ export async function POST(req: Request) {
   });
 
   if (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Gabim i brendshëm." }, { status: 500 });
   }
   return NextResponse.json({ success: true });
 }

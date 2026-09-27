@@ -1,8 +1,9 @@
 ﻿import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import HomeClientExtras from "@/components/HomeClientExtras";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { buildMetadata, faqSchema } from "@/lib/seo";
+import { buildMetadata, faqSchema, jsonLd } from "@/lib/seo";
 import { getVisibleTestimonials, getVisiblePortfolioItems, getVisibleFaqs } from "@/lib/publicContent";
 import type { FeaturedItem } from "@/components/FeaturedWorkGrid";
 import type { Locale } from "@/i18n/routing";
@@ -26,8 +27,6 @@ const Testimonials  = dynamic(() => import("@/components/Testimonials"));
 const TrustedClients     = dynamic(() => import("@/components/TrustedClients"));
 const NewsletterSection  = dynamic(() => import("@/components/NewsletterSection"));
 
-const BrandSignature    = dynamic(() => import("@/components/BrandSignature"),    { ssr: false });
-const EasterEggOverlay  = dynamic(() => import("@/components/EasterEggOverlay"),  { ssr: false });
 
 const META: Record<Locale, { title: string; desc: string; keywords: string[] }> = {
   sq: {
@@ -50,10 +49,10 @@ const META: Record<Locale, { title: string; desc: string; keywords: string[] }> 
   },
 };
 
-type Props = { params: { locale: Locale } | Promise<{ locale: Locale }> };
+type Props = { params: Promise<{ locale: Locale }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
   const m = META[locale];
   return buildMetadata(m.title, m.desc, "", m.keywords, locale);
 }
@@ -61,8 +60,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // Rifresko çdo 5 min — testimonialet/portofoli menaxhohen nga admini
 export const revalidate = 300;
 
-export default async function HomePage({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export default async function HomePage(props: Props) {
+  const { locale } = await props.params;
   const t = await getTranslations("home");
   const [testimonialRows, portfolioRows, faqRows] = await Promise.all([
     getVisibleTestimonials(locale).catch(() => []),
@@ -101,12 +100,11 @@ export default async function HomePage({ params }: Props) {
       <div className="site-grade" />
       <div className="ambient-noise" />
       <div className="site-vignette" />
-      <BrandSignature />
-      <EasterEggOverlay />
+      <HomeClientExtras />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }}
       />
       <main id="main-content" className="overflow-x-clip bg-bg pb-4 pt-14 md:pt-16">
         <Hero />

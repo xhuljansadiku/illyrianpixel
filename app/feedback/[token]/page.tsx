@@ -14,7 +14,8 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export default async function ProjectFeedbackPage({ params }: { params: { token: string } }) {
+export default async function ProjectFeedbackPage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const { data: feedback } = await supabase
     .from("project_feedback")
     .select("*, projects(name)")

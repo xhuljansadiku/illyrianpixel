@@ -13,7 +13,8 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const body = await req.json();
   const updates: Record<string, unknown> = {};
   let previousStatus: string | null = null;
@@ -108,7 +109,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   return NextResponse.json({ success: true, project: data });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const { data, error } = await supabase.from("projects").delete().eq("id", params.id).select("name");
 
   if (error) {

@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
-type Props = { params: { locale: string } | Promise<{ locale: string }> };
+type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
@@ -21,14 +21,14 @@ const META: Record<Locale, { title: string; description: string; keywords: strin
   },
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
   const m = META[locale as Locale] ?? META.sq;
   return buildMetadata(m.title, m.description, "/blog/social-media-menaxhim-shqiperi", m.keywords);
 }
 
-export default async function Page({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export default async function Page(props: Props) {
+  const { locale } = await props.params;
 
   if (locale === "en") {
     return (

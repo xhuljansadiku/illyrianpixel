@@ -2,7 +2,7 @@ import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
 import NewsletterPageClient from "@/components/NewsletterPageClient";
 
-type Props = { params: { locale: string } | Promise<{ locale: string }> };
+type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
@@ -19,8 +19,8 @@ const META: Record<Locale, { title: string; description: string; keywords: strin
   },
 };
 
-export async function generateMetadata({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props) {
+  const { locale } = await props.params;
   const m = META[locale as Locale] ?? META.sq;
   return buildMetadata(m.title, m.description, "/newsletter", m.keywords, locale as Locale);
 }

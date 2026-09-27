@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogBrandingClient from "@/components/BlogBrandingClient";
-import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 
 const TITLE = "Branding nuk është logo. Është çfarë ndiejnë të tjerët.";
 const DESCRIPTION =
@@ -18,7 +18,7 @@ export default function CfareEshteBrandingPage() {
   ]);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <BlogBrandingClient />
     </>
   );

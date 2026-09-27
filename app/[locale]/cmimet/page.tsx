@@ -16,18 +16,18 @@ const META: Record<Locale, { title: string; desc: string }> = {
   },
 };
 
-type Props = { params: { locale: Locale } | Promise<{ locale: Locale }> };
+type Props = { params: Promise<{ locale: Locale }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
   const m = META[locale];
   return buildMetadata(m.title, m.desc, "/cmimet", undefined, locale);
 }
 
 export const revalidate = 300;
 
-export default async function CmimetPage({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export default async function CmimetPage(props: Props) {
+  const { locale } = await props.params;
   const [overrides, faqRows] = await Promise.all([
     getPricingOverrides().catch(() => ({})),
     getVisibleFaqs(locale).catch(() => []),

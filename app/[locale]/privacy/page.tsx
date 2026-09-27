@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-type Props = { params: { locale: string } | Promise<{ locale: string }> };
+type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string }> = {
   sq: {
@@ -16,8 +16,8 @@ const META: Record<Locale, { title: string; description: string }> = {
   },
 };
 
-export async function generateMetadata({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props) {
+  const { locale } = await props.params;
   const m = META[locale as Locale] ?? META.sq;
   return buildMetadata(m.title, m.description, "/privacy", undefined, locale as Locale);
 }
@@ -188,8 +188,8 @@ To exercise any of these rights, contact us at: info@illyrianpixel.com. We will 
   },
 };
 
-export default async function PrivacyPage({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export default async function PrivacyPage(props: Props) {
+  const { locale } = await props.params;
   const c = CONTENT[locale as Locale] ?? CONTENT.sq;
 
   return (

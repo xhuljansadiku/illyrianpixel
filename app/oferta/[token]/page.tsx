@@ -15,7 +15,8 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export default async function QuotePublicPage({ params }: { params: { token: string } }) {
+export default async function QuotePublicPage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const { data: quote } = await supabase
     .from("quotes")
     .select("*")

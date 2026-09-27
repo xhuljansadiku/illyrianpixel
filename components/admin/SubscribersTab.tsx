@@ -462,6 +462,14 @@ export default function SubscribersTab({
                   Çregjistruar
                 </span>
               )}
+              {!s.unsubscribed && !s.confirmed_at && (
+                <span
+                  className="shrink-0 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]"
+                  title="S'ka klikuar ende linkun e konfirmimit — nuk merr broadcast-e"
+                >
+                  Pa konfirmuar
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-4">
               <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(s.subscribed_at)}</span>

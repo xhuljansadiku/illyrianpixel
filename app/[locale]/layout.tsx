@@ -7,7 +7,7 @@ import MarketingChrome from "@/components/MarketingChrome";
 
 type Props = {
   children: React.ReactNode;
-  params: { locale: string } | Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 };
 
 export function generateStaticParams() {
@@ -15,7 +15,7 @@ export function generateStaticParams() {
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = await Promise.resolve(params);
+  const { locale } = await params;
 
   if (!routing.locales.includes(locale as Locale)) {
     notFound();

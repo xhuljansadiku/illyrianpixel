@@ -16,7 +16,8 @@ function parseTags(raw: unknown): string[] {
     .slice(0, 8);
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const body = await req.json();
   const update: Record<string, unknown> = {};
 
@@ -62,7 +63,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   return NextResponse.json({ success: true, item: data });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const { data, error } = await supabase.from("portfolio_items").delete().eq("id", params.id).select("title");
 
   if (error) {

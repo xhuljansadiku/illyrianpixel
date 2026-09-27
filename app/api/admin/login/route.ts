@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { ADMIN_SESSION_COOKIE, getAdminSessionToken } from "@/lib/adminAuth";
 import { verifyTotp, hashRecoveryCode, generateDeviceToken, hashDeviceToken } from "@/lib/totp";
+import { secureCompare } from "@/lib/secureCompare";
+import { getClientIp } from "@/lib/rateLimit";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,12 +18,15 @@ const TRUSTED_DEVICE_DAYS = 90;
 type TrustedDevice = { hash: string; expires_at: string };
 
 export async function POST(req: Request) {
-  const { password, token: totpToken, recoveryCode, rememberDevice } = await req.json();
+  let body: { password?: unknown; token?: unknown; recoveryCode?: unknown; rememberDevice?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ success: false, error: "Kërkesë e pavlefshme." }, { status: 400 });
+  }
+  const { password, token: totpToken, recoveryCode, rememberDevice } = body;
 
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown";
+  const ip = getClientIp(req);
   const userAgent = req.headers.get("user-agent") ?? "unknown";
 
   const windowStart = new Date(Date.now() - LOCKOUT_WINDOW_MINUTES * 60 * 1000).toISOString();
@@ -39,7 +44,8 @@ export async function POST(req: Request) {
     );
   }
 
-  const passwordOk = !!process.env.ADMIN_PASSWORD && password === process.env.ADMIN_PASSWORD;
+  const passwordOk =
+    !!process.env.ADMIN_PASSWORD && typeof password === "string" && secureCompare(password, process.env.ADMIN_PASSWORD);
 
   if (!passwordOk) {
     await supabase.from("admin_logins").insert({ success: false, ip, user_agent: userAgent });
@@ -99,7 +105,10 @@ export async function POST(req: Request) {
 
   await supabase.from("admin_logins").insert({ success: true, ip, user_agent: userAgent });
 
-  const token = await getAdminSessionToken();
+  const token = await getAdminSessionToken({ fresh: true });
+  if (!token) {
+    return NextResponse.json({ success: false, error: "Konfigurimi i serverit mungon." }, { status: 500 });
+  }
   const res = NextResponse.json({ success: true });
   res.cookies.set(ADMIN_SESSION_COOKIE, token, {
     httpOnly: true,

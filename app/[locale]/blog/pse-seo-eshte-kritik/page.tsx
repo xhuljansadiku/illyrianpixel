@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogSeoClient from "@/components/BlogSeoClient";
-import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 
 const TITLE = "Pse SEO është kritik për biznese serioze (dhe jo një opsion)";
 const DESCRIPTION =
@@ -18,7 +18,7 @@ export default function PseSeoEshteKritikPage() {
   ]);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <BlogSeoClient />
     </>
   );

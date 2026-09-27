@@ -14,7 +14,8 @@ const STATUS_LABELS: Record<string, string> = {
   done: "Mbyllur",
 };
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const body = await req.json();
   const update: Record<string, string | string[] | null> = {};
   // contacts.id është uuid — kalohet si string, jo Number()
@@ -95,7 +96,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   return NextResponse.json({ success: true, contact: data?.[0] ?? null });
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const permanent = new URL(req.url).searchParams.get("permanent") === "1";
 
   if (permanent) {

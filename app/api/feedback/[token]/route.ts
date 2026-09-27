@@ -6,7 +6,8 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function POST(req: Request, { params }: { params: { token: string } }) {
+export async function POST(req: Request, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const token = params.token;
   if (!token || token.length < 16 || token.length > 64) {
     return NextResponse.json({ success: false, error: "Lidhje e pavlefshme." }, { status: 400 });
@@ -38,13 +39,19 @@ export async function POST(req: Request, { params }: { params: { token: string }
     return NextResponse.json({ success: false, error: "Ky vlerësim është dhënë tashmë." }, { status: 409 });
   }
 
-  const { error: updateError } = await supabase
+  // `.is("submitted_at", null)` — dy dërgime njëkohësisht s'krijojnë dy testimoniale
+  const { data: updatedRows, error: updateError } = await supabase
     .from("project_feedback")
     .update({ rating, comment, submitted_at: new Date().toISOString() })
-    .eq("id", feedback.id);
+    .eq("id", feedback.id)
+    .is("submitted_at", null)
+    .select("id");
 
   if (updateError) {
     return NextResponse.json({ success: false, error: "Diçka shkoi keq. Provoni sërish." }, { status: 500 });
+  }
+  if (!updatedRows || updatedRows.length === 0) {
+    return NextResponse.json({ success: false, error: "Ky vlerësim është dhënë tashmë." }, { status: 409 });
   }
 
   // Vlerësim i mirë + koment → kandidat testimoniali, i fshehur derisa admini ta rishikojë

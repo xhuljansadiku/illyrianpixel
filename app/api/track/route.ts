@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,24 +12,6 @@ const WINDOW_SECONDS = 5 * 60; // 5 minuta — bujar për navigim real, jo për 
 
 // Endpoint plotësisht publik e i pa-autentifikuar; pa këtë, dikush mund të mbushë
 // bazën e të dhënave me shkrime të pakufizuara dhe të "helmojë" statistikat e faqeve.
-async function checkRateLimit(ip: string): Promise<boolean> {
-  const now = new Date();
-  const windowStart = new Date(now.getTime() - WINDOW_SECONDS * 1000);
-
-  const { count, error } = await supabase
-    .from("rate_limits")
-    .select("*", { count: "exact", head: true })
-    .eq("scope", "track")
-    .eq("ip", ip)
-    .gte("created_at", windowStart.toISOString());
-
-  if (error) return true; // fail open — nuk bllokojmë nëse DB ka problem
-
-  if ((count ?? 0) >= RATE_LIMIT) return false;
-
-  await supabase.from("rate_limits").insert({ scope: "track", ip, created_at: now.toISOString() });
-  return true;
-}
 
 export async function POST(req: Request) {
   let path = "";
@@ -44,12 +27,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown";
+  const ip = getClientIp(req);
 
-  if (!(await checkRateLimit(ip))) {
+  if (!(await checkRateLimit(supabase, "track", ip, RATE_LIMIT, WINDOW_SECONDS))) {
     return NextResponse.json({ success: false }, { status: 429 });
   }
 

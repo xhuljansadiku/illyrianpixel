@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogEcommerceClient from "@/components/BlogEcommerceClient";
-import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 
 const TITLE = "Dyqani juaj fizik mbyllet në orën 18:00. Dyqani online kurrë.";
 const DESCRIPTION =
@@ -18,7 +18,7 @@ export default function PseEcommerceEshteIRendesishemPage() {
   ]);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <BlogEcommerceClient />
     </>
   );

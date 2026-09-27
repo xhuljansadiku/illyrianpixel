@@ -222,7 +222,7 @@ function BrandGem() {
 // ties the abstract visual back to "what we actually do" instead of pure decoration.
 // Positions are hand-spread (not a flat equatorial ring) so labels never bunch up
 // or overlap each other as the gem rotates, and they auto-occlude behind the gem mesh.
-function ServiceNodes({ occluder, isMobile }: { occluder: RefObject<THREE.Mesh>; isMobile: boolean }) {
+function ServiceNodes({ occluder, isMobile }: { occluder: RefObject<THREE.Mesh | null>; isMobile: boolean }) {
   const radius = isMobile ? 2.1 : 2.5;
   const heightOffsets = [0.75, -0.35, 0.55, -0.75, 0.3, -0.55];
 
@@ -239,7 +239,8 @@ function ServiceNodes({ occluder, isMobile }: { occluder: RefObject<THREE.Mesh>;
               <sphereGeometry args={[0.06, 16, 16]} />
               <meshStandardMaterial color="#f6e3a3" emissive="#ab8339" emissiveIntensity={0.7} />
             </mesh>
-            <Html center distanceFactor={isMobile ? 7.5 : 8.5} occlude={[occluder]} style={{ pointerEvents: "none" }}>
+            {/* drei 10 ende tipizon occlude si RefObject jo-null (stili React 18) — null trajtohet mirë në runtime */}
+            <Html center distanceFactor={isMobile ? 7.5 : 8.5} occlude={[occluder as RefObject<THREE.Object3D>]} style={{ pointerEvents: "none" }}>
               <span className="whitespace-nowrap rounded-full border border-accent/40 bg-black/55 px-2 py-1 text-[9px] tracking-[0.06em] text-accent/90 backdrop-blur-sm md:px-2.5 md:py-1 md:text-[10px] md:tracking-[0.08em]">
                 {label}
               </span>

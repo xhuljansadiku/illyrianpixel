@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import { localBusinessSchema, organizationSchema, websiteSchema, seo } from "@/lib/seo";
+import { localBusinessSchema, organizationSchema, websiteSchema, seo, jsonLd } from "@/lib/seo";
 import WebVitals from "@/components/WebVitals";
 import PageViewTracker from "@/components/PageViewTracker";
 
@@ -145,17 +145,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(organizationSchema) }}
         />
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(localBusinessSchema) }}
         />
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(websiteSchema) }}
         />
 
         <WebVitals />

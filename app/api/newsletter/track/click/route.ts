@@ -8,18 +8,28 @@ const supabase = createClient(
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-// Lejo vetëm destinacione tonat — shmang open redirect
-const ALLOWED_PREFIXES = ["https://illyrianpixel.com", "https://www.illyrianpixel.com", "https://wa.me/"];
+// Lejo vetëm destinacione tonat — shmang open redirect. Krahasohet host-i i analizuar,
+// jo prefiksi i tekstit: "https://illyrianpixel.com@evil.com" do ta kalonte startsWith().
+const ALLOWED_HOSTS = new Set(["illyrianpixel.com", "www.illyrianpixel.com", "wa.me"]);
+const FALLBACK = "https://illyrianpixel.com";
+
+function safeRedirectTarget(target: string): string {
+  try {
+    const url = new URL(target);
+    if (url.protocol === "https:" && ALLOWED_HOSTS.has(url.hostname) && !url.username && !url.password) {
+      return url.toString();
+    }
+  } catch {
+    // URL e pavlefshme
+  }
+  return FALLBACK;
+}
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const broadcastId = searchParams.get("b") ?? "";
   const enc = searchParams.get("e") ?? "";
-  const target = searchParams.get("u") ?? "";
-
-  const safeTarget = ALLOWED_PREFIXES.some((p) => target.startsWith(p))
-    ? target
-    : "https://illyrianpixel.com";
+  const safeTarget = safeRedirectTarget(searchParams.get("u") ?? "");
 
   if (UUID_RE.test(broadcastId) && enc) {
     try {

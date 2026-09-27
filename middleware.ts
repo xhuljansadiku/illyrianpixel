@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
-import { ADMIN_SESSION_COOKIE, getAdminSessionToken } from "@/lib/adminAuth";
+import { ADMIN_SESSION_COOKIE, isValidAdminSession } from "@/lib/adminAuth";
 import { routing } from "@/i18n/routing";
 
 const intlMiddleware = createIntlMiddleware(routing);
@@ -26,9 +26,8 @@ async function adminAuthMiddleware(req: NextRequest, pathname: string) {
   }
 
   const token = req.cookies.get(ADMIN_SESSION_COOKIE)?.value;
-  const expected = await getAdminSessionToken();
 
-  if (!token || token !== expected) {
+  if (!(await isValidAdminSession(token))) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }

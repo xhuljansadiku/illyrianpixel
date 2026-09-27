@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
+import { unsubscribeHeaders } from "@/lib/newsletterTokens";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { logActivity } from "@/lib/activityLog";
 
@@ -30,7 +31,8 @@ export async function POST(req: Request) {
   const { data: subscribers, error } = await supabase
     .from("newsletter_subscribers")
     .select("email")
-    .eq("unsubscribed", false);
+    .eq("unsubscribed", false)
+    .not("confirmed_at", "is", null); // vetëm double opt-in të konfirmuar
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -38,7 +40,7 @@ export async function POST(req: Request) {
 
   const recipients = (subscribers ?? []).map((s) => s.email);
   if (recipients.length === 0) {
-    return NextResponse.json({ success: false, error: "Asnjë subscriber aktiv." }, { status: 400 });
+    return NextResponse.json({ success: false, error: "Asnjë subscriber aktiv i konfirmuar." }, { status: 400 });
   }
 
   if (isScheduled) {
@@ -83,6 +85,7 @@ export async function POST(req: Request) {
           whatsappUrl,
           broadcast ? { broadcastId: broadcast.id, email } : undefined
         ),
+        headers: unsubscribeHeaders(email),
       }))
     );
   }

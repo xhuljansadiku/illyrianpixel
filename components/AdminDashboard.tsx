@@ -118,6 +118,7 @@ export type Subscriber = {
   email: string;
   subscribed_at: string;
   unsubscribed: boolean;
+  confirmed_at?: string | null;
 };
 
 export type BlogPost = {

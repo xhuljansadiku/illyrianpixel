@@ -6,7 +6,8 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+export async function GET(_req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const { data, error } = await supabase
     .from("contact_notes")
     .select("*")
@@ -20,7 +21,8 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   return NextResponse.json({ success: true, notes: data });
 }
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const body = await req.json();
   const text = String(body.text ?? "").trim().slice(0, 4000);
 

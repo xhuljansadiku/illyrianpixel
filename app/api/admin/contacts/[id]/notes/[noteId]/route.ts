@@ -6,7 +6,8 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function PATCH(req: Request, { params }: { params: { id: string; noteId: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ id: string; noteId: string }> }) {
+  const params = await props.params;
   const body = await req.json();
   const text = String(body.text ?? "").trim().slice(0, 4000);
 
@@ -29,7 +30,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string; no
   return NextResponse.json({ success: true, note: data });
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string; noteId: string } }) {
+export async function DELETE(_req: Request, props: { params: Promise<{ id: string; noteId: string }> }) {
+  const params = await props.params;
   const { error } = await supabase
     .from("contact_notes")
     .delete()

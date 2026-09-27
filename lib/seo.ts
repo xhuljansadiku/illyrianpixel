@@ -358,3 +358,7 @@ export const buildServiceSchema = (name: string, description: string, url: strin
     seller: { "@id": `${siteUrl}/#organization` }
   }
 });
+
+// JSON-LD për <script type="application/ld+json">. JSON.stringify s'e escape-on "<",
+// kështu një titull me "</script>" (p.sh. nga një artikull blogu) do të mbyllte tag-un.
+export const jsonLd = (data: unknown) => JSON.stringify(data).replace(/</g, "\u003c");

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { buildMetadata, buildBreadcrumb, seo as seoConfig } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo as seoConfig, jsonLd } from "@/lib/seo";
 import { DIASPORA_COUNTRY_SLUGS, type CountrySlug } from "@/lib/diasporaShared";
 import { diasporaContent } from "@/lib/diasporaContent.sq";
 import DiasporaCountryPage from "@/components/DiasporaCountryPage";
 import type { Locale } from "@/i18n/routing";
 
 type RouteParams = { locale: Locale; country: string };
-type Props = { params: RouteParams | Promise<RouteParams> };
+type Props = { params: Promise<RouteParams> };
 
 export function generateStaticParams() {
   return DIASPORA_COUNTRY_SLUGS.map((country) => ({ country }));
@@ -44,8 +44,8 @@ const AREA_SERVED: Record<CountrySlug, string[]> = {
   "shba-kanada": ["United States", "Canada"],
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, country } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale, country } = await props.params;
   const seo = SEO[country as CountrySlug];
   if (!seo) return buildMetadata("Diasporë", "Website për biznese shqiptare në diasporë.", "/diaspora", undefined, locale, { sqOnly: true });
   return buildMetadata(seo.title, seo.desc, `/diaspora/${country}`, undefined, locale, { sqOnly: true });
@@ -53,8 +53,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const revalidate = 300;
 
-export default async function DiasporaCountryRoute({ params }: Props) {
-  const { country } = await Promise.resolve(params);
+export default async function DiasporaCountryRoute(props: Props) {
+  const { country } = await props.params;
   if (!DIASPORA_COUNTRY_SLUGS.includes(country as CountrySlug)) notFound();
 
   const slug = country as CountrySlug;
@@ -91,12 +91,12 @@ export default async function DiasporaCountryRoute({ params }: Props) {
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
       />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
       />
       <DiasporaCountryPage content={content} />
     </>

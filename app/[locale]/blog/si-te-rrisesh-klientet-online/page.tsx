@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogGrowthClient from "@/components/BlogGrowthClient";
-import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 
 const TITLE = "Ke trafikun. Por ku janë klientët?";
 const DESCRIPTION =
@@ -18,7 +18,7 @@ export default function SiTeRriseshKlientetOnlinePage() {
   ]);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <BlogGrowthClient />
     </>
   );

@@ -2,15 +2,17 @@ import Link from "next/link";
 import { NextIntlClientProvider } from "next-intl";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import common from "@/messages/sq/common.json";
 
 export const metadata = {
   title: "404 — Faqja nuk u gjet",
   description: "Faqja që kërkuat nuk ekziston.",
 };
 
+// Jashtë segmentit [locale] s'ka mesazhe të ngarkuara — Navbar/Footer kanë nevojë për "common"
 export default function NotFound() {
   return (
-    <NextIntlClientProvider locale="sq" messages={{}}>
+    <NextIntlClientProvider locale="sq" messages={{ common }}>
       <Navbar />
       <main className="flex min-h-screen flex-col items-center justify-center bg-bg px-6 text-center">
         <p className="font-pixel text-xs tracking-widest text-accent mb-6">GABIM 404</p>

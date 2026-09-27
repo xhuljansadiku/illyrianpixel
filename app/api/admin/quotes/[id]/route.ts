@@ -15,7 +15,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const ALLOWED_STATUS = ["draft", "sent", "accepted", "rejected", "paid"];
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const body = await req.json();
   const update: Record<string, unknown> = {};
   let previousStatus: string | null = null;
@@ -94,7 +95,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   return NextResponse.json({ success: true, quote: data });
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const permanent = new URL(req.url).searchParams.get("permanent") === "1";
 
   if (permanent) {

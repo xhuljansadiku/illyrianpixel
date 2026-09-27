@@ -12,7 +12,8 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const body = await req.json();
   const subject = String(body.subject ?? "").trim().slice(0, 200);
   const message = String(body.message ?? "").trim().slice(0, 10000);

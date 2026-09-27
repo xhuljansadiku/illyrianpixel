@@ -4,20 +4,20 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { caseStudies, getCaseStudyBySlug } from "@/lib/caseStudies";
-import { seo } from "@/lib/seo";
+import { seo, jsonLd } from "@/lib/seo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalCTA from "@/components/GlobalCTA";
 import type { Locale } from "@/i18n/routing";
 
-type Props = { params: { locale: Locale; slug: string } | Promise<{ locale: Locale; slug: string }> };
+type Props = { params: Promise<{ locale: Locale; slug: string }> };
 
 export function generateStaticParams() {
   return caseStudies.map((item) => ({ slug: item.slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, slug } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale, slug } = await props.params;
   const cs = getCaseStudyBySlug(locale, slug);
   if (!cs) return {};
   const t = await getTranslations({ locale, namespace: "projects.detail" });
@@ -34,8 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CaseStudyPage({ params }: Props) {
-  const { locale, slug } = await Promise.resolve(params);
+export default async function CaseStudyPage(props: Props) {
+  const { locale, slug } = await props.params;
   const cs = getCaseStudyBySlug(locale, slug);
   if (!cs) notFound();
   const t = await getTranslations({ locale, namespace: "projects" });
@@ -57,7 +57,7 @@ export default async function CaseStudyPage({ params }: Props) {
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
       />
       <main className="relative overflow-hidden bg-bg pt-14 text-text md:pt-16">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_10%_14%,rgba(171, 131, 57,0.08),transparent_35%),radial-gradient(circle_at_88%_82%,rgba(171, 131, 57,0.05),transparent_40%)]" />

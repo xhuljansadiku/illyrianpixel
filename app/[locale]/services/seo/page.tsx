@@ -7,7 +7,7 @@ import ServicePackageCard from "@/components/ServicePackageCard";
 import type { ServicePackage } from "@/lib/serviceCategories";
 import { buildMetadata } from "@/lib/seo";
 
-type Props = { params: { locale: string } | Promise<{ locale: string }> };
+type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; desc: string }> = {
   sq: {
@@ -20,8 +20,8 @@ const META: Record<Locale, { title: string; desc: string }> = {
   },
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
   const m = META[locale as Locale] ?? META.sq;
   return buildMetadata(m.title, m.desc, "/services/seo", undefined, locale as Locale);
 }
@@ -174,8 +174,8 @@ const CONTENT: Record<Locale, {
   },
 };
 
-export default async function SeoPage({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export default async function SeoPage(props: Props) {
+  const { locale } = await props.params;
   const c = CONTENT[locale as Locale] ?? CONTENT.sq;
 
   return (

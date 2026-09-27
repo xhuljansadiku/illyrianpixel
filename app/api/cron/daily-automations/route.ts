@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { isAuthorizedCron } from "@/lib/secureCompare";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
+import { unsubscribeHeaders } from "@/lib/newsletterTokens";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { staleContactsEmailHtml } from "@/lib/newsletterEmail";
 import {
@@ -41,8 +43,7 @@ function daysAgoIso(days: number) {
 // kujtues faturash të vonuara dhe gjenerim i faturave të rikurruese.
 // Në fund i dërgon adminit një përmbledhje (vetëm kur ka ndodhur diçka).
 export async function GET(req: Request) {
-  const auth = req.headers.get("authorization");
-  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!isAuthorizedCron(req)) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
 
@@ -193,7 +194,8 @@ export async function GET(req: Request) {
     const { data: subscribers } = await supabase
       .from("newsletter_subscribers")
       .select("email")
-      .eq("unsubscribed", false);
+      .eq("unsubscribed", false)
+      .not("confirmed_at", "is", null); // vetëm double opt-in të konfirmuar
     const recipients = (subscribers ?? []).map((s) => s.email);
 
     if (recipients.length > 0) {
@@ -210,6 +212,7 @@ export async function GET(req: Request) {
               to: email,
               subject: b.subject,
               html: broadcastEmailHtml(b.subject, b.message, whatsappUrl, { broadcastId: b.id, email }),
+              headers: unsubscribeHeaders(email),
             }))
           );
         }
@@ -348,6 +351,12 @@ export async function GET(req: Request) {
       }
     }
   }
+
+  // ── 10. Pastrim — tabelat e shkrimeve publike s'duhet të rriten pafund ──────
+  // rate_limits: dritarja më e gjatë është 1 orë, 1 ditë mjafton me tepri.
+  // admin_logins: historiku i hyrjeve mbahet 180 ditë (mjaft për auditim).
+  await supabase.from("rate_limits").delete().lt("created_at", daysAgoIso(1));
+  await supabase.from("admin_logins").delete().lt("created_at", daysAgoIso(180));
 
   // ── 8. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
   const hasActivity =

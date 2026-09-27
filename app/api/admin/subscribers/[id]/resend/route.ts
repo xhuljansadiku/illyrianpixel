@@ -11,7 +11,8 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(_req: Request, { params }: { params: { id: string } }) {
+export async function POST(_req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const { data: subscriber, error } = await supabase
     .from("newsletter_subscribers")
     .select("email")
@@ -28,7 +29,7 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     from: NEWSLETTER_BRAND.from,
     to: subscriber.email,
     subject: `Kodi juaj 10% zbritje — ${NEWSLETTER_BRAND.name}`,
-    html: welcomeEmailHtml(discountCode, `https://wa.me/${whatsapp_number}`),
+    html: welcomeEmailHtml(discountCode, `https://wa.me/${whatsapp_number}`, subscriber.email),
   });
 
   return NextResponse.json({ success: true });

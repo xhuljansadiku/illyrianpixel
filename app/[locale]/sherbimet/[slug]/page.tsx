@@ -7,14 +7,14 @@ import type { Locale } from "@/i18n/routing";
 
 type RouteParams = { locale: Locale; slug: string };
 
-type Props = { params: RouteParams | Promise<RouteParams> };
+type Props = { params: Promise<RouteParams> };
 
 export function generateStaticParams() {
   return serviceCategories.map((item) => ({ slug: item.slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { slug } = await props.params;
   const category = serviceCategoryBySlug(slug);
   if (!category) {
     return buildMetadata("Shërbimet", "Kategori shërbimesh premium.");
@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata(category.title, category.short);
 }
 
-export default async function SherbimetCategoryPage({ params }: Props) {
-  const { locale, slug } = await Promise.resolve(params);
+export default async function SherbimetCategoryPage(props: Props) {
+  const { locale, slug } = await props.params;
   const category = serviceCategoryBySlug(slug);
   if (!category) notFound();
   permanentRedirect(getPathname({ locale, href: `/services/${category.slug}` }));

@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
-import { buildBreadcrumb, seo } from "@/lib/seo";
+import { buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 
@@ -51,7 +51,7 @@ export default function BlogArticleLayout({
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
         />
       )}
       <Navbar />

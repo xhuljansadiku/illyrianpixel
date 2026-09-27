@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { buildMetadata, buildServiceSchema, seo as seoConfig } from "@/lib/seo";
+import { buildMetadata, buildServiceSchema, seo as seoConfig, jsonLd } from "@/lib/seo";
 import { getServiceCategoryBySlug } from "@/lib/serviceCategories";
 import { applyOverridesToCategory } from "@/lib/pricingOverrides";
 import { getPricingOverrides } from "@/lib/publicContent";
@@ -18,7 +18,7 @@ const SERVICE_SLUGS = [
 ] as const;
 
 type RouteParams = { locale: Locale; slug: string };
-type Props = { params: RouteParams | Promise<RouteParams> };
+type Props = { params: Promise<RouteParams> };
 
 export function generateStaticParams() {
   return SERVICE_SLUGS.map((slug) => ({ slug }));
@@ -87,8 +87,8 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
   },
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, slug } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale, slug } = await props.params;
   const seo = SEO[locale]?.[slug as (typeof SERVICE_SLUGS)[number]];
   if (!seo) return buildMetadata("Services", "Premium digital services for growth-focused businesses.", "", undefined, locale);
   return buildMetadata(seo.title, seo.desc, `/services/${slug}`, undefined, locale);
@@ -117,8 +117,8 @@ const SERVICE_LABELS: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], stri
 
 export const revalidate = 300;
 
-export default async function ServiceDetailPage({ params }: Props) {
-  const { locale, slug } = await Promise.resolve(params);
+export default async function ServiceDetailPage(props: Props) {
+  const { locale, slug } = await props.params;
   if (!SERVICE_SLUGS.includes(slug as (typeof SERVICE_SLUGS)[number])) notFound();
   const baseCategory = getServiceCategoryBySlug(locale, slug);
   if (!baseCategory) notFound();
@@ -146,12 +146,12 @@ export default async function ServiceDetailPage({ params }: Props) {
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
       />
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
       />
       <ServiceCategoryDetailPage category={category} />
     </>

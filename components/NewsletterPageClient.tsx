@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -184,12 +185,12 @@ export default function NewsletterPageClient() {
                         : "Citoni kodin kur kontaktoni për çdo shërbim."}
                     </p>
 
-                    <a
+                    <Link
                       href="/contact"
                       className="interactive-button ip-cta-primary mt-7 inline-flex"
                     >
                       {locale === "en" ? "Book a consultation →" : "Rezervo konsultë →"}
-                    </a>
+                    </Link>
                   </div>
                 ) : (
                   <>

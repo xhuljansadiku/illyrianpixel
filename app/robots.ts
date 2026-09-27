@@ -7,14 +7,17 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/", "/admin/", "/*.json$"],
+        // /_next/ NUK bllokohet — Google duhet të ngarkojë JS/CSS për të renderuar faqet
+        // dhe /_next/image për t'i indeksuar imazhet.
+        disallow: ["/api/", "/admin/", "/*.json$"],
       },
-      // Block AI scrapers from training data
+      // Bllokohen vetëm crawler-at që mbledhin të dhëna për trajnim. Fetcher-at që
+      // veprojnë kur një person pyet ChatGPT/Claude/Perplexity lejohen — sjellin klientë.
       { userAgent: "GPTBot",        disallow: "/" },
-      { userAgent: "ChatGPT-User",  disallow: "/" },
       { userAgent: "CCBot",         disallow: "/" },
       { userAgent: "anthropic-ai",  disallow: "/" },
-      { userAgent: "Claude-Web",    disallow: "/" },
+      { userAgent: "ClaudeBot",     disallow: "/" },
+      { userAgent: "Google-Extended", disallow: "/" },
       { userAgent: "Googlebot-Image", allow: "/" },
     ],
     sitemap: `${seo.siteUrl}/sitemap.xml`,

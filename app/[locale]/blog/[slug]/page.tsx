@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
-import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 import { blogPosts, getBlogPostBySlugForLocale } from "@/lib/blogPosts";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type BlogPostPageProps = {
-  params: { locale: Locale; slug: string } | Promise<{ locale: Locale; slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 };
 
 const T: Record<Locale, { backToBlog: string; minRead: string }> = {
@@ -79,15 +79,15 @@ export async function generateStaticParams() {
   return blogPosts.filter((post) => !DEDICATED_BLOG_SLUGS.has(post.slug)).map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps) {
-  const { locale, slug } = await Promise.resolve(params);
+export async function generateMetadata(props: BlogPostPageProps) {
+  const { locale, slug } = await props.params;
   const post = getBlogPostBySlugForLocale(locale, slug) ?? (await getDbPostBySlug(slug));
   if (!post) return buildMetadata("Blog", undefined, "/blog", undefined, locale);
   return buildMetadata(post.title, post.meta_description || post.excerpt, `/blog/${slug}`, undefined, locale);
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { locale, slug } = await Promise.resolve(params);
+export default async function BlogPostPage(props: BlogPostPageProps) {
+  const { locale, slug } = await props.params;
   const staticPost = getBlogPostBySlugForLocale(locale, slug);
 
   if (staticPost) {
@@ -114,12 +114,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
           />
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema) }}
           />
           <section className="section-wrap">
           <p className="eyebrow">{staticPost.category}</p>
@@ -174,7 +174,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema) }}
       />
       <BlogArticleLayout
         category={post.category}

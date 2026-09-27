@@ -336,9 +336,9 @@ export default function Hero() {
             >
               Merr ofertë falas
             </Link>
-            <a href="/projektet" data-magnetic="true" className="luxury-link">
+            <Link href="/projektet" data-magnetic="true" className="luxury-link">
               Shiko projektet <span aria-hidden>→</span>
-            </a>
+            </Link>
           </div>
         </div>
         <div

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import { Resend } from "resend";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
 import { sendWhatsAppMessage } from "@/lib/whatsapp";
@@ -23,24 +24,6 @@ const BRAND = {
   whatsapp: "https://wa.me/355694726827",
 };
 
-async function checkRateLimit(ip: string): Promise<boolean> {
-  const now = new Date();
-  const windowStart = new Date(now.getTime() - WINDOW_SECONDS * 1000);
-
-  const { count, error } = await supabase
-    .from("rate_limits")
-    .select("*", { count: "exact", head: true })
-    .eq("scope", "contact")
-    .eq("ip", ip)
-    .gte("created_at", windowStart.toISOString());
-
-  if (error) return true; // fail open — nuk bllokojmë nëse DB ka problem
-
-  if ((count ?? 0) >= RATE_LIMIT) return false;
-
-  await supabase.from("rate_limits").insert({ scope: "contact", ip, created_at: now.toISOString() });
-  return true;
-}
 
 function escapeHtml(value: string) {
   return value
@@ -53,12 +36,9 @@ function escapeHtml(value: string) {
 
 export async function POST(req: Request) {
   try {
-    const ip =
-      req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-      req.headers.get("x-real-ip") ??
-      "unknown";
+    const ip = getClientIp(req);
 
-    if (!(await checkRateLimit(ip))) {
+    if (!(await checkRateLimit(supabase, "contact", ip, RATE_LIMIT, WINDOW_SECONDS))) {
       return NextResponse.json(
         { success: false, error: "Shumë kërkesa. Provoni sërish pas 1 ore." },
         { status: 429 }
@@ -67,24 +47,27 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const {
-      name = "",
-      email = "",
-      phone = "",
-      businessName = "",
-      service = "",
-      budget = "",
-      timeline = "",
-      message = "",
-      discountCode = "",
-      sourcePath = "",
-      website = "", // honeypot — fushë e padukshme; bot-et e mbushin, njerëzit jo
-    } = body;
+    // Çdo fushë kthehet në string të shkurtuar — një body me objekte/numra (jo nga
+    // formulari ynë) përndryshe do të kalonte kontrollet `.length` ose do të rrëzonte escapeHtml.
+    const field = (value: unknown, max: number) => (typeof value === "string" ? value.trim().slice(0, max) : "");
 
-    if (website) {
+    // honeypot — fushë e padukshme; bot-et e mbushin, njerëzit jo
+    if (body.website) {
       // "Sukses" i rremë — s'e njoftojmë bot-in që u kap, thjesht s'krijojmë kontakt
       return NextResponse.json({ success: true });
     }
+
+    // name/message s'shkurtohen — nëse janë shumë të gjatë, refuzohen më poshtë
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const email = field(body.email, 254);
+    const phone = field(body.phone, 30);
+    const message = typeof body.message === "string" ? body.message.trim() : "";
+    const businessName = field(body.businessName, 160);
+    const service = field(body.service, 120);
+    const budget = field(body.budget, 60);
+    const timeline = field(body.timeline, 60);
+    const discountCode = field(body.discountCode, 40);
+    const sourcePath = field(body.sourcePath, 200);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -118,6 +101,10 @@ export async function POST(req: Request) {
     const safeBudget = escapeHtml(budget);
     const safeTimeline = escapeHtml(timeline);
     const safeMessage = escapeHtml(message).replaceAll("\n", "<br />");
+    // Auto-reply-i shkon te një adresë e paverifikuar — spammer-at vendosin link te fusha
+    // "emri" që ta dërgojmë ne nga domeni ynë. Emri përshëndetet vetëm kur s'duket si link.
+    const looksLikeLink = /:\/\/|www\.|\.[a-z]{2,}\b/i.test(name);
+    const greetingName = looksLikeLink ? "" : `, ${escapeHtml(name.slice(0, 60))}`;
 
     // Ruaj kontaktin — error këtu kthehet 500
     const { error: dbError } = await supabase.from("contacts").insert([
@@ -131,10 +118,7 @@ export async function POST(req: Request) {
         timeline,
         message,
         discount_code: discountCode || null,
-        source_path:
-          typeof sourcePath === "string" && sourcePath.startsWith("/")
-            ? sourcePath.slice(0, 200)
-            : null,
+        source_path: sourcePath.startsWith("/") ? sourcePath : null,
       },
     ]);
 
@@ -229,7 +213,7 @@ export async function POST(req: Request) {
                 <div style="padding:34px 30px;text-align:center;background:#0a0a0a;border-bottom:1px solid #262626;">
                   <img src="${BRAND.logo}" alt="${BRAND.name}" width="150" style="display:block;margin:0 auto 20px;" />
                   <p style="margin:0;color:#ab8339;font-size:12px;letter-spacing:2px;text-transform:uppercase;">Kërkesa u pranua</p>
-                  <h1 style="margin:14px 0 0;font-size:30px;line-height:1.2;color:#ffffff;">Faleminderit, ${safeName}.</h1>
+                  <h1 style="margin:14px 0 0;font-size:30px;line-height:1.2;color:#ffffff;">Faleminderit${greetingName}.</h1>
                 </div>
                 <div style="padding:32px;">
                   <p style="margin:0;color:#d8d8d8;line-height:1.9;font-size:15px;">Kërkesa juaj u pranua me sukses dhe ekipi ynë do t'ju kontaktojë sa më shpejt për të diskutuar projektin tuaj.</p>

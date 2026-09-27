@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
-import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
-type Props = { params: { locale: string } | Promise<{ locale: string }> };
+type Props = { params: Promise<{ locale: string }> };
 
 const SLUG = "website-dygjuhesh-biznes-diaspore";
 const CATEGORY_COLOR = "rgba(125,211,252,0.9)";
@@ -38,14 +38,14 @@ function articleSchema(locale: Locale) {
   };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await Promise.resolve(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
   const m = META[(locale as Locale) in META ? (locale as Locale) : "sq"];
   return buildMetadata(m.title, m.description, `/blog/${SLUG}`, m.keywords, locale as Locale);
 }
 
-export default async function Page({ params }: Props) {
-  const { locale } = await Promise.resolve(params);
+export default async function Page(props: Props) {
+  const { locale } = await props.params;
   const breadcrumbSchema = buildBreadcrumb([
     { name: "Home", url: seo.siteUrl },
     { name: "Blog", url: `${seo.siteUrl}/blog` },
@@ -55,8 +55,8 @@ export default async function Page({ params }: Props) {
   if (locale === "en") {
     return (
       <>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema("en")) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema("en")) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }} />
         <BlogArticleLayout
           category="Diaspora"
           categoryColor={CATEGORY_COLOR}
@@ -139,8 +139,8 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema("sq")) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema("sq")) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }} />
       <BlogArticleLayout
         category="Diasporë"
         categoryColor={CATEGORY_COLOR}

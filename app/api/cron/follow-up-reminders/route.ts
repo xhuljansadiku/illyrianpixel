@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { isAuthorizedCron } from "@/lib/secureCompare";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, followUpReminderEmailHtml } from "@/lib/newsletterEmail";
 
@@ -11,8 +12,7 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function GET(req: Request) {
-  const auth = req.headers.get("authorization");
-  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!isAuthorizedCron(req)) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
 

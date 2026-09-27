@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BlogGoogleAdsSeoClient from "@/components/BlogGoogleAdsSeoClient";
-import { buildMetadata, buildBreadcrumb, seo } from "@/lib/seo";
+import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 
 const TITLE = "Google Ads apo SEO: Ku të investosh para?";
 const DESCRIPTION =
@@ -18,7 +18,7 @@ export default function GoogleAdsVsSeoPage() {
   ]);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <BlogGoogleAdsSeoClient />
     </>
   );

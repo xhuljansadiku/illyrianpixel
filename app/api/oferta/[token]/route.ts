@@ -18,7 +18,8 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Përgjigja publike e klientit ndaj një oferte (prano / refuzo).
-export async function POST(req: Request, { params }: { params: { token: string } }) {
+export async function POST(req: Request, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const token = params.token;
   if (!token || token.length < 16 || token.length > 64) {
     return NextResponse.json({ success: false, error: "Lidhje e pavlefshme." }, { status: 400 });
@@ -61,15 +62,22 @@ export async function POST(req: Request, { params }: { params: { token: string }
       ? { status: "accepted", accepted_at: now, declined_at: null, client_note: note, updated_at: now }
       : { status: "rejected", declined_at: now, accepted_at: null, client_note: note, updated_at: now };
 
-  const { data: updated, error: updateError } = await supabase
+  // Kushti i statusit përsëritet te update-i: dy klikime njëkohësisht kalojnë të dyja
+  // kontrollin më sipër, por vetëm njëri update gjen rreshtin ende "draft/sent" —
+  // kështu projekti dhe fatura krijohen vetëm një herë.
+  const { data: updatedRows, error: updateError } = await supabase
     .from("quotes")
     .update(updates)
     .eq("id", quote.id)
-    .select()
-    .single();
+    .in("status", ["draft", "sent"])
+    .select();
 
   if (updateError) {
     return NextResponse.json({ success: false, error: "Diçka shkoi keq. Provoni sërish." }, { status: 500 });
+  }
+  const updated = updatedRows?.[0];
+  if (!updated) {
+    return NextResponse.json({ success: false, error: "Kjo ofertë ka marrë tashmë një përgjigje." }, { status: 409 });
   }
 
   await logActivity(
