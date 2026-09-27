@@ -7,7 +7,6 @@
 
 import { useRef, useMemo, useEffect, useState, type RefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
 import * as THREE from "three";
 
 const SERVICES = ["Website", "E-Commerce", "SEO", "Google Ads", "Branding", "Social Media"];
@@ -145,7 +144,7 @@ function ParticleDust() {
 }
 
 // Abstract faceted gold gem — reads as "premium/digital/precise" without a literal tech cliche.
-function BrandGem() {
+function BrandGem({ labelRefs }: { labelRefs: LabelRefs }) {
   const groupRef = useRef<THREE.Group>(null);
   const gemMeshRef = useRef<THREE.Mesh>(null);
   const mouseX = useRef(0);
@@ -213,18 +212,77 @@ function BrandGem() {
         <meshBasicMaterial color="#f6e3a3" wireframe transparent opacity={0.5} />
       </mesh>
 
-      <ServiceNodes occluder={gemMeshRef} isMobile={isMobile} />
+      <ServiceNodes occluder={gemMeshRef} isMobile={isMobile} labelRefs={labelRefs} />
     </group>
   );
 }
+
+type LabelRefs = RefObject<(HTMLSpanElement | null)[]>;
 
 // Small gold nodes orbiting the gem, each labelled with one of our services —
 // ties the abstract visual back to "what we actually do" instead of pure decoration.
 // Positions are hand-spread (not a flat equatorial ring) so labels never bunch up
 // or overlap each other as the gem rotates, and they auto-occlude behind the gem mesh.
-function ServiceNodes({ occluder, isMobile }: { occluder: RefObject<THREE.Mesh | null>; isMobile: boolean }) {
+//
+// Etiketat NUK përdorin <Html> të drei: ai krijon një root React të veçantë për çdo
+// etiketë dhe e fut vetë në DOM, gjë që me React 19 hedh "removeChild ... not a child"
+// dhe rrëzon etiketat. Këtu etiketat janë <span> të zakonshme (jashtë Canvas-it) që
+// pozicionohen në çdo kornizë — e njëjta projeksion, shkallëzim dhe fshehje pas gemës.
+function ServiceNodes({
+  occluder,
+  isMobile,
+  labelRefs,
+}: {
+  occluder: RefObject<THREE.Mesh | null>;
+  isMobile: boolean;
+  labelRefs: LabelRefs;
+}) {
   const radius = isMobile ? 2.1 : 2.5;
   const heightOffsets = [0.75, -0.35, 0.55, -0.75, 0.3, -0.55];
+  const distanceFactor = isMobile ? 7.5 : 8.5;
+  const nodeRefs = useRef<(THREE.Group | null)[]>([]);
+  const tmp = useMemo(
+    () => ({
+      raycaster: new THREE.Raycaster(),
+      world: new THREE.Vector3(),
+      ndc: new THREE.Vector3(),
+      pointer: new THREE.Vector2(),
+      cameraPos: new THREE.Vector3(),
+    }),
+    []
+  );
+
+  useFrame(({ camera, size }) => {
+    const cam = camera as THREE.PerspectiveCamera;
+    tmp.cameraPos.setFromMatrixPosition(cam.matrixWorld);
+    // Njësoj si distanceFactor i drei: madhësia e etiketës bie me distancën nga kamera
+    const fovScale = 2 * Math.tan((cam.fov * Math.PI) / 360);
+
+    nodeRefs.current.forEach((node, i) => {
+      const el = labelRefs.current?.[i];
+      if (!node || !el) return;
+
+      node.getWorldPosition(tmp.world);
+      const dist = tmp.world.distanceTo(tmp.cameraPos);
+      tmp.ndc.copy(tmp.world).project(cam);
+
+      // Fshihet kur gema ndodhet mes kamerës dhe nyjës
+      let hidden = false;
+      if (occluder.current) {
+        tmp.pointer.set(tmp.ndc.x, tmp.ndc.y);
+        tmp.raycaster.setFromCamera(tmp.pointer, cam);
+        const hit = tmp.raycaster.intersectObject(occluder.current, false)[0];
+        hidden = !!hit && hit.distance < dist;
+      }
+
+      const x = ((tmp.ndc.x + 1) / 2) * size.width;
+      const y = ((1 - tmp.ndc.y) / 2) * size.height;
+      const scale = distanceFactor / (fovScale * dist);
+      el.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale}) translate(-50%, -50%)`;
+      el.style.opacity = hidden ? "0" : "1";
+      el.style.zIndex = String(Math.round(1000 - dist * 10));
+    });
+  });
 
   return (
     <>
@@ -234,17 +292,17 @@ function ServiceNodes({ occluder, isMobile }: { occluder: RefObject<THREE.Mesh |
         const z = Math.sin(angle) * radius;
         const y = heightOffsets[i % heightOffsets.length];
         return (
-          <group key={label} position={[x, y, z]}>
+          <group
+            key={label}
+            position={[x, y, z]}
+            ref={(node) => {
+              nodeRefs.current[i] = node;
+            }}
+          >
             <mesh>
               <sphereGeometry args={[0.06, 16, 16]} />
               <meshStandardMaterial color="#f6e3a3" emissive="#ab8339" emissiveIntensity={0.7} />
             </mesh>
-            {/* drei 10 ende tipizon occlude si RefObject jo-null (stili React 18) — null trajtohet mirë në runtime */}
-            <Html center distanceFactor={isMobile ? 7.5 : 8.5} occlude={[occluder as RefObject<THREE.Object3D>]} style={{ pointerEvents: "none" }}>
-              <span className="whitespace-nowrap rounded-full border border-accent/40 bg-black/55 px-2 py-1 text-[9px] tracking-[0.06em] text-accent/90 backdrop-blur-sm md:px-2.5 md:py-1 md:text-[10px] md:tracking-[0.08em]">
-                {label}
-              </span>
-            </Html>
           </group>
         );
       })}
@@ -253,14 +311,33 @@ function ServiceNodes({ occluder, isMobile }: { occluder: RefObject<THREE.Mesh |
 }
 
 export default function ParticleCloudScene() {
+  const labelRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 9], fov: 42 }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      style={{ background: "transparent" }}
-    >
-      <ParticleDust />
-      <BrandGem />
-    </Canvas>
+    <div className="relative h-full w-full">
+      <Canvas
+        camera={{ position: [0, 0, 9], fov: 42 }}
+        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        style={{ background: "transparent" }}
+      >
+        <ParticleDust />
+        <BrandGem labelRefs={labelRefs} />
+      </Canvas>
+
+      {/* Etiketat e shërbimeve — pozicionohen nga ServiceNodes në çdo kornizë */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        {SERVICES.map((label, i) => (
+          <span
+            key={label}
+            ref={(el) => {
+              labelRefs.current[i] = el;
+            }}
+            className="absolute left-0 top-0 origin-top-left whitespace-nowrap rounded-full border border-accent/40 bg-black/55 px-2 py-1 text-[9px] tracking-[0.06em] text-accent/90 opacity-0 backdrop-blur-sm transition-opacity duration-200 md:px-2.5 md:py-1 md:text-[10px] md:tracking-[0.08em]"
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }

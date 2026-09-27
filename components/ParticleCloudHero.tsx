@@ -1,22 +1,25 @@
 "use client";
 
-// Hero-ja: teksti renderohet në server (LCP i shpejtë, zero CLS) ndërsa skena 3D
-// (ParticleCloudScene → three.js/r3f) ngarkohet lazy VETËM pasi faqja të jetë
-// bërë interaktive (requestIdleCallback) — three.js nuk prek dot rrugën kritike.
+// Hero-ja: teksti renderohet në server (LCP i shpejtë, zero CLS) mbi një sfond
+// statik me rrjetë (.hero-grid).
+//
+// SKENA 3D (gema + grimcat + etiketat) ËSHTË E ÇAKTIVIZUAR, jo e fshirë — kodi
+// është ende te components/ParticleCloudScene.tsx. Për ta rikthyer, hiq komentet
+// e shënuara me "3D" në këtë skedar (importi, state-i, efekti dhe JSX-i).
 
 import { useRef, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+// 3D: import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useReducedMotion } from "@/lib/gsap";
 
-const ParticleCloudScene = dynamic(() => import("@/components/ParticleCloudScene"), { ssr: false });
+// 3D: const ParticleCloudScene = dynamic(() => import("@/components/ParticleCloudScene"), { ssr: false });
 
 export default function ParticleCloudHero() {
   const t = useTranslations("home.hero");
   const reducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
-  const [showScene, setShowScene] = useState(false);
+  // 3D: const [showScene, setShowScene] = useState(false);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
@@ -26,31 +29,31 @@ export default function ParticleCloudHero() {
     setMounted(true);
   }, []);
 
-  // Skena 3D montohet vetëm kur browser-i është idle — LCP/TBT mbrohen.
+  // 3D: Skena 3D montohet vetëm kur browser-i është idle — LCP/TBT mbrohen.
   // Nën breakpoint-in lg (1024px) skena as nuk ngarkohet: bundle-i three.js/r3f
   // (~700KB, ~10s script evaluation në CPU mesatare mobile) rrit LCP mobile
   // në ~5s dhe TBT në ~2.9s (matur me Lighthouse mobile) — mobile merr vetëm
   // fallback-un statik .hero-grid.
-  useEffect(() => {
-    if (!mounted || reducedMotion) return;
-    if (typeof window.matchMedia === "function" && !window.matchMedia("(min-width: 1024px)").matches) {
-      return;
-    }
-    let idleId: number | undefined;
-    let timerId: ReturnType<typeof setTimeout> | undefined;
-    const arm = () => setShowScene(true);
-    if (typeof window.requestIdleCallback === "function") {
-      idleId = window.requestIdleCallback(arm, { timeout: 2000 });
-    } else {
-      timerId = setTimeout(arm, 1200);
-    }
-    return () => {
-      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
-        window.cancelIdleCallback(idleId);
-      }
-      if (timerId) clearTimeout(timerId);
-    };
-  }, [mounted, reducedMotion]);
+  // 3D: useEffect(() => {
+  // 3D:   if (!mounted || reducedMotion) return;
+  // 3D:   if (typeof window.matchMedia === "function" && !window.matchMedia("(min-width: 1024px)").matches) {
+  // 3D:     return;
+  // 3D:   }
+  // 3D:   let idleId: number | undefined;
+  // 3D:   let timerId: ReturnType<typeof setTimeout> | undefined;
+  // 3D:   const arm = () => setShowScene(true);
+  // 3D:   if (typeof window.requestIdleCallback === "function") {
+  // 3D:     idleId = window.requestIdleCallback(arm, { timeout: 2000 });
+  // 3D:   } else {
+  // 3D:     timerId = setTimeout(arm, 1200);
+  // 3D:   }
+  // 3D:   return () => {
+  // 3D:     if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
+  // 3D:       window.cancelIdleCallback(idleId);
+  // 3D:     }
+  // 3D:     if (timerId) clearTimeout(timerId);
+  // 3D:   };
+  // 3D: }, [mounted, reducedMotion]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -214,19 +217,21 @@ export default function ParticleCloudHero() {
           </div>
         </div>
 
-        {/* Right column is empty in the DOM on desktop — the gem renders inside the
-            full-bleed Canvas behind everything, offset to sit visually in this area. */}
+        {/* Right column is intentionally empty on desktop — keeps the text column width
+            and the hero height; the grid backdrop shows through here. */}
         <div className="hidden h-[460px] lg:block" aria-hidden />
       </div>
 
-      {/* On mobile this is an in-flow block directly below the text (its own space,
-          not a background). On desktop it pops out via lg:absolute to full-bleed behind everything. */}
+      {/* Static grid backdrop. On mobile an in-flow block below the text; on desktop
+          it pops out via lg:absolute to full-bleed behind everything. */}
       <div className="hero-visual relative z-0 h-[340px] w-full overflow-hidden lg:absolute lg:inset-0 lg:h-auto lg:w-auto lg:overflow-visible">
-        {showScene && !reducedMotion ? (
-          <ParticleCloudScene />
-        ) : (
-          <div className="hero-grid absolute inset-0 opacity-80" />
-        )}
+        {/* 3D: për ta rikthyer, zëvendëso rreshtin .hero-grid më poshtë me:
+            {showScene && !reducedMotion ? (
+              <ParticleCloudScene />
+            ) : (
+              <div className="hero-grid absolute inset-0 opacity-80" />
+            )} */}
+        <div className="hero-grid absolute inset-0 opacity-80" />
         <div className="pointer-events-none absolute inset-0 z-[1] hero-depth-vignette" aria-hidden />
       </div>
 
