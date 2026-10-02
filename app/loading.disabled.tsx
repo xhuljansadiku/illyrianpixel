@@ -1,3 +1,9 @@
+// I ÇAKTIVIZUAR (2026-10-02) — Next e njeh vetëm emrin "loading.tsx", ky skedar injorohet.
+// Pse: si loading.tsx në rrënjë, ky skeleton mbështillte çdo faqe në një Suspense:
+//   • notFound() vinte pasi përgjigja kishte nisur → URL të gabuara ktheheshin 200 (soft 404)
+//   • HTML statik dërgonte skeletin + përmbajtjen në <div hidden> → dy <main> në çdo faqe
+// Faqet tani janë statike, ndaj skeleton-i s'duhet. Për ta rikthyer: riemërtoje në
+// loading.tsx (ose vendose vetëm në një segment që s'thërret notFound()).
 export default function Loading() {
   return (
     <main className="min-h-screen bg-bg">

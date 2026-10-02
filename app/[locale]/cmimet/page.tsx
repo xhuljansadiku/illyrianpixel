@@ -1,5 +1,4 @@
 ﻿import type { Metadata } from "next";
-import { Suspense } from "react";
 import AllPackagesPageClient from "@/components/AllPackagesPageClient";
 import { buildMetadata } from "@/lib/seo";
 import { getPricingOverrides, getVisibleFaqs } from "@/lib/publicContent";
@@ -33,9 +32,5 @@ export default async function CmimetPage(props: Props) {
     getVisibleFaqs(locale).catch(() => []),
   ]);
   const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer, category: f.category }));
-  return (
-    <Suspense>
-      <AllPackagesPageClient overrides={overrides} faqItems={faqItems} />
-    </Suspense>
-  );
+  return <AllPackagesPageClient overrides={overrides} faqItems={faqItems} />;
 }

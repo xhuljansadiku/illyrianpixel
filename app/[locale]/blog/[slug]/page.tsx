@@ -75,6 +75,12 @@ async function getOtherPosts(slug: string) {
   return data ?? [];
 }
 
+// Postimet e krijuara nga admini (Supabase) s'janë në generateStaticParams —
+// renderohen on-demand dhe rifreskohen çdo 60s, që redaktimet, fshirjet dhe
+// postimet e planifikuara (scheduled_for) të dalin pa deploy të ri.
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   return blogPosts.filter((post) => !DEDICATED_BLOG_SLUGS.has(post.slug)).map((post) => ({ slug: post.slug }));
 }

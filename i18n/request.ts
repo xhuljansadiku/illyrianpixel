@@ -25,6 +25,9 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
+    // Pa timeZone, next-intl paralajmëron (ENVIRONMENT_FALLBACK) dhe datat mund
+    // të formatohen ndryshe në server e klient.
+    timeZone: "Europe/Tirane",
     messages: await loadMessages(locale as Locale),
   };
 });
