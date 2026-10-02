@@ -5,14 +5,14 @@ import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { GA_ID, gaInitScript, isPrivatePath, loadClarity, readConsent } from "@/lib/consent";
 
-// Google Analytics (Consent Mode v2, "denied" deri në pëlqim) + Clarity vetëm pas pëlqimit.
+// gtag (Consent Mode v2, "denied" deri në pëlqim) + Clarity vetëm pas pëlqimit për analitikë.
 // Pëlqimi i ri jepet nga CookieConsent → saveConsent(); këtu trajtohet vizitori që kthehet.
 export default function Analytics() {
   const pathname = usePathname();
   const isPrivate = isPrivatePath(pathname);
 
   useEffect(() => {
-    if (!isPrivate && readConsent() === true) loadClarity();
+    if (!isPrivate && readConsent()?.analytics) loadClarity();
   }, [isPrivate]);
 
   if (isPrivate) return null;

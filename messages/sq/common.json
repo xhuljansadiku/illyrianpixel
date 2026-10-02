@@ -77,10 +77,18 @@
   },
   "cookieConsent": {
     "title": "Cookies & Privatësia",
-    "body": "Me lejen tuaj përdorim Google Analytics dhe Microsoft Clarity për të kuptuar si përdoret faqja. Pa pëlqim nuk vendosim cookies analitike. Zgjedhjen mund ta ndryshoni kurdo te “Cilësimet e cookies” në fund të faqes.",
+    "body": "Me lejen tuaj përdorim cookies analitike (Google Analytics, Microsoft Clarity) dhe marketingu (Google Ads). Pa pëlqim nuk vendosim asnjë prej tyre. Zgjedhjen mund ta ndryshoni kurdo te “Cilësimet e cookies” në fund të faqes.",
     "privacyLink": "Politika e privatësisë",
     "acceptAll": "Prano të gjitha",
-    "essentialOnly": "Vetëm të nevojshme"
+    "essentialOnly": "Vetëm të nevojshme",
+    "customize": "Personalizo",
+    "save": "Ruaj zgjedhjen",
+    "necessaryTitle": "Të nevojshme",
+    "necessaryDesc": "Që faqja të funksionojë dhe të mbajë mend zgjedhjen tuaj. Gjithmonë aktive.",
+    "analyticsTitle": "Analitika",
+    "analyticsDesc": "Google Analytics dhe Microsoft Clarity: si përdoret faqja, që ta përmirësojmë.",
+    "marketingTitle": "Marketing",
+    "marketingDesc": "Google Ads: matja e rezultateve të reklamave dhe reklama më të përshtatshme për ju."
   },
   "whatsapp": {
     "popoverText": "Na shkruaj në WhatsApp për një ofertë të shpejtë.",

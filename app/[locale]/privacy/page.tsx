@@ -51,6 +51,8 @@ const CONTENT: Record<Locale, {
 
 • Analitika (Google Analytics, Microsoft Clarity): vetëm nëse klikoni “Prano” te banner-i i cookies. Mbledh mënyrën si përdoret faqja (faqet, klikimet, lëvizjet, pajisja, vendndodhja e përafërt); Clarity regjistron edhe ndërveprimet në faqe. Baza ligjore: Neni 6(1)(a) GDPR, pëlqimi, që mund ta tërhiqni në çdo kohë.
 
+• Marketing (Google Ads): vetëm nëse e pranoni këtë kategori te banner-i. Mat nëse vizitat nga reklamat tona kthehen në kërkesa dhe lejon reklama më të përshtatshme. Baza ligjore: Neni 6(1)(a) GDPR, pëlqimi, që mund ta tërhiqni në çdo kohë.
+
 • Mbrojtje nga abuzimi: adresa IP përdoret përkohësisht për të kufizuar kërkesat e tepërta në formularë dhe fshihet brenda 24 orësh. Baza ligjore: Neni 6(1)(f) GDPR, interes legjitim për sigurinë e faqes.
 
 Nuk mbledhim kategori speciale të dhënash sipas Nenit 9 GDPR (shëndet, origjinë etnike, etj.).`,
@@ -62,9 +64,9 @@ Nuk mbledhim kategori speciale të dhënash sipas Nenit 9 GDPR (shëndet, origji
 • Të dhënat e kontaktit dhe komunikimit: deri në 2 vjet pas ndërprerjes së marrëdhënies.
 • Të dhënat kontraktuale dhe financiare: deri në 5 vjet sipas detyrimeve ligjore.
 • Abonimi në newsletter: derisa të çabonoheni.
-• Bisedat me asistentin: derisa të mos jenë më të nevojshme për përmirësimin e tij; mund të kërkoni fshirjen e tyre në çdo kohë.
+• Bisedat me asistentin: 12 muaj, pastaj fshihen automatikisht; mund të kërkoni fshirjen e tyre edhe më herët.
 • Adresa IP për mbrojtje nga abuzimi: deri në 24 orë.
-• Google Analytics dhe Microsoft Clarity: sipas afateve të ruajtjes të këtyre shërbimeve (për Google Analytics, maksimumi 14 muaj).
+• Google Analytics, Google Ads dhe Microsoft Clarity: sipas afateve të ruajtjes të këtyre shërbimeve (për Google Analytics, maksimumi 14 muaj).
 
 Pas skadimit të afatit, të dhënat fshihen ose anonimizojnë në mënyrë të sigurt.`,
       },
@@ -76,7 +78,7 @@ Pas skadimit të afatit, të dhënat fshihen ose anonimizojnë në mënyrë të 
 • Supabase, databaza ku ruhen kërkesat e kontaktit, abonimet në newsletter dhe bisedat me asistentin.
 • Resend (SHBA), dërgimi i email-eve (konfirmime, njoftime dhe newsletter).
 • Telegram dhe WhatsApp (përmes shërbimit CallMeBot), njoftime të brendshme drejt nesh kur dërgoni formularin e kontaktit; përmbajnë të dhënat që keni shkruar.
-• Google (Google Analytics) dhe Microsoft (Microsoft Clarity), vetëm nëse jepni pëlqimin.
+• Google (Google Analytics, Google Ads) dhe Microsoft (Microsoft Clarity), vetëm nëse jepni pëlqimin për kategorinë përkatëse.
 • Autoritetet kompetente ligjore, vetëm nëse kërkohet me ligj.`,
       },
       {
@@ -89,12 +91,13 @@ Pas skadimit të afatit, të dhënat fshihen ose anonimizojnë në mënyrë të 
       },
       {
         title: "6. Cookies",
-        body: `Faqja funksionon pa cookies jo-thelbësore. Cookies analitike vendosen vetëm nëse klikoni “Prano” te banner-i, sipas Direktivës ePrivacy (2002/58/KE) dhe Nenit 6(1)(a) GDPR:
+        body: `Faqja funksionon pa cookies jo-thelbësore. Cookies analitike dhe të marketingut vendosen vetëm nëse i pranoni te banner-i (secila kategori me zgjedhje më vete), sipas Direktivës ePrivacy (2002/58/KE) dhe Nenit 6(1)(a) GDPR:
 
-• Google Analytics: _ga dhe _ga_<ID>, për të dalluar vizitorët dhe sesionet; deri në 2 vjet.
-• Microsoft Clarity: _clck dhe _clsk (si dhe cookies të Microsoft), për analizën e përdorimit dhe regjistrimin e sesioneve; deri në 1 vit.
+• Analitika, Google Analytics: _ga dhe _ga_<ID>, për të dalluar vizitorët dhe sesionet; deri në 2 vjet.
+• Analitika, Microsoft Clarity: _clck dhe _clsk (si dhe cookies të Microsoft), për analizën e përdorimit dhe regjistrimin e sesioneve; deri në 1 vit.
+• Marketing, Google Ads: _gcl_au (si dhe cookies të Google për reklama), për matjen e rezultateve të reklamave; deri në 90 ditë.
 
-Nëse nuk pranoni, Google Analytics funksionon pa cookies (Google Consent Mode) dhe merr vetëm sinjale teknike për statistika të përmbledhura, ndërsa Microsoft Clarity nuk ngarkohet fare.
+Nëse nuk pranoni, Google merr vetëm sinjale teknike pa cookies (Google Consent Mode) për statistika të përmbledhura, ndërsa Microsoft Clarity nuk ngarkohet fare.
 
 Në memorien e shfletuesit (localStorage/sessionStorage) ruajmë vetëm zgjedhje teknike: zgjedhjen tuaj për cookies (12 muaj), nëse keni mbyllur një dritare informuese dhe identifikuesin e sesionit të bisedës (fshihet kur mbyllni skedën).
 
@@ -151,6 +154,8 @@ Për të ushtruar çdo të drejtë, na kontaktoni: info@illyrianpixel.com. Do t'
 
 • Analytics (Google Analytics, Microsoft Clarity): only if you click “Accept” in the cookie banner. Collects how the site is used (pages, clicks, scrolling, device, approximate location); Clarity also records on-page interactions. Legal basis: Article 6(1)(a) GDPR, consent, which you can withdraw at any time.
 
+• Marketing (Google Ads): only if you accept this category in the banner. Measures whether visits from our ads turn into enquiries and allows more relevant ads. Legal basis: Article 6(1)(a) GDPR, consent, which you can withdraw at any time.
+
 • Abuse protection: your IP address is used temporarily to limit excessive form submissions and is deleted within 24 hours. Legal basis: Article 6(1)(f) GDPR, legitimate interest in keeping the site secure.
 
 We do not collect special categories of data under Article 9 GDPR (health, ethnic origin, etc.).`,
@@ -162,9 +167,9 @@ We do not collect special categories of data under Article 9 GDPR (health, ethni
 • Contact and communication data: up to 2 years after the relationship ends.
 • Contractual and financial data: up to 5 years per legal obligations.
 • Newsletter subscription: until you unsubscribe.
-• Assistant conversations: until they are no longer needed to improve the assistant; you can ask us to delete them at any time.
+• Assistant conversations: 12 months, then deleted automatically; you can also ask us to delete them sooner.
 • IP addresses used for abuse protection: up to 24 hours.
-• Google Analytics and Microsoft Clarity: according to those services' retention periods (for Google Analytics, at most 14 months).
+• Google Analytics, Google Ads and Microsoft Clarity: according to those services' retention periods (for Google Analytics, at most 14 months).
 
 Once the retention period expires, data is securely deleted or anonymized.`,
       },
@@ -176,7 +181,7 @@ Once the retention period expires, data is securely deleted or anonymized.`,
 • Supabase, the database where contact requests, newsletter subscriptions and assistant conversations are stored.
 • Resend (USA), for sending emails (confirmations, notifications and the newsletter).
 • Telegram and WhatsApp (via the CallMeBot service), internal notifications to us when you submit the contact form; they contain the details you entered.
-• Google (Google Analytics) and Microsoft (Microsoft Clarity), only if you give consent.
+• Google (Google Analytics, Google Ads) and Microsoft (Microsoft Clarity), only if you consent to the relevant category.
 • Competent legal authorities, only when required by law.`,
       },
       {
@@ -189,12 +194,13 @@ Once the retention period expires, data is securely deleted or anonymized.`,
       },
       {
         title: "6. Cookies",
-        body: `The site works without non-essential cookies. Analytics cookies are only set if you click “Accept” in the banner, in line with the ePrivacy Directive (2002/58/EC) and Article 6(1)(a) GDPR:
+        body: `The site works without non-essential cookies. Analytics and marketing cookies are only set if you accept them in the banner (each category is a separate choice), in line with the ePrivacy Directive (2002/58/EC) and Article 6(1)(a) GDPR:
 
-• Google Analytics: _ga and _ga_<ID>, to distinguish visitors and sessions; up to 2 years.
-• Microsoft Clarity: _clck and _clsk (plus Microsoft cookies), for usage analysis and session recording; up to 1 year.
+• Analytics, Google Analytics: _ga and _ga_<ID>, to distinguish visitors and sessions; up to 2 years.
+• Analytics, Microsoft Clarity: _clck and _clsk (plus Microsoft cookies), for usage analysis and session recording; up to 1 year.
+• Marketing, Google Ads: _gcl_au (plus Google advertising cookies), to measure ad results; up to 90 days.
 
-If you decline, Google Analytics runs without cookies (Google Consent Mode) and only receives technical signals for aggregated statistics, while Microsoft Clarity is not loaded at all.
+If you decline, Google only receives cookieless technical signals (Google Consent Mode) for aggregated statistics, while Microsoft Clarity is not loaded at all.
 
 In your browser's storage (localStorage/sessionStorage) we only keep technical choices: your cookie choice (12 months), whether you closed an informational pop-up, and the chat session identifier (deleted when you close the tab).
 

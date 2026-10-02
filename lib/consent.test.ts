@@ -1,5 +1,6 @@
+import { runInNewContext } from "node:vm";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { CONSENT_STORAGE_KEY, CONSENT_VERSION, gaInitScript, isPrivatePath, readConsent } from "./consent";
+import { CONSENT_STORAGE_KEY, CONSENT_VERSION, consentSignals, gaInitScript, isPrivatePath, readConsent } from "./consent";
 
 function stubStorage(initial: Record<string, string> = {}) {
   const store = new Map(Object.entries(initial));
@@ -9,8 +10,8 @@ function stubStorage(initial: Record<string, string> = {}) {
   });
 }
 
-const stored = (analytics: boolean, ts = new Date().toISOString(), v = CONSENT_VERSION) =>
-  JSON.stringify({ v, analytics, ts });
+const stored = (analytics: boolean, marketing: boolean, ts = new Date().toISOString(), v = CONSENT_VERSION) =>
+  JSON.stringify({ v, analytics, marketing, ts });
 
 describe("readConsent", () => {
   beforeEach(() => stubStorage());
@@ -20,11 +21,11 @@ describe("readConsent", () => {
     expect(readConsent()).toBeNull();
   });
 
-  it("returns the stored choice", () => {
-    stubStorage({ [CONSENT_STORAGE_KEY]: stored(true) });
-    expect(readConsent()).toBe(true);
-    stubStorage({ [CONSENT_STORAGE_KEY]: stored(false) });
-    expect(readConsent()).toBe(false);
+  it("returns each category separately", () => {
+    stubStorage({ [CONSENT_STORAGE_KEY]: stored(true, false) });
+    expect(readConsent()).toEqual({ analytics: true, marketing: false });
+    stubStorage({ [CONSENT_STORAGE_KEY]: stored(false, true) });
+    expect(readConsent()).toEqual({ analytics: false, marketing: true });
   });
 
   it("asks again for legacy values — 'declined' was never honoured before v2", () => {
@@ -32,13 +33,18 @@ describe("readConsent", () => {
     expect(readConsent()).toBeNull();
     stubStorage({ [CONSENT_STORAGE_KEY]: "declined" });
     expect(readConsent()).toBeNull();
-    stubStorage({ [CONSENT_STORAGE_KEY]: stored(true, new Date().toISOString(), 1) });
+    stubStorage({ [CONSENT_STORAGE_KEY]: stored(true, true, new Date().toISOString(), 1) });
+    expect(readConsent()).toBeNull();
+  });
+
+  it("asks again when a category is missing", () => {
+    stubStorage({ [CONSENT_STORAGE_KEY]: JSON.stringify({ v: CONSENT_VERSION, analytics: true, ts: new Date().toISOString() }) });
     expect(readConsent()).toBeNull();
   });
 
   it("expires after 12 months", () => {
     const thirteenMonthsAgo = new Date(Date.now() - 395 * 86400000).toISOString();
-    stubStorage({ [CONSENT_STORAGE_KEY]: stored(true, thirteenMonthsAgo) });
+    stubStorage({ [CONSENT_STORAGE_KEY]: stored(true, true, thirteenMonthsAgo) });
     expect(readConsent()).toBeNull();
   });
 
@@ -48,13 +54,58 @@ describe("readConsent", () => {
   });
 });
 
+describe("consentSignals", () => {
+  it("maps analytics and marketing to the Consent Mode v2 signals", () => {
+    expect(consentSignals({ analytics: true, marketing: false })).toEqual({
+      analytics_storage: "granted",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    });
+    expect(consentSignals({ analytics: false, marketing: true })).toEqual({
+      analytics_storage: "denied",
+      ad_storage: "granted",
+      ad_user_data: "granted",
+      ad_personalization: "granted",
+    });
+  });
+});
+
+// Ekzekuton script-in inline si në shfletues dhe kthen komandat consent që shtyn në dataLayer
+function runGaInit(storedValue: string | null) {
+  const context: Record<string, unknown> = {
+    localStorage: { getItem: () => storedValue },
+    Date,
+    JSON,
+  };
+  context.window = context;
+  runInNewContext(gaInitScript(), context);
+  return (context.dataLayer as IArguments[])
+    .map((args) => Array.from(args))
+    .filter(([cmd]) => cmd === "consent")
+    .map(([, mode, signals]) => ({ mode, signals }));
+}
+
 describe("gaInitScript", () => {
-  it("sets consent default to denied before GA is configured", () => {
+  it("applies a stored choice exactly when readConsent() accepts it", () => {
+    expect(runGaInit(null)).toHaveLength(1); // vetëm default
+    expect(runGaInit(stored(true, false))[1]).toEqual({
+      mode: "update",
+      signals: consentSignals({ analytics: true, marketing: false }),
+    });
+    // forma pa "marketing" → readConsent() = null → pa update
+    expect(runGaInit(JSON.stringify({ v: CONSENT_VERSION, analytics: true, ts: new Date().toISOString() }))).toHaveLength(1);
+    expect(runGaInit("accepted")).toHaveLength(1);
+  });
+
+  it("denies every signal by default before GA is configured", () => {
     const script = gaInitScript();
     const defaultAt = script.indexOf("'consent', 'default'");
     expect(defaultAt).toBeGreaterThan(-1);
     expect(defaultAt).toBeLessThan(script.indexOf("'config'"));
-    expect(script).toContain("analytics_storage: 'denied'");
+    for (const signal of ["analytics_storage", "ad_storage", "ad_user_data", "ad_personalization"]) {
+      expect(script).toContain(`${signal}: 'denied'`);
+    }
   });
 });
 
