@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NextIntlClientProvider } from "next-intl";
+import NextIntlClientProvider from "@/components/ClientIntlProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import common from "@/messages/sq/common.json";
@@ -12,7 +12,7 @@ export const metadata = {
 // Jashtë segmentit [locale] s'ka mesazhe të ngarkuara — Navbar/Footer kanë nevojë për "common"
 export default function NotFound() {
   return (
-    <NextIntlClientProvider locale="sq" messages={{ common }}>
+    <NextIntlClientProvider locale="sq" timeZone="Europe/Tirane" messages={{ common }}>
       <Navbar />
       <main className="flex min-h-screen flex-col items-center justify-center bg-bg px-6 text-center">
         <p className="font-pixel text-xs tracking-widest text-accent mb-6">GABIM 404</p>

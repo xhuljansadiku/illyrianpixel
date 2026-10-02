@@ -28,3 +28,4 @@ jobs:
           ADMIN_PASSWORD: ci
           ADMIN_SESSION_SECRET: ci
           CRON_SECRET: ci
+      - run: node scripts/check-static.mjs

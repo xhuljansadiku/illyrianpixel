@@ -1,7 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
@@ -56,19 +55,23 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
   const heroRef = useRef<HTMLElement>(null);
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const slugFromUrl = searchParams.get("kategori");
-  const initialSlug = FILTERS.some((f) => f.slug === slugFromUrl)
-    ? (slugFromUrl as ServiceCategory["slug"])
-    : "website";
-
-  const [active, setActive] = useState<ServiceCategory["slug"]>(initialSlug);
+  const [active, setActive] = useState<ServiceCategory["slug"]>("website");
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+
+  // ?kategori= lexohet pas hydration, jo me useSearchParams(): /cmimet është statike
+  // dhe useSearchParams() do ta kalonte gjithë faqen në render vetëm-klient
+  // (HTML-ja dilte me ~30 fjalë). HTML-ja tani ka paketat "website" si parazgjedhje.
+  useEffect(() => {
+    const slugFromUrl = new URLSearchParams(window.location.search).get("kategori");
+    if (FILTERS.some((f) => f.slug === slugFromUrl)) setActive(slugFromUrl as ServiceCategory["slug"]);
+    // vetëm një herë, në mount — FILTERS rikrijohet çdo render, por slug-et s'ndryshojnë
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleFilterClick(slug: ServiceCategory["slug"]) {
     setActive(slug);
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
     params.set("kategori", slug);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }

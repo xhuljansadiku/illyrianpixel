@@ -10,6 +10,12 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+// Vetëm "sq" dhe "en" — çdo segment tjetër (p.sh. /nope.png, që s'kalon nga
+// middleware sepse ka pikë) kthen 404 direkt, në vend që të renderohet si
+// locale e panjohur dhe të rrëzohet me 500 në runtime. Trashëgohet nga faqet
+// fëmijë; blog/[slug] e mbishkruan sepse postimet nga admini s'janë në build.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
