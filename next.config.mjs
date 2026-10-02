@@ -68,9 +68,11 @@ const nextConfig = {
               // në eval() në runtime-in e tij të brendshëm — edhe në build prodhimi, jo vetëm dev.
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: https://images.unsplash.com https://flagcdn.com https://yiwmhfynmdfxmjmqzauv.supabase.co https://*.clarity.ms",
+              // GA4 dërgon ping-e edhe si imazhe (googletagmanager.com/a, *.google-analytics.com) —
+              // pa to CSP i bllokonte me gabime në console; c.bing.com është pixel-i i Clarity.
+              "img-src 'self' data: https://images.unsplash.com https://flagcdn.com https://yiwmhfynmdfxmjmqzauv.supabase.co https://*.clarity.ms https://c.bing.com https://www.googletagmanager.com https://*.google-analytics.com",
               "font-src 'self' data:",
-              "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms",
+              "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.clarity.ms",
               "frame-src 'self'",
               "object-src 'none'",
               "base-uri 'self'",

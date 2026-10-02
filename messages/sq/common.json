@@ -49,6 +49,7 @@
     "copyright": "© 2026 Illyrian Pixel",
     "privacy": "Privatësia",
     "terms": "Kushtet",
+    "cookieSettings": "Cilësimet e cookies",
     "backToTop": "Kthehu sipër"
   },
   "projectCard": {
@@ -76,7 +77,7 @@
   },
   "cookieConsent": {
     "title": "Cookies & Privatësia",
-    "body": "Përdorim cookies analitike (Google Analytics, Clarity) për të kuptuar si ndërveprojnë vizitorët me faqen.",
+    "body": "Me lejen tuaj përdorim Google Analytics dhe Microsoft Clarity për të kuptuar si përdoret faqja. Pa pëlqim nuk vendosim cookies analitike. Zgjedhjen mund ta ndryshoni kurdo te “Cilësimet e cookies” në fund të faqes.",
     "privacyLink": "Politika e privatësisë",
     "acceptAll": "Prano të gjitha",
     "essentialOnly": "Vetëm të nevojshme"

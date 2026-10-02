@@ -49,6 +49,7 @@
     "copyright": "© 2026 Illyrian Pixel",
     "privacy": "Privacy",
     "terms": "Terms",
+    "cookieSettings": "Cookie settings",
     "backToTop": "Back to top"
   },
   "projectCard": {
@@ -76,7 +77,7 @@
   },
   "cookieConsent": {
     "title": "Cookies & Privacy",
-    "body": "We use analytics cookies (Google Analytics, Clarity) to understand how visitors interact with the site.",
+    "body": "With your permission we use Google Analytics and Microsoft Clarity to understand how the site is used. Without consent we set no analytics cookies. You can change your choice anytime under “Cookie settings” at the bottom of the page.",
     "privacyLink": "Privacy policy",
     "acceptAll": "Accept all",
     "essentialOnly": "Essential only"

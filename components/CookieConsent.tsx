@@ -3,27 +3,26 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-
-const STORAGE_KEY = "ip_cookie_consent";
+import { OPEN_COOKIE_SETTINGS_EVENT, readConsent, saveConsent } from "@/lib/consent";
 
 export default function CookieConsent() {
   const t = useTranslations("common.cookieConsent");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      const t = setTimeout(() => setVisible(true), 1200);
-      return () => clearTimeout(t);
-    }
+    const open = () => setVisible(true);
+    // "Cilësimet e cookies" në footer e rihap banner-in — tërheqja e pëlqimit duhet
+    // të jetë po aq e lehtë sa dhënia (GDPR, Neni 7(3)).
+    window.addEventListener(OPEN_COOKIE_SETTINGS_EVENT, open);
+    const timer = readConsent() === null ? window.setTimeout(open, 1200) : undefined;
+    return () => {
+      window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, open);
+      window.clearTimeout(timer);
+    };
   }, []);
 
-  const accept = () => {
-    localStorage.setItem(STORAGE_KEY, "accepted");
-    setVisible(false);
-  };
-
-  const decline = () => {
-    localStorage.setItem(STORAGE_KEY, "declined");
+  const choose = (analytics: boolean) => {
+    saveConsent(analytics);
     setVisible(false);
   };
 
@@ -32,8 +31,10 @@ export default function CookieConsent() {
   return (
     <div
       role="dialog"
-      aria-label="Cookie consent"
-      className="fixed bottom-4 left-1/2 z-[110] w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-2xl border border-white/10 bg-[#0e0e0e]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-md sm:bottom-6 sm:p-6"
+      aria-label={t("title")}
+      // Nën md lë vend djathtas për butonin e King Genti (z-[111], 48px në right-4),
+      // që të mos mbulojë butonat e banner-it — pa ia ulur z-index-in (shih 45557c6).
+      className="fixed bottom-3 left-3 right-[4.5rem] z-[110] rounded-2xl border border-white/10 bg-[#0e0e0e]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-md md:bottom-6 md:left-1/2 md:right-auto md:w-[calc(100%-2rem)] md:max-w-lg md:-translate-x-1/2 md:p-6"
     >
       <div className="flex items-start gap-3.5">
         <div className="min-w-0">
@@ -50,14 +51,14 @@ export default function CookieConsent() {
       <div className="flex flex-wrap items-center gap-2">
         <button
           type="button"
-          onClick={accept}
+          onClick={() => choose(true)}
           className="interactive-button ip-cta-primary flex-1 justify-center text-[12px] sm:flex-none"
         >
           {t("acceptAll")}
         </button>
         <button
           type="button"
-          onClick={decline}
+          onClick={() => choose(false)}
           className="flex-1 justify-center rounded-full border border-white/14 px-5 py-2.5 text-[12px] tracking-[0.1em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 sm:flex-none"
         >
           {t("essentialOnly")}

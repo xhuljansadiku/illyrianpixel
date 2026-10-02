@@ -31,7 +31,7 @@ const CONTENT: Record<Locale, {
   sq: {
     badge: "DOKUMENT LIGJOR · GDPR",
     title: "Politika e Privatësisë",
-    updated: "E fundit e përditësuar: Maj 2026 · Illyrian Pixel, Tiranë, Shqipëri\nBazuar në Rregulloren (BE) 2016/679, GDPR",
+    updated: "E fundit e përditësuar: Tetor 2026 · Illyrian Pixel, Tiranë, Shqipëri\nBazuar në Rregulloren (BE) 2016/679, GDPR",
     sections: [
       {
         title: "1. Identiteti i Kontrolluesit të të Dhënave",
@@ -41,11 +41,17 @@ const CONTENT: Record<Locale, {
         title: "2. Çfarë të dhënash mbledhim dhe pse (Baza ligjore, Neni 6 GDPR)",
         body: `Mbledhim të dhënat e mëposhtme:
 
-• Emri, email, emri i biznesit dhe mesazhi, kur plotësoni formularin e kontaktit. Baza ligjore: Neni 6(1)(b) GDPR, ekzekutimi i një kontrate ose masa paraprake me kërkesë të subjektit.
+• Formulari i kontaktit: emri, email, telefoni, emri i biznesit, mesazhi dhe, nëse i plotësoni, shërbimi, buxheti dhe afati. Baza ligjore: Neni 6(1)(b) GDPR, masa paraprake me kërkesën tuaj.
 
-• Të dhëna navigimi anonime (nëse aktivizohet analitika), Baza ligjore: Neni 6(1)(f) GDPR, interes legjitim për të përmirësuar shërbimin.
+• Newsletter: email-i, data e abonimit dhe e konfirmimit (konfirmim i dyfishtë), si dhe nëse hapni email-et tona ose klikoni linket në to. Baza ligjore: Neni 6(1)(a) GDPR, pëlqimi. Mund të çabonoheni me një klik nga çdo email.
 
-• Email i dhënë vullnetarisht për analizë falas, Baza ligjore: Neni 6(1)(a) GDPR, pëlqimi i shprehur.
+• Asistenti King Genti: mesazhet që shkruani në bisedë, të lidhura vetëm me një identifikues të rastësishëm sesioni (pa emër dhe pa adresë IP). I përdorim për të përmirësuar përgjigjet. Baza ligjore: Neni 6(1)(f) GDPR, interes legjitim. Ju lutem mos shkruani të dhëna sensitive në bisedë.
+
+• Statistika të brendshme vizitash: vetëm faqja e vizituar dhe data, pa cookies dhe pa të dhëna personale. Baza ligjore: Neni 6(1)(f) GDPR, interes legjitim.
+
+• Analitika (Google Analytics, Microsoft Clarity): vetëm nëse klikoni “Prano” te banner-i i cookies. Mbledh mënyrën si përdoret faqja (faqet, klikimet, lëvizjet, pajisja, vendndodhja e përafërt); Clarity regjistron edhe ndërveprimet në faqe. Baza ligjore: Neni 6(1)(a) GDPR, pëlqimi, që mund ta tërhiqni në çdo kohë.
+
+• Mbrojtje nga abuzimi: adresa IP përdoret përkohësisht për të kufizuar kërkesat e tepërta në formularë dhe fshihet brenda 24 orësh. Baza ligjore: Neni 6(1)(f) GDPR, interes legjitim për sigurinë e faqes.
 
 Nuk mbledhim kategori speciale të dhënash sipas Nenit 9 GDPR (shëndet, origjinë etnike, etj.).`,
       },
@@ -55,7 +61,10 @@ Nuk mbledhim kategori speciale të dhënash sipas Nenit 9 GDPR (shëndet, origji
 
 • Të dhënat e kontaktit dhe komunikimit: deri në 2 vjet pas ndërprerjes së marrëdhënies.
 • Të dhënat kontraktuale dhe financiare: deri në 5 vjet sipas detyrimeve ligjore.
-• Të dhënat e analitikës: anonimizuar, pa afat specifik.
+• Abonimi në newsletter: derisa të çabonoheni.
+• Bisedat me asistentin: derisa të mos jenë më të nevojshme për përmirësimin e tij; mund të kërkoni fshirjen e tyre në çdo kohë.
+• Adresa IP për mbrojtje nga abuzimi: deri në 24 orë.
+• Google Analytics dhe Microsoft Clarity: sipas afateve të ruajtjes të këtyre shërbimeve (për Google Analytics, maksimumi 14 muaj).
 
 Pas skadimit të afatit, të dhënat fshihen ose anonimizojnë në mënyrë të sigurt.`,
       },
@@ -63,8 +72,11 @@ Pas skadimit të afatit, të dhënat fshihen ose anonimizojnë në mënyrë të 
         title: "4. Marrësit e të Dhënave",
         body: `Nuk shesim dhe nuk ndajmë të dhënat tuaja personale me palë të treta për qëllime marketingu. Mund t'i ndajmë vetëm me:
 
-• Calendly Inc. (SHBA), për rezervimin e takimeve. Transferta e rregulluar me Klauzolat Standarde Kontraktuale (SCC) të BE-së.
-• FormSubmit, për dërgimin e formularëve. Të dhënat procesojnë sipas politikës së tyre.
+• Vercel Inc. (SHBA), hostimi i faqes; përpunon adresën IP dhe të dhëna teknike të çdo kërkese.
+• Supabase, databaza ku ruhen kërkesat e kontaktit, abonimet në newsletter dhe bisedat me asistentin.
+• Resend (SHBA), dërgimi i email-eve (konfirmime, njoftime dhe newsletter).
+• Telegram dhe WhatsApp (përmes shërbimit CallMeBot), njoftime të brendshme drejt nesh kur dërgoni formularin e kontaktit; përmbajnë të dhënat që keni shkruar.
+• Google (Google Analytics) dhe Microsoft (Microsoft Clarity), vetëm nëse jepni pëlqimin.
 • Autoritetet kompetente ligjore, vetëm nëse kërkohet me ligj.`,
       },
       {
@@ -77,7 +89,16 @@ Pas skadimit të afatit, të dhënat fshihen ose anonimizojnë në mënyrë të 
       },
       {
         title: "6. Cookies",
-        body: `Përdorim cookies të nevojshme teknike për funksionimin e faqes. Nëse kemi cookies analitike ose marketingu, do të kërkojmë pëlqimin tuaj paraprak sipas Direktivës ePrivacy (2002/58/KE) dhe Nenit 6(1)(a) GDPR. Mund të menaxhoni preferencat e cookies nga cilësimet e shfletuesit tuaj në çdo kohë.`,
+        body: `Faqja funksionon pa cookies jo-thelbësore. Cookies analitike vendosen vetëm nëse klikoni “Prano” te banner-i, sipas Direktivës ePrivacy (2002/58/KE) dhe Nenit 6(1)(a) GDPR:
+
+• Google Analytics: _ga dhe _ga_<ID>, për të dalluar vizitorët dhe sesionet; deri në 2 vjet.
+• Microsoft Clarity: _clck dhe _clsk (si dhe cookies të Microsoft), për analizën e përdorimit dhe regjistrimin e sesioneve; deri në 1 vit.
+
+Nëse nuk pranoni, Google Analytics funksionon pa cookies (Google Consent Mode) dhe merr vetëm sinjale teknike për statistika të përmbledhura, ndërsa Microsoft Clarity nuk ngarkohet fare.
+
+Në memorien e shfletuesit (localStorage/sessionStorage) ruajmë vetëm zgjedhje teknike: zgjedhjen tuaj për cookies (12 muaj), nëse keni mbyllur një dritare informuese dhe identifikuesin e sesionit të bisedës (fshihet kur mbyllni skedën).
+
+Mund ta ndryshoni ose tërhiqni pëlqimin në çdo kohë nga “Cilësimet e cookies” në fund të çdo faqeje.`,
       },
       {
         title: "7. Të Drejtat Tuaja si Subjekt i të Dhënave (Nenet 15–22 GDPR)",
@@ -110,7 +131,7 @@ Për të ushtruar çdo të drejtë, na kontaktoni: info@illyrianpixel.com. Do t'
   en: {
     badge: "LEGAL DOCUMENT · GDPR",
     title: "Privacy Policy",
-    updated: "Last updated: May 2026 · Illyrian Pixel, Tirana, Albania\nBased on Regulation (EU) 2016/679, GDPR",
+    updated: "Last updated: October 2026 · Illyrian Pixel, Tirana, Albania\nBased on Regulation (EU) 2016/679, GDPR",
     sections: [
       {
         title: "1. Identity of the Data Controller",
@@ -120,11 +141,17 @@ Për të ushtruar çdo të drejtë, na kontaktoni: info@illyrianpixel.com. Do t'
         title: "2. What Data We Collect and Why (Legal Basis, Article 6 GDPR)",
         body: `We collect the following data:
 
-• Name, email, business name and message, when you fill out the contact form. Legal basis: Article 6(1)(b) GDPR, performance of a contract or pre-contractual steps taken at the data subject's request.
+• Contact form: name, email, phone, business name, message and, if you fill them in, service, budget and timeline. Legal basis: Article 6(1)(b) GDPR, pre-contractual steps at your request.
 
-• Anonymous browsing data (if analytics is enabled). Legal basis: Article 6(1)(f) GDPR, legitimate interest in improving the service.
+• Newsletter: your email, the date you subscribed and confirmed (double opt-in), and whether you open our emails or click their links. Legal basis: Article 6(1)(a) GDPR, consent. You can unsubscribe with one click from any email.
 
-• Email voluntarily provided for a free analysis. Legal basis: Article 6(1)(a) GDPR, expressed consent.
+• King Genti assistant: the messages you type in the chat, linked only to a random session identifier (no name, no IP address). We use them to improve the answers. Legal basis: Article 6(1)(f) GDPR, legitimate interest. Please do not share sensitive information in the chat.
+
+• Internal visit statistics: only the page visited and the date, with no cookies and no personal data. Legal basis: Article 6(1)(f) GDPR, legitimate interest.
+
+• Analytics (Google Analytics, Microsoft Clarity): only if you click “Accept” in the cookie banner. Collects how the site is used (pages, clicks, scrolling, device, approximate location); Clarity also records on-page interactions. Legal basis: Article 6(1)(a) GDPR, consent, which you can withdraw at any time.
+
+• Abuse protection: your IP address is used temporarily to limit excessive form submissions and is deleted within 24 hours. Legal basis: Article 6(1)(f) GDPR, legitimate interest in keeping the site secure.
 
 We do not collect special categories of data under Article 9 GDPR (health, ethnic origin, etc.).`,
       },
@@ -134,7 +161,10 @@ We do not collect special categories of data under Article 9 GDPR (health, ethni
 
 • Contact and communication data: up to 2 years after the relationship ends.
 • Contractual and financial data: up to 5 years per legal obligations.
-• Analytics data: anonymized, with no specific time limit.
+• Newsletter subscription: until you unsubscribe.
+• Assistant conversations: until they are no longer needed to improve the assistant; you can ask us to delete them at any time.
+• IP addresses used for abuse protection: up to 24 hours.
+• Google Analytics and Microsoft Clarity: according to those services' retention periods (for Google Analytics, at most 14 months).
 
 Once the retention period expires, data is securely deleted or anonymized.`,
       },
@@ -142,8 +172,11 @@ Once the retention period expires, data is securely deleted or anonymized.`,
         title: "4. Data Recipients",
         body: `We do not sell or share your personal data with third parties for marketing purposes. We may share it only with:
 
-• Calendly Inc. (USA), for booking meetings. Transfer governed by the EU's Standard Contractual Clauses (SCC).
-• FormSubmit, for sending forms. Data is processed under their own policy.
+• Vercel Inc. (USA), website hosting; processes the IP address and technical data of every request.
+• Supabase, the database where contact requests, newsletter subscriptions and assistant conversations are stored.
+• Resend (USA), for sending emails (confirmations, notifications and the newsletter).
+• Telegram and WhatsApp (via the CallMeBot service), internal notifications to us when you submit the contact form; they contain the details you entered.
+• Google (Google Analytics) and Microsoft (Microsoft Clarity), only if you give consent.
 • Competent legal authorities, only when required by law.`,
       },
       {
@@ -156,7 +189,16 @@ Once the retention period expires, data is securely deleted or anonymized.`,
       },
       {
         title: "6. Cookies",
-        body: `We use technically necessary cookies for the site to function. If we use analytics or marketing cookies, we will ask for your prior consent under the ePrivacy Directive (2002/58/EC) and Article 6(1)(a) GDPR. You can manage your cookie preferences from your browser settings at any time.`,
+        body: `The site works without non-essential cookies. Analytics cookies are only set if you click “Accept” in the banner, in line with the ePrivacy Directive (2002/58/EC) and Article 6(1)(a) GDPR:
+
+• Google Analytics: _ga and _ga_<ID>, to distinguish visitors and sessions; up to 2 years.
+• Microsoft Clarity: _clck and _clsk (plus Microsoft cookies), for usage analysis and session recording; up to 1 year.
+
+If you decline, Google Analytics runs without cookies (Google Consent Mode) and only receives technical signals for aggregated statistics, while Microsoft Clarity is not loaded at all.
+
+In your browser's storage (localStorage/sessionStorage) we only keep technical choices: your cookie choice (12 months), whether you closed an informational pop-up, and the chat session identifier (deleted when you close the tab).
+
+You can change or withdraw your consent at any time via “Cookie settings” at the bottom of every page.`,
       },
       {
         title: "7. Your Rights as a Data Subject (Articles 15–22 GDPR)",
