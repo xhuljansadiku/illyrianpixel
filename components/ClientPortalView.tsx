@@ -33,7 +33,7 @@ export default function ClientPortalView({
   quotes: QuoteRecord[];
 }) {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] px-4 py-12 text-white md:py-20">
+    <main id="main-content" className="min-h-screen bg-[#0a0a0a] px-4 py-12 text-white md:py-20">
       <div className="mx-auto w-full max-w-2xl">
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-accent/60 pb-6">

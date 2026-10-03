@@ -35,7 +35,7 @@ export default function BlogEcommerceClient() {
     <>
       <Navbar />
       <ScrollProgress />
-      <main className="min-h-screen bg-bg pb-16 pt-20 text-text [scroll-behavior:smooth]">
+      <main id="main-content" className="min-h-screen bg-bg pb-16 pt-20 text-text [scroll-behavior:smooth]">
         <section ref={heroSectionRef} className="relative border-b border-white/10">
           <div
             ref={heroTextureRef}

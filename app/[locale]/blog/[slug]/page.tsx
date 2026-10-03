@@ -116,7 +116,7 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen bg-bg pb-16 pt-20 text-text">
+        <main id="main-content" className="min-h-screen bg-bg pb-16 pt-20 text-text">
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger

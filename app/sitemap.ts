@@ -73,6 +73,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "sa-kushton-website-kosove",
   ]);
 
+  // Artikuj pa version anglisht — /en/... e tyre është noindex (buildMetadata sqOnly)
+  const sqOnlyBlogSlugs = new Set(["si-te-rrisesh-klientet-online"]);
+
   const staticEntries = LOCALES.flatMap((locale) =>
     staticRoutes.map(({ path, priority, changefreq, date }) => ({
       url: localizedUrl(locale, path),
@@ -83,7 +86,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   const blogEntries = LOCALES.flatMap((locale) => {
-    const posts = getBlogPostsForLocale(locale);
+    const posts = getBlogPostsForLocale(locale).filter(
+      (item) => !(locale === "en" && sqOnlyBlogSlugs.has(item.slug))
+    );
     const dedicated = posts
       .filter((item) => dedicatedBlogSlugs.has(item.slug))
       .map((item) => ({

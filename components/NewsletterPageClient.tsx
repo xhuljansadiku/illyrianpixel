@@ -79,7 +79,7 @@ export default function NewsletterPageClient() {
   return (
     <>
       <Navbar />
-      <main className="relative min-h-screen overflow-hidden bg-bg pt-14 text-text md:pt-16">
+      <main id="main-content" className="relative min-h-screen overflow-hidden bg-bg pt-14 text-text md:pt-16">
         {/* Ambient glows */}
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_10%,rgba(171,131,57,0.1),transparent_40%)]" />
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_80%_80%,rgba(171,131,57,0.06),transparent_38%)]" />

@@ -45,7 +45,7 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
   return (
     <>
       <Navbar />
-      <main className="relative overflow-hidden bg-bg pt-14 text-text md:pt-16">
+      <main id="main-content" className="relative overflow-hidden bg-bg pt-14 text-text md:pt-16">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_8%_10%,rgba(171,131,57,0.09),transparent_30%)]" />
 
         <section ref={heroRef} className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
