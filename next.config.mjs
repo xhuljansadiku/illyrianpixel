@@ -64,9 +64,10 @@ const nextConfig = {
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
           { key: "Content-Security-Policy",   value: [
               "default-src 'self'",
-              // 'unsafe-eval' duhet: Next.js 14 (webpack) mbështjell modulet client-side
-              // në eval() në runtime-in e tij të brendshëm — edhe në build prodhimi, jo vetëm dev.
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms",
+              // 'unsafe-eval' vetëm në `next dev` (React Refresh + source maps me eval). Build-i i
+              // prodhimit s'ka eval()/new Function() në chunk-e (kontrolluar 2026-10-03, Next 15.5),
+              // as gtag.js/Clarity s'e kërkojnë — pa të një XSS s'mund të ekzekutojë string-e si kod.
+              `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms`,
               "style-src 'self' 'unsafe-inline'",
               // GA4 dërgon ping-e edhe si imazhe (googletagmanager.com/a, *.google-analytics.com) —
               // pa to CSP i bllokonte me gabime në console; c.bing.com është pixel-i i Clarity.

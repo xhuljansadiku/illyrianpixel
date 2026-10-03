@@ -1,10 +1,12 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import SmoothScroll from "@/components/SmoothScroll";
 import InquiryModal from "@/components/InquiryModal";
 import NewsletterPopup from "@/components/NewsletterPopup";
+import CookieConsent from "@/components/CookieConsent";
 
 // Defer non-critical layout components — do not block initial HTML paint
 const InteractiveGlow       = dynamic(() => import("@/components/InteractiveGlow"),       { ssr: false });
@@ -26,8 +28,28 @@ const AmbientParticles      = dynamic(() => import("@/components/AmbientParticle
 // particle background and all the cursor/scroll decoration built for it.
 const NO_CHROME_PREFIXES = ["/admin", "/oferta", "/klienti", "/feedback"];
 
+// Dekorimet që punojnë vetëm me maus (≥1024px, si getIsMobile() te lib/gsap) dhe
+// nën këtë kthejnë null. Pa këtë kusht moduli i tyre shkarkohej gjithsesi në
+// mobile — AmbientParticles tërheq three.js + r3f (~236KB gzip) për asgjë.
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+function subscribeDesktop(onChange: () => void) {
+  const mq = window.matchMedia(DESKTOP_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function useIsDesktop() {
+  return useSyncExternalStore(
+    subscribeDesktop,
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => false
+  );
+}
+
 export default function MarketingChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isDesktop = useIsDesktop();
   if (NO_CHROME_PREFIXES.some((p) => pathname?.startsWith(p))) {
     return <>{children}</>;
   }
@@ -35,17 +57,19 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
   return (
     <>
       <Preloader />
-      <AmbientParticles />
+      {isDesktop && <AmbientParticles />}
       <SmoothScroll>
         <div className="relative z-[1]">
           <InteractiveGlow />
-          <MagneticButtons />
+          {isDesktop && <MagneticButtons />}
           <GlobalReveals />
-          <CustomCursor />
-          <CursorTrail />
+          {isDesktop && <CustomCursor />}
+          {isDesktop && <CursorTrail />}
           <ScrollProgress />
           <PageTransitionOverlay />
           <BackToTop />
+          {/* SSR (jo ssr:false si ClientWidgets): banner-i duhet në HTML-në e parë — shih consentGateScript */}
+          <CookieConsent />
           <ClientWidgets />
           {children}
         </div>

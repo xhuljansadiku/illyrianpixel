@@ -1,6 +1,15 @@
 import { runInNewContext } from "node:vm";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { CONSENT_STORAGE_KEY, CONSENT_VERSION, consentSignals, gaInitScript, isPrivatePath, readConsent } from "./consent";
+import {
+  CONSENT_NEEDED_ATTR,
+  CONSENT_STORAGE_KEY,
+  CONSENT_VERSION,
+  consentGateScript,
+  consentSignals,
+  gaInitScript,
+  isPrivatePath,
+  readConsent,
+} from "./consent";
 
 function stubStorage(initial: Record<string, string> = {}) {
   const store = new Map(Object.entries(initial));
@@ -106,6 +115,47 @@ describe("gaInitScript", () => {
     for (const signal of ["analytics_storage", "ad_storage", "ad_user_data", "ad_personalization"]) {
       expect(script).toContain(`${signal}: 'denied'`);
     }
+  });
+});
+
+// Ekzekuton consentGateScript() si në <head> dhe tregon nëse shënoi <html> (banner-i shfaqet)
+function runGate(storedValue: string | null, throwOnRead = false) {
+  const attrs = new Map<string, string>();
+  const context = {
+    localStorage: {
+      getItem: () => {
+        if (throwOnRead) throw new Error("blocked");
+        return storedValue;
+      },
+    },
+    document: { documentElement: { setAttribute: (k: string, v: string) => void attrs.set(k, v) } },
+    Date,
+    JSON,
+  };
+  runInNewContext(consentGateScript(), context);
+  return attrs.has(CONSENT_NEEDED_ATTR);
+}
+
+describe("consentGateScript", () => {
+  it("shows the server-rendered banner exactly when readConsent() returns null", () => {
+    const cases: (string | null)[] = [
+      null,
+      "accepted",
+      stored(true, false),
+      stored(false, false),
+      stored(true, true, new Date(Date.now() - 400 * 24 * 60 * 60 * 1000).toISOString()),
+      stored(true, true, undefined, CONSENT_VERSION - 1),
+      JSON.stringify({ v: CONSENT_VERSION, analytics: true, ts: new Date().toISOString() }),
+    ];
+    for (const value of cases) {
+      stubStorage(value === null ? {} : { [CONSENT_STORAGE_KEY]: value });
+      expect(runGate(value)).toBe(readConsent() === null);
+    }
+    vi.unstubAllGlobals();
+  });
+
+  it("shows the banner when localStorage is blocked", () => {
+    expect(runGate(null, true)).toBe(true);
   });
 });
 

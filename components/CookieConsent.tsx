@@ -26,9 +26,13 @@ function Switch({ checked, label, disabled, onChange }: { checked: boolean; labe
   );
 }
 
+// "gate": render-i i serverit + i pari në klient — markup-i ekziston, por shfaqet vetëm
+// nëse consentGateScript() e shënoi <html> (s'ka pëlqim). Pas mount-it: "open" ose "closed".
+type Phase = "gate" | "open" | "closed";
+
 export default function CookieConsent() {
   const t = useTranslations("common.cookieConsent");
-  const [visible, setVisible] = useState(false);
+  const [phase, setPhase] = useState<Phase>("gate");
   const [details, setDetails] = useState(false);
   const [choice, setChoice] = useState<ConsentChoice>(NONE);
 
@@ -38,23 +42,20 @@ export default function CookieConsent() {
     const openSettings = () => {
       setChoice(readConsent() ?? NONE);
       setDetails(true);
-      setVisible(true);
+      setPhase("open");
     };
     window.addEventListener(OPEN_COOKIE_SETTINGS_EVENT, openSettings);
-    const timer = readConsent() === null ? window.setTimeout(() => setVisible(true), 1200) : undefined;
-    return () => {
-      window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, openSettings);
-      window.clearTimeout(timer);
-    };
+    setPhase(readConsent() === null ? "open" : "closed");
+    return () => window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, openSettings);
   }, []);
 
   const save = (next: ConsentChoice) => {
     saveConsent(next);
-    setVisible(false);
+    setPhase("closed");
     setDetails(false);
   };
 
-  if (!visible) return null;
+  if (phase === "closed") return null;
 
   const categories: { key: keyof ConsentChoice | "necessary"; title: string; desc: string }[] = [
     { key: "necessary", title: t("necessaryTitle"), desc: t("necessaryDesc") },
@@ -68,7 +69,7 @@ export default function CookieConsent() {
       aria-label={t("title")}
       // Nën md lë vend djathtas për butonin e King Genti (z-[111], 48px në right-4),
       // që të mos mbulojë butonat e banner-it — pa ia ulur z-index-in (shih 45557c6).
-      className="fixed bottom-3 left-3 right-[4.5rem] z-[110] max-h-[85dvh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0e0e0e]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-md md:bottom-6 md:left-1/2 md:right-auto md:w-[calc(100%-2rem)] md:max-w-lg md:-translate-x-1/2 md:p-6"
+      className={`${phase === "gate" ? "consent-gate " : ""}fixed bottom-3 left-3 right-[4.5rem] z-[110] max-h-[85dvh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0e0e0e]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-md md:bottom-6 md:left-1/2 md:right-auto md:w-[calc(100%-2rem)] md:max-w-lg md:-translate-x-1/2 md:p-6`}
     >
       <p className="font-display text-[1.05rem] font-semibold leading-snug text-white">
         {t("title")}

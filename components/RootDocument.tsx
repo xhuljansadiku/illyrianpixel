@@ -1,5 +1,6 @@
 import { localBusinessSchema, organizationSchema, websiteSchema, jsonLd } from "@/lib/seo";
 import { bodyClassName } from "@/lib/fonts";
+import { consentGateScript } from "@/lib/consent";
 import WebVitals from "@/components/WebVitals";
 import PageViewTracker from "@/components/PageViewTracker";
 import Analytics from "@/components/Analytics";
@@ -14,6 +15,9 @@ export default function RootDocument({ lang, children }: { lang: string; childre
       {/* App Router: <head> brenda layout-it është i saktë; rregulli njeh vetëm skedarët te app/ */}
       {/* eslint-disable-next-line @next/next/no-head-element */}
       <head>
+        {/* Para paint-it: shfaq banner-in e cookies nga HTML-ja e serverit nëse s'ka pëlqim */}
+        {/* eslint-disable-next-line react/no-danger */}
+        <script dangerouslySetInnerHTML={{ __html: consentGateScript() }} />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />

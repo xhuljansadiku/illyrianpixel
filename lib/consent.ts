@@ -16,6 +16,12 @@ const CONSENT_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
 /** Event-i që hap sërish banner-in (link-u "Cilësimet e cookies" në footer). */
 export const OPEN_COOKIE_SETTINGS_EVENT = "ip:open-cookie-settings";
 
+/** Lëshohet pasi vizitori ruan një zgjedhje (p.sh. NewsletterPopup pret këtë para se të hapet). */
+export const CONSENT_SAVED_EVENT = "ip:consent-saved";
+
+/** Atributi në <html> që vendos consentGateScript() kur s'ka pëlqim të vlefshëm. */
+export const CONSENT_NEEDED_ATTR = "data-consent-needed";
+
 export const GA_ID = "G-82MBE7PY5B";
 const CLARITY_ID = "wnyi2atnrw";
 
@@ -114,7 +120,10 @@ export function saveConsent(choice: ConsentChoice) {
   } else if (previous?.analytics) {
     clearCookies(ANALYTICS_COOKIE);
     location.reload(); // Clarity s'ndalet dot ndryshe pasi është ngarkuar
+    return;
   }
+
+  window.dispatchEvent(new Event(CONSENT_SAVED_EVENT));
 }
 
 /**
@@ -145,4 +154,15 @@ export function gaInitScript() {
     gtag('js', new Date());
     gtag('config', '${GA_ID}', { anonymize_ip: true });
   `;
+}
+
+/**
+ * Script-i inline në <head> (RootDocument): para paint-it të parë shënon <html> me
+ * CONSENT_NEEDED_ATTR kur s'ka pëlqim të vlefshëm. Banner-i renderohet në server i
+ * fshehur (.consent-gate) dhe CSS-ja e shfaq menjëherë — pa pritur JS-në. Më parë
+ * dilte pas hydration + 1.2s dhe në mobile ishte elementi LCP (~6–8s).
+ * Të njëjtat kushte si readConsent().
+ */
+export function consentGateScript() {
+  return `try{var c=JSON.parse(localStorage.getItem('${CONSENT_STORAGE_KEY}')||'null');if(!(c&&c.v===${CONSENT_VERSION}&&typeof c.analytics==='boolean'&&typeof c.marketing==='boolean'&&Date.now()-Date.parse(c.ts)<${CONSENT_MAX_AGE_MS}))document.documentElement.setAttribute('${CONSENT_NEEDED_ATTR}','')}catch(e){document.documentElement.setAttribute('${CONSENT_NEEDED_ATTR}','')}`;
 }

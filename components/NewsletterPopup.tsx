@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
+import { CONSENT_SAVED_EVENT, readConsent } from "@/lib/consent";
 
 const STORAGE_KEY = "ip_newsletter_popup_seen";
 const DELAY_MS = 7500;
@@ -20,8 +21,19 @@ export default function NewsletterPopup() {
   useEffect(() => {
     if (localStorage.getItem(STORAGE_KEY)) return;
 
-    const timer = window.setTimeout(() => setOpen(true), DELAY_MS);
-    return () => window.clearTimeout(timer);
+    // Numërimi nis vetëm pasi vizitori ka zgjedhur te banner-i i cookies — në
+    // mobile të dy dilnin njëri mbi tjetrin dhe mbulonin gjithë ekranin.
+    let timer: number | undefined;
+    const arm = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => setOpen(true), DELAY_MS);
+    };
+    if (readConsent() !== null) arm();
+    window.addEventListener(CONSENT_SAVED_EVENT, arm);
+    return () => {
+      window.removeEventListener(CONSENT_SAVED_EVENT, arm);
+      window.clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
