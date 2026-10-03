@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
+import { OPEN_COOKIE_SETTINGS_EVENT } from "@/lib/consent";
 import SocialIcon from "@/components/SocialIcon";
 
 export default function Footer() {
@@ -224,6 +225,13 @@ export default function Footer() {
             >
               {t("terms")}
             </Link>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS_EVENT))}
+              className="footer-link font-body text-[12px] font-light tracking-[0.05em] text-white/[0.38] transition-colors duration-300 hover:text-white"
+            >
+              {t("cookieSettings")}
+            </button>
           </div>
           <Link
             href="/"

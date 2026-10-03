@@ -355,8 +355,11 @@ export async function GET(req: Request) {
   // ── 10. Pastrim — tabelat e shkrimeve publike s'duhet të rriten pafund ──────
   // rate_limits: dritarja më e gjatë është 1 orë, 1 ditë mjafton me tepri.
   // admin_logins: historiku i hyrjeve mbahet 180 ditë (mjaft për auditim).
+  // assistant_messages: bisedat me King Genti mbahen 12 muaj — afati i premtuar
+  // te politika e privatësisë (GDPR, kufizimi i ruajtjes).
   await supabase.from("rate_limits").delete().lt("created_at", daysAgoIso(1));
   await supabase.from("admin_logins").delete().lt("created_at", daysAgoIso(180));
+  await supabase.from("assistant_messages").delete().lt("created_at", daysAgoIso(365));
 
   // ── 8. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
   const hasActivity =

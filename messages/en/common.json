@@ -49,6 +49,7 @@
     "copyright": "© 2026 Illyrian Pixel",
     "privacy": "Privacy",
     "terms": "Terms",
+    "cookieSettings": "Cookie settings",
     "backToTop": "Back to top"
   },
   "projectCard": {
@@ -76,10 +77,18 @@
   },
   "cookieConsent": {
     "title": "Cookies & Privacy",
-    "body": "We use analytics cookies (Google Analytics, Clarity) to understand how visitors interact with the site.",
+    "body": "With your permission we use analytics cookies (Google Analytics, Microsoft Clarity) and marketing cookies (Google Ads). Without consent we set none of them. You can change your choice anytime under “Cookie settings” at the bottom of the page.",
     "privacyLink": "Privacy policy",
     "acceptAll": "Accept all",
-    "essentialOnly": "Essential only"
+    "essentialOnly": "Essential only",
+    "customize": "Customize",
+    "save": "Save choices",
+    "necessaryTitle": "Necessary",
+    "necessaryDesc": "Keep the site working and remember your choice. Always on.",
+    "analyticsTitle": "Analytics",
+    "analyticsDesc": "Google Analytics and Microsoft Clarity: how the site is used, so we can improve it.",
+    "marketingTitle": "Marketing",
+    "marketingDesc": "Google Ads: measuring ad results and showing ads that are more relevant to you."
   },
   "whatsapp": {
     "popoverText": "Message us on WhatsApp for a quick quote.",
