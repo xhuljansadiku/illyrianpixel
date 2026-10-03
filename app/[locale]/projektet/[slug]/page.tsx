@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { caseStudies, getCaseStudyBySlug } from "@/lib/caseStudies";
-import { seo, jsonLd } from "@/lib/seo";
+import { buildMetadata, seo, jsonLd } from "@/lib/seo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalCTA from "@/components/GlobalCTA";
@@ -22,13 +22,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   if (!cs) return {};
   const t = await getTranslations({ locale, namespace: "projects.detail" });
   const cleanIntro = cs.intro.replace(/\n/g, " ");
+  // buildMetadata jep canonical + hreflang sipas gjuhës (slug-et janë të njëjta në sq/en)
+  const base = buildMetadata(cs.title, cleanIntro, `/projektet/${cs.slug}`, undefined, locale);
   return {
-    title: `${cs.title} | Illyrian Pixel`,
-    description: cleanIntro,
-    alternates: { canonical: `${seo.siteUrl}/projektet/${cs.slug}` },
+    ...base,
     openGraph: {
+      ...base.openGraph,
       title: `${cs.title} — ${t("ogCaseStudy")} | Illyrian Pixel`,
-      description: cleanIntro,
       images: [{ url: cs.heroImage || seo.ogImage, width: 1200, height: 630, alt: `${cs.title} — ${cs.category}` }]
     }
   };
@@ -59,7 +59,7 @@ export default async function CaseStudyPage(props: Props) {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
       />
-      <main className="relative overflow-hidden bg-bg pt-14 text-text md:pt-16">
+      <main id="main-content" className="relative overflow-hidden bg-bg pt-14 text-text md:pt-16">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_10%_14%,rgba(171, 131, 57,0.08),transparent_35%),radial-gradient(circle_at_88%_82%,rgba(171, 131, 57,0.05),transparent_40%)]" />
 
         {/* Hero image */}

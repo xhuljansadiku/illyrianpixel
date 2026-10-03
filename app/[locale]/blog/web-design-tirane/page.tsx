@@ -24,7 +24,7 @@ const META: Record<Locale, { title: string; description: string; keywords: strin
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { locale } = await props.params;
   const m = META[locale as Locale] ?? META.sq;
-  return buildMetadata(m.title, m.description, "/blog/web-design-tirane", m.keywords);
+  return buildMetadata(m.title, m.description, "/blog/web-design-tirane", m.keywords, locale as Locale);
 }
 
 export default async function Page(props: Props) {

@@ -243,7 +243,7 @@ export default async function PrivacyPage(props: Props) {
   return (
     <>
       <Navbar />
-      <main className="bg-bg text-text pt-14 md:pt-16">
+      <main id="main-content" className="bg-bg text-text pt-14 md:pt-16">
         <section className="border-b border-white/[0.06] bg-[#070707]">
           <div className="section-wrap py-20 md:py-28">
             <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">

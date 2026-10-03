@@ -1,23 +1,37 @@
 import type { Metadata } from "next";
 import BlogUxMistakesClient from "@/components/BlogUxMistakesClient";
 import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 
-const METADATA_TITLE = "Gabimet që bëjnë bizneset në website | Blog";
-const METADATA_DESCRIPTION =
-  "Gabimet më të zakonshme që ulin besimin e vizitorit dhe si t'i rregullosh pa ndërtuar gjithçka nga e para.";
+type Props = { params: Promise<{ locale: string }> };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const base = buildMetadata(METADATA_TITLE, METADATA_DESCRIPTION, "/blog/gabimet-kryesore-ne-website");
+const META: Record<Locale, { title: string; description: string }> = {
+  sq: {
+    title: "Gabimet që bëjnë bizneset në website | Blog",
+    description:
+      "Gabimet më të zakonshme që ulin besimin e vizitorit dhe si t'i rregullosh pa ndërtuar gjithçka nga e para.",
+  },
+  en: {
+    title: "The mistakes businesses make on their website | Blog",
+    description:
+      "The most common mistakes that erode visitor trust, and how to fix them without rebuilding everything from scratch.",
+  },
+};
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const base = buildMetadata(m.title, m.description, "/blog/gabimet-kryesore-ne-website", undefined, locale as Locale);
   return {
     ...base,
-    title: METADATA_TITLE,
+    title: m.title,
     openGraph: {
       ...base.openGraph,
-      title: METADATA_TITLE
+      title: m.title
     },
     twitter: {
       ...base.twitter,
-      title: METADATA_TITLE
+      title: m.title
     }
   };
 }

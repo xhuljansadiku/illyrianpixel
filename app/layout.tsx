@@ -1,25 +1,11 @@
-import type { Metadata } from "next";
-import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { localBusinessSchema, organizationSchema, websiteSchema, seo, jsonLd } from "@/lib/seo";
-import WebVitals from "@/components/WebVitals";
-import PageViewTracker from "@/components/PageViewTracker";
-import Analytics from "@/components/Analytics";
+import { seo } from "@/lib/seo";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-body",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-const display = Cormorant_Garamond({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-display",
-  weight: ["400", "600", "700"],
-  display: "swap",
-});
-
+export const viewport: Viewport = {
+  themeColor: "#07080c",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(seo.siteUrl),
@@ -92,79 +78,18 @@ export const metadata: Metadata = {
       alt: "Illyrian Pixel — Agjenci Dixhitale Premium"
     }]
   },
+  // theme-color / color-scheme → `viewport` lart; geo.* → <head> te RootDocument.
+  // "language" u hoq: do të thoshte "Albanian" edhe për faqet /en.
   other: {
-    "geo.region":    "AL-11",
-    "geo.placename": "Tiranë, Shqipëri",
-    "geo.position":  "41.3275;19.8187",
-    "ICBM":          "41.3275, 19.8187",
-    "theme-color":   "#ab8339",
-    "color-scheme":  "dark",
     "rating":        "general",
     "revisit-after": "7 days",
-    "language":      "Albanian",
     "copyright":     "Illyrian Pixel 2024–2026",
   }
 };
 
+// <html>/<body> s'janë këtu: ky layout s'e njeh gjuhën e faqes. I renderon
+// components/RootDocument nga çdo layout i nivelit të parë ([locale], admin, …)
+// dhe app/not-found.tsx. Ky skedar mbetet vetëm për metadata, viewport dhe CSS.
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="sq" dir="ltr" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.clarity.ms" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-
-        {/* ── Favicons ── */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-
-        {/* ── Theme color ── */}
-        <meta name="theme-color" content="#07080c" />
-        <meta name="msapplication-TileColor" content="#07080c" />
-        <meta name="msapplication-navbutton-color" content="#ab8339" />
-
-        {/* ── Geo ── */}
-        <meta name="geo.region" content="AL-11" />
-        <meta name="geo.placename" content="Tiranë, Shqipëri" />
-        <meta name="geo.position" content="41.3275;19.8187" />
-        <meta name="ICBM" content="41.3275, 19.8187" />
-      </head>
-      <body
-        suppressHydrationWarning
-        className={`${plusJakarta.variable} ${display.variable} bg-bg font-body text-text antialiased`}
-      >
-        {/* Skip navigation — WCAG 2.1 AA, keyboard accessible */}
-        <a href="#main-content" className="skip-nav" tabIndex={0}>
-          Kalo te përmbajtja kryesore
-        </a>
-
-
-        {/* ── JSON-LD Schemas ── */}
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: jsonLd(organizationSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: jsonLd(localBusinessSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: jsonLd(websiteSchema) }}
-        />
-
-        <WebVitals />
-        <PageViewTracker />
-        {children}
-
-        {/* ── Analytics: GA me Consent Mode v2, Clarity vetëm pas pëlqimit (lib/consent.ts) ── */}
-        <Analytics />
-      </body>
-    </html>
-  );
+  return children;
 }

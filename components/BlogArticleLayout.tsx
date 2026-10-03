@@ -55,7 +55,7 @@ export default function BlogArticleLayout({
         />
       )}
       <Navbar />
-      <main className="min-h-screen bg-bg pb-16 pt-20 text-text">
+      <main id="main-content" className="min-h-screen bg-bg pb-16 pt-20 text-text">
         {/* Hero */}
         <section className="border-b border-white/10">
           <div className="section-wrap pb-12 pt-6">

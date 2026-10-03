@@ -27,7 +27,7 @@ export default async function ClientPortalPage(props: { params: Promise<{ token:
 
   if (!contact) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#0a0a0a] px-6 text-center">
+      <main id="main-content" className="flex min-h-screen items-center justify-center bg-[#0a0a0a] px-6 text-center">
         <div>
           <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-accent/60">Illyrian Pixel</p>
           <h1 className="font-display mt-4 text-3xl text-white">Kjo lidhje nuk është më e vlefshme.</h1>

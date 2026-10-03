@@ -47,7 +47,7 @@ export default function ProjectFeedbackView({
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] px-4 py-12 text-white md:py-20">
+    <main id="main-content" className="min-h-screen bg-[#0a0a0a] px-4 py-12 text-white md:py-20">
       <div className="mx-auto w-full max-w-lg">
         <div className="border-b-2 border-accent/60 pb-6">
           <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-accent/70">Illyrian Pixel</p>

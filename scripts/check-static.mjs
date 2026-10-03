@@ -28,3 +28,22 @@ if (missing.length) {
 }
 
 console.log(`✓ ${REQUIRED.length} faqet kryesore janë statike (${routes.size} rrugë të prerenderuara gjithsej).`);
+
+// <html lang> duhet të vijë nga serveri sipas gjuhës (components/RootDocument) —
+// para 2026-10-03 ishte "sq" e fiksuar edhe për /en.
+const LANG_CHECKS = [
+  [".next/server/app/sq.html", "sq"],
+  [".next/server/app/en.html", "en"],
+  [".next/server/app/en/blog/seo-tirane.html", "en"],
+];
+const wrongLang = LANG_CHECKS.filter(([file, lang]) => {
+  const html = readFileSync(file, "utf8");
+  return !new RegExp(`<html[^>]*\\slang="${lang}"`).test(html);
+});
+
+if (wrongLang.length) {
+  console.error(`✗ <html lang> i gabuar në:\n  ${wrongLang.map(([f, l]) => `${f} (pritej "${l}")`).join("\n  ")}`);
+  process.exit(1);
+}
+
+console.log(`✓ <html lang> i saktë për sq/en.`);

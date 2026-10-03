@@ -53,7 +53,7 @@ export default function ServiceDetailPage({ service }: { service: ServiceItem })
   return (
     <>
       <Navbar />
-      <main className="relative overflow-hidden bg-bg text-text pt-14 md:pt-16">
+      <main id="main-content" className="relative overflow-hidden bg-bg text-text pt-14 md:pt-16">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_10%_14%,rgba(171, 131, 57,0.1),transparent_35%),radial-gradient(circle_at_88%_82%,rgba(171, 131, 57,0.07),transparent_42%)]" />
 
         {/* Hero */}

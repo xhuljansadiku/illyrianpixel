@@ -103,7 +103,12 @@ const nextConfig = {
       { source: "/services/marketing-growth",  destination: "/services/seo-google-ads", permanent: true },
       { source: "/services/branding",          destination: "/services/branding-content", permanent: true },
       { source: "/services/photography",       destination: "/services/branding-content", permanent: true },
-      { source: "/services",                   destination: "/sherbimet",               permanent: true }
+      { source: "/services",                   destination: "/sherbimet",               permanent: true },
+      // /work → /projektet si 308 (faqet app/[locale]/work bënin 307 dhe /work/[slug] binte në 404 nga dynamicParams = false)
+      { source: "/work",                       destination: "/projektet",               permanent: true },
+      { source: "/work/:slug",                 destination: "/projektet/:slug",         permanent: true },
+      { source: "/en/work",                    destination: "/en/projektet",            permanent: true },
+      { source: "/en/work/:slug",              destination: "/en/projektet/:slug",      permanent: true }
     ];
   }
 };

@@ -795,7 +795,7 @@ export default function AdminDashboard({
       </header>
 
       {/* Main */}
-      <main className="min-w-0 flex-1 px-5 py-8 md:px-8 md:py-8 lg:px-10">
+      <main id="main-content" className="min-w-0 flex-1 px-5 py-8 md:px-8 md:py-8 lg:px-10">
         <div className="mx-auto max-w-6xl">
           {/* Mobile header */}
           <div className="sticky top-0 z-30 -mx-5 mb-1 flex items-center gap-3 border-b border-[var(--a-border)] bg-[var(--a-bg)]/85 px-5 py-3 backdrop-blur-md md:hidden">

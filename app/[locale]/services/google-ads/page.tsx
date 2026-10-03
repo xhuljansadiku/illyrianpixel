@@ -222,7 +222,7 @@ export default async function GoogleAdsPage(props: Props) {
   return (
     <>
       <Navbar />
-      <main className="relative overflow-hidden bg-bg pb-24 pt-14 text-text md:pb-28 md:pt-16">
+      <main id="main-content" className="relative overflow-hidden bg-bg pb-24 pt-14 text-text md:pb-28 md:pt-16">
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_8%_10%,rgba(171,131,57,0.09),transparent_30%)]" />
 
         {/* Hero */}

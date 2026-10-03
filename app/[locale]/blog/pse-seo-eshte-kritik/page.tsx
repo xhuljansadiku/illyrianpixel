@@ -1,13 +1,27 @@
 import type { Metadata } from "next";
 import BlogSeoClient from "@/components/BlogSeoClient";
 import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 
-const TITLE = "Pse SEO është kritik për biznese serioze (dhe jo një opsion)";
-const DESCRIPTION =
-  "Të kesh një website të bukur që nuk shfaqet në Google është si të hapësh një dyqan luksoz në mes të shkretëtirës. Askush nuk e gjen, askush nuk blen.";
+type Props = { params: Promise<{ locale: string }> };
 
-export async function generateMetadata(): Promise<Metadata> {
-  return buildMetadata(TITLE, DESCRIPTION, "/blog/pse-seo-eshte-kritik");
+const META: Record<Locale, { title: string; description: string }> = {
+  sq: {
+    title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)",
+    description:
+      "Të kesh një website të bukur që nuk shfaqet në Google është si të hapësh një dyqan luksoz në mes të shkretëtirës. Askush nuk e gjen, askush nuk blen.",
+  },
+  en: {
+    title: "Why SEO is critical for serious businesses (not optional)",
+    description:
+      "Having a beautiful website that doesn't show up on Google is like opening a luxury store in the middle of the desert. No one finds it, no one buys.",
+  },
+};
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  return buildMetadata(m.title, m.description, "/blog/pse-seo-eshte-kritik", undefined, locale as Locale);
 }
 
 export default function PseSeoEshteKritikPage() {

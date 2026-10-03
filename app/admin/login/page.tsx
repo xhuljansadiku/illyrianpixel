@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0b0a08] px-5 text-text">
+    <main id="main-content" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0b0a08] px-5 text-text">
       {/* Sfond dekorativ — shkëlqim i artë, i qetë */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60"
