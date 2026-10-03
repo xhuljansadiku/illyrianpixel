@@ -1,12 +1,12 @@
 {
   "hero": {
     "badge": "ILLYRIAN PIXEL",
-    "headlineLine1": "Ktheje biznesin në ",
-    "headlineAccent": "brand.",
-    "srSubtitle": "Website, SEO dhe Marketing për biznese shqiptare",
-    "paragraph1": "Ndërtojmë Website & E-Commerce moderne, dominojmë Google me SEO dhe rrisim shitjet përmes Reklamave, Social Media & Branding.",
-    "paragraph2": "Plan konkret brenda 24 orëve, 100% pa pagesë.",
-    "paragraph3": "Ju fokusohuni te biznesi. Klientët i sjellim ne.",
+    "headlineLine1": "Klientë në Europë, bisedë në ",
+    "headlineAccent": "shqip.",
+    "srSubtitle": "Website, SEO dhe Google Ads për biznese shqiptare në diasporë, Shqipëri dhe Kosovë",
+    "paragraph1": "Website, SEO dhe Google Ads për bizneset shqiptare në Gjermani, Zvicër, Itali e Angli, dhe në Shqipëri e Kosovë. Ndërtuar për tregun ku punoni, që të sjellë kërkesa reale.",
+    "paragraph2": "Takime online në mbrëmje ose në fundjavë, kur ju përshtatet. Plan konkret brenda 24 orëve, falas.",
+    "paragraph3": "Klientë në Straubing · Nyrëmberg · Milano · Londër · Tiranë",
     "ctaPrimary": "Merr ofertë falas",
     "ctaSecondary": "Shiko projektet",
     "scrollCue": "Zbulo më shumë"
@@ -26,8 +26,8 @@
       },
       {
         "number": "02",
-        "title": "Strategji para dizajnit",
-        "body": "Para se të ndërtojmë, kuptojmë biznesin, tregun dhe klientët tuaj. Pastaj krijojmë zgjidhjen që funksionon."
+        "title": "Shqip, në orarin tuaj",
+        "body": "Flisni me ne në shqip, drejtpërdrejt. Takimet online i caktojmë në mbrëmje ose në fundjavë, kur jeni të lirë nga puna."
       },
       {
         "number": "03",
@@ -73,7 +73,7 @@
   "trustedClients": {
     "eyebrow": "Klientët tanë",
     "headline": "Marka dhe biznese që na besojnë",
-    "intro": "Nga Shqipëria në tregun ndërkombëtar, bashkëpunojmë me biznese që kërkojnë rritje dhe rezultate reale.",
+    "intro": "Nga Straubing e Nyrëmberg te Milano e Londra: biznese shqiptare që kërkojnë rritje dhe rezultate reale.",
     "statYears": "vite eksperiencë",
     "statProjects": "projekte",
     "statBusinesses": "Biznese në Shqipëri & diasporë"

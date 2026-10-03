@@ -1,12 +1,12 @@
 {
   "hero": {
     "badge": "ILLYRIAN PIXEL",
-    "headlineLine1": "Turn your business into a ",
-    "headlineAccent": "brand.",
-    "srSubtitle": "Website, SEO and Marketing for Albanian businesses",
-    "paragraph1": "We build modern Websites & E-Commerce stores, dominate Google with SEO, and grow your sales through Ads, Social Media & Branding.",
-    "paragraph2": "A concrete plan within 24 hours, 100% free.",
-    "paragraph3": "You focus on the business. We bring you the clients.",
+    "headlineLine1": "Clients in Europe. Talk to us in ",
+    "headlineAccent": "Albanian.",
+    "srSubtitle": "Websites, SEO and Google Ads for Albanian-owned businesses in the diaspora, Albania and Kosovo",
+    "paragraph1": "Websites, SEO and Google Ads for Albanian-owned businesses in Germany, Switzerland, Italy and the UK, and back home in Albania and Kosovo. Built for the market you work in, to bring real inquiries.",
+    "paragraph2": "Online meetings in the evening or at the weekend, whenever suits you. A concrete plan within 24 hours, free.",
+    "paragraph3": "Clients in Straubing · Nuremberg · Milan · London · Tirana",
     "ctaPrimary": "Get a free quote",
     "ctaSecondary": "See our work",
     "scrollCue": "Discover more"
@@ -26,8 +26,8 @@
       },
       {
         "number": "02",
-        "title": "Strategy before design",
-        "body": "Before we build, we understand your business, market and clients. Then we create the solution that works."
+        "title": "In Albanian, on your schedule",
+        "body": "Talk to us directly in Albanian. We schedule online meetings in the evening or at the weekend, when you're free from work."
       },
       {
         "number": "03",
@@ -73,7 +73,7 @@
   "trustedClients": {
     "eyebrow": "Our Clients",
     "headline": "Brands and businesses that trust us",
-    "intro": "From Albania to the international market, we partner with businesses seeking real growth and results.",
+    "intro": "From Straubing and Nuremberg to Milan and London: Albanian-owned businesses that want real growth and results.",
     "statYears": "years of experience",
     "statProjects": "projects",
     "statBusinesses": "Businesses in Albania & the diaspora"

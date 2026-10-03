@@ -30,21 +30,23 @@ const NewsletterSection  = dynamic(() => import("@/components/NewsletterSection"
 
 const META: Record<Locale, { title: string; desc: string; keywords: string[] }> = {
   sq: {
-    title: "Web Design & Marketing Premium Shqipëri",
-    desc: "Website premium, SEO & marketing dixhital për biznese shqiptare. Konsultim falas, plan konkret brenda 24h. Illyrian Pixel — agjenci dixhitale premium.",
+    // Pozicionimi "diaspora e para" (2026-10-04): titulli mban "Web Design" + "Shqipëri"
+    // për renditjen lokale, përshkrimi i flet diasporës (5 nga 6 klientët janë jashtë).
+    title: "Web Design për Biznese Shqiptare në Europë & Shqipëri",
+    desc: "Website, SEO & Google Ads për biznese shqiptare në Gjermani, Zvicër, Itali, Angli, Shqipëri e Kosovë. Bisedë në shqip, takime në orarin tuaj, plan falas brenda 24h.",
     keywords: [
-      "web design shqipëri", "agjenci dixhitale tiranë", "website premium albania",
-      "seo shqipëri", "marketing online", "e-commerce albania", "google ads shqipëri",
-      "branding biznese", "landing page konvertim", "illyrian pixel"
+      "web design shqipëri", "agjenci dixhitale tiranë", "website për biznes në gjermani",
+      "agjenci shqiptare diasporë", "website biznes zvicër", "seo shqipëri", "google ads shqipëri",
+      "e-commerce albania", "branding biznese", "illyrian pixel"
     ],
   },
   en: {
-    title: "Premium Web Design & Marketing Albania",
-    desc: "Premium websites, SEO & digital marketing for Albanian businesses. Free consultation, concrete plan within 24h. Illyrian Pixel — premium digital agency.",
+    title: "Web Design for Albanian Businesses in Europe & Albania",
+    desc: "Websites, SEO & Google Ads for Albanian-owned businesses in Germany, Switzerland, Italy, the UK, Albania and Kosovo. We talk in Albanian, on your schedule. Free plan within 24h.",
     keywords: [
-      "web design albania", "digital agency tirana", "premium website albania",
-      "seo albania", "online marketing", "e-commerce albania", "google ads albania",
-      "business branding", "landing page conversion", "illyrian pixel"
+      "web design albania", "digital agency tirana", "albanian web agency germany",
+      "albanian diaspora business website", "web design for albanian businesses", "seo albania",
+      "google ads albania", "e-commerce albania", "business branding", "illyrian pixel"
     ],
   },
 };
