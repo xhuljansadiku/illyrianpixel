@@ -2,8 +2,6 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
-// HtmlLangSync: s'nevojitet më — <html lang> e vendos RootDocument që në server.
-// import HtmlLangSync from "@/components/HtmlLangSync";
 import MarketingChrome from "@/components/MarketingChrome";
 import RootDocument from "@/components/RootDocument";
 
@@ -38,7 +36,6 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <RootDocument lang={locale}>
       <NextIntlClientProvider locale={locale} messages={messages}>
-        {/* HtmlLangSync: <HtmlLangSync /> */}
         <MarketingChrome>{children}</MarketingChrome>
       </NextIntlClientProvider>
     </RootDocument>
