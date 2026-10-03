@@ -1,10 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import CookieConsent from "@/components/CookieConsent";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
-import KingGenti from "@/components/KingGenti";
+
+// CookieConsent s'është më këtu: renderohet në server nga MarketingChrome (shih consentGateScript).
+// Chunk-e më vete, që King Genti (~720 rreshta + varësitë) të mos rëndojë chunk-un kryesor.
+const ExitIntentPopup = dynamic(() => import("@/components/ExitIntentPopup"));
+const KingGenti = dynamic(() => import("@/components/KingGenti"));
 
 export default function ClientWidgets() {
   const pathname = usePathname();
@@ -12,7 +15,6 @@ export default function ClientWidgets() {
 
   return (
     <>
-      <CookieConsent />
       <WhatsAppButton />
       <ExitIntentPopup />
       <KingGenti />

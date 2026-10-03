@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Banner-i i cookies nga serveri: i fshehur, përveç kur consentGateScript()
+      (lib/consent.ts, inline në <head>) shënon <html> se s'ka pëlqim ── */
+.consent-gate {
+  display: none;
+}
+html[data-consent-needed] .consent-gate {
+  display: block;
+}
+
 /* ── Skip navigation — WCAG 2.1 AA compliant, cross-browser ── */
 .skip-nav {
   position: absolute;

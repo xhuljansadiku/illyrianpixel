@@ -38,6 +38,15 @@ export default function Preloader() {
       return;
     }
 
+    // Vetëm desktop (≥1024px). Në mobile intro-ja ~2.5s mbulonte përmbajtjen në
+    // vizitën e parë dhe e shtynte LCP-në deri në 7–8s (Lighthouse mobile). Nën lg
+    // CSS-ja (max-lg:hidden më poshtë) e fsheh që në paint-in e parë; këtu thjesht
+    // s'e nisim timeline-in dhe s'e shënojmë sesionin si "parë".
+    if (window.matchMedia("(max-width: 1023px)").matches) {
+      setVisible(false);
+      return;
+    }
+
     // Once per tab session — replaying the full intro+exit on every reload means
     // its wipe/glow plays over whatever the page happens to be scrolled to (a
     // reload restores scroll position), which looks broken over mid-page content
@@ -176,7 +185,7 @@ export default function Preloader() {
 
   /* ── MAIN PRELOADER ──────────────────────────────── */
   return (
-    <div className="fixed inset-0 z-[120] overflow-hidden">
+    <div className="fixed inset-0 z-[120] overflow-hidden max-lg:hidden">
 
       {/* Left and right panels — split on exit */}
       <div className="pl-panel-l absolute left-0 top-0 h-full w-1/2 bg-[#07080c]" />
