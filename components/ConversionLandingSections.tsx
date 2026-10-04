@@ -1,7 +1,8 @@
 ﻿"use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import ConversionTrustBar from "@/components/ConversionTrustBar";
 import SectionMark from "@/components/SectionMark";
 import type {
@@ -172,8 +173,39 @@ function WhyIcon({ type }: { type: WhyUsItem["icon"] }) {
   }
 }
 
+const COPY = {
+  sq: {
+    whyUs: "Pse ne",
+    trustAria: "Besim dhe përvojë",
+    process: "Procesi",
+    processBefore: "Katër hapa të qartë,",
+    processAccent: "pa surpriza.",
+    projects: "Projekte",
+    portfolioBefore: "Rezultate reale",
+    portfolioAccent: "për biznese reale.",
+    seeAll: "Shiko të gjitha",
+    feedbackBefore: "Çfarë thonë",
+    feedbackAccent: "klientët.",
+  },
+  en: {
+    whyUs: "Why us",
+    trustAria: "Trust and experience",
+    process: "Process",
+    processBefore: "Four clear steps,",
+    processAccent: "no surprises.",
+    projects: "Projects",
+    portfolioBefore: "Real results",
+    portfolioAccent: "for real businesses.",
+    seeAll: "See all",
+    feedbackBefore: "What our",
+    feedbackAccent: "clients say.",
+  },
+};
+
 export default function ConversionLandingSections(data: ConversionLandingData) {
-  const portfolio = getPortfolioCardsFromSlugs(data.portfolioSlugs);
+  const locale = useLocale() === "en" ? "en" : "sq";
+  const t = COPY[locale];
+  const portfolio = getPortfolioCardsFromSlugs(data.portfolioSlugs, locale);
 
   return (
     <>
@@ -186,7 +218,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
         <div className="section-wrap py-20 md:py-28">
           <div className="svc-reveal-heading">
             <SectionMark
-              label={data.whyUsEyebrow ?? "Pse ne"}
+              label={data.whyUsEyebrow ?? t.whyUs}
               eyebrowClassName="tracking-[0.22em]"
             />
             <h2 className="mt-1 max-w-[min(100%,52rem)] font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
@@ -221,7 +253,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
       </section>
 
       <section
-        aria-label="Besim dhe përvojë"
+        aria-label={t.trustAria}
         className="relative z-[1] border-b border-[#D4AF37]/15 bg-[linear-gradient(180deg,rgba(212,175,55,0.04)_0%,rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.015)_100%)] shadow-[inset_0_1px_0_rgba(212,175,55,0.07)]"
       >
         <div className="section-wrap py-10 md:py-12">
@@ -235,12 +267,12 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
         </div>
         <div className="section-wrap relative z-[1] py-20 md:py-28">
           <div className="svc-reveal-heading">
-            <SectionMark label="Procesi" eyebrowClassName="tracking-[0.22em]" />
+            <SectionMark label={t.process} eyebrowClassName="tracking-[0.22em]" />
             <h2 className="mt-1 max-w-2xl md:whitespace-pre-line font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
               {data.processHeadline ?? (
                 <>
-                  Katër hapa të qartë,{" "}
-                  <span className="text-white/50">pa surpriza.</span>
+                  {t.processBefore}{" "}
+                  <span className="text-white/50">{t.processAccent}</span>
                 </>
               )}
             </h2>
@@ -267,11 +299,11 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
         <div className="section-wrap py-20 md:py-28">
           <div className="svc-reveal-heading flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <SectionMark label="Projekte" eyebrowClassName="tracking-[0.22em]" />
+              <SectionMark label={t.projects} eyebrowClassName="tracking-[0.22em]" />
               <h2 className="mt-1 max-w-xl font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
-                {data.portfolioHeadingBefore ?? "Rezultate reale"}
+                {data.portfolioHeadingBefore ?? t.portfolioBefore}
                 <br className="hidden md:block" />
-                <span className="text-[#D4AF37]">{data.portfolioHeadingAccent ?? "për biznese reale."}</span>
+                <span className="text-[#D4AF37]">{data.portfolioHeadingAccent ?? t.portfolioAccent}</span>
               </h2>
               {data.portfolioSubline && (
                 <p className="mt-3 max-w-[52ch] text-[14px] leading-relaxed text-white/50">
@@ -280,7 +312,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
               )}
             </div>
             <Link href="/projektet" className="luxury-link shrink-0 text-[12px]">
-              Shiko të gjitha <span aria-hidden>→</span>
+              {t.seeAll} <span aria-hidden>→</span>
             </Link>
           </div>
 
@@ -376,7 +408,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
             <h2 className="mt-1 max-w-2xl font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
               {data.feedbackHeadline ?? (
                 <>
-                  Çfarë thonë <span className="text-white/50">klientët.</span>
+                  {t.feedbackBefore} <span className="text-white/50">{t.feedbackAccent}</span>
                 </>
               )}
             </h2>

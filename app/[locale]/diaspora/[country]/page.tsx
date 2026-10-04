@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata, buildBreadcrumb, seo as seoConfig, jsonLd } from "@/lib/seo";
 import { DIASPORA_COUNTRY_SLUGS, type CountrySlug } from "@/lib/diasporaShared";
-import { diasporaContent } from "@/lib/diasporaContent.sq";
+import { getDiasporaContent } from "@/lib/diasporaContent";
 import DiasporaCountryPage from "@/components/DiasporaCountryPage";
 import type { Locale } from "@/i18n/routing";
 
@@ -13,7 +13,7 @@ export function generateStaticParams() {
   return DIASPORA_COUNTRY_SLUGS.map((country) => ({ country }));
 }
 
-const SEO: Record<CountrySlug, { title: string; desc: string }> = {
+const SEO_SQ: Record<CountrySlug, { title: string; desc: string }> = {
   "gjermani": {
     title: "Website për Biznese Shqiptare në Gjermani",
     desc: "Ndërtojmë website profesionale për biznese shqiptare në Gjermani. Klientë realë (Hauswerk Niederbayern, Suli Group). Konsultim falas, plan brenda 24h.",
@@ -36,6 +36,36 @@ const SEO: Record<CountrySlug, { title: string; desc: string }> = {
   },
 };
 
+const SEO_EN: Record<CountrySlug, { title: string; desc: string }> = {
+  "gjermani": {
+    title: "Websites for Albanian Businesses in Germany",
+    desc: "Professional websites for Albanian-owned businesses in Germany. Real clients (Hauswerk Niederbayern, Suli Group). Free consultation, plan within 24h.",
+  },
+  "britani": {
+    title: "Websites for Albanian Businesses in the UK",
+    desc: "Professional websites for Albanian-owned businesses in the UK. Real client (Palushi Brothers, London). Free consultation, plan within 24h.",
+  },
+  "zvicer": {
+    title: "Websites for Albanian Businesses in Switzerland",
+    desc: "Professional, Swiss-level websites for Albanian-owned businesses in Switzerland. 100% communication in Albanian. Free consultation, plan within 24h.",
+  },
+  "itali": {
+    title: "Bilingual Websites for Albanian Businesses in Italy",
+    desc: "Bilingual Albanian/Italian websites for Albanian-owned businesses in Italy. Real client (ESM Group, Milan). Free consultation, plan within 24h.",
+  },
+  "shba-kanada": {
+    title: "Websites for Albanian Businesses in the USA & Canada",
+    desc: "Professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep. Free consultation, plan within 24h.",
+  },
+};
+
+const seoFor = (locale: Locale) => (locale === "en" ? SEO_EN : SEO_SQ);
+
+const CRUMBS: Record<Locale, { home: string; hub: string }> = {
+  sq: { home: "Ballina", hub: "Diasporë" },
+  en: { home: "Home", hub: "Diaspora" },
+};
+
 const AREA_SERVED: Record<CountrySlug, string[]> = {
   "gjermani": ["Germany"],
   "britani": ["United Kingdom"],
@@ -46,28 +76,31 @@ const AREA_SERVED: Record<CountrySlug, string[]> = {
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { locale, country } = await props.params;
-  const seo = SEO[country as CountrySlug];
-  if (!seo) return buildMetadata("Diasporë", "Website për biznese shqiptare në diasporë.", "/diaspora", undefined, locale, { sqOnly: true });
-  return buildMetadata(seo.title, seo.desc, `/diaspora/${country}`, undefined, locale, { sqOnly: true });
+  const seo = seoFor(locale)[country as CountrySlug];
+  if (!seo) return buildMetadata(CRUMBS[locale].hub, undefined, "/diaspora", undefined, locale);
+  return buildMetadata(seo.title, seo.desc, `/diaspora/${country}`, undefined, locale);
 }
 
 export const revalidate = 300;
 
 export default async function DiasporaCountryRoute(props: Props) {
-  const { country } = await props.params;
+  const { locale, country } = await props.params;
   if (!DIASPORA_COUNTRY_SLUGS.includes(country as CountrySlug)) notFound();
 
   const slug = country as CountrySlug;
-  const content = diasporaContent[slug];
+  const content = getDiasporaContent(locale)[slug];
+  const seo = seoFor(locale)[slug];
+  const crumbs = CRUMBS[locale] ?? CRUMBS.sq;
+  const prefix = locale === "en" ? "/en" : "";
   if (!content) notFound();
 
-  const url = `${seoConfig.siteUrl}/diaspora/${slug}`;
+  const url = `${seoConfig.siteUrl}${prefix}/diaspora/${slug}`;
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${url}#service`,
-    name: SEO[slug].title,
-    description: SEO[slug].desc,
+    name: seo.title,
+    description: seo.desc,
     url,
     provider: { "@id": `${seoConfig.siteUrl}/#organization` },
     areaServed: AREA_SERVED[slug],
@@ -81,8 +114,8 @@ export default async function DiasporaCountryRoute(props: Props) {
   };
 
   const breadcrumbSchema = buildBreadcrumb([
-    { name: "Ballina", url: seoConfig.siteUrl },
-    { name: "Diasporë", url: `${seoConfig.siteUrl}/diaspora` },
+    { name: crumbs.home, url: `${seoConfig.siteUrl}${prefix}` },
+    { name: crumbs.hub, url: `${seoConfig.siteUrl}${prefix}/diaspora` },
     { name: content.countryLabel, url },
   ]);
 
