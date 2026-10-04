@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
+import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,15 +11,47 @@ import ConversionLandingSections from "@/components/ConversionLandingSections";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import type { DiasporaCountryContent } from "@/lib/diasporaShared";
 
-const BLOG_TITLES: Record<string, string> = {
-  "menaxho-biznesin-nga-diaspora": "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje",
-  "website-dygjuhesh-biznes-diaspore": "Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë",
-  "si-te-gjejne-klientet-shqiptare-biznesin-tend": "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë",
+const COPY = {
+  sq: {
+    startChat: "Fillo bisedën",
+    calcPrice: "Llogarit çmimin",
+    nextStep: "Hapi tjetër",
+    closingLine1: "Gati për një website",
+    closingAccent: "që punon edhe kur ju s'jeni atje?",
+    closingBody: "Konsultim falas, pa detyrime. Ju dërgojmë plan konkret brenda 24 orëve.",
+    startProject: "Nis projektin",
+    writeWhatsapp: "Shkruaj në WhatsApp",
+    readMore: "Lexo më shumë",
+    back: "← Kthehu te Diaspora",
+    blogTitles: {
+      "menaxho-biznesin-nga-diaspora": "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje",
+      "website-dygjuhesh-biznes-diaspore": "Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë",
+      "si-te-gjejne-klientet-shqiptare-biznesin-tend": "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë",
+    } as Record<string, string>,
+  },
+  en: {
+    startChat: "Start the conversation",
+    calcPrice: "Estimate the price",
+    nextStep: "Next step",
+    closingLine1: "Ready for a website",
+    closingAccent: "that works even when you're not there?",
+    closingBody: "Free consultation, no obligation. We send you a concrete plan within 24 hours.",
+    startProject: "Start the project",
+    writeWhatsapp: "Message us on WhatsApp",
+    readMore: "Read more",
+    back: "← Back to Diaspora",
+    blogTitles: {
+      "menaxho-biznesin-nga-diaspora": "I run a business in Albania or Kosovo but live abroad: how to manage it online",
+      "website-dygjuhesh-biznes-diaspore": "A bilingual website (Albanian + local language): why every diaspora Albanian business needs one",
+      "si-te-gjejne-klientet-shqiptare-biznesin-tend": "How Albanian customers find your business online, wherever they are",
+    } as Record<string, string>,
+  },
 };
 
 export default function DiasporaCountryPage({ content }: { content: DiasporaCountryContent }) {
   const mainRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  const t = COPY[useLocale() === "en" ? "en" : "sq"];
 
   useIsomorphicLayoutEffect(() => {
     if (reduced || !mainRef.current) return;
@@ -83,10 +116,10 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
                 href="/contact"
                 className="interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-[#0e0d0c]"
               >
-                Fillo bisedën
+                {t.startChat}
               </Link>
               <Link href="/cmimet#kalkulatori" className="luxury-link !text-[15px]">
-                Llogarit çmimin <span aria-hidden>→</span>
+                {t.calcPrice} <span aria-hidden>→</span>
               </Link>
               <a
                 href={content.ctaWhatsappHref}
@@ -118,18 +151,18 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
               <div className="pointer-events-none absolute -right-16 bottom-0 h-48 w-48 rounded-full bg-accent/[0.05] blur-3xl" />
 
               <div className="relative z-[1]">
-                <SectionMark label="Hapi tjetër" eyebrowClassName="tracking-[0.22em] !text-accent/80" />
+                <SectionMark label={t.nextStep} eyebrowClassName="tracking-[0.22em] !text-accent/80" />
                 <h2 className="mx-auto mt-3 max-w-[18ch] font-display text-[clamp(2.2rem,5.5vw,4.2rem)] leading-[0.96] tracking-[-0.02em] text-white md:max-w-none">
-                  Gati për një website<br className="hidden md:block" />
-                  <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">që punon edhe kur ju s&apos;jeni atje?</span>
+                  {t.closingLine1}<br className="hidden md:block" />
+                  <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t.closingAccent}</span>
                 </h2>
                 <p className="mx-auto mt-6 max-w-[44ch] text-[14px] leading-relaxed text-white/50">
-                  Konsultim falas, pa detyrime. Ju dërgojmë plan konkret brenda 24 orëve.
+                  {t.closingBody}
                 </p>
 
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
                   <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-[#0e0d0c]">
-                    Nis projektin
+                    {t.startProject}
                   </Link>
                   <a
                     href={content.ctaWhatsappHref}
@@ -137,20 +170,20 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
                     rel="noopener noreferrer"
                     className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.06em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white"
                   >
-                    Shkruaj në WhatsApp <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    {t.writeWhatsapp} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </a>
                 </div>
 
                 {content.relatedBlogSlugs.length > 0 && (
                   <div className="mx-auto mt-12 flex max-w-[52ch] flex-col items-center gap-2">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/30">Lexo më shumë</p>
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/30">{t.readMore}</p>
                     {content.relatedBlogSlugs.map((slug) => (
                       <Link
                         key={slug}
                         href={`/blog/${slug}`}
                         className="luxury-link text-[13px] leading-snug"
                       >
-                        {BLOG_TITLES[slug] ?? slug}
+                        {t.blogTitles[slug] ?? slug}
                       </Link>
                     ))}
                   </div>
@@ -158,7 +191,7 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
 
                 <div className="mt-8">
                   <Link href="/diaspora" className="text-[11px] uppercase tracking-[0.2em] text-white/30 transition-colors duration-300 hover:text-white/60">
-                    ← Kthehu te Diaspora
+                    {t.back}
                   </Link>
                 </div>
               </div>

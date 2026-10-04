@@ -1,4 +1,4 @@
-﻿import { caseStudies } from "@/lib/caseStudies";
+﻿import { getCaseStudies } from "@/lib/caseStudies";
 import type { Locale } from "@/i18n/routing";
 
 export type WhyUsIcon =
@@ -127,10 +127,11 @@ export type ConversionLandingData = {
   feedbackBadge?: string;
 };
 
-export function getPortfolioCardsFromSlugs(slugs: readonly string[]) {
+export function getPortfolioCardsFromSlugs(slugs: readonly string[], locale: Locale = "sq") {
+  const studies = getCaseStudies(locale);
   return slugs
     .map((slug) => {
-      const study = caseStudies.find((c) => c.slug === slug);
+      const study = studies.find((c) => c.slug === slug);
       if (!study) return null;
       return {
         slug: study.slug,
