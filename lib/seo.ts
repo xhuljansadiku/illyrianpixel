@@ -96,6 +96,7 @@ export const organizationSchema = {
     { "@type": "Country", name: "United Kingdom" },
     { "@type": "Country", name: "Switzerland" },
     { "@type": "Country", name: "Italy" },
+    { "@type": "Country", name: "Sweden" },
     { "@type": "Country", name: "United States" },
     { "@type": "Country", name: "Canada" },
     { "@type": "AdministrativeArea", name: "Europe" }
@@ -110,7 +111,7 @@ export const organizationSchema = {
     contactType: "customer service",
     email: "info@illyrianpixel.com",
     availableLanguage: ["Albanian", "English", "Italian"],
-    areaServed: ["AL", "XK", "DE", "GB", "CH", "IT", "US", "CA"],
+    areaServed: ["AL", "XK", "DE", "GB", "CH", "IT", "SE", "US", "CA"],
     contactOption: "TollFree"
   },
   sameAs: [
@@ -171,6 +172,7 @@ export const localBusinessSchema = {
     { "@type": "Country", name: "United Kingdom" },
     { "@type": "Country", name: "Switzerland" },
     { "@type": "Country", name: "Italy" },
+    { "@type": "Country", name: "Sweden" },
     { "@type": "Country", name: "United States" },
     { "@type": "Country", name: "Canada" }
   ],
