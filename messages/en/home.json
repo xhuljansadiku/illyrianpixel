@@ -1,12 +1,12 @@
 {
   "hero": {
     "badge": "ILLYRIAN PIXEL",
-    "headlineLine1": "Clients in Europe. Talk to us in ",
+    "headlineLine1": "Clients in 7 countries. Talk to us in ",
     "headlineAccent": "Albanian.",
-    "srSubtitle": "Websites, SEO and Google Ads for Albanian-owned businesses in the diaspora, Albania and Kosovo",
-    "paragraph1": "Websites, SEO and Google Ads for Albanian-owned businesses in Germany, Switzerland, Italy and the UK, and back home in Albania and Kosovo. Built for the market you work in, to bring real inquiries.",
+    "srSubtitle": "International digital agency: websites, SEO and Google Ads for businesses in Europe, America, Albania and Kosovo",
+    "paragraph1": "An international digital agency for businesses in Europe and America, from Germany and Sweden to the USA, as well as Albania and Kosovo. Websites, SEO and Google Ads built for the market you work in, to bring real inquiries.",
     "paragraph2": "Online meetings in the evening or at the weekend, whenever suits you. A concrete plan within 24 hours, free.",
-    "paragraph3": "Clients in Straubing · Nuremberg · Milan · London · Tirana",
+    "paragraph3": "Clients in Germany · Italy · UK · Sweden · USA · Albania · Kosovo",
     "ctaPrimary": "Get a free quote",
     "ctaSecondary": "See our work",
     "scrollCue": "Discover more"
@@ -73,10 +73,10 @@
   "trustedClients": {
     "eyebrow": "Our Clients",
     "headline": "Brands and businesses that trust us",
-    "intro": "From Straubing and Nuremberg to Milan and London: Albanian-owned businesses that want real growth and results.",
+    "intro": "From Germany and Italy to Sweden, the UK and the USA: businesses that want real growth and results.",
     "statYears": "years of experience",
     "statProjects": "projects",
-    "statBusinesses": "Businesses in Albania & the diaspora"
+    "statBusinesses": "Businesses in 7 countries"
   },
   "featuredWork": {
     "eyebrow": "OUR WORK",
