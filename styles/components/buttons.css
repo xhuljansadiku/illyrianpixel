@@ -1,0 +1,193 @@
+/* ==========================================================================
+   Buttons — variants: primary · secondary · yellow · dark · ghost
+             sizes: sm · md · lg
+             states: hover · active · focus-visible · disabled · loading
+   ========================================================================== */
+
+.btn {
+  --btn-bg: var(--np-blue);
+  --btn-fg: var(--np-white);
+  --btn-border: var(--np-blue);
+  --btn-bg-hover: var(--np-blue-dark);
+  --btn-fg-hover: var(--btn-fg);
+  --btn-border-hover: var(--btn-bg-hover);
+  --btn-height: 48px;
+  --btn-padding: 22px;
+  --btn-font-size: var(--text-base);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--btn-height);
+  padding: 0 var(--btn-padding);
+  border: 1.5px solid var(--btn-border);
+  border-radius: var(--radius-sm);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-sans);
+  font-size: var(--btn-font-size);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+  color: var(--btn-fg-hover);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.btn:disabled:hover,
+.btn[aria-disabled="true"]:hover {
+  background: var(--btn-bg);
+  border-color: var(--btn-border);
+  color: var(--btn-fg);
+}
+
+/* Loading: keeps its width, shows a spinner, ignores further clicks. */
+.btn.is-loading {
+  cursor: progress;
+  opacity: 0.9;
+}
+
+.btn__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: np-spin 0.7s linear infinite;
+}
+
+.btn__icon {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.btn:hover .btn__icon--arrow,
+.btn:focus-visible .btn__icon--arrow {
+  transform: translateX(3px);
+}
+
+.btn:hover .btn__icon--arrow-up-right,
+.btn:focus-visible .btn__icon--arrow-up-right {
+  transform: translate(2px, -2px);
+}
+
+/* ── Sizes ─────────────────────────────────────────────────────────────── */
+
+.btn--sm {
+  --btn-height: 40px;
+  --btn-padding: 16px;
+  --btn-font-size: var(--text-sm);
+  gap: 8px;
+}
+
+.btn--sm .btn__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.btn--lg {
+  --btn-height: 56px;
+  --btn-padding: 28px;
+  --btn-font-size: var(--text-md);
+}
+
+/* ── Variants ──────────────────────────────────────────────────────────── */
+
+.btn--primary {
+  box-shadow:
+    0 1px 2px rgba(0, 31, 63, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.btn--primary:hover {
+  box-shadow: 0 8px 20px -8px rgba(0, 82, 127, 0.55);
+}
+
+.btn--secondary {
+  --btn-bg: var(--np-white);
+  --btn-fg: var(--np-blue);
+  --btn-border: var(--np-blue);
+  --btn-bg-hover: var(--np-blue-50);
+  --btn-fg-hover: var(--np-blue-dark);
+  --btn-border-hover: var(--np-blue-dark);
+}
+
+.btn--yellow {
+  --btn-bg: var(--np-yellow);
+  --btn-fg: var(--np-dark);
+  --btn-border: var(--np-yellow);
+  --btn-bg-hover: var(--np-yellow-dark);
+  --btn-border-hover: var(--np-yellow-dark);
+}
+
+.btn--dark {
+  --btn-bg: var(--np-dark);
+  --btn-fg: var(--np-white);
+  --btn-border: var(--np-dark);
+  --btn-bg-hover: var(--np-gray-900);
+  --btn-border-hover: var(--np-gray-900);
+}
+
+/* Ghost follows the surrounding text colour, so it works on light and dark. */
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-heading);
+  --btn-border: var(--color-border-strong);
+  --btn-bg-hover: color-mix(in srgb, var(--color-heading) 7%, transparent);
+  --btn-border-hover: var(--color-heading);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+@media (max-width: 479px) {
+  .btn-group--stack-mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-group--stack-mobile > .btn {
+    width: 100%;
+  }
+}

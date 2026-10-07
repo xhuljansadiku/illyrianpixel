@@ -1,142 +1,78 @@
 import type { MetadataRoute } from "next";
-import { getBlogPostsForLocale } from "@/lib/blogPosts";
-import { getCaseStudies } from "@/lib/caseStudies";
-import { seo } from "@/lib/seo";
-import { DIASPORA_COUNTRY_SLUGS } from "@/lib/diasporaShared";
-import type { Locale } from "@/i18n/routing";
+import { getArticles } from "@/content/insights";
+import { INSIGHT_SLUGS } from "@/content/insight-slugs";
+import { LEGAL_UPDATED } from "@/content/legal";
+import { getProjects } from "@/content/projects";
+import { getServices } from "@/content/services";
+import { LOCALE_LABELS, routing, type Locale } from "@/i18n/routing";
+import { localizedUrl, type Href } from "@/lib/seo";
 
-// Actual site go-live date (confirmed by owner), not the first commit date
-const LAUNCH_DATE = new Date("2026-05-10");
-const BLOG_DATES: Record<string, Date> = {
-  "si-te-rrisesh-klientet-online": new Date("2026-04-10"),
-  "gabimet-kryesore-ne-website": new Date("2026-04-15"),
-  "pse-seo-eshte-kritik": new Date("2026-04-20"),
-  "google-ads-vs-seo": new Date("2026-05-05"),
-  "pse-ecommerce-eshte-i-rendesishem": new Date("2026-05-10"),
-  "cfare-eshte-branding": new Date("2026-05-15"),
-  "sa-kushton-website-shqiperi": new Date("2026-05-20"),
-  "seo-tirane": new Date("2026-05-22"),
-  "dyqan-online-shqiperi": new Date("2026-05-24"),
-  "google-ads-shqiperi": new Date("2026-05-26"),
-  "web-design-tirane": new Date("2026-05-28"),
-  "social-media-menaxhim-shqiperi": new Date("2026-05-30"),
-  "menaxho-biznesin-nga-diaspora": new Date("2026-07-25"),
-  "website-dygjuhesh-biznes-diaspore": new Date("2026-07-25"),
-  "si-te-gjejne-klientet-shqiptare-biznesin-tend": new Date("2026-07-25"),
-  "sa-kushton-website-kosove": new Date("2026-07-29"),
+/** Date the site content was last substantially updated. */
+const SITE_UPDATED = "2026-10-06";
+
+type Entry = {
+  hrefs: Record<Locale, Href>;
+  lastModified: string;
+  priority: number;
+  changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
 };
 
-// localePrefix "as-needed": sq has no prefix, en is prefixed with /en
-const localizedUrl = (locale: Locale, path: string) =>
-  locale === "en" ? `${seo.siteUrl}/en${path}` : `${seo.siteUrl}${path}`;
-
-const LOCALES: Locale[] = ["sq", "en"];
+const same = (href: Href): Record<Locale, Href> => ({ sv: href, en: href });
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes: { path: string; priority: number; changefreq: MetadataRoute.Sitemap[number]["changeFrequency"]; date: Date }[] = [
-    { path: "",                          priority: 1.0,  changefreq: "weekly",  date: LAUNCH_DATE },
-    { path: "/sherbimet",                priority: 0.9,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/cmimet",                   priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/contact",                  priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/projektet",                priority: 0.8,  changefreq: "weekly",  date: LAUNCH_DATE },
-    { path: "/newsletter",               priority: 0.6,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/blog",                     priority: 0.75, changefreq: "weekly",  date: new Date("2026-05-15") },
-    { path: "/services/website",         priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/ecommerce",       priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/seo-google-ads",  priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/branding-content",priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/smm",             priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/mirembajtja",     priority: 0.7,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/aplikacione-mobile", priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/seo",             priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/google-ads",      priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/privacy",                  priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },
-    { path: "/terms",                    priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },
+  const articles = getArticles("sv");
+
+  const entries: Entry[] = [
+    { hrefs: same("/"), lastModified: SITE_UPDATED, priority: 1, changeFrequency: "weekly" },
+    { hrefs: same("/services"), lastModified: SITE_UPDATED, priority: 0.9, changeFrequency: "monthly" },
+    ...getServices("sv").map<Entry>((service) => ({
+      hrefs: same(service.href),
+      lastModified: SITE_UPDATED,
+      priority: 0.8,
+      changeFrequency: "monthly",
+    })),
+    { hrefs: same("/work"), lastModified: SITE_UPDATED, priority: 0.7, changeFrequency: "monthly" },
+    // Placeholder case studies are noindex and stay out of the sitemap.
+    ...getProjects("sv")
+      .filter((project) => !project.placeholder)
+      .map<Entry>((project) => ({
+        hrefs: same({ pathname: "/work/[slug]", params: { slug: project.slug } }),
+        lastModified: SITE_UPDATED,
+        priority: 0.6,
+        changeFrequency: "yearly",
+      })),
+    { hrefs: same("/about"), lastModified: SITE_UPDATED, priority: 0.7, changeFrequency: "monthly" },
+    { hrefs: same("/process"), lastModified: SITE_UPDATED, priority: 0.6, changeFrequency: "monthly" },
+    { hrefs: same("/insights"), lastModified: SITE_UPDATED, priority: 0.7, changeFrequency: "weekly" },
+    ...INSIGHT_SLUGS.map<Entry>((entry) => {
+      const article = articles.find((item) => item.id === entry.id);
+      return {
+        hrefs: {
+          sv: { pathname: "/insights/[slug]", params: { slug: entry.slugs.sv } },
+          en: { pathname: "/insights/[slug]", params: { slug: entry.slugs.en } },
+        },
+        lastModified: article?.updatedAt ?? article?.publishedAt ?? SITE_UPDATED,
+        priority: 0.6,
+        changeFrequency: "yearly",
+      };
+    }),
+    { hrefs: same("/contact"), lastModified: SITE_UPDATED, priority: 0.8, changeFrequency: "yearly" },
+    { hrefs: same("/privacy"), lastModified: LEGAL_UPDATED, priority: 0.2, changeFrequency: "yearly" },
+    { hrefs: same("/terms"), lastModified: LEGAL_UPDATED, priority: 0.2, changeFrequency: "yearly" },
+    { hrefs: same("/cookies"), lastModified: LEGAL_UPDATED, priority: 0.2, changeFrequency: "yearly" },
   ];
 
-  const dedicatedBlogSlugs = new Set([
-    "si-te-rrisesh-klientet-online",
-    "gabimet-kryesore-ne-website",
-    "pse-seo-eshte-kritik",
-    "google-ads-vs-seo",
-    "pse-ecommerce-eshte-i-rendesishem",
-    "cfare-eshte-branding",
-    "sa-kushton-website-shqiperi",
-    "seo-tirane",
-    "dyqan-online-shqiperi",
-    "google-ads-shqiperi",
-    "web-design-tirane",
-    "social-media-menaxhim-shqiperi",
-    "menaxho-biznesin-nga-diaspora",
-    "website-dygjuhesh-biznes-diaspore",
-    "si-te-gjejne-klientet-shqiptare-biznesin-tend",
-    "sa-kushton-website-kosove",
-  ]);
-
-  // Artikuj pa version anglisht — /en/... e tyre është noindex (buildMetadata sqOnly)
-  const sqOnlyBlogSlugs = new Set(["si-te-rrisesh-klientet-online"]);
-
-  const staticEntries = LOCALES.flatMap((locale) =>
-    staticRoutes.map(({ path, priority, changefreq, date }) => ({
-      url: localizedUrl(locale, path),
-      lastModified: date,
-      priority,
-      changeFrequency: changefreq,
-    }))
-  );
-
-  const blogEntries = LOCALES.flatMap((locale) => {
-    const posts = getBlogPostsForLocale(locale).filter(
-      (item) => !(locale === "en" && sqOnlyBlogSlugs.has(item.slug))
-    );
-    const dedicated = posts
-      .filter((item) => dedicatedBlogSlugs.has(item.slug))
-      .map((item) => ({
-        url: localizedUrl(locale, `/blog/${item.slug}`),
-        lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
-        priority: 0.7,
-        changeFrequency: "monthly" as const,
-      }));
-    const rest = posts
-      .filter((item) => !dedicatedBlogSlugs.has(item.slug))
-      .map((item) => ({
-        url: localizedUrl(locale, `/blog/${item.slug}`),
-        lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
-        priority: 0.65,
-        changeFrequency: "monthly" as const,
-      }));
-    return [...dedicated, ...rest];
-  });
-
-  const projectEntries = LOCALES.flatMap((locale) =>
-    getCaseStudies(locale).map((cs) => ({
-      url: localizedUrl(locale, `/projektet/${cs.slug}`),
-      lastModified: LAUNCH_DATE,
-      priority: 0.75,
-      changeFrequency: "monthly" as const,
-    }))
-  );
-
-  // Faqet e diasporës: sq që më 2026-08-21, en (lib/diasporaContent.en.ts) që më 2026-10-05.
-  const diasporaEntries: MetadataRoute.Sitemap = LOCALES.flatMap((locale) => {
-    const date = new Date(locale === "en" ? "2026-10-05" : "2026-08-21");
-    return [
-      {
-        url: localizedUrl(locale, "/diaspora"),
-        lastModified: date,
-        priority: 0.8,
-        changeFrequency: "monthly" as const,
+  return entries.flatMap((entry) =>
+    routing.locales.map((locale) => ({
+      url: localizedUrl(locale, entry.hrefs[locale]),
+      lastModified: entry.lastModified,
+      changeFrequency: entry.changeFrequency,
+      priority: entry.priority,
+      alternates: {
+        languages: Object.fromEntries(
+          routing.locales.map((alternate) => [LOCALE_LABELS[alternate].htmlLang, localizedUrl(alternate, entry.hrefs[alternate])]),
+        ),
       },
-      ...DIASPORA_COUNTRY_SLUGS.map((slug) => ({
-        url: localizedUrl(locale, `/diaspora/${slug}`),
-        lastModified: date,
-        priority: 0.75,
-        changeFrequency: "monthly" as const,
-      })),
-    ];
-  });
-
-  return [...staticEntries, ...projectEntries, ...blogEntries, ...diasporaEntries];
+    })),
+  );
 }
-
-

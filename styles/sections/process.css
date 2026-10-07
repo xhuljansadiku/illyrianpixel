@@ -1,0 +1,306 @@
+/* ==========================================================================
+   Process — interactive timeline (home) and the detailed process page.
+   Mobile: vertical timeline. Desktop: horizontal timeline whose progress
+   line follows the hovered/focused step (pure CSS via :has()).
+   ========================================================================== */
+
+.timeline-wrap {
+  --timeline-gap: var(--space-5);
+  --timeline-node: 40px;
+  position: relative;
+}
+
+/* Desktop track (hidden on small screens, where each step draws its own segment). */
+.timeline__track {
+  display: none;
+}
+
+.timeline__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--np-blue);
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 0;
+  list-style: none;
+}
+
+.timeline__step {
+  position: relative;
+}
+
+/* Vertical connector between nodes: grey track (::after) + blue fill (::before). */
+.timeline__step:not(:last-child)::before,
+.timeline__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--timeline-node) / 2 - 1px);
+  top: var(--timeline-node);
+  bottom: 0;
+  width: 2px;
+}
+
+.timeline__step:not(:last-child)::after {
+  background: var(--color-border);
+}
+
+.timeline__step:not(:last-child)::before {
+  z-index: 1;
+  background: var(--np-blue);
+  transform-origin: top center;
+  transition: transform var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 160ms + 120ms);
+}
+
+.js-reveal .timeline-wrap:not(.is-revealed) .timeline__step::before {
+  transform: scaleY(0);
+}
+
+.timeline__link {
+  display: grid;
+  grid-template-columns: var(--timeline-node) minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-bottom: var(--space-6);
+  border-radius: var(--radius-sm);
+}
+
+.timeline__node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--timeline-node);
+  height: var(--timeline-node);
+  border: 1.5px solid var(--np-blue);
+  border-radius: var(--radius-sm);
+  background: var(--np-blue);
+  color: var(--np-white);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color var(--duration-slow) var(--ease-out),
+    border-color var(--duration-slow) var(--ease-out),
+    color var(--duration-slow) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 160ms);
+}
+
+.timeline__step:last-child .timeline__node::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 9px;
+  height: 9px;
+  background: var(--np-yellow);
+}
+
+.timeline__title {
+  padding-top: 8px;
+  font-size: var(--text-h4);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.timeline__text {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.timeline__link:hover .timeline__title,
+.timeline__link:focus-visible .timeline__title {
+  color: var(--np-blue);
+}
+
+.timeline__link:hover .timeline__node,
+.timeline__link:focus-visible .timeline__node {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px rgba(0, 82, 127, 0.6);
+  transition-delay: 0ms;
+}
+
+/* Reveal: the line draws itself and the steps light up one after another. */
+.js-reveal .timeline-wrap:not(.is-revealed) .timeline__node {
+  border-color: var(--np-blue-200);
+  background: var(--np-white);
+  color: var(--np-blue);
+}
+
+/* ── Desktop: horizontal ───────────────────────────────────────────────── */
+
+@media (min-width: 1024px) {
+  .timeline__step::before,
+  .timeline__step::after {
+    display: none;
+  }
+
+  .timeline__track {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--timeline-node) / 2 - 1px);
+    height: 2px;
+    background: var(--color-border);
+  }
+
+  .timeline__fill {
+    right: auto;
+    width: 100%;
+    transition: width var(--duration-slow) var(--ease-out);
+  }
+
+  .js-reveal .timeline-wrap:not(.is-revealed) .timeline__fill {
+    width: 0;
+  }
+
+  .timeline-wrap.is-revealed .timeline__fill {
+    transition: width 1.2s var(--ease-in-out);
+  }
+
+  .timeline {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--timeline-gap);
+  }
+
+  .timeline__link {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    padding-bottom: 0;
+  }
+
+  .timeline__title {
+    padding-top: 0;
+  }
+
+  /* Progress follows the step under the pointer / keyboard focus. */
+  .timeline-wrap:has(.timeline__step:nth-child(1):is(:hover, :focus-within)) .timeline__fill {
+    width: calc(var(--timeline-node) / 2);
+  }
+  .timeline-wrap:has(.timeline__step:nth-child(2):is(:hover, :focus-within)) .timeline__fill {
+    width: calc((100% + var(--timeline-gap)) * 1 / 6 + var(--timeline-node) / 2);
+  }
+  .timeline-wrap:has(.timeline__step:nth-child(3):is(:hover, :focus-within)) .timeline__fill {
+    width: calc((100% + var(--timeline-gap)) * 2 / 6 + var(--timeline-node) / 2);
+  }
+  .timeline-wrap:has(.timeline__step:nth-child(4):is(:hover, :focus-within)) .timeline__fill {
+    width: calc((100% + var(--timeline-gap)) * 3 / 6 + var(--timeline-node) / 2);
+  }
+  .timeline-wrap:has(.timeline__step:nth-child(5):is(:hover, :focus-within)) .timeline__fill {
+    width: calc((100% + var(--timeline-gap)) * 4 / 6 + var(--timeline-node) / 2);
+  }
+
+  .timeline-wrap:has(.timeline__step:nth-child(1):is(:hover, :focus-within)) .timeline__step:nth-child(n + 2) .timeline__node,
+  .timeline-wrap:has(.timeline__step:nth-child(2):is(:hover, :focus-within)) .timeline__step:nth-child(n + 3) .timeline__node,
+  .timeline-wrap:has(.timeline__step:nth-child(3):is(:hover, :focus-within)) .timeline__step:nth-child(n + 4) .timeline__node,
+  .timeline-wrap:has(.timeline__step:nth-child(4):is(:hover, :focus-within)) .timeline__step:nth-child(n + 5) .timeline__node,
+  .timeline-wrap:has(.timeline__step:nth-child(5):is(:hover, :focus-within)) .timeline__step:nth-child(n + 6) .timeline__node {
+    border-color: var(--np-blue-200);
+    background: var(--np-white);
+    color: var(--np-blue);
+    transition-delay: 0ms;
+  }
+}
+
+.process-section__footer {
+  margin-top: clamp(var(--space-7), 5vw, var(--space-8));
+}
+
+/* ── Process page: detailed steps ──────────────────────────────────────── */
+
+.process-steps {
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.process-step {
+  display: grid;
+  gap: var(--space-5) var(--space-8);
+  padding-block: clamp(var(--space-7), 5vw, var(--space-9));
+  border-bottom: 1px solid var(--color-border);
+  scroll-margin-top: calc(var(--header-height) + var(--space-5));
+}
+
+@media (min-width: 1024px) {
+  .process-step {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 4fr);
+  }
+}
+
+.process-step__number {
+  display: block;
+  color: var(--np-blue);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.process-step:last-child .process-step__number::after {
+  content: "";
+  display: inline-block;
+  width: 0.14em;
+  height: 0.14em;
+  margin-left: 0.06em;
+  background: var(--np-yellow);
+}
+
+.process-step__title {
+  margin-top: var(--space-4);
+  font-size: var(--text-h3);
+}
+
+.process-step__description {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
+.process-step__label {
+  margin-bottom: var(--space-3);
+  color: var(--color-text-subtle);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.process-step__role {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+}
+
+.model-grid {
+  display: grid;
+  gap: var(--space-5);
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .model-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.model-card__index {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-bottom: var(--space-5);
+  background: var(--np-blue);
+}
+
+.model-card:nth-child(2) .model-card__index {
+  background: var(--np-yellow);
+}

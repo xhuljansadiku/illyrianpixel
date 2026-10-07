@@ -1,0 +1,81 @@
+/* ==========================================================================
+   CTA band — deep Nordic blue, white type, small Swedish-yellow accents
+   ========================================================================== */
+
+.cta-band {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(var(--space-9), 9vw, var(--space-11));
+  background:
+    radial-gradient(70% 90% at 100% 0%, rgba(0, 106, 167, 0.5) 0%, transparent 60%),
+    radial-gradient(50% 70% at 0% 100%, rgba(0, 82, 127, 0.45) 0%, transparent 70%),
+    var(--np-blue-deep);
+}
+
+.cta-band .grid-backdrop {
+  mask-image: radial-gradient(ellipse 70% 80% at 80% 20%, #000 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 80% 20%, #000 20%, transparent 70%);
+}
+
+.cta-band__inner {
+  position: relative;
+  display: grid;
+  gap: var(--space-7);
+}
+
+@media (min-width: 1024px) {
+  .cta-band__inner {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--space-9);
+  }
+
+  .cta-band__actions {
+    justify-content: flex-end;
+  }
+}
+
+.cta-band__title {
+  max-width: 16ch;
+  font-size: var(--text-h2);
+}
+
+.cta-band__text {
+  max-width: 46ch;
+  margin-top: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-xl);
+  line-height: 1.55;
+}
+
+/* Decorative pixels in the corner. */
+.cta-band__pixels {
+  position: absolute;
+  top: clamp(24px, 4vw, 48px);
+  right: clamp(24px, 4vw, 64px);
+  display: grid;
+  grid-template-columns: repeat(3, 14px);
+  gap: 6px;
+  opacity: 0.9;
+}
+
+.cta-band__pixels span {
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cta-band__pixels span:nth-child(3),
+.cta-band__pixels span:nth-child(5) {
+  background: var(--np-blue);
+}
+
+.cta-band__pixels span:nth-child(9) {
+  background: var(--np-yellow);
+}
+
+@media (max-width: 639px) {
+  .cta-band__pixels {
+    display: none;
+  }
+}

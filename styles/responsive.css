@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Responsive helpers — breakpoints: 640 / 768 / 1024 / 1280 / 1440
+   Component-specific breakpoints live next to each component's styles.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  :root {
+    --header-height: 64px;
+  }
+}
+
+@media (max-width: 639px) {
+  .hide-sm-down {
+    display: none !important;
+  }
+
+  /* Full-width buttons on phones where it helps the tap target. */
+  .btn--block-mobile {
+    width: 100%;
+  }
+}
+
+@media (min-width: 640px) {
+  .show-sm-down {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hide-md-down {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .show-md-down {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+/* Print: keep content, drop chrome. */
+@media print {
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .cta-band,
+  .mobile-menu {
+    display: none !important;
+  }
+
+  body {
+    font-size: 11pt;
+  }
+
+  .js-reveal [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

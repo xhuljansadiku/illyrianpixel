@@ -1,0 +1,144 @@
+/* ==========================================================================
+   Cards — used deliberately, not everywhere. Thin border, soft shadow,
+   16–24px radius; hover lifts slightly with a blue border accent.
+   ========================================================================== */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+
+.card--compact {
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+}
+
+.card--interactive:hover,
+.card--interactive:focus-within {
+  transform: translateY(-4px);
+  border-color: var(--np-blue-200);
+  box-shadow: var(--shadow-md);
+}
+
+/* Makes the whole card clickable through its main link. */
+.card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.card__link:focus-visible {
+  outline: none;
+}
+
+.card:has(.card__link:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.card__title {
+  font-size: var(--text-h4);
+}
+
+.card__text {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.card__footer {
+  margin-top: auto;
+  padding-top: var(--space-5);
+}
+
+/* ── Badges & tags ─────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.badge--placeholder {
+  color: #4d3b00;
+  background: #fff3bf;
+  border: 1px dashed var(--np-yellow-dark);
+}
+
+.badge--placeholder::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--np-yellow-dark);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xs);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Check-mark list used in several sections. */
+.check-list {
+  display: grid;
+  gap: var(--space-3);
+  list-style: none;
+}
+
+.check-list li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  color: var(--color-text);
+}
+
+.check-list svg {
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  padding: 4px;
+  border-radius: 6px;
+  background: var(--np-blue-50);
+  color: var(--np-blue);
+}
+
+.theme-dark .check-list svg {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--np-yellow);
+}
