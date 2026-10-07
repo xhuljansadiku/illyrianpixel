@@ -1,16 +1,26 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/site-url";
+import { seo } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/"] },
-      // Crawlers that collect AI training data are opted out (same policy as before).
-      // Search and answer engines that fetch pages on a user's behalf are still allowed.
-      // Remove this rule to allow training crawlers.
-      { userAgent: ["GPTBot", "CCBot", "ClaudeBot", "anthropic-ai", "Google-Extended"], disallow: "/" },
+      {
+        userAgent: "*",
+        allow: "/",
+        // /_next/ NUK bllokohet — Google duhet të ngarkojë JS/CSS për të renderuar faqet
+        // dhe /_next/image për t'i indeksuar imazhet.
+        disallow: ["/api/", "/admin/", "/*.json$"],
+      },
+      // Bllokohen vetëm crawler-at që mbledhin të dhëna për trajnim. Fetcher-at që
+      // veprojnë kur një person pyet ChatGPT/Claude/Perplexity lejohen — sjellin klientë.
+      { userAgent: "GPTBot",        disallow: "/" },
+      { userAgent: "CCBot",         disallow: "/" },
+      { userAgent: "anthropic-ai",  disallow: "/" },
+      { userAgent: "ClaudeBot",     disallow: "/" },
+      { userAgent: "Google-Extended", disallow: "/" },
+      { userAgent: "Googlebot-Image", allow: "/" },
     ],
-    sitemap: `${SITE_URL}/sitemap.xml`,
-    host: SITE_URL,
+    sitemap: `${seo.siteUrl}/sitemap.xml`,
+    host: seo.siteUrl,
   };
 }

@@ -1,0 +1,211 @@
+"use client";
+
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+
+export default function AdminLoginPage() {
+  const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [token, setToken] = useState("");
+  const [recoveryCode, setRecoveryCode] = useState("");
+  const [useRecovery, setUseRecovery] = useState(false);
+  const [rememberDevice, setRememberDevice] = useState(false);
+  const [step, setStep] = useState<"password" | "token">("password");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          password,
+          token: !useRecovery && token ? token : undefined,
+          recoveryCode: useRecovery && recoveryCode ? recoveryCode : undefined,
+          rememberDevice,
+        }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        router.push("/admin");
+        router.refresh();
+      } else if (data.requires2fa) {
+        // Fjalëkalimi i saktë — kërkohet kodi nga aplikacioni autentifikues
+        setStep("token");
+        setError(data.error ?? "");
+      } else {
+        setError(data.error ?? "Fjalëkalim i gabuar.");
+      }
+    } catch {
+      setError("Gabim lidhjeje. Provoni sërish.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <main id="main-content" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0b0a08] px-5 text-text">
+      {/* Sfond dekorativ — shkëlqim i artë, i qetë */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60"
+        style={{ background: "radial-gradient(circle, rgba(171,131,57,0.14) 0%, transparent 65%)" }}
+        aria-hidden
+      />
+
+      <div className="relative w-full max-w-sm rounded-[1.5rem] border border-[rgba(171,131,57,0.14)] bg-[rgba(22,18,13,0.72)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-[12px]">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 font-display text-[16px] font-bold text-accent">
+            IP
+          </div>
+          <div>
+            <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+            <h1 className="font-display text-[1.3rem] font-bold leading-tight text-white">Admin Panel</h1>
+          </div>
+        </div>
+        <p className="mt-5 text-[12.5px] leading-relaxed text-white/45">
+          {step === "token"
+            ? "Hapi i fundit — verifiko identitetin me kodin 2FA."
+            : "Hyr me fjalëkalimin tënd për të vazhduar."}
+        </p>
+
+        <form onSubmit={onSubmit} className="mt-6 space-y-4">
+          <div className={step === "token" ? "hidden" : ""}>
+            <label className="font-ui mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">
+              Fjalëkalimi
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoFocus
+                className="font-ui w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] px-4 py-3 pr-11 text-[14px] tracking-[0.3px] text-white outline-none transition-colors duration-300 focus:border-accent"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                tabIndex={-1}
+                aria-label={showPassword ? "Fshih fjalëkalimin" : "Shfaq fjalëkalimin"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/35 transition-colors hover:text-white/70"
+              >
+                {showPassword ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {step === "token" && (
+            <div>
+              <label className="font-ui mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">
+                {useRecovery ? "Kod rezervë" : "Kodi 2FA"}
+              </label>
+              {useRecovery ? (
+                <input
+                  type="text"
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  value={recoveryCode}
+                  onChange={(e) => setRecoveryCode(e.target.value)}
+                  autoFocus
+                  placeholder="XXXX-XXXX"
+                  className="w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] py-3 text-center font-mono text-[18px] tracking-[0.2em] text-white outline-none transition-colors duration-300 focus:border-accent"
+                />
+              ) : (
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={6}
+                  value={token}
+                  onChange={(e) => setToken(e.target.value.replace(/\D/g, ""))}
+                  autoFocus
+                  placeholder="000000"
+                  className="w-full rounded-xl border border-[#2d2a24] bg-[rgba(10,9,7,0.6)] py-3 text-center font-mono text-[22px] tracking-[0.4em] text-white outline-none transition-colors duration-300 focus:border-accent"
+                />
+              )}
+              <p className="mt-2 text-[11px] text-white/35">
+                {useRecovery
+                  ? "Shkruaj një nga kodet e rezervës që ruajte kur aktivizove 2FA."
+                  : "Shkruaj kodin 6-shifror nga aplikacioni autentifikues."}
+              </p>
+              <label className="mt-3 flex items-center gap-2 text-[12px] text-white/55">
+                <input
+                  type="checkbox"
+                  checked={rememberDevice}
+                  onChange={(e) => setRememberDevice(e.target.checked)}
+                  className="h-3.5 w-3.5 accent-[#ab8339]"
+                />
+                Mbaj mend këtë pajisje për 3 muaj
+              </label>
+              <div className="mt-2 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep("password");
+                    setToken("");
+                    setRecoveryCode("");
+                    setUseRecovery(false);
+                    setError("");
+                  }}
+                  className="text-[11px] text-white/35 transition-colors hover:text-white/70"
+                >
+                  ← Kthehu te fjalëkalimi
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseRecovery((v) => !v);
+                    setToken("");
+                    setRecoveryCode("");
+                    setError("");
+                  }}
+                  className="text-[11px] text-accent/80 transition-colors hover:text-accent"
+                >
+                  {useRecovery ? "Përdor kodin 2FA" : "Përdor një kod rezervë"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <p className="rounded-xl border border-red-400/25 bg-red-400/10 px-3.5 py-2.5 text-[12px] text-red-300">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={
+              loading ||
+              !password ||
+              (step === "token" &&
+                (useRecovery ? recoveryCode.trim().length === 0 : token.length !== 6))
+            }
+            className="font-ui mt-2 w-full rounded-xl bg-accent px-8 py-3.5 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {loading ? "Duke hyrë…" : step === "token" ? "Verifiko" : "Hyr"}
+          </button>
+        </form>
+
+        <p className="mt-6 border-t border-white/10 pt-4 text-center text-[10.5px] uppercase tracking-[0.18em] text-white/25">
+          Qasje e mbrojtur · Illyrian Pixel
+        </p>
+      </div>
+    </main>
+  );
+}

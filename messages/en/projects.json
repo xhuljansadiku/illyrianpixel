@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "eyebrow": "OUR WORK",
+    "headlineLine1": "What we've ",
+    "headlineAccent": "built.",
+    "subtext1": "We partner with a wide network of clients in Germany, Italy, the UK, Kosovo and Albania.",
+    "subtext2": "Explore some of our projects below."
+  },
+  "cta": {
+    "title": "Ready to build something extraordinary?",
+    "body": "Book an intro call to turn your vision into strategic execution."
+  },
+  "detailCta": {
+    "title": "Let's build your next case study."
+  },
+  "detail": {
+    "ogCaseStudy": "Case Study",
+    "problemLabel": "The Problem",
+    "problemHeading": "What wasn't working?",
+    "solutionLabel": "The Solution",
+    "solutionHeading": "How we solved it",
+    "resultLabel": "The Result",
+    "viewLive": "View the live project",
+    "comingSoon": "Coming soon",
+    "backToProjects": "Back to projects",
+    "startToday": "Start today"
+  }
+}

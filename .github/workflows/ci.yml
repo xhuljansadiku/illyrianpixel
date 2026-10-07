@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  verify:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,11 +16,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - run: npm run typecheck
+      - run: npx tsc --noEmit
       - run: npm test
-      # The build needs no secrets: without RESEND_* the contact API simply
-      # reports that e-mail delivery is not configured.
+      # Kap gabimet që dalin vetëm gjatë build-it (tipet e faqeve, generateStaticParams,
+      # Server/Client Components). Vlerat janë placeholder — build-i s'ka nevojë për sekrete reale.
       - run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://www.example.com
-      - run: npm run check:static
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ci-placeholder
+          RESEND_API_KEY: re_ci_placeholder
+          ADMIN_PASSWORD: ci
+          ADMIN_SESSION_SECRET: ci
+          CRON_SECRET: ci
+      - run: node scripts/check-static.mjs

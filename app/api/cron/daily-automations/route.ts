@@ -1,0 +1,407 @@
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+import { isAuthorizedCron } from "@/lib/secureCompare";
+import { Resend } from "resend";
+import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
+import { unsubscribeHeaders } from "@/lib/newsletterTokens";
+import { getSiteSettings } from "@/lib/siteSettings";
+import { staleContactsEmailHtml } from "@/lib/newsletterEmail";
+import {
+  quoteEmailHtml,
+  quoteReminderEmailHtml,
+  invoiceOverdueEmailHtml,
+  adminDailySummaryHtml,
+  maintenanceQuarterlyReportEmailHtml,
+} from "@/lib/adminEmails";
+import { insertQuoteWithNumber } from "@/lib/quotesServer";
+import { quoteTotals, formatMoney } from "@/lib/quotes";
+import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
+import { logActivity } from "@/lib/activityLog";
+import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
+import { buildWeeklyBackup, uploadBackupToStorage } from "@/lib/backup";
+import { sendTelegramMessage } from "@/lib/telegram";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Sekuencë follow-up: gap-e kumulative që japin kujtues në ditën 2, 5 dhe 10
+// pas dërgimit të ofertës (2, 2+3, 2+3+5), jo më vetëm 2 kujtues me gap fiks.
+const QUOTE_REMINDER_GAPS = [2, 3, 5];
+const INVOICE_REMINDER_MAX = 3;     // maksimumi i kujtuesve për faturë të vonuar
+const INVOICE_REMINDER_GAP_DAYS = 4;
+const STALE_CONTACT_DAYS = 3;       // kontakte "të reja" pa kontaktim pas kaq ditësh
+
+function daysAgoIso(days: number) {
+  return new Date(Date.now() - days * 86400000).toISOString();
+}
+
+// Automatizimet ditore: publikim artikujsh, kujtues ofertash pa përgjigje,
+// kujtues faturash të vonuara dhe gjenerim i faturave të rikurruese.
+// Në fund i dërgon adminit një përmbledhje (vetëm kur ka ndodhur diçka).
+export async function GET(req: Request) {
+  if (!isAuthorizedCron(req)) {
+    return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+  }
+
+  const nowIso = new Date().toISOString();
+  const today = nowIso.slice(0, 10);
+  const currentMonth = today.slice(0, 7);
+  const dayOfMonth = new Date().getDate();
+
+  // ── 1. Publiko artikujt e planifikuar ──────────────────────────────────────
+  const { data: published } = await supabase
+    .from("blog_posts")
+    .update({ published: true })
+    .eq("published", false)
+    .lte("scheduled_for", nowIso)
+    .select("id");
+  const publishedPosts = published?.length ?? 0;
+
+  // ── 2. Kujtues për oferta të dërguara pa përgjigje ─────────────────────────
+  const remindedQuotes: string[] = [];
+  const { data: pendingQuotes } = await supabase
+    .from("quotes")
+    .select("*")
+    .is("deleted_at", null)
+    .eq("kind", "quote")
+    .eq("status", "sent")
+    .not("client_email", "is", null)
+    .lt("reminders_sent", QUOTE_REMINDER_GAPS.length)
+    .limit(20);
+
+  for (const q of (pendingQuotes ?? []) as QuoteRecord[]) {
+    const lastActivity = q.last_reminder_at ?? q.updated_at;
+    const gapDays = QUOTE_REMINDER_GAPS[q.reminders_sent ?? 0];
+    if (lastActivity > daysAgoIso(gapDays)) continue;
+    try {
+      const { subject, html } = await quoteReminderEmailHtml(q);
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: q.client_email!,
+        replyTo: "info@illyrianpixel.com",
+        subject,
+        html,
+      });
+      await supabase
+        .from("quotes")
+        .update({ reminders_sent: (q.reminders_sent ?? 0) + 1, last_reminder_at: nowIso })
+        .eq("id", q.id);
+      remindedQuotes.push(`${q.number} (${q.client_name})`);
+    } catch {
+      // injoro — provohet sërish nesër
+    }
+  }
+
+  // ── 3. Kujtues pagese për fatura të vonuara ────────────────────────────────
+  const remindedInvoices: string[] = [];
+  const { data: overdueInvoices } = await supabase
+    .from("quotes")
+    .select("*")
+    .is("deleted_at", null)
+    .eq("kind", "invoice")
+    .eq("status", "sent")
+    .not("client_email", "is", null)
+    .lt("due_at", today)
+    .lt("reminders_sent", INVOICE_REMINDER_MAX)
+    .limit(20);
+
+  for (const q of (overdueInvoices ?? []) as QuoteRecord[]) {
+    if (q.last_reminder_at && q.last_reminder_at > daysAgoIso(INVOICE_REMINDER_GAP_DAYS)) continue;
+    try {
+      const { subject, html } = await invoiceOverdueEmailHtml(q);
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: q.client_email!,
+        replyTo: "info@illyrianpixel.com",
+        subject,
+        html,
+      });
+      await supabase
+        .from("quotes")
+        .update({ reminders_sent: (q.reminders_sent ?? 0) + 1, last_reminder_at: nowIso })
+        .eq("id", q.id);
+      remindedInvoices.push(`${q.number} (${q.client_name})`);
+    } catch {
+      // injoro — provohet sërish nesër
+    }
+  }
+
+  // ── 4. Gjenero faturat e rikurruese të muajit ──────────────────────────────
+  const generatedInvoices: string[] = [];
+  const { data: recurringRows } = await supabase
+    .from("recurring_invoices")
+    .select("*")
+    .eq("active", true)
+    .lte("day_of_month", dayOfMonth)
+    .limit(30);
+
+  for (const r of (recurringRows ?? []) as RecurringInvoice[]) {
+    if (r.last_generated === currentMonth) continue;
+
+    const dueAt = new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10);
+    const { quote: created, error: insertError } = await insertQuoteWithNumber(supabase, {
+      kind: "invoice",
+      contact_id: r.contact_id,
+      client_name: r.client_name,
+      client_email: r.client_email,
+      client_business: r.client_business,
+      items: r.items,
+      discount: r.discount,
+      tax_rate: r.tax_rate,
+      notes: r.notes,
+      due_at: dueAt,
+      status: r.client_email ? "sent" : "draft",
+    });
+    if (insertError || !created) continue;
+
+    await supabase
+      .from("recurring_invoices")
+      .update({ last_generated: currentMonth })
+      .eq("id", r.id);
+
+    const record = created as unknown as QuoteRecord;
+    if (r.client_email) {
+      try {
+        await resend.emails.send({
+          from: NEWSLETTER_BRAND.from,
+          to: r.client_email,
+          replyTo: "info@illyrianpixel.com",
+          subject: `Faturë ${record.number} — Illyrian Pixel`,
+          html: quoteEmailHtml(record),
+        });
+      } catch {
+        // fatura u krijua; email-i mund të ridërgohet nga paneli
+      }
+    }
+    generatedInvoices.push(`${record.number} (${r.client_name})`);
+  }
+
+  // ── 5. Dërgo broadcast-et e planifikuara ───────────────────────────────────
+  const sentBroadcasts: string[] = [];
+  const { data: dueBroadcasts } = await supabase
+    .from("newsletter_broadcasts")
+    .select("*")
+    .is("sent_at", null)
+    .not("scheduled_for", "is", null)
+    .lte("scheduled_for", nowIso)
+    .limit(10);
+
+  if (dueBroadcasts && dueBroadcasts.length > 0) {
+    const { data: subscribers } = await supabase
+      .from("newsletter_subscribers")
+      .select("email")
+      .eq("unsubscribed", false)
+      .not("confirmed_at", "is", null); // vetëm double opt-in të konfirmuar
+    const recipients = (subscribers ?? []).map((s) => s.email);
+
+    if (recipients.length > 0) {
+      const { whatsapp_number } = await getSiteSettings();
+      const whatsappUrl = `https://wa.me/${whatsapp_number}`;
+      const BATCH_SIZE = 100;
+
+      for (const b of dueBroadcasts) {
+        for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
+          const chunk = recipients.slice(i, i + BATCH_SIZE);
+          await resend.batch.send(
+            chunk.map((email) => ({
+              from: NEWSLETTER_BRAND.from,
+              to: email,
+              subject: b.subject,
+              html: broadcastEmailHtml(b.subject, b.message, whatsappUrl, { broadcastId: b.id, email }),
+              headers: unsubscribeHeaders(email),
+            }))
+          );
+        }
+        await supabase
+          .from("newsletter_broadcasts")
+          .update({ sent_at: nowIso, sent_count: recipients.length })
+          .eq("id", b.id);
+        sentBroadcasts.push(b.subject);
+      }
+    }
+  }
+
+  // ── 6. Kujtues për kontakte të reja pa përgjigje ───────────────────────────
+  const staleContacts: string[] = [];
+  const { data: staleRows } = await supabase
+    .from("contacts")
+    .select("id, name, email, phone, service, created_at")
+    .is("deleted_at", null)
+    .eq("status", "new")
+    .is("follow_up_date", null)
+    .is("stale_reminder_sent_at", null)
+    .lt("created_at", daysAgoIso(STALE_CONTACT_DAYS))
+    .limit(20);
+
+  if (staleRows && staleRows.length > 0) {
+    try {
+      const staleTemplate = await getEmailTemplate("stale_contact");
+      const staleVars = {
+        count: String(staleRows.length),
+        plural: staleRows.length === 1 ? "" : "e",
+        days: String(STALE_CONTACT_DAYS),
+      };
+      const staleSubject = staleTemplate
+        ? applyPlaceholders(staleTemplate.subject, staleVars)
+        : `${staleRows.length} kontakt${staleVars.plural} pa përgjigje prej >${STALE_CONTACT_DAYS} ditësh`;
+      const staleIntro = staleTemplate ? applyPlaceholders(staleTemplate.intro, staleVars) : undefined;
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: process.env.CONTACT_TO_EMAIL!,
+        subject: staleSubject,
+        html: staleContactsEmailHtml(staleRows, STALE_CONTACT_DAYS, staleIntro),
+      });
+      await supabase
+        .from("contacts")
+        .update({ stale_reminder_sent_at: nowIso })
+        .in("id", staleRows.map((c) => c.id));
+      staleContacts.push(...staleRows.map((c) => `${c.name} (${c.service})`));
+    } catch {
+      // injoro — provohet sërish nesër
+    }
+  }
+
+  // ── 7. Backup javor i databazës (vetëm të hënën, brenda këtij cron-i të
+  //      vetëm — Vercel Hobby lejon maksimumi 2 cron-e, s'shtojmë të tretin) ──
+  let backupSent = false;
+  if (new Date().getDay() === 1) {
+    try {
+      const { attachments, tableCounts } = await buildWeeklyBackup(supabase);
+      const totalRows = Object.values(tableCounts).reduce((sum, n) => sum + n, 0);
+      await uploadBackupToStorage(supabase, today, attachments);
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: process.env.CONTACT_TO_EMAIL!,
+        subject: `📦 Backup javor i databazës — ${today}`,
+        html: `<p>Backup automatik javor — ${attachments.length} tabela, ${totalRows} rreshtra gjithsej. Skedarët CSV janë bashkangjitur.</p>`,
+        attachments: attachments.map((a) => ({ filename: a.filename, content: Buffer.from(a.content, "utf-8") })),
+      });
+      backupSent = true;
+      await logActivity("auto", "backup", `U dërgua backup javor i databazës (${attachments.length} tabela, ${totalRows} rreshtra)`);
+      await sendTelegramMessage(`📦 <b>Backup javor</b> u dërgua — ${attachments.length} tabela, ${totalRows} rreshtra.`);
+    } catch {
+      // injoro — provohet sërish javën tjetër; backup-et e mëparshme mbeten të vlefshme
+    }
+  }
+
+  // ── 9. Raporte tremujore për klientët me mirëmbajtje aktive (vetëm më 1
+  //      Janar/Prill/Korrik/Tetor, raporton tremujorin e sapombyllur). Përmban
+  //      vetëm të dhëna reale (plani aktiv + oferta/fatura të lëshuara) — jo
+  //      metrika të pagjurmuara ende në CRM (p.sh. "calls").
+  const sentQuarterlyReports: string[] = [];
+  const currentMonthIdx = new Date().getMonth(); // 0-11
+  if (dayOfMonth === 1 && [0, 3, 6, 9].includes(currentMonthIdx)) {
+    const now = new Date();
+    const qStart = new Date(now.getFullYear(), currentMonthIdx - 3, 1);
+    const qEnd = new Date(now.getFullYear(), currentMonthIdx, 1);
+    const QUARTER_LABELS = ["Janar–Mars", "Prill–Qershor", "Korrik–Shtator", "Tetor–Dhjetor"];
+    const qIndex = (((currentMonthIdx - 3) / 3) + 4) % 4;
+    const qYear = currentMonthIdx === 0 ? now.getFullYear() - 1 : now.getFullYear();
+    const quarterLabel = `${QUARTER_LABELS[qIndex]} ${qYear}`;
+
+    const { data: activeMaintenance } = await supabase
+      .from("recurring_invoices")
+      .select("*")
+      .eq("active", true)
+      .limit(50);
+
+    for (const r of (activeMaintenance ?? []) as RecurringInvoice[]) {
+      if (!r.client_email) continue;
+      try {
+        const { data: periodQuotes } = await supabase
+          .from("quotes")
+          .select("kind")
+          .is("deleted_at", null)
+          .eq("contact_id", r.contact_id)
+          .gte("created_at", qStart.toISOString())
+          .lt("created_at", qEnd.toISOString());
+
+        const quotesCount = (periodQuotes ?? []).filter((q) => q.kind === "quote").length;
+        const invoicesCount = (periodQuotes ?? []).filter((q) => q.kind === "invoice").length;
+        const planName = r.items?.[0]?.description || "Mirëmbajtje";
+        const planPrice = `${formatMoney(quoteTotals(r.items, r.discount, r.tax_rate).total)}/muaj`;
+
+        const { subject, html } = maintenanceQuarterlyReportEmailHtml(
+          r.client_name,
+          quarterLabel,
+          planName,
+          planPrice,
+          quotesCount,
+          invoicesCount
+        );
+        await resend.emails.send({
+          from: NEWSLETTER_BRAND.from,
+          to: r.client_email,
+          replyTo: "info@illyrianpixel.com",
+          subject,
+          html,
+        });
+        if (r.contact_id) {
+          await supabase
+            .from("contact_notes")
+            .insert({ contact_id: r.contact_id, text: `📊 Raporti tremujor u dërgua — ${quarterLabel}` });
+        }
+        sentQuarterlyReports.push(`${r.client_name} (${quarterLabel})`);
+      } catch {
+        // injoro — nuk ka retry brenda ditës, tremujori tjetër do ta rikapë
+      }
+    }
+  }
+
+  // ── 10. Pastrim — tabelat e shkrimeve publike s'duhet të rriten pafund ──────
+  // rate_limits: dritarja më e gjatë është 1 orë, 1 ditë mjafton me tepri.
+  // admin_logins: historiku i hyrjeve mbahet 180 ditë (mjaft për auditim).
+  // assistant_messages: bisedat me King Genti mbahen 12 muaj — afati i premtuar
+  // te politika e privatësisë (GDPR, kufizimi i ruajtjes).
+  await supabase.from("rate_limits").delete().lt("created_at", daysAgoIso(1));
+  await supabase.from("admin_logins").delete().lt("created_at", daysAgoIso(180));
+  await supabase.from("assistant_messages").delete().lt("created_at", daysAgoIso(365));
+
+  // ── 8. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
+  const hasActivity =
+    remindedQuotes.length > 0 ||
+    remindedInvoices.length > 0 ||
+    generatedInvoices.length > 0 ||
+    publishedPosts > 0 ||
+    sentBroadcasts.length > 0 ||
+    staleContacts.length > 0 ||
+    sentQuarterlyReports.length > 0;
+
+  if (hasActivity) {
+    // Regjistro në Histori çfarë bënë automatizimet sot
+    if (publishedPosts > 0) await logActivity("auto", "publish", `U publikuan vetë ${publishedPosts} artikuj të planifikuar`);
+    for (const q of remindedQuotes) await logActivity("auto", "send", `U dërgua kujtues oferte për ${q}`);
+    for (const q of remindedInvoices) await logActivity("auto", "send", `U dërgua kujtues pagese për ${q}`);
+    for (const q of generatedInvoices) await logActivity("auto", "create", `U gjenerua vetë fatura e rikurruese ${q}`);
+    for (const b of sentBroadcasts) await logActivity("newsletter", "send", `U dërgua broadcast i planifikuar "${b}"`);
+    if (staleContacts.length > 0) await logActivity("auto", "send", `U dërgua kujtues për ${staleContacts.length} kontakt pa përgjigje`);
+    for (const r of sentQuarterlyReports) await logActivity("auto", "send", `U dërgua raporti tremujor për ${r}`);
+    try {
+      const summaryTemplate = await getEmailTemplate("daily_summary");
+      await resend.emails.send({
+        from: NEWSLETTER_BRAND.from,
+        to: process.env.CONTACT_TO_EMAIL!,
+        subject: summaryTemplate?.subject ?? "Përmbledhja e automatizimeve të sotme",
+        html: await adminDailySummaryHtml({ remindedQuotes, remindedInvoices, generatedInvoices, publishedPosts, sentBroadcasts, staleContacts, sentQuarterlyReports }),
+      });
+    } catch {
+      // injoro
+    }
+  }
+
+  return NextResponse.json({
+    success: true,
+    publishedPosts,
+    remindedQuotes: remindedQuotes.length,
+    remindedInvoices: remindedInvoices.length,
+    generatedInvoices: generatedInvoices.length,
+    sentBroadcasts: sentBroadcasts.length,
+    staleContacts: staleContacts.length,
+    backupSent,
+    sentQuarterlyReports: sentQuarterlyReports.length,
+  });
+}

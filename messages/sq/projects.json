@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "eyebrow": "PROJEKTET TONA",
+    "headlineLine1": "Çfarë kemi ",
+    "headlineAccent": "ndërtuar.",
+    "subtext1": "Bashkëpunojmë me një rrjet të gjerë klientësh në Gjermani, Itali, Angli, Kosovë dhe Shqipëri.",
+    "subtext2": "Eksploroni më poshtë disa nga projektet tona."
+  },
+  "cta": {
+    "title": "Gati për të ndërtuar diçka të jashtëzakonshme?",
+    "body": "Rezervo një thirrje hyrëse për të transformuar vizionin tënd në një ekzekutim strategjik."
+  },
+  "detailCta": {
+    "title": "Le ta ndërtojmë studimin tënd të ardhshëm."
+  },
+  "detail": {
+    "ogCaseStudy": "Rast Studimi",
+    "problemLabel": "Problemi",
+    "problemHeading": "Çfarë nuk funksiononte?",
+    "solutionLabel": "Zgjidhja",
+    "solutionHeading": "Si e trajtuam?",
+    "resultLabel": "Rezultati",
+    "viewLive": "Shiko live projektin",
+    "comingSoon": "Së shpejti",
+    "backToProjects": "Kthehu te projektet",
+    "startToday": "Fillo sot"
+  }
+}

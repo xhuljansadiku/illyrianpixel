@@ -1,0 +1,76 @@
+{
+  "problemLabel": "Problemi",
+  "solutionLabel": "Zgjidhja",
+  "packagesEyebrow": "Paketat",
+  "choosePackage": "Zgjidh paketën tënde.",
+  "seeAllPackages": "Shiko të gjitha paketat",
+  "clientsFallbackLabel": "Klientët",
+  "realResultsFallback": "Rezultate reale.",
+  "viewProject": "Shiko projektin",
+  "seeAllProjects": "Shiko të gjitha projektet",
+  "nextStepEyebrow": "Hapi i radhës",
+  "backToServices": "← Kthehu te shërbimet",
+  "contactUs": "Na kontaktoni",
+  "secondaryCtaFallback": "Punet tona",
+  "seoMicroLine": "Shërbim për biznese në Shqipëri dhe diasporë.",
+  "oldSite": {
+    "line1": "Faqe e vjetër?",
+    "line2": "E rindërtojmë nga e para.",
+    "note": "Konsultim falas · Ofertë e personalizuar",
+    "cta": "Na kontaktoni →"
+  },
+  "website": {
+    "painHeadingBefore": "Humbni klientë",
+    "painHeadingAccent": "çdo ditë.",
+    "painItems": [
+      "Website që nuk sjell asnjë klient",
+      "Strukturë e paqartë, vizitorët hutohen",
+      "Pa SEO",
+      "Pa mirëmbajtje pas publikimit"
+    ],
+    "heroCtaFallback": "Merr ofertë falas",
+    "trustLineFallback": "0 kosto · 0 obligim · Strategji reale brenda 24 orësh"
+  },
+  "seoGoogleAds": {
+    "heroCta": "Fillo sot",
+    "trustLine": "Vendet janë të kufizuara · Pa obligim · Përgjigje brenda 24h",
+    "finalHeadlinePre": "Nesër do të jetë",
+    "finalHeadlineAccent": "më shtrenjtë",
+    "finalHeadlinePost": "se sot.",
+    "finalSubtext": "Çdo ditë pa sistem, dikush tjetër merr klientin tuaj.\nFlisni me ne sot, pa asnjë kosto.",
+    "finalCta": "Fillo sot →"
+  },
+  "brandingContent": {
+    "heroCtaFallback": "Transformo përshtypjen",
+    "finalHeadlineLine1": "Prania juaj meriton",
+    "finalHeadlineAccent": "të njëjtin nivel si puna juaj.",
+    "finalSubtext": "30 minuta falas. Pa obligim. Plan i qartë për markën tuaj.",
+    "finalCta": "Rezervo orën tuaj të parë →"
+  },
+  "overview": {
+    "heroEyebrow": "SHËRBIMET",
+    "heroLine1": "Sisteme digjitale",
+    "heroLine2": "që sjellin klientë.",
+    "heroSubtext": "Nga website dhe SEO, te reklamat dhe branding, ndërtojmë zgjidhje të plota për bizneset shqiptare.",
+    "howWeWorkEyebrow": "Si punojmë",
+    "howWeWorkHeadline": "Një shërbim ose sistem i plotë.",
+    "howWeWorkHeadlineAccent": "Zgjidhni ju.",
+    "howWeWorkSubtext": "Kur website, SEO dhe marketing punojnë bashkë, rezultatet shumëfishohen.",
+    "ctaEyebrow": "Hapi tjetër",
+    "ctaHeadline": "Gati të rritni biznesin?",
+    "ctaSubtext": "Rezervo një konsultë falas dhe marrim një plan konkret brenda 24 orëve, pa detyrim.",
+    "ctaPrimary": "Fillo Bisedën",
+    "ctaSecondary": "Kontakto Tani",
+    "ctaFootnote": "Pa detyrim · Përgjigje brenda 24h",
+    "seoLine": "Agjenci digjitale për biznese Shqiptare — Website, E-Commerce, SEO, Google Ads, Branding dhe Social Media Marketing për tregun vendor dhe diasporën.",
+    "cardLinkLabel": "Shiko shërbimin"
+  },
+  "smm": { "heroCtaFallback": "Fillo Tani" },
+  "mirembajtja": { "heroCtaFallback": "Fillo Mirëmbajtjen" },
+  "defaultHeroCta": "Rezervo Tani",
+  "defaultTrustLine": "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
+  "defaultFinalHeadlineLine1": "Një bisedë pa pagesë.",
+  "defaultFinalHeadlineAccent": "Një plan i qartë për më shumë klientë.",
+  "defaultFinalSubtext": "30 minuta · pa detyrim · përgjigje brenda 24 orëve.",
+  "defaultFinalCta": "Fillo Sot →"
+}

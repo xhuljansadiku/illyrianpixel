@@ -36,9 +36,6 @@
       "Bash(awk -F: '$1>3105 && $1<3500')",
       "Bash(awk 'NR>=3450 && NR<=3500 && \\(/^}/ || /<\\\\/div>/\\)' c:/Kodi/illyrianpixel/components/AdminDashboard.tsx)",
       "Bash(awk -F: '$1>3289 && $1<3500')"
-    ],
-    "additionalDirectories": [
-      "\\tmp"
     ]
   }
 }

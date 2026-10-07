@@ -1,15 +1,14 @@
 {
-  "name": "nordicpixel",
-  "version": "0.1.0",
+  "name": "illyrianpixel",
+  "version": "1.0.0",
   "private": true,
-  "description": "Nordic Pixel — Scandinavian full-service digital agency website (Swedish + English).",
   "engines": {
     "node": ">=22"
   },
   "browserslist": [
     "chrome >= 111",
     "edge >= 111",
-    "firefox >= 115",
+    "firefox >= 111",
     "safari >= 16.4",
     "ios_saf >= 16.4"
   ],
@@ -18,26 +17,37 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "icons": "node scripts/generate-icons.mjs",
-    "check:static": "node scripts/check-static.mjs",
-    "verify": "npm run lint && npm run typecheck && npm test && npm run build && npm run check:static"
+    "test": "vitest run"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@react-pdf/renderer": "^4.5.1",
+    "@react-three/fiber": "^9.8.0",
+    "@supabase/supabase-js": "^2.106.1",
+    "@types/qrcode": "^1.5.6",
+    "critters": "^0.0.23",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.13",
     "next": "^15.5.26",
-    "next-intl": "^4.13.2",
+    "next-intl": "^4.13.1",
+    "qrcode": "^1.5.4",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "resend": "^6.12.3",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.184.1",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.5.26",
     "postcss": "^8.5.28",
-    "sharp": "^0.35.4",
+    "tailwindcss": "^3.4.7",
     "typescript": "^5.5.3",
     "vitest": "^4.1.9"
   },

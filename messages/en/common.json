@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "pricing": "Pricing",
+    "work": "Work",
+    "blog": "Blog",
+    "diaspora": "Diaspora",
+    "contact": "Contact",
+    "cta": "Get started",
+    "logoAria": "Go to homepage (Alt+click for a small surprise)",
+    "menuAria": "Open menu",
+    "closeMenuAria": "Close menu",
+    "menuLabel": "Menu",
+    "langSwitchAria": "Choose language",
+    "langAl": "Shqip",
+    "langEn": "English"
+  },
+  "footer": {
+    "brandTitleLine1": "Turn your business into a ",
+    "brandTitleAccent": "brand.",
+    "tagline": "Just one click away.",
+    "bookConsult": "Book a consultation",
+    "navHeading": "Navigate",
+    "nav": {
+      "services": "Services",
+      "work": "Work",
+      "pricing": "Pricing",
+      "blog": "Blog",
+      "diaspora": "Diaspora",
+      "contact": "Contact"
+    },
+    "servicesHeading": "Services",
+    "services": {
+      "website": "Premium Website",
+      "ecommerce": "E-Commerce",
+      "seoAds": "SEO & Google Ads",
+      "social": "Social Media",
+      "branding": "Branding & Content",
+      "maintenance": "Maintenance",
+      "mobileApp": "Mobile Apps"
+    },
+    "contactHeading": "Contact",
+    "contactNow": "Contact Us",
+    "whatsapp": "WhatsApp",
+    "email": "info@illyrianpixel.com",
+    "locationLine": "Tirana, Albania · Germany · Online",
+    "followHeading": "Follow us",
+    "copyright": "© 2026 Illyrian Pixel",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookieSettings": "Cookie settings",
+    "backToTop": "Back to top"
+  },
+  "projectCard": {
+    "view": "View",
+    "comingSoon": "Coming soon"
+  },
+  "globalCta": {
+    "label": "NEXT STEP",
+    "title": "Ready for the next step?",
+    "body": "Book a call and let's turn direction into a concrete plan with clear priorities.",
+    "primaryActionText": "Start the Conversation",
+    "secondaryActionText": "Contact Us"
+  },
+  "exitPopup": {
+    "dialogAria": "Special offer",
+    "closeAria": "Close",
+    "decline": "No, thanks",
+    "eyebrow": "Before you go",
+    "title": "Get a free consultation today.",
+    "text": "Tell us about your project and we'll put together a concrete plan at no cost, no obligation.",
+    "cta": "Free consultation →"
+  },
+  "backToTop": {
+    "label": "Back to top"
+  },
+  "cookieConsent": {
+    "title": "Cookies & Privacy",
+    "body": "With your permission we use analytics cookies (Google Analytics, Microsoft Clarity) and marketing cookies (Google Ads). Without consent we set none of them. You can change your choice anytime under “Cookie settings” at the bottom of the page.",
+    "privacyLink": "Privacy policy",
+    "acceptAll": "Accept all",
+    "essentialOnly": "Essential only",
+    "customize": "Customize",
+    "save": "Save choices",
+    "necessaryTitle": "Necessary",
+    "necessaryDesc": "Keep the site working and remember your choice. Always on.",
+    "analyticsTitle": "Analytics",
+    "analyticsDesc": "Google Analytics and Microsoft Clarity: how the site is used, so we can improve it.",
+    "marketingTitle": "Marketing",
+    "marketingDesc": "Google Ads: measuring ad results and showing ads that are more relevant to you."
+  },
+  "whatsapp": {
+    "popoverText": "Message us on WhatsApp for a quick quote.",
+    "openChat": "Open WhatsApp",
+    "close": "Close",
+    "fabAria": "Open WhatsApp popup"
+  },
+  "inquiry": {
+    "title": "Start your project",
+    "closeAria": "Close the form",
+    "success": "Thank you. Your message was received and we'll be in touch shortly.",
+    "name": "Name",
+    "email": "Email",
+    "businessName": "Business name",
+    "service": "Service",
+    "budget": "Budget",
+    "timeline": "Timeline",
+    "message": "Message",
+    "note": "After you submit, we'll get back to you with a clear plan.",
+    "submit": "SEND REQUEST",
+    "sending": "Sending...",
+    "errFields": "Please fill in the required fields.",
+    "errGeneric": "Something went wrong. Please try again.",
+    "errNetwork": "Couldn't send. Email us directly: info@illyrianpixel.com",
+    "serviceMaintenance": "Maintenance",
+    "timelineWeeks": "2-4 weeks",
+    "timelineMonths": "1-2 months",
+    "timelineFlexible": "Flexible"
+  },
+  "newsletterPopup": {
+    "closeAria": "Close",
+    "badge": "Exclusive offer",
+    "title": "10% off every service",
+    "body": "Subscribe and get your discount code sent straight to your email.",
+    "placeholder": "email@company.com",
+    "submit": "Get 10% →",
+    "sending": "Sending…",
+    "codeLabel": "Your code",
+    "successLine1": "An email with your code is on its way.",
+    "successLine2": "Quote the code when you contact us for any service.",
+    "close": "Close",
+    "noSpam": "No spam. Unsubscribe anytime.",
+    "errGeneric": "Something went wrong. Please try again.",
+    "errNetwork": "Connection error. Check your internet."
+  },
+  "genti": {
+    "greeting": "Hi there!\nI'm King Genti 👑\nIllyrian Pixel's assistant.\nAsk me about pricing, services, or timelines and I'll help right away.",
+    "header": "KING GENTI",
+    "dialogAria": "King Genti, Illyrian Pixel's assistant",
+    "openAria": "Open King Genti, Illyrian Pixel's assistant",
+    "closeAria": "Close",
+    "placeholder": "Type your question…",
+    "send": "SEND",
+    "s1": "How much is a website?",
+    "s2": "How do I contact you?",
+    "s3": "Where are you based?",
+    "s4": "How long does a project take?"
+  }
+}

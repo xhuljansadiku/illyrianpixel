@@ -1,17 +1,18 @@
-import { Inter, Manrope } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 
-// Self-hosted at build time by next/font: no requests to Google from the
-// visitor's browser (GDPR-friendly), preloaded and with metric-matched fallbacks.
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-body",
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
+const display = Cormorant_Garamond({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-display",
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
-export const fontVariables = `${inter.variable} ${manrope.variable}`;
+// Klasat e <body> — të përbashkëta për RootDocument dhe app/error.tsx
+export const bodyClassName = `${plusJakarta.variable} ${display.variable} bg-bg font-body text-text antialiased`;
