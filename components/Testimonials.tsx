@@ -168,7 +168,7 @@ export default function Testimonials({ items }: { items?: TestimonialItem[] }) {
                       &ldquo;
                     </span>
                     {item.categoryLabel && (
-                      <span className="rounded-full border border-white/10 px-2.5 py-1 font-ui text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
+                      <span className="rounded-full border border-white/10 px-2.5 py-1 font-ui text-[10px] font-semibold uppercase tracking-[0.15em] text-white/45">
                         {item.categoryLabel}
                       </span>
                     )}

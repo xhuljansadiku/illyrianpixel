@@ -85,7 +85,7 @@ export default function NewsletterPageClient() {
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_80%_80%,rgba(171,131,57,0.06),transparent_38%)]" />
 
         {/* Hero */}
-        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
+        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-bgDeep">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 opacity-[0.022]"
@@ -98,7 +98,7 @@ export default function NewsletterPageClient() {
           <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+            <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               {locale === "en" ? "Exclusive offer" : "Ofertë ekskluzive"}
             </div>
@@ -152,7 +152,7 @@ export default function NewsletterPageClient() {
             </div>
 
             {/* Right — form / success */}
-            <div className="relative overflow-hidden rounded-[1.5rem] border border-[#262626] bg-[rgba(10,10,10,0.72)] p-8 backdrop-blur-[12px]">
+            <div className="relative overflow-hidden rounded-3xl border border-[#262626] bg-[rgba(10,10,10,0.72)] p-8 backdrop-blur-[12px]">
               <div
                 aria-hidden
                 className="pointer-events-none absolute -right-20 -top-20 h-[18rem] w-[18rem] rounded-full"
@@ -208,7 +208,7 @@ export default function NewsletterPageClient() {
                           required
                           placeholder={locale === "en" ? "email@company.com" : "email@kompania.com"}
                           disabled={state === "loading"}
-                          className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 focus:border-accent disabled:opacity-50"
+                          className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-muted/55 focus:border-accent disabled:opacity-50"
                         />
                       </div>
 
@@ -219,7 +219,7 @@ export default function NewsletterPageClient() {
                       <button
                         type="submit"
                         disabled={state === "loading"}
-                        className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
+                        className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-bg transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         {state === "loading"
                           ? (locale === "en" ? "Sending…" : "Duke dërguar…")

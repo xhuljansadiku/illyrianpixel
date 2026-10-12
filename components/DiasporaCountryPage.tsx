@@ -84,23 +84,24 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_92%_72%,rgba(171,131,57,0.06),transparent_38%)]" />
 
         {/* ── HERO ── */}
-        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
+        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-bgDeep">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.022]"
             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", mixBlendMode: "overlay" }}
           />
-          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#ab8339]/[0.07] blur-[130px]" />
+          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative z-[2] py-28 md:py-36">
             <div className="flex items-center gap-3">
               <Image
-                src={`https://flagcdn.com/w80/${content.flagCode}.png`}
+                src={`/flags/4x3/${content.flagCode}.svg`}
+                unoptimized
                 alt=""
                 width={32}
                 height={24}
                 className="h-4 w-auto rounded-[2px] object-cover"
               />
-              <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{content.heroEyebrow}</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{content.heroEyebrow}</p>
             </div>
 
             <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.625rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.02em] text-white md:whitespace-pre-line">
@@ -114,7 +115,7 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className="interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-[#0e0d0c]"
+                className="interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-surface"
               >
                 {t.startChat}
               </Link>
@@ -142,7 +143,7 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
         {/* ── CTA MBYLLËSE ── */}
         <section className="relative z-[1]">
           <div className="section-wrap py-20 md:py-28">
-            <div className="svc-closing-panel relative overflow-hidden rounded-[28px] border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-[0_28px_80px_rgba(0,0,0,0.45)] md:px-14 md:py-16">
+            <div className="svc-closing-panel relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-[0_28px_80px_rgba(0,0,0,0.45)] md:px-14 md:py-16">
               <div className="pointer-events-none absolute inset-0 opacity-[0.11]">
                 <div className="noir-grid h-full w-full" />
               </div>
@@ -151,24 +152,24 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
               <div className="pointer-events-none absolute -right-16 bottom-0 h-48 w-48 rounded-full bg-accent/[0.05] blur-3xl" />
 
               <div className="relative z-[1]">
-                <SectionMark label={t.nextStep} eyebrowClassName="tracking-[0.22em] !text-accent/80" />
+                <SectionMark label={t.nextStep} eyebrowClassName="tracking-[0.2em] !text-accent/80" />
                 <h2 className="mx-auto mt-3 max-w-[18ch] font-display text-[clamp(2.2rem,5.5vw,4.2rem)] leading-[0.96] tracking-[-0.02em] text-white md:max-w-none">
                   {t.closingLine1}<br className="hidden md:block" />
-                  <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t.closingAccent}</span>
+                  <span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t.closingAccent}</span>
                 </h2>
                 <p className="mx-auto mt-6 max-w-[44ch] text-[14px] leading-relaxed text-white/50">
                   {t.closingBody}
                 </p>
 
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
-                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-[#0e0d0c]">
+                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-surface">
                     {t.startProject}
                   </Link>
                   <a
                     href={content.ctaWhatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.06em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white"
+                    className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.08em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white"
                   >
                     {t.writeWhatsapp} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </a>

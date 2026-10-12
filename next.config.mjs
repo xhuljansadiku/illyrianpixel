@@ -27,7 +27,6 @@ const nextConfig = {
       { protocol: "https", hostname: "s.wordpress.com" },
       // Vetëm projekti ynë — "**.supabase.co" lejonte imazhe nga çdo projekt Supabase të huaj
       { protocol: "https", hostname: "yiwmhfynmdfxmjmqzauv.supabase.co" },
-      { protocol: "https", hostname: "flagcdn.com" }
     ]
   },
 
@@ -71,7 +70,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               // GA4 dërgon ping-e edhe si imazhe (googletagmanager.com/a, *.google-analytics.com) —
               // pa to CSP i bllokonte me gabime në console; c.bing.com është pixel-i i Clarity.
-              "img-src 'self' data: https://images.unsplash.com https://flagcdn.com https://yiwmhfynmdfxmjmqzauv.supabase.co https://*.clarity.ms https://c.bing.com https://www.googletagmanager.com https://*.google-analytics.com",
+              "img-src 'self' data: https://images.unsplash.com https://yiwmhfynmdfxmjmqzauv.supabase.co https://*.clarity.ms https://c.bing.com https://www.googletagmanager.com https://*.google-analytics.com",
               "font-src 'self' data:",
               "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.clarity.ms",
               "frame-src 'self'",

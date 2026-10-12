@@ -27,7 +27,7 @@ export default function RootDocument({ lang, children }: { lang: string; childre
         <link rel="manifest" href="/site.webmanifest" />
 
         {/* theme-color / color-scheme vijnë nga `viewport` në app/layout.tsx */}
-        <meta name="msapplication-TileColor" content="#07080c" />
+        <meta name="msapplication-TileColor" content="#070707" />
         <meta name="msapplication-navbutton-color" content="#ab8339" />
 
         {/* ── Geo ── */}

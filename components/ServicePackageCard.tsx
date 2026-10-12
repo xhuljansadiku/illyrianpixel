@@ -34,14 +34,14 @@ export default function ServicePackageCard({ pkg }: Props) {
     <div className="relative flex flex-col pt-5">
       {pkg.featured && (
         <div className="absolute top-0 left-1/2 z-10 -translate-x-1/2">
-          <span className="inline-flex items-center rounded-full bg-accent px-4 py-[5px] text-[10px] font-semibold uppercase tracking-[0.22em] text-[#0e0d0c] shadow-[0_0_24px_rgba(171,131,57,0.45)]">
+          <span className="inline-flex items-center rounded-full bg-accent px-4 py-[5px] text-[10px] font-semibold uppercase tracking-[0.2em] text-surface shadow-[0_0_24px_rgba(171,131,57,0.45)]">
             {t("mostChosenBadge")}
           </span>
         </div>
       )}
 
       <div
-        className={`svc-price-card service-bento-card group relative flex flex-1 flex-col overflow-hidden rounded-[24px] border border-[rgba(255,255,255,0.03)] bg-[linear-gradient(160deg,rgba(255,255,255,0.02),rgba(255,255,255,0.005)_52%,rgba(171,131,57,0.04))] p-6 backdrop-blur-[2px] transition-[border-color,box-shadow,transform,opacity] duration-[600ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] before:pointer-events-none before:absolute before:inset-y-0 before:left-[-34%] before:z-[2] before:w-[42%] before:-skew-x-12 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.15),transparent)] before:opacity-0 before:translate-x-[-120%] before:transition-all before:duration-[800ms] before:[transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:before:opacity-25 group-hover:before:translate-x-[120%] animate-[servicesIdleGlow_3.6s_ease-in-out_infinite] hover:[animation-play-state:paused] md:hover:-translate-y-0.5 ${
+        className={`svc-price-card service-bento-card group relative flex flex-1 flex-col overflow-hidden rounded-3xl border border-[rgba(255,255,255,0.03)] bg-[linear-gradient(160deg,rgba(255,255,255,0.02),rgba(255,255,255,0.005)_52%,rgba(171,131,57,0.04))] p-6 backdrop-blur-[2px] transition-[border-color,box-shadow,transform,opacity] duration-[600ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] before:pointer-events-none before:absolute before:inset-y-0 before:left-[-34%] before:z-[2] before:w-[42%] before:-skew-x-12 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.15),transparent)] before:opacity-0 before:translate-x-[-120%] before:transition-all before:duration-[800ms] before:[transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:before:opacity-25 group-hover:before:translate-x-[120%] animate-[servicesIdleGlow_3.6s_ease-in-out_infinite] hover:[animation-play-state:paused] md:hover:-translate-y-0.5 ${
           pkg.featured
             ? "border-accent/35 shadow-[0_25px_80px_rgba(171,131,57,0.25)] hover:shadow-[0_28px_88px_rgba(171,131,57,0.28)]"
             : "opacity-95 hover:border-accent/35 hover:shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_40px_rgba(171,131,57,0.15)]"
@@ -106,7 +106,7 @@ export default function ServicePackageCard({ pkg }: Props) {
             {pkg.featured ? (
               <Link
                 href="/contact"
-                className="interactive-button ip-cta-primary group inline-flex w-full items-center justify-center gap-2 !py-3.5 !text-[11px] !tracking-[1px] !text-[#0e0d0c]"
+                className="interactive-button ip-cta-primary group inline-flex w-full items-center justify-center gap-2 !py-3.5 !text-[11px] !tracking-[1px] !text-surface"
               >
                 {ctaLabel}
                 <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>

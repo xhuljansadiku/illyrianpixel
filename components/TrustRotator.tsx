@@ -17,7 +17,8 @@ function Flag({ code, size = 16 }: { code: string; size?: number }) {
       style={{ width: size, height: size }}
     >
       <Image
-        src={`https://flagcdn.com/w40/${code}.png`}
+        src={`/flags/4x3/${code}.svg`}
+        unoptimized
         width={size}
         height={size}
         alt=""

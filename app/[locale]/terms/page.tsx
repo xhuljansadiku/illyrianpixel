@@ -250,9 +250,9 @@ export default async function TermsPage(props: Props) {
     <>
       <Navbar />
       <main id="main-content" className="bg-bg text-text pt-14 md:pt-16">
-        <section className="border-b border-white/[0.06] bg-[#070707]">
+        <section className="border-b border-white/[0.06] bg-bgDeep">
           <div className="section-wrap py-20 md:py-28">
-            <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">
               {c.badge}
             </p>
             <h1 className="mt-6 font-display text-[clamp(2rem,4vw,3.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">

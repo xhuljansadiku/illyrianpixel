@@ -98,16 +98,16 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_92%_72%,rgba(171,131,57,0.06),transparent_38%)]" />
 
         {/* ── 1. HERO ── */}
-        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
+        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-bgDeep">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.022]"
             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", mixBlendMode: "overlay" }}
           />
-          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#ab8339]/[0.07] blur-[130px]" />
+          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative z-[2] py-28 md:py-36">
             {/* Eyebrow */}
-            <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{eyebrow}</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{eyebrow}</p>
 
             {/* Headline — clamp(42px,5vw,64px) */}
             <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.625rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.02em] text-white md:whitespace-pre-line">
@@ -136,7 +136,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className={`interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-[#0e0d0c] ${isConversionLanding ? "svc-web-hero-cta-pulse" : ""}`}
+                className={`interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-surface ${isConversionLanding ? "svc-web-hero-cta-pulse" : ""}`}
               >
                 {isWebPackages
                   ? (category.ctaPrimary ?? t("website.heroCtaFallback"))
@@ -172,7 +172,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
             </div>
 
             {/* SEO micro-line */}
-            <p className="mt-6 font-mono text-[10px] tracking-[0.18em] text-white/25">
+            <p className="mt-6 font-mono text-[10px] tracking-[0.2em] text-white/25">
               {t("seoMicroLine")}
             </p>
           </div>
@@ -191,7 +191,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-red-400/70" aria-hidden />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-400/60">{t("problemLabel")}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-red-400/60">{t("problemLabel")}</p>
                     </div>
                     {painHeading && (
                       <h2 className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white">
@@ -213,13 +213,13 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               )}
 
               {valueItems.length > 0 && (
-                <div className="svc-reveal-heading relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#080808] px-8 py-10">
+                <div className="svc-reveal-heading relative overflow-hidden rounded-2xl border border-white/[0.06] bg-bgDeep px-8 py-10">
                   <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/15 to-transparent" />
                   <div aria-hidden className="pointer-events-none absolute right-[4%] top-1/2 -translate-y-1/2 select-none font-display text-[7rem] font-black leading-none text-emerald-500/[0.08] md:text-[9rem]">✔</div>
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-emerald-400/70" aria-hidden />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-emerald-400/60">{t("solutionLabel")}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400/60">{t("solutionLabel")}</p>
                     </div>
                     <h2 className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white">
                       {data?.whyUs?.headingBefore}{" "}
@@ -247,7 +247,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
               <div className="svc-reveal-heading">
-                <SectionMark label={t("packagesEyebrow")} eyebrowClassName="tracking-[0.22em]" />
+                <SectionMark label={t("packagesEyebrow")} eyebrowClassName="tracking-[0.2em]" />
                 <h2 className="mt-1 max-w-xl font-display text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.05] tracking-[-0.02em] text-white">
                   {t("choosePackage")}
                 </h2>
@@ -259,7 +259,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               </div>
 
               {category.slug === "mirembajtja" && (
-                <div className="relative mx-auto mt-8 max-w-[980px] overflow-hidden rounded-[24px] border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:px-12 md:py-10">
+                <div className="relative mx-auto mt-8 max-w-[980px] overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:px-12 md:py-10">
                   <div aria-hidden className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent md:inset-x-16" />
                   <div aria-hidden className="pointer-events-none absolute -right-16 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-accent/[0.1] blur-[90px]" />
                   <div aria-hidden className="pointer-events-none absolute right-[6%] top-1/2 hidden -translate-y-1/2 select-none font-display text-[9rem] font-black leading-none text-accent/[0.06] md:block">↻</div>
@@ -291,7 +291,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
               <div className="svc-reveal-heading">
-                <SectionMark label={data?.feedbackLabel ?? t("clientsFallbackLabel")} eyebrowClassName="tracking-[0.22em]" />
+                <SectionMark label={data?.feedbackLabel ?? t("clientsFallbackLabel")} eyebrowClassName="tracking-[0.2em]" />
                 <h2 className="mt-1 max-w-xl font-display text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.05] tracking-[-0.02em] text-white md:whitespace-pre-line">
                   {data?.feedbackHeadline ?? t("realResultsFallback")}
                 </h2>
@@ -322,7 +322,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                     <Link key={item.slug} href={`/projektet/${item.slug}`}
                       className="group relative overflow-hidden rounded-2xl border border-white/[0.08] transition-[border-color,transform,box-shadow] duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_20px_48px_rgba(0,0,0,0.4)]"
                     >
-                      <div className="w-full bg-[#0a0a0a]">
+                      <div className="w-full bg-bg">
                         <Image
                           src={item.heroImage}
                           alt={item.title}
@@ -332,7 +332,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                           sizes="(max-width: 768px) 100vw, 50vw"
                         />
                       </div>
-                      <div className="border-t border-white/[0.06] bg-[#0e0e0e] px-5 py-4">
+                      <div className="border-t border-white/[0.06] bg-surface px-5 py-4">
                         <p className="text-[10px] uppercase tracking-[0.2em] text-accent/75">{item.category}</p>
                         <h3 className="mt-1 font-display text-[1.05rem] tracking-[-0.01em] text-white transition-colors group-hover:text-accent/90">{item.title}</h3>
                         <span className="mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-light tracking-[0.04em] text-white/40 transition-colors group-hover:text-accent/65">
@@ -356,7 +356,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
         {/* ── 4. FINAL CTA ── */}
         <section className="relative z-[1]">
           <div className="section-wrap py-20 md:py-28">
-            <div className="svc-closing-panel relative overflow-hidden rounded-[28px] border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-[0_28px_80px_rgba(0,0,0,0.45)] md:px-14 md:py-16">
+            <div className="svc-closing-panel relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-[0_28px_80px_rgba(0,0,0,0.45)] md:px-14 md:py-16">
               <div className="pointer-events-none absolute inset-0 opacity-[0.11]">
                 <div className="noir-grid h-full w-full" />
               </div>
@@ -365,14 +365,14 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               <div className="pointer-events-none absolute -right-16 bottom-0 h-48 w-48 rounded-full bg-accent/[0.05] blur-3xl" />
 
               <div className="relative z-[1]">
-                <SectionMark label={t("nextStepEyebrow")} eyebrowClassName="tracking-[0.22em] !text-accent/80" />
+                <SectionMark label={t("nextStepEyebrow")} eyebrowClassName="tracking-[0.2em] !text-accent/80" />
                 <h2 className="mx-auto mt-3 max-w-[18ch] font-display text-[clamp(2.2rem,5.5vw,4.2rem)] leading-[0.96] tracking-[-0.02em] text-white md:max-w-none">
                   {category.slug === "seo-google-ads" ? (
-                    <>{t("seoGoogleAds.finalHeadlinePre")}{" "}<span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t("seoGoogleAds.finalHeadlineAccent")}</span>{" "}{t("seoGoogleAds.finalHeadlinePost")}</>
+                    <>{t("seoGoogleAds.finalHeadlinePre")}{" "}<span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("seoGoogleAds.finalHeadlineAccent")}</span>{" "}{t("seoGoogleAds.finalHeadlinePost")}</>
                   ) : category.slug === "branding-content" ? (
-                    <>{t("brandingContent.finalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t("brandingContent.finalHeadlineAccent")}</span></>
+                    <>{t("brandingContent.finalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("brandingContent.finalHeadlineAccent")}</span></>
                   ) : (
-                    <>{t("defaultFinalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">{t("defaultFinalHeadlineAccent")}</span></>
+                    <>{t("defaultFinalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("defaultFinalHeadlineAccent")}</span></>
                   )}
                 </h2>
                 <p className="mx-auto mt-6 max-w-[44ch] whitespace-pre-line text-[14px] leading-relaxed text-white/50">
@@ -384,12 +384,12 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                 </p>
 
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
-                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-[#0e0d0c]">
+                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-surface">
                     {category.slug === "seo-google-ads" ? t("seoGoogleAds.finalCta")
                       : category.slug === "branding-content" ? t("brandingContent.finalCta")
                       : t("defaultFinalCta")}
                   </Link>
-                  <Link href="/contact" className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.06em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white">
+                  <Link href="/contact" className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.08em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white">
                     {t("contactUs")} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </Link>
                 </div>

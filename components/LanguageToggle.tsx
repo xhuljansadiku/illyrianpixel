@@ -69,7 +69,8 @@ export default function LanguageToggle({ className = "" }: { className?: string 
         }`}
       >
         <Image
-          src={`https://flagcdn.com/w80/${FLAG[visual]}.png`}
+          src={`/flags/4x3/${FLAG[visual]}.svg`}
+          unoptimized
           width={32}
           height={32}
           alt=""

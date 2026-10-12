@@ -3,7 +3,7 @@ import "./globals.css";
 import { seo } from "@/lib/seo";
 
 export const viewport: Viewport = {
-  themeColor: "#07080c",
+  themeColor: "#070707",
   colorScheme: "dark",
 };
 

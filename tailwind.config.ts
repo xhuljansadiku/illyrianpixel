@@ -21,7 +21,10 @@ const config: Config = {
         /** Secondary labels, captions, de-emphasized UI */
         muted: "#A0A0A0",
         accent: "#ab8339",
-        accentLight: "#eace71"
+        accentLight: "#eace71",
+        /** Background depth scale: bgDeep < bg < surface (cards, menus) */
+        bgDeep: "#070707",
+        surface: "#0e0e0e"
       },
       boxShadow: {
         glow: "0 0 0 1px rgba(171, 131, 57, 0.2), 0 12px 48px rgba(171, 131, 57, 0.12)"

@@ -177,7 +177,7 @@ export default function Process() {
           />
           <span
             ref={lineDotRef}
-            className="process-line-dot absolute left-1/2 top-0 hidden h-3 w-3 -translate-x-1/2 rounded-full border border-accent/85 bg-[#0b0b0b] md:block"
+            className="process-line-dot absolute left-1/2 top-0 hidden h-3 w-3 -translate-x-1/2 rounded-full border border-accent/85 bg-bg md:block"
           />
           <span
             ref={lineGlowRef}
@@ -192,15 +192,15 @@ export default function Process() {
                 }}
                 className={`process-step relative md:w-[46%] ${idx % 2 === 0 ? "process-step-left md:mr-auto md:pr-10" : "process-step-right md:ml-auto md:pl-10"}`}
               >
-                <span className="process-node absolute left-[-0.55rem] top-[1.15rem] h-[9px] w-[9px] rounded-full border border-accent/70 bg-[#0b0b0b] md:left-auto md:top-[1.1rem] md:h-[10px] md:w-[10px] md:border-accent/80 md:bg-[#0b0b0b] md:shadow-none" />
-                <p className="text-[11px] tracking-[0.18em] text-accent/85">
+                <span className="process-node absolute left-[-0.55rem] top-[1.15rem] h-[9px] w-[9px] rounded-full border border-accent/70 bg-bg md:left-auto md:top-[1.1rem] md:h-[10px] md:w-[10px] md:border-accent/80 md:bg-bg md:shadow-none" />
+                <p className="text-[11px] tracking-[0.2em] text-accent/85">
                   {step.label} <span className="text-white/45">· {step.duration}</span>
                 </p>
                 <h3 className="mt-2 font-display text-[2rem] leading-[0.96] text-white md:text-[2.55rem]">{step.title}</h3>
                 <ul className="mt-3 max-w-[42ch] space-y-2 text-sm leading-relaxed text-white/72 md:text-base">
                   {step.points.map((point, pointIdx) => (
                     <li key={point} className="flex items-start gap-2">
-                      <span className="inline-block min-w-[1.9rem] pt-[1px] text-[11px] tracking-[0.14em] text-accent/88">
+                      <span className="inline-block min-w-[1.9rem] pt-[1px] text-[11px] tracking-[0.15em] text-accent/88">
                         {String(pointIdx + 1).padStart(2, "0")}{"."}
                       </span>
                       <span>{point}</span>

@@ -64,7 +64,7 @@ export default async function CaseStudyPage(props: Props) {
 
         {/* Hero image */}
         <section className="relative z-[1] section-wrap max-w-5xl pt-10 md:pt-14">
-          <div className="relative h-[280px] overflow-hidden rounded-[1.1rem] border border-white/10 md:h-[500px]">
+          <div className="relative h-[280px] overflow-hidden rounded-2xl border border-white/10 md:h-[500px]">
             <Image
               src={cs.heroImage}
               alt={cs.title}
@@ -73,13 +73,13 @@ export default async function CaseStudyPage(props: Props) {
               priority
               className="object-cover"
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0b0b]/65 to-transparent" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/65 to-transparent" />
           </div>
         </section>
 
         {/* Title + meta */}
         <section className="relative z-[1] section-wrap max-w-5xl pb-0 pt-8">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-accent/80">
+          <p className="text-[11px] uppercase tracking-[0.2em] text-accent/80">
             {cs.category} ⬢ {cs.year}
           </p>
           <h1 className="mt-3 font-display text-[clamp(2.4rem,7vw,5rem)] leading-[0.92]">
@@ -90,7 +90,7 @@ export default async function CaseStudyPage(props: Props) {
               {cs.flagCodes.map((code) => (
                 <Image
                   key={code}
-                  src={`https://flagcdn.com/w20/${code}.png`}
+                  src={`/flags/4x3/${code}.svg`}
                   alt=""
                   width={20}
                   height={14}
@@ -108,13 +108,13 @@ export default async function CaseStudyPage(props: Props) {
         {/* Problem + Solution */}
         <section className="relative z-[1] section-wrap max-w-5xl">
           <div className="grid gap-4 md:grid-cols-2">
-            <article className="rounded-[1rem] border border-white/10 bg-[#151515] p-6">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-accent/78">{t("detail.problemLabel")}</p>
+            <article className="rounded-2xl border border-white/10 bg-[#151515] p-6">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-accent/78">{t("detail.problemLabel")}</p>
               <h2 className="mt-2 font-display text-2xl leading-tight">{t("detail.problemHeading")}</h2>
               <p className="mt-3 text-sm leading-relaxed text-white/62">{cs.problem}</p>
             </article>
-            <article className="rounded-[1rem] border border-white/10 bg-[#151515] p-6">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-accent/78">{t("detail.solutionLabel")}</p>
+            <article className="rounded-2xl border border-white/10 bg-[#151515] p-6">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-accent/78">{t("detail.solutionLabel")}</p>
               <h2 className="mt-2 font-display text-2xl leading-tight">{t("detail.solutionHeading")}</h2>
               <p className="mt-3 text-sm leading-relaxed text-white/62">{cs.solution}</p>
             </article>
@@ -123,8 +123,8 @@ export default async function CaseStudyPage(props: Props) {
 
         {/* Result + Metrics */}
         <section className="relative z-[1] section-wrap max-w-5xl">
-          <article className="rounded-[1rem] border border-accent/25 bg-accent/[0.04] p-6 md:p-8">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-accent/80">{t("detail.resultLabel")}</p>
+          <article className="rounded-2xl border border-accent/25 bg-accent/[0.04] p-6 md:p-8">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">{t("detail.resultLabel")}</p>
             <h2 className="mt-2 font-display text-[clamp(1.6rem,3.5vw,2.4rem)] leading-tight">
               {cs.result}
             </h2>
@@ -132,7 +132,7 @@ export default async function CaseStudyPage(props: Props) {
               {cs.metrics.map((metric) => (
                 <div
                   key={metric}
-                  className="rounded-[0.75rem] border border-white/10 bg-black/25 px-4 py-3.5"
+                  className="rounded-2xl border border-white/10 bg-black/25 px-4 py-3.5"
                 >
                   <p className="text-sm text-accent/90">{metric}</p>
                 </div>
@@ -147,7 +147,7 @@ export default async function CaseStudyPage(props: Props) {
             {cs.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-white/45"
+                className="rounded-full border border-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-white/45"
               >
                 {tag}
               </span>
@@ -168,7 +168,7 @@ export default async function CaseStudyPage(props: Props) {
                 Shiko live projektin <span aria-hidden>→</span>
               </a>
             ) : (
-              <span className="text-[11px] uppercase tracking-[0.18em] text-white/30">Se shpejti</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-white/30">Se shpejti</span>
             )}
             <Link href="/projektet" className="luxury-link">
               <span aria-hidden>←</span> Kthehu te projektet

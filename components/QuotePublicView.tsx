@@ -51,13 +51,13 @@ export default function QuotePublicView({ quote, token }: { quote: QuoteRecord; 
   };
 
   return (
-    <main id="main-content" className="min-h-screen bg-[#0a0a0a] px-4 py-12 text-white md:py-20">
+    <main id="main-content" className="min-h-screen bg-bg px-4 py-12 text-white md:py-20">
       <div className="mx-auto w-full max-w-2xl">
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-accent/60 pb-6">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-accent/70">Illyrian Pixel</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/35">Agjenci Dixhitale Premium</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-accent/70">Illyrian Pixel</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-white/35">Agjenci Dixhitale Premium</p>
           </div>
           <div className="text-right">
             <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-accent">{kindLabel}</h1>
@@ -68,12 +68,12 @@ export default function QuotePublicView({ quote, token }: { quote: QuoteRecord; 
         {/* Meta */}
         <div className="mt-8 flex flex-wrap justify-between gap-6 text-sm">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-white/30">Për</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/30">Për</p>
             <p className="mt-1.5 font-semibold text-white">{quote.client_name}</p>
             {quote.client_business && <p className="text-white/55">{quote.client_business}</p>}
           </div>
           <div className="text-right">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-white/30">Data</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/30">Data</p>
             <p className="mt-1.5 text-white/75">{formatDay(quote.issued_at)}</p>
             {quote.due_at && (
               <p className="mt-1 text-white/45">
@@ -84,10 +84,10 @@ export default function QuotePublicView({ quote, token }: { quote: QuoteRecord; 
         </div>
 
         {/* Items */}
-        <div className="mt-8 overflow-hidden rounded-xl border border-white/10 bg-[#101010]">
+        <div className="mt-8 overflow-hidden rounded-xl border border-white/10 bg-surface">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#151515] text-[10px] uppercase tracking-[0.14em] text-white/35">
+              <tr className="bg-[#151515] text-[10px] uppercase tracking-[0.15em] text-white/35">
                 <th className="px-4 py-3 text-left font-semibold">Përshkrimi</th>
                 <th className="px-4 py-3 text-center font-semibold">Sasia</th>
                 <th className="hidden px-4 py-3 text-right font-semibold sm:table-cell">Çmimi</th>
@@ -192,7 +192,7 @@ export default function QuotePublicView({ quote, token }: { quote: QuoteRecord; 
                   <button
                     onClick={() => respond("accept")}
                     disabled={busy}
-                    className="flex-1 rounded-full bg-accent px-6 py-3.5 text-sm font-bold uppercase tracking-[0.08em] text-[#0a0a0a] transition-all hover:shadow-[0_0_24px_rgba(171,131,57,0.45)] disabled:opacity-50"
+                    className="flex-1 rounded-full bg-accent px-6 py-3.5 text-sm font-bold uppercase tracking-[0.08em] text-bg transition-all hover:shadow-[0_0_24px_rgba(171,131,57,0.45)] disabled:opacity-50"
                   >
                     {busy ? "Duke dërguar…" : "Pranoj ofertën ✓"}
                   </button>

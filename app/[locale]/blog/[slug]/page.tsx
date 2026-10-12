@@ -130,7 +130,7 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
           <section className="section-wrap">
           <p className="eyebrow">{staticPost.category}</p>
           <h1 className="section-title mt-3 max-w-4xl">{staticPost.title}</h1>
-          <p className="mt-3 text-xs tracking-[0.14em] text-white/45">{staticPost.date}</p>
+          <p className="mt-3 text-xs tracking-[0.15em] text-white/45">{staticPost.date}</p>
           <div className="mt-10 max-w-3xl space-y-5">
             {staticPost.content.map((paragraph) => (
               <p key={paragraph} className="text-[1.02rem] leading-relaxed text-white/72 md:text-[1.12rem]">

@@ -50,7 +50,7 @@ export default function NewsletterSection() {
         <div className="mx-auto max-w-2xl text-center">
 
           {/* Badge */}
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             {t("badge")}
           </div>

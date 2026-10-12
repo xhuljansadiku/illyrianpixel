@@ -332,7 +332,7 @@ export default function ParticleCloudScene() {
             ref={(el) => {
               labelRefs.current[i] = el;
             }}
-            className="absolute left-0 top-0 origin-top-left whitespace-nowrap rounded-full border border-accent/40 bg-black/55 px-2 py-1 text-[9px] tracking-[0.06em] text-accent/90 opacity-0 backdrop-blur-sm transition-opacity duration-200 md:px-2.5 md:py-1 md:text-[10px] md:tracking-[0.08em]"
+            className="absolute left-0 top-0 origin-top-left whitespace-nowrap rounded-full border border-accent/40 bg-black/55 px-2 py-1 text-[9px] tracking-[0.08em] text-accent/90 opacity-0 backdrop-blur-sm transition-opacity duration-200 md:px-2.5 md:py-1 md:text-[10px] md:tracking-[0.08em]"
           >
             {label}
           </span>

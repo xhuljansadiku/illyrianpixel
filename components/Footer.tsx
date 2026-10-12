@@ -66,7 +66,7 @@ export default function Footer() {
     <footer
       ref={footerRef}
       onPointerMove={onFooterMove}
-      className="footer-signature relative overflow-hidden border-t border-white/10 bg-[#090909]"
+      className="footer-signature relative overflow-hidden border-t border-white/10 bg-bgDeep"
     >
       {/* Gold accent line top */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
@@ -120,7 +120,7 @@ export default function Footer() {
             <p className="footer-reveal mt-4 font-body text-[0.82rem] font-light text-white/50" style={{ letterSpacing: "1.2px" }}>
               {t("tagline")}
             </p>
-            <Link href="/contact" className="footer-reveal group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 px-5 py-2.5 font-body text-[0.8rem] font-light tracking-[0.06em] text-accent transition-all duration-300 hover:border-accent/70 hover:bg-accent/8 hover:text-accentLight">
+            <Link href="/contact" className="footer-reveal group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 px-5 py-2.5 font-body text-[0.8rem] font-light tracking-[0.08em] text-accent transition-all duration-300 hover:border-accent/70 hover:bg-accent/8 hover:text-accentLight">
               {t("bookConsult")}
               <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
@@ -128,7 +128,7 @@ export default function Footer() {
 
           {/* ── Col 2: Navigim ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("navHeading")}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.2em] text-white/25">{t("navHeading")}</p>
             <nav className="flex flex-col items-center gap-[14px] md:items-start" aria-label="Footer navigation">
               {[
                 { label: t("nav.services"), href: "/sherbimet" },
@@ -147,7 +147,7 @@ export default function Footer() {
 
           {/* ── Col 3: Shërbime ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("servicesHeading")}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.2em] text-white/25">{t("servicesHeading")}</p>
             <nav className="flex flex-col items-center gap-[14px] md:items-start">
               {[
                 { label: t("services.website"), href: "/services/website" },
@@ -167,7 +167,7 @@ export default function Footer() {
 
           {/* ── Col 4: Kontakt ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("contactHeading")}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.2em] text-white/25">{t("contactHeading")}</p>
             <div className="footer-reveal flex flex-col items-center gap-3 md:items-start">
               <Link href="/contact" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.05em] text-accent transition-colors duration-300 hover:text-accentLight">
                 {t("contactNow")}
@@ -190,7 +190,7 @@ export default function Footer() {
 
           {/* ── Col 5: Na ndiqni ── */}
           <div className="flex flex-col items-center md:items-start md:pt-1">
-            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.22em] text-white/25">{t("followHeading")}</p>
+            <p className="footer-reveal mb-6 text-[10px] uppercase tracking-[0.2em] text-white/25">{t("followHeading")}</p>
             <div className="flex flex-col items-center gap-[14px] md:items-start">
               {SOCIAL_LINKS.map((item) => (
                 <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
@@ -208,7 +208,7 @@ export default function Footer() {
 
         {/* ── Bottom bar ── */}
         <div className="footer-reveal footer-bottom mt-16 flex flex-col items-center gap-4 border-t border-white/[0.07] pt-5 pb-[40px] text-center md:mt-20 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-3 md:text-left">
-          <p className="font-body text-[12px] font-light tracking-[0.08em] text-white/25 md:tracking-[0.1em]">
+          <p className="font-body text-[12px] font-light tracking-[0.08em] text-white/25 md:tracking-[0.08em]">
             {t("copyright")}
           </p>
           <div className="flex items-center justify-center gap-6">
@@ -235,7 +235,7 @@ export default function Footer() {
           </div>
           <Link
             href="/"
-            className="footer-link group inline-flex items-center gap-2 font-body text-[12px] font-light tracking-[0.08em] text-white/25 transition-colors duration-300 hover:text-white md:tracking-[0.1em]"
+            className="footer-link group inline-flex items-center gap-2 font-body text-[12px] font-light tracking-[0.08em] text-white/25 transition-colors duration-300 hover:text-white md:tracking-[0.08em]"
           >
             {t("backToTop")}{" "}
             <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-[2px]">↑</span>

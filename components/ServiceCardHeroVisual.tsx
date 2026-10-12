@@ -4,7 +4,7 @@ import { useId } from "react";
 
 export type ServiceCardVisualVariant = "web" | "marketing" | "branding" | "ecommerce" | "smm" | "maintenance";
 
-const GOLD = "#D4AF37";
+const GOLD = "#ab8339";
 const FROST = "rgba(255,255,255,0.42)";
 const FROST_SOFT = "rgba(255,255,255,0.18)";
 
@@ -19,8 +19,8 @@ export default function ServiceCardHeroVisual({ variant, compact = false }: Prop
   const i = (s: string) => `${raw}-${s}`;
 
   const wrap = compact
-    ? "pointer-events-none relative mx-auto flex h-[64px] w-full max-w-[108px] shrink-0 select-none items-center justify-center motion-safe:animate-[serviceCardFloat_4.8s_ease-in-out_infinite] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(0_0_16px_rgba(212,175,55,0.45))_drop-shadow(0_0_32px_rgba(212,175,55,0.18))] motion-reduce:animate-none motion-reduce:group-hover:filter-none md:h-[76px] md:max-w-[128px]"
-    : "pointer-events-none relative mx-auto flex h-[118px] w-full max-w-[196px] shrink-0 select-none items-center justify-center motion-safe:animate-[serviceCardFloat_4.8s_ease-in-out_infinite] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(0_0_22px_rgba(212,175,55,0.5))_drop-shadow(0_0_48px_rgba(212,175,55,0.22))] motion-reduce:animate-none motion-reduce:group-hover:filter-none md:h-[134px] md:max-w-[216px]";
+    ? "pointer-events-none relative mx-auto flex h-[64px] w-full max-w-[108px] shrink-0 select-none items-center justify-center motion-safe:animate-[serviceCardFloat_4.8s_ease-in-out_infinite] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(0_0_16px_rgba(171,131,57,0.45))_drop-shadow(0_0_32px_rgba(171,131,57,0.18))] motion-reduce:animate-none motion-reduce:group-hover:filter-none md:h-[76px] md:max-w-[128px]"
+    : "pointer-events-none relative mx-auto flex h-[118px] w-full max-w-[196px] shrink-0 select-none items-center justify-center motion-safe:animate-[serviceCardFloat_4.8s_ease-in-out_infinite] transition-[filter] duration-500 ease-out group-hover:[filter:drop-shadow(0_0_22px_rgba(171,131,57,0.5))_drop-shadow(0_0_48px_rgba(171,131,57,0.22))] motion-reduce:animate-none motion-reduce:group-hover:filter-none md:h-[134px] md:max-w-[216px]";
 
   if (variant === "web") {
     return (
@@ -280,7 +280,7 @@ export default function ServiceCardHeroVisual({ variant, compact = false }: Prop
           <path d="M120 22 L170 44 L170 106 Q170 148 120 170 Q70 148 70 106 L70 44 Z"
             stroke={GOLD} strokeWidth="1.2" strokeOpacity="0.65" fill="rgba(255,255,255,0.022)" strokeLinejoin="round" />
           <path d="M120 34 L158 52 L158 106 Q158 138 120 156 Q82 138 82 106 L82 52 Z"
-            stroke={GOLD} strokeWidth="0.5" strokeOpacity="0.25" fill="rgba(212,175,55,0.03)" strokeLinejoin="round" />
+            stroke={GOLD} strokeWidth="0.5" strokeOpacity="0.25" fill="rgba(171,131,57,0.03)" strokeLinejoin="round" />
 
           {/* Checkmark */}
           <path d="M100 94 L113 110 L144 76"
@@ -380,7 +380,7 @@ export default function ServiceCardHeroVisual({ variant, compact = false }: Prop
         {[[162,108,24,24,true],[190,108,24,24,false],[162,136,24,24,false],[190,136,24,24,false]].map(
           ([x, y, w, h, accent], idx) => (
             <rect key={idx} x={x as number} y={y as number} width={w as number} height={h as number} rx="5"
-              fill={accent ? "rgba(212,175,55,0.1)" : "rgba(255,255,255,0.03)"}
+              fill={accent ? "rgba(171,131,57,0.1)" : "rgba(255,255,255,0.03)"}
               stroke={accent ? GOLD : FROST_SOFT}
               strokeWidth={accent ? 0.8 : 0.35}
               strokeOpacity={accent ? 0.65 : 0.25} />
