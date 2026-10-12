@@ -319,7 +319,7 @@ export default function BrandTab() {
         <section id="brand-toni" className="scroll-mt-24">
           <SectionTitle eyebrow="06 · Toni i zërit" title="Si partner, jo si reklamë" />
           <ul className="mb-6 grid gap-3 text-[15px] leading-relaxed text-white/80 md:grid-cols-2">
-            <li className="rounded-2xl border border-white/10 bg-surface p-4"><span className="font-semibold text-white">"Ju" me klientët</span> në faqe, oferta, email. "Ti" vetëm në postime të lehta.</li>
+            <li className="rounded-2xl border border-white/10 bg-surface p-4"><span className="font-semibold text-white">&quot;Ju&quot; me klientët</span> në faqe, oferta, email. &quot;Ti&quot; vetëm në postime të lehta.</li>
             <li className="rounded-2xl border border-white/10 bg-surface p-4"><span className="font-semibold text-white">Fjali të shkurtra.</span> Një ide për fjali.</li>
             <li className="rounded-2xl border border-white/10 bg-surface p-4"><span className="font-semibold text-white">Shqip i pastër.</span> Anglisht vetëm për terma si SEO, website, Google Ads.</li>
             <li className="rounded-2xl border border-white/10 bg-surface p-4"><span className="font-semibold text-white">Vetëm numra të vërtetë.</span> Asnjë statistikë apo vlerësim i shpikur.</li>
