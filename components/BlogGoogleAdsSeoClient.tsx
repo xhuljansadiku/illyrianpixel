@@ -1,95 +1,41 @@
 "use client";
 
-import { useRef } from "react";
-import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ScrollProgress from "@/components/ScrollProgress";
-import { useReducedMotion } from "@/lib/gsap";
-import { usePinnedHeroScroll } from "@/lib/usePinnedHeroScroll";
+import { useLocale } from "next-intl";
+import BlogArticleLayout from "@/components/BlogArticleLayout";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 
-const HERO_TEXTURE =
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1800&q=80";
-
+// Article body only; hero, back link, WhatsApp CTA and related posts come from BlogArticleLayout.
 export default function BlogGoogleAdsSeoClient() {
   const locale = useLocale();
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const heroTitleRef = useRef<HTMLHeadingElement>(null);
-  const heroStatsRef = useRef<HTMLParagraphElement>(null);
-  const heroTextureRef = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-
-  usePinnedHeroScroll({
-    enabled: !reduced,
-    heroSectionRef,
-    heroTitleRef,
-    heroStatsRef,
-    heroTextureRef
-  });
+  const en = locale === "en";
 
   return (
-    <>
-      <Navbar />
-      <ScrollProgress />
-      <main id="main-content" className="min-h-screen bg-bg pb-16 pt-20 text-text [scroll-behavior:smooth]">
-        <section ref={heroSectionRef} className="relative border-b border-white/10">
-          <div
-            ref={heroTextureRef}
-            className="pointer-events-none absolute inset-0 z-0 bg-[length:180%] bg-[position:20%_50%] opacity-0"
-            style={{ backgroundImage: `url(${HERO_TEXTURE})` }}
-          />
-          <div className="section-wrap relative z-[1] pb-12 pt-6 md:pb-14">
-            <Link href="/blog" className="luxury-link">
-              <span aria-hidden>←</span> {locale === "en" ? "Back to blog" : "Kthehu te blogu"}
-            </Link>
-
-            <div className="mt-8">
-              <p className="inline-flex rounded-full border border-blue-100/60 bg-[linear-gradient(180deg,rgba(239,246,255,0.98),rgba(219,234,254,0.95))] px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] text-blue-800">
-                Marketing
-              </p>
-              {locale === "en" ? (
-                <>
-                  <h1 ref={heroTitleRef} className="section-title font-display mt-5 max-w-4xl">
-                    Google Ads or SEO:
+    <BlogArticleLayout
+      category="Marketing"
+      categoryColor=""
+      title={en ? <>Google Ads or SEO:
                     <br className="hidden md:block" />
-                    Where Should You Invest <span className="text-accent">Your Money?</span>
-                  </h1>
-                  <p ref={heroStatsRef} className="mt-5 max-w-3xl text-base leading-relaxed text-white/68 md:text-[1.1rem]">
-                    Two different channels, two different logics.
+                    Where Should You Invest <span className="text-accent">Your Money?</span></> : <>Google Ads apo SEO:
+                    <br className="hidden md:block" />
+                    Ku të investosh <span className="text-accent">para?</span></>}
+      description={en ? <>Two different channels, two different logics.
                     <br />
                     One delivers results tomorrow, the other builds something that lasts for years.
                     <br />
-                    Here&apos;s how to choose based on your situation.
-                  </p>
-                  <p className="mt-6 text-xs tracking-[0.15em] text-white/45">May 2026 · 6 min read</p>
-                </>
-              ) : (
-                <>
-                  <h1 ref={heroTitleRef} className="section-title font-display mt-5 max-w-4xl">
-                    Google Ads apo SEO:
-                    <br className="hidden md:block" />
-                    Ku të investosh <span className="text-accent">para?</span>
-                  </h1>
-                  <p ref={heroStatsRef} className="mt-5 max-w-3xl text-base leading-relaxed text-white/68 md:text-[1.1rem]">
-                    Dy kanale të ndryshme, dy logjika të ndryshme.
+                    Here&apos;s how to choose based on your situation.</> : <>Dy kanale të ndryshme, dy logjika të ndryshme.
                     <br />
                     Njëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite.
                     <br />
-                    Ja si të zgjedhësh sipas situatës suaj.
-                  </p>
-                  <p className="mt-6 text-xs tracking-[0.15em] text-white/45">Maj 2026 · 6 min lexim</p>
-                </>
-              )}
-            </div>
-          </div>
-        </section>
+                    Ja si të zgjedhësh sipas situatës suaj.</>}
+      date={en ? "May 2026" : "Maj 2026"}
+      readTime={en ? "6 min read" : "6 min lexim"}
+      related={en ? [{ href: "/blog/pse-seo-eshte-kritik", category: "Strategy", categoryColor: "", title: "Why SEO Is Critical for Serious Businesses (Not Optional)" }, { href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }] : [{ href: "/blog/pse-seo-eshte-kritik", category: "Strategji", categoryColor: "", title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)" }, { href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Ke trafikun. Por ku janë klientët?" }]}
+    >
+      <div className="blog-growth-article space-y-16 md:space-y-24">
 
-        <article className="section-wrap py-16 md:py-24">
-          <div className="blog-growth-article mx-auto max-w-2xl space-y-16 md:space-y-24">
 
             {locale === "en" ? (
               <>
@@ -418,43 +364,7 @@ export default function BlogGoogleAdsSeoClient() {
                 </div>
               </>
             )}
-          </div>
-        </article>
-
-        <section className="section-wrap border-t border-white/10 py-12 md:py-16">
-          <h3 className="font-display text-[clamp(1.35rem,2.8vw,1.9rem)] text-white">
-            {locale === "en" ? "Related articles" : "Artikuj të ngjashëm"}
-          </h3>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <Link
-              href="/blog/pse-seo-eshte-kritik"
-              className="group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-accent/40"
-            >
-              <p className="inline-flex rounded-full border border-orange-100/55 bg-[linear-gradient(180deg,rgba(255,247,237,0.98),rgba(254,235,215,0.95))] px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] text-orange-950">
-                {locale === "en" ? "Strategy" : "Strategji"}
-              </p>
-              <p className="mt-4 font-display text-[1.35rem] leading-tight text-white">
-                {locale === "en"
-                  ? "Why SEO Is Critical for Serious Businesses (Not Optional)"
-                  : "Pse SEO është kritik për biznese serioze (dhe jo një opsion)"}
-              </p>
-            </Link>
-
-            <Link
-              href="/blog/si-te-rrisesh-klientet-online"
-              className="group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-accent/40"
-            >
-              <p className="inline-flex rounded-full border border-emerald-100/60 bg-[linear-gradient(180deg,rgba(227,255,246,0.98),rgba(210,247,236,0.95))] px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] text-emerald-800">
-                {locale === "en" ? "Growth" : "Rritje"}
-              </p>
-              <p className="mt-4 font-display text-[1.35rem] leading-tight text-white">
-                {locale === "en" ? "You Have the Traffic. So Where Are the Customers?" : "Ke trafikun. Por ku janë klientët?"}
-              </p>
-            </Link>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </BlogArticleLayout>
   );
 }

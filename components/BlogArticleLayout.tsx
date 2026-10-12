@@ -9,6 +9,10 @@ import { buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 
+// One brand style for every category label; categoryColor is kept in the props for older callers but no longer used.
+const CATEGORY_PILL =
+  "inline-flex rounded-full border border-accent/45 bg-accent/10 px-4 py-[7px] text-[0.75rem] font-semibold uppercase leading-none tracking-[0.15em] text-accentLight";
+
 interface Props {
   category: string;
   categoryColor: string;
@@ -26,7 +30,6 @@ interface Props {
 
 export default function BlogArticleLayout({
   category,
-  categoryColor,
   title,
   breadcrumbLabel,
   path,
@@ -64,8 +67,7 @@ export default function BlogArticleLayout({
             </Link>
             <div className="mt-8">
               <span
-                className="inline-flex rounded-full px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em]"
-                style={{ background: categoryColor, color: "#0a0a0a" }}
+                className={CATEGORY_PILL}
               >
                 {category}
               </span>
@@ -75,7 +77,7 @@ export default function BlogArticleLayout({
               <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/68">
                 {description}
               </p>
-              <p className="mt-5 text-xs tracking-[0.15em] text-white/45">
+              <p className="mt-5 text-[13px] tracking-[0.08em] text-white/60">
                 {date} · {readTime}
               </p>
             </div>
@@ -94,7 +96,7 @@ export default function BlogArticleLayout({
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-display text-[1.05rem] text-white">{t("ctaHeading")}</p>
-              <p className="mt-1 text-[0.85rem] text-white/45">{t("ctaBody")}</p>
+              <p className="mt-1 text-[0.9rem] text-white/65">{t("ctaBody")}</p>
             </div>
             <a
               href={WA_HREF}
@@ -122,8 +124,7 @@ export default function BlogArticleLayout({
                   className="group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-accent/40"
                 >
                   <span
-                    className="inline-flex rounded-full px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em]"
-                    style={{ background: r.categoryColor, color: "#0a0a0a" }}
+                    className={CATEGORY_PILL}
                   >
                     {r.category}
                   </span>
