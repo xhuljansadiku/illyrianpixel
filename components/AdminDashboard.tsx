@@ -23,6 +23,7 @@ import AnalyticsTab from "@/components/admin/AnalyticsTab";
 import BlogTab from "@/components/admin/BlogTab";
 import SubscribersTab from "@/components/admin/SubscribersTab";
 import ContactsTab from "@/components/admin/ContactsTab";
+import BrandTab from "@/components/admin/BrandTab";
 import { CARD, EmptyState, formatDate, formatDay, isOverdue } from "@/components/admin/ui";
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
@@ -59,6 +60,7 @@ const VALID_TABS = [
   "todos",
   "clients",
   "finances",
+  "brand",
 ] as const;
 
 export type AdminTab = (typeof VALID_TABS)[number];
@@ -394,6 +396,7 @@ export default function AdminDashboard({
     { id: "todos", icon: "check", label: "To Do" },
     { id: "history", icon: "clock", label: "Historia" },
     { id: "assistant", icon: "crown", label: "Mbreti Genti" },
+    { id: "brand", icon: "palette", label: "Marka" },
     { id: "settings", icon: "settings", label: "Cilësimet" },
   ];
 
@@ -413,6 +416,7 @@ export default function AdminDashboard({
     notes: { title: "Notes", subtitle: "Shënime të shpejta, personale" },
     todos: { title: "To Do", subtitle: "Lista jote e detyrave" },
     finances: { title: "Financat", subtitle: "Fitime, shpenzime dhe fitimi neto" },
+    brand: { title: "Marka", subtitle: "Udhëzuesi i markës — logo, ngjyra, fonte, ton (privat)" },
   };
 
   const globalResults = useMemo(() => {
@@ -914,6 +918,7 @@ export default function AdminDashboard({
             {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
             {tab === "notes" && <NotesTab />}
             {tab === "todos" && <TodosTab />}
+            {tab === "brand" && <BrandTab />}
             {tab === "clients" && (
               <ClientsTab contacts={contacts} projects={projectsList} quotes={quotes} recurring={recurringList} onGoToContact={goToContact} />
             )}
