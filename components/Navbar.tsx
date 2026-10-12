@@ -6,7 +6,9 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { ensureGSAP, MOTION, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import MobileMenu from "@/components/MobileMenu";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+// dropdown: import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageToggle from "@/components/LanguageToggle";
+import TrustRotator from "@/components/TrustRotator";
 
 export default function Navbar() {
   const t = useTranslations("common.nav");
@@ -23,6 +25,7 @@ export default function Navbar() {
   const router = useRouter();
   const reduced = useReducedMotion();
   const headerRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   const desktopNavRef = useRef<HTMLDivElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
 
@@ -94,7 +97,7 @@ export default function Navbar() {
   useIsomorphicLayoutEffect(() => {
     if (reduced) return;
     const { gsap } = ensureGSAP();
-    const el = headerRef.current;
+    const el = navRef.current;
     if (!el) return;
     gsap.to(el, {
       boxShadow: isScrolled
@@ -115,19 +118,39 @@ export default function Navbar() {
     <>
       <header
         ref={headerRef}
-        className={`fixed inset-x-0 top-0 z-[60] transition-[background-color,border-color,backdrop-filter] duration-500 ${
-          isScrolled ? "border-b border-white/[0.05] bg-bg/80 backdrop-blur-[8px]" : "bg-transparent"
-        }`}
+        className="fixed inset-x-0 top-0 z-[60]"
       >
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-px opacity-80"
+          className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-500 ease-out ${
+            isScrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"
+          }`}
+          aria-hidden={isScrolled}
+        >
+          <div className="min-h-0">
+            <div className="flex h-8 items-center justify-center border-b border-white/[0.06] bg-white/[0.02] px-3">
+              <TrustRotator />
+            </div>
+          </div>
+        </div>
+        {/* full-width hairline, replaced by the floating capsule once scrolled */}
+        <div
+          className={`pointer-events-none absolute inset-x-0 bottom-0 h-px transition-opacity duration-500 ${
+            isScrolled ? "opacity-0" : "opacity-80"
+          }`}
           style={{
             background:
               "linear-gradient(90deg, transparent, rgba(var(--color-accent-rgb), 0.45), rgba(var(--color-accent-light-rgb), 0.35), transparent)"
           }}
           aria-hidden
         />
-        <nav className="relative mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between gap-2 px-3 sm:gap-3 sm:px-5 md:h-[72px] md:px-10 lg:px-14">
+        <nav
+          ref={navRef}
+          className={`relative mx-auto flex w-full items-center justify-between gap-2 border transition-[max-width,height,margin,padding,background-color,border-color,border-radius] duration-500 ease-out sm:gap-3 ${
+            isScrolled
+              ? "mt-2 h-14 max-w-[min(1120px,calc(100%-16px))] rounded-full border-white/[0.08] bg-bg/75 px-3 backdrop-blur-[12px] sm:px-4 md:mt-3 md:h-[60px] md:px-6"
+              : "mt-0 h-16 max-w-[1280px] rounded-none border-transparent bg-transparent px-3 sm:px-5 md:h-[72px] md:px-10 lg:px-14"
+          }`}
+        >
           <button
             type="button"
             onClick={(e) => {
@@ -166,7 +189,8 @@ export default function Navbar() {
           </button>
 
           <div ref={desktopNavRef} className="hidden items-center gap-8 lg:flex">
-            {navItems.map((item) => (
+            {/* Home is the logo and Contact is the CTA button, so both are left out here */}
+            {navItems.filter((item) => item.id !== "hero" && item.id !== "contact").map((item) => (
               <Link
                 key={item.id}
                 href={item.href}
@@ -189,7 +213,8 @@ export default function Navbar() {
             >
               {t("cta")}
             </Link>
-            <LanguageSwitcher />
+            {/* dropdown: <LanguageSwitcher /> */}
+            <LanguageToggle />
             <button
               type="button"
               onClick={() => setMobileOpen(true)}

@@ -13,6 +13,9 @@
     "closeMenuAria": "Close menu",
     "menuLabel": "Menu",
     "langSwitchAria": "Choose language",
+    "trustPrefix": "Clients in",
+    "trustAll": "7 countries",
+    "trustCountries": { "de": "Germany", "it": "Italy", "gb": "the UK", "se": "Sweden", "us": "the USA", "al": "Albania", "xk": "Kosovo" },
     "langAl": "Shqip",
     "langEn": "English"
   },
