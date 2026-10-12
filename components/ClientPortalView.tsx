@@ -10,13 +10,14 @@ import {
   quoteTotals,
   type QuoteRecord,
 } from "@/lib/quotes";
+import { ClientDocFooter, ClientDocHeader, ClientDocShell } from "@/components/ClientDocShell";
 
 function formatDay(iso: string) {
   return new Date(iso).toLocaleDateString("sq-AL", { day: "2-digit", month: "long", year: "numeric" });
 }
 
 const STATUS_COLORS: Record<QuoteRecord["status"], string> = {
-  draft: "border-white/15 bg-white/5 text-white/55",
+  draft: "border-white/20 bg-white/5 text-white/75",
   sent: "border-blue-400/30 bg-blue-400/8 text-blue-300",
   accepted: "border-emerald-400/30 bg-emerald-400/8 text-emerald-300",
   rejected: "border-red-400/30 bg-red-400/8 text-red-400",
@@ -33,24 +34,14 @@ export default function ClientPortalView({
   quotes: QuoteRecord[];
 }) {
   return (
-    <main id="main-content" className="min-h-screen bg-bg px-4 py-12 text-white md:py-20">
-      <div className="mx-auto w-full max-w-2xl">
-        {/* Header */}
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-accent/60 pb-6">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-accent/70">Illyrian Pixel</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-white/35">Portali i klientit</p>
-          </div>
-          <div className="text-right">
-            <h1 className="font-display text-2xl font-bold text-white">{contactName}</h1>
-          </div>
-        </div>
+    <ClientDocShell>
+      <ClientDocHeader eyebrow="Portali i klientit" title={contactName} subtitle="Ecuria e projekteve, ofertat dhe faturat tuaja — në një vend." />
 
         {/* Projects */}
         <section className="mt-10">
-          <h2 className="font-display text-lg font-semibold text-accent">Projektet</h2>
+          <h2 className="font-display text-[1.5rem] font-semibold text-white">Projektet</h2>
           {projects.length === 0 ? (
-            <p className="mt-3 text-sm text-white/45">Ende nuk ka projekte aktive për ju.</p>
+            <p className="mt-3 text-[15px] text-white/70">Ende nuk ka projekte aktive për ju.</p>
           ) : (
             <div className="mt-4 space-y-5">
               {projects.map((p) => {
@@ -58,39 +49,39 @@ export default function ClientPortalView({
                 const done = p.tasks.filter((t) => t.done).length;
                 const pct = total > 0 ? Math.round((done / total) * 100) : 0;
                 return (
-                  <div key={p.id} className="rounded-xl border border-white/10 bg-surface p-5">
+                  <div key={p.id} className="rounded-2xl border border-white/10 bg-surface p-5 md:p-6">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="font-semibold text-white">{p.name}</p>
+                      <p className="text-[17px] font-semibold text-white">{p.name}</p>
                       <div className="flex items-center gap-2">
-                        <span className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-accent">
+                        <span className="rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-[12px] font-semibold text-accent">
                           {PROJECT_PHASE_LABELS[p.phase]}
                         </span>
-                        <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/55">
+                        <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[12px] font-semibold text-white/75">
                           {PROJECT_STATUS_LABELS[p.status]}
                         </span>
                       </div>
                     </div>
 
                     {p.deadline && (
-                      <p className="mt-2 text-[12px] text-white/40">Afati: {formatDay(`${p.deadline}T00:00:00`)}</p>
+                      <p className="mt-2 text-[14px] text-white/70">Afati: {formatDay(`${p.deadline}T00:00:00`)}</p>
                     )}
 
                     {total > 0 && (
                       <div className="mt-4">
-                        <div className="flex items-center justify-between text-[11px] text-white/40">
+                        <div className="flex items-center justify-between text-[13px] text-white/70">
                           <span>Progresi</span>
-                          <span>{done}/{total} · {pct}%</span>
+                          <span className="tabular-nums">{done}/{total} · <span className="font-semibold text-accent">{pct}%</span></span>
                         </div>
-                        <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/8">
+                        <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/10">
                           <div className="h-full rounded-full bg-accent" style={{ width: `${pct}%` }} />
                         </div>
                         <ul className="mt-4 space-y-1.5">
                           {p.tasks.map((t) => (
-                            <li key={t.id} className="flex items-center gap-2 text-sm">
-                              <span className={t.done ? "text-emerald-400" : "text-white/25"}>
+                            <li key={t.id} className="flex items-start gap-2.5 text-[15px] leading-snug">
+                              <span className={t.done ? "text-emerald-400" : "text-white/40"} aria-hidden>
                                 {t.done ? "✓" : "○"}
                               </span>
-                              <span className={t.done ? "text-white/45 line-through" : "text-white/75"}>
+                              <span className={t.done ? "text-white/55 line-through" : "text-white/85"}>
                                 {t.title}
                               </span>
                             </li>
@@ -107,9 +98,9 @@ export default function ClientPortalView({
 
         {/* Quotes / invoices */}
         <section className="mt-10">
-          <h2 className="font-display text-lg font-semibold text-accent">Ofertat & Faturat</h2>
+          <h2 className="font-display text-[1.5rem] font-semibold text-white">Ofertat & Faturat</h2>
           {quotes.length === 0 ? (
-            <p className="mt-3 text-sm text-white/45">Ende nuk ka oferta ose fatura për ju.</p>
+            <p className="mt-3 text-[15px] text-white/70">Ende nuk ka oferta ose fatura për ju.</p>
           ) : (
             <div className="mt-4 space-y-3">
               {quotes.map((q) => {
@@ -117,23 +108,23 @@ export default function ClientPortalView({
                 return (
                   <div
                     key={q.id}
-                    className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-surface p-4"
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-surface p-4 md:p-5"
                   >
                     <div>
-                      <p className="text-sm font-semibold text-white">
+                      <p className="text-[15px] font-semibold text-white">
                         {QUOTE_KIND_LABELS[q.kind]} {q.number}
                       </p>
-                      <p className="mt-0.5 text-[12px] text-white/40">{formatDay(q.issued_at)}</p>
+                      <p className="mt-0.5 text-[14px] text-white/65">{formatDay(q.issued_at)}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-sm font-semibold text-white">{formatMoney(total)}</span>
-                      <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] ${STATUS_COLORS[q.status]}`}>
+                      <span className="text-[15px] font-semibold tabular-nums text-white">{formatMoney(total)}</span>
+                      <span className={`rounded-full border px-3 py-1 text-[12px] font-semibold ${STATUS_COLORS[q.status]}`}>
                         {QUOTE_STATUS_LABELS[q.status]}
                       </span>
                       {q.public_token && (
                         <a
                           href={`/oferta/${q.public_token}`}
-                          className="text-[12px] font-semibold text-accent underline-offset-4 hover:underline"
+                          className="ip-no-print text-[14px] font-semibold text-accent underline-offset-4 hover:text-accentLight hover:underline"
                         >
                           Shiko →
                         </a>
@@ -146,12 +137,7 @@ export default function ClientPortalView({
           )}
         </section>
 
-        {/* Footer */}
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/8 pt-6 text-xs text-white/30">
-          <span>illyrianpixel.com · info@illyrianpixel.com</span>
-          <span>Faleminderit për besimin!</span>
-        </div>
-      </div>
-    </main>
+      <ClientDocFooter />
+    </ClientDocShell>
   );
 }

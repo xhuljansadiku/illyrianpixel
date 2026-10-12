@@ -2136,3 +2136,25 @@ html[data-aura="cta"] body {
   }
 }
 
+
+/* ── Client documents (/oferta, /klienti, /feedback): clean white print / PDF ── */
+@media print {
+  @page { margin: 16mm 14mm; }
+  html, body { background: #fff !important; }
+  .ip-doc { background: #fff !important; padding: 0 !important; min-height: 0 !important; }
+  .ip-doc, .ip-doc * {
+    color: #1c1c1c !important;
+    background: transparent !important;
+    border-color: #dcdcdc !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .ip-doc .text-accent, .ip-doc .text-accent * { color: #8a6a2c !important; }
+  .ip-doc .border-accent\/50 { border-color: #ab8339 !important; }
+  .ip-doc .text-emerald-300 { color: #1f7a4d !important; }
+  .ip-doc table thead tr { background: #f5f2ea !important; }
+  .ip-doc a { text-decoration: none !important; }
+  .ip-doc tr, .ip-doc .rounded-2xl { break-inside: avoid; }
+  .ip-no-print { display: none !important; }
+}

@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { ClientDocFooter, ClientDocHeader, ClientDocShell, docLabel } from "@/components/ClientDocShell";
+
+const RATING_HINTS = ["", "Dobët", "Mjaftueshëm", "Mirë", "Shumë mirë", "Shkëlqyeshëm"];
 
 export default function ProjectFeedbackView({
   token,
@@ -46,64 +49,74 @@ export default function ProjectFeedbackView({
     }
   };
 
+  const shown = hoverRating || rating;
+
   return (
-    <main id="main-content" className="min-h-screen bg-bg px-4 py-12 text-white md:py-20">
-      <div className="mx-auto w-full max-w-lg">
-        <div className="border-b-2 border-accent/60 pb-6">
-          <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-accent/70">Illyrian Pixel</p>
-          <h1 className="mt-3 font-display text-2xl font-bold md:text-3xl">Si shkoi përvoja juaj?</h1>
-          <p className="mt-2 text-sm text-white/50">Projekti: {projectName}</p>
-        </div>
+    <ClientDocShell width="max-w-xl">
+      <ClientDocHeader
+        eyebrow="Vlerësimi juaj"
+        title="Si shkoi përvoja juaj?"
+        subtitle={<>Projekti: <span className="font-semibold text-white">{projectName}</span></>}
+      />
 
-        <div className="mt-8">
-          {submitted ? (
-            <div className="rounded-sm border border-accent/30 bg-accent/6 px-6 py-8 text-center">
-              <p className="font-display text-xl font-medium text-accent">Faleminderit, {clientName}!</p>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">
-                Vlerësimi juaj u regjistrua. Na ndihmon shumë të vazhdojmë të përmirësohemi.
-              </p>
+      <div className="mt-8">
+        {submitted ? (
+          <div className="rounded-2xl border border-accent/30 bg-accent/5 px-6 py-8 text-center">
+            <p className="font-display text-[1.5rem] font-semibold text-accent">Faleminderit, {clientName}!</p>
+            <p className="mt-3 text-[15px] leading-relaxed text-white/75">
+              Vlerësimi juaj u regjistrua. Na ndihmon shumë të vazhdojmë të përmirësohemi.
+            </p>
+          </div>
+        ) : (
+          <>
+            <p className={`${docLabel} text-center`}>Vlerësimi</p>
+            <div className="mt-3 flex justify-center gap-2" role="radiogroup" aria-label="Vlerësimi me yje">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  role="radio"
+                  aria-checked={rating === n}
+                  onClick={() => setRating(n)}
+                  onMouseEnter={() => setHoverRating(n)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  aria-label={`${n} yje`}
+                  className={`text-[2.6rem] leading-none transition-transform hover:scale-110 ${
+                    n <= shown ? "text-accent" : "text-white/20"
+                  }`}
+                >
+                  ★
+                </button>
+              ))}
             </div>
-          ) : (
-            <>
-              <div className="flex justify-center gap-2">
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    onClick={() => setRating(n)}
-                    onMouseEnter={() => setHoverRating(n)}
-                    onMouseLeave={() => setHoverRating(0)}
-                    aria-label={`${n} yje`}
-                    className={`text-4xl transition-transform hover:scale-110 ${
-                      n <= (hoverRating || rating) ? "text-accent" : "text-white/15"
-                    }`}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
+            <p className="mt-2 h-5 text-center text-[14px] text-white/70">{RATING_HINTS[shown]}</p>
 
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Çfarë ju pëlqeu më shumë? (opsionale)"
-                rows={5}
-                className="mt-6 w-full resize-none rounded-sm border border-white/15 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-white/30 focus:border-accent/50"
-              />
+            <label htmlFor="feedback-comment" className={`${docLabel} mt-7 block`}>
+              Koment (opsional)
+            </label>
+            <textarea
+              id="feedback-comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Çfarë ju pëlqeu më shumë?"
+              rows={5}
+              className="mt-2 w-full resize-none rounded-[10px] border border-white/15 bg-surface px-4 py-3 text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-accent/60"
+            />
 
-              {error && <p className="mt-3 text-xs text-red-400">{error}</p>}
+            {error && <p className="mt-3 text-[14px] text-red-400" role="alert">{error}</p>}
 
-              <button
-                onClick={submit}
-                disabled={busy}
-                className="mt-5 w-full rounded-sm bg-accent px-6 py-3.5 text-sm font-bold uppercase tracking-[0.08em] text-bg transition-opacity disabled:opacity-50"
-              >
-                {busy ? "Duke dërguar…" : "Dërgo vlerësimin"}
-              </button>
-            </>
-          )}
-        </div>
+            <button
+              onClick={submit}
+              disabled={busy}
+              className="mt-5 w-full rounded-full bg-accent px-6 py-3.5 text-[15px] font-bold uppercase tracking-[0.08em] text-bg transition-colors hover:bg-accentLight disabled:opacity-50"
+            >
+              {busy ? "Duke dërguar…" : "Dërgo vlerësimin"}
+            </button>
+          </>
+        )}
       </div>
-    </main>
+
+      <ClientDocFooter />
+    </ClientDocShell>
   );
 }
