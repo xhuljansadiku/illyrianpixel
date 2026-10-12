@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+// dropdown: import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageToggle from "@/components/LanguageToggle";
 import SocialIcon from "@/components/SocialIcon";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
 import { ensureGSAP, MOTION, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
@@ -79,7 +80,8 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
         <div className="flex items-center justify-between">
           <p className="font-ui text-[11px] font-bold uppercase tracking-[2px] text-muted">{t("menuLabel")}</p>
           <div className="flex items-center gap-3">
-            <LanguageSwitcher />
+            {/* dropdown: <LanguageSwitcher /> */}
+            <LanguageToggle />
             <button
               aria-label={t("closeMenuAria")}
               onClick={onClose}

@@ -13,6 +13,9 @@
     "closeMenuAria": "Mbyll menunë",
     "menuLabel": "Menu",
     "langSwitchAria": "Zgjidh gjuhën",
+    "trustPrefix": "Klientë në",
+    "trustAll": "7 vende",
+    "trustCountries": { "de": "Gjermani", "it": "Itali", "gb": "Angli", "se": "Suedi", "us": "SHBA", "al": "Shqipëri", "xk": "Kosovë" },
     "langAl": "Shqip",
     "langEn": "English"
   },
