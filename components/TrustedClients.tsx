@@ -116,8 +116,8 @@ export default function TrustedClients() {
                   title={client.name}
                   className={`group flex h-[76px] w-[196px] flex-shrink-0 cursor-default items-center justify-center rounded-2xl border border-accent/18 bg-[linear-gradient(135deg,rgba(171,131,57,0.07),rgba(171,131,57,0.02))] p-5 transition-all duration-500 hover:-translate-y-0.5 ${
                     client.darkHover
-                      ? "hover:border-accent/50 hover:shadow-[0_4px_32px_rgba(171,131,57,0.2)]"
-                      : "hover:border-transparent hover:bg-[#faf8f4] hover:shadow-[0_6px_32px_rgba(0,0,0,0.25)]"
+                      ? "hover:border-accent/50 hover:shadow-gold"
+                      : "hover:border-transparent hover:bg-[#faf8f4] hover:shadow-card"
                   }`}
                 >
                   <div className="relative h-full w-full">

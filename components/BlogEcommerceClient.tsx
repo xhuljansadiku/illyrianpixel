@@ -208,8 +208,8 @@ export default function BlogEcommerceClient() {
                   </p>
                 </section>
 
-                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.25)] md:p-9">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-accent/85">Next step</p>
+                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-lift md:p-9">
+                  <p className="ip-eyebrow">Next step</p>
 
                   <section className="mt-6 space-y-3">
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
@@ -239,7 +239,7 @@ export default function BlogEcommerceClient() {
                     <Link
                       href="/contact"
                       data-magnetic="true"
-                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 !px-8 !py-3.5 !text-sm !tracking-[0.12em]"
+                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 "
                     >
                       <span>Free consultation</span>
                       <span aria-hidden className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
@@ -374,8 +374,8 @@ export default function BlogEcommerceClient() {
                   </p>
                 </section>
 
-                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.25)] md:p-9">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-accent/85">Hapi tjetër</p>
+                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-lift md:p-9">
+                  <p className="ip-eyebrow">Hapi tjetër</p>
 
                   <section className="mt-6 space-y-3">
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
@@ -405,7 +405,7 @@ export default function BlogEcommerceClient() {
                     <Link
                       href="/contact"
                       data-magnetic="true"
-                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 !px-8 !py-3.5 !text-sm !tracking-[0.12em]"
+                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 "
                     >
                       <span>Konsultë falas</span>
                       <span aria-hidden className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">

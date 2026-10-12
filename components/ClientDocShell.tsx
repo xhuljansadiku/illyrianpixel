@@ -49,7 +49,7 @@ export function ClientDocHeader({
       </a>
       <div className="mt-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
         <div>
-          <p className="text-[12px] font-semibold uppercase tracking-[0.15em] text-accent">{eyebrow}</p>
+          <p className="ip-eyebrow">{eyebrow}</p>
           <h1 className="mt-2 font-display text-[2rem] font-bold leading-tight text-white md:text-[2.4rem]">{title}</h1>
           {subtitle && <p className="mt-2 text-[15px] text-white/70">{subtitle}</p>}
         </div>

@@ -168,7 +168,7 @@ export default function InquiryModal() {
               {t("note")}
             </p>
             {error ? <p className="text-xs text-red-300">{error}</p> : null}
-            <button type="submit" disabled={loading} className="interactive-button ip-cta-primary !text-xs !tracking-[0.15em] disabled:opacity-50">
+            <button type="submit" disabled={loading} className="interactive-button ip-cta-primary disabled:opacity-50">
               {loading ? t("sending") : t("submit")}
             </button>
           </form>

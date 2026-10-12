@@ -121,7 +121,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
   const chip = (selected: boolean) =>
     `font-ui rounded-full border px-4 py-2 text-[12px] font-medium tracking-[0.4px] transition-all duration-300 md:text-[13px] ${
       selected
-        ? "border-accent/50 bg-accent/[0.12] text-accent shadow-[0_0_24px_rgba(171,131,57,0.18)]"
+        ? "border-accent/50 bg-accent/[0.12] text-accent shadow-gold"
         : "border-white/10 bg-white/[0.02] text-white/55 hover:border-accent/30 hover:text-white"
     }`;
 
@@ -138,7 +138,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           {/* ── Zgjedhjet ── */}
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent/55">01 · {t("stepService")}</p>
+            <p className="ip-eyebrow">01 · {t("stepService")}</p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {categories.map((c) => (
                 <button key={c.slug} type="button" onClick={() => setSlug(c.slug)} className={chip(slug === c.slug)}>
@@ -147,7 +147,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
               ))}
             </div>
 
-            <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.25em] text-accent/55">02 · {t("stepOptions")}</p>
+            <p className="ip-eyebrow mt-8">02 · {t("stepOptions")}</p>
             <div className="mt-4 flex flex-col gap-2">
               {tierLabels.map((label, idx) => (
                 <button
@@ -189,7 +189,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
           </div>
 
           {/* ── Rezultati ── */}
-          <div className="relative overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:p-8">
+          <div className="relative overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] p-6 shadow-lift md:p-8">
             <div aria-hidden className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
             <div aria-hidden className="pointer-events-none absolute -right-16 top-0 h-56 w-56 rounded-full bg-accent/[0.08] blur-[90px]" />
 

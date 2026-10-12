@@ -79,7 +79,7 @@ export default async function CaseStudyPage(props: Props) {
 
         {/* Title + meta */}
         <section className="relative z-[1] section-wrap max-w-5xl pb-0 pt-8">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-accent/80">
+          <p className="ip-eyebrow">
             {cs.category} ⬢ {cs.year}
           </p>
           <h1 className="mt-3 font-display text-[clamp(2.4rem,7vw,5rem)] leading-[0.92]">
@@ -109,12 +109,12 @@ export default async function CaseStudyPage(props: Props) {
         <section className="relative z-[1] section-wrap max-w-5xl">
           <div className="grid gap-4 md:grid-cols-2">
             <article className="rounded-2xl border border-white/10 bg-[#151515] p-6">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-accent/78">{t("detail.problemLabel")}</p>
+              <p className="ip-eyebrow">{t("detail.problemLabel")}</p>
               <h2 className="mt-2 font-display text-2xl leading-tight">{t("detail.problemHeading")}</h2>
               <p className="mt-3 text-sm leading-relaxed text-white/62">{cs.problem}</p>
             </article>
             <article className="rounded-2xl border border-white/10 bg-[#151515] p-6">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-accent/78">{t("detail.solutionLabel")}</p>
+              <p className="ip-eyebrow">{t("detail.solutionLabel")}</p>
               <h2 className="mt-2 font-display text-2xl leading-tight">{t("detail.solutionHeading")}</h2>
               <p className="mt-3 text-sm leading-relaxed text-white/62">{cs.solution}</p>
             </article>
@@ -124,7 +124,7 @@ export default async function CaseStudyPage(props: Props) {
         {/* Result + Metrics */}
         <section className="relative z-[1] section-wrap max-w-5xl">
           <article className="rounded-2xl border border-accent/25 bg-accent/[0.04] p-6 md:p-8">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">{t("detail.resultLabel")}</p>
+            <p className="ip-eyebrow">{t("detail.resultLabel")}</p>
             <h2 className="mt-2 font-display text-[clamp(1.6rem,3.5vw,2.4rem)] leading-tight">
               {cs.result}
             </h2>

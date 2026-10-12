@@ -233,7 +233,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
             hoveredProject ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="relative h-[190px] w-[280px] overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0c] shadow-[0_30px_80px_rgba(0,0,0,0.55)] md:h-[220px] md:w-[320px]">
+          <div className="relative h-[190px] w-[280px] overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0c] shadow-overlay md:h-[220px] md:w-[320px]">
             {hoveredProject?.heroImage && (
               <Image
                 key={hoveredProject.slug}

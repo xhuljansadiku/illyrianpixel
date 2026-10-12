@@ -115,7 +115,7 @@ export default function SherbimetPageClient() {
           <AmbientServiceIcons heroRef={heroRef} icons={HERO_FLOAT_ICONS} />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{t("heroEyebrow")}</p>
+            <p className="ip-eyebrow hero-eyebrow">{t("heroEyebrow")}</p>
 
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
@@ -150,7 +150,7 @@ export default function SherbimetPageClient() {
         {/* Si punojmë, minimal */}
         <section ref={siPunojmeRef} className="relative z-[1] border-b border-white/[0.06] bg-bg">
           <div className="section-wrap py-20 md:py-28">
-            <p className="sp-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/50">{t("howWeWorkEyebrow")}</p>
+            <p className="ip-eyebrow sp-eyebrow">{t("howWeWorkEyebrow")}</p>
             <h2 className="sp-headline mt-5 font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-white">
               {t("howWeWorkHeadline")}
               <br className="hidden md:block" />
@@ -168,7 +168,7 @@ export default function SherbimetPageClient() {
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
           <div className="section-wrap relative py-28 md:py-36 text-center">
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{t("ctaEyebrow")}</p>
+            <p className="ip-eyebrow">{t("ctaEyebrow")}</p>
             <h2 className="mt-6 font-display text-[clamp(2.2rem,5vw,4.4rem)] font-bold leading-[1.06] tracking-[-0.03em] text-white">
               {t("ctaHeadline")}
             </h2>

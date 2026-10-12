@@ -121,7 +121,7 @@ export default function NewsletterPopup() {
         <div className="relative z-[1]">
           {state === "success" ? (
             <div className="py-2">
-              <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent/70">
+              <p className="ip-eyebrow mb-1">
                 {t("codeLabel")}
               </p>
               <p className="font-mono text-[2rem] font-bold tracking-[0.12em] text-accent">
@@ -138,7 +138,7 @@ export default function NewsletterPopup() {
             </div>
           ) : (
             <>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
+              <div className="ip-eyebrow mb-4 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 {t("badge")}
               </div>
@@ -162,7 +162,7 @@ export default function NewsletterPopup() {
                 <button
                   type="submit"
                   disabled={state === "loading"}
-                  className="interactive-button ip-cta-primary h-12 w-full disabled:opacity-60"
+                  className="interactive-button ip-cta-primary w-full disabled:opacity-60"
                 >
                   {state === "loading" ? t("sending") : t("submit")}
                 </button>

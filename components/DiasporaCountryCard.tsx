@@ -12,7 +12,7 @@ export default function DiasporaCountryCard({ slug, countryLabel, flagCode, hook
   return (
     <Link
       href={`/diaspora/${slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[linear-gradient(140deg,#111111_0%,#0d0d0d_55%,#0f0f0f_100%)] p-5 shadow-[0_12px_32px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-accent/45 hover:shadow-[0_18px_44px_rgba(0,0,0,0.45),0_0_0_1px_rgba(171,131,57,0.3)] sm:p-6"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[linear-gradient(140deg,#111111_0%,#0d0d0d_55%,#0f0f0f_100%)] p-5 shadow-[0_12px_32px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-accent/45 hover:shadow-gold-lift sm:p-6"
     >
       <div className="flex h-[70px] items-center justify-center sm:h-[82px]">
         <Image
@@ -21,7 +21,7 @@ export default function DiasporaCountryCard({ slug, countryLabel, flagCode, hook
           alt=""
           width={64}
           height={48}
-          className="h-10 w-auto rounded-sm object-cover shadow-[0_4px_14px_rgba(0,0,0,0.4)] sm:h-12"
+          className="h-10 w-auto rounded-sm object-cover shadow-card sm:h-12"
         />
       </div>
 

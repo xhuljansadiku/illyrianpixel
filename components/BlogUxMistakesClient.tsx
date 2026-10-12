@@ -157,8 +157,8 @@ export default function BlogUxMistakesClient() {
                   </p>
                 </section>
 
-                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.25)] md:p-9">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-accent/85">Strategy &amp; closing</p>
+                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-lift md:p-9">
+                  <p className="ip-eyebrow">Strategy &amp; closing</p>
 
                   <section className="mt-6 space-y-4">
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
@@ -192,7 +192,7 @@ export default function BlogUxMistakesClient() {
                     <Link
                       href="/contact"
                       data-magnetic="true"
-                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 !px-8 !py-3.5 !text-sm !tracking-[0.12em]"
+                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 "
                     >
                       <span>Start today</span>
                       <span aria-hidden className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
@@ -265,8 +265,8 @@ export default function BlogUxMistakesClient() {
                   </p>
                 </section>
 
-                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.25)] md:p-9">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-accent/85">Strategjia &amp; mbyllja</p>
+                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-lift md:p-9">
+                  <p className="ip-eyebrow">Strategjia &amp; mbyllja</p>
 
                   <section className="mt-6 space-y-4">
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
@@ -299,7 +299,7 @@ export default function BlogUxMistakesClient() {
                     <Link
                       href="/contact"
                       data-magnetic="true"
-                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 !px-8 !py-3.5 !text-sm !tracking-[0.12em]"
+                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 "
                     >
                       <span>Fillo sot</span>
                       <span aria-hidden className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">

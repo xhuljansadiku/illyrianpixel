@@ -98,7 +98,7 @@ export default function NewsletterPageClient() {
           <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
+            <div className="ip-eyebrow inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/8 px-4 py-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               {locale === "en" ? "Exclusive offer" : "Ofertë ekskluzive"}
             </div>
@@ -124,7 +124,7 @@ export default function NewsletterPageClient() {
 
             {/* Left — perks */}
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55 mb-7">
+              <p className="ip-eyebrow mb-7">
                 {locale === "en" ? "What's included" : "Çfarë përfshihet"}
               </p>
               <ul className="space-y-4">
@@ -173,7 +173,7 @@ export default function NewsletterPageClient() {
                     </p>
 
                     <div className="mt-7 rounded-xl border border-accent/30 bg-accent/8 px-6 py-5">
-                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/60">
+                      <p className="ip-eyebrow mb-1">
                         {locale === "en" ? "Your code" : "Kodi juaj"}
                       </p>
                       <p className="font-mono text-[2rem] font-bold tracking-[0.12em] text-accent">{code}</p>
@@ -194,7 +194,7 @@ export default function NewsletterPageClient() {
                   </div>
                 ) : (
                   <>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55 mb-6">
+                    <p className="ip-eyebrow mb-6">
                       {locale === "en" ? "Get your code" : "Merr kodin tënd"}
                     </p>
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -219,7 +219,7 @@ export default function NewsletterPageClient() {
                       <button
                         type="submit"
                         disabled={state === "loading"}
-                        className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-bg transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
+                        className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-bg transition-all duration-500 ease-in-out hover:shadow-gold disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         {state === "loading"
                           ? (locale === "en" ? "Sending…" : "Duke dërguar…")

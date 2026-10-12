@@ -101,7 +101,7 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
                 height={24}
                 className="h-4 w-auto rounded-[2px] object-cover"
               />
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{content.heroEyebrow}</p>
+              <p className="ip-eyebrow">{content.heroEyebrow}</p>
             </div>
 
             <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.625rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.02em] text-white md:whitespace-pre-line">
@@ -115,7 +115,7 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className="interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-surface"
+                className="interactive-button ip-cta-primary inline-flex items-center gap-2 "
               >
                 {t.startChat}
               </Link>
@@ -126,7 +126,7 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
                 href={content.ctaWhatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex h-11 items-center gap-2 rounded-full border border-white/15 px-6 text-[14px] font-light tracking-[0.02em] text-white/70 transition-colors duration-300 hover:border-accent/35 hover:text-white"
+                className="group ip-cta-secondary"
               >
                 WhatsApp <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
@@ -143,7 +143,7 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
         {/* ── CTA MBYLLËSE ── */}
         <section className="relative z-[1]">
           <div className="section-wrap py-20 md:py-28">
-            <div className="svc-closing-panel relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-[0_28px_80px_rgba(0,0,0,0.45)] md:px-14 md:py-16">
+            <div className="svc-closing-panel relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-overlay md:px-14 md:py-16">
               <div className="pointer-events-none absolute inset-0 opacity-[0.11]">
                 <div className="noir-grid h-full w-full" />
               </div>
@@ -162,14 +162,14 @@ export default function DiasporaCountryPage({ content }: { content: DiasporaCoun
                 </p>
 
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
-                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-surface">
+                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex items-center gap-2 ">
                     {t.startProject}
                   </Link>
                   <a
                     href={content.ctaWhatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.08em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white"
+                    className="group ip-cta-secondary ip-cta-secondary--lg"
                   >
                     {t.writeWhatsapp} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </a>

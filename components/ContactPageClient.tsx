@@ -191,7 +191,7 @@ export default function ContactPageClient() {
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{t("hero.eyebrow")}</p>
+            <p className="ip-eyebrow hero-eyebrow">{t("hero.eyebrow")}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="md:whitespace-pre-line font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
                 {t("hero.title")}
@@ -221,7 +221,7 @@ export default function ContactPageClient() {
               />
 
               <div className="relative z-[1] p-7 md:p-9">
-                <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/70">
+                <p className="ip-eyebrow">
                   project inquiry
                 </p>
 
@@ -368,7 +368,7 @@ export default function ContactPageClient() {
                     <button
                       type="submit"
                       disabled={!canSubmit || loading}
-                      className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-bg transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
+                      className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-bg transition-all duration-500 ease-in-out hover:shadow-gold disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       {loading ? t("form.submitting") : t("form.submit")}
                     </button>
@@ -694,7 +694,7 @@ function BrandDropdown({
 
       {open ? (
         <div className="absolute left-0 right-0 top-full z-40 pt-3">
-          <div className="overflow-hidden rounded-2xl border border-accent/20 bg-[rgba(10,10,10,0.98)] p-2 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+          <div className="overflow-hidden rounded-2xl border border-accent/20 bg-[rgba(10,10,10,0.98)] p-2 shadow-lift backdrop-blur-xl">
             <div
               className="max-h-72 overflow-y-auto pr-1"
               role="listbox"

@@ -8,10 +8,10 @@ const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATS
 
 /** Same footprint as BackToTop FAB */
 const fabButtonClass =
-  "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-accent/45 bg-accent text-surface shadow-[0_10px_28px_rgba(171,131,57,0.35)] transition-transform duration-300 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bgDeep";
+  "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-accent/45 bg-accent text-surface shadow-gold transition-transform duration-300 hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bgDeep";
 
 const hoverPreviewClass =
-  "pointer-events-none absolute right-full top-1/2 z-[6] mr-3 w-[min(240px,calc(100vw-6rem))] -translate-y-1/2 rounded-2xl border border-white/12 bg-[#111]/92 p-3 text-left shadow-[0_12px_28px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-all duration-300 ease-out";
+  "pointer-events-none absolute right-full top-1/2 z-[6] mr-3 w-[min(240px,calc(100vw-6rem))] -translate-y-1/2 rounded-2xl border border-white/12 bg-[#111]/92 p-3 text-left shadow-card backdrop-blur-sm transition-all duration-300 ease-out";
 
 export default function WhatsAppButton() {
   const t = useTranslations("common.whatsapp");
@@ -46,7 +46,7 @@ export default function WhatsAppButton() {
           id="whatsapp-fab-popover"
           role="dialog"
           aria-labelledby="whatsapp-fab-title"
-          className={`absolute bottom-0 right-full z-10 mr-3 w-[min(260px,calc(100vw-6rem))] rounded-2xl border border-white/12 bg-[#111]/95 p-3 shadow-[0_18px_40px_rgba(0,0,0,0.45)] backdrop-blur-sm transition-all duration-300 ease-out ${
+          className={`absolute bottom-0 right-full z-10 mr-3 w-[min(260px,calc(100vw-6rem))] rounded-2xl border border-white/12 bg-[#111]/95 p-3 shadow-lift backdrop-blur-sm transition-all duration-300 ease-out ${
             open
               ? "pointer-events-auto translate-x-0 opacity-100"
               : "pointer-events-none translate-x-3 opacity-0"

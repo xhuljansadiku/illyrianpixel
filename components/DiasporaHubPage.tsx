@@ -104,7 +104,7 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-36">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">
+            <p className="ip-eyebrow hero-eyebrow">
               {t.eyebrow}
             </p>
 
@@ -152,7 +152,7 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
         {/* Lexo më shumë */}
         <section className="relative z-[1] border-b border-white/[0.06] bg-bg">
           <div className="section-wrap py-20 md:py-28">
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/50">{t.readMore}</p>
+            <p className="ip-eyebrow">{t.readMore}</p>
             <h2 className="mt-5 font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-white">
               {t.articlesHeading}<span className="text-accent">{t.articlesAccent}</span>
             </h2>
@@ -172,7 +172,7 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
           <div className="section-wrap relative py-28 md:py-36 text-center">
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{t.nextStep}</p>
+            <p className="ip-eyebrow">{t.nextStep}</p>
             <h2 className="mt-6 font-display text-[clamp(2.2rem,5vw,4.4rem)] font-bold leading-[1.06] tracking-[-0.03em] text-white">
               {t.notListed}
             </h2>

@@ -621,7 +621,7 @@ export default function KingGenti() {
             role="dialog"
             aria-modal="true"
             aria-label={t("dialogAria")}
-            className="fixed inset-x-0 bottom-0 z-[112] flex max-h-[min(640px,85dvh)] flex-col rounded-t-[1.25rem] border-t border-white/12 bg-[#0c0c0c]/98 p-4 shadow-[0_-16px_48px_rgba(0,0,0,0.5)] backdrop-blur-xl md:static md:mb-3 md:max-h-none md:w-[min(100vw-2rem,340px)] md:rounded-2xl md:border md:border-white/12 md:bg-[#0c0c0c]/95 md:shadow-[0_16px_48px_rgba(0,0,0,0.45)]"
+            className="fixed inset-x-0 bottom-0 z-[112] flex max-h-[min(640px,85dvh)] flex-col rounded-t-[1.25rem] border-t border-white/12 bg-[#0c0c0c]/98 p-4 shadow-[0_-16px_48px_rgba(0,0,0,0.5)] backdrop-blur-xl md:static md:mb-3 md:max-h-none md:w-[min(100vw-2rem,340px)] md:rounded-2xl md:border md:border-white/12 md:bg-[#0c0c0c]/95 md:shadow-lift"
             style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
           >
             <div className="mb-3 flex shrink-0 items-center justify-between gap-2">
@@ -701,7 +701,7 @@ export default function KingGenti() {
               <button
                 type="button"
                 onClick={send}
-                className="interactive-button ip-cta-primary ip-cta-primary--sm shrink-0 !px-4 !py-2.5"
+                className="interactive-button ip-cta-primary ip-cta-primary--sm shrink-0 "
               >
                 {t("send")}
               </button>
@@ -712,7 +712,7 @@ export default function KingGenti() {
           type="button"
           onClick={() => setOpen((o) => !o)}
           data-magnetic="true"
-          className={`${open ? "hidden md:flex" : "flex"} h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/14 bg-bg/85 shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition hover:border-accent/45`}
+          className={`${open ? "hidden md:flex" : "flex"} h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/14 bg-bg/85 shadow-card backdrop-blur-md transition hover:border-accent/45`}
           aria-expanded={open}
           aria-label={t("openAria")}
         >

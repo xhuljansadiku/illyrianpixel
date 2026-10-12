@@ -50,7 +50,7 @@ export default function NewsletterSection() {
         <div className="mx-auto max-w-2xl text-center">
 
           {/* Badge */}
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
+          <div className="ip-eyebrow mb-5 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             {t("badge")}
           </div>
@@ -68,7 +68,7 @@ export default function NewsletterSection() {
           <div className="mt-8">
             {state === "success" ? (
               <div className="mx-auto max-w-sm rounded-2xl border border-accent/30 bg-accent/8 px-6 py-8">
-                <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent/70">
+                <p className="ip-eyebrow mb-1">
                   {t("yourCode")}
                 </p>
                 <p className="font-mono text-[2rem] font-bold tracking-[0.12em] text-accent">
@@ -101,7 +101,7 @@ export default function NewsletterSection() {
                 <button
                   type="submit"
                   disabled={state === "loading"}
-                  className="interactive-button ip-cta-primary h-12 shrink-0 disabled:opacity-60"
+                  className="interactive-button ip-cta-primary shrink-0 disabled:opacity-60"
                 >
                   {state === "loading" ? t("submitting") : t("submitCta")}
                 </button>

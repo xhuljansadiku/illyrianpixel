@@ -107,7 +107,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
 
           <div className="section-wrap relative z-[2] py-28 md:py-36">
             {/* Eyebrow */}
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{eyebrow}</p>
+            <p className="ip-eyebrow">{eyebrow}</p>
 
             {/* Headline — clamp(42px,5vw,64px) */}
             <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.625rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.02em] text-white md:whitespace-pre-line">
@@ -136,7 +136,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className={`interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !tracking-[0.02em] !text-surface ${isConversionLanding ? "svc-web-hero-cta-pulse" : ""}`}
+                className={`interactive-button ip-cta-primary inline-flex items-center gap-2 ${isConversionLanding ? "svc-web-hero-cta-pulse" : ""}`}
               >
                 {isWebPackages
                   ? (category.ctaPrimary ?? t("website.heroCtaFallback"))
@@ -259,7 +259,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
               </div>
 
               {category.slug === "mirembajtja" && (
-                <div className="relative mx-auto mt-8 max-w-[980px] overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:px-12 md:py-10">
+                <div className="relative mx-auto mt-8 max-w-[980px] overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-lift md:px-12 md:py-10">
                   <div aria-hidden className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent md:inset-x-16" />
                   <div aria-hidden className="pointer-events-none absolute -right-16 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-accent/[0.1] blur-[90px]" />
                   <div aria-hidden className="pointer-events-none absolute right-[6%] top-1/2 hidden -translate-y-1/2 select-none font-display text-[9rem] font-black leading-none text-accent/[0.06] md:block">↻</div>
@@ -270,7 +270,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                       </p>
                       <p className="mt-2 text-[13px] tracking-[0.02em] text-white/45">{t("oldSite.note")}</p>
                     </div>
-                    <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg shrink-0 !px-8">
+                    <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg shrink-0 ">
                       {t("oldSite.cta")}
                     </Link>
                   </div>
@@ -320,7 +320,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                 <div className="mt-5 grid gap-5 sm:grid-cols-2">
                   {portfolioItems.map((item) => (
                     <Link key={item.slug} href={`/projektet/${item.slug}`}
-                      className="group relative overflow-hidden rounded-2xl border border-white/[0.08] transition-[border-color,transform,box-shadow] duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_20px_48px_rgba(0,0,0,0.4)]"
+                      className="group relative overflow-hidden rounded-2xl border border-white/[0.08] transition-[border-color,transform,box-shadow] duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-lift"
                     >
                       <div className="w-full bg-bg">
                         <Image
@@ -333,7 +333,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                         />
                       </div>
                       <div className="border-t border-white/[0.06] bg-surface px-5 py-4">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-accent/75">{item.category}</p>
+                        <p className="ip-eyebrow">{item.category}</p>
                         <h3 className="mt-1 font-display text-[1.05rem] tracking-[-0.01em] text-white transition-colors group-hover:text-accent/90">{item.title}</h3>
                         <span className="mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-light tracking-[0.04em] text-white/40 transition-colors group-hover:text-accent/65">
                           {t("viewProject")} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
@@ -356,7 +356,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
         {/* ── 4. FINAL CTA ── */}
         <section className="relative z-[1]">
           <div className="section-wrap py-20 md:py-28">
-            <div className="svc-closing-panel relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-[0_28px_80px_rgba(0,0,0,0.45)] md:px-14 md:py-16">
+            <div className="svc-closing-panel relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-14 text-center shadow-overlay md:px-14 md:py-16">
               <div className="pointer-events-none absolute inset-0 opacity-[0.11]">
                 <div className="noir-grid h-full w-full" />
               </div>
@@ -384,12 +384,12 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                 </p>
 
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
-                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex h-12 items-center gap-2 !px-8 !text-[12px] !tracking-[0.04em] !text-surface">
+                  <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg inline-flex items-center gap-2 ">
                     {category.slug === "seo-google-ads" ? t("seoGoogleAds.finalCta")
                       : category.slug === "branding-content" ? t("brandingContent.finalCta")
                       : t("defaultFinalCta")}
                   </Link>
-                  <Link href="/contact" className="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-7 text-[12px] font-light tracking-[0.08em] text-white/60 transition-colors duration-300 hover:border-accent/35 hover:text-white">
+                  <Link href="/contact" className="group ip-cta-secondary ip-cta-secondary--lg">
                     {t("contactUs")} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </Link>
                 </div>

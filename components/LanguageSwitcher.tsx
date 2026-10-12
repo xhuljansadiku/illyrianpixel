@@ -74,7 +74,7 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
         <div
           role="listbox"
           aria-label={t("langSwitchAria")}
-          className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-[136px] overflow-hidden rounded-xl border border-white/10 bg-surface/97 py-1 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+          className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-[136px] overflow-hidden rounded-xl border border-white/10 bg-surface/97 py-1 shadow-lift backdrop-blur-xl"
         >
           {routing.locales.map((loc) => {
             const isActive = loc === locale;

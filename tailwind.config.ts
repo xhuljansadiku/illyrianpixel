@@ -27,7 +27,14 @@ const config: Config = {
         surface: "#0e0e0e"
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(171, 131, 57, 0.2), 0 12px 48px rgba(171, 131, 57, 0.12)"
+        glow: "0 0 0 1px rgba(171, 131, 57, 0.2), 0 12px 48px rgba(171, 131, 57, 0.12)",
+        /** Elevation scale: card < lift < overlay (modals, menus) */
+        card: "0 12px 32px rgba(0, 0, 0, 0.35)",
+        lift: "0 20px 60px rgba(0, 0, 0, 0.4)",
+        overlay: "0 30px 80px rgba(0, 0, 0, 0.55)",
+        /** Gold accents: halo for buttons/dots, gold-lift for hovered cards */
+        gold: "0 0 20px rgba(171, 131, 57, 0.4)",
+        "gold-lift": "0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(171, 131, 57, 0.3), 0 0 40px rgba(171, 131, 57, 0.12)"
       },
       borderRadius: {
         xl2: "1.25rem"
