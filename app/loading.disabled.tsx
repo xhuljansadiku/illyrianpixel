@@ -15,8 +15,8 @@ export default function Loading() {
         </div>
         <div className="mt-10 loading-shimmer h-5 max-w-xl rounded-full bg-white/10" />
         <div className="mt-14 grid gap-6 md:grid-cols-2">
-          <div className="loading-shimmer h-[320px] rounded-[2rem] bg-white/10" />
-          <div className="loading-shimmer h-[320px] rounded-[2rem] bg-white/10" />
+          <div className="loading-shimmer h-[320px] rounded-3xl bg-white/10" />
+          <div className="loading-shimmer h-[320px] rounded-3xl bg-white/10" />
         </div>
       </div>
     </main>

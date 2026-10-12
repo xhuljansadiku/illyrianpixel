@@ -95,7 +95,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
                 {project.flagCodes.map((code) => (
                   <Image
                     key={code}
-                    src={`https://flagcdn.com/w20/${code}.png`}
+                    src={`/flags/4x3/${code}.svg`}
                     alt=""
                     width={20}
                     height={14}
@@ -127,7 +127,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
                         {String(idx + 1).padStart(2, "0")}
                       </span>
                       <span className="h-1 w-1 shrink-0 rounded-full bg-white/20" aria-hidden />
-                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-[11px] uppercase leading-normal tracking-[0.14em] text-white/40">
+                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-[11px] uppercase leading-normal tracking-[0.15em] text-white/40">
                         <span>
                           {project.category}
                           {project.location ? ` — ${project.location}` : ""}
@@ -143,7 +143,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
                       {project.title}
                     </span>
 
-                    <span className="flex w-fit items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.16em] text-white/45">
+                    <span className="flex w-fit items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.15em] text-white/45">
                       {ctaLabel}
                     </span>
                   </div>
@@ -171,7 +171,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
                     >
                       {project.title}
                     </span>
-                    <span className="flex items-center gap-2 font-body text-[11px] uppercase tracking-[0.18em] text-white/40">
+                    <span className="flex items-center gap-2 font-body text-[11px] uppercase tracking-[0.2em] text-white/40">
                       {flagsPill}
                       {project.category}
                       {project.location ? ` — ${project.location}` : ""}
@@ -184,7 +184,7 @@ export default function ProjectIndexList({ items }: { items: FeaturedItem[] }) {
                     </span>
                   )}
 
-                  <span className="ml-4 flex shrink-0 items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.16em] text-white/35 transition-transform duration-300 group-hover:translate-x-1">
+                  <span className="ml-4 flex shrink-0 items-center gap-1.5 font-body text-[11px] uppercase tracking-[0.15em] text-white/35 transition-transform duration-300 group-hover:translate-x-1">
                     {ctaLabel}
                   </span>
                 </div>

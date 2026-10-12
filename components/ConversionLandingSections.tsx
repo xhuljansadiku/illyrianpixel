@@ -20,10 +20,10 @@ function TextCardSection({ data }: { data: ConversionTextCardSection }) {
     >
       <div className="section-wrap py-20 md:py-28">
         <div className="svc-reveal-heading">
-          <SectionMark label={data.eyebrow} eyebrowClassName="tracking-[0.22em]" />
+          <SectionMark label={data.eyebrow} eyebrowClassName="tracking-[0.2em]" />
           <h2 className="mt-1 max-w-[min(100%,52rem)] font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
             {data.headingBefore}{" "}
-            <span className="text-[#D4AF37]">{data.headingAccent}</span>
+            <span className="text-accent">{data.headingAccent}</span>
           </h2>
           {data.intro ? (
             <p className="mt-5 max-w-[56ch] md:whitespace-pre-line text-[14px] leading-relaxed text-white/56 md:text-[15px]">
@@ -36,7 +36,7 @@ function TextCardSection({ data }: { data: ConversionTextCardSection }) {
           {data.items.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-[#D4AF37]/28 hover:shadow-[0_18px_44px_rgba(0,0,0,0.26)]"
+              className="rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-accent/28 hover:shadow-[0_18px_44px_rgba(0,0,0,0.26)]"
             >
               <h3 className="font-display text-[1.05rem] tracking-[-0.015em] text-white md:text-[1.12rem]">
                 {item.title}
@@ -53,7 +53,7 @@ function TextCardSection({ data }: { data: ConversionTextCardSection }) {
 }
 
 function WhyIcon({ type }: { type: WhyUsItem["icon"] }) {
-  const common = "h-6 w-6 text-[#D4AF37]";
+  const common = "h-6 w-6 text-accent";
   const minimal = `${common} opacity-[0.92]`;
   switch (type) {
     case "mFocus":
@@ -219,11 +219,11 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
           <div className="svc-reveal-heading">
             <SectionMark
               label={data.whyUsEyebrow ?? t.whyUs}
-              eyebrowClassName="tracking-[0.22em]"
+              eyebrowClassName="tracking-[0.2em]"
             />
             <h2 className="mt-1 max-w-[min(100%,52rem)] font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
               {data.whyUs.headingBefore}{" "}
-              <span className="text-[#D4AF37]">{data.whyUs.headingAccent}</span>
+              <span className="text-accent">{data.whyUs.headingAccent}</span>
             </h2>
             <p className="mt-5 max-w-[56ch] md:whitespace-pre-line text-[14px] leading-relaxed text-white/56 md:text-[15px]">
               {data.whyUs.intro}
@@ -234,11 +234,11 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
             {data.whyUs.items.map((item) => (
               <div
                 key={item.title}
-                className="group rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-[#D4AF37]/32 hover:shadow-[0_22px_56px_rgba(212,175,55,0.1),0_20px_48px_rgba(0,0,0,0.28)]"
+                className="group rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-accent/32 hover:shadow-[0_22px_56px_rgba(171,131,57,0.1),0_20px_48px_rgba(0,0,0,0.28)]"
               >
                 <div
-                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.1] bg-[#D4AF37]/[0.1] transition-colors duration-300 group-hover:border-[#D4AF37]/38"
-                  style={{ boxShadow: "inset 0 1px 0 rgba(212,175,55,0.12)" }}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.1] bg-accent/[0.1] transition-colors duration-300 group-hover:border-accent/38"
+                  style={{ boxShadow: "inset 0 1px 0 rgba(171,131,57,0.12)" }}
                 >
                   <WhyIcon type={item.icon} />
                 </div>
@@ -254,7 +254,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
 
       <section
         aria-label={t.trustAria}
-        className="relative z-[1] border-b border-[#D4AF37]/15 bg-[linear-gradient(180deg,rgba(212,175,55,0.04)_0%,rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.015)_100%)] shadow-[inset_0_1px_0_rgba(212,175,55,0.07)]"
+        className="relative z-[1] border-b border-accent/15 bg-[linear-gradient(180deg,rgba(171,131,57,0.04)_0%,rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.015)_100%)] shadow-[inset_0_1px_0_rgba(171,131,57,0.07)]"
       >
         <div className="section-wrap py-10 md:py-12">
           <ConversionTrustBar stats={data.trustStats} />
@@ -267,7 +267,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
         </div>
         <div className="section-wrap relative z-[1] py-20 md:py-28">
           <div className="svc-reveal-heading">
-            <SectionMark label={t.process} eyebrowClassName="tracking-[0.22em]" />
+            <SectionMark label={t.process} eyebrowClassName="tracking-[0.2em]" />
             <h2 className="mt-1 max-w-2xl md:whitespace-pre-line font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
               {data.processHeadline ?? (
                 <>
@@ -299,11 +299,11 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
         <div className="section-wrap py-20 md:py-28">
           <div className="svc-reveal-heading flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <SectionMark label={t.projects} eyebrowClassName="tracking-[0.22em]" />
+              <SectionMark label={t.projects} eyebrowClassName="tracking-[0.2em]" />
               <h2 className="mt-1 max-w-xl font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
                 {data.portfolioHeadingBefore ?? t.portfolioBefore}
                 <br className="hidden md:block" />
-                <span className="text-[#D4AF37]">{data.portfolioHeadingAccent ?? t.portfolioAccent}</span>
+                <span className="text-accent">{data.portfolioHeadingAccent ?? t.portfolioAccent}</span>
               </h2>
               {data.portfolioSubline && (
                 <p className="mt-3 max-w-[52ch] text-[14px] leading-relaxed text-white/50">
@@ -323,7 +323,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                 <Link
                   key={item.slug}
                   href={`/projektet/${item.slug}`}
-                  className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(12,12,12,0.97))] transition-[border-color,transform,box-shadow] duration-500 hover:-translate-y-1 hover:border-[#D4AF37]/30 hover:shadow-[0_20px_52px_rgba(0,0,0,0.36),0_0_0_1px_rgba(212,175,55,0.08)]"
+                  className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(12,12,12,0.97))] transition-[border-color,transform,box-shadow] duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_20px_52px_rgba(0,0,0,0.36),0_0_0_1px_rgba(171,131,57,0.08)]"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
@@ -333,7 +333,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0e0d0c] via-[#0e0d0c]/20 to-transparent opacity-85" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent opacity-85" />
 
                     {/* ESM Group, screen glow overlay */}
                     {item.slug === "esm-group" && (
@@ -342,7 +342,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                         className="pointer-events-none absolute inset-0"
                         style={{
                           background:
-                            "radial-gradient(ellipse 60% 55% at 50% 58%, rgba(212,175,55,0.16) 0%, rgba(212,175,55,0.06) 45%, transparent 75%)",
+                            "radial-gradient(ellipse 60% 55% at 50% 58%, rgba(171,131,57,0.16) 0%, rgba(171,131,57,0.06) 45%, transparent 75%)",
                         }}
                       />
                     )}
@@ -355,7 +355,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                           className="pointer-events-none absolute inset-0"
                           style={{
                             background:
-                              "radial-gradient(ellipse 55% 50% at 72% 32%, rgba(212,175,55,0.18) 0%, transparent 70%)",
+                              "radial-gradient(ellipse 55% 50% at 72% 32%, rgba(171,131,57,0.18) 0%, transparent 70%)",
                           }}
                         />
                         <div
@@ -364,15 +364,15 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                           style={{ perspective: "320px" }}
                         >
                           <div
-                            className="portfolio-b-spin flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full border border-[rgba(212,175,55,0.38)] bg-[rgba(212,175,55,0.1)]"
+                            className="portfolio-b-spin flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full border border-[rgba(171,131,57,0.38)] bg-[rgba(171,131,57,0.1)]"
                             style={{
                               boxShadow:
-                                "0 0 18px rgba(212,175,55,0.5), 0 0 36px rgba(212,175,55,0.22), inset 0 1px 0 rgba(212,175,55,0.2)",
+                                "0 0 18px rgba(171,131,57,0.5), 0 0 36px rgba(171,131,57,0.22), inset 0 1px 0 rgba(171,131,57,0.2)",
                             }}
                           >
                             <span
-                              className="font-display text-[1.75rem] leading-none text-[#D4AF37]"
-                              style={{ textShadow: "0 0 12px rgba(212,175,55,0.6)" }}
+                              className="font-display text-[1.75rem] leading-none text-accent"
+                              style={{ textShadow: "0 0 12px rgba(171,131,57,0.6)" }}
                             >
                               B
                             </span>
@@ -382,8 +382,8 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                     )}
                   </div>
                   <div className="p-5 pt-4">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]/80">{item.category}</p>
-                    <h3 className="mt-1.5 font-display text-[1.2rem] tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-[#D4AF37]/90">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">{item.category}</p>
+                    <h3 className="mt-1.5 font-display text-[1.2rem] tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-accent/90">
                       {item.title}
                     </h3>
                     <p className="mt-2 line-clamp-3 md:whitespace-pre-line text-[13px] leading-relaxed text-white/52">{blurb}</p>
@@ -403,7 +403,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
           <div className="svc-reveal-heading">
             <SectionMark
               label={data.feedbackLabel ?? "Feedback"}
-              eyebrowClassName="tracking-[0.22em]"
+              eyebrowClassName="tracking-[0.2em]"
             />
             <h2 className="mt-1 max-w-2xl font-display text-[clamp(1.9rem,4vw,3.05rem)] leading-[1.05] tracking-[-0.02em] text-white">
               {data.feedbackHeadline ?? (
@@ -423,13 +423,13 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
             {data.testimonials.map((t) => (
               <blockquote
                 key={t.name}
-                className="flex flex-col rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(14,14,14,0.97))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-[#D4AF37]/22 hover:shadow-[0_18px_44px_rgba(0,0,0,0.28),0_0_0_1px_rgba(212,175,55,0.06),0_0_28px_rgba(212,175,55,0.04)]"
+                className="flex flex-col rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(14,14,14,0.97))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-accent/22 hover:shadow-[0_18px_44px_rgba(0,0,0,0.28),0_0_0_1px_rgba(171,131,57,0.06),0_0_28px_rgba(171,131,57,0.04)]"
                 style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)" }}
               >
                 {/* decorative open-quote mark */}
                 <span
                   aria-hidden
-                  className="mb-3 block font-display text-[2.6rem] leading-none text-[#D4AF37]/20 select-none"
+                  className="mb-3 block font-display text-[2.6rem] leading-none text-accent/20 select-none"
                 >
                   &ldquo;
                 </span>
@@ -442,7 +442,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                       <span className="text-[12px] text-white/55">{t.role}</span>
                     </div>
                     {t.location && (
-                      <span className="mt-2.5 inline-flex items-center rounded-full border border-[#D4AF37]/22 px-2.5 py-0.5 text-[10px] uppercase tracking-[0.13em] text-[#D4AF37]/65">
+                      <span className="mt-2.5 inline-flex items-center rounded-full border border-accent/22 px-2.5 py-0.5 text-[10px] uppercase tracking-[0.13em] text-accent/65">
                         {t.location}
                       </span>
                     )}

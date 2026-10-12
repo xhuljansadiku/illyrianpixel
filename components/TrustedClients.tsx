@@ -78,12 +78,12 @@ export default function TrustedClients() {
     <section
       ref={sectionRef}
       id="klientet"
-      className="relative overflow-hidden border-b border-white/[0.06] bg-[#080808]/92"
+      className="relative overflow-hidden border-b border-white/[0.06] bg-bgDeep/92"
     >
       {/* Ambient glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[700px] -translate-x-1/2 rounded-full bg-[#ab8339]/[0.06] blur-[90px]"
+        className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[700px] -translate-x-1/2 rounded-full bg-accent/[0.06] blur-[90px]"
       />
 
       {/* Header */}
@@ -104,8 +104,8 @@ export default function TrustedClients() {
       {/* Marquee */}
       <div className="tc-strip trusted-clients-strip relative overflow-x-clip pb-20 pt-4 md:pb-28">
         {/* Fade masks */}
-        <div aria-hidden className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#080808] to-transparent" />
-        <div aria-hidden className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-[#080808] to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-bgDeep to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-bgDeep to-transparent" />
 
         <div className={`trusted-marquee flex w-max items-center gap-4 pr-4${reduced ? "" : " trusted-marquee--animated"}`}>
           {[0, 1].map((dup) => (
@@ -114,9 +114,9 @@ export default function TrustedClients() {
                 <div
                   key={`${dup}-${client.name}`}
                   title={client.name}
-                  className={`group flex h-[76px] w-[196px] flex-shrink-0 cursor-default items-center justify-center rounded-2xl border border-[#ab8339]/18 bg-[linear-gradient(135deg,rgba(171,131,57,0.07),rgba(171,131,57,0.02))] p-5 transition-all duration-500 hover:-translate-y-0.5 ${
+                  className={`group flex h-[76px] w-[196px] flex-shrink-0 cursor-default items-center justify-center rounded-2xl border border-accent/18 bg-[linear-gradient(135deg,rgba(171,131,57,0.07),rgba(171,131,57,0.02))] p-5 transition-all duration-500 hover:-translate-y-0.5 ${
                     client.darkHover
-                      ? "hover:border-[#ab8339]/50 hover:shadow-[0_4px_32px_rgba(171,131,57,0.2)]"
+                      ? "hover:border-accent/50 hover:shadow-[0_4px_32px_rgba(171,131,57,0.2)]"
                       : "hover:border-transparent hover:bg-[#faf8f4] hover:shadow-[0_6px_32px_rgba(0,0,0,0.25)]"
                   }`}
                 >
@@ -143,7 +143,7 @@ export default function TrustedClients() {
               {i > 0 && (
                 <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-accent/40" aria-hidden />
               )}
-              <span className="font-mono text-[11px] tracking-[0.14em] text-white/42">
+              <span className="font-mono text-[11px] tracking-[0.15em] text-white/42">
                 {stat.value !== null ? (
                   <>
                     <span ref={(el) => { statRefs.current[i] = el; }}>0</span>

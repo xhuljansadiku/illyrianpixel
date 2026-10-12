@@ -69,7 +69,7 @@ export default function CookieConsent() {
       aria-label={t("title")}
       // Nën md lë vend djathtas për butonin e King Genti (z-[111], 48px në right-4),
       // që të mos mbulojë butonat e banner-it — pa ia ulur z-index-in (shih 45557c6).
-      className={`${phase === "gate" ? "consent-gate " : ""}fixed bottom-3 left-3 right-[4.5rem] z-[110] max-h-[85dvh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0e0e0e]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-md md:bottom-6 md:left-1/2 md:right-auto md:w-[calc(100%-2rem)] md:max-w-lg md:-translate-x-1/2 md:p-6`}
+      className={`${phase === "gate" ? "consent-gate " : ""}fixed bottom-3 left-3 right-[4.5rem] z-[110] max-h-[85dvh] overflow-y-auto rounded-2xl border border-white/10 bg-surface/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-md md:bottom-6 md:left-1/2 md:right-auto md:w-[calc(100%-2rem)] md:max-w-lg md:-translate-x-1/2 md:p-6`}
     >
       <p className="font-display text-[1.05rem] font-semibold leading-snug text-white">
         {t("title")}
@@ -110,7 +110,7 @@ export default function CookieConsent() {
           <button
             type="button"
             onClick={() => save(choice)}
-            className="flex-1 justify-center rounded-full border border-white/14 px-5 py-2.5 text-[12px] tracking-[0.1em] text-white/70 transition duration-200 hover:border-white/28 hover:text-white sm:flex-none"
+            className="flex-1 justify-center rounded-full border border-white/14 px-5 py-2.5 text-[12px] tracking-[0.08em] text-white/70 transition duration-200 hover:border-white/28 hover:text-white sm:flex-none"
           >
             {t("save")}
           </button>
@@ -119,7 +119,7 @@ export default function CookieConsent() {
             <button
               type="button"
               onClick={() => save(NONE)}
-              className="flex-1 justify-center rounded-full border border-white/14 px-5 py-2.5 text-[12px] tracking-[0.1em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 sm:flex-none"
+              className="flex-1 justify-center rounded-full border border-white/14 px-5 py-2.5 text-[12px] tracking-[0.08em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 sm:flex-none"
             >
               {t("essentialOnly")}
             </button>
@@ -129,7 +129,7 @@ export default function CookieConsent() {
                 setChoice(readConsent() ?? NONE);
                 setDetails(true);
               }}
-              className="w-full px-2 py-1.5 text-center text-[12px] tracking-[0.06em] text-white/55 underline underline-offset-2 transition hover:text-white/75 sm:w-auto"
+              className="w-full px-2 py-1.5 text-center text-[12px] tracking-[0.08em] text-white/55 underline underline-offset-2 transition hover:text-white/75 sm:w-auto"
             >
               {t("customize")}
             </button>

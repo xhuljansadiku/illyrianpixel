@@ -61,7 +61,7 @@ export default function BlogBrandingClient() {
                   <p ref={heroStatsRef} className="mt-5 max-w-3xl text-base leading-relaxed text-white/68 md:text-[1.1rem]">
                     What branding really is, why Albanian businesses underestimate it, and what they lose by doing so.
                   </p>
-                  <p className="mt-6 text-xs tracking-[0.14em] text-white/45">May 2026 · 6 min read</p>
+                  <p className="mt-6 text-xs tracking-[0.15em] text-white/45">May 2026 · 6 min read</p>
                 </>
               ) : (
                 <>
@@ -73,7 +73,7 @@ export default function BlogBrandingClient() {
                   <p ref={heroStatsRef} className="mt-5 max-w-3xl text-base leading-relaxed text-white/68 md:text-[1.1rem]">
                     Çfarë është branding në të vërtetë, pse bizneset shqiptare e nënvlerësojnë dhe çfarë humbasin duke e bërë kështu.
                   </p>
-                  <p className="mt-6 text-xs tracking-[0.14em] text-white/45">Maj 2026 · 6 min lexim</p>
+                  <p className="mt-6 text-xs tracking-[0.15em] text-white/45">Maj 2026 · 6 min lexim</p>
                 </>
               )}
             </div>
@@ -89,10 +89,10 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     The biggest misunderstanding in business
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     When most Albanian business owners hear &quot;branding,&quot; they think logo. When they think logo, they think color. When they think color, they think they&apos;ve done branding. They haven&apos;t.
                   </p>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Branding is the sum of everything people think and feel when they hear your business&apos;s name. The logo is a small part of it. And if you&apos;re only doing branding as a logo, you&apos;re investing in the house&apos;s façade without building the foundation.
                   </p>
                 </section>
@@ -101,12 +101,12 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     What branding actually is
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Jeff Bezos put it simply: &quot;Your brand is what people say about you when you&apos;re not in the room.&quot; In other words: branding is managed reputation. It&apos;s the sum of every touchpoint a customer has with your business.
                   </p>
                   <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-5">
-                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent/90">Branding includes</p>
-                    <ul className="mt-3 space-y-2 text-[0.98rem] leading-relaxed text-[#D1D1D1]">
+                    <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">Branding includes</p>
+                    <ul className="mt-3 space-y-2 text-[0.98rem] leading-relaxed text-text">
                       <li className="flex gap-3">
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                         <span>How it looks (logo, colors, typography, design)</span>
@@ -135,18 +135,18 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     Why weak branding costs more than good branding
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Businesses without clear branding pay more for every client. The reason: when you don&apos;t stand out clearly from the competition, price becomes the only way to attract clients. And a price war is a battle nobody wins.
                   </p>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Studies show that businesses with strong branding can charge 20–30% more for the same products. Not because the product is better, but because trust and perception are higher.
                   </p>
                   <div className="rounded-2xl border border-accent/30 bg-accent/[0.08] p-5">
-                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent/90">A concrete example</p>
-                    <p className="mt-2 text-[0.98rem] leading-relaxed text-[#D1D1D1]">
+                    <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">A concrete example</p>
+                    <p className="mt-2 text-[0.98rem] leading-relaxed text-text">
                       Two barbers, the same service. The first has a logo bought online for €10, no consistent colors, a messy Instagram. The second has a designed visual identity, a clear tone, professional photos.
                     </p>
-                    <p className="mt-2 text-[0.98rem] leading-relaxed text-[#D1D1D1]">
+                    <p className="mt-2 text-[0.98rem] leading-relaxed text-text">
                       The first charges €10 per cut. The second, €18. The second one&apos;s clients don&apos;t negotiate, because they don&apos;t perceive it as a basic service.
                     </p>
                   </div>
@@ -156,7 +156,7 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     3 signs your branding has problems
                   </h2>
-                  <ul className="space-y-5 text-[1.01rem] leading-relaxed text-[#D1D1D1]">
+                  <ul className="space-y-5 text-[1.01rem] leading-relaxed text-text">
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
@@ -182,10 +182,10 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     Where real branding starts
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Branding doesn&apos;t start with the designer. It starts with the questions:
                   </p>
-                  <ul className="space-y-3 text-[1.01rem] leading-relaxed text-[#D1D1D1]">
+                  <ul className="space-y-3 text-[1.01rem] leading-relaxed text-text">
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>Who am I as a business, and what value do I bring?</span>
@@ -203,7 +203,7 @@ export default function BlogBrandingClient() {
                       <span>If my brand were a person, how would it speak and how would it look?</span>
                     </li>
                   </ul>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Once you have the answers, the design comes naturally. The logo, colors and typography become the visual expression of what you&apos;ve already decided, not random choices.
                   </p>
                 </section>
@@ -215,7 +215,7 @@ export default function BlogBrandingClient() {
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
                       What&apos;s included in a professional branding package
                     </h2>
-                    <div className="space-y-2 text-[1.01rem] leading-relaxed text-[#D1D1D1]">
+                    <div className="space-y-2 text-[1.01rem] leading-relaxed text-text">
                       <p className="flex gap-2"><span className="text-accent">◆</span> Professional logo + variants (horizontal, vertical, icon)</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Color palette + curated typography</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Brand Guidelines — how to use the brand everywhere</p>
@@ -228,7 +228,7 @@ export default function BlogBrandingClient() {
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
                       Conclusion
                     </h2>
-                    <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                    <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                       Branding is the one investment that pays off on every channel: website, social media, business cards, even you yourself when talking to clients. It&apos;s not a cost — it&apos;s a foundation. And like any foundation, it&apos;s worth building right the first time.
                     </p>
                   </section>
@@ -247,7 +247,7 @@ export default function BlogBrandingClient() {
                         →
                       </span>
                     </Link>
-                    <a href={WA_HREF} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.8rem] font-semibold tracking-[0.06em] text-white transition-opacity hover:opacity-90">
+                    <a href={WA_HREF} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.8rem] font-semibold tracking-[0.08em] text-white transition-opacity hover:opacity-90">
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
                       WhatsApp
                     </a>
@@ -260,10 +260,10 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     Keqkuptimi më i madh në biznes
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Kur shumica e biznesmenëve shqiptarë dëgjojnë &quot;branding&quot;, mendojnë logo. Kur mendojnë logo, mendojnë ngjyrë. Kur mendojnë ngjyrë, mendojnë se kanë bërë branding. Nuk kanë.
                   </p>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Branding është tërësia e asaj që njerëzit mendojnë dhe ndiejnë kur dëgjojnë emrin e biznesit tuaj. Logo është pjesë e vogël e saj. Dhe nëse po bëni branding vetëm si logo, po investoni vetëm në fasadën e shtëpisë pa ndërtuar themelet.
                   </p>
                 </section>
@@ -272,12 +272,12 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     Çfarë është branding në realitet
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Jeff Bezos e ka shprehur thjesht: &quot;Branding është çfarë thonë njerëzit për ty kur nuk je në dhomë.&quot; Kjo do të thotë: branding është reputacioni i menaxhuar. Është tërësia e çdo pikëprekjeje që klienti ka me biznesin tuaj.
                   </p>
                   <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-5">
-                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent/90">Branding përfshin</p>
-                    <ul className="mt-3 space-y-2 text-[0.98rem] leading-relaxed text-[#D1D1D1]">
+                    <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">Branding përfshin</p>
+                    <ul className="mt-3 space-y-2 text-[0.98rem] leading-relaxed text-text">
                       <li className="flex gap-3">
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                         <span>Si duket (logo, ngjyrat, tipografia, dizajni)</span>
@@ -306,18 +306,18 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     Pse branding i dobët kushton më shumë sesa branding i mirë
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Bizneset pa branding të qartë paguajnë më shumë për çdo klient. Arsyeja: kur nuk dalloheni qartë nga konkurrenca, e vetmja mënyrë për të tërhequr klientë është çmimi. Dhe lufta e çmimit është beteja që askush nuk fiton.
                   </p>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Studime tregojnë se bizneset me branding të fortë mund të ngarkojnë 20–30% çmim më të lartë për të njëjtat produkte. Jo sepse produkti është më i mirë, por sepse besimi dhe perceptimi janë më të lartë.
                   </p>
                   <div className="rounded-2xl border border-accent/30 bg-accent/[0.08] p-5">
-                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-accent/90">Shembulli konkret</p>
-                    <p className="mt-2 text-[0.98rem] leading-relaxed text-[#D1D1D1]">
+                    <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">Shembulli konkret</p>
+                    <p className="mt-2 text-[0.98rem] leading-relaxed text-text">
                       Dy berberë, i njëjti shërbim. I pari ka logo të blerë online për €10, pa ngjyra të qëndrueshme, Instagram i çrregullt. I dyti ka identitet vizual të hartuar, ton të qartë, foto profesionale.
                     </p>
-                    <p className="mt-2 text-[0.98rem] leading-relaxed text-[#D1D1D1]">
+                    <p className="mt-2 text-[0.98rem] leading-relaxed text-text">
                       I pari ngarkon €10 për prerje. I dyti €18. Klientët e dytit nuk negociojnë, sepse nuk e perceptojnë si shërbim të thjeshtë.
                     </p>
                   </div>
@@ -327,7 +327,7 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     3 shenjat që branding juaj ka probleme
                   </h2>
-                  <ul className="space-y-5 text-[1.01rem] leading-relaxed text-[#D1D1D1]">
+                  <ul className="space-y-5 text-[1.01rem] leading-relaxed text-text">
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
@@ -353,10 +353,10 @@ export default function BlogBrandingClient() {
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
                     Nga ku fillon branding i vërtetë
                   </h2>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Branding nuk fillon me dizajnerin. Fillon me pyetjet:
                   </p>
-                  <ul className="space-y-3 text-[1.01rem] leading-relaxed text-[#D1D1D1]">
+                  <ul className="space-y-3 text-[1.01rem] leading-relaxed text-text">
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>Kush jam unë si biznes dhe çfarë vlera sjell?</span>
@@ -374,7 +374,7 @@ export default function BlogBrandingClient() {
                       <span>Nëse marka ime do të ishte person, si do të fliste dhe si do të dukej?</span>
                     </li>
                   </ul>
-                  <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                  <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Pasi i keni përgjigjet, dizajni vjen natyrshëm. Logo, ngjyrat dhe tipografia bëhen shprehje vizuale e asaj që tashmë keni vendosur, jo vendime të rastit.
                   </p>
                 </section>
@@ -386,7 +386,7 @@ export default function BlogBrandingClient() {
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
                       Çfarë përfshihet në paketë branding profesionale
                     </h2>
-                    <div className="space-y-2 text-[1.01rem] leading-relaxed text-[#D1D1D1]">
+                    <div className="space-y-2 text-[1.01rem] leading-relaxed text-text">
                       <p className="flex gap-2"><span className="text-accent">◆</span> Logo profesionale + variante (horizontal, vertikal, ikon)</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Paleta ngjyrash + tipografi e hartuar</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Brand Guidelines — si të përdoret marka kudo</p>
@@ -399,7 +399,7 @@ export default function BlogBrandingClient() {
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
                       Përfundim
                     </h2>
-                    <p className="text-[1.02rem] leading-relaxed text-[#D1D1D1] md:text-[1.08rem]">
+                    <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                       Branding është investimi i vetëm dixhital që vlen në çdo kanal: website, social media, kartëvizita, vetë ju kur flisni me klientë. Nuk është kosto, është themel. Dhe si çdo themel, ia vlen ta ndërtoni mirë herën e parë.
                     </p>
                   </section>
@@ -418,7 +418,7 @@ export default function BlogBrandingClient() {
                         →
                       </span>
                     </Link>
-                    <a href={WA_HREF} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.8rem] font-semibold tracking-[0.06em] text-white transition-opacity hover:opacity-90">
+                    <a href={WA_HREF} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.8rem] font-semibold tracking-[0.08em] text-white transition-opacity hover:opacity-90">
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
                       WhatsApp
                     </a>

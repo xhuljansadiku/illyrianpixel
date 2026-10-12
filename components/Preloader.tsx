@@ -146,7 +146,7 @@ export default function Preloader() {
   /* ── OFFLINE SCREEN ──────────────────────────────── */
   if (offline) {
     return (
-      <div className="fixed inset-0 z-[120] overflow-hidden bg-[#07080c]">
+      <div className="fixed inset-0 z-[120] overflow-hidden bg-bgDeep">
         <div
           className="pointer-events-none absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{ background: "radial-gradient(circle, rgba(234,206,113,0.14) 0%, rgba(171,131,57,0.05) 42%, transparent 70%)" }}
@@ -154,7 +154,7 @@ export default function Preloader() {
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
           <div className="animate-pulse">
             <svg
-              className="h-12 w-12 text-[#ab8339]"
+              className="h-12 w-12 text-accent"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
@@ -188,8 +188,8 @@ export default function Preloader() {
     <div className="fixed inset-0 z-[120] overflow-hidden max-lg:hidden">
 
       {/* Left and right panels — split on exit */}
-      <div className="pl-panel-l absolute left-0 top-0 h-full w-1/2 bg-[#07080c]" />
-      <div className="pl-panel-r absolute right-0 top-0 h-full w-1/2 bg-[#07080c]" />
+      <div className="pl-panel-l absolute left-0 top-0 h-full w-1/2 bg-bgDeep" />
+      <div className="pl-panel-r absolute right-0 top-0 h-full w-1/2 bg-bgDeep" />
 
       {/* Ambient gold orb */}
       <div
@@ -198,10 +198,10 @@ export default function Preloader() {
       />
 
       {/* Corner marks */}
-      <div className="pl-corner absolute left-6 top-6 z-[2] h-5 w-5 border-l border-t border-[#ab8339]/30" />
-      <div className="pl-corner absolute right-6 top-6 z-[2] h-5 w-5 border-r border-t border-[#ab8339]/30" />
-      <div className="pl-corner absolute bottom-6 left-6 z-[2] h-5 w-5 border-b border-l border-[#ab8339]/30" />
-      <div className="pl-corner absolute bottom-6 right-6 z-[2] h-5 w-5 border-b border-r border-[#ab8339]/30" />
+      <div className="pl-corner absolute left-6 top-6 z-[2] h-5 w-5 border-l border-t border-accent/30" />
+      <div className="pl-corner absolute right-6 top-6 z-[2] h-5 w-5 border-r border-t border-accent/30" />
+      <div className="pl-corner absolute bottom-6 left-6 z-[2] h-5 w-5 border-b border-l border-accent/30" />
+      <div className="pl-corner absolute bottom-6 right-6 z-[2] h-5 w-5 border-b border-r border-accent/30" />
 
       {/* Top label */}
       <p className="pl-label absolute left-1/2 top-7 z-[2] -translate-x-1/2 select-none text-[8.5px] uppercase tracking-[0.55em] text-white/[0.22]"
@@ -214,7 +214,7 @@ export default function Preloader() {
 
         {/* Logo with gold glow ring */}
         <div
-          className="pl-logo-ring relative overflow-hidden rounded-full border border-[#ab8339]/30 bg-black/50 p-3 sm:p-3.5"
+          className="pl-logo-ring relative overflow-hidden rounded-full border border-accent/30 bg-black/50 p-3 sm:p-3.5"
           style={{
             opacity: 0,
             boxShadow: "0 0 0 1px rgba(171,131,57,0.12), 0 0 32px rgba(171,131,57,0.22), 0 0 80px rgba(171,131,57,0.08)",
@@ -278,7 +278,7 @@ export default function Preloader() {
               }}
             />
           </div>
-          <p ref={progressRef} className="text-[8.5px] tracking-[0.28em] text-[#ab8339]/55">
+          <p ref={progressRef} className="text-[8.5px] tracking-[0.28em] text-accent/55">
             0%
           </p>
         </div>

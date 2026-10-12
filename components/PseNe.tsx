@@ -203,7 +203,7 @@ export default function PseNe() {
             />
 
             <div ref={eyebrowRef}>
-              <SectionMark label={t("eyebrow")} eyebrowClassName="tracking-[0.3em]" />
+              <SectionMark label={t("eyebrow")} eyebrowClassName="tracking-[0.28em]" />
             </div>
 
             {/* Headline, editorial line breaks + gold gradient on klientë */}
@@ -214,7 +214,7 @@ export default function PseNe() {
               <span className="block overflow-hidden">
                 <span className="psene-line-inner block">
                   {t("headlineLine1")}
-                  <span className="bg-gradient-to-r from-accent via-[#eace71] to-accent bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">
                     {t("headlineAccent")}
                   </span>
                 </span>
@@ -261,7 +261,7 @@ export default function PseNe() {
                   <div className="relative overflow-hidden rounded-2xl px-5 py-5 backdrop-blur-sm" style={{ background: "rgba(18,18,18,0.72)", border: hoveredPanel === i ? "1px solid rgba(201,155,46,0.45)" : "1px solid rgba(255,255,255,0.08)", boxShadow: hoveredPanel === i ? "0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,155,46,0.12) inset" : "0 12px 40px rgba(0,0,0,0.35)", transition: "border-color 0.3s ease, box-shadow 0.3s ease" }}>
                     <span className="pointer-events-none absolute left-2.5 top-2.5 block h-2.5 w-2.5 border-l border-t border-accent/35" aria-hidden />
                     <span className="pointer-events-none absolute bottom-2.5 right-2.5 block h-2.5 w-2.5 border-b border-r border-accent/35" aria-hidden />
-                    <span className="font-mono text-[10px] tracking-[0.22em] text-accent/50">{panel.number}</span>
+                    <span className="font-mono text-[10px] tracking-[0.2em] text-accent/50">{panel.number}</span>
                     <h3 className="font-display mt-2 text-[0.9375rem] font-bold leading-[1.25] tracking-[-0.01em] transition-colors duration-300" style={{ color: hoveredPanel === i ? "rgb(200,155,46)" : "rgba(255,255,255,0.9)" }}>{panel.title}</h3>
                     <p className="font-body mt-2 text-[0.78rem] font-light leading-relaxed text-white/50">{panel.body}</p>
                   </div>

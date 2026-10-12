@@ -102,7 +102,7 @@ export default function NewsletterPopup() {
       onClick={close}
     >
       <div
-        className="newsletter-popup-panel relative w-full max-w-sm overflow-hidden rounded-[1.2rem] border border-white/12 bg-[#111111]/95 p-7 text-center"
+        className="newsletter-popup-panel relative w-full max-w-sm overflow-hidden rounded-2xl border border-white/12 bg-surface/95 p-7 text-center"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -138,7 +138,7 @@ export default function NewsletterPopup() {
             </div>
           ) : (
             <>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/8 px-4 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 {t("badge")}
               </div>

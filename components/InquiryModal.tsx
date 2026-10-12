@@ -103,7 +103,7 @@ export default function InquiryModal() {
   return (
     <div className="inquiry-modal-backdrop fixed inset-0 z-[100] grid place-items-center bg-black/62 px-4 backdrop-blur-sm" onClick={close}>
       <div
-        className="inquiry-modal-panel w-full max-w-xl rounded-[1.2rem] border border-white/12 bg-[#111111]/95 p-6 md:p-7"
+        className="inquiry-modal-panel w-full max-w-xl rounded-2xl border border-white/12 bg-surface/95 p-6 md:p-7"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-5 flex items-center justify-between">
@@ -168,7 +168,7 @@ export default function InquiryModal() {
               {t("note")}
             </p>
             {error ? <p className="text-xs text-red-300">{error}</p> : null}
-            <button type="submit" disabled={loading} className="interactive-button ip-cta-primary !text-xs !tracking-[0.14em] disabled:opacity-50">
+            <button type="submit" disabled={loading} className="interactive-button ip-cta-primary !text-xs !tracking-[0.15em] disabled:opacity-50">
               {loading ? t("sending") : t("submit")}
             </button>
           </form>

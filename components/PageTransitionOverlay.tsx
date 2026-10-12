@@ -36,5 +36,5 @@ export default function PageTransitionOverlay() {
     return () => window.removeEventListener("case-transition", onTransition as EventListener);
   }, [router, reduced]);
 
-  return <div ref={overlayRef} className="pointer-events-none fixed inset-0 z-[130] bg-[#0b0b0b] opacity-0" />;
+  return <div ref={overlayRef} className="pointer-events-none fixed inset-0 z-[130] bg-bg opacity-0" />;
 }

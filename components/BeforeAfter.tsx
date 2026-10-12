@@ -39,7 +39,7 @@ function Frame({
   const isAfter = tone === "after";
   return (
     <div
-      className={`before-after-frame group relative flex flex-col self-start overflow-hidden rounded-[1.1rem] border bg-[#0d0d0d] transition-all duration-500 hover:-translate-y-1 ${
+      className={`before-after-frame group relative flex flex-col self-start overflow-hidden rounded-2xl border bg-[#0d0d0d] transition-all duration-500 hover:-translate-y-1 ${
         isAfter
           ? "border-accent/30 shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-accent/60 hover:shadow-[0_26px_70px_rgba(171,131,57,0.22)]"
           : "border-white/12 shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-white/25"
@@ -48,7 +48,7 @@ function Frame({
       {isAfter && (
         <div
           aria-hidden
-          className="pointer-events-none absolute -inset-px z-0 rounded-[1.1rem] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40"
+          className="pointer-events-none absolute -inset-px z-0 rounded-2xl opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40"
           style={{ background: "radial-gradient(circle at 50% 0%, rgba(171,131,57,0.55), transparent 60%)" }}
         />
       )}
@@ -57,7 +57,7 @@ function Frame({
         <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
         <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
         <span
-          className={`ml-3 rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.14em] ${
+          className={`ml-3 rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.15em] ${
             isAfter ? "bg-accent/15 text-accent" : "bg-red-500/10 text-red-400/70"
           }`}
         >
@@ -65,7 +65,7 @@ function Frame({
         </span>
       </div>
       <div
-        className={`relative z-[1] w-[86vw] max-w-sm bg-[#111111] md:w-auto md:max-w-none ${SHARED_HEIGHT}`}
+        className={`relative z-[1] w-[86vw] max-w-sm bg-surface md:w-auto md:max-w-none ${SHARED_HEIGHT}`}
         style={{ aspectRatio: `${width} / ${height}` }}
       >
         <Image src={src} alt={alt} fill sizes="(max-width: 768px) 86vw, 45vw" className="object-contain" />
@@ -112,7 +112,7 @@ export default function BeforeAfter() {
           <SectionMark label={t("eyebrow")} />
           <h2 className="section-title mt-3 max-w-4xl">{t("title")}</h2>
           <div className="mt-3 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-            <span className="rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent/90">
+            <span className="rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-accent/90">
               {t("badge")}
             </span>
             <p className="text-sm text-white/55">{ITEM.name}</p>

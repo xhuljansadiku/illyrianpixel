@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ConversionTrustStats } from "@/lib/conversionLandingShared";
 import { useReducedMotion } from "@/lib/gsap";
 
-const GOLD = "#D4AF37";
+const GOLD = "#ab8339";
 
 function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3;
@@ -69,7 +69,7 @@ export default function ConversionTrustBar({ stats }: Props) {
   const ariaMain = `${stats.primaryCount}+ ${stats.primaryLabel} · ${stats.secondaryCount}+ ${stats.secondaryLabel} · ${stats.tertiaryCount}+ ${stats.tertiaryLabel}`;
 
   const sep = (
-    <span className="mx-1.5 inline-block text-[#D4AF37]/60 sm:mx-2" aria-hidden>
+    <span className="mx-1.5 inline-block text-accent/60 sm:mx-2" aria-hidden>
       ·
     </span>
   );
@@ -102,7 +102,7 @@ export default function ConversionTrustBar({ stats }: Props) {
         </span>
       </p>
       {stats.reachLabel ? (
-        <p className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-white/58 md:text-[13px] md:tracking-[0.22em]">
+        <p className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-white/58 md:text-[13px] md:tracking-[0.2em]">
           {stats.reachLabel}
         </p>
       ) : null}

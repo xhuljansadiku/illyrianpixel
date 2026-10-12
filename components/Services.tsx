@@ -84,11 +84,11 @@ export default function Services() {
           washing out the heading/paragraph text as a result. */}
       <div className="section-wrap relative z-10">
         <div className="cadence-label services-intro-item">
-          <SectionMark label={t("eyebrow")} eyebrowClassName="!tracking-[0.32em] md:!tracking-[0.4em]" />
+          <SectionMark label={t("eyebrow")} eyebrowClassName="!tracking-[0.28em] md:!tracking-[0.4em]" />
         </div>
         <h2 className="services-intro-item cadence-title section-title mt-3 max-w-4xl tracking-[-0.02em]">
           <span className="md:block">{t("headlineLine1")}</span>
-          <span className="md:block">{t("headlineLine2Pre")}<span className="text-[#ab8339]">{t("headlineAccent")}</span>.</span>
+          <span className="md:block">{t("headlineLine2Pre")}<span className="text-accent">{t("headlineAccent")}</span>.</span>
         </h2>
         <div className="services-intro-item mt-4 max-w-2xl">
           <p className="cadence-body muted text-sm md:text-base">

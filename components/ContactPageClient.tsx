@@ -18,7 +18,7 @@ type DropdownOption = {
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164;
 
 const CARD =
-  "relative overflow-hidden rounded-[1.5rem] border border-[#262626] bg-[rgba(10,10,10,0.72)] backdrop-blur-[12px]";
+  "relative overflow-hidden rounded-3xl border border-[#262626] bg-[rgba(10,10,10,0.72)] backdrop-blur-[12px]";
 
 function normalizeDropdownText(value: string) {
   return value
@@ -183,15 +183,15 @@ export default function ContactPageClient() {
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_90%_78%,rgba(171,131,57,0.06),transparent_38%)]" />
 
         {/* ── HERO ── */}
-        <section ref={heroRef} className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
+        <section ref={heroRef} className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-bgDeep">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.022]"
             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", mixBlendMode: "overlay" }}
           />
-          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#ab8339]/[0.07] blur-[130px]" />
+          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">{t("hero.eyebrow")}</p>
+            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{t("hero.eyebrow")}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="md:whitespace-pre-line font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
                 {t("hero.title")}
@@ -221,16 +221,16 @@ export default function ContactPageClient() {
               />
 
               <div className="relative z-[1] p-7 md:p-9">
-                <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-[#ab8339]/70">
+                <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/70">
                   project inquiry
                 </p>
 
                 {success ? (
-                  <div className="mt-8 rounded-[3px] border border-[#ab8339]/30 bg-[#ab8339]/6 px-5 py-5">
-                    <p className="font-display text-[1.2rem] font-medium tracking-[0.01em] text-[#ab8339]">
+                  <div className="mt-8 rounded-sm border border-accent/30 bg-accent/6 px-5 py-5">
+                    <p className="font-display text-[1.2rem] font-medium tracking-[0.01em] text-accent">
                       {t("success.title")}
                     </p>
-                    <p className="font-ui mt-2 text-[13px] font-light leading-relaxed tracking-[0.3px] text-[#A0A0A0]">
+                    <p className="font-ui mt-2 text-[13px] font-light leading-relaxed tracking-[0.3px] text-muted">
                       {t("success.body")}
                     </p>
                   </div>
@@ -309,7 +309,7 @@ export default function ContactPageClient() {
                         value={form.message}
                         onChange={(e) => set("message")(e.target.value)}
                         placeholder={t("form.messagePlaceholder")}
-                        className="font-ui w-full resize-none border-b border-[#262626] bg-transparent py-3 text-[14px] font-light leading-relaxed tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 focus:border-[#ab8339]"
+                        className="font-ui w-full resize-none border-b border-[#262626] bg-transparent py-3 text-[14px] font-light leading-relaxed tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-muted/55 focus:border-accent"
                       />
                     </label>
 
@@ -325,12 +325,12 @@ export default function ContactPageClient() {
                           value={discountCode}
                           onChange={(e) => handleDiscountChange(e.target.value)}
                           placeholder={t("form.discountPlaceholder")}
-                          className={`font-ui w-full border-b bg-transparent py-3 pr-8 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 ${
+                          className={`font-ui w-full border-b bg-transparent py-3 pr-8 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-muted/55 ${
                             discountStatus === "valid"
                               ? "border-emerald-500/70"
                               : discountStatus === "invalid"
                               ? "border-red-500/70"
-                              : "border-[#262626] focus:border-[#ab8339]"
+                              : "border-[#262626] focus:border-accent"
                           }`}
                         />
                         {discountStatus === "valid" && (
@@ -368,7 +368,7 @@ export default function ContactPageClient() {
                     <button
                       type="submit"
                       disabled={!canSubmit || loading}
-                      className="font-ui mt-2 w-full rounded-[2px] bg-[#ab8339] px-8 py-4 text-[12px] font-bold tracking-[1px] text-[#0a0a0a] transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
+                      className="font-ui mt-2 w-full rounded-[2px] bg-accent px-8 py-4 text-[12px] font-bold tracking-[1px] text-bg transition-all duration-500 ease-in-out hover:shadow-[0_0_28px_rgba(171,131,57,0.45),0_0_56px_rgba(171,131,57,0.18)] disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       {loading ? t("form.submitting") : t("form.submit")}
                     </button>
@@ -379,7 +379,7 @@ export default function ContactPageClient() {
                 <div className="mt-8 flex flex-wrap items-center gap-5 border-t border-[#262626] pt-6">
                   <a
                     href="mailto:info@illyrianpixel.com"
-                    className="font-ui text-[12px] font-light tracking-[0.5px] text-[#A0A0A0] transition-colors duration-300 hover:text-[#ab8339]"
+                    className="font-ui text-[12px] font-light tracking-[0.5px] text-muted transition-colors duration-300 hover:text-accent"
                   >
                     info@illyrianpixel.com
                   </a>
@@ -387,7 +387,7 @@ export default function ContactPageClient() {
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-ui text-[12px] font-light tracking-[0.5px] text-[#A0A0A0] transition-colors duration-300 hover:text-[#ab8339]"
+                    className="font-ui text-[12px] font-light tracking-[0.5px] text-muted transition-colors duration-300 hover:text-accent"
                   >
                     WhatsApp
                   </a>
@@ -395,7 +395,7 @@ export default function ContactPageClient() {
                     href="https://www.instagram.com/illyrianpixel/"
                     target="_blank"
                     rel="noreferrer"
-                    className="font-ui text-[12px] font-light tracking-[0.5px] text-[#A0A0A0] transition-colors duration-300 hover:text-[#ab8339]"
+                    className="font-ui text-[12px] font-light tracking-[0.5px] text-muted transition-colors duration-300 hover:text-accent"
                   >
                     Instagram
                   </a>
@@ -403,7 +403,7 @@ export default function ContactPageClient() {
                     href="https://maps.google.com/?q=41.3275,19.8187"
                     target="_blank"
                     rel="noreferrer"
-                    className="font-ui text-[12px] font-light tracking-[0.5px] text-[#A0A0A0] transition-colors duration-300 hover:text-[#ab8339]"
+                    className="font-ui text-[12px] font-light tracking-[0.5px] text-muted transition-colors duration-300 hover:text-accent"
                   >
                     {t("location")}
                   </a>
@@ -442,7 +442,7 @@ function LuxInput({
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-[#A0A0A0]/55 focus:border-[#ab8339]"
+        className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-muted/55 focus:border-accent"
       />
     </label>
   );
@@ -677,15 +677,15 @@ function BrandDropdown({
         onKeyDown={handleKeyDown}
         className={`font-ui flex w-full items-center gap-3 border-b bg-transparent py-3 text-left text-[14px] font-light tracking-[0.3px] outline-none transition-colors duration-300 ${
           open
-            ? "border-[#ab8339]"
-            : "border-[#262626] hover:border-[#ab8339]/45 focus:border-[#ab8339]"
+            ? "border-accent"
+            : "border-[#262626] hover:border-accent/45 focus:border-accent"
         }`}
       >
         <span className="min-w-0 flex-1 truncate text-white">{selected?.label}</span>
         <span
           aria-hidden
           className={`shrink-0 text-[10px] transition-all duration-300 ${
-            open ? "translate-y-[1px] rotate-180 text-[#ab8339]" : "text-[#A0A0A0]"
+            open ? "translate-y-[1px] rotate-180 text-accent" : "text-muted"
           }`}
         >
           ↓
@@ -694,7 +694,7 @@ function BrandDropdown({
 
       {open ? (
         <div className="absolute left-0 right-0 top-full z-40 pt-3">
-          <div className="overflow-hidden rounded-[1rem] border border-[#ab8339]/20 bg-[rgba(10,10,10,0.98)] p-2 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+          <div className="overflow-hidden rounded-2xl border border-accent/20 bg-[rgba(10,10,10,0.98)] p-2 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl">
             <div
               className="max-h-72 overflow-y-auto pr-1"
               role="listbox"
@@ -723,10 +723,10 @@ function BrandDropdown({
                     onMouseEnter={() => setActiveIndex(index)}
                     className={`font-ui flex w-full items-center gap-3 rounded-[0.9rem] px-3 py-3 text-left text-[14px] tracking-[0.3px] transition-colors duration-200 ${
                       isActive
-                        ? "bg-[#ab8339]/14 text-white"
+                        ? "bg-accent/14 text-white"
                         : isSelected
-                          ? "bg-[#ab8339]/8 text-white/90"
-                          : "text-white/80 hover:bg-[#ab8339]/10 hover:text-white"
+                          ? "bg-accent/8 text-white/90"
+                          : "text-white/80 hover:bg-accent/10 hover:text-white"
                     }`}
                   >
                     <span className="min-w-0 flex-1 truncate">{option.label}</span>

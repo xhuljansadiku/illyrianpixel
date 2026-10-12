@@ -168,7 +168,7 @@ export default function ParticleCloudHero() {
         <div className="hero-copy space-y-7 text-center md:space-y-8 lg:pl-14 lg:text-left">
           <div
             ref={badgeRef}
-            className="inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/10 px-4 py-1.5 text-[11px] tracking-[0.22em] text-accent"
+            className="inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/10 px-4 py-1.5 text-[11px] tracking-[0.2em] text-accent"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
             {t("badge")}

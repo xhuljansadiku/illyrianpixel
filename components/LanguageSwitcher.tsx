@@ -48,7 +48,8 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
       >
         <span className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full">
           <Image
-            src={`https://flagcdn.com/w40/${FLAG[locale]}.png`}
+            src={`/flags/4x3/${FLAG[locale]}.svg`}
+            unoptimized
             width={20}
             height={20}
             alt=""
@@ -73,7 +74,7 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
         <div
           role="listbox"
           aria-label={t("langSwitchAria")}
-          className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-[136px] overflow-hidden rounded-xl border border-white/10 bg-[#0e0e0e]/97 py-1 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+          className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-[136px] overflow-hidden rounded-xl border border-white/10 bg-surface/97 py-1 shadow-[0_16px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl"
         >
           {routing.locales.map((loc) => {
             const isActive = loc === locale;
@@ -91,7 +92,8 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
               >
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full">
                   <Image
-                    src={`https://flagcdn.com/w40/${FLAG[loc]}.png`}
+                    src={`/flags/4x3/${FLAG[loc]}.svg`}
+                    unoptimized
                     width={20}
                     height={20}
                     alt=""

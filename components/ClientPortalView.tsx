@@ -33,13 +33,13 @@ export default function ClientPortalView({
   quotes: QuoteRecord[];
 }) {
   return (
-    <main id="main-content" className="min-h-screen bg-[#0a0a0a] px-4 py-12 text-white md:py-20">
+    <main id="main-content" className="min-h-screen bg-bg px-4 py-12 text-white md:py-20">
       <div className="mx-auto w-full max-w-2xl">
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-accent/60 pb-6">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-accent/70">Illyrian Pixel</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/35">Portali i klientit</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-accent/70">Illyrian Pixel</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-white/35">Portali i klientit</p>
           </div>
           <div className="text-right">
             <h1 className="font-display text-2xl font-bold text-white">{contactName}</h1>
@@ -58,14 +58,14 @@ export default function ClientPortalView({
                 const done = p.tasks.filter((t) => t.done).length;
                 const pct = total > 0 ? Math.round((done / total) * 100) : 0;
                 return (
-                  <div key={p.id} className="rounded-xl border border-white/10 bg-[#101010] p-5">
+                  <div key={p.id} className="rounded-xl border border-white/10 bg-surface p-5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="font-semibold text-white">{p.name}</p>
                       <div className="flex items-center gap-2">
-                        <span className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
+                        <span className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-accent">
                           {PROJECT_PHASE_LABELS[p.phase]}
                         </span>
-                        <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/55">
+                        <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/55">
                           {PROJECT_STATUS_LABELS[p.status]}
                         </span>
                       </div>
@@ -117,7 +117,7 @@ export default function ClientPortalView({
                 return (
                   <div
                     key={q.id}
-                    className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#101010] p-4"
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-surface p-4"
                   >
                     <div>
                       <p className="text-sm font-semibold text-white">
@@ -127,7 +127,7 @@ export default function ClientPortalView({
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-semibold text-white">{formatMoney(total)}</span>
-                      <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[q.status]}`}>
+                      <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] ${STATUS_COLORS[q.status]}`}>
                         {QUOTE_STATUS_LABELS[q.status]}
                       </span>
                       {q.public_token && (

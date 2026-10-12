@@ -129,7 +129,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
     <section id="kalkulatori" className="relative z-[1] scroll-mt-28 border-b border-white/[0.07]">
       <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-24 bg-gradient-to-b from-accent/[0.025] to-transparent" />
       <div className="section-wrap relative z-[1] py-14 md:py-20">
-        <SectionMark label={t("eyebrow")} eyebrowClassName="tracking-[0.18em]" />
+        <SectionMark label={t("eyebrow")} eyebrowClassName="tracking-[0.2em]" />
         <h2 className="mt-2 font-display text-[clamp(1.65rem,3.5vw,2.75rem)] leading-[1.06] tracking-[-0.02em] text-white">
           {t("title")}
         </h2>
@@ -137,7 +137,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           {/* ── Zgjedhjet ── */}
-          <div className="rounded-[24px] border border-white/10 bg-white/[0.02] p-6 md:p-8">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent/55">01 · {t("stepService")}</p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {categories.map((c) => (
@@ -172,7 +172,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
 
             {!isMonthly && EXTRAS.some((e) => e.slugs.includes(slug)) && (
               <>
-                <p className="mt-6 text-[11px] uppercase tracking-[0.18em] text-white/35">{t("extrasLabel")}</p>
+                <p className="mt-6 text-[11px] uppercase tracking-[0.2em] text-white/35">{t("extrasLabel")}</p>
                 <div className="mt-3 flex flex-wrap gap-2.5">
                   {EXTRAS.filter((e) => e.slugs.includes(slug)).map((e) => (
                     <button key={e.id} type="button" onClick={() => toggleExtra(e.id)} className={chip(extras.has(e.id))}>
@@ -189,13 +189,13 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
           </div>
 
           {/* ── Rezultati ── */}
-          <div className="relative overflow-hidden rounded-[24px] border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:p-8">
+          <div className="relative overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.4)] md:p-8">
             <div aria-hidden className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
             <div aria-hidden className="pointer-events-none absolute -right-16 top-0 h-56 w-56 rounded-full bg-accent/[0.08] blur-[90px]" />
 
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent/55">03 · {t("stepResult")}</p>
 
-            <p className="mt-5 text-[11px] uppercase tracking-[0.18em] text-white/35">{t("estimateLabel")}</p>
+            <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-white/35">{t("estimateLabel")}</p>
             <p className="mt-1 font-display text-[clamp(2.2rem,4.5vw,3.2rem)] font-bold leading-none text-accent">
               {estimateText}
             </p>

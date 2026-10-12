@@ -96,15 +96,15 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
         <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_8%_10%,rgba(171,131,57,0.09),transparent_30%)]" />
 
         {/* Hero */}
-        <section ref={heroRef} className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
+        <section ref={heroRef} className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-bgDeep">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.022]"
             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")", mixBlendMode: "overlay" }}
           />
-          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#ab8339]/[0.07] blur-[130px]" />
+          <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-36">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.32em] text-accent/55">
+            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">
               {t.eyebrow}
             </p>
 
@@ -142,7 +142,7 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
         {/* Trust bar */}
         <section
           aria-label={t.trustAria}
-          className="relative z-[1] border-b border-[#D4AF37]/15 bg-[linear-gradient(180deg,rgba(212,175,55,0.04)_0%,rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.015)_100%)] shadow-[inset_0_1px_0_rgba(212,175,55,0.07)]"
+          className="relative z-[1] border-b border-accent/15 bg-[linear-gradient(180deg,rgba(171,131,57,0.04)_0%,rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.015)_100%)] shadow-[inset_0_1px_0_rgba(171,131,57,0.07)]"
         >
           <div className="section-wrap py-10 md:py-12">
             <ConversionTrustBar stats={getConversionTrustStatsDefault(locale)} />
@@ -150,7 +150,7 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
         </section>
 
         {/* Lexo më shumë */}
-        <section className="relative z-[1] border-b border-white/[0.06] bg-[#0a0a0a]">
+        <section className="relative z-[1] border-b border-white/[0.06] bg-bg">
           <div className="section-wrap py-20 md:py-28">
             <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/50">{t.readMore}</p>
             <h2 className="mt-5 font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-white">
@@ -167,12 +167,12 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
         </section>
 
         {/* CTA */}
-        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-[#070707]">
+        <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-bgDeep">
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(171,131,57,0.13),transparent_70%)]" />
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
           <div className="section-wrap relative py-28 md:py-36 text-center">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent/55">{t.nextStep}</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{t.nextStep}</p>
             <h2 className="mt-6 font-display text-[clamp(2.2rem,5vw,4.4rem)] font-bold leading-[1.06] tracking-[-0.03em] text-white">
               {t.notListed}
             </h2>
@@ -183,7 +183,7 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
               <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg">
                 {t.startChat}
               </Link>
-              <Link href="/cmimet#kalkulatori" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.06em] text-white/50 transition-colors duration-300 hover:text-white">
+              <Link href="/cmimet#kalkulatori" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.08em] text-white/50 transition-colors duration-300 hover:text-white">
                 {t.calcPrice}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
