@@ -166,7 +166,8 @@ export default function Navbar() {
           >
             <span className="inline-flex min-w-0 max-w-full items-center gap-1.5 transition-opacity duration-300 hover:opacity-90 sm:gap-2.5 md:gap-[10px]">
               <Image
-                src="/images/illyrianpixel_logo.png"
+                src="/images/illyrianpixel_logo.svg"
+                unoptimized
                 alt=""
                 width={200}
                 height={72}
@@ -176,7 +177,8 @@ export default function Navbar() {
                 className="h-8 w-auto max-w-[76px] shrink-0 object-contain sm:h-9 sm:max-w-[104px] md:max-w-[118px]"
               />
               <Image
-                src="/images/illyrianpixel_text.png"
+                src="/images/illyrianpixel_text.svg"
+                unoptimized
                 alt="Illyrian Pixel"
                 width={360}
                 height={72}

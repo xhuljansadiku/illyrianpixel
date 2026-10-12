@@ -226,7 +226,8 @@ export default function Preloader() {
             style={{ background: "linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.13) 50%, transparent 100%)" }}
           />
           <Image
-            src="/images/illyrianpixel_logo.png"
+            src="/images/illyrianpixel_logo.svg"
+            unoptimized
             alt="Illyrian Pixel"
             width={260}
             height={92}
