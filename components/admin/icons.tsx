@@ -27,7 +27,8 @@ export type AdminIconName =
   | "plus"
   | "external"
   | "zap"
-  | "users";
+  | "users"
+  | "palette";
 
 const PATHS: Record<AdminIconName, ReactNode> = {
   home: (
@@ -157,6 +158,14 @@ const PATHS: Record<AdminIconName, ReactNode> = {
     </>
   ),
   zap: <path d="M13 2 3 14h8l-1 8 11-13h-8Z" />,
+  palette: (
+    <>
+      <path d="M12 22a10 10 0 1 1 10-10c0 2.5-2 4-4.5 4H16a2 2 0 0 0-1.5 3.3A1.6 1.6 0 0 1 12 22Z" />
+      <circle cx="7.5" cy="11" r="1.2" />
+      <circle cx="10.5" cy="7" r="1.2" />
+      <circle cx="15.5" cy="7.5" r="1.2" />
+    </>
+  ),
   users: (
     <>
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
