@@ -92,7 +92,7 @@ export default function FAQ({ items }: { items?: FaqItem[] }) {
           {groups.map((group) => (
             <div key={group.category ?? "all"}>
               {group.category && (
-                <p className="mb-2 font-ui text-[11px] font-semibold uppercase tracking-[0.2em] text-accent/85">{group.category}</p>
+                <p className="ip-eyebrow mb-2">{group.category}</p>
               )}
               <div className="divide-y divide-white/10 border-y border-white/10">
                 {group.items.map((item) => {

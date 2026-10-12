@@ -1,91 +1,37 @@
 "use client";
 
-import { useRef } from "react";
-import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ScrollProgress from "@/components/ScrollProgress";
-import { useReducedMotion } from "@/lib/gsap";
-import { usePinnedHeroScroll } from "@/lib/usePinnedHeroScroll";
+import { useLocale } from "next-intl";
+import BlogArticleLayout from "@/components/BlogArticleLayout";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 
 const WA_HREF = buildWhatsAppChatHref(DEFAULT_WHATSAPP_E164);
 
-const HERO_TEXTURE =
-  "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=80";
-
+// Article body only; hero, back link, WhatsApp CTA and related posts come from BlogArticleLayout.
 export default function BlogEcommerceClient() {
   const locale = useLocale();
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const heroTitleRef = useRef<HTMLHeadingElement>(null);
-  const heroStatsRef = useRef<HTMLParagraphElement>(null);
-  const heroTextureRef = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-
-  usePinnedHeroScroll({
-    enabled: !reduced,
-    heroSectionRef,
-    heroTitleRef,
-    heroStatsRef,
-    heroTextureRef
-  });
+  const en = locale === "en";
 
   return (
-    <>
-      <Navbar />
-      <ScrollProgress />
-      <main id="main-content" className="min-h-screen bg-bg pb-16 pt-20 text-text [scroll-behavior:smooth]">
-        <section ref={heroSectionRef} className="relative border-b border-white/10">
-          <div
-            ref={heroTextureRef}
-            className="pointer-events-none absolute inset-0 z-0 bg-[length:180%] bg-[position:20%_50%] opacity-0"
-            style={{ backgroundImage: `url(${HERO_TEXTURE})` }}
-          />
-          <div className="section-wrap relative z-[1] pb-12 pt-6 md:pb-14">
-            <Link href="/blog" className="luxury-link">
-              <span aria-hidden>←</span> {locale === "en" ? "Back to blog" : "Kthehu te blogu"}
-            </Link>
-
-            <div className="mt-8">
-              <p className="inline-flex rounded-full border border-violet-100/60 bg-[linear-gradient(180deg,rgba(245,243,255,0.98),rgba(233,229,255,0.95))] px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] text-violet-800">
-                E-Commerce
-              </p>
-              {locale === "en" ? (
-                <>
-                  <h1 ref={heroTitleRef} className="section-title font-display mt-5 max-w-4xl">
-                    Your physical store closes at 6 PM.
+    <BlogArticleLayout
+      category="E-Commerce"
+      categoryColor=""
+      title={en ? <>Your physical store closes at 6 PM.
                     <br className="hidden md:block" />
-                    Your online store <span className="text-accent">never does.</span>
-                  </h1>
-                  <p ref={heroStatsRef} className="mt-5 max-w-3xl text-base leading-relaxed text-white/68 md:text-[1.1rem]">
-                    Why Albanian businesses need an online store in 2026.
-                    <br />
-                    The most common mistakes, real costs, and what you&apos;re losing every month without e-commerce.
-                  </p>
-                  <p className="mt-6 text-xs tracking-[0.15em] text-white/45">May 2026 · 7 min read</p>
-                </>
-              ) : (
-                <>
-                  <h1 ref={heroTitleRef} className="section-title font-display mt-5 max-w-4xl">
-                    Dyqani juaj fizik mbyllet në orën 18:00.
+                    Your online store <span className="text-accent">never does.</span></> : <>Dyqani juaj fizik mbyllet në orën 18:00.
                     <br className="hidden md:block" />
-                    Dyqani online <span className="text-accent">kurrë.</span>
-                  </h1>
-                  <p ref={heroStatsRef} className="mt-5 max-w-3xl text-base leading-relaxed text-white/68 md:text-[1.1rem]">
-                    Pse bizneset shqiptare kanë nevojë për dyqan online në 2026.
+                    Dyqani online <span className="text-accent">kurrë.</span></>}
+      description={en ? <>Why Albanian businesses need an online store in 2026.
                     <br />
-                    Gabimet më të shpeshta, kostot reale dhe çfarë humbisni çdo muaj pa e-commerce.
-                  </p>
-                  <p className="mt-6 text-xs tracking-[0.15em] text-white/45">Maj 2026 · 7 min lexim</p>
-                </>
-              )}
-            </div>
-          </div>
-        </section>
+                    The most common mistakes, real costs, and what you&apos;re losing every month without e-commerce.</> : <>Pse bizneset shqiptare kanë nevojë për dyqan online në 2026.
+                    <br />
+                    Gabimet më të shpeshta, kostot reale dhe çfarë humbisni çdo muaj pa e-commerce.</>}
+      date={en ? "May 2026" : "Maj 2026"}
+      readTime={en ? "7 min read" : "7 min lexim"}
+      related={en ? [{ href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "The Mistakes Businesses Make on Their Website (and How We Fix Them)" }, { href: "/blog/google-ads-vs-seo", category: "Marketing", categoryColor: "", title: "Google Ads or SEO: Where Should You Invest Your Money?" }] : [{ href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)" }, { href: "/blog/google-ads-vs-seo", category: "Marketing", categoryColor: "", title: "Google Ads apo SEO: Ku të investosh para?" }]}
+    >
+      <div className="blog-growth-article space-y-16 md:space-y-24">
 
-        <article className="section-wrap py-16 md:py-24">
-          <div className="blog-growth-article mx-auto max-w-2xl space-y-16 md:space-y-24">
 
             {locale === "en" ? (
               <>
@@ -208,8 +154,8 @@ export default function BlogEcommerceClient() {
                   </p>
                 </section>
 
-                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.25)] md:p-9">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-accent/85">Next step</p>
+                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-lift md:p-9">
+                  <p className="ip-eyebrow">Next step</p>
 
                   <section className="mt-6 space-y-3">
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
@@ -239,7 +185,7 @@ export default function BlogEcommerceClient() {
                     <Link
                       href="/contact"
                       data-magnetic="true"
-                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 !px-8 !py-3.5 !text-sm !tracking-[0.12em]"
+                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 "
                     >
                       <span>Free consultation</span>
                       <span aria-hidden className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
@@ -374,8 +320,8 @@ export default function BlogEcommerceClient() {
                   </p>
                 </section>
 
-                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.25)] md:p-9">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-accent/85">Hapi tjetër</p>
+                <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 shadow-lift md:p-9">
+                  <p className="ip-eyebrow">Hapi tjetër</p>
 
                   <section className="mt-6 space-y-3">
                     <h2 className="blog-growth-h2 font-display text-[clamp(1.45rem,2.8vw,1.85rem)] leading-tight text-white">
@@ -405,7 +351,7 @@ export default function BlogEcommerceClient() {
                     <Link
                       href="/contact"
                       data-magnetic="true"
-                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 !px-8 !py-3.5 !text-sm !tracking-[0.12em]"
+                      className="interactive-button ip-cta-primary ip-cta-primary--lg group gap-2 "
                     >
                       <span>Konsultë falas</span>
                       <span aria-hidden className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
@@ -420,45 +366,7 @@ export default function BlogEcommerceClient() {
                 </div>
               </>
             )}
-          </div>
-        </article>
-
-        <section className="section-wrap border-t border-white/10 py-12 md:py-16">
-          <h3 className="font-display text-[clamp(1.35rem,2.8vw,1.9rem)] text-white">
-            {locale === "en" ? "Related articles" : "Artikuj të ngjashëm"}
-          </h3>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <Link
-              href="/blog/gabimet-kryesore-ne-website"
-              className="group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-accent/40"
-            >
-              <p className="inline-flex rounded-full border border-indigo-100/60 bg-[linear-gradient(180deg,rgba(244,242,255,0.98),rgba(231,226,255,0.95))] px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] text-indigo-800">
-                UX
-              </p>
-              <p className="mt-4 font-display text-[1.35rem] leading-tight text-white">
-                {locale === "en"
-                  ? "The Mistakes Businesses Make on Their Website (and How We Fix Them)"
-                  : "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)"}
-              </p>
-            </Link>
-
-            <Link
-              href="/blog/google-ads-vs-seo"
-              className="group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-accent/40"
-            >
-              <p className="inline-flex rounded-full border border-blue-100/60 bg-[linear-gradient(180deg,rgba(239,246,255,0.98),rgba(219,234,254,0.95))] px-4 py-[7px] text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] text-blue-800">
-                Marketing
-              </p>
-              <p className="mt-4 font-display text-[1.35rem] leading-tight text-white">
-                {locale === "en"
-                  ? "Google Ads or SEO: Where Should You Invest Your Money?"
-                  : "Google Ads apo SEO: Ku të investosh para?"}
-              </p>
-            </Link>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </BlogArticleLayout>
   );
 }

@@ -563,7 +563,7 @@ export default function AdminDashboard({
                 IP
               </div>
               <div className="min-w-0">
-                <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+                <p className="ip-eyebrow">Illyrian Pixel</p>
                 <h1 className="font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">Admin Panel</h1>
               </div>
               <button
@@ -807,7 +807,7 @@ export default function AdminDashboard({
               ☰
             </button>
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+              <p className="ip-eyebrow">Illyrian Pixel</p>
               <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{TAB_TITLES[tab].title}</h1>
             </div>
             <NotificationsBell setTab={setTab} />

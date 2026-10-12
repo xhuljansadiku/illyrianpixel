@@ -99,7 +99,7 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
           <div className="section-wrap relative py-28 md:py-40">
-            <p className="hero-eyebrow font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{t("eyebrow")}</p>
+            <p className="ip-eyebrow hero-eyebrow">{t("eyebrow")}</p>
             <div className="hero-line1 mt-8 overflow-hidden">
               <h1 className="font-display text-[clamp(2rem,4.5vw,4.2rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
                 {t("titleLine1")}

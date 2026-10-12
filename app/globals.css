@@ -2158,3 +2158,33 @@ html[data-aura="cta"] body {
   .ip-doc tr, .ip-doc .rounded-2xl { break-inside: avoid; }
   .ip-no-print { display: none !important; }
 }
+
+/* ── Brand system: secondary CTA + eyebrow label ── */
+/* Secondary CTA: outline pill, same size/typography as .ip-cta-primary */
+.ip-cta-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.02] text-center text-white/85;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.8rem 1.55rem;
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+.ip-cta-secondary:hover {
+  @apply border-accent/60 bg-accent/[0.06] text-accentLight;
+}
+.ip-cta-secondary--lg {
+  padding: 1.05rem 2.25rem;
+}
+
+/* Eyebrow: the small uppercase label above section titles */
+.ip-eyebrow {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #ab8339;
+}

@@ -41,8 +41,8 @@ function Frame({
     <div
       className={`before-after-frame group relative flex flex-col self-start overflow-hidden rounded-2xl border bg-[#0d0d0d] transition-all duration-500 hover:-translate-y-1 ${
         isAfter
-          ? "border-accent/30 shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-accent/60 hover:shadow-[0_26px_70px_rgba(171,131,57,0.22)]"
-          : "border-white/12 shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-white/25"
+          ? "border-accent/30 shadow-lift hover:border-accent/60 hover:shadow-gold-lift"
+          : "border-white/12 shadow-lift hover:border-white/25"
       }`}
     >
       {isAfter && (
@@ -112,7 +112,7 @@ export default function BeforeAfter() {
           <SectionMark label={t("eyebrow")} />
           <h2 className="section-title mt-3 max-w-4xl">{t("title")}</h2>
           <div className="mt-3 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-            <span className="rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-accent/90">
+            <span className="ip-eyebrow rounded-full border border-accent/30 bg-accent/8 px-3 py-1">
               {t("badge")}
             </span>
             <p className="text-sm text-white/55">{ITEM.name}</p>

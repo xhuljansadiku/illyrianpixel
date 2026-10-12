@@ -123,7 +123,7 @@ export default async function HomePage(props: Props) {
         {/* CTA pas FAQ */}
         <section className="relative border-b border-white/[0.06] bg-bgDeep/92">
           <div className="section-wrap py-16 md:py-20">
-            <div className="relative flex flex-wrap items-center justify-between gap-8 overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(10,10,10,0.92)_0%,rgba(16,16,16,0.92)_52%,rgba(171,131,57,0.18)_100%)] px-7 py-10 shadow-[0_24px_70px_rgba(0,0,0,0.38)] md:px-12 md:py-14">
+            <div className="relative flex flex-wrap items-center justify-between gap-8 overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(10,10,10,0.92)_0%,rgba(16,16,16,0.92)_52%,rgba(171,131,57,0.18)_100%)] px-7 py-10 shadow-lift md:px-12 md:py-14">
               <div
                 data-parallax="0.5"
                 className="pointer-events-none absolute -inset-y-[12%] inset-x-0 bg-[radial-gradient(circle_at_14%_24%,rgba(255,255,255,0.07),transparent_38%),radial-gradient(circle_at_84%_78%,rgba(171,131,57,0.16),transparent_44%)]"

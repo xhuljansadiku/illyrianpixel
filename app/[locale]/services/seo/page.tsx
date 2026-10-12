@@ -188,7 +188,7 @@ export default async function SeoPage(props: Props) {
         <section className="relative z-[1] overflow-hidden border-b border-white/[0.06] bg-bgDeep">
           <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
           <div className="section-wrap relative z-[2] py-28 md:py-36">
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{c.badge}</p>
+            <p className="ip-eyebrow">{c.badge}</p>
             <h1 className="mt-6 max-w-3xl font-display text-[clamp(2.4rem,5vw,3.8rem)] font-bold leading-[1.08] tracking-[-0.02em] text-white">
               {c.h1[0]}{" "}
               <span className="text-accent">{c.h1[1]}</span>
@@ -197,7 +197,7 @@ export default async function SeoPage(props: Props) {
               {c.subtitle}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link href="/contact" className="interactive-button ip-cta-primary inline-flex h-11 items-center gap-2 !px-7 !text-[15px] !font-medium !text-surface">
+              <Link href="/contact" className="interactive-button ip-cta-primary inline-flex items-center gap-2 ">
                 {c.ctaPrimary}
               </Link>
               <Link href="/cmimet" className="luxury-link !text-[15px]">
@@ -220,7 +220,7 @@ export default async function SeoPage(props: Props) {
         {/* Packages */}
         <section className="relative z-[1]">
           <div className="section-wrap py-20 md:py-28">
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">{c.packagesEyebrow}</p>
+            <p className="ip-eyebrow">{c.packagesEyebrow}</p>
             <h2 className="mt-3 font-display text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.06] tracking-[-0.02em] text-white">
               {c.packagesTitle}
             </h2>

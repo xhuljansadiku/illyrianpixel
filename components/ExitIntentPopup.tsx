@@ -89,7 +89,7 @@ export default function ExitIntentPopup() {
       />
 
       {/* Card */}
-      <div className="relative z-[1] w-full max-w-md rounded-2xl border border-white/10 bg-surface p-7 shadow-[0_32px_80px_rgba(0,0,0,0.7)] md:p-9">
+      <div className="relative z-[1] w-full max-w-md rounded-2xl border border-white/10 bg-surface p-7 shadow-overlay md:p-9">
         {/* Close */}
         <button
           type="button"
@@ -103,7 +103,7 @@ export default function ExitIntentPopup() {
         </button>
 
         {/* Content */}
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent/70">
+        <p className="ip-eyebrow">
           {content.eyebrow}
         </p>
         <h2 className="font-display mt-3 text-[clamp(1.5rem,4vw,2rem)] leading-tight text-white">

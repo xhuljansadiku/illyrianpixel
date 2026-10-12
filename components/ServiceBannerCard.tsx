@@ -58,7 +58,7 @@ export default function ServiceBannerCard({ service, reversed = false, headingAs
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="group relative flex w-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-[linear-gradient(140deg,#111111_0%,#0d0d0d_55%,#0f0f0f_100%)] shadow-[0_16px_48px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] will-change-transform hover:-translate-y-1 hover:border-accent/50 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(171,131,57,0.35),0_0_48px_rgba(171,131,57,0.1)] sm:flex-row sm:min-h-[260px]"
+      className="group relative flex w-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-[linear-gradient(140deg,#111111_0%,#0d0d0d_55%,#0f0f0f_100%)] shadow-[0_16px_48px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] will-change-transform hover:-translate-y-1 hover:border-accent/50 hover:shadow-gold-lift sm:flex-row sm:min-h-[260px]"
     >
       {/* Top accent line */}
       <div
@@ -104,7 +104,7 @@ export default function ServiceBannerCard({ service, reversed = false, headingAs
       {/* Content panel */}
       <div className="relative z-[2] flex flex-col justify-center gap-5 p-8 sm:w-[62%] sm:p-10 lg:p-14">
         {/* Ordinal */}
-        <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/35 transition-colors duration-300 group-hover:text-accent/60">
+        <span className="ip-eyebrow transition-colors duration-300 group-hover:text-accent/60">
           {service.ordinal}
         </span>
 
@@ -120,7 +120,7 @@ export default function ServiceBannerCard({ service, reversed = false, headingAs
         </p>
 
         <div>
-          <span className="inline-flex items-center gap-2.5 rounded-md bg-accent px-5 py-2.5 font-body text-[11px] font-bold uppercase tracking-[1.5px] text-bg shadow-[0_2px_12px_rgba(171,131,57,0.3)] transition-all duration-300 group-hover:bg-accentLight group-hover:shadow-[0_4px_20px_rgba(171,131,57,0.45)]">
+          <span className="inline-flex items-center gap-2.5 rounded-md bg-accent px-5 py-2.5 font-body text-[11px] font-bold uppercase tracking-[1.5px] text-bg shadow-gold transition-all duration-300 group-hover:bg-accentLight group-hover:shadow-gold">
             {t("cardCta")}
             <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
               →

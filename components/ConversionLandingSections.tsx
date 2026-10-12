@@ -36,7 +36,7 @@ function TextCardSection({ data }: { data: ConversionTextCardSection }) {
           {data.items.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-accent/28 hover:shadow-[0_18px_44px_rgba(0,0,0,0.26)]"
+              className="rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-accent/28 hover:shadow-lift"
             >
               <h3 className="font-display text-[1.05rem] tracking-[-0.015em] text-white md:text-[1.12rem]">
                 {item.title}
@@ -234,7 +234,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
             {data.whyUs.items.map((item) => (
               <div
                 key={item.title}
-                className="group rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-accent/32 hover:shadow-[0_22px_56px_rgba(171,131,57,0.1),0_20px_48px_rgba(0,0,0,0.28)]"
+                className="group rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(24,23,22,0.92),rgba(14,13,12,0.96))] p-6 transition-[border-color,transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-accent/32 hover:shadow-gold-lift"
               >
                 <div
                   className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.1] bg-accent/[0.1] transition-colors duration-300 group-hover:border-accent/38"
@@ -323,7 +323,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                 <Link
                   key={item.slug}
                   href={`/projektet/${item.slug}`}
-                  className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(12,12,12,0.97))] transition-[border-color,transform,box-shadow] duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_20px_52px_rgba(0,0,0,0.36),0_0_0_1px_rgba(171,131,57,0.08)]"
+                  className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(12,12,12,0.97))] transition-[border-color,transform,box-shadow] duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-gold-lift"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
@@ -382,7 +382,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
                     )}
                   </div>
                   <div className="p-5 pt-4">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">{item.category}</p>
+                    <p className="ip-eyebrow">{item.category}</p>
                     <h3 className="mt-1.5 font-display text-[1.2rem] tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-accent/90">
                       {item.title}
                     </h3>
@@ -423,7 +423,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
             {data.testimonials.map((t) => (
               <blockquote
                 key={t.name}
-                className="flex flex-col rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(14,14,14,0.97))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-accent/22 hover:shadow-[0_18px_44px_rgba(0,0,0,0.28),0_0_0_1px_rgba(171,131,57,0.06),0_0_28px_rgba(171,131,57,0.04)]"
+                className="flex flex-col rounded-2xl border border-white/[0.08] bg-[linear-gradient(165deg,rgba(22,22,22,0.94),rgba(14,14,14,0.97))] p-6 transition-[border-color,box-shadow] duration-300 hover:border-accent/22 hover:shadow-gold-lift"
                 style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)" }}
               >
                 {/* decorative open-quote mark */}
