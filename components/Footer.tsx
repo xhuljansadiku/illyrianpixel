@@ -96,7 +96,8 @@ export default function Footer() {
       {/* Ghost eagle, 4–5% opacity, centered */}
       <div className="pointer-events-none absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 opacity-[0.045]">
         <Image
-          src="/images/illyrianpixel_logo.png"
+          src="/images/illyrianpixel_logo.svg"
+          unoptimized
           alt=""
           width={800}
           height={800}
@@ -110,16 +111,18 @@ export default function Footer() {
           {/* ── Col 1: Brand ── */}
           <div className="flex flex-col items-center md:items-start">
             <div className="footer-reveal inline-flex flex-col items-center gap-3">
-              <Image src="/images/illyrianpixel_logo.png" alt="Illyrian Pixel" width={200} height={72} className="h-16 w-auto object-contain" />
-              <Image src="/images/illyrianpixel_text.png" alt="Illyrian Pixel" width={360} height={72} className="h-7 w-auto object-contain opacity-70" />
+              <Image src="/images/illyrianpixel_logo.svg" unoptimized alt="Illyrian Pixel" width={200} height={72} className="h-16 w-auto object-contain" />
+              <Image src="/images/illyrianpixel_text.svg" unoptimized alt="Illyrian Pixel" width={360} height={72} className="h-7 w-auto object-contain opacity-70" />
             </div>
             <h3 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.14] md:leading-[1.06] tracking-[-0.01em] md:tracking-[-0.025em] text-white">
               {t("brandTitleLine1")}
               <span className="font-bold text-accent uppercase">{t("brandTitleAccent")}</span>
             </h3>
+            {/* tagline: hidden — the heading above is now the single brand tagline ("Ktheje biznesin në BRAND.")
             <p className="footer-reveal mt-4 font-body text-[0.82rem] font-light text-white/50" style={{ letterSpacing: "1.2px" }}>
               {t("tagline")}
             </p>
+            */}
             <Link href="/contact" className="footer-reveal group mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 px-5 py-2.5 font-body text-[0.8rem] font-light tracking-[0.08em] text-accent transition-all duration-300 hover:border-accent/70 hover:bg-accent/8 hover:text-accentLight">
               {t("bookConsult")}
               <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
