@@ -28,10 +28,10 @@ export const caseStudies: CaseStudy[] = [
     problem:
       "Oferta dhe eksperienca e kompanisë nuk pasqyroheshin qartë online, duke krijuar paqartësi në llojin e projekteve dhe ritmin e kontakteve hyrëse.",
     solution:
-      "Ndërtuam strukturë të pastër me seksione service-first, proof konkret dhe flow navigimi që e çon përdoruesin drejt kërkesës pa friction.",
+      "Ndërtuam strukturë të pastër me seksione të ndara sipas shërbimeve, prova konkrete pune dhe një navigim që e çon vizitorin drejt kërkesës pa pengesa.",
     result: "Klientët e duhur, mesazhi i duhur e bëmë website-in të flasë për ta.",
-    metrics: ["Mesazh B2B i strukturuar", "Navigim pa friction", "Kërkesa industriale cilësore"],
-    tags: ["Branding", "Content (IT/EN)", "Website"],
+    metrics: ["Mesazh i qartë për biznese", "Navigim i thjeshtë dhe i qartë", "Kërkesa industriale cilësore"],
+    tags: ["Identitet brandi", "Përmbajtje (IT/EN)", "Website"],
     heroImage: "/images/projects/esm-group.avif",
     liveUrl: "https://esm-group.eu/"
   },
@@ -47,17 +47,17 @@ export const caseStudies: CaseStudy[] = [
     problem:
       "Informacioni ekzistonte, por hierarkia e përmbajtjes dhe narrativa e ofertës nuk e mbështesnin plotësisht perceptimin profesional të brandit.",
     solution:
-      "Organizuam përmbajtjen sipas intentit të përdoruesit, qartësuam paketat dhe forcuam seksionet që ndërtojnë besim para kontaktit.",
+      "Organizuam përmbajtjen sipas asaj që kërkon vizitori, qartësuam paketat dhe forcuam seksionet që ndërtojnë besim para kontaktit.",
     result: "Vizitorët kuptojnë, vendosin dhe kontaktojnë më shpejt.",
     metrics: ["Ofertë e qartë dhe e strukturuar", "Brand me autoritet personal", "Vendimmarrje pa hezitim"],
-    tags: ["Branding", "Content", "Website", "Payments (Stripe/PayPal)"],
+    tags: ["Identitet brandi", "Përmbajtje", "Website", "Pagesa online (Stripe/PayPal)"],
     heroImage: "/images/projects/bardhi-wellness.png",
     liveUrl: ""
   },
   {
     slug: "hauswerk-niederbayern",
     title: "Hauswerk Niederbayern",
-    category: "Local Services Website",
+    category: "Website për Shërbime Lokale",
     location: "Straubing, Gjermani",
     flagCodes: ["de"],
     year: "2026",
@@ -66,10 +66,10 @@ export const caseStudies: CaseStudy[] = [
     problem:
       "Vizitorët nuk arrinin gjithmonë të kuptonin menjëherë shërbimin përkatës dhe hapin e duhur për të dërguar kërkesë.",
     solution:
-      "Krijuam hierarchy të fortë në homepage, ndarje të qarta të shërbimeve dhe CTA të drejtpërdrejta për kontakt të menjëhershëm.",
+      "Krijuam një faqe kryesore të rregullt, ndarje të qarta të shërbimeve dhe butona kontakti të drejtpërdrejtë për kontakt të menjëhershëm.",
     result: "Klientët lokalë gjejnë shërbimin dhe nisin kontaktin direkt.",
-    metrics: ["Shërbime të dalluara qartë", "CTA i drejtpërdrejtë", "Kërkesa me pritshmëri të sakta"],
-    tags: ["Local Service", "Lead Flow", "Clarity"],
+    metrics: ["Shërbime të dalluara qartë", "Kontakt me një klik", "Kërkesa me pritshmëri të sakta"],
+    tags: ["Shërbime lokale", "Më shumë kërkesa", "Qartësi"],
     heroImage: "/images/projects/hauswerk-niederbayern.avif",
     liveUrl: "https://hauswerk-niederbayern.de/"
   },
@@ -85,36 +85,36 @@ export const caseStudies: CaseStudy[] = [
     problem:
       "Vizitorët vinin me pritshmëri të ndryshme dhe pa një kuadër të qartë të shërbimeve, gjë që e bënte më të vështirë filtrimin e kërkesave.",
     solution:
-      "Riorganizuam seksionet e ofertës, proof-it dhe kontaktit për të vendosur një rrjedhë më bindëse nga interesi te kërkesa.",
+      "Riorganizuam seksionet e ofertës, provave të punës dhe kontaktit për të vendosur një rrjedhë më bindëse nga interesi te kërkesa.",
     result: "Vizitorët besojnë dhe nisin bisedë serioze, jo hezitim.",
-    metrics: ["Proof social i dukshëm", "Shërbime të kuptueshme", "Biseda hyrëse cilësore"],
-    tags: ["Branding", "Content", "Website", "Google Ads"],
+    metrics: ["Vlerësime klientësh të dukshme", "Shërbime të kuptueshme", "Biseda hyrëse cilësore"],
+    tags: ["Identitet brandi", "Përmbajtje", "Website", "Google Ads"],
     heroImage: "/images/projects/palushi-brothers.png",
     liveUrl: "https://www.palushibrothers.co.uk/"
   },
   {
     slug: "ilirjana-shehu-photography",
     title: "Ilirjana Shehu Photography",
-    category: "Portfolio Website",
+    category: "Website Portofoli",
     location: "Tiranë, Shqipëri",
     flagCodes: ["al"],
     year: "2026",
     intro:
       "Portofoli tregon stilin dhe cilësinë e punës pa zhurmë, imazhi flet, rrjedha është e qetë, impakti është i menjëhershëm.",
     problem:
-      "Projektet fotografike nuk kishin nje kornize editoriale te qarte online, duke humbur ritmin dhe efektin ne prezantim.",
+      "Projektet fotografike nuk kishin një prezantim të qartë online, duke humbur ritmin dhe efektin e punës.",
     solution:
-      "Ndërtuam strukturë minimaliste, hierarchy të pastër dhe fokus të fortë te punimet për të rritur cilësinë e perceptimit.",
+      "Ndërtuam strukturë minimaliste, renditje të pastër dhe fokus të fortë te punimet për të rritur cilësinë e perceptimit.",
     result: "Portofoli flet vetë, pa zhurmë, me ritëm dhe impakt.",
-    metrics: ["Galeri me ritëm editorial", "Navigim i qetë dhe i fokusuar", "Cilësia e punës në plan të parë"],
-    tags: ["Photography", "Portfolio", "Editorial"],
+    metrics: ["Galeri si revistë fotografike", "Navigim i qetë dhe i fokusuar", "Cilësia e punës në plan të parë"],
+    tags: ["Fotografi", "Portofol", "Galeri"],
     heroImage: "/images/projects/ilirjana-shehu-photography.png",
     liveUrl: "https://www.ilirjanashehu.com/"
   },
   {
     slug: "suli-group-trockenbau",
     title: "Suli Group Trockenbau",
-    category: "Corporate Services Website",
+    category: "Website Korporativ",
     location: "Nyrëmberg, Gjermani",
     flagCodes: ["de"],
     year: "2026",
@@ -123,10 +123,10 @@ export const caseStudies: CaseStudy[] = [
     problem:
       "Mesazhi i shërbimeve ishte i shpërndarë dhe nuk theksonte mjaftueshëm pikat kyçe të diferencimit të kompanisë.",
     solution:
-      "Riorganizuam përmbajtjen me seksione të qarta, CTA të fokusuara dhe estetikë të kontrolluar dark-luxury.",
+      "Riorganizuam përmbajtjen me seksione të qarta, butona kontakti të qartë dhe një stil elegant me ngjyra të errëta.",
     result: "Oferta komunikon me autoritet, vizitori orientohet drejt kontaktit.",
-    metrics: ["Estetikë dark-luxury e kontrolluar", "Seksione shërbimesh të qarta", "Kontakt pa hezitim"],
-    tags: ["Construction", "Corporate", "Lead Gen"],
+    metrics: ["Stil elegant dhe premium", "Seksione shërbimesh të qarta", "Kontakt pa hezitim"],
+    tags: ["Ndërtim", "Korporativ", "Më shumë kërkesa"],
     heroImage: "/images/projects/suli-group-trockenbau.png",
     liveUrl: ""
   },
@@ -144,8 +144,8 @@ export const caseStudies: CaseStudy[] = [
     solution:
       "Ndërtuam platformë me hierarki të qartë: ligjërata, biografi, mjete interaktive (kohët e namazit, kibla, tesbih, kalkulator zekati) dhe formë konfidenciale \"Pyete Hoxhën\".",
     result: "Një adresë e vetme ku ndjekësit kthehen çdo ditë.",
-    metrics: ["Ligjërata dhe burime në një vend", "Mjete interaktive për përdorim ditor", "Pyetje konfidenciale pa friction"],
-    tags: ["Brand Personal", "Content (SQ/AR)", "Website", "Interactive Tools"],
+    metrics: ["Ligjërata dhe burime në një vend", "Mjete interaktive për përdorim ditor", "Pyetje konfidenciale me një klik"],
+    tags: ["Brand personal", "Përmbajtje (SQ/AR)", "Website", "Mjete interaktive"],
     heroImage: "/images/projects/gentjan-mara.png",
     liveUrl: "https://www.gentjanmara.com/"
   }

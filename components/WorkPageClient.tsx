@@ -1,16 +1,19 @@
 ﻿"use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { CaseStudy } from "@/lib/caseStudies";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalCTA from "@/components/GlobalCTA";
-import ProjectIndexList from "@/components/ProjectIndexList";
+// import ProjectIndexList from "@/components/ProjectIndexList";
+import ProjectBrowserCards from "@/components/ProjectBrowserCards";
+import type { Locale } from "@/i18n/routing";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) {
   const t = useTranslations("projects");
+  const locale = useLocale() as Locale;
   const heroRef = useRef<HTMLElement>(null);
 
   useIsomorphicLayoutEffect(() => {
@@ -75,7 +78,8 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
 
         <section className="relative z-[1]">
           <div className="section-wrap py-14 md:py-20">
-            <ProjectIndexList items={projects} />
+            {/* <ProjectIndexList items={projects} /> */}
+            <ProjectBrowserCards projects={projects} locale={locale} />
           </div>
         </section>
 
