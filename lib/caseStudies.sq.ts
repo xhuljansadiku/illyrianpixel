@@ -129,6 +129,25 @@ export const caseStudies: CaseStudy[] = [
     tags: ["Construction", "Corporate", "Lead Gen"],
     heroImage: "/images/projects/suli-group-trockenbau.png",
     liveUrl: ""
+  },
+  {
+    slug: "gentjan-mara",
+    title: "Gentjan Mara",
+    category: "Platformë Fetare & Brand Personal",
+    location: "Tiranë, Shqipëri",
+    flagCodes: ["al"],
+    year: "2026",
+    intro:
+      "Platformë dixhitale për një hoxhë me audiencë të gjerë shqipfolëse.\nBashkuam ligjëratat, biografinë dhe burime të përditshme si Kurani, hadithet, kohët e namazit dhe kibla në një vend të vetëm.\n\nNjë shtëpi online e qetë dhe e besueshme, që ndjekësit e përdorin çdo ditë.",
+    problem:
+      "Përmbajtja ishte e shpërndarë nëpër YouTube, Facebook dhe Instagram, pa një vend qendror ku ndjekësit të gjenin ligjëratat, burimet dhe kontaktin.",
+    solution:
+      "Ndërtuam platformë me hierarki të qartë: ligjërata, biografi, mjete interaktive (kohët e namazit, kibla, tesbih, kalkulator zekati) dhe formë konfidenciale \"Pyete Hoxhën\".",
+    result: "Një adresë e vetme ku ndjekësit kthehen çdo ditë.",
+    metrics: ["Ligjërata dhe burime në një vend", "Mjete interaktive për përdorim ditor", "Pyetje konfidenciale pa friction"],
+    tags: ["Brand Personal", "Content (SQ/AR)", "Website", "Interactive Tools"],
+    heroImage: "/images/projects/gentjan-mara.png",
+    liveUrl: "https://www.gentjanmara.com/"
   }
 ];
 
