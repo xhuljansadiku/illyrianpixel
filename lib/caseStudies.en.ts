@@ -114,6 +114,25 @@ export const caseStudies: CaseStudy[] = [
     tags: ["Construction", "Corporate", "Lead Gen"],
     heroImage: "/images/projects/suli-group-trockenbau.png",
     liveUrl: ""
+  },
+  {
+    slug: "gentjan-mara",
+    title: "Gentjan Mara",
+    category: "Religious Platform & Personal Brand",
+    location: "Tirana, Albania",
+    flagCodes: ["al"],
+    year: "2026",
+    intro:
+      "A digital platform for a religious teacher with a wide Albanian-speaking audience.\nWe brought lectures, biography and daily resources such as the Quran, hadiths, prayer times and qibla direction into one place.\n\nA calm, trustworthy home online that followers use every day.",
+    problem:
+      "Content was scattered across YouTube, Facebook and Instagram, with no central place where followers could find lectures, resources and a way to get in touch.",
+    solution:
+      "We built a platform with a clear hierarchy: lectures, biography, interactive tools (prayer times, qibla, tasbih counter, zakat calculator) and a confidential \"Ask the Hoxha\" form.",
+    result: "One address followers come back to every day.",
+    metrics: ["Lectures and resources in one place", "Interactive tools for daily use", "Confidential questions without friction"],
+    tags: ["Personal Brand", "Content (SQ/AR)", "Website", "Interactive Tools"],
+    heroImage: "/images/projects/gentjan-mara.png",
+    liveUrl: "https://www.gentjanmara.com/"
   }
 ];
 
