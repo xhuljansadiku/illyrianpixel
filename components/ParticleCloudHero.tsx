@@ -9,14 +9,21 @@
 
 import { useRef, useEffect, useState } from "react";
 // 3D: import dynamic from "next/dynamic";
+// import dynamicImport from "next/dynamic"; — për globin (i komentuar)
+import HeroBrandBuilder from "@/components/HeroBrandBuilder";
 import { useTranslations } from "next-intl";
+// import { useLocale } from "next-intl"; import type { Locale } from "@/i18n/routing"; — për globin
 import { Link } from "@/i18n/navigation";
 import { useReducedMotion } from "@/lib/gsap";
 
 // 3D: const ParticleCloudScene = dynamic(() => import("@/components/ParticleCloudScene"), { ssr: false });
 
+// Globi i klientëve (d3-geo, canvas) — i komentuar; për ta rikthyer hiq komentin këtu dhe te JSX-i
+// const ClientGlobe = dynamicImport(() => import("@/components/ClientGlobe"), { ssr: false });
+
 export default function ParticleCloudHero() {
   const t = useTranslations("home.hero");
+  // const locale = useLocale() as Locale; — për globin
   const reducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   // 3D: const [showScene, setShowScene] = useState(false);
@@ -125,7 +132,7 @@ export default function ParticleCloudHero() {
       runHeadlineReveal(gsap, SplitText);
 
       if (!reducedMotion) {
-        gsap.fromTo(
+        if (badgeRef.current) gsap.fromTo(
           badgeRef.current,
           { y: 24, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.7, delay: 0.18, ease: "power2.inOut" }
@@ -166,13 +173,14 @@ export default function ParticleCloudHero() {
     >
       <div className="hero-layout section-wrap relative z-10 grid items-center gap-12 lg:min-h-[100svh] lg:grid-cols-[1fr_1fr] lg:gap-16">
         <div className="hero-copy space-y-7 text-center md:space-y-8 lg:pl-14 lg:text-left">
-          <div
+          {/* Badge "● ILLYRIAN PIXEL" u hoq 2026-10-14 — përsëriste logon */}
+          {/* <div
             ref={badgeRef}
             className="inline-flex items-center gap-2.5 rounded-full border border-accent/45 bg-accent/10 px-4 py-1.5 text-[11px] tracking-[0.2em] text-accent"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
             {t("badge")}
-          </div>
+          </div> */}
 
           <h1
             ref={headlineRef}
@@ -217,14 +225,26 @@ export default function ParticleCloudHero() {
           </div>
         </div>
 
-        {/* Right column is intentionally empty on desktop — keeps the text column width
-            and the hero height; the grid backdrop shows through here. */}
-        <div className="hidden h-[460px] lg:block" aria-hidden />
+        {/* Right column was empty since the 3D gem was disabled — now the client globe (2026-10-15).
+            <div className="hidden h-[460px] lg:block" aria-hidden /> */}
+        {/* "Ndërto brandin tënd" (2026-10-16) — zëvendësoi globin e klientëve */}
+        <div className="flex justify-center lg:justify-end">
+          <HeroBrandBuilder />
+        </div>
+        {/* Globi i klientëve (2026-10-15) — për ta rikthyer, zëvendëso bllokun sipër me:
+        <div className="flex flex-col items-center">
+          <div className="relative h-[340px] w-full max-w-[560px] sm:h-[440px] lg:h-[500px]">
+            <ClientGlobe locale={locale} variant="pins" start={[-22, 44]} sway />
+          </div>
+          <Link href="/contact" className="mt-2 inline-flex items-center gap-2 border-b border-accent pb-1 text-[12px] font-semibold uppercase tracking-[0.16em] text-accent transition-colors hover:text-accentLight">
+            {t("ctaGlobe")} <span aria-hidden>→</span>
+          </Link>
+        </div> */}
       </div>
 
       {/* Static grid backdrop. On mobile an in-flow block below the text; on desktop
           it pops out via lg:absolute to full-bleed behind everything. */}
-      <div className="hero-visual relative z-0 h-[340px] w-full overflow-hidden lg:absolute lg:inset-0 lg:h-auto lg:w-auto lg:overflow-visible">
+      <div className="hero-visual relative z-0 hidden h-[340px] w-full overflow-hidden lg:absolute lg:block lg:inset-0 lg:h-auto lg:w-auto lg:overflow-visible">
         {/* 3D: për ta rikthyer, zëvendëso rreshtin .hero-grid më poshtë me:
             {showScene && !reducedMotion ? (
               <ParticleCloudScene />

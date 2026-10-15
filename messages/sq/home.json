@@ -9,7 +9,31 @@
     "paragraph3": "Ju fokusohuni te biznesi. Klientët i sjellim ne.",
     "ctaPrimary": "Merr ofertë falas",
     "ctaSecondary": "Shiko projektet",
-    "scrollCue": "Zbulo më shumë"
+    "ctaGlobe": "Bëhu klienti ynë i radhës",
+    "scrollCue": "Zbulo më shumë",
+    "builder": {
+      "placeholder": "Shkruaj emrin e biznesit tënd…",
+      "inputLabel": "Emri i biznesit",
+      "defaultName": "Biznesi Yt",
+      "styleLabel": "Stili",
+      "styles": {
+        "elegant": "Elegant",
+        "modern": "Modern",
+        "bold": "I guximshëm"
+      },
+      "taglines": {
+        "elegant": "Cilësi që flet vetë.",
+        "modern": "Shpejt. Qartë. Online.",
+        "bold": "Bëhu zgjedhja e parë."
+      },
+      "welcome": "Mirë se vini",
+      "nav1": "Rreth nesh",
+      "nav2": "Shërbimet",
+      "nav3": "Kontakt",
+      "siteCta": "Na kontaktoni",
+      "cta": "Më pëlqen, dua këtë",
+      "hint": "Provoje: shkruaj emrin e biznesit tënd"
+    }
   },
   "whyUs": {
     "eyebrow": "PSE NE",

@@ -5,7 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
-import ProjectIndexList, { type FeaturedItem } from "@/components/ProjectIndexList";
+import type { FeaturedItem } from "@/components/ProjectIndexList";
+// import ProjectIndexList from "@/components/ProjectIndexList";
+import ProjectBrowserCards from "@/components/ProjectBrowserCards";
 import { getCaseStudies } from "@/lib/caseStudies";
 import type { Locale } from "@/i18n/routing";
 
@@ -16,10 +18,11 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
   const locale = useLocale() as Locale;
   const sectionRef = useRef<HTMLElement | null>(null);
 
-  // 3 projekte live + 1 "coming soon" në fund — renditja ndjek këtë listë
-  const featuredSlugs = ["esm-group", "hauswerk-niederbayern", "palushi-brothers", "bardhi-wellness"];
+  // 2 projektet më të forta si karta të mëdha (2026-10-14); të tjerat te /projektet
+  // const featuredSlugs = ["esm-group", "hauswerk-niederbayern", "palushi-brothers", "bardhi-wellness"];
+  const featuredSlugs = ["esm-group", "palushi-brothers"];
   const localizedCaseStudies = getCaseStudies(locale);
-  // Projektet e shtuara nga admini dalin të parët; statiket e kodit vijnë pas.
+  // Statiket (me case study) dalin të parët; projektet e adminit vijnë pas si karta shtesë.
   // Nëse një projekt admini ka të njëjtin titull si një statik, statiku hiqet
   // (kështu një projekt i ri-futur nga admini e zëvendëson, jo e dyfishon).
   const adminItems = items ?? [];
@@ -28,7 +31,8 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
     const project = localizedCaseStudies.find((p) => p.slug === slug);
     return project && !adminTitles.has(project.title.trim().toLowerCase()) ? [project] : [];
   });
-  const featuredProjects: FeaturedItem[] = [...adminItems, ...staticItems].slice(0, 6);
+  // const featuredProjects: FeaturedItem[] = [...adminItems, ...staticItems].slice(0, 6);
+  const featuredProjects = [...staticItems, ...adminItems].slice(0, 4);
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -72,7 +76,8 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
       </div>
 
       <div className="section-wrap mt-4 md:mt-10">
-        <ProjectIndexList items={featuredProjects} />
+        {/* <ProjectIndexList items={featuredProjects} /> */}
+        <ProjectBrowserCards projects={featuredProjects} locale={locale} />
       </div>
 
       <div className="section-wrap pb-2 pt-12">

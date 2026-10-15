@@ -80,6 +80,19 @@ export default function ContactPageClient() {
     website: "", // honeypot — duhet të mbetet bosh; e mbushin vetëm bot-et
   });
 
+  // Nga "Ndërto brandin tënd" në Hero: /contact?biznesi=...&stili=... → mbush emrin e biznesit dhe mesazhin
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const business = params.get("biznesi")?.trim().slice(0, 60);
+    const style = params.get("stili")?.trim().slice(0, 30);
+    if (!business) return;
+    const message =
+      locale === "en"
+        ? `Hi! I tried the "${style ?? ""}" style for ${business} on your homepage and I'd like a website like that.`
+        : `Përshëndetje! Provova stilin "${style ?? ""}" për ${business} te faqja juaj dhe dua një website të tillë.`;
+    setForm((s) => ({ ...s, businessName: s.businessName || business, message: s.message || message }));
+  }, [locale]);
+
   const handleDiscountChange = (v: string) => {
     setDiscountCode(v);
     if (v.trim() === "") {

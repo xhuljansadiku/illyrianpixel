@@ -16,7 +16,7 @@ import Hero from "@/components/ParticleCloudHero";
 
 // Below-fold — dynamic imports (code-split, deferred JS)
 const BeforeAfter   = dynamic(() => import("@/components/BeforeAfter"));
-const GlobalCTA     = dynamic(() => import("@/components/GlobalCTA"));
+// const GlobalCTA     = dynamic(() => import("@/components/GlobalCTA"));
 const FAQ           = dynamic(() => import("@/components/FAQ"));
 const FeaturedWork  = dynamic(() => import("@/components/FeaturedWork"));
 const Footer        = dynamic(() => import("@/components/Footer"));
@@ -109,18 +109,19 @@ export default async function HomePage(props: Props) {
         dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }}
       />
       <main id="main-content" className="overflow-x-clip bg-bg pb-4 pt-14 md:pt-16">
+        {/* Renditja 2026-10-14: prova (klientë, projekte, vlerësime) para kërkesës; një CTA në fund */}
         <Hero />
-        <Services />
-        <PseNe />
         <TrustedClients />
+        <Services />
         <FeaturedWork items={portfolioItems} />
-        <BeforeAfter />
-        <GlobalCTA />
         <Testimonials items={testimonialItems} />
+        <BeforeAfter />
+        <PseNe />
         <Process />
         <FAQ items={faqItems} />
+        {/* <GlobalCTA /> — hequr: tre CTA radhazi; mbetet vetëm "Mini Sales" poshtë */}
 
-        {/* CTA pas FAQ */}
+        {/* CTA pas FAQ — hequr 2026-10-14 (dublonte "Mini Sales")
         <section className="relative border-b border-white/[0.06] bg-bgDeep/92">
           <div className="section-wrap py-16 md:py-20">
             <div className="relative flex flex-wrap items-center justify-between gap-8 overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(10,10,10,0.92)_0%,rgba(16,16,16,0.92)_52%,rgba(171,131,57,0.18)_100%)] px-7 py-10 shadow-lift md:px-12 md:py-14">
@@ -143,8 +144,9 @@ export default async function HomePage(props: Props) {
             </div>
           </div>
         </section>
+        */}
 
-        {/* Mini Sales Block */}
+        {/* Mini Sales Block — CTA i vetëm i faqes */}
         <section className="relative border-b border-white/[0.06]">
           <div className="section-wrap py-14 md:py-20 text-center">
             <p className="font-body text-[0.95rem] font-light tracking-[0.04em] text-white/50">
@@ -167,7 +169,7 @@ export default async function HomePage(props: Props) {
         {/* SEO Boost Line */}
         <div className="border-t border-white/[0.04]">
           <div className="section-wrap py-4">
-            <p className="text-center font-body text-[11px] font-light leading-relaxed tracking-[0.04em] text-white/18">
+            <p className="text-center font-body text-[12px] font-light leading-relaxed tracking-[0.04em] text-white/40">
               {t("seoBoostLine")}
             </p>
           </div>
