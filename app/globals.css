@@ -2188,3 +2188,11 @@ html[data-aura="cta"] body {
   letter-spacing: 0.2em;
   color: #ab8339;
 }
+
+/* Hero "Ndërto brandin tënd" — teksti i mini-website-it hyn butë kur ndryshon emri/stili */
+@keyframes brandBuilderIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.brand-builder-in { animation: brandBuilderIn 0.5s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .brand-builder-in { animation: none; } }

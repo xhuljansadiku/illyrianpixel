@@ -67,14 +67,16 @@ export default function CookieConsent() {
     <div
       role="dialog"
       aria-label={t("title")}
+      // Desktop (2026-10-15): shirit i hollë poshtë — Hero ka tekst majtas dhe glob djathtas, një kartë në cep
+      // do mbulonte njërën anë. Kur hapen "Personalizo" kthehet në kartë poshtë djathtas.
       // Nën md lë vend djathtas për butonin e King Genti (z-[111], 48px në right-4),
       // që të mos mbulojë butonat e banner-it — pa ia ulur z-index-in (shih 45557c6).
-      className={`${phase === "gate" ? "consent-gate " : ""}fixed bottom-3 left-3 right-[4.5rem] z-[110] max-h-[85dvh] overflow-y-auto rounded-2xl border border-white/10 bg-surface/95 p-5 shadow-lift backdrop-blur-md md:bottom-6 md:left-1/2 md:right-auto md:w-[calc(100%-2rem)] md:max-w-lg md:-translate-x-1/2 md:p-6`}
+      className={`${phase === "gate" ? "consent-gate " : ""}fixed bottom-2 left-2 right-[4.25rem] z-[110] max-h-[85dvh] overflow-y-auto rounded-2xl border border-white/10 bg-surface/95 p-3.5 shadow-lift backdrop-blur-md ${details ? "md:bottom-6 md:left-auto md:right-24 md:w-[420px] md:p-5" : "md:bottom-4 md:left-6 md:right-24 md:flex md:items-center md:gap-6 md:px-5 md:py-3.5"}`}
     >
-      <p className="font-display text-[1.05rem] font-semibold leading-snug text-white">
+      <p className={`hidden font-display text-[1.05rem] font-semibold leading-snug text-white ${details ? "md:block" : ""}`}>
         {t("title")}
       </p>
-      <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/55">
+      <p className={`text-[11.5px] leading-relaxed text-white/55 md:text-[12.5px] ${details ? "md:mt-1.5" : "md:flex-1"}`}>
         {t("body")}{" "}
         <Link href="/privacy" className="text-accent/80 underline underline-offset-2 hover:text-accent">{t("privacyLink")}</Link>.
       </p>
@@ -97,12 +99,12 @@ export default function CookieConsent() {
         </ul>
       ) : null}
 
-      <div className="my-4 h-px bg-white/[0.06]" />
-      <div className="flex flex-wrap items-center gap-2">
+      <div className={`my-3 h-px bg-white/[0.06] md:my-4 ${details ? "" : "md:hidden"}`} />
+      <div className={`flex flex-wrap items-center gap-2 ${details ? "" : "md:shrink-0 md:flex-nowrap"}`}>
         <button
           type="button"
           onClick={() => save(ALL)}
-          className="interactive-button ip-cta-primary flex-1 justify-center text-[12px] sm:flex-none"
+          className="interactive-button ip-cta-primary flex-1 justify-center whitespace-nowrap text-[11px] md:text-[12px]"
         >
           {t("acceptAll")}
         </button>
@@ -119,7 +121,7 @@ export default function CookieConsent() {
             <button
               type="button"
               onClick={() => save(NONE)}
-              className="flex-1 justify-center rounded-full border border-white/14 px-5 py-2.5 text-[12px] tracking-[0.08em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 sm:flex-none"
+              className="flex-1 justify-center whitespace-nowrap rounded-full border border-white/14 px-4 py-2.5 text-[11px] tracking-[0.08em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 md:text-[12px]"
             >
               {t("essentialOnly")}
             </button>
@@ -129,7 +131,7 @@ export default function CookieConsent() {
                 setChoice(readConsent() ?? NONE);
                 setDetails(true);
               }}
-              className="w-full px-2 py-1.5 text-center text-[12px] tracking-[0.08em] text-white/55 underline underline-offset-2 transition hover:text-white/75 sm:w-auto"
+              className="w-full px-2 py-1 text-center text-[11px] tracking-[0.08em] text-white/55 underline underline-offset-2 transition hover:text-white/75 md:w-auto md:text-[12px]"
             >
               {t("customize")}
             </button>

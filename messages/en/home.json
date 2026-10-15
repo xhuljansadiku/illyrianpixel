@@ -9,7 +9,31 @@
     "paragraph3": "You focus on the business. We bring you the clients.",
     "ctaPrimary": "Get a free quote",
     "ctaSecondary": "See our work",
-    "scrollCue": "Discover more"
+    "ctaGlobe": "Become our next client",
+    "scrollCue": "Discover more",
+    "builder": {
+      "placeholder": "Type your business name…",
+      "inputLabel": "Business name",
+      "defaultName": "Your Business",
+      "styleLabel": "Style",
+      "styles": {
+        "elegant": "Elegant",
+        "modern": "Modern",
+        "bold": "Bold"
+      },
+      "taglines": {
+        "elegant": "Quality that speaks for itself.",
+        "modern": "Fast. Clear. Online.",
+        "bold": "Be the first choice."
+      },
+      "welcome": "Welcome",
+      "nav1": "About",
+      "nav2": "Services",
+      "nav3": "Contact",
+      "siteCta": "Contact us",
+      "cta": "I love it, I want this",
+      "hint": "Try it: type your business name"
+    }
   },
   "whyUs": {
     "eyebrow": "WHY US",
