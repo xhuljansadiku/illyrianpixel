@@ -20,7 +20,8 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
 
   // 2 projektet më të forta si karta të mëdha (2026-10-14); të tjerat te /projektet
   // const featuredSlugs = ["esm-group", "hauswerk-niederbayern", "palushi-brothers", "bardhi-wellness"];
-  const featuredSlugs = ["esm-group", "palushi-brothers"];
+  // 3 projektet më të forta (2026-10-16): ESM, Palushi, Roof ON NYC
+  const featuredSlugs = ["esm-group", "palushi-brothers", "roofon-nyc"];
   const localizedCaseStudies = getCaseStudies(locale);
   // Statiket (me case study) dalin të parët; projektet e adminit vijnë pas si karta shtesë.
   // Nëse një projekt admini ka të njëjtin titull si një statik, statiku hiqet
@@ -32,7 +33,7 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
     return project && !adminTitles.has(project.title.trim().toLowerCase()) ? [project] : [];
   });
   // const featuredProjects: FeaturedItem[] = [...adminItems, ...staticItems].slice(0, 6);
-  const featuredProjects = [...staticItems, ...adminItems].slice(0, 4);
+  const featuredProjects = [...staticItems, ...adminItems].slice(0, 6);
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -77,7 +78,7 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
 
       <div className="section-wrap mt-4 md:mt-10">
         {/* <ProjectIndexList items={featuredProjects} /> */}
-        <ProjectBrowserCards projects={featuredProjects} locale={locale} />
+        <ProjectBrowserCards projects={featuredProjects} locale={locale} columns={3} />
       </div>
 
       <div className="section-wrap pb-2 pt-12">

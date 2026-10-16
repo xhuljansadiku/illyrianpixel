@@ -93,6 +93,25 @@ export const caseStudies: CaseStudy[] = [
     liveUrl: "https://www.palushibrothers.co.uk/"
   },
   {
+    slug: "roofon-nyc",
+    title: "Roof ON NYC",
+    category: "Website për Kompani Çatish",
+    location: "Brooklyn, Nju Jork",
+    flagCodes: ["us"],
+    year: "2026",
+    intro:
+      "Website për një kompani familjare çatish dhe hidroizolimi në Nju Jork.\nNdërtuam një faqe të fortë që tregon shërbimet, zonat ku punojnë dhe e bën kontaktin të menjëhershëm, me telefon dhe formular oferte.\n\nKlientët në Nju Jork e gjejnë, i besojnë dhe telefonojnë.",
+    problem:
+      "Shërbimet dhe zonat e mbuluara në Nju Jork e Nju Xhersi nuk paraqiteshin qartë, ndaj klientët nuk e kuptonin shpejt nëse kompania punonte në lagjen e tyre.",
+    solution:
+      "Ndërtuam faqe të veçanta për çdo shërbim dhe zonë, butona telefonate në çdo ekran, formular oferte me datë të preferuar dhe galeri me punë para/pas.",
+    result: "Klientët gjejnë shërbimin në zonën e tyre dhe telefonojnë direkt.",
+    metrics: ["Faqe për çdo zonë shërbimi", "Telefonatë me një klik", "Formular oferte i thjeshtë"],
+    tags: ["Website", "SEO lokale", "Më shumë kërkesa"],
+    heroImage: "/images/projects/roofon-nyc.webp",
+    liveUrl: "https://www.roofonnyc.com/"
+  },
+  {
     slug: "ilirjana-shehu-photography",
     title: "Ilirjana Shehu Photography",
     category: "Website Portofoli",

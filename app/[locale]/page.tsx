@@ -2,9 +2,12 @@
 import dynamic from "next/dynamic";
 import HomeClientExtras from "@/components/HomeClientExtras";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+// import { Link } from "@/i18n/navigation"; — përdorej nga "Mini Sales" (i komentuar)
 import { buildMetadata, faqSchema, jsonLd } from "@/lib/seo";
-import { getVisibleTestimonials, getVisiblePortfolioItems, getVisibleFaqs } from "@/lib/publicContent";
+import { getVisibleTestimonials, getVisiblePortfolioItems, getVisibleFaqs, getPricingOverrides } from "@/lib/publicContent";
+import { getOfferPrices } from "@/lib/offerPrices";
+import { getSiteSettings, SITE_SETTINGS_DEFAULTS } from "@/lib/siteSettings";
+import { buildWhatsAppChatHref } from "@/lib/whatsappPrefill";
 import type { FeaturedItem } from "@/components/FeaturedWorkGrid";
 import type { Locale } from "@/i18n/routing";
 // Critical above-fold — static imports (SSR + no layout shift)
@@ -20,12 +23,18 @@ const BeforeAfter   = dynamic(() => import("@/components/BeforeAfter"));
 const FAQ           = dynamic(() => import("@/components/FAQ"));
 const FeaturedWork  = dynamic(() => import("@/components/FeaturedWork"));
 const Footer        = dynamic(() => import("@/components/Footer"));
-const Process       = dynamic(() => import("@/components/Process"));
-const PseNe         = dynamic(() => import("@/components/PseNe"));
-const Services      = dynamic(() => import("@/components/Services"));
+// Faqja kryesore v2 (2026-10-16): Services → HomeOffers, Process → HomeProcess, TrustedClients → ClientsShowcase,
+// "Mini Sales" → HomeFinalCta; PseNe dhe Newsletter u hoqën nga kjo faqe (newsletter mbetet te /newsletter).
+// const Process       = dynamic(() => import("@/components/Process"));
+// const PseNe         = dynamic(() => import("@/components/PseNe"));
+// const Services      = dynamic(() => import("@/components/Services"));
 const Testimonials  = dynamic(() => import("@/components/Testimonials"));
-const TrustedClients     = dynamic(() => import("@/components/TrustedClients"));
-const NewsletterSection  = dynamic(() => import("@/components/NewsletterSection"));
+// const TrustedClients     = dynamic(() => import("@/components/TrustedClients"));
+// const NewsletterSection  = dynamic(() => import("@/components/NewsletterSection"));
+const ClientsShowcase = dynamic(() => import("@/components/ClientsShowcase"));
+const HomeOffers      = dynamic(() => import("@/components/HomeOffers"));
+const HomeProcess     = dynamic(() => import("@/components/HomeProcess"));
+const HomeFinalCta    = dynamic(() => import("@/components/HomeFinalCta"));
 
 
 const META: Record<Locale, { title: string; desc: string; keywords: string[] }> = {
@@ -65,11 +74,17 @@ export const revalidate = 300;
 export default async function HomePage(props: Props) {
   const { locale } = await props.params;
   const t = await getTranslations("home");
-  const [testimonialRows, portfolioRows, faqRows] = await Promise.all([
+  const [testimonialRows, portfolioRows, faqRows, pricingOverrides, siteSettings] = await Promise.all([
     getVisibleTestimonials(locale).catch(() => []),
     getVisiblePortfolioItems(locale).catch(() => []),
     getVisibleFaqs(locale).catch(() => []),
+    getPricingOverrides().catch(() => ({})),
+    getSiteSettings().catch(() => SITE_SETTINGS_DEFAULTS),
   ]);
+
+  // "nga €X" për 3 ofertat (me çmimet e adminit, si te /cmimet)
+  const offerPrices = getOfferPrices(locale, pricingOverrides);
+  const whatsappHref = buildWhatsAppChatHref(siteSettings.whatsapp_number || SITE_SETTINGS_DEFAULTS.whatsapp_number, locale);
 
   const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer, category: f.category }));
 
@@ -109,16 +124,16 @@ export default async function HomePage(props: Props) {
         dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }}
       />
       <main id="main-content" className="overflow-x-clip bg-bg pb-4 pt-14 md:pt-16">
-        {/* Renditja 2026-10-14: prova (klientë, projekte, vlerësime) para kërkesës; një CTA në fund */}
+        {/* Renditja v2 (2026-10-16): premtimi → prova (klientë, projekte) → oferta me çmim → vlerësime → procesi → FAQ → kontakt */}
         <Hero />
-        <TrustedClients />
-        <Services />
+        <ClientsShowcase />
         <FeaturedWork items={portfolioItems} />
+        <HomeOffers prices={offerPrices} />
         <Testimonials items={testimonialItems} />
         <BeforeAfter />
-        <PseNe />
-        <Process />
+        <HomeProcess />
         <FAQ items={faqItems} />
+        {/* <TrustedClients /> <Services /> <PseNe /> <Process /> — zëvendësuar më sipër */}
         {/* <GlobalCTA /> — hequr: tre CTA radhazi; mbetet vetëm "Mini Sales" poshtë */}
 
         {/* CTA pas FAQ — hequr 2026-10-14 (dublonte "Mini Sales")
@@ -146,7 +161,9 @@ export default async function HomePage(props: Props) {
         </section>
         */}
 
-        {/* Mini Sales Block — CTA i vetëm i faqes */}
+        <HomeFinalCta whatsappHref={whatsappHref} />
+
+        {/* Mini Sales Block — zëvendësuar nga HomeFinalCta (2026-10-16)
         <section className="relative border-b border-white/[0.06]">
           <div className="section-wrap py-14 md:py-20 text-center">
             <p className="font-body text-[0.95rem] font-light tracking-[0.04em] text-white/50">
@@ -163,8 +180,9 @@ export default async function HomePage(props: Props) {
             </Link>
           </div>
         </section>
+        */}
 
-        <NewsletterSection />
+        {/* <NewsletterSection /> — hequr nga faqja kryesore (2026-10-16); mbetet te /newsletter */}
 
         {/* SEO Boost Line */}
         <div className="border-t border-white/[0.04]">

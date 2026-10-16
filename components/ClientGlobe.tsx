@@ -180,9 +180,12 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
         if (variant === "pins" && !isHq && !active) continue;
         ctx.font = isHq ? "bold 12px ui-monospace, monospace" : "11px ui-monospace, monospace";
         const label = isHq ? `${c[locale]} · HQ` : c[locale];
-        const lx = p[0] + (variant === "pins" ? 11 : 7);
+        const lw = ctx.measureText(label).width;
+        const gap = variant === "pins" ? 11 : 7;
+        // Pranë skajit të djathtë etiketa shkon majtas, që të mos pritet
+        const lx = p[0] + gap + lw > w - 4 ? p[0] - gap - lw : p[0] + gap;
         const ly = p[1] - (variant === "pins" ? 14 : 6);
-        const box = { x: lx, y: ly - 11, w: ctx.measureText(label).width, h: 13 };
+        const box = { x: lx, y: ly - 11, w: lw, h: 13 };
         const clash = placed.some((o) => box.x < o.x + o.w + 4 && box.x + box.w + 4 > o.x && box.y < o.y + o.h && box.y + box.h > o.y);
         if (clash) continue;
         placed.push(box);

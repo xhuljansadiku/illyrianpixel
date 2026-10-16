@@ -92,7 +92,9 @@
     "labelBefore": "BEFORE",
     "labelAfter": "AFTER",
     "altBefore": "website before the redesign",
-    "altAfter": "website after the redesign"
+    "altAfter": "website after the redesign",
+    "dragHint": "Drag the line to compare",
+    "sliderLabel": "Compare the website before and after"
   },
   "trustedClients": {
     "eyebrow": "Our Clients",
@@ -100,7 +102,16 @@
     "intro": "From Germany and Italy to Sweden, the UK and the USA: businesses that want real growth and results.",
     "statYears": "years of experience",
     "statProjects": "projects",
-    "statBusinesses": "Businesses in 7 countries"
+    "statBusinesses": "Businesses in 7 countries",
+    "statCountries": "countries",
+    "statCities": "cities",
+    "statProjectsLive": "projects in our portfolio",
+    "statReply": "reply within 24 hours",
+    "hoverHint": "Hover a logo to see where the client is and what we built for them.",
+    "tapHint": "Tap a logo to see where the client is and what we built for them.",
+    "caseStudy": "Read case study",
+    "live": "Visit website",
+    "dragGlobe": "Drag the globe"
   },
   "featuredWork": {
     "eyebrow": "OUR WORK",
@@ -179,5 +190,97 @@
     "genericError": "Something went wrong. Please try again.",
     "connectionError": "Connection error. Check your internet.",
     "disclaimer": "No spam. Unsubscribe anytime. The code is valid for any new service."
+  },
+  "offers": {
+    "eyebrow": "WHAT WE OFFER",
+    "headline": "Three ways to bring in ",
+    "headlineAccent": "more clients",
+    "intro": "Clear prices from the start. We pick the exact package together on the free call.",
+    "from": "from",
+    "items": [
+      {
+        "slug": "website",
+        "title": "Website",
+        "for": "For businesses that want to look professional and be found on Google.",
+        "points": [
+          "Custom design, not a template",
+          "Basic SEO and Google Maps included",
+          "Fast and perfect on mobile"
+        ],
+        "cta": "See packages"
+      },
+      {
+        "slug": "ecommerce",
+        "title": "E-Commerce",
+        "for": "For businesses that want to sell online, around the clock.",
+        "points": [
+          "Card, PayPal or Stripe payments",
+          "Manage products and orders yourself",
+          "Ready for customers across Europe"
+        ],
+        "cta": "See packages"
+      },
+      {
+        "slug": "seo-google-ads",
+        "title": "SEO & Google Ads",
+        "for": "For businesses that have a website but want more inquiries.",
+        "points": [
+          "Show up on Google when people search for you",
+          "Ads on a budget you control",
+          "A clear report of the results"
+        ],
+        "cta": "See packages"
+      }
+    ],
+    "calcPre": "Not sure what you need?",
+    "calcCta": "Estimate your price in 1 minute"
+  },
+  "processV2": {
+    "eyebrow": "HOW WE WORK",
+    "headline": "4 steps. ",
+    "headlineAccent": "No surprises.",
+    "steps": [
+      {
+        "title": "Free call",
+        "time": "15 min",
+        "body": "Tell us about your business."
+      },
+      {
+        "title": "Plan and quote",
+        "time": "within 24 hours",
+        "body": "Clear price and timeline. No obligation."
+      },
+      {
+        "title": "The work",
+        "time": "as planned",
+        "body": "We do the work, you approve it."
+      },
+      {
+        "title": "Results",
+        "time": "and beyond",
+        "body": "Your project goes live. We stay by your side."
+      }
+    ],
+    "promiseTitle": "No risk for you",
+    "promises": [
+      "Free plan and quote",
+      "50% upfront, 50% after approval",
+      "We speak Albanian, English, German and Croatian"
+    ]
+  },
+  "finalCta": {
+    "line1": "Your future clients are searching for you on Google right now.",
+    "line2": "Are they finding you?",
+    "body": "Pick whatever is easiest for you. The plan and quote are free.",
+    "whatsappTitle": "WhatsApp",
+    "whatsappBody": "Message us now, we reply fast",
+    "whatsappCta": "Open WhatsApp",
+    "formTitle": "Form",
+    "formBody": "2 minutes, quote within 24 hours",
+    "formCta": "Get a free quote",
+    "emailTitle": "Email",
+    "emailBody": "info@illyrianpixel.com",
+    "emailCta": "Send an email",
+    "languages": "We speak Albanian, English, German and Croatian"
   }
 }

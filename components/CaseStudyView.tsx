@@ -41,7 +41,8 @@ const L: Record<Locale, Record<string, string>> = {
   },
 };
 
-const domainOf = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+// Pa "www." — njësoj si te kartat e projekteve
+const domainOf = (url: string) => url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
 
 type Props = { cs: CaseStudy; next: CaseStudy; locale: Locale };
 
