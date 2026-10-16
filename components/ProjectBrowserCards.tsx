@@ -23,18 +23,29 @@ export type BrowserCardProject = {
 
 const CASE_STUDY_SLUGS = new Set(caseStudies.map((c) => c.slug));
 
-const domainOf = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+// Domain-i që shfaqet në shiritin e browser-it — gjithmonë pa "www." që të duken njësoj
+const domainOf = (url: string) => url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
 
 const WINDOW_CLASS =
   "block rounded-2xl border border-white/10 bg-[#1a1714] p-1.5 shadow-[0_30px_70px_-35px_rgba(0,0,0,0.9)] transition-all duration-700 [transform:perspective(1400px)_rotateX(4deg)] group-hover:-translate-y-2 group-hover:border-accent/40 group-hover:shadow-[0_40px_90px_-35px_rgba(171,131,57,0.5)] group-hover:[transform:perspective(1400px)_rotateX(0deg)]";
 
 // Çdo projekt brenda një dritareje browser-i me domain-in real; screenshot-i skrollohet në hover.
 // Përdoret te /projektet dhe te faqja kryesore.
-export default function ProjectBrowserCards({ projects, locale }: { projects: BrowserCardProject[]; locale: Locale }) {
+export default function ProjectBrowserCards({
+  projects,
+  locale,
+  columns = 2,
+}: {
+  projects: BrowserCardProject[];
+  locale: Locale;
+  /** 2 = kolona të zhvendosura (/projektet); 3 = rresht i barabartë (faqja kryesore) */
+  columns?: 2 | 3;
+}) {
   const l = LABELS[locale];
+  const three = columns === 3;
 
   return (
-    <div className="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-y-20">
+    <div className={three ? "grid grid-cols-1 gap-x-7 gap-y-14 md:grid-cols-2 lg:grid-cols-3" : "grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-y-20"}>
       {projects.map((p, i) => {
         const hasCaseStudy = CASE_STUDY_SLUGS.has(p.slug);
         const summary = p.result ?? p.intro?.split("\n")[0] ?? "";
@@ -71,7 +82,7 @@ export default function ProjectBrowserCards({ projects, locale }: { projects: Br
         );
 
         return (
-          <article key={p.slug} className={`group ${i % 2 === 1 ? "md:mt-24" : ""}`}>
+          <article key={p.slug} className={`group ${!three && i % 2 === 1 ? "md:mt-24" : ""}`}>
             {/* Dritarja e browser-it */}
             {hasCaseStudy ? (
               <Link href={`/projektet/${p.slug}`} aria-label={`${l.caseStudy}: ${p.title}`} className={WINDOW_CLASS}>
@@ -99,7 +110,7 @@ export default function ProjectBrowserCards({ projects, locale }: { projects: Br
                   <span className="text-white/20">/</span>
                   <span className="text-accent/80">{p.category}</span>
                 </div>
-                <h3 className="mt-2 font-display text-2xl font-bold tracking-[-0.02em] text-white md:text-3xl">
+                <h3 className={`mt-2 font-display font-bold tracking-[-0.02em] text-white ${three ? "text-2xl" : "text-2xl md:text-3xl"}`}>
                   {hasCaseStudy ? (
                     <Link href={`/projektet/${p.slug}`} className="transition-colors hover:text-accent">
                       {p.title}

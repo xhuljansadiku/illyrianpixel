@@ -17,28 +17,28 @@ export type TestimonialItem = {
 
 const quotes: TestimonialItem[] = [
   {
-    quote: "Më përpara na duhej t'u shpjegonim njerëzve çdo gjë nga fillimi në telefon. Website-i na ka shpëtuar, sepse tani klientët vijnë gati të informuar. Futen, shohin punët tona dhe kur na shkruajnë, e dinë fiks çfarë duan. Na ka kursyer pafund kohë.",
+    quote: "Para, çdo gjë ua shpjegonim në telefon nga fillimi. Tani klientët vijnë të informuar dhe e dinë çfarë duan. Na ka kursyer shumë kohë.",
     name: "Mariglent S.",
     company: "ESM Group",
     result: "Milano, Itali",
     logo: "/images/logos/esm-group.png"
   },
   {
-    quote: "Në fushën e fitnesit është e vështirë të krijosh besim, por ky Website i ri nga zero na ka ndryshuar komplet lojën. Më përpara njerëzit na shkruanin pafund pyetje për programet dhe ngatërroheshin. Tani që çdo paketë është e ndarë kaq qartë, klientët futen, binden dhe na kontaktojnë direkt për të filluar, pa ato diskutimet e gjata.",
+    quote: "Më parë njerëzit na bënin pafund pyetje për programet. Tani paketat janë të qarta, klientët vendosin vetë dhe na shkruajnë gati për të filluar.",
     name: "Bardhi U.",
     company: "Bardhi Wellness",
     result: "Prishtinë & Köln",
     logo: "/images/logos/bardhi-wellness.png"
   },
   {
-    quote: "Mendonim se na mjaftonte thjesht të bënim punë të mirë, por pa një Website si duhet nuk na merrnin seriozisht. Që kur u bë kjo faqja e Webit, gjithçka ka ndryshuar. Klientët Gjermanë futen, shohin shërbimet tona të ndara qartë dhe kërkesat tani na vijnë shumë më të sakta dhe profesionale, pa humbur kohë me telefonata.",
+    quote: "Bënim punë të mirë, por pa website nuk na merrnin seriozisht. Tani klientët gjermanë na gjejnë dhe kërkesat vijnë të sakta, pa telefonata të kota.",
     name: "Amir S.",
     company: "Hauswerk Niederbayern",
     result: "Straubing, Gjermani",
     logo: "/images/logos/hauswerk-niederbayern.png"
   },
   {
-    quote: "Në tregun e ndërtimit është shumë e vështirë të gjesh klientë seriozë. Ky Website i ri nga zero dhe sistemi me Google Ads na kanë shpëtuar nga telefonatat e gjata që nuk mbylleshin kurrë me punë. Tani na vijnë kërkesa reale nga njerëz që e kanë ndarë mendjen; na kontaktojnë duke e ditur fiks çfarë duan dhe çfarë ofrojmë që në sekondën e parë.",
+    quote: "Humbnim kohë me telefonata që s'përfundonin kurrë në punë. Me website-in dhe Google Ads, tani na shkruajnë njerëz që e dinë çfarë duan.",
     name: "Vehbi P.",
     company: "Palushi Brothers",
     result: "Londër, Angli",
@@ -48,28 +48,28 @@ const quotes: TestimonialItem[] = [
 
 const quotesEn: TestimonialItem[] = [
   {
-    quote: "Before, we had to explain everything to people from scratch over the phone. The website has been a lifesaver, because now clients arrive already informed. They browse, see our work, and when they write to us they know exactly what they want. It has saved us endless time.",
+    quote: "We used to explain everything over the phone from scratch. Now clients arrive informed and know what they want. It's saved us so much time.",
     name: "Mariglent S.",
     company: "ESM Group",
     result: "Milan, Italy",
     logo: "/images/logos/esm-group.png"
   },
   {
-    quote: "In fitness it's hard to build trust, but this brand-new website has completely changed the game for us. Before, people would send us endless questions about the programs and get confused. Now that every package is laid out so clearly, clients come in, get convinced and contact us directly to get started, without those long back-and-forths.",
+    quote: "People used to send us endless questions about the programs. Now the packages are clear, clients decide on their own and message us ready to start.",
     name: "Bardhi U.",
     company: "Bardhi Wellness",
     result: "Pristina & Cologne",
     logo: "/images/logos/bardhi-wellness.png"
   },
   {
-    quote: "We thought doing good work was enough, but without a proper website we weren't taken seriously. Since the new site went live, everything has changed. German clients come in, see our services laid out clearly, and the inquiries we receive are far more precise and professional, with no time lost on phone calls.",
+    quote: "We did good work, but without a website nobody took us seriously. Now German clients find us and the inquiries come in clear, with no wasted calls.",
     name: "Amir S.",
     company: "Hauswerk Niederbayern",
     result: "Straubing, Germany",
     logo: "/images/logos/hauswerk-niederbayern.png"
   },
   {
-    quote: "In the construction market it's very hard to find serious clients. This brand-new website and the Google Ads system saved us from long phone calls that never turned into actual work. Now we get real inquiries from people who have already made up their mind; they contact us knowing exactly what they want and what we offer from the very first second.",
+    quote: "We used to waste time on calls that never turned into jobs. With the website and Google Ads, the people who contact us now know exactly what they want.",
     name: "Vehbi P.",
     company: "Palushi Brothers",
     result: "London, UK",

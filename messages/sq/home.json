@@ -92,7 +92,9 @@
     "labelBefore": "PARA",
     "labelAfter": "PAS",
     "altBefore": "website para ridizajnimit",
-    "altAfter": "website pas ridizajnimit"
+    "altAfter": "website pas ridizajnimit",
+    "dragHint": "Tërhiqe vijën për të krahasuar",
+    "sliderLabel": "Krahaso website-in para dhe pas"
   },
   "trustedClients": {
     "eyebrow": "Klientët tanë",
@@ -100,7 +102,16 @@
     "intro": "Nga Gjermania dhe Italia te Suedia, Anglia dhe SHBA: biznese që kërkojnë rritje dhe rezultate reale.",
     "statYears": "vite eksperiencë",
     "statProjects": "projekte",
-    "statBusinesses": "Biznese në 7 vende"
+    "statBusinesses": "Biznese në 7 vende",
+    "statCountries": "vende",
+    "statCities": "qytete",
+    "statProjectsLive": "projekte në portofol",
+    "statReply": "përgjigje brenda 24 orëve",
+    "hoverHint": "Kalo mbi një logo për të parë ku ndodhet klienti dhe çfarë i ndërtuam.",
+    "tapHint": "Prek një logo për të parë ku ndodhet klienti dhe çfarë i ndërtuam.",
+    "caseStudy": "Lexo rastin",
+    "live": "Vizito site-in",
+    "dragGlobe": "Tërhiqe globin"
   },
   "featuredWork": {
     "eyebrow": "PROJEKTET",
@@ -179,5 +190,97 @@
     "genericError": "Diçka nuk funksionoi. Provoni sërish.",
     "connectionError": "Gabim lidhjeje. Kontrolloni internetin.",
     "disclaimer": "Pa spam. Çabonohuni kurdo. Kodi vlen për çdo shërbim të ri."
+  },
+  "offers": {
+    "eyebrow": "ÇFARË OFROJMË",
+    "headline": "Tri mënyra për të sjellë ",
+    "headlineAccent": "më shumë klientë",
+    "intro": "Çmime të qarta që në fillim. Paketën e saktë e caktojmë bashkë në bisedën falas.",
+    "from": "nga",
+    "items": [
+      {
+        "slug": "website",
+        "title": "Website",
+        "for": "Për bizneset që duan të duken profesionale dhe të gjenden në Google.",
+        "points": [
+          "Dizajn i personalizuar, jo template",
+          "SEO bazë dhe Google Maps të përfshira",
+          "I shpejtë dhe perfekt në celular"
+        ],
+        "cta": "Shiko paketat"
+      },
+      {
+        "slug": "ecommerce",
+        "title": "E-Commerce",
+        "for": "Për bizneset që duan të shesin online, 24 orë në ditë.",
+        "points": [
+          "Pagesa me kartë, PayPal ose Stripe",
+          "Produktet dhe porositë i menaxhoni vetë",
+          "Gati për klientë në Shqipëri dhe Europë"
+        ],
+        "cta": "Shiko paketat"
+      },
+      {
+        "slug": "seo-google-ads",
+        "title": "SEO & Google Ads",
+        "for": "Për bizneset që kanë website, por duan më shumë kërkesa.",
+        "points": [
+          "Dilni në Google kur ju kërkojnë",
+          "Reklama me buxhet që e kontrolloni ju",
+          "Raport i qartë i rezultateve"
+        ],
+        "cta": "Shiko paketat"
+      }
+    ],
+    "calcPre": "Nuk je i sigurt çfarë të duhet?",
+    "calcCta": "Llogarit çmimin në 1 minutë"
+  },
+  "processV2": {
+    "eyebrow": "SI PUNOJMË",
+    "headline": "4 hapa. ",
+    "headlineAccent": "Pa surpriza.",
+    "steps": [
+      {
+        "title": "Bisedë falas",
+        "time": "15 min",
+        "body": "Na tregoni për biznesin tuaj."
+      },
+      {
+        "title": "Plan dhe ofertë",
+        "time": "brenda 24 orëve",
+        "body": "Çmim dhe afat i qartë. Pa obligim."
+      },
+      {
+        "title": "Realizimi",
+        "time": "sipas planit",
+        "body": "Ne punojmë, ju aprovoni."
+      },
+      {
+        "title": "Rezultati",
+        "time": "dhe më tej",
+        "body": "Projekti live. Ne mbetemi pranë jush."
+      }
+    ],
+    "promiseTitle": "Pa rrezik për ju",
+    "promises": [
+      "Plan dhe ofertë falas",
+      "50% në fillim, 50% pas aprovimit",
+      "Flasim shqip, anglisht, gjermanisht dhe kroatisht"
+    ]
+  },
+  "finalCta": {
+    "line1": "Klientët tuaj të ardhshëm po ju kërkojnë tani në Google.",
+    "line2": "A po ju gjejnë?",
+    "body": "Zgjidhni si e keni më të lehtë. Plani dhe oferta janë falas.",
+    "whatsappTitle": "WhatsApp",
+    "whatsappBody": "Shkruani tani, ju përgjigjemi shpejt",
+    "whatsappCta": "Hap WhatsApp",
+    "formTitle": "Formulari",
+    "formBody": "2 minuta, ofertë brenda 24 orëve",
+    "formCta": "Merr ofertë falas",
+    "emailTitle": "Email",
+    "emailBody": "info@illyrianpixel.com",
+    "emailCta": "Dërgo email",
+    "languages": "Flasim shqip, anglisht, gjermanisht dhe kroatisht"
   }
 }

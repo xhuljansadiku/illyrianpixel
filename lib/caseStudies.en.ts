@@ -78,6 +78,25 @@ export const caseStudies: CaseStudy[] = [
     liveUrl: "https://www.palushibrothers.co.uk/"
   },
   {
+    slug: "roofon-nyc",
+    title: "Roof ON NYC",
+    category: "Website for a Roofing Company",
+    location: "Brooklyn, New York",
+    flagCodes: ["us"],
+    year: "2026",
+    intro:
+      "A website for a family-owned roofing and waterproofing company in New York.\nWe built a strong site that shows their services and the areas they cover, and makes contact instant with click-to-call and a quote form.\n\nNew York clients find them, trust them and call.",
+    problem:
+      "Their services and the areas they cover across New York and New Jersey weren't presented clearly, so visitors couldn't quickly tell whether the company worked in their neighborhood.",
+    solution:
+      "We built dedicated pages for each service and area, call buttons on every screen, a quote form with a preferred date and a before/after gallery.",
+    result: "Clients find the service in their area and call directly.",
+    metrics: ["A page for every service area", "One-tap phone call", "Simple quote form"],
+    tags: ["Website", "Local SEO", "More inquiries"],
+    heroImage: "/images/projects/roofon-nyc.webp",
+    liveUrl: "https://www.roofonnyc.com/"
+  },
+  {
     slug: "ilirjana-shehu-photography",
     title: "Ilirjana Shehu Photography",
     category: "Portfolio Website",
