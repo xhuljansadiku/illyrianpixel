@@ -11,6 +11,7 @@ import type { Topology, GeometryCollection } from "topojson-specification";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { Locale } from "@/i18n/routing";
 import { useReducedMotion } from "@/lib/gsap";
+import { onFirstInteraction } from "@/lib/useFirstInteraction";
 import { CLIENT_CITIES, CLIENT_HQ, CLIENT_COUNTRY_NAMES, type ClientCity } from "@/lib/clientLocations";
 
 const GOLD = "#eace71";
@@ -46,6 +47,9 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
     // më parë vizatonte 60×/s gjithë kohën dhe zinte ~7.5s CPU në Lighthouse mobile.
     let running = false;
     let inView = false;
+    // Para ndërveprimit të parë globi mbetet statik (një frame) — në desktop është në ekran
+    // që në ngarkim dhe rrotullimi zinte ~7s CPU në PageSpeed (2026-10-20)
+    let engaged = false;
     let dataRequested = false;
     let lastFrame = 0;
     // Celular: ~30 fps dhe pa hije te kunjat (shadowBlur është i shtrenjtë)
@@ -246,7 +250,11 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
       running = false;
       cancelAnimationFrame(raf);
     };
-    const syncPlayback = () => (inView && !document.hidden ? play() : pause());
+    const syncPlayback = () => (inView && engaged && !document.hidden ? play() : pause());
+    const stopWaitingForInteraction = onFirstInteraction(() => {
+      engaged = true;
+      syncPlayback();
+    });
 
     const onDown = (e: PointerEvent) => {
       dragging = true;
@@ -302,6 +310,7 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
     return () => {
       cancelled = true;
       pause();
+      stopWaitingForInteraction();
       io.disconnect();
       document.removeEventListener("visibilitychange", syncPlayback);
       window.removeEventListener("resize", resize);
