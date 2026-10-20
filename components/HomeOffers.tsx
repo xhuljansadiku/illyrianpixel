@@ -6,7 +6,7 @@ import SectionMark from "@/components/SectionMark";
 
 import type { OfferPrice } from "@/lib/offerPrices";
 
-type Offer = { slug: string; title: string; for: string; points: string[]; cta: string };
+type Offer = { slug: string; title: string; for: string; points: string[]; cta: string; gift?: string };
 
 const stripFrom = (p: string) => p.replace(/^(nga|from)\s+/i, "");
 
@@ -53,6 +53,13 @@ export default function HomeOffers({ prices }: { prices: Record<string, OfferPri
                     </li>
                   ))}
                 </ul>
+
+                {o.gift && (
+                  <p className="mt-5 flex items-start gap-2 rounded-lg border border-accent/25 bg-accent/[0.08] px-3 py-2 text-[12px] font-medium leading-snug text-accentLight">
+                    <span aria-hidden>🎁</span>
+                    <span>{o.gift}</span>
+                  </p>
+                )}
 
                 <Link
                   href={`/sherbimet/${o.slug}`}

@@ -16,6 +16,12 @@ export type ServicePackage = {
   featureBullets?: ServiceFeatureBullet[];
   featured?: boolean;
   cta?: string;
+  /** Dhurata e përfshirë (p.sh. "3 muaj mirëmbajtje teknike falas") — premtim real, jo zbritje */
+  gift?: string;
+  /** Përfitim i vogël i përfshirë (p.sh. "30 ditë rregullime falas") — rresht i thjeshtë, jo kutia 🎁 */
+  perk?: string;
+  /** Shfaqet si rresht poshtë kartave ("Projekt më i madh?"), jo si kartë — rregulli i tresh */
+  asRow?: boolean;
 };
 
 export type ServiceCategory = {
@@ -53,6 +59,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Basic",
         price: "€349",
+        perk: "30 ditë rregullime falas pas lansimit (gabime teknike)",
         ideal: "Faqe biznesi e pastër dhe serioze.\nKlientët ju gjejnë, ju kontaktojnë.",
         features: [
           "Dizajn profesional dhe i pastër",
@@ -65,6 +72,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Business",
         price: "€599",
+        gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         ideal: "Struktura e duhur, mesazhi i duhur.\nKlientët mbërrijnë dhe ndjekin hapin tjetër.",
         features: [
           "Gjithçka nga Basic",
@@ -79,6 +87,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Premium",
         price: "€899",
+        gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         ideal: "Dizajn i personalizuar, SEO i avancuar dhe funnel konvertimi nga vizitori te klienti.",
         features: [
           "Gjithçka nga Business",
@@ -91,6 +100,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Custom",
         price: "Nga €1,200",
+        asRow: true,
         ideal: "E-Commerce, funksione speciale ose integrime?\nNe e ndërtojmë nga zero për nevojat tuaja.",
         features: [
           "Gjithçka nga Premium",
@@ -129,6 +139,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Starter",
         price: "€699",
+        perk: "30 ditë rregullime falas pas lansimit (gabime teknike)",
         tagline: "Dyqan që fillon të shesë menjëherë",
         ideal: "Hapi i parë i saktë online.\nProdukte, pagesa dhe checkout gati për shitje.",
         features: [
@@ -142,6 +153,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Growth",
         price: "€1,199",
+        gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         tagline: "Dyqan që rrit shitjet çdo muaj",
         ideal: "Struktura e duhur për të kthyer vizitorët në blerës dhe blerësit në klientë të rregullt.",
         features: [
@@ -156,6 +168,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Advanced",
         price: "€1,999",
+        gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         tagline: "Platformë e-commerce për shkallëzim",
         ideal: "Sistem i plotë për bizneset që duan të dominojnë online pa kufij, pa kompromis.",
         features: [

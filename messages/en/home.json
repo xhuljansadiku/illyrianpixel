@@ -207,7 +207,8 @@
           "Basic SEO and Google Maps included",
           "Fast and perfect on mobile"
         ],
-        "cta": "See packages"
+        "cta": "See packages",
+        "gift": "From the Business package: 3 months of free technical maintenance"
       },
       {
         "slug": "ecommerce",
@@ -218,7 +219,8 @@
           "Manage products and orders yourself",
           "Ready for customers across Europe"
         ],
-        "cta": "See packages"
+        "cta": "See packages",
+        "gift": "From the Growth package: 3 months of free technical maintenance"
       },
       {
         "slug": "seo-google-ads",

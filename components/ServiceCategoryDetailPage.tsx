@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
+import { CustomPackageRow, GuaranteeNote, IdeaCard, isQuoteOnly } from "@/components/PricingExtras";
 import { brandingConversionLandingData as brandingConversionLandingData_sq } from "@/lib/brandingContentConversionContent.sq";
 import { brandingConversionLandingData as brandingConversionLandingData_en } from "@/lib/brandingContentConversionContent.en";
 import { ecommerceConversionLandingData as ecommerceConversionLandingData_sq } from "@/lib/ecommerceConversionContent.sq";
@@ -82,7 +83,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
     ? t.raw("website.painItems") as string[]
     : data?.painSection?.items?.slice(0, 4).map((i) => i.title) ?? [];
   const valueItems = data?.whyUs?.items?.slice(0, 4) ?? [];
-  const packages = category.packages.slice(0, 3);
+  const packages = category.packages.filter((p) => !p.asRow).slice(0, 3);
   const testimonials = data?.testimonials?.slice(0, 2) ?? [];
   const localizedCaseStudies = getCaseStudies(locale);
   const portfolioItems = (data?.portfolioSlugs ?? [])
@@ -252,11 +253,27 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   {t("choosePackage")}
                 </h2>
               </div>
-              <div className="mx-auto mt-12 grid max-w-[980px] items-stretch gap-5 md:grid-cols-3">
-                {packages.map((pkg) => (
-                  <ServicePackageCard key={pkg.name} pkg={pkg} conversionCta />
-                ))}
-              </div>
+              {isQuoteOnly(packages) ? (
+                <IdeaCard slug={category.slug} />
+              ) : (
+                <div className="mx-auto max-w-[980px]">
+                  <div className="mt-12 grid items-stretch gap-5 md:grid-cols-3">
+                    {packages.map((pkg) => (
+                      <ServicePackageCard
+                        key={pkg.name}
+                        pkg={pkg}
+                        conversionCta
+                        slug={category.slug}
+                        recurring={["seo-google-ads", "smm", "mirembajtja"].includes(category.slug)}
+                      />
+                    ))}
+                  </div>
+                  {category.packages.filter((p) => p.asRow).map((pkg) => (
+                    <CustomPackageRow key={pkg.name} pkg={pkg} slug={category.slug} />
+                  ))}
+                  {["website", "ecommerce", "branding-content"].includes(category.slug) && <GuaranteeNote />}
+                </div>
+              )}
 
               {category.slug === "mirembajtja" && (
                 <div className="relative mx-auto mt-8 max-w-[980px] overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-lift md:px-12 md:py-10">

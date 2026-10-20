@@ -59,14 +59,40 @@
     "waEstimate": "Estimate",
     "waOutro": "I'm interested in an exact offer.",
     "tiers": {
-      "website": ["Up to 5 pages (presentation)", "6 to 10 pages (business)", "10+ pages (premium)", "Platform / custom"],
-      "ecommerce": ["Up to 30 products", "30 to 100 products", "100+ products / custom"],
-      "branding-content": ["Logo + brand basics", "Full visual identity", "Identity + premium content"]
+      "website": [
+        "Up to 5 pages (presentation)",
+        "6 to 10 pages (business)",
+        "10+ pages (premium)",
+        "Platform / custom"
+      ],
+      "ecommerce": [
+        "Up to 30 products",
+        "30 to 100 products",
+        "100+ products / custom"
+      ],
+      "branding-content": [
+        "Logo + brand basics",
+        "Full visual identity",
+        "Identity + premium content"
+      ]
     },
     "timelines": {
-      "website": ["5 to 10 days", "2 to 3 weeks", "3 to 4 weeks", "4 to 6 weeks"],
-      "ecommerce": ["2 to 3 weeks", "3 to 4 weeks", "4 to 6 weeks"],
-      "branding-content": ["about 1 week", "1 to 2 weeks", "2 to 3 weeks"],
+      "website": [
+        "5 to 10 days",
+        "2 to 3 weeks",
+        "3 to 4 weeks",
+        "4 to 6 weeks"
+      ],
+      "ecommerce": [
+        "2 to 3 weeks",
+        "3 to 4 weeks",
+        "4 to 6 weeks"
+      ],
+      "branding-content": [
+        "about 1 week",
+        "1 to 2 weeks",
+        "2 to 3 weeks"
+      ],
       "seo-google-ads": "first results within 4 to 8 weeks",
       "smm": "first results within 3 to 4 weeks",
       "mirembajtja": "activated within 24 hours"
@@ -76,5 +102,44 @@
       "blog": "Blog / news section",
       "maintenance": "Monthly maintenance (Basic)"
     }
+  },
+  "card": {
+    "recommendedBadge": "Recommended for you",
+    "split": "{now} now · {launch} at launch",
+    "installments": "3 instalments: {a} · {b} · {c}",
+    "payback": "{count, plural, one {Pays for itself with ~# new client} other {Pays for itself with ~# new clients}}",
+    "perDay": "≈ {amount} a day",
+    "forBrand": "{service} for “{name}”"
+  },
+  "goals": {
+    "title": "What do you want to achieve?",
+    "calls": {
+      "label": "More calls & enquiries",
+      "hint": "A website that turns visitors into clients"
+    },
+    "sell": {
+      "label": "Sell online",
+      "hint": "A shop that sells 24/7"
+    },
+    "google": {
+      "label": "Rank first on Google",
+      "hint": "SEO & Google Ads that bring clients"
+    },
+    "unsure": "Not sure?",
+    "unsureCta": "Write to us, we'll tell you for free within 24h"
+  },
+  "customRow": {
+    "lead": "Bigger project?",
+    "cta": "Request a quote",
+    "installments": "Payable in 3 instalments."
+  },
+  "ideaCard": {
+    "title": "Tell us your idea.",
+    "text": "Every app is different. Tell us what you have in mind and within 24 hours we'll send you a plan and an exact price, for free.",
+    "cta": "Send your idea →"
+  },
+  "guarantee": {
+    "title": "Risk-free guarantee",
+    "text": "If you don't like the first design after 2 rounds of changes, we refund your deposit in full."
   }
 }
