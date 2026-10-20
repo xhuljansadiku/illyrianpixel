@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import type { ServiceCategory, ServicePackage } from "@/lib/serviceCategories";
 import { formatEuro, priceFraming } from "@/lib/pricingPsychology";
 import { trackEvent } from "@/lib/track";
+import CountUpPrice from "@/components/CountUpPrice";
 
 function CheckIcon() {
   return (
@@ -38,12 +39,13 @@ type Props = {
 export default function ServicePackageCard({ pkg, slug, recurring = false, highlight = false, brandName, categoryTitle }: Props) {
   const t = useTranslations("pricing");
   const ctaLabel = pkg.cta ?? t("defaultCta");
-  const framing = slug ? priceFraming(slug, pkg.price, recurring) : {};
+  const framing = slug ? priceFraming(slug, pkg.price, recurring, pkg.giftValue) : {};
   const emphasized = pkg.featured || highlight;
 
   return (
-    /* Wrapper gives room above the card for the badge */
-    <div className="relative flex flex-col pt-5">
+    /* Wrapper gives room above the card for the badge.
+       price-card-wrap / is-featured: CSS te globals.css zbeh kartat e tjera kur mausi është mbi të rekomanduarën */
+    <div className={`price-card-wrap relative flex flex-1 flex-col pt-5 transition-[opacity,transform] duration-500 ${emphasized ? "is-featured md:z-[2] md:scale-[1.035]" : ""}`}>
       {(pkg.featured || highlight) && (
         <div className="absolute top-0 left-1/2 z-10 -translate-x-1/2">
           <span className="inline-flex items-center whitespace-nowrap rounded-full bg-accent px-4 py-[5px] text-[10px] font-semibold uppercase tracking-[0.2em] text-surface shadow-gold">
@@ -61,6 +63,8 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
               : "opacity-95 hover:border-accent/35 hover:shadow-gold-lift"
         }`}
       >
+        {/* Korniza e artë që rrotullohet ngadalë — vetëm te paketa e rekomanduar */}
+        {emphasized && <div aria-hidden className="price-glow pointer-events-none absolute inset-0 z-[4] rounded-3xl" />}
         <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_20%_8%,rgba(171,131,57,0.065),transparent_62%)] opacity-70 transition-all duration-[600ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[radial-gradient(circle_at_72%_20%,rgba(171,131,57,0.14),transparent_64%)] group-hover:opacity-100" />
         <div className="relative z-[3] flex flex-1 flex-col">
 
@@ -73,18 +77,30 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
             </p>
           )}
 
-          <div className="mt-3 flex items-end gap-1.5">
-            <p className="font-display text-[clamp(2rem,3.5vw,2.5rem)] font-medium leading-none tracking-[0.02em] text-text">
-              {pkg.price}
+          {/* Çmimi është "heroi" i kartës: i madh, numërohet kur del në ekran */}
+          <div className="mt-4 flex items-end gap-1.5">
+            <p
+              className={`font-display font-semibold leading-none tracking-[0.01em] ${
+                emphasized ? "text-[clamp(2.6rem,4.2vw,3.25rem)] text-accentLight" : "text-[clamp(2.3rem,3.8vw,2.85rem)] text-text"
+              }`}
+            >
+              <CountUpPrice price={pkg.price} />
             </p>
             {pkg.priceNote && (
-              <p className="mb-[3px] font-ui text-[13px] text-muted">{pkg.priceNote}</p>
+              <p className="mb-[5px] font-ui text-[13px] text-muted">{pkg.priceNote}</p>
             )}
           </div>
 
+          {/* "≈ €X në ditë" — pill e artë menjëherë nën çmim (iluzioni i përballueshmërisë) */}
+          {framing.perDay && (
+            <p className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-accent/40 bg-accent/[0.12] px-3 py-1 font-ui text-[12px] font-semibold text-accentLight">
+              {t(framing.perDayYear ? "card.perDayYear" : "card.perDay", { amount: formatEuro(framing.perDay) })}
+            </p>
+          )}
+
           {/* Framing (2026-10-20): si paguhet + çfarë kthen — nga çmimi real, kurrë i shpikur */}
-          {(framing.plan || framing.payback || framing.perDay) && (
-            <div className="mt-2 space-y-0.5 font-ui text-[12px] leading-snug">
+          {(framing.plan || framing.payback) && (
+            <div className="mt-3 space-y-0.5 font-ui text-[12px] leading-snug">
               {framing.plan?.kind === "split" && (
                 <p className="text-white/70">
                   {t("card.split", { now: formatEuro(framing.plan.now), launch: formatEuro(framing.plan.launch) })}
@@ -100,7 +116,6 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
                 </p>
               )}
               {framing.payback && <p className="text-accent/90">{t("card.payback", { count: framing.payback })}</p>}
-              {framing.perDay && <p className="text-white/60">{t("card.perDay", { amount: formatEuro(framing.perDay) })}</p>}
             </div>
           )}
 
@@ -111,11 +126,26 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
             </p>
           )}
 
+          {/* Dhurata + value stack: "Vlera që merr €746 · Ti paguan €599" — vlera e dhuratës është reale */}
           {pkg.gift && (
-            <p className="mt-3 inline-flex w-fit items-start gap-2 rounded-lg border border-accent/25 bg-accent/[0.08] px-3 py-2 font-ui text-[12px] font-medium leading-snug text-accentLight">
-              <span aria-hidden>🎁</span>
-              <span>{pkg.gift}</span>
-            </p>
+            <div className="mt-3 rounded-xl border border-accent/30 bg-accent/[0.07] px-3.5 py-3 font-ui">
+              <p className="flex items-start gap-2 text-[12px] font-medium leading-snug text-accentLight">
+                <span aria-hidden>🎁</span>
+                <span>{pkg.gift}</span>
+              </p>
+              {framing.totalValue && (
+                <div className="mt-2.5 space-y-1 border-t border-accent/20 pt-2.5 text-[12px]">
+                  <p className="flex items-center justify-between text-white/65">
+                    <span>{t("card.valueLabel")}</span>
+                    <span className="font-semibold text-white/85">{formatEuro(framing.totalValue)}</span>
+                  </p>
+                  <p className="flex items-center justify-between text-white/85">
+                    <span>{t("card.payLabel")}</span>
+                    <span className="font-display text-[15px] font-bold text-accentLight">{pkg.price}</span>
+                  </p>
+                </div>
+              )}
+            </div>
           )}
 
           <p className="font-ui mt-2 md:whitespace-pre-line text-[12px] font-normal leading-[1.6] text-text">{pkg.ideal}</p>

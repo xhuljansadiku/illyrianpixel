@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
 import { CustomPackageRow, GuaranteeNote, IdeaCard, isQuoteOnly } from "@/components/PricingExtras";
+import PackageCarousel from "@/components/PackageCarousel";
 import { brandingConversionLandingData as brandingConversionLandingData_sq } from "@/lib/brandingContentConversionContent.sq";
 import { brandingConversionLandingData as brandingConversionLandingData_en } from "@/lib/brandingContentConversionContent.en";
 import { ecommerceConversionLandingData as ecommerceConversionLandingData_sq } from "@/lib/ecommerceConversionContent.sq";
@@ -257,7 +258,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                 <IdeaCard slug={category.slug} />
               ) : (
                 <div className="mx-auto max-w-[980px]">
-                  <div className="mt-12 grid items-stretch gap-5 md:grid-cols-3">
+                  <PackageCarousel focusIndex={Math.max(0, packages.findIndex((p) => p.featured))} columns={packages.length}>
                     {packages.map((pkg) => (
                       <ServicePackageCard
                         key={pkg.name}
@@ -267,7 +268,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                         recurring={["seo-google-ads", "smm", "mirembajtja"].includes(category.slug)}
                       />
                     ))}
-                  </div>
+                  </PackageCarousel>
                   {category.packages.filter((p) => p.asRow).map((pkg) => (
                     <CustomPackageRow key={pkg.name} pkg={pkg} slug={category.slug} />
                   ))}

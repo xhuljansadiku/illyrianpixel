@@ -45,20 +45,31 @@ export const paybackClients = (amount: number, clientValue = AVG_CLIENT_VALUE) =
 /** Kosto ditore e një pakete mujore, me 1 shifër pas presjes (€249 → 8.3) */
 export const perDay = (monthly: number) => Math.round((monthly / 30) * 10) / 10;
 
+/** Kosto ditore e një pagese një herë gjatë vitit të parë (€599 → 1.6) */
+export const perDayFirstYear = (amount: number) => Math.round((amount / 365) * 10) / 10;
+
 export type PriceFraming = {
   plan?: PaymentPlan;
   payback?: number;
   perDay?: number;
+  /** true kur perDay llogaritet mbi vitin e parë (pagesë një herë), jo mbi muajin */
+  perDayYear?: boolean;
+  /** Value stack: çmimi + vlera e dhuratës (vetëm kur dhurata ka vlerë reale) */
+  totalValue?: number;
 };
 
 /** Çfarë framing-u i takon një pakete sipas kategorisë */
-export function priceFraming(slug: ServiceCategory["slug"], price: string, recurring: boolean): PriceFraming {
+export function priceFraming(slug: ServiceCategory["slug"], price: string, recurring: boolean, giftValue?: number): PriceFraming {
   const amount = parseEuro(price);
   if (!amount) return {};
   if (recurring) return { perDay: perDay(amount) };
   if (!ONE_OFF_SLUGS.has(slug)) return {};
+  const withPayback = PAYBACK_SLUGS.has(slug);
   return {
     plan: paymentPlan(amount),
-    payback: PAYBACK_SLUGS.has(slug) ? paybackClients(amount) : undefined,
+    payback: withPayback ? paybackClients(amount) : undefined,
+    perDay: withPayback ? perDayFirstYear(amount) : undefined,
+    perDayYear: withPayback || undefined,
+    totalValue: giftValue ? amount + giftValue : undefined,
   };
 }

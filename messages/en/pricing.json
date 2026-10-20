@@ -109,7 +109,10 @@
     "installments": "3 instalments: {a} · {b} · {c}",
     "payback": "{count, plural, one {Pays for itself with ~# new client} other {Pays for itself with ~# new clients}}",
     "perDay": "≈ {amount} a day",
-    "forBrand": "{service} for “{name}”"
+    "forBrand": "{service} for “{name}”",
+    "perDayYear": "≈ {amount} a day over the first year",
+    "valueLabel": "Total value you get",
+    "payLabel": "You pay"
   },
   "goals": {
     "title": "What do you want to achieve?",
