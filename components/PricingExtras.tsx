@@ -18,6 +18,7 @@ export function CustomPackageRow({ pkg, slug }: { pkg: ServicePackage; slug: str
       <p className="text-[14px] leading-relaxed text-white/75">
         <span className="font-semibold text-white">{t("lead")}</span> {pkg.ideal.replace(/\n/g, " ")}{" "}
         <span className="whitespace-nowrap font-semibold text-accent">{pkg.price}</span>
+        <span className="text-white/55"> · {t("installments")}</span>
       </p>
       <Link
         href="/contact"

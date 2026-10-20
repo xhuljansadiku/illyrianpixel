@@ -106,7 +106,7 @@
   "card": {
     "recommendedBadge": "Rekomanduar për ty",
     "split": "{now} tani · {launch} në lansim",
-    "installments": "ose 3 këste: {a} · {b} · {c}",
+    "installments": "3 këste: {a} · {b} · {c}",
     "payback": "{count, plural, one {Kthehet me ~# klient të ri} other {Kthehet me ~# klientë të rinj}}",
     "perDay": "≈ {amount} në ditë",
     "forBrand": "{service} për „{name}”"
@@ -130,7 +130,8 @@
   },
   "customRow": {
     "lead": "Projekt më i madh?",
-    "cta": "Kërko ofertë"
+    "cta": "Kërko ofertë",
+    "installments": "Mundësi pagese me 3 këste."
   },
   "ideaCard": {
     "title": "Na trego idenë tënde.",

@@ -5,8 +5,9 @@ import type { ServiceCategory } from "@/lib/serviceCategories";
 
 /** Vlera mesatare e një klienti të ri — e njëjta që kalkulatori përdor si parazgjedhje */
 export const AVG_CLIENT_VALUE = 300;
-/** Nga ky çmim (pagesë një herë) ofrohen 3 këste në vend të 50/50 */
-export const INSTALLMENTS_FROM = 899;
+/** Mbi këtë çmim (pagesë një herë) ofrohen 3 këste në vend të 50/50 — vendim i userit 2026-10-20:
+ *  projektet e vogla 50/50; mbi €1,000: 40% në fillim · 30% pas aprovimit të dizajnit · 30% para lansimit */
+export const INSTALLMENTS_ABOVE = 1000;
 
 const ONE_OFF_SLUGS = new Set<ServiceCategory["slug"]>(["website", "ecommerce", "branding-content"]);
 const PAYBACK_SLUGS = new Set<ServiceCategory["slug"]>(["website", "ecommerce"]);
@@ -26,9 +27,9 @@ export type PaymentPlan =
   | { kind: "split"; now: number; launch: number }
   | { kind: "installments"; parts: [number, number, number] };
 
-/** 50% tani / 50% në lansim; nga €899: 40% · 30% · 30%. Pjesët mblidhen gjithmonë te çmimi i plotë. */
+/** 50% tani / 50% në lansim; mbi €1,000: 40% · 30% · 30%. Pjesët mblidhen gjithmonë te çmimi i plotë. */
 export function paymentPlan(amount: number): PaymentPlan {
-  if (amount >= INSTALLMENTS_FROM) {
+  if (amount > INSTALLMENTS_ABOVE) {
     const a = Math.round(amount * 0.4);
     const b = Math.round(amount * 0.3);
     return { kind: "installments", parts: [a, b, amount - a - b] };

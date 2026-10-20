@@ -106,7 +106,7 @@
   "card": {
     "recommendedBadge": "Recommended for you",
     "split": "{now} now · {launch} at launch",
-    "installments": "or 3 instalments: {a} · {b} · {c}",
+    "installments": "3 instalments: {a} · {b} · {c}",
     "payback": "{count, plural, one {Pays for itself with ~# new client} other {Pays for itself with ~# new clients}}",
     "perDay": "≈ {amount} a day",
     "forBrand": "{service} for “{name}”"
@@ -130,7 +130,8 @@
   },
   "customRow": {
     "lead": "Bigger project?",
-    "cta": "Request a quote"
+    "cta": "Request a quote",
+    "installments": "Payable in 3 instalments."
   },
   "ideaCard": {
     "title": "Tell us your idea.",

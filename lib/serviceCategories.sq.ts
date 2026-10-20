@@ -59,7 +59,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Basic",
         price: "€349",
-        perk: "30 ditë rregullime falas pas lansimit",
+        perk: "30 ditë rregullime falas pas lansimit (gabime teknike)",
         ideal: "Faqe biznesi e pastër dhe serioze.\nKlientët ju gjejnë, ju kontaktojnë.",
         features: [
           "Dizajn profesional dhe i pastër",
@@ -139,7 +139,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Starter",
         price: "€699",
-        perk: "30 ditë rregullime falas pas lansimit",
+        perk: "30 ditë rregullime falas pas lansimit (gabime teknike)",
         tagline: "Dyqan që fillon të shesë menjëherë",
         ideal: "Hapi i parë i saktë online.\nProdukte, pagesa dhe checkout gati për shitje.",
         features: [

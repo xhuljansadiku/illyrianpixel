@@ -11,15 +11,16 @@ describe("parseEuro", () => {
 });
 
 describe("paymentPlan", () => {
-  it("splits below €899 into now + launch that add up to the price", () => {
+  it("splits up to €1,000 into now + launch that add up to the price", () => {
     expect(paymentPlan(599)).toEqual({ kind: "split", now: 300, launch: 299 });
     expect(paymentPlan(349)).toEqual({ kind: "split", now: 175, launch: 174 });
+    expect(paymentPlan(899)).toEqual({ kind: "split", now: 450, launch: 449 });
+    expect(paymentPlan(1000).kind).toBe("split");
   });
 
-  it("offers 40/30/30 instalments from €899, summing to the exact price", () => {
-    expect(paymentPlan(899)).toEqual({ kind: "installments", parts: [360, 270, 269] });
-    const p = paymentPlan(1199);
-    expect(p.kind === "installments" && p.parts.reduce((s, n) => s + n, 0)).toBe(1199);
+  it("offers 40/30/30 instalments above €1,000, summing to the exact price", () => {
+    expect(paymentPlan(1199)).toEqual({ kind: "installments", parts: [480, 360, 359] });
+    expect(paymentPlan(1999)).toEqual({ kind: "installments", parts: [800, 600, 599] });
   });
 });
 

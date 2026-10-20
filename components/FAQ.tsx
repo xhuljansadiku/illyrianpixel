@@ -27,7 +27,11 @@ const defaultFaqsSq: FaqItem[] = [
   },
   {
     q: "Si funksionon pagesa?",
-    a: "50% paradhënie për të rezervuar projektin dhe nisur punën menjëherë, dhe 50% para publikimit përfundimtar."
+    a: "Për projektet deri në €1,000: 50% paradhënie për të nisur punën dhe 50% para publikimit.\nMbi €1,000: 3 këste, 40% në fillim, 30% kur aprovoni dizajnin dhe 30% para lansimit."
+  },
+  {
+    q: "Po sikur të mos më pëlqejë dizajni?",
+    a: "Nëse dizajni i parë nuk ju pëlqen pas 2 raundesh ndryshimesh, ju kthejmë paradhënien 100%. Pa pyetje."
   },
   {
     q: "Çfarë kam nevojë të përgatis para fillimit?",
@@ -54,7 +58,11 @@ const defaultFaqsEn: FaqItem[] = [
   },
   {
     q: "How does payment work?",
-    a: "50% upfront to reserve the project and start work immediately, and 50% before final launch."
+    a: "For projects up to €1,000: 50% upfront to start work and 50% before launch.\nAbove €1,000: 3 instalments, 40% at the start, 30% when you approve the design and 30% before launch."
+  },
+  {
+    q: "What if I don't like the design?",
+    a: "If you don't like the first design after 2 rounds of changes, we refund your deposit in full. No questions asked."
   },
   {
     q: "What do I need to prepare before we start?",
