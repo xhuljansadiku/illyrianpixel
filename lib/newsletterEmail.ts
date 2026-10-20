@@ -1,4 +1,4 @@
-import { confirmUrl, unsubscribeUrl } from "@/lib/newsletterTokens";
+import { confirmUrl, newsletterToken, unsubscribeUrl } from "@/lib/newsletterTokens";
 
 export const NEWSLETTER_BRAND = {
   name: "Illyrian Pixel",
@@ -329,13 +329,16 @@ export function broadcastEmailHtml(
   const BRAND = { ...NEWSLETTER_BRAND, whatsapp: whatsappUrl };
 
   // Open/click tracking — vetëm kur dërgohet si broadcast i regjistruar
-  const enc = tracking ? Buffer.from(tracking.email).toString("base64url") : "";
+  // e = email-i (base64url), t = HMAC — route-t regjistrojnë ngjarjen vetëm me token të vlefshëm
+  const signed = tracking
+    ? `e=${Buffer.from(tracking.email).toString("base64url")}&t=${newsletterToken("track", tracking.email)}`
+    : "";
   const wrap = (url: string) =>
     tracking
-      ? `${NEWSLETTER_BRAND.website}/api/newsletter/track/click?b=${tracking.broadcastId}&e=${enc}&u=${encodeURIComponent(url)}`
+      ? `${NEWSLETTER_BRAND.website}/api/newsletter/track/click?b=${tracking.broadcastId}&${signed}&u=${encodeURIComponent(url)}`
       : url;
   const pixel = tracking
-    ? `<img src="${NEWSLETTER_BRAND.website}/api/newsletter/track/open?b=${tracking.broadcastId}&e=${enc}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0;" />`
+    ? `<img src="${NEWSLETTER_BRAND.website}/api/newsletter/track/open?b=${tracking.broadcastId}&${signed}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0;" />`
     : "";
 
   const safeMessage = escapeHtml(message).replaceAll("\n", "<br>");

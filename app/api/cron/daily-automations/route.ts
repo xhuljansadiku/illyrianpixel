@@ -17,6 +17,7 @@ import { insertQuoteWithNumber } from "@/lib/quotesServer";
 import { quoteTotals, formatMoney } from "@/lib/quotes";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
 import { logActivity } from "@/lib/activityLog";
+import { purgeExpiredContacts } from "@/lib/contactRetention";
 import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
 import { buildWeeklyBackup, uploadBackupToStorage } from "@/lib/backup";
 import { sendTelegramMessage } from "@/lib/telegram";
@@ -360,6 +361,11 @@ export async function GET(req: Request) {
   await supabase.from("rate_limits").delete().lt("created_at", daysAgoIso(1));
   await supabase.from("admin_logins").delete().lt("created_at", daysAgoIso(180));
   await supabase.from("assistant_messages").delete().lt("created_at", daysAgoIso(365));
+  // contacts: "deri në 2 vjet pas ndërprerjes së marrëdhënies" — rregullat te lib/contactRetention.ts
+  const purgedContacts = await purgeExpiredContacts(supabase);
+  if (purgedContacts > 0) {
+    await logActivity("auto", "delete", `U fshinë ${purgedContacts} kontakte pas afatit 2-vjeçar të ruajtjes (GDPR)`);
+  }
 
   // ── 8. Përmbledhja për adminin (vetëm kur ka aktivitet) ────────────────────
   const hasActivity =
