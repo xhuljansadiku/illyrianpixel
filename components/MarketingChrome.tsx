@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import InquiryModal from "@/components/InquiryModal";
 import NewsletterPopup from "@/components/NewsletterPopup";
 import CookieConsent from "@/components/CookieConsent";
+import { useFirstInteraction } from "@/lib/useFirstInteraction";
 
 // Defer non-critical layout components — do not block initial HTML paint
 const InteractiveGlow       = dynamic(() => import("@/components/InteractiveGlow"),       { ssr: false });
@@ -50,6 +51,8 @@ function useIsDesktop() {
 export default function MarketingChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isDesktop = useIsDesktop();
+  // three.js (~530KB JS, CPU i dukshëm në PageSpeed desktop) vetëm pasi vizitori lëviz/bën scroll (2026-10-20)
+  const interacted = useFirstInteraction();
   if (NO_CHROME_PREFIXES.some((p) => pathname?.startsWith(p))) {
     return <>{children}</>;
   }
@@ -57,7 +60,7 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
   return (
     <>
       <Preloader />
-      {isDesktop && <AmbientParticles />}
+      {isDesktop && interacted && <AmbientParticles />}
       <SmoothScroll>
         <div className="relative z-[1]">
           <InteractiveGlow />

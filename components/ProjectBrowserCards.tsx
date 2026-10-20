@@ -73,7 +73,7 @@ export default function ProjectBrowserCards({
                   src={p.heroImage}
                   alt=""
                   fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
+                  sizes={three ? "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 50vw, 100vw"}
                   className="object-cover object-top transition-[object-position] duration-[3000ms] ease-in-out group-hover:object-bottom"
                 />
               )}
