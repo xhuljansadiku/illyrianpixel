@@ -10,7 +10,8 @@
 import { useRef, useEffect, useState } from "react";
 // 3D: import dynamic from "next/dynamic";
 // import dynamicImport from "next/dynamic"; — për globin (i komentuar)
-import HeroBrandBuilder from "@/components/HeroBrandBuilder";
+// import HeroBrandBuilder from "@/components/HeroBrandBuilder"; — versioni statik (para 2026-10-20)
+import HeroBrandBuilderLive from "@/components/HeroBrandBuilderLive";
 import { useTranslations } from "next-intl";
 // import { useLocale } from "next-intl"; import type { Locale } from "@/i18n/routing"; — për globin
 import { Link } from "@/i18n/navigation";
@@ -232,8 +233,9 @@ export default function ParticleCloudHero() {
         {/* Right column was empty since the 3D gem was disabled — now the client globe (2026-10-15).
             <div className="hidden h-[460px] lg:block" aria-hidden /> */}
         {/* "Ndërto brandin tënd" (2026-10-16) — zëvendësoi globin e klientëve */}
+        {/* 2026-10-20: versioni që luan vetë (shkruan biznese shembull) — statiku: <HeroBrandBuilder /> */}
         <div className="flex justify-center lg:justify-end">
-          <HeroBrandBuilder />
+          <HeroBrandBuilderLive />
         </div>
         {/* Globi i klientëve (2026-10-15) — për ta rikthyer, zëvendëso bllokun sipër me:
         <div className="flex flex-col items-center">

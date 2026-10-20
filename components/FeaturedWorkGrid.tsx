@@ -78,7 +78,8 @@ export default function FeaturedWorkGrid({ items }: { items?: FeaturedItem[] }) 
 
       <div className="section-wrap mt-4 md:mt-10">
         {/* <ProjectIndexList items={featuredProjects} /> */}
-        <ProjectBrowserCards projects={featuredProjects} locale={locale} columns={3} />
+        {/* live (2026-10-20): screenshot-i bën vetë scroll në ekran + anim 3D drejt mausit */}
+        <ProjectBrowserCards projects={featuredProjects} locale={locale} columns={3} live />
       </div>
 
       <div className="section-wrap pb-2 pt-12">
