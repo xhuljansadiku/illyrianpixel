@@ -42,6 +42,14 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
 
     let raf = 0;
     let cancelled = false;
+    // Performanca (2026-10-20): cikli vizaton vetëm kur globi është në ekran dhe tab-i aktiv —
+    // më parë vizatonte 60×/s gjithë kohën dhe zinte ~7.5s CPU në Lighthouse mobile.
+    let running = false;
+    let inView = false;
+    let dataRequested = false;
+    let lastFrame = 0;
+    // Celular: ~30 fps dhe pa hije te kunjat (shadowBlur është i shtrenjtë)
+    const lite = window.matchMedia("(pointer: coarse), (max-width: 767px)").matches;
     let countries: Feature<Geometry, { name: string }>[] = [];
     // rotate() i d3 pret [-lon, -lat] të qendrës
     const rotation: [number, number] = [-start[0], -start[1]];
@@ -65,6 +73,8 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
       canvas.height = rect.height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       projection.scale(Math.min(rect.width, rect.height) / 2 - 14).translate([rect.width / 2, rect.height / 2]);
+      // Ndryshimi i madhësisë e fshin canvas-in — rivizato nëse cikli është në pauzë
+      if (!running && countries.length > 0) draw(performance.now());
     };
 
     const centerLonLat = () => projection.invert?.([canvas.clientWidth / 2, canvas.clientHeight / 2]) ?? null;
@@ -82,8 +92,10 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
       ctx.arc(0, -15, 8, Math.PI, 0);
       ctx.bezierCurveTo(8, -9, 2, -5, 0, 0);
       ctx.closePath();
-      ctx.shadowColor = "rgba(0,0,0,0.5)";
-      ctx.shadowBlur = 6;
+      if (!lite) {
+        ctx.shadowColor = "rgba(0,0,0,0.5)";
+        ctx.shadowBlur = 6;
+      }
       ctx.fillStyle = isHq ? GOLD : ACCENT;
       ctx.fill();
       ctx.shadowBlur = 0;
@@ -195,29 +207,46 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
     };
 
     const tick = (time: number) => {
-      if (cancelled) return;
+      if (cancelled || !running) return;
+      raf = requestAnimationFrame(tick);
+      if (lite && time - lastFrame < 32) return;
+      // Hapi në "frame 60 fps" — me 30 fps globi lëviz me të njëjtën shpejtësi
+      const step = Math.min(3, Math.max(1, (time - lastFrame) / 16.7));
+      lastFrame = time;
       const f = focusRef.current;
       if (f && !dragging) {
         // Kthehu butësisht drejt vendit të zgjedhur (rruga më e shkurtër në gjatësi)
         const targetLon = -f.lon;
         const targetLat = -f.lat * 0.8;
         const d = ((targetLon - rotation[0] + 540) % 360) - 180;
-        rotation[0] += d * (reducedMotion ? 1 : 0.06);
-        rotation[1] += (targetLat - rotation[1]) * (reducedMotion ? 1 : 0.06);
+        const k = reducedMotion ? 1 : Math.min(1, 0.06 * step);
+        rotation[0] += d * k;
+        rotation[1] += (targetLat - rotation[1]) * k;
       } else if (!dragging && !hovering && !reducedMotion) {
         if (sway) {
           // Lëkundje e butë mes Nju Jorkut dhe Europës — klientët mbeten gjithmonë në pamje
           const targetLon = -(start[0] + 32 * Math.sin(time / 9000));
           const d = ((targetLon - rotation[0] + 540) % 360) - 180;
-          rotation[0] += d * 0.02;
-          rotation[1] += (-start[1] - rotation[1]) * 0.02;
+          rotation[0] += d * 0.02 * step;
+          rotation[1] += (-start[1] - rotation[1]) * 0.02 * step;
         } else {
-          rotation[0] += 0.08;
+          rotation[0] += 0.08 * step;
         }
       }
       draw(time);
+    };
+
+    const play = () => {
+      if (running || cancelled) return;
+      running = true;
+      lastFrame = performance.now();
       raf = requestAnimationFrame(tick);
     };
+    const pause = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+    };
+    const syncPlayback = () => (inView && !document.hidden ? play() : pause());
 
     const onDown = (e: PointerEvent) => {
       dragging = true;
@@ -247,17 +276,34 @@ export default function ClientGlobe({ locale, variant = "arcs", focus = null, st
     canvas.addEventListener("pointerenter", onEnter);
     canvas.addEventListener("pointerleave", onLeave);
 
-    // Të dhënat e vendeve (~100 KB) ngarkohen në chunk më vete, pasi faqja është gati
-    import("world-atlas/countries-110m.json").then((mod) => {
-      if (cancelled) return;
-      const topo = (mod.default ?? mod) as unknown as Topology<{ countries: GeometryCollection<{ name: string }> }>;
-      countries = (feature(topo, topo.objects.countries) as FeatureCollection<Geometry, { name: string }>).features;
-    });
-    raf = requestAnimationFrame(tick);
+    // Të dhënat e vendeve (~100 KB) ngarkohen në chunk më vete, vetëm kur globi afrohet në ekran
+    const loadCountries = () => {
+      if (dataRequested) return;
+      dataRequested = true;
+      import("world-atlas/countries-110m.json").then((mod) => {
+        if (cancelled) return;
+        const topo = (mod.default ?? mod) as unknown as Topology<{ countries: GeometryCollection<{ name: string }> }>;
+        countries = (feature(topo, topo.objects.countries) as FeatureCollection<Geometry, { name: string }>).features;
+        if (!running) draw(performance.now());
+      });
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView) loadCountries();
+        syncPlayback();
+      },
+      { rootMargin: "200px 0px" }
+    );
+    io.observe(canvas);
+    document.addEventListener("visibilitychange", syncPlayback);
 
     return () => {
       cancelled = true;
-      cancelAnimationFrame(raf);
+      pause();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", syncPlayback);
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointermove", onMove);

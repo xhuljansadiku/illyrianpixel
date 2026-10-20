@@ -73,6 +73,10 @@ export default function ParticleCloudHero() {
     // mëdha. Mobile merr reveal-in e thjeshtë (i njëjti fallback si më poshtë)
     // dhe s'e shkarkon fare modulin gsap/SplitText.
     const isDesktop = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
+    // Nën lg (2026-10-20): pa animacion hyrës fare. Në telefon GSAP mbërrin pasi teksti
+    // është vizatuar nga HTML-ja (~2s) dhe e fshihte e rishfaqte (~4.7s) — "flash" i
+    // dukshëm që e shtynte LCP-në mobile në ~5s. Teksti mbetet thjesht i dukshëm.
+    if (!isDesktop) return;
 
     const runHeadlineReveal = (gsap: typeof import("gsap").default, SplitText?: typeof import("gsap/SplitText").SplitText) => {
       const headlineTarget = headlineRef.current?.querySelector<HTMLElement>(".headline-word");
