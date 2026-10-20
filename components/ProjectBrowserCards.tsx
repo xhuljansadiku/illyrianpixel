@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { caseStudies } from "@/lib/caseStudies";
+import LiveShot from "@/components/LiveShot";
+import TiltCard from "@/components/TiltCard";
 import type { Locale } from "@/i18n/routing";
 
 const LABELS: Record<Locale, { caseStudy: string; live: string; soon: string }> = {
@@ -35,11 +37,14 @@ export default function ProjectBrowserCards({
   projects,
   locale,
   columns = 2,
+  live = false,
 }: {
   projects: BrowserCardProject[];
   locale: Locale;
   /** 2 = kolona të zhvendosura (/projektet); 3 = rresht i barabartë (faqja kryesore) */
   columns?: 2 | 3;
+  /** Screenshot-i skrollohet vetë kur karta është në ekran + anim 3D drejt mausit (në provë) */
+  live?: boolean;
 }) {
   const l = LABELS[locale];
   const three = columns === 3;
@@ -69,7 +74,14 @@ export default function ProjectBrowserCards({
               <span className="w-[54px]" aria-hidden />
             </div>
             <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-black">
-              {p.heroImage && (
+              {p.heroImage && live && (
+                <LiveShot
+                  src={p.heroImage}
+                  sizes={three ? "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 50vw, 100vw"}
+                  delay={i * 700}
+                />
+              )}
+              {p.heroImage && !live && (
                 <Image
                   src={p.heroImage}
                   alt=""
@@ -85,6 +97,7 @@ export default function ProjectBrowserCards({
         return (
           <article key={p.slug} className={`group ${!three && i % 2 === 1 ? "md:mt-24" : ""}`}>
             {/* Dritarja e browser-it */}
+            <TiltCard enabled={live}>
             {hasCaseStudy ? (
               <Link href={`/projektet/${p.slug}`} aria-label={`${l.caseStudy}: ${p.title}`} className={WINDOW_CLASS}>
                 {windowInner}
@@ -96,6 +109,7 @@ export default function ProjectBrowserCards({
             ) : (
               <div className={WINDOW_CLASS}>{windowInner}</div>
             )}
+            </TiltCard>
 
             {/* Info poshtë dritares */}
             <div className="mt-7 flex items-start gap-5 px-1">

@@ -26,6 +26,9 @@ const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionO
 // client JS is still loading in before the client-only version could mount.
 // Preloader: const Preloader             = dynamic(() => import("@/components/Preloader"));
 const ClientWidgets         = dynamic(() => import("@/components/ClientWidgets"),         { ssr: false });
+// Provë (2026-10-20): perdja e artë mes faqeve — vetëm në dev lokal derisa useri ta zgjedhë (/test-wow)
+const GoldCurtain           = dynamic(() => import("@/components/GoldCurtain"),           { ssr: false });
+const WOW_PREVIEW = process.env.NODE_ENV === "development";
 const AmbientParticles      = dynamic(() => import("@/components/AmbientParticles"),      { ssr: false });
 
 // Utility/transactional pages — not the marketing site — skip the preloader,
@@ -64,6 +67,7 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
   return (
     <>
       {/* Preloader: <Preloader /> */}
+      {WOW_PREVIEW && <GoldCurtain />}
       {isDesktop && interacted && <AmbientParticles />}
       <SmoothScroll>
         <div className="relative z-[1]">
