@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
+import { GuaranteeNote } from "@/components/PricingExtras";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
 const budgets = ["< €1,000", "€1,000 – €3,000", "€3,000 – €7,000", "€7,000+"];
@@ -385,6 +386,8 @@ export default function ContactPageClient() {
                     >
                       {loading ? t("form.submitting") : t("form.submit")}
                     </button>
+                    {/* Garancia pranë butonit (2026-10-20) — e njëjta fjali si te /cmimet */}
+                    <GuaranteeNote compact />
                   </form>
                 )}
 

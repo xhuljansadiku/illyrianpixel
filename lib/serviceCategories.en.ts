@@ -21,6 +21,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Basic",
         price: "€349",
+        gift: "30 days of free fixes after launch",
         ideal: "A clean, serious business page.\nClients find you, they contact you.",
         features: [
           "Professional, clean design",
@@ -33,6 +34,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Business",
         price: "€599",
+        gift: "3 months of free technical maintenance (worth €147)",
         ideal: "The right structure, the right message.\nClients arrive and take the next step.",
         features: [
           "Everything in Basic",
@@ -47,6 +49,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Premium",
         price: "€899",
+        gift: "3 months of free technical maintenance (worth €147)",
         ideal: "Custom design, advanced SEO and a conversion funnel from visitor to client.",
         features: [
           "Everything in Business",
@@ -59,6 +62,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Custom",
         price: "From €1,200",
+        asRow: true,
         ideal: "E-Commerce, special features or integrations?\nWe build it from scratch for your needs.",
         features: [
           "Everything in Premium",
@@ -97,6 +101,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Starter",
         price: "€699",
+        gift: "30 days of free fixes after launch",
         tagline: "A store that starts selling right away",
         ideal: "The right first step online.\nProducts, payments and checkout ready to sell.",
         features: [
@@ -110,6 +115,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Growth",
         price: "€1,199",
+        gift: "3 months of free technical maintenance (worth €147)",
         tagline: "A store that grows sales every month",
         ideal: "The right structure to turn visitors into buyers and buyers into regular clients.",
         features: [
@@ -124,6 +130,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Advanced",
         price: "€1,999",
+        gift: "3 months of free technical maintenance (worth €147)",
         tagline: "An e-commerce platform built to scale",
         ideal: "A complete system for businesses that want to dominate online, without limits, without compromise.",
         features: [

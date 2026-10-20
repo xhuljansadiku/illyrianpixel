@@ -214,6 +214,10 @@ export default function QuotePublicView({ quote, token }: { quote: QuoteRecord; 
               </div>
             )}
             {error && <p className="mt-3 text-center text-[14px] text-red-400" role="alert">{error}</p>}
+            {/* Garancia (2026-10-20) — e njëjta si te /cmimet dhe te kontakti */}
+            <p className="mt-5 text-center text-[13px] leading-relaxed text-white/60">
+              🛡 Për projektet me dizajn: nëse dizajni i parë nuk ju pëlqen pas 2 raundesh ndryshimesh, ju kthejmë paradhënien 100%.
+            </p>
           </div>
         ) : null}
       </div>

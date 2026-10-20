@@ -10,6 +10,8 @@ import ServicePackageCard from "@/components/ServicePackageCard";
 import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
 import FAQ, { type FaqItem } from "@/components/FAQ";
 import PricingCalculator from "@/components/PricingCalculator";
+import { CustomPackageRow, GuaranteeNote, IdeaCard, isQuoteOnly } from "@/components/PricingExtras";
+import { trackEvent } from "@/lib/track";
 import { getServiceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
@@ -27,6 +29,16 @@ const CMIMET_FLOAT_ICONS: AmbientIconConfig[] = [
 // Categories billed monthly — eligible for the mujore/vjetore toggle
 const RECURRING_SLUGS = new Set<ServiceCategory["slug"]>(["seo-google-ads", "smm", "mirembajtja"]);
 const ANNUAL_DISCOUNT = 0.2;
+// Garancia e dizajnit vlen për projektet me dizajn (pagesë një herë)
+const GUARANTEE_SLUGS = new Set<ServiceCategory["slug"]>(["website", "ecommerce", "branding-content"]);
+
+// "Çfarë do të arrish?" (2026-10-20) — paradoksi i zgjedhjes: 3 objektiva → 1 paketë e rekomanduar
+const GOALS: { key: "calls" | "sell" | "google"; icon: string; slug: ServiceCategory["slug"]; pkg: string }[] = [
+  { key: "calls", icon: "📞", slug: "website", pkg: "Business" },
+  { key: "sell", icon: "🛒", slug: "ecommerce", pkg: "Growth" },
+  { key: "google", icon: "🔍", slug: "seo-google-ads", pkg: "Growth" },
+];
+const BRAND_NAME_KEY = "ip_brand_name";
 
 function withAnnualBilling(pkg: ServiceCategory["packages"][number], annualNote: string): ServiceCategory["packages"][number] {
   const num = Number(pkg.price.replace(/[^\d]/g, ""));
@@ -58,6 +70,29 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
 
   const [active, setActive] = useState<ServiceCategory["slug"]>("website");
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+  const [highlight, setHighlight] = useState<{ slug: ServiceCategory["slug"]; pkg: string } | null>(null);
+  const [brandName, setBrandName] = useState("");
+
+  // Emri që vizitori shkroi te hero-ja e faqes kryesore (HeroBrandBuilderLive)
+  useEffect(() => {
+    try {
+      setBrandName(sessionStorage.getItem(BRAND_NAME_KEY)?.slice(0, 32) ?? "");
+    } catch {
+      // sessionStorage i bllokuar — thjesht pa emër
+    }
+  }, []);
+
+  function handleGoal(goal: (typeof GOALS)[number]) {
+    setActive(goal.slug);
+    setHighlight({ slug: goal.slug, pkg: goal.pkg });
+    trackEvent("pricing_goal", { goal: goal.key });
+    const params = new URLSearchParams(window.location.search);
+    params.set("kategori", goal.slug);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    window.requestAnimationFrame(() =>
+      document.getElementById(goal.slug)?.scrollIntoView({ behavior: "smooth", block: "start" })
+    );
+  }
 
   // ?kategori= lexohet pas hydration, jo me useSearchParams(): /cmimet është statike
   // dhe useSearchParams() do ta kalonte gjithë faqen në render vetëm-klient
@@ -71,6 +106,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
 
   function handleFilterClick(slug: ServiceCategory["slug"]) {
     setActive(slug);
+    setHighlight(null);
     const params = new URLSearchParams(window.location.search);
     params.set("kategori", slug);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -145,6 +181,42 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p className="hero-subtext mt-6 md:whitespace-pre-line font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
               {t("hero.subtext")}
+            </p>
+          </div>
+        </section>
+
+        {/* ── "ÇFARË DO TË ARRISH?" — 3 objektiva, secili të çon te paketa e rekomanduar ── */}
+        <section className="relative z-[1] border-b border-white/[0.06]">
+          <div className="section-wrap !py-10 md:!py-12">
+            <p className="font-display text-[clamp(1.4rem,2.6vw,1.9rem)] font-semibold text-white">{t("goals.title")}</p>
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
+              {GOALS.map((g) => {
+                const on = highlight?.slug === g.slug;
+                return (
+                  <button
+                    key={g.key}
+                    type="button"
+                    onClick={() => handleGoal(g)}
+                    aria-pressed={on}
+                    className={`group flex items-center gap-4 rounded-2xl border px-5 py-4 text-left transition-all duration-300 ${
+                      on ? "border-accent/60 bg-accent/[0.1] shadow-gold" : "border-white/10 bg-white/[0.02] hover:border-accent/40 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    <span aria-hidden className="text-2xl">{g.icon}</span>
+                    <span>
+                      <span className="block font-ui text-[15px] font-semibold text-white">{t(`goals.${g.key}.label`)}</span>
+                      <span className="mt-0.5 block font-ui text-[12px] text-white/55">{t(`goals.${g.key}.hint`)}</span>
+                    </span>
+                    <span aria-hidden className="ml-auto text-accent transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-4 text-[13px] text-white/55">
+              {t("goals.unsure")}{" "}
+              <Link href="/contact" className="text-accent underline underline-offset-4 hover:text-accentLight">
+                {t("goals.unsureCta")} →
+              </Link>
             </p>
           </div>
         </section>
@@ -245,16 +317,38 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
             </div>
 
             {/* Cards — shared max-width frame so it doesn't jump between tabs; only the grid itself narrows for 3-pkg categories */}
-            <div className="relative z-[1] mx-auto w-full max-w-[1480px] px-5 pb-14 md:px-10 md:pb-20 lg:px-14">
-              <div className={`mt-12 grid items-stretch gap-5 ${category.packages.length >= 4 ? 'sm:grid-cols-2 xl:grid-cols-4' : 'mx-auto max-w-[980px] md:grid-cols-3'}`}>
-                {category.packages.map((pkg) => (
-                  <ServicePackageCard
-                    key={`${category.slug}-${pkg.name}`}
-                    pkg={pkg}
-                    conversionCta
-                  />
-                ))}
-              </div>
+            {(() => {
+              // Rregulli i tresh (2026-10-20): paketat asRow (Custom) dalin si rresht poshtë kartave;
+              // kategoritë vetëm me "Ofertë" (Aplikacionet) marrin një kartë "Na trego idenë".
+              const cards = category.packages.filter((p) => !p.asRow);
+              const rows = category.packages.filter((p) => p.asRow);
+              const recommended = highlight?.slug === category.slug ? highlight.pkg : cards.find((p) => p.featured)?.name;
+              return (
+                <div className="relative z-[1] mx-auto w-full max-w-[1480px] px-5 pb-14 md:px-10 md:pb-20 lg:px-14">
+                  {isQuoteOnly(category.packages) ? (
+                    <IdeaCard slug={category.slug} />
+                  ) : (
+                    <div className="mx-auto max-w-[980px]">
+                      <div className={`mt-12 grid items-stretch gap-5 ${cards.length >= 4 ? "sm:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-3"}`}>
+                        {cards.map((pkg) => (
+                          <ServicePackageCard
+                            key={`${category.slug}-${pkg.name}`}
+                            pkg={pkg}
+                            conversionCta
+                            slug={category.slug}
+                            recurring={RECURRING_SLUGS.has(category.slug)}
+                            highlight={highlight?.slug === category.slug && highlight.pkg === pkg.name}
+                            brandName={pkg.name === recommended ? brandName : undefined}
+                            categoryTitle={category.title}
+                          />
+                        ))}
+                      </div>
+                      {rows.map((pkg) => (
+                        <CustomPackageRow key={pkg.name} pkg={pkg} slug={category.slug} />
+                      ))}
+                      {GUARANTEE_SLUGS.has(category.slug) && <GuaranteeNote />}
+                    </div>
+                  )}
 
               {category.slug === "mirembajtja" && (
                 <div className="relative mt-8 overflow-hidden rounded-3xl border border-accent/20 bg-[linear-gradient(155deg,rgba(24,23,22,0.96),rgba(14,13,12,0.99))] px-6 py-8 shadow-lift md:px-12 md:py-10">
@@ -275,7 +369,9 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                 </div>
               )}
 
-            </div>
+                </div>
+              );
+            })()}
           </section>
         ))}
 

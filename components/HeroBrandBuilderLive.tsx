@@ -177,7 +177,16 @@ export default function HeroBrandBuilderLive() {
             id="brand-builder-live-name"
             value={current}
             onFocus={() => takeOver(false)}
-            onChange={(e) => setName(e.target.value.slice(0, 32))}
+            onChange={(e) => {
+              const v = e.target.value.slice(0, 32);
+              setName(v);
+              // /cmimet e tregon emrin te paketa e rekomanduar ("Website për „…”")
+              try {
+                sessionStorage.setItem("ip_brand_name", v.trim());
+              } catch {
+                // sessionStorage i bllokuar — s'ka gjë
+              }
+            }}
             placeholder={t("placeholder")}
             autoComplete="organization"
             className="w-full rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-[15px] text-white placeholder:text-white/40 focus:border-accent focus:outline-none"

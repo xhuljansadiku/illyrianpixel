@@ -59,14 +59,40 @@
     "waEstimate": "Vlerësimi",
     "waOutro": "Më intereson një ofertë e saktë.",
     "tiers": {
-      "website": ["Deri 5 faqe (prezantuese)", "6 deri 10 faqe (biznes)", "10+ faqe (premium)", "Platformë / custom"],
-      "ecommerce": ["Deri 30 produkte", "30 deri 100 produkte", "100+ produkte / custom"],
-      "branding-content": ["Logo + bazat e brandit", "Identitet i plotë vizual", "Identitet + content premium"]
+      "website": [
+        "Deri 5 faqe (prezantuese)",
+        "6 deri 10 faqe (biznes)",
+        "10+ faqe (premium)",
+        "Platformë / custom"
+      ],
+      "ecommerce": [
+        "Deri 30 produkte",
+        "30 deri 100 produkte",
+        "100+ produkte / custom"
+      ],
+      "branding-content": [
+        "Logo + bazat e brandit",
+        "Identitet i plotë vizual",
+        "Identitet + content premium"
+      ]
     },
     "timelines": {
-      "website": ["5 deri 10 ditë", "2 deri 3 javë", "3 deri 4 javë", "4 deri 6 javë"],
-      "ecommerce": ["2 deri 3 javë", "3 deri 4 javë", "4 deri 6 javë"],
-      "branding-content": ["rreth 1 javë", "1 deri 2 javë", "2 deri 3 javë"],
+      "website": [
+        "5 deri 10 ditë",
+        "2 deri 3 javë",
+        "3 deri 4 javë",
+        "4 deri 6 javë"
+      ],
+      "ecommerce": [
+        "2 deri 3 javë",
+        "3 deri 4 javë",
+        "4 deri 6 javë"
+      ],
+      "branding-content": [
+        "rreth 1 javë",
+        "1 deri 2 javë",
+        "2 deri 3 javë"
+      ],
       "seo-google-ads": "rezultatet e para brenda 4 deri 8 javësh",
       "smm": "rezultatet e para brenda 3 deri 4 javësh",
       "mirembajtja": "aktivizohet brenda 24 orësh"
@@ -76,5 +102,43 @@
       "blog": "Blog / seksion lajmesh",
       "maintenance": "Mirëmbajtje mujore (Basic)"
     }
+  },
+  "card": {
+    "recommendedBadge": "Rekomanduar për ty",
+    "split": "{now} tani · {launch} në lansim",
+    "installments": "ose 3 këste: {a} · {b} · {c}",
+    "payback": "{count, plural, one {Kthehet me ~# klient të ri} other {Kthehet me ~# klientë të rinj}}",
+    "perDay": "≈ {amount} në ditë",
+    "forBrand": "{service} për „{name}”"
+  },
+  "goals": {
+    "title": "Çfarë do të arrish?",
+    "calls": {
+      "label": "Më shumë thirrje & kërkesa",
+      "hint": "Website që kthen vizitorët në klientë"
+    },
+    "sell": {
+      "label": "Të shes online",
+      "hint": "Dyqan që shet 24/7"
+    },
+    "google": {
+      "label": "Të dal i pari në Google",
+      "hint": "SEO & Google Ads që sjellin klientë"
+    },
+    "unsure": "Nuk je i sigurt?",
+    "unsureCta": "Na shkruaj, të themi falas brenda 24h"
+  },
+  "customRow": {
+    "lead": "Projekt më i madh?",
+    "cta": "Kërko ofertë"
+  },
+  "ideaCard": {
+    "title": "Na trego idenë tënde.",
+    "text": "Çdo aplikacion është i ndryshëm. Na shkruaj çfarë ke në mendje dhe brenda 24 orësh të kthejmë një plan dhe një çmim të saktë, falas.",
+    "cta": "Dërgo idenë →"
+  },
+  "guarantee": {
+    "title": "Garanci pa rrezik",
+    "text": "Nëse dizajni i parë nuk të pëlqen pas 2 raundesh ndryshimesh, të kthejmë paradhënien 100%."
   }
 }
