@@ -1,6 +1,6 @@
 "use client";
 
-// Karta anon lehtë në 3D drejt mausit (2026-10-20, në provë te /test-wow). Vetëm me maus
+// Karta anon lehtë në 3D drejt mausit (2026-10-20). Vetëm me maus
 // (pointer: fine) dhe pa reduced-motion; s'shkakton re-render — stili vendoset direkt.
 import { useRef, type ReactNode } from "react";
 

@@ -43,7 +43,7 @@ export default function ProjectBrowserCards({
   locale: Locale;
   /** 2 = kolona të zhvendosura (/projektet); 3 = rresht i barabartë (faqja kryesore) */
   columns?: 2 | 3;
-  /** Screenshot-i skrollohet vetë kur karta është në ekran + anim 3D drejt mausit (në provë) */
+  /** Screenshot-i skrollohet vetë kur karta është në ekran + anim 3D drejt mausit (homepage) */
   live?: boolean;
 }) {
   const l = LABELS[locale];

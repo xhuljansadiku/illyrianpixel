@@ -1,6 +1,6 @@
 "use client";
 
-// Screenshot "i gjallë" brenda dritares së browser-it (2026-10-20, në provë te /test-wow):
+// Screenshot "i gjallë" brenda dritares së browser-it (2026-10-20):
 // kur karta del në ekran, faqja brenda saj bën vetë scroll ngadalë poshtë-lart, sikur dikush
 // po e shfleton. Lëviz me transform (compositor), jo me object-position — s'rëndon paint-in.
 // Ecën vetëm kur është në ekran; me reduced-motion mbetet statik (sipër).

@@ -1,6 +1,6 @@
 "use client";
 
-// "Ndërto brandin tënd" — version që luan vetë (2026-10-20, në provë te /test-wow).
+// "Ndërto brandin tënd" — version që luan vetë (2026-10-20).
 // Kur hapet faqja, shkruan vetë emra biznesesh shembull, ndërron stilin dhe mini-faqja
 // transformohet live. Sapo vizitori fokuson fushën ose zgjedh stil, demo ndalon dhe merr ai kontrollin.
 // Demo ecën vetëm kur komponenti është në ekran dhe tab-i aktiv; me reduced-motion s'luan fare.

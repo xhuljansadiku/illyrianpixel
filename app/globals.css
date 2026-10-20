@@ -2197,8 +2197,8 @@ html[data-aura="cta"] body {
 .brand-builder-in { animation: brandBuilderIn 0.5s ease-out both; }
 @media (prefers-reduced-motion: reduce) { .brand-builder-in { animation: none; } }
 
-/* ── Efektet "wow" (2026-10-20, në provë te /test-wow) ─────────────────────── */
-/* ScrollLightTitle variant "sweep": brez drite e artë që kalon nëpër titull me scroll */
+/* ── Efektet "wow" (2026-10-20) ───────────────────────────────────────────── */
+/* SectionTitleSweep: brez drite e artë që kalon nëpër titujt e seksioneve me scroll */
 .light-sweep-on {
   background-image: linear-gradient(90deg, #f5f5f0 0%, #f5f5f0 42%, #eace71 47%, #fff6d6 50%, #ab8339 53%, rgba(245, 245, 240, 0.16) 58%, rgba(245, 245, 240, 0.16) 100%);
   background-size: 300% 100%;
@@ -2209,7 +2209,7 @@ html[data-aura="cta"] body {
 }
 .light-sweep-on .light-sweep-accent { color: #ab8339; }
 
-/* Perdja e artë e kalimit mes faqeve */
+/* Perdja e artë e kalimit mes faqeve (GoldCurtain — jo aktive) */
 .gold-curtain {
   background:
     radial-gradient(circle at 50% 50%, rgba(234, 206, 113, 0.22), transparent 55%),

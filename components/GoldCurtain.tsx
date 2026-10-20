@@ -1,6 +1,7 @@
 "use client";
 
-// Kalim mes faqeve me perde të artë + logo (2026-10-20, në provë te /test-wow).
+// Kalim mes faqeve me perde të artë + logo (2026-10-20). JO AKTIV — useri vendosi të mos përdoret
+// (shih MarketingChrome, "// GoldCurtain:"). Ruhet për rast se do kthehet, p.sh. vetëm te klikimi i parë.
 // Klikimi i një linku të brendshëm ngre perden (0.45s) ndërsa Next ngarkon faqen; kur ndryshon
 // pathname-i, perdja largohet lart. Navigimi s'bllokohet kurrë (s'ka preventDefault) dhe ka
 // failsafe 4s. Me reduced-motion s'bën asgjë. window.dispatchEvent(new Event("gold-curtain-demo"))
