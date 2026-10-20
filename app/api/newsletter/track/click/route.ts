@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { readSignedEmail } from "@/lib/newsletterTokens";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,15 +27,15 @@ function safeRedirectTarget(target: string): string {
 }
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const broadcastId = searchParams.get("b") ?? "";
-  const enc = searchParams.get("e") ?? "";
-  const safeTarget = safeRedirectTarget(searchParams.get("u") ?? "");
+  const url = new URL(req.url);
+  const broadcastId = url.searchParams.get("b") ?? "";
+  const safeTarget = safeRedirectTarget(url.searchParams.get("u") ?? "");
 
-  if (UUID_RE.test(broadcastId) && enc) {
+  if (UUID_RE.test(broadcastId)) {
     try {
-      const email = Buffer.from(enc, "base64url").toString("utf8").slice(0, 254);
-      if (email.includes("@")) {
+      // Vetëm me token HMAC të vlefshëm — redirect-i bëhet gjithsesi (edhe linqet e vjetra pa token)
+      const email = readSignedEmail(url, "track");
+      if (email) {
         await supabase
           .from("newsletter_events")
           .insert({ broadcast_id: broadcastId, email, type: "click", url: safeTarget.slice(0, 600) });

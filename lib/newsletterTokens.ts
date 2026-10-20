@@ -2,7 +2,9 @@ import { createHmac, timingSafeEqual } from "crypto";
 
 const SITE = "https://illyrianpixel.com";
 
-type Purpose = "unsubscribe" | "confirm";
+// "track": pixel-i i hapjes dhe linqet e klikimeve në broadcast (2026-10-20) — pa të,
+// kushdo mund të shtonte ngjarje "open/click" të rreme për çdo email te statistikat.
+type Purpose = "unsubscribe" | "confirm" | "track";
 
 function secret(): string {
   const s = process.env.NEWSLETTER_SECRET || process.env.ADMIN_SESSION_SECRET;

@@ -24,4 +24,23 @@ describe("newsletterTokens", () => {
     url.searchParams.set("e", Buffer.from("victim@example.com").toString("base64url"));
     expect(readSignedEmail(url, "unsubscribe")).toBeNull();
   });
+
+  it("signs broadcast tracking links and rejects unsigned or reused ones", async () => {
+    const { broadcastEmailHtml } = await import("./newsletterEmail");
+    const html = broadcastEmailHtml("Tema", "Mesazh", undefined, {
+      broadcastId: "11111111-2222-3333-4444-555555555555",
+      email: "Ana@Example.com",
+    });
+    const src = html.match(/track\/open\?([^"]+)"/)?.[1].replaceAll("&amp;", "&");
+    expect(src).toContain("t=");
+    const pixel = new URL(`https://illyrianpixel.com/api/newsletter/track/open?${src}`);
+    expect(readSignedEmail(pixel, "track")).toBe("Ana@Example.com");
+
+    // Pa token (linqet e vjetra / ngjarje të rreme) → s'regjistrohet
+    pixel.searchParams.delete("t");
+    expect(readSignedEmail(pixel, "track")).toBeNull();
+    // Token-i i çregjistrimit s'vlen për tracking
+    const unsub = new URL(unsubscribeUrl("ana@example.com"));
+    expect(readSignedEmail(unsub, "track")).toBeNull();
+  });
 });

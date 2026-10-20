@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { readSignedEmail } from "@/lib/newsletterTokens";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,14 +13,14 @@ const PIXEL = Buffer.from("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBR
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const broadcastId = searchParams.get("b") ?? "";
-  const enc = searchParams.get("e") ?? "";
+  const url = new URL(req.url);
+  const broadcastId = url.searchParams.get("b") ?? "";
 
-  if (UUID_RE.test(broadcastId) && enc) {
+  if (UUID_RE.test(broadcastId)) {
     try {
-      const email = Buffer.from(enc, "base64url").toString("utf8").slice(0, 254);
-      if (email.includes("@")) {
+      // Vetëm me token HMAC të vlefshëm — përndryshe kushdo shtonte "hapje" të rreme
+      const email = readSignedEmail(url, "track");
+      if (email) {
         await supabase.from("newsletter_events").insert({ broadcast_id: broadcastId, email, type: "open" });
       }
     } catch {
