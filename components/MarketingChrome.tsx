@@ -18,10 +18,13 @@ const CursorTrail           = dynamic(() => import("@/components/CursorTrail"), 
 const BackToTop             = dynamic(() => import("@/components/BackToTop"),             { ssr: false });
 const ScrollProgress        = dynamic(() => import("@/components/ScrollProgress"),        { ssr: false });
 const PageTransitionOverlay = dynamic(() => import("@/components/PageTransitionOverlay"), { ssr: false });
+// Preloader: ÇAKTIVIZUAR 2026-10-20 me kërkesë të userit — intro-ja ~2.5s mbulonte faqen në
+// vizitën e parë në desktop (PageSpeed Speed Index). Për ta rikthyer, hiq "// Preloader:" këtu
+// dhe te <Preloader /> më poshtë.
 // Preloader stays SSR'd (unlike the rest of this list) so it's part of the very
 // first painted HTML — otherwise real page content flashes underneath it while
 // client JS is still loading in before the client-only version could mount.
-const Preloader             = dynamic(() => import("@/components/Preloader"));
+// Preloader: const Preloader             = dynamic(() => import("@/components/Preloader"));
 const ClientWidgets         = dynamic(() => import("@/components/ClientWidgets"),         { ssr: false });
 const AmbientParticles      = dynamic(() => import("@/components/AmbientParticles"),      { ssr: false });
 
@@ -51,7 +54,8 @@ function useIsDesktop() {
 export default function MarketingChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isDesktop = useIsDesktop();
-  // three.js (~530KB JS, CPU i dukshëm në PageSpeed desktop) vetëm pasi vizitori lëviz/bën scroll (2026-10-20)
+  // three.js (~530KB JS) dhe efektet e kursorit vetëm pasi vizitori lëviz mausin/bën scroll (2026-10-20) —
+  // pa maus s'kanë çfarë të bëjnë, dhe ngarkimi i faqes s'ua ndan CPU-në atyre
   const interacted = useFirstInteraction();
   if (NO_CHROME_PREFIXES.some((p) => pathname?.startsWith(p))) {
     return <>{children}</>;
@@ -59,15 +63,15 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
 
   return (
     <>
-      <Preloader />
+      {/* Preloader: <Preloader /> */}
       {isDesktop && interacted && <AmbientParticles />}
       <SmoothScroll>
         <div className="relative z-[1]">
           <InteractiveGlow />
-          {isDesktop && <MagneticButtons />}
+          {isDesktop && interacted && <MagneticButtons />}
           <GlobalReveals />
-          {isDesktop && <CustomCursor />}
-          {isDesktop && <CursorTrail />}
+          {isDesktop && interacted && <CustomCursor />}
+          {isDesktop && interacted && <CursorTrail />}
           <ScrollProgress />
           <PageTransitionOverlay />
           <BackToTop />

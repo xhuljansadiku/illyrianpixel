@@ -183,7 +183,7 @@ export default async function HomePage(props: Props) {
         {/* SEO Boost Line */}
         <div className="border-t border-white/[0.04]">
           <div className="section-wrap py-4">
-            <p className="text-center font-body text-[12px] font-light leading-relaxed tracking-[0.04em] text-white/40">
+            <p className="text-center font-body text-[12px] font-light leading-relaxed tracking-[0.04em] text-white/55">
               {t("seoBoostLine")}
             </p>
           </div>

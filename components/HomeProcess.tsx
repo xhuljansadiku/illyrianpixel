@@ -24,7 +24,7 @@ export default function HomeProcess() {
             <li key={s.title} className="relative bg-bg p-7">
               <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="mt-3 font-display text-xl font-bold text-white">{s.title}</h3>
-              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-accent/80">{s.time}</p>
+              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">{s.time}</p>
               <p className="mt-4 text-[14px] leading-relaxed text-white/55">{s.body}</p>
             </li>
           ))}
