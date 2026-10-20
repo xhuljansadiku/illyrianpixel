@@ -36,16 +36,10 @@ function escapeHtml(value: string) {
 
 export async function POST(req: Request) {
   try {
-    const ip = getClientIp(req);
-
-    if (!(await checkRateLimit(supabase, "contact", ip, RATE_LIMIT, WINDOW_SECONDS))) {
-      return NextResponse.json(
-        { success: false, error: "Shumë kërkesa. Provoni sërish pas 1 ore." },
-        { status: 429 }
-      );
+    const body = await req.json().catch(() => null);
+    if (!body || typeof body !== "object") {
+      return NextResponse.json({ success: false, error: "Kërkesë e pavlefshme." }, { status: 400 });
     }
-
-    const body = await req.json();
 
     // Çdo fushë kthehet në string të shkurtuar — një body me objekte/numra (jo nga
     // formulari ynë) përndryshe do të kalonte kontrollet `.length` ose do të rrëzonte escapeHtml.
@@ -87,6 +81,17 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { success: false, error: "Të dhënat janë jashtë kufijve." },
         { status: 400 }
+      );
+    }
+
+    // Rate limit PAS honeypot-it dhe validimit (2026-10-20): një gabim shkrimi s'i ha
+    // kuotën përdoruesit real, as bot-et e kapura nga honeypot-i — kuota numëron vetëm
+    // dërgimet e vlefshme, që janë të vetmet që shkruajnë në DB dhe dërgojnë email.
+    const ip = getClientIp(req);
+    if (!(await checkRateLimit(supabase, "contact", ip, RATE_LIMIT, WINDOW_SECONDS))) {
+      return NextResponse.json(
+        { success: false, error: "Shumë kërkesa. Provoni sërish pas 1 ore." },
+        { status: 429 }
       );
     }
 
