@@ -20,7 +20,16 @@ export default function CustomCursor() {
     const moveToX = gsap.quickTo(aura, "x", { duration: 0.2, ease: "power3.out" });
     const moveToY = gsap.quickTo(aura, "y", { duration: 0.2, ease: "power3.out" });
 
+    // Montohet pas ndërveprimit të parë (MarketingChrome) — fillon i padukshëm dhe shfaqet
+    // drejt e te mausi në lëvizjen e parë, që të mos dalë për një çast në këndin lart-majtas.
+    let placed = false;
     const unsubMove = mouseBus.onMove((x, y) => {
+      if (!placed) {
+        placed = true;
+        gsap.set(aura, { x: x - 18, y: y - 18 });
+        gsap.to(aura, { opacity: 1, duration: 0.2 });
+        return;
+      }
       moveToX(x - 18);
       moveToY(y - 18);
     });
@@ -42,5 +51,5 @@ export default function CustomCursor() {
 
   if (!mounted || getIsMobile() || reduced) return null;
 
-  return <div ref={auraRef} className="pointer-events-none fixed left-0 top-0 z-[85] h-9 w-9 rounded-full border border-white/20 bg-white/[0.08] blur-[0.2px]" />;
+  return <div ref={auraRef} className="pointer-events-none fixed left-0 top-0 z-[85] h-9 w-9 rounded-full border border-white/20 bg-white/[0.08] opacity-0 blur-[0.2px]" />;
 }
