@@ -18,6 +18,8 @@ export type ServicePackage = {
   cta?: string;
   /** Dhurata e përfshirë (p.sh. "3 muaj mirëmbajtje teknike falas") — premtim real, jo zbritje */
   gift?: string;
+  /** Vlera reale e dhuratës në € — për "Vlera që merr / Ti paguan" (value stack) */
+  giftValue?: number;
   /** Përfitim i vogël i përfshirë (p.sh. "30 ditë rregullime falas") — rresht i thjeshtë, jo kutia 🎁 */
   perk?: string;
   /** Shfaqet si rresht poshtë kartave ("Projekt më i madh?"), jo si kartë — rregulli i tresh */
@@ -73,6 +75,7 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Business",
         price: "€599",
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
+        giftValue: 147,
         ideal: "Struktura e duhur, mesazhi i duhur.\nKlientët mbërrijnë dhe ndjekin hapin tjetër.",
         features: [
           "Gjithçka nga Basic",
@@ -88,6 +91,7 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Premium",
         price: "€899",
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
+        giftValue: 147,
         ideal: "Dizajn i personalizuar, SEO i avancuar dhe funnel konvertimi nga vizitori te klienti.",
         features: [
           "Gjithçka nga Business",
@@ -154,6 +158,7 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Growth",
         price: "€1,199",
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
+        giftValue: 147,
         tagline: "Dyqan që rrit shitjet çdo muaj",
         ideal: "Struktura e duhur për të kthyer vizitorët në blerës dhe blerësit në klientë të rregullt.",
         features: [
@@ -169,6 +174,7 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Advanced",
         price: "€1,999",
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
+        giftValue: 147,
         tagline: "Platformë e-commerce për shkallëzim",
         ideal: "Sistem i plotë për bizneset që duan të dominojnë online pa kufij, pa kompromis.",
         features: [

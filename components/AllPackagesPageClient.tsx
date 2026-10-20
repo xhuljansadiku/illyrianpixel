@@ -11,6 +11,7 @@ import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/Ambien
 import FAQ, { type FaqItem } from "@/components/FAQ";
 import PricingCalculator from "@/components/PricingCalculator";
 import { CustomPackageRow, GuaranteeNote, IdeaCard, isQuoteOnly } from "@/components/PricingExtras";
+import PackageCarousel from "@/components/PackageCarousel";
 import { trackEvent } from "@/lib/track";
 import { getServiceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
@@ -329,7 +330,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                     <IdeaCard slug={category.slug} />
                   ) : (
                     <div className="mx-auto max-w-[980px]">
-                      <div className={`mt-12 grid items-stretch gap-5 ${cards.length >= 4 ? "sm:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-3"}`}>
+                      <PackageCarousel focusIndex={Math.max(0, cards.findIndex((p) => p.name === recommended))} columns={cards.length}>
                         {cards.map((pkg) => (
                           <ServicePackageCard
                             key={`${category.slug}-${pkg.name}`}
@@ -342,7 +343,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                             categoryTitle={category.title}
                           />
                         ))}
-                      </div>
+                      </PackageCarousel>
                       {rows.map((pkg) => (
                         <CustomPackageRow key={pkg.name} pkg={pkg} slug={category.slug} />
                       ))}

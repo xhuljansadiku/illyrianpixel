@@ -38,8 +38,21 @@ describe("payback and per-day framing", () => {
   });
 
   it("picks the right framing per category", () => {
-    expect(priceFraming("website", "€599", false)).toEqual({ plan: { kind: "split", now: 300, launch: 299 }, payback: 2 });
-    expect(priceFraming("branding-content", "€250", false)).toEqual({ plan: { kind: "split", now: 125, launch: 125 }, payback: undefined });
+    expect(priceFraming("website", "€599", false, 147)).toEqual({
+      plan: { kind: "split", now: 300, launch: 299 },
+      payback: 2,
+      perDay: 1.6,
+      perDayYear: true,
+      totalValue: 746,
+    });
+    expect(priceFraming("website", "€349", false).totalValue).toBeUndefined();
+    expect(priceFraming("branding-content", "€250", false)).toEqual({
+      plan: { kind: "split", now: 125, launch: 125 },
+      payback: undefined,
+      perDay: undefined,
+      perDayYear: undefined,
+      totalValue: undefined,
+    });
     expect(priceFraming("smm", "€330", true)).toEqual({ perDay: 11 });
     expect(priceFraming("aplikacione-mobile", "Ofertë", false)).toEqual({});
   });

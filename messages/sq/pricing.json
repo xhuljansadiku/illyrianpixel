@@ -109,7 +109,10 @@
     "installments": "3 këste: {a} · {b} · {c}",
     "payback": "{count, plural, one {Kthehet me ~# klient të ri} other {Kthehet me ~# klientë të rinj}}",
     "perDay": "≈ {amount} në ditë",
-    "forBrand": "{service} për „{name}”"
+    "forBrand": "{service} për „{name}”",
+    "perDayYear": "≈ {amount} në ditë gjatë vitit të parë",
+    "valueLabel": "Vlera që merr",
+    "payLabel": "Ti paguan"
   },
   "goals": {
     "title": "Çfarë do të arrish?",
