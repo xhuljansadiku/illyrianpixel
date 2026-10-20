@@ -267,68 +267,18 @@ export const websiteSchema = {
 };
 
 // ── FAQ Schema (homepage) ─────────────────────────────────────────────────────
-export const faqSchema = {
+// 2026-10-20: ndërtohet nga e njëjta listë që shfaq <FAQ /> (admini → FAQ, ose fallback-u).
+// Më parë ishte tekst fiks këtu dhe kishte dalë nga sinkronizimi (çmim "nga €800",
+// "italisht", një pyetje që s'shfaqej) — Google kërkon që skema të përputhet me faqen.
+export const buildFaqSchema = (items: { q: string; a: string }[]) => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Sa zgjat ndërtimi i një website?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Mesatarisht 2–4 javë, varësisht kompleksitetit. Projektet me funksione të avancuara mund të zgjasin deri në 6 javë. Në fazën e planifikimit ju japim afat të saktë."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "A përfshihet SEO në çmim?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Po, çdo website vjen me SEO bazë: strukturë e saktë, faqe të shpejta dhe meta të optimizuara. SEO i avancuar dhe strategjia e përmbajtjes është shërbim i veçantë."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "A ofroni mirëmbajtje pas publikimit?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Po, ofrojmë paketa mirëmbajtjeje mujore: përditësime, monitorim sigurie dhe ndryshime të vogla. Nuk ju lëmë vetëm pas lansimit."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "A punoni me klientë ndërkombëtarë?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Po, kemi klientë në Gjermani, Angli, Itali dhe SHBA. Komunikojmë në shqip, anglisht dhe italisht. Takimet bëhen online."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Si funksionon pagesa?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "50% para fillimit dhe 50% pas aprovimit final para lansimit. Pranojmë transfertë bankare dhe metoda të tjera sipas marrëveshjes."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Çfarë duhet të përgatisim para fillimit?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Mjafton të na tregoni çfarë bën biznesi, kë synoni dhe çfarë nuk ju pëlqen në prezencën aktuale. Strukturën, tekstet dhe dizajnin i kujdesemi ne."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Sa kushton një website profesional?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Çmimi fillon nga €800 për faqe prezantuese dhe varion sipas kompleksitetit. E-commerce dhe projekte të plota marketing fillojnë nga €1,500. Konsultim falas pa asnjë obligim."
-      }
-    }
-  ]
-};
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a.replace(/\s*\n\s*/g, " ") }
+  }))
+});
 
 // ── BreadcrumbList helper ─────────────────────────────────────────────────────
 export const buildBreadcrumb = (items: { name: string; url: string }[]) => ({
@@ -363,4 +313,5 @@ export const buildServiceSchema = (name: string, description: string, url: strin
 
 // JSON-LD për <script type="application/ld+json">. JSON.stringify s'e escape-on "<",
 // kështu një titull me "</script>" (p.sh. nga një artikull blogu) do të mbyllte tag-un.
-export const jsonLd = (data: unknown) => JSON.stringify(data).replace(/</g, "\u003c");
+// Kujdes: "\\u003c" në burim = 6 shkronjat \u003c në output ("\u003c" do ishte vetë "<").
+export const jsonLd = (data: unknown) => JSON.stringify(data).replace(/</g, "\\u003c");

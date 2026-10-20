@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildMetadata, buildBreadcrumb, buildServiceSchema, seo } from "./seo";
+import { buildMetadata, buildBreadcrumb, buildServiceSchema, buildFaqSchema, jsonLd, seo } from "./seo";
 
 describe("buildMetadata", () => {
   it("falls back to site defaults when called with no arguments", () => {
@@ -88,5 +88,23 @@ describe("buildServiceSchema", () => {
     expect(schema.url).toBe("https://illyrianpixel.com/services/seo");
     expect(schema.provider).toEqual({ "@id": "https://illyrianpixel.com/#organization" });
     expect(schema["@id"]).toBe("https://illyrianpixel.com/services/seo#service");
+  });
+});
+
+describe("jsonLd", () => {
+  it("escapes < so text cannot close the script tag", () => {
+    const out = jsonLd({ name: "</script><script>alert(1)</script>" });
+    expect(out).not.toContain("<");
+    expect(JSON.parse(out).name).toBe("</script><script>alert(1)</script>");
+  });
+});
+
+describe("buildFaqSchema", () => {
+  it("mirrors the visible FAQ items and flattens line breaks", () => {
+    const schema = buildFaqSchema([{ q: "Sa zgjat?", a: "2–4 javë.\nDeri në 6 javë." }]);
+    expect(schema["@type"]).toBe("FAQPage");
+    expect(schema.mainEntity).toEqual([
+      { "@type": "Question", name: "Sa zgjat?", acceptedAnswer: { "@type": "Answer", text: "2–4 javë. Deri në 6 javë." } },
+    ]);
   });
 });

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import SectionMark from "@/components/SectionMark";
+import { buildFaqSchema, jsonLd } from "@/lib/seo";
 
 export type FaqItem = { q: string; a: string; category?: string | null };
 
@@ -22,7 +23,7 @@ const defaultFaqsSq: FaqItem[] = [
   },
   {
     q: "A punoni me klientë ndërkombëtarë?",
-    a: "Po, kemi klientë në Itali, Gjermani, Angli dhe SHBA.\nKomunikojmë në shqip, anglisht dhe gjermanisht.\nTakimet bëhen online, procesi është i njëjtë për të gjithë."
+    a: "Po, kemi klientë në Gjermani, Itali, Angli, Suedi dhe SHBA, si edhe në Shqipëri e Kosovë.\nKomunikojmë në shqip, anglisht, gjermanisht dhe kroatisht.\nTakimet bëhen online, procesi është i njëjtë për të gjithë."
   },
   {
     q: "Si funksionon pagesa?",
@@ -49,7 +50,7 @@ const defaultFaqsEn: FaqItem[] = [
   },
   {
     q: "Do you work with international clients?",
-    a: "Yes, we have clients in Italy, Germany, England and the US.\nWe communicate in Albanian, English and German.\nMeetings happen online, the process is the same for everyone."
+    a: "Yes, we have clients in Germany, Italy, England, Sweden and the US, as well as in Albania and Kosovo.\nWe communicate in Albanian, English, German and Croatian.\nMeetings happen online, the process is the same for everyone."
   },
   {
     q: "How does payment work?",
@@ -85,6 +86,12 @@ export default function FAQ({ items }: { items?: FaqItem[] }) {
 
   return (
     <section id="faq" className="cinematic-section section-tone-about">
+      {/* Skema FAQ për Google — nga e njëjta listë që shfaqet (2026-10-20) */}
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: jsonLd(buildFaqSchema(faqs)) }}
+      />
       <div className="section-wrap">
         <SectionMark label={t("eyebrow")} />
         <h2 className="section-title mt-3 max-w-4xl">{t("headline")}</h2>

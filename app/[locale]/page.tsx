@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import HomeClientExtras from "@/components/HomeClientExtras";
 import { getTranslations } from "next-intl/server";
 // import { Link } from "@/i18n/navigation"; — përdorej nga "Mini Sales" (i komentuar)
-import { buildMetadata, faqSchema, jsonLd } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo";
 import { getVisibleTestimonials, getVisiblePortfolioItems, getVisibleFaqs, getPricingOverrides } from "@/lib/publicContent";
 import { getOfferPrices } from "@/lib/offerPrices";
 import { getSiteSettings, SITE_SETTINGS_DEFAULTS } from "@/lib/siteSettings";
@@ -118,11 +118,7 @@ export default async function HomePage(props: Props) {
       <div className="ambient-noise" />
       <div className="site-vignette" />
       <HomeClientExtras />
-      <script
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }}
-      />
+      {/* Skema FAQ (JSON-LD) tani e renderon <FAQ /> nga pyetjet që shfaqen (2026-10-20) */}
       <main id="main-content" className="overflow-x-clip bg-bg pb-4 pt-14 md:pt-16">
         {/* Renditja v2 (2026-10-16): premtimi → prova (klientë, projekte) → oferta me çmim → vlerësime → procesi → FAQ → kontakt */}
         <Hero />
