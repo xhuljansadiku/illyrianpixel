@@ -21,7 +21,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Basic",
         price: "€349",
-        gift: "30 days of free fixes after launch",
+        perk: "30 days of free fixes after launch",
         ideal: "A clean, serious business page.\nClients find you, they contact you.",
         features: [
           "Professional, clean design",
@@ -101,7 +101,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Starter",
         price: "€699",
-        gift: "30 days of free fixes after launch",
+        perk: "30 days of free fixes after launch",
         tagline: "A store that starts selling right away",
         ideal: "The right first step online.\nProducts, payments and checkout ready to sell.",
         features: [

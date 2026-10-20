@@ -18,6 +18,8 @@ export type ServicePackage = {
   cta?: string;
   /** Dhurata e përfshirë (p.sh. "3 muaj mirëmbajtje teknike falas") — premtim real, jo zbritje */
   gift?: string;
+  /** Përfitim i vogël i përfshirë (p.sh. "30 ditë rregullime falas") — rresht i thjeshtë, jo kutia 🎁 */
+  perk?: string;
   /** Shfaqet si rresht poshtë kartave ("Projekt më i madh?"), jo si kartë — rregulli i tresh */
   asRow?: boolean;
 };
@@ -57,7 +59,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Basic",
         price: "€349",
-        gift: "30 ditë rregullime falas pas lansimit",
+        perk: "30 ditë rregullime falas pas lansimit",
         ideal: "Faqe biznesi e pastër dhe serioze.\nKlientët ju gjejnë, ju kontaktojnë.",
         features: [
           "Dizajn profesional dhe i pastër",
@@ -137,7 +139,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: "Starter",
         price: "€699",
-        gift: "30 ditë rregullime falas pas lansimit",
+        perk: "30 ditë rregullime falas pas lansimit",
         tagline: "Dyqan që fillon të shesë menjëherë",
         ideal: "Hapi i parë i saktë online.\nProdukte, pagesa dhe checkout gati për shitje.",
         features: [

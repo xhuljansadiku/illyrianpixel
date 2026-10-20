@@ -104,6 +104,13 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
             </div>
           )}
 
+          {pkg.perk && (
+            <p className="mt-3 flex items-start gap-2 font-ui text-[12px] leading-snug text-white/65">
+              <CheckIcon />
+              <span>{pkg.perk}</span>
+            </p>
+          )}
+
           {pkg.gift && (
             <p className="mt-3 inline-flex w-fit items-start gap-2 rounded-lg border border-accent/25 bg-accent/[0.08] px-3 py-2 font-ui text-[12px] font-medium leading-snug text-accentLight">
               <span aria-hidden>🎁</span>
