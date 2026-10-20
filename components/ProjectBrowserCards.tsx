@@ -52,8 +52,9 @@ export default function ProjectBrowserCards({
 
         const windowInner = (
           <>
-            <div className="flex items-center gap-3 px-3 py-2.5">
-              <div className="flex gap-1.5" aria-hidden>
+            {/* Shiriti i browser-it është dekor — aria-hidden, që emri i linkut (aria-label) të përputhet me përmbajtjen */}
+            <div className="flex items-center gap-3 px-3 py-2.5" aria-hidden>
+              <div className="flex gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/80" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/80" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]/80" />
@@ -128,6 +129,7 @@ export default function ProjectBrowserCards({
                       className="group/cta inline-flex items-center gap-2 border-b border-accent pb-1 text-[12px] font-semibold uppercase tracking-[0.16em] text-accent transition-colors hover:text-accentLight"
                     >
                       {l.caseStudy}
+                      <span className="sr-only">: {p.title}</span>
                       <span aria-hidden className="transition-transform duration-300 group-hover/cta:translate-x-1">→</span>
                     </Link>
                   )}
@@ -140,6 +142,7 @@ export default function ProjectBrowserCards({
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
                       {l.live}
+                      <span className="sr-only">: {p.title}</span>
                       <span aria-hidden className="transition-transform duration-300 group-hover/live:-translate-y-0.5 group-hover/live:translate-x-0.5">↗</span>
                     </a>
                   ) : (
