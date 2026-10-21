@@ -8,7 +8,7 @@
 | Q-01 | Monitor uptime + afati real i reagimit kur bie faqja e një klienti | F1-5, F6-6 | 2026-10-21: s'ka monitor → hapet UptimeRobot (falas). Afati i reagimit: **24 orë** ✅ |
 | Q-02 | "Plan konkret brenda 24 orësh": a e mban realisht çdo herë? | F1-6 | 2026-10-21: plani / oferta → **24–48 orë** ✅ ("përgjigje brenda 24h" mbetet) |
 | Q-03 | Çmimet e SEO / Google Ads | F2-1 | 2026-10-21 ✅ **Opsioni A**: SEO+Ads €189/379/599 |
-| Q-04 | Telefoni në formularin e kontaktit: i detyrueshëm apo opsional? | F3-2 | ❓ |
+| Q-04 | Telefoni në formularin e kontaktit: i detyrueshëm apo opsional? | F3-2 | 2026-10-21 ✅ **opsional**; gamat e buxhetit sipas paketave (zgjedhur nga Claude me leje) |
 | Q-05 | Për çdo shërbim: përfshirjet, përjashtimet, rishikimet, pronësia e skedarëve dhe e kodit, kostot e palëve të treta | Faza 6 | ❓ |
 | Q-06 | Aplikacione mobile: cilat teknologji (React Native, Flutter…)? A është publikuar ndonjë app në store? | F6-7 | ❓ |
 | Q-07 | Statusi i secilit nga 8 projektet (live / i përfunduar / në punë / koncept) | F7-1 | ❓ |

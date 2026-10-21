@@ -16,19 +16,23 @@ Baza 2026-10-21: lint ✅ · tsc ✅ · 101/101 teste ✅ · build ✅.
 
 ## 2. Formulari i kontaktit (`/contact`, sq + en)
 
+Ekzekutuar 2026-10-21 (Faza 3): `app/api/contact/route.test.ts` (12 teste, mock-e, pa prodhim) +
+Playwright 1.62 kundër `next start` lokal me 2 dërgime **reale** "TEST Claude" (sq desktop, en mobile),
+të fshira pas testit nga `contacts` dhe `admin_activity`.
+
 | # | Rasti | Pritet | Rezultati |
 |---|---|---|---|
-| 1 | Dërgim i vlefshëm | Mesazh suksesi; rresht në `contacts`; email te admini + konfirmim te klienti; `generate_lead` vetëm pas pëlqimit | |
-| 2 | Fushë e detyrueshme bosh | Gabim i qartë pranë fushës; asgjë s'dërgohet | |
-| 3 | Email i pavlefshëm | 400 nga serveri; mesazh gabimi | |
-| 4 | Gabim në DB (500) | Mesazh gabimi; **asnjë** mesazh suksesi; asnjë `generate_lead` | |
-| 5 | Resend dështon | Kontakti ruhet; suksesi shfaqet (projektuar kështu: lead-i s'humbet) | |
-| 6 | Spam / honeypot `website` i mbushur | `success: true` i rremë; asnjë rresht në DB | |
-| 7 | Dërgim i dyfishtë (klik i shpejtë ×2) | Butoni çaktivizohet gjatë dërgimit; 1 rresht | |
-| 8 | Vetëm tastierë | Tab rendit fushat logjikisht; fokusi i dukshëm; Enter dërgon | |
-| 9 | Mobile 375px | Pa scroll horizontal; tastiera s'mbulon butonin | |
-| 10 | Konfirmimi | Mesazhi i suksesit lexohet nga screen reader (`role="status"` / `aria-live`) | |
-| 11 | Rate limit (4 dërgime/orë) | 429 + mesazh i qartë | |
+| 1 | Dërgim i vlefshëm | Mesazh suksesi; rresht në `contacts`; email te admini + konfirmim te klienti; `generate_lead` vetëm pas pëlqimit | ✅ 200 sq + en reale; rreshti me telefon/buxhet/afat bosh kur s'zgjidhen; konfirmimi EN/SQ sipas `sourcePath` (test) |
+| 2 | Fushë e detyrueshme bosh | Gabim i qartë pranë fushës; asgjë s'dërgohet | ✅ butoni joaktiv (shfletues); 400 për emër/email/mesazh bosh (test) |
+| 3 | Email i pavlefshëm | 400 nga serveri; mesazh gabimi | ✅ butoni joaktiv; 400 nga serveri |
+| 4 | Gabim në DB (500) | Mesazh gabimi; **asnjë** mesazh suksesi; asnjë `generate_lead` | ✅ 500 + `success:false`; në shfletues `role="alert"`, pa sukses. Edhe rrjeti që bie → "Nuk u dërgua" |
+| 5 | Resend dështon | Kontakti ruhet; suksesi shfaqet (projektuar kështu: lead-i s'humbet) | ✅ (test) |
+| 6 | Spam / honeypot `website` i mbushur | `success: true` i rremë; asnjë rresht në DB | ✅ (test) |
+| 7 | Dërgim i dyfishtë (klik i shpejtë ×2) | Butoni çaktivizohet gjatë dërgimit; 1 rresht | ✅ dblclick → 1 POST |
+| 8 | Vetëm tastierë | Tab rendit fushat logjikisht; fokusi i dukshëm; Enter dërgon | ✅ radha emër → email → telefon → biznes → shërbim → buxhet → afat; kufi ari në fokus; dropdown me Enter/↓/Enter |
+| 9 | Mobile 375px | Pa scroll horizontal; tastiera s'mbulon butonin | ✅ 320/375/390px pa overflow; butoni 51px i lartë. Mbulimi nga tastiera virtuale **s'u testua** (s'ka pajisje reale) |
+| 10 | Konfirmimi | Mesazhi i suksesit lexohet nga screen reader (`role="status"` / `aria-live`) | ✅ `role="status"` te suksesi, `role="alert"` te gabimi (shtuar në Fazën 3) |
+| 11 | Rate limit (4 dërgime/orë) | 429 + mesazh i qartë | ✅ (test) |
 
 ## 3. Ekranet (rrugët kryesore: `/`, `/cmimet`, `/contact`, `/services/website`, `/projektet`)
 

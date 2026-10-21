@@ -4,7 +4,10 @@ import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import SmoothScroll from "@/components/SmoothScroll";
-import InquiryModal from "@/components/InquiryModal";
+// InquiryModal: ÇAKTIVIZUAR 2026-10-21 — asgjë s'e hapte (s'ka dispatcher për "open-inquiry-modal"),
+// por shkarkohej në çdo faqe; dërgonte te formsubmit.co (CSP e bllokon) dhe anashkalonte CRM-në.
+// Për ta rikthyer: hiq "// InquiryModal:" këtu dhe te <InquiryModal /> më poshtë, dhe kaloje te /api/contact.
+// InquiryModal: import InquiryModal from "@/components/InquiryModal";
 import NewsletterPopup from "@/components/NewsletterPopup";
 import CookieConsent from "@/components/CookieConsent";
 import { useFirstInteraction } from "@/lib/useFirstInteraction";
@@ -86,7 +89,7 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
           {children}
         </div>
       </SmoothScroll>
-      <InquiryModal />
+      {/* InquiryModal: <InquiryModal /> */}
       <NewsletterPopup />
     </>
   );

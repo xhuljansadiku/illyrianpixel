@@ -42,11 +42,11 @@
 
 | ID | P | Ku | Problemi | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|---|
-| F3-1 | P1 | `ContactPageClient` | Buxheti dhe afati parazgjidhen (V-07) | Bosh si parazgjedhje + "Nuk e di ende"; `leadScore` e trajton si neutral | Lead pa zgjedhje → `budget` bosh ose "Nuk e di" në DB | — | NOT STARTED |
-| F3-2 | P2 | `/contact`, `/api/contact` | Telefoni i detyrueshëm (V-14) | Sipas vendimit: opsional, por i nevojshëm email ose telefon | Formulari dërgohet pa telefon (nëse vendoset kështu) | Q-04 | BLOCKED |
-| F3-3 | P2 | `MarketingChrome` | `InquiryModal` i vdekur (V-13) | Komentohet montimi (`// InquiryModal:`), skedari mbetet | Bundle më i vogël; asnjë sjellje e ndryshuar | — | NOT STARTED |
-| F3-4 | P2 | `/api/contact` | Email-i i konfirmimit vetëm në shqip (U-08) | Dërgohet në gjuhën e faqes (`sourcePath` fillon me `/en`) | Test: forma në `/en/contact` → email në anglisht | — | NOT STARTED |
-| F3-5 | P1 | `/contact` | 10 rastet e testimit të formularit | Teste: valid, fusha mungon, email i gabuar, gabim serveri/DB, dështim i email-it, spam/honeypot, dyfishim, tastierë, mobile, mesazh suksesi | Të 10 të dokumentuara në `QA_CHECKLIST.md`; suksesi s'shfaqet kurrë pas dështimi | F3-1 | NOT STARTED |
+| F3-1 | P1 | `ContactPageClient` | Buxheti dhe afati parazgjidhen (V-07) | Bosh si parazgjedhje + "Nuk e di ende"; `leadScore` e trajton si neutral | Lead pa zgjedhje → `budget` bosh ose "Nuk e di" në DB | — | IN REVIEW: verifikuar me dërgim real (budget/timeline bosh). Gamat e reja sipas paketave: Nën €500 · €500–1,000 · €1,000–2,000 · Mbi €2,000 · Nuk e di ende; vlerat në `lib/leadScore.ts`, të vjetrat ende vlerësohen; afati ruhet gjithmonë në shqip |
+| F3-2 | P2 | `/contact`, `/api/contact` | Telefoni i detyrueshëm (V-14) | Opsional "(opsional, për përgjigje më të shpejtë)"; Telegram jep link email-i kur s'ka telefon | Formulari dërgohet pa telefon | Q-04 ✅ | IN REVIEW |
+| F3-3 | P2 | `MarketingChrome` | `InquiryModal` i vdekur (V-13) | Komentohet montimi (`// InquiryModal:`), skedari mbetet | Bundle më i vogël; asnjë sjellje e ndryshuar | — | IN REVIEW |
+| F3-4 | P2 | `/api/contact` | Email-i i konfirmimit vetëm në shqip (U-08) | Dërgohet në gjuhën e faqes (`sourcePath` fillon me `/en`) | Test: forma në `/en/contact` → email në anglisht | — | IN REVIEW (test kalon; inbox-i s'u kontrollua) |
+| F3-5 | P1 | `/contact` | 10 rastet e testimit të formularit | Teste: valid, fusha mungon, email i gabuar, gabim serveri/DB, dështim i email-it, spam/honeypot, dyfishim, tastierë, mobile, mesazh suksesi | Të 10 të dokumentuara në `QA_CHECKLIST.md`; suksesi s'shfaqet kurrë pas dështimi | F3-1 | IN REVIEW: 11/11 ✅ (shih QA_CHECKLIST §2) |
 
 ## Faza 4 — Matja e konvertimeve
 

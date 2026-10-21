@@ -8,9 +8,9 @@ import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { GuaranteeNote } from "@/components/PricingExtras";
+import { CONTACT_BUDGETS, CONTACT_TIMELINES } from "@/lib/leadScore";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
-const budgets = ["< €1,000", "€1,000 – €3,000", "€3,000 – €7,000", "€7,000+"];
 type DropdownOption = {
   value: string;
   label: string;
@@ -32,12 +32,10 @@ export default function ContactPageClient() {
   const t = useTranslations("contact");
   const locale = useLocale();
   const whatsappHref = buildWhatsAppChatHref(WHATSAPP_NUMBER, locale);
-  const timelines = [
-    t("timelines.asap"),
-    t("timelines.weeks"),
-    t("timelines.months"),
-    t("timelines.flexible"),
-  ];
+  // Asnjë zgjedhje e parazgjedhur (2026-10-21): buxheti/afati i paprekur ruhet bosh, jo si vlerë e rreme
+  const serviceOptions = services.map((s) => ({ value: s, label: s }));
+  const budgetOptions = CONTACT_BUDGETS.map((b) => ({ value: b.value, label: t(`budgets.${b.key}`) }));
+  const timelineOptions = CONTACT_TIMELINES.map((tl) => ({ value: tl.value, label: t(`timelines.${tl.key}`) }));
   const heroRef = useRef<HTMLElement>(null);
   const [success, setSuccess] = useState(false);
 
@@ -74,9 +72,9 @@ export default function ContactPageClient() {
     email: "",
     phone: "",
     businessName: "",
-    service: services[0],
-    budget: budgets[1],
-    timeline: timelines[2],
+    service: "",
+    budget: "",
+    timeline: "",
     message: "",
     website: "", // honeypot — duhet të mbetet bosh; e mbushin vetëm bot-et
   });
@@ -109,7 +107,6 @@ export default function ContactPageClient() {
     () =>
       form.name.trim().length > 1 &&
       /\S+@\S+\.\S+/.test(form.email) &&
-      form.phone.trim().length > 5 &&
       form.message.trim().length > 6,
     [form]
   );
@@ -170,9 +167,9 @@ export default function ContactPageClient() {
           email: "",
           phone: "",
           businessName: "",
-          service: services[0],
-          budget: budgets[1],
-          timeline: timelines[2],
+          service: "",
+          budget: "",
+          timeline: "",
           message: "",
           website: "",
         });
@@ -240,7 +237,7 @@ export default function ContactPageClient() {
                 </p>
 
                 {success ? (
-                  <div className="mt-8 rounded-sm border border-accent/30 bg-accent/6 px-5 py-5">
+                  <div role="status" className="mt-8 rounded-sm border border-accent/30 bg-accent/6 px-5 py-5">
                     <p className="font-display text-[1.2rem] font-medium tracking-[0.01em] text-accent">
                       {t("success.title")}
                     </p>
@@ -279,6 +276,7 @@ export default function ContactPageClient() {
 
                     <LuxInput
                       label={t("form.phoneLabel")}
+                      optional={t("form.phoneOptional")}
                       placeholder="+355 69 123 4567"
                       type="tel"
                       value={form.phone}
@@ -297,13 +295,15 @@ export default function ContactPageClient() {
                         label={t("form.serviceLabel")}
                         value={form.service}
                         onChange={set("service")}
-                        items={services}
+                        options={serviceOptions}
+                        placeholder={t("form.selectPlaceholder")}
                       />
                       <LuxSelect
                         label={t("form.budgetLabel")}
                         value={form.budget}
                         onChange={set("budget")}
-                        items={budgets}
+                        options={budgetOptions}
+                        placeholder={t("form.selectPlaceholder")}
                       />
                     </div>
 
@@ -311,7 +311,8 @@ export default function ContactPageClient() {
                       label={t("form.timelineLabel")}
                       value={form.timeline}
                       onChange={set("timeline")}
-                      items={timelines}
+                      options={timelineOptions}
+                      placeholder={t("form.selectPlaceholder")}
                     />
 
                     <label className="block">
@@ -374,7 +375,7 @@ export default function ContactPageClient() {
                     </div>
 
                     {error && (
-                      <p className="font-ui text-[12px] font-light tracking-[0.3px] text-red-400/75">
+                      <p role="alert" className="font-ui text-[12px] font-light tracking-[0.3px] text-red-400/75">
                         {error}
                       </p>
                     )}
@@ -441,17 +442,20 @@ function LuxInput({
   value,
   onChange,
   type = "text",
+  optional,
 }: {
   label: string;
   placeholder?: string;
   value: string;
   onChange: (v: string) => void;
   type?: string;
+  optional?: string;
 }) {
   return (
     <label className="block">
       <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
         {label}
+        {optional && <span className="font-light text-white/30"> {optional}</span>}
       </span>
       <input
         type={type}
@@ -468,10 +472,14 @@ function BrandDropdown({
   value,
   onChange,
   options,
+  placeholder,
+  label,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: DropdownOption[];
+  placeholder?: string;
+  label: string;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -479,7 +487,8 @@ function BrandDropdown({
   const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const searchBufferRef = useRef("");
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const selected = options.find((option) => option.value === value) ?? options[0];
+  // Pa vlerë → placeholder (më parë binte te opsioni i parë dhe dukej si zgjedhje e bërë)
+  const selected = options.find((option) => option.value === value);
   const selectedIndex = Math.max(
     0,
     options.findIndex((option) => option.value === selected?.value)
@@ -689,6 +698,7 @@ function BrandDropdown({
         type="button"
         aria-expanded={open}
         aria-haspopup="listbox"
+        aria-label={`${label}: ${selected?.label ?? placeholder ?? ""}`}
         onClick={() => setOpen((state) => !state)}
         onKeyDown={handleKeyDown}
         className={`font-ui flex w-full items-center gap-3 border-b bg-transparent py-3 text-left text-[14px] font-light tracking-[0.3px] outline-none transition-colors duration-300 ${
@@ -697,7 +707,9 @@ function BrandDropdown({
             : "border-[#262626] hover:border-accent/45 focus:border-accent"
         }`}
       >
-        <span className="min-w-0 flex-1 truncate text-white">{selected?.label}</span>
+        <span className={`min-w-0 flex-1 truncate ${selected ? "text-white" : "text-muted/55"}`}>
+          {selected?.label ?? placeholder}
+        </span>
         <span
           aria-hidden
           className={`shrink-0 text-[10px] transition-all duration-300 ${
@@ -763,21 +775,21 @@ function LuxSelect({
   label,
   value,
   onChange,
-  items,
+  options,
+  placeholder,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
-  items: string[];
+  options: DropdownOption[];
+  placeholder?: string;
 }) {
-  const options = items.map((item) => ({ value: item, label: item }));
-
   return (
     <div className="block">
       <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
         {label}
       </span>
-      <BrandDropdown value={value} onChange={onChange} options={options} />
+      <BrandDropdown value={value} onChange={onChange} options={options} placeholder={placeholder} label={label} />
     </div>
   );
 }

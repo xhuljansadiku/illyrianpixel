@@ -10,12 +10,21 @@
     "months": "1-2 muaj",
     "flexible": "Fleksibël"
   },
+  "budgets": {
+    "under500": "Nën €500",
+    "500to1000": "€500 – €1,000",
+    "1000to2000": "€1,000 – €2,000",
+    "over2000": "Mbi €2,000",
+    "unsure": "Nuk e di ende"
+  },
   "form": {
     "nameLabel": "Emri",
     "namePlaceholder": "Emri juaj i plotë",
     "emailLabel": "E-mail",
     "emailPlaceholder": "Email-i juaj",
-    "phoneLabel": "Numri i telefonit",
+    "phoneLabel": "Telefon / WhatsApp",
+    "phoneOptional": "(opsional, për përgjigje më të shpejtë)",
+    "selectPlaceholder": "Zgjidh…",
     "businessNameLabel": "Emri i biznesit (Nëse keni një të tillë)",
     "businessNamePlaceholder": "Emri i kompanisë...",
     "serviceLabel": "Shërbimi",
@@ -34,7 +43,7 @@
     "submit": "Dërgoje Kërkesën →"
   },
   "errors": {
-    "validation": "Ju lutem plotësoni emrin, email-in, numrin e telefonit dhe mesazhin.",
+    "validation": "Ju lutem plotësoni emrin, email-in dhe mesazhin.",
     "generic": "Diçka shkoi keq. Provo sërish ose shkruaj direkt: info@illyrianpixel.com",
     "network": "Nuk u dërgua kërkesa. Kontakto direkt: info@illyrianpixel.com"
   },

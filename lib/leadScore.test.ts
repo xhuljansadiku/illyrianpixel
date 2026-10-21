@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { leadScore } from "./leadScore";
+import { CONTACT_BUDGETS, CONTACT_TIMELINES, leadScore } from "./leadScore";
 
 const base = {
   budget: null,
@@ -74,5 +74,27 @@ describe("leadScore", () => {
     expect(result.score).toBeGreaterThanOrEqual(45);
     expect(result.score).toBeLessThan(70);
     expect(result.label).toBe("B");
+  });
+
+  it("every budget and timeline the contact form offers is scored explicitly", () => {
+    const unknown = leadScore({ ...base, budget: "some custom amount" }).score;
+    for (const { value } of CONTACT_BUDGETS) {
+      expect(leadScore({ ...base, budget: value }).reasons.join()).toContain(value);
+    }
+    expect(leadScore({ ...base, budget: "Nuk e di ende" }).score).toBeLessThan(unknown);
+    for (const { value } of CONTACT_TIMELINES) {
+      expect(leadScore({ ...base, timeline: value }).reasons.join()).toContain(value);
+    }
+  });
+
+  it("ranks the new package-based budgets in order", () => {
+    const score = (budget: string) => leadScore({ ...base, budget }).score;
+    expect(score("Mbi €2,000")).toBeGreaterThan(score("€1,000 – €2,000"));
+    expect(score("€1,000 – €2,000")).toBeGreaterThan(score("€500 – €1,000"));
+    expect(score("€500 – €1,000")).toBeGreaterThan(score("Nën €500"));
+  });
+
+  it("an untouched budget field adds nothing", () => {
+    expect(leadScore({ ...base, budget: "" }).score).toBe(leadScore({ ...base, budget: null }).score);
   });
 });
