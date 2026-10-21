@@ -15,7 +15,7 @@
 | Q-08 | Performanca mobile: opsioni A (75–85, më pak animacione vetëm në mobile) apo B (90+, shumicën e animacioneve jashtë)? | F8-1 | ❓ (në pritje që nga 2026-10-04) |
 | Q-09 | Dëshmitë në Supabase: a janë të gjitha reale dhe me leje publikimi? | Faza 7 | ❓ |
 | Q-10 | Link building "5–10" dhe "15–20 backlinks/muaj" te `/services/seo`: a ofrohet realisht? | F1, F2 | ❓ |
-| Q-12 | Mirëmbajtja: Pro "përgjigje brenda 4h", Premium "përgjigje brenda 1h", "ndërhyrje teknike pa limit", "WAF, anti-DDoS": a i mban realisht? | F1-5, F6-6 | ❓ |
+| Q-12 | Mirëmbajtja: Pro "përgjigje brenda 4h", Premium "përgjigje brenda 1h", "ndërhyrje teknike pa limit", "WAF, anti-DDoS": a i mban realisht? | F1-5, F6-6 | 2026-10-21 ✅: Pro → 24 orë; Premium → e njëjta ditë pune + deri 5 orë/muaj; DDoS/firewall "përmes Vercel ose Cloudflare" (disa faqe klientësh s'janë në Vercel → për Premium vendoset Cloudflare falas para fillimit) |
 | Q-11 | Leje për deploy në prodhim (merge në `main`) | çdo fazë | Pyetet në fund të çdo faze |
 
 ---
