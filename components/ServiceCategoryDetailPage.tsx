@@ -193,7 +193,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-red-400/70" aria-hidden />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-red-400/60">{t("problemLabel")}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-red-400/90">{t("problemLabel")}</p>
                     </div>
                     {painHeading && (
                       <h2 className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white">
@@ -221,7 +221,7 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
                       <span className="h-2 w-2 rounded-full bg-emerald-400/70" aria-hidden />
-                      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400/60">{t("solutionLabel")}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400/90">{t("solutionLabel")}</p>
                     </div>
                     <h2 className="max-w-[44ch] font-display text-[clamp(2rem,3.5vw,2.75rem)] font-medium leading-[1.18] tracking-[-0.01em] text-white">
                       {data?.whyUs?.headingBefore}{" "}

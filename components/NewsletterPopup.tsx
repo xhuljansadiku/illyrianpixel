@@ -102,6 +102,9 @@ export default function NewsletterPopup() {
       onClick={close}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={t("title")}
         className="newsletter-popup-panel relative w-full max-w-sm overflow-hidden rounded-2xl border border-white/12 bg-surface/95 p-7 text-center"
         onClick={(e) => e.stopPropagation()}
       >

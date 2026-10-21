@@ -114,10 +114,10 @@ export default function Footer() {
               <Image src="/images/illyrianpixel_logo.svg" unoptimized alt="Illyrian Pixel" width={200} height={72} className="h-16 w-auto object-contain" />
               <Image src="/images/illyrianpixel_text.svg" unoptimized alt="Illyrian Pixel" width={360} height={72} className="h-7 w-auto object-contain opacity-70" />
             </div>
-            <h3 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.14] md:leading-[1.06] tracking-[-0.01em] md:tracking-[-0.025em] text-white">
+            <h2 className="footer-reveal font-display mt-8 max-w-[13ch] text-[clamp(1.3rem,3vw,2.4rem)] font-bold leading-[1.14] md:leading-[1.06] tracking-[-0.01em] md:tracking-[-0.025em] text-white">
               {t("brandTitleLine1")}
               <span className="font-bold text-accent uppercase">{t("brandTitleAccent")}</span>
-            </h3>
+            </h2>
             {/* tagline: hidden — the heading above is now the single brand tagline ("Ktheje biznesin në BRAND.")
             <p className="footer-reveal mt-4 font-body text-[0.82rem] font-light text-white/50" style={{ letterSpacing: "1.2px" }}>
               {t("tagline")}

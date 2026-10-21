@@ -78,7 +78,7 @@ export default function CookieConsent() {
       </p>
       <p className={`text-[11.5px] leading-relaxed text-white/55 md:text-[12.5px] ${details ? "md:mt-1.5" : "md:flex-1"}`}>
         {t("body")}{" "}
-        <Link href="/privacy" className="text-accent/80 underline underline-offset-2 hover:text-accent">{t("privacyLink")}</Link>.
+        <Link href="/privacy" className="text-accent underline underline-offset-2 hover:text-accent">{t("privacyLink")}</Link>.
       </p>
 
       {details ? (

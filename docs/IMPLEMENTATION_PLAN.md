@@ -97,9 +97,9 @@
 
 | ID | P | Ku | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|
-| F8-1 | P1 | Kreu, `/cmimet` (mobile) | Matje bazë e re me PageSpeed; pastaj opsioni A (më pak animacione në mobile) | Matje para/pas në kushte të njëjta | Q-08 (A ose B) | BLOCKED |
-| F8-2 | P1 | Rrugët kryesore | Test me tastierë: menuja mobile, modalet, formulari, fokusi i dukshëm | Rrjedhat kryesore të përdorshme pa maus | — | NOT STARTED |
-| F8-3 | P2 | Rrugët kryesore | Skanim axe + 320/375/390/768/1024/1440px | 0 probleme kritike; pa scroll horizontal | — | NOT STARTED |
+| F8-1 | P1 | Kreu, `/cmimet` (mobile) | Matje bazë e re me PageSpeed; pastaj opsioni A (më pak animacione në mobile) | Matje para/pas në kushte të njëjta | Q-08 (A ose B) | BLOCKED (zgjedhja A/B). Bazë live 2026-10-22 (Lighthouse 12.8, lab): kreu mobile 61 (LCP 5.0s, TBT 690ms), /cmimet mobile 64 (TBT 1.1s), /contact mobile 73, kreu desktop 96; CLS 0 kudo. First-load JS para/pas fazave 1–8: 202→203 kB (kreu), 187→188 kB (/contact) — neutral |
+| F8-2 | P1 | Rrugët kryesore | Test me tastierë: menuja mobile, modalet, formulari, fokusi i dukshëm | Rrjedhat kryesore të përdorshme pa maus | — | IN REVIEW: menuja mobile tani `role=dialog`, fokusi te "Mbyll", Tab brenda menusë, Escape mbyll + fokusi kthehet (verifikuar me Playwright); exit-intent: Escape + fokus; newsletter popup: `role=dialog`. Formulari: shih QA §2 |
+| F8-3 | P2 | Rrugët kryesore | Skanim axe + 320/375/390/768/1024/1440px | 0 probleme kritike; pa scroll horizontal | — | IN REVIEW: axe (WCAG 2.2 AA) në 12 faqe × 2 gjerësi: 25 → 6 nyje kontrasti; të 6-ta fals-pozitive (butoni ari #ab8339 me tekst të zi ≈ 7:1, axe lexon sfondin gjatë animacionit; verifikuar me screenshot). Rregulluar: 11 butona WhatsApp (tekst #062b14), etiketat Problemi/Zgjidhja, `dt` + titulli te rastet e studimit, linku i privatësisë te banner-i, footer h3 → h2 (rendi i titujve). Overflow: 0 në 12 faqe × 320/375/390/768/1024/1440 |
 
 ## Faza 9 — Pozicionimi dhe mbyllja
 

@@ -131,15 +131,15 @@ export default function CaseStudyView({ cs, next, locale }: Props) {
 
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 text-sm">
             <div className="bg-bg p-5">
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/35">{l.client}</dt>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">{l.client}</dt>
               <dd className="mt-1.5 text-white">{cs.title}</dd>
             </div>
             <div className="bg-bg p-5">
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/35">{l.year}</dt>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">{l.year}</dt>
               <dd className="mt-1.5 text-white">{cs.year}</dd>
             </div>
             <div className="col-span-2 bg-bg p-5">
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/35">{l.location}</dt>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">{l.location}</dt>
               <dd className="mt-1.5 flex items-center gap-2 text-white">
                 {cs.flagCodes.map((code) => (
                   <Image key={code} src={`/flags/4x3/${code}.svg`} alt="" width={20} height={14} className="h-3.5 w-5 rounded-[2px] object-cover" unoptimized />
@@ -148,7 +148,7 @@ export default function CaseStudyView({ cs, next, locale }: Props) {
               </dd>
             </div>
             <div className="col-span-2 bg-bg p-5">
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/35">{l.services}</dt>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">{l.services}</dt>
               <dd className="mt-2 flex flex-wrap gap-1.5">
                 {cs.tags.map((tag) => (
                   <span key={tag} className="rounded-full border border-accent/30 px-2.5 py-0.5 text-[11px] text-accent/90">{tag}</span>
@@ -201,7 +201,7 @@ export default function CaseStudyView({ cs, next, locale }: Props) {
         </div> */}
 
         <div>
-          <h2 className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/40">{l.outcomes}</h2>
+          <h2 className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">{l.outcomes}</h2>
           <ul className="mt-5 grid gap-3 sm:grid-cols-3">
             {cs.metrics.map((m) => (
               <li key={m} className="flex items-start gap-3 rounded-xl border border-accent/20 bg-accent/[0.04] px-5 py-4 text-[15px] text-white/85">
