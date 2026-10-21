@@ -9,6 +9,7 @@ import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPref
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { GuaranteeNote } from "@/components/PricingExtras";
 import { CONTACT_BUDGETS, CONTACT_TIMELINES } from "@/lib/leadScore";
+import { trackEvent } from "@/lib/track";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
 type DropdownOption = {
@@ -151,16 +152,13 @@ export default function ContactPageClient() {
       if (data.success) {
         setSuccess(true);
 
-        const gtag = typeof window !== "undefined"
-          ? (window as { gtag?: (...args: unknown[]) => void }).gtag
-          : undefined;
-        if (typeof gtag === "function") {
-          gtag("event", "generate_lead", {
-            event_category: "contact_form",
-            event_label: form.service,
-            value: 1,
-          });
-        }
+        // Vetëm pas success:true nga serveri — një dërgim i dështuar s'numërohet kurrë si lead
+        trackEvent("generate_lead", {
+          event_category: "contact_form",
+          event_label: form.service || "none",
+          budget: form.budget || "none",
+          value: 1,
+        });
 
         setForm({
           name: "",
@@ -395,12 +393,14 @@ export default function ContactPageClient() {
                 {/* Contact links */}
                 <div className="mt-8 flex flex-wrap items-center gap-5 border-t border-[#262626] pt-6">
                   <a
+                    data-track-location="contact_page"
                     href="mailto:info@illyrianpixel.com"
                     className="font-ui text-[12px] font-light tracking-[0.5px] text-muted transition-colors duration-300 hover:text-accent"
                   >
                     info@illyrianpixel.com
                   </a>
                   <a
+                    data-track-location="contact_page"
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"

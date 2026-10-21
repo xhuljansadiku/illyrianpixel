@@ -52,9 +52,9 @@
 
 | ID | P | Ku | Problemi | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|---|
-| F4-1 | P1 | `WhatsAppButton`, `Footer`, `MobileMenu`, `HomeFinalCta`, `ContactPageClient`, `PricingCalculator` | Klikimet WhatsApp/tel/email s'maten (V-08) | `trackEvent("contact_click", { channel, location })` përmes `lib/track.ts` | Ngjarja shfaqet në GA4 DebugView **vetëm pas pëlqimit**; pa PII | — | NOT STARTED |
-| F4-2 | P2 | `ContactPageClient` | `generate_lead` thirret direkt me `gtag` | Kalon nga `trackEvent`; fiket vetëm pas `success: true` | Forma e dështuar s'regjistron asnjë lead | — | NOT STARTED |
-| F4-3 | P2 | GA4 (paneli) | Ngjarjet s'janë shënuar si konvertime | Udhëzim për pronarin: shëno `generate_lead` + `contact_click` si "Key events" | Pronari e konfirmon | F4-1 | NOT STARTED |
+| F4-1 | P1 | `WhatsAppButton`, `Footer`, `MobileMenu`, `HomeFinalCta`, `ContactPageClient`, `PricingCalculator` | Klikimet WhatsApp/tel/email s'maten (V-08) | `trackEvent("contact_click", { channel, location })` përmes `lib/track.ts` | Ngjarja shfaqet në GA4 DebugView **vetëm pas pëlqimit**; pa PII | — | IN REVIEW: një dëgjues i vetëm te `components/Analytics` (`lib/track.ts` `trackContactClick`), `location` nga `data-track-location` (whatsapp_fab, mobile_menu, contact_page, home_final_cta, calculator, exit_popup, king_genti, blog) ose footer/nav/dialog/page. Verifikuar me Playwright (hit-et GA të bllokuara): 1 klik = 1 ngjarje, pa href/tekst/numër; pas pranimit `gcs=G111`. **Shënim:** para pëlqimit dërgohet ping pa cookies (`gcs=G100`, Consent Mode "advanced") → Q-13 |
+| F4-2 | P2 | `ContactPageClient` | `generate_lead` thirret direkt me `gtag` | Kalon nga `trackEvent`; fiket vetëm pas `success: true` | Forma e dështuar s'regjistron asnjë lead | — | IN REVIEW: 500 → 0 `generate_lead`; sukses → saktësisht 1; pa emër/email (vetëm shërbimi + gama e buxhetit) |
+| F4-3 | P2 | GA4 (paneli) | Ngjarjet s'janë shënuar si konvertime | Udhëzim për pronarin: shëno `generate_lead` + `contact_click` si "Key events" | Pronari e konfirmon | F4-1 + publikimi | NOT STARTED (pas merge) |
 
 ## Faza 5 — SEO teknik
 

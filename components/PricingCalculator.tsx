@@ -233,6 +233,7 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
 
             <div className="mt-6 flex flex-col gap-3">
               <a
+                data-track-location="calculator"
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"

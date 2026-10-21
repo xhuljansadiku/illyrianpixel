@@ -99,7 +99,7 @@ export default function BlogArticleLayout({
               <p className="mt-1 text-[0.9rem] text-white/65">{t("ctaBody")}</p>
             </div>
             <a
-              href={WA_HREF}
+              data-track-location="blog" href={WA_HREF}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-[0.8rem] font-semibold tracking-[0.08em] text-white transition-opacity hover:opacity-90"

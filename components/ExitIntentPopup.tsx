@@ -134,6 +134,7 @@ export default function ExitIntentPopup() {
             {content.cta}
           </Link>
           <a
+            data-track-location="exit_popup"
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"

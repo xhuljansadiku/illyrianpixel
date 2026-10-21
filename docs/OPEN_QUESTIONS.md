@@ -16,6 +16,7 @@
 | Q-09 | Dëshmitë në Supabase: a janë të gjitha reale dhe me leje publikimi? | Faza 7 | ❓ |
 | Q-10 | Link building "5–10" dhe "15–20 backlinks/muaj" te `/services/seo`: a ofrohet realisht? | F1, F2 | ❓ |
 | Q-12 | Mirëmbajtja: Pro "përgjigje brenda 4h", Premium "përgjigje brenda 1h", "ndërhyrje teknike pa limit", "WAF, anti-DDoS": a i mban realisht? | F1-5, F6-6 | 2026-10-21 ✅: Pro → 24 orë; Premium → e njëjta ditë pune + deri 5 orë/muaj; DDoS/firewall "përmes Vercel ose Cloudflare" (disa faqe klientësh s'janë në Vercel → për Premium vendoset Cloudflare falas para fillimit) |
+| Q-13 | Consent Mode "advanced": para pëlqimit gtag dërgon ping-e **pa cookies** (`gcs=G100`), p.sh. `page_view`, `contact_click`. Google e lejon dhe e përdor për modelim; disa autoritete në BE (p.sh. CNIL) e shohin si të diskutueshme. Mbetet kështu, apo kalojmë në "basic" (gtag ngarkohet vetëm pas pranimit, por humbet modelimi i konvertimeve)? **Pyetje për jurist, jo për Claude.** | Faza 9 | ❓ |
 | Q-11 | Leje për deploy në prodhim (merge në `main`) | çdo fazë | Pyetet në fund të çdo faze |
 
 ---

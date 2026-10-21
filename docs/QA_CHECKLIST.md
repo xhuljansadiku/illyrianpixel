@@ -70,13 +70,16 @@ të fshira pas testit nga `contacts` dhe `admin_activity`.
 
 ## 6. Pëlqimi dhe analitika
 
-- [ ] Para pëlqimit: s'ka `_ga` ose cookies të Clarity; `gcs=G100`
-- [ ] Pas pranimit: `gcs=G111`; ngjarjet arrijnë në GA4 DebugView
+Ekzekutuar 2026-10-21 (Faza 4) me Playwright kundër `next start` lokal; çdo kërkesë drejt
+GA/Clarity u kap dhe u **bllokua** (asnjë e dhënë testuese s'arriti te GA).
+
+- [x] Para pëlqimit: s'ka `_ga` ose cookies të Clarity; `gcs=G100` ✅ (por ngjarja dërgohet si ping pa cookies, shih Q-13)
+- [x] Pas pranimit: `gcs=G111` ✅ (DebugView real s'u kontrollua: hit-et u bllokuan qëllimisht)
 - [ ] Pas refuzimit: asnjë cookie analitike
 - [ ] Pëlqimi mund të ndryshohet më vonë (lidhja në footer)
-- [ ] Asnjë ngjarje s'përmban emër, email ose telefon
-- [ ] Forma e dështuar s'regjistron `generate_lead`
-- [ ] Çdo ngjarje fiket një herë për veprim
+- [x] Asnjë ngjarje s'përmban emër, email ose telefon ✅ (`contact_click`: vetëm channel + location; `generate_lead`: shërbimi + gama e buxhetit)
+- [x] Forma e dështuar s'regjistron `generate_lead` ✅
+- [x] Çdo ngjarje fiket një herë për veprim ✅ (1 klik në WhatsApp → 1 `contact_click`; 1 sukses → 1 `generate_lead`)
 
 ## 7. Çmimet (pas Fazës 2)
 

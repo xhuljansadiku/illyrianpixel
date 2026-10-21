@@ -134,6 +134,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
           <div className="flex items-center justify-between gap-3">
             <div className="flex flex-col gap-1.5">
               <a
+                data-track-location="mobile_menu"
                 href="https://wa.me/355694726827"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -142,6 +143,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
                 {tFooter("whatsapp")}
               </a>
               <a
+                data-track-location="mobile_menu"
                 href="mailto:info@illyrianpixel.com"
                 className="font-body text-[13px] font-light tracking-[0.03em] text-white/50 transition-colors duration-300 hover:text-accentLight"
               >
