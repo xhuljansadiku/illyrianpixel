@@ -1,4 +1,5 @@
 ﻿import { activeWebHeroVariant } from "@/lib/webHeroVariants.sq";
+import { BUNDLE_MONTHLY, bundleSavings, euro } from "@/lib/seoAdsPricing";
 
 export type ServiceFeatureBullet = {
   emphasis: string;
@@ -277,9 +278,11 @@ export const serviceCategories: ServiceCategory[] = [
     packages: [
       {
         name: "Starter",
-        price: "€149",
+        price: euro(BUNDLE_MONTHLY.starter),
         priceNote: "/ muaj",
-        ideal: "Filloni me Google Ads sot, plus bazat e SEO.\nBuxhet i vogël, rezultatet e para brenda muajit.",
+        perk: `Kursen €${bundleSavings("starter")}/muaj kundrejt SEO + Google Ads veç e veç`,
+        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
+        ideal: "Filloni me Google Ads sot, plus bazat e SEO.\nBuxhet i vogël, të dhënat e para brenda muajit.",
         features: [
           "Vendosja e Google Ads",
           "1 fushatë aktive",
@@ -291,9 +294,11 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Growth",
-        price: "€249",
+        price: euro(BUNDLE_MONTHLY.growth),
         priceNote: "/ muaj",
-        ideal: "Google Ads optimizohen çdo javë, SEO ju ngjit në Google.\nKlientë të rinj çdo muaj, buxheti nën kontroll.",
+        perk: `Kursen €${bundleSavings("growth")}/muaj kundrejt SEO + Google Ads veç e veç`,
+        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
+        ideal: "Google Ads optimizohen çdo javë, SEO ju ndihmon të ngjiteni në Google.\nÇdo kërkesë e matur, buxheti nën kontroll.",
         features: [
           "Google Ads i avancuar",
           "2–3 fushata aktive",
@@ -306,8 +311,10 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Pro",
-        price: "€399",
+        price: euro(BUNDLE_MONTHLY.pro),
         priceNote: "/ muaj",
+        perk: `Kursen €${bundleSavings("pro")}/muaj kundrejt SEO + Google Ads veç e veç`,
+        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
         ideal: "Google Ads i plotë, SEO teknik dhe teste A/B.\nÇdo vendim mbështetet në numra, jo në mendim.",
         features: [
           "Google Ads i plotë (Search + Display)",

@@ -32,11 +32,11 @@
 
 | ID | P | Ku | Problemi | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|---|
-| F2-1 | P1 | `serviceCategories.*`, `services/seo`, `services/google-ads` | Tri grupe çmimesh që bien ndesh (V-01) | Çmimet e reja sipas vendimit të pronarit | Asnjë faqe s'tregon çmim tjetër për të njëjtën paketë | Q-03 | BLOCKED |
-| F2-2 | P1 | `services/seo`, `services/google-ads` | Çmimet hardcoded, jashtë override-it nga admini | Paketat lëvizin te `lib/serviceCategories.*` (ose një modul i përbashkët) dhe kalojnë nga `applyOverridesToPackages` | Ndryshimi i çmimit në admin shfaqet në të gjitha faqet | F2-1 | NOT STARTED |
-| F2-3 | P1 | `/cmimet`, `/services/seo-google-ads` | Buxheti i reklamave: duhet të jetë qartë i ndarë te paketa e kombinuar | Rresht "Buxheti i reklamave paguhet direkt te Google, nuk përfshihet" | Vizitori dallon tarifën tonë nga buxheti i Google | — | NOT STARTED |
-| F2-4 | P1 | `PricingCalculator` | Formula s'ka teste të veta | Teste vitest për çdo rrugë llogaritjeje (njëherëshe kundrejt mujore) | Testet kalojnë me vlera të llogaritura veçmas | — | NOT STARTED |
-| F2-5 | P2 | KingGenti, blog, FAQ | Çmime të përmendura në tekst ("nga €299" etj.) | Kontroll pas F2-1; përditësim aty ku ndryshojnë | `grep €` pa mospërputhje | F2-1 | NOT STARTED |
+| F2-1 | P1 | `serviceCategories.*`, `services/seo`, `services/google-ads` | Tri grupe çmimesh që bien ndesh (V-01) | Çmimet e reja sipas vendimit të pronarit | Asnjë faqe s'tregon çmim tjetër për të njëjtën paketë | Q-03 ✅ (A) | IN REVIEW: SEO €99/199/299 · Ads €120/250/400 · SEO+Ads €189/379/599 (kursen €30/70/100, i shfaqur te karta) |
+| F2-2 | P1 | `services/seo`, `services/google-ads` | Çmimet hardcoded, jashtë override-it nga admini | Paketat lëvizin te `lib/serviceCategories.*` (ose një modul i përbashkët) dhe kalojnë nga `applyOverridesToPackages` | Ndryshimi i çmimit në admin shfaqet në të gjitha faqet | F2-1 | IN REVIEW: burim i vetëm në kod `lib/seoAdsPricing.ts` + test që bundle < shuma dhe > çdo shërbim më vete. Kufizim: një override nga admini për paketën SEO+Ads s'e përditëson rreshtin "Kursen €X" (llogaritet nga kodi) |
+| F2-3 | P1 | `/cmimet`, `/services/seo-google-ads` | Buxheti i reklamave: duhet të jetë qartë i ndarë te paketa e kombinuar | Rresht "Buxheti i reklamave paguhet direkt te Google, nuk përfshihet" | Vizitori dallon tarifën tonë nga buxheti i Google | — | IN REVIEW: "Buxheti i reklamave (e paguani ju, direkt te Google)" si "nuk përfshihet" në çdo kartë SEO+Ads; kalkulatori e thotë veç |
+| F2-4 | P1 | `PricingCalculator` | Formula s'ka teste të veta; "vlera e klientit" ngatërronte shitjen me fitimin; fusha bosh jepte "599 klientë" | Formula → `lib/pricingCalculator.ts` + 8 teste; pyetja tani kërkon **fitim (jo shitje)**; hiqet "çdo klient mbi këtë është fitim"; kartat tregojnë supozimin "(€300 fitim secili)" | Testet kalojnë me vlera të llogaritura veçmas | — | IN REVIEW |
+| F2-5 | P2 | KingGenti, blog, FAQ | Çmime të përmendura në tekst ("nga €299" etj.) | Kontroll pas F2-1 | `grep €` pa mospërputhje | F2-1 | DONE: s'ka çmim SEO/Ads jashtë `serviceCategories` + 2 faqeve; 7 FAQ-të në Supabase pa konflikt; override-i i vetëm në DB është `website/Basic €349` (= standardi) |
 
 ## Faza 3 — Formulari dhe lead-et
 

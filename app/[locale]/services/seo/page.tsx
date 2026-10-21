@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicePackageCard from "@/components/ServicePackageCard";
+import { SEO_MONTHLY, euro } from "@/lib/seoAdsPricing";
 import type { ServicePackage } from "@/lib/serviceCategories";
 import { buildMetadata } from "@/lib/seo";
 
@@ -61,7 +62,7 @@ const CONTENT: Record<Locale, {
     packages: [
       {
         name: "Basic",
-        price: "€99",
+        price: euro(SEO_MONTHLY.starter),
         priceNote: "/ muaj",
         tagline: "Fillon pozicionimin në Google",
         ideal: "Optimizimi i parë i saktë.\nFaqja juaj fillon të gjendet nga klientët e duhur.",
@@ -76,7 +77,7 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Growth",
-        price: "€199",
+        price: euro(SEO_MONTHLY.growth),
         priceNote: "/ muaj",
         tagline: "Rritje organike e qëndrueshme",
         ideal: "Keywords të shumta, link building dhe SEO teknik. Pozicion që rritet çdo muaj.",
@@ -92,7 +93,7 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Pro",
-        price: "€299",
+        price: euro(SEO_MONTHLY.pro),
         priceNote: "/ muaj",
         tagline: "Autoritet dhe rritje organike afatgjatë",
         ideal: "Sistem SEO i plotë.\nShkallëzim, autoritet domeni dhe rezultate afatgjata.",
@@ -126,7 +127,7 @@ const CONTENT: Record<Locale, {
     packages: [
       {
         name: "Basic",
-        price: "€99",
+        price: euro(SEO_MONTHLY.starter),
         priceNote: "/ month",
         tagline: "Starts your Google ranking",
         ideal: "The first proper optimization.\nYour site starts getting found by the right clients.",
@@ -141,7 +142,7 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Growth",
-        price: "€199",
+        price: euro(SEO_MONTHLY.growth),
         priceNote: "/ month",
         tagline: "Sustainable organic growth",
         ideal: "Multiple keywords, link building and technical SEO. A ranking that keeps improving every month.",
@@ -157,7 +158,7 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Pro",
-        price: "€299",
+        price: euro(SEO_MONTHLY.pro),
         priceNote: "/ month",
         tagline: "Authority and organic dominance",
         ideal: "A complete SEO system.\nScaling, domain authority and long-term results.",

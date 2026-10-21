@@ -1,4 +1,5 @@
 import { activeWebHeroVariant } from "@/lib/webHeroVariants.en";
+import { BUNDLE_MONTHLY, bundleSavings, euro } from "@/lib/seoAdsPricing";
 import type { ServiceCategory } from "./serviceCategories.sq";
 
 export const serviceCategories: ServiceCategory[] = [
@@ -237,9 +238,11 @@ export const serviceCategories: ServiceCategory[] = [
     packages: [
       {
         name: "Starter",
-        price: "€149",
+        price: euro(BUNDLE_MONTHLY.starter),
         priceNote: "/ month",
-        ideal: "Start with Google Ads today, plus SEO basics.\nSmall budget, first results within the month.",
+        perk: `Save €${bundleSavings("starter")}/month vs SEO + Google Ads separately`,
+        notIncluded: ["Ad budget (paid by you, directly to Google)"],
+        ideal: "Start with Google Ads today, plus SEO basics.\nSmall budget, first data within the month.",
         features: [
           "Google Ads setup",
           "1 active campaign",
@@ -251,9 +254,11 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Growth",
-        price: "€249",
+        price: euro(BUNDLE_MONTHLY.growth),
         priceNote: "/ month",
-        ideal: "Google Ads optimized every week, SEO gets you ranked on Google.\nNew clients every month, budget under control.",
+        perk: `Save €${bundleSavings("growth")}/month vs SEO + Google Ads separately`,
+        notIncluded: ["Ad budget (paid by you, directly to Google)"],
+        ideal: "Google Ads optimized every week, SEO helps you climb on Google.\nEvery inquiry measured, budget under control.",
         features: [
           "Advanced Google Ads",
           "2–3 active campaigns",
@@ -266,8 +271,10 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Pro",
-        price: "€399",
+        price: euro(BUNDLE_MONTHLY.pro),
         priceNote: "/ month",
+        perk: `Save €${bundleSavings("pro")}/month vs SEO + Google Ads separately`,
+        notIncluded: ["Ad budget (paid by you, directly to Google)"],
         ideal: "Full Google Ads, technical SEO and A/B testing.\nEvery decision backed by numbers, not guesswork.",
         features: [
           "Full Google Ads (Search + Display)",

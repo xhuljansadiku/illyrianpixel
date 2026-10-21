@@ -45,9 +45,10 @@
     "plusMaintenance": "+ {price}/muaj mirëmbajtja",
     "timelineLabel": "Koha e realizimit",
     "roiTitle": "Sa shpejt kthehet investimi?",
-    "roiQuestion": "Sa vlen mesatarisht një klient i ri për biznesin tënd? (€)",
-    "roiOnce": "Me rreth {count} klientë të rinj të sjellë nga prezenca e re online, investimi është kthyer plotësisht.",
-    "roiMonthly": "Rreth {count} klientë të rinj në muaj e mbulojnë investimin mujor. Çdo klient mbi këtë numër është fitim.",
+    "roiQuestion": "Sa fitim (jo shitje) të lë mesatarisht një klient i ri? (€)",
+    "roiOnce": "Me rreth {count} klientë të rinj, fitimi prej tyre e mbulon investimin.",
+    "roiMonthly": "Rreth {count} klientë të rinj në muaj e mbulojnë tarifën tonë mujore.",
+    "roiAdBudget": "Buxheti i reklamave që paguani te Google s'është përfshirë këtu, shtojeni te kostoja juaj.",
     "maintenanceNote": "Mirëmbajtja mbron investimin tënd: backup, siguri, përditësime dhe ndryshime të vogla pa stres.",
     "disclaimer": "Vlerësim orientues. Oferta finale personalizohet falas pas një bisede të shkurtër.",
     "ctaWhatsApp": "Dërgo vlerësimin në WhatsApp",
@@ -107,7 +108,7 @@
     "recommendedBadge": "Rekomanduar për ty",
     "split": "{now} tani · {launch} në lansim",
     "installments": "3 këste: {a} · {b} · {c}",
-    "payback": "{count, plural, one {Kthehet me ~# klient të ri} other {Kthehet me ~# klientë të rinj}}",
+    "payback": "{count, plural, one {Kthehet me ~# klient të ri} other {Kthehet me ~# klientë të rinj}} ({value} fitim secili)",
     "perDay": "≈ {amount} në ditë",
     "forBrand": "{service} për „{name}”",
     "perDayYear": "≈ {amount} në ditë gjatë vitit të parë",
@@ -125,7 +126,7 @@
       "hint": "Dyqan që shet 24/7"
     },
     "google": {
-      "label": "Të dal i pari në Google",
+      "label": "Të më gjejnë në Google",
       "hint": "SEO & Google Ads që sjellin klientë"
     },
     "unsure": "Nuk je i sigurt?",

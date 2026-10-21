@@ -7,6 +7,7 @@ import SectionMark from "@/components/SectionMark";
 import { getServiceCategories, type ServiceCategory } from "@/lib/serviceCategories";
 import { applyOverridesToCategory, type PricingOverrides } from "@/lib/pricingOverrides";
 import { DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
+import { calculatorEstimate } from "@/lib/pricingCalculator";
 import type { Locale } from "@/i18n/routing";
 
 type Slug = ServiceCategory["slug"];
@@ -26,10 +27,6 @@ const EXTRAS: { id: "secondLanguage" | "blog" | "maintenance"; price: number; mo
 ];
 
 const DEFAULT_CLIENT_VALUE = 300;
-
-function parsePrice(price: string): number {
-  return Number(price.replace(/[^\d]/g, "")) || 0;
-}
 
 function formatEuro(value: number): string {
   return `€${value.toLocaleString("en-US")}`;
@@ -76,18 +73,11 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
     : category.packages.map((p) => `${p.name} · ${p.price}${p.priceNote ?? ""}`);
 
   const activeExtras = EXTRAS.filter((e) => e.slugs.includes(slug) && extras.has(e.id));
-  const extrasOnce = activeExtras.filter((e) => !e.monthly).reduce((sum, e) => sum + e.price, 0);
-  const extrasMonthly = activeExtras.filter((e) => e.monthly).reduce((sum, e) => sum + e.price, 0);
-
-  const basePrice = parsePrice(pkg.price);
-  const isFromPrice = /nga|from/i.test(pkg.price);
-  const total = isMonthly ? basePrice : basePrice + extrasOnce;
+  const { total, extrasMonthly, isFrom: isFromPrice, paybackCount } = calculatorEstimate(pkg.price, isMonthly, activeExtras, clientValue);
 
   const timelineRaw = t.raw(`timelines.${slug}`) as string | string[];
   const timeline = Array.isArray(timelineRaw) ? timelineRaw[Math.min(tierIdx, timelineRaw.length - 1)] : timelineRaw;
 
-  const safeClientValue = Math.max(clientValue, 1);
-  const roiCount = Math.max(1, Math.ceil((isMonthly ? basePrice : total) / safeClientValue));
   const showRoi = slug !== "mirembajtja";
 
   const toggleExtra = (id: string) => {
@@ -227,9 +217,13 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
                     className="font-ui mt-2 w-32 rounded-[10px] border border-white/15 bg-white/[0.04] px-3 py-2 text-[13px] text-white outline-none transition-colors focus:border-accent"
                   />
                 </label>
-                <p className="mt-3 text-[13px] leading-relaxed text-white/70">
-                  {t(isMonthly ? "roiMonthly" : "roiOnce", { count: roiCount })}
-                </p>
+                {paybackCount !== null && (
+                  <p className="mt-3 text-[13px] leading-relaxed text-white/70">
+                    {t(isMonthly ? "roiMonthly" : "roiOnce", { count: paybackCount })}
+                  </p>
+                )}
+                {/* SEO & Google Ads: tarifa jonë s'është kostoja e plotë — buxheti i reklamave shtohet */}
+                {slug === "seo-google-ads" && <p className="mt-2 text-[12px] leading-relaxed text-white/45">{t("roiAdBudget")}</p>}
               </div>
             ) : (
               <p className="mt-5 rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-[13px] leading-relaxed text-white/60">
