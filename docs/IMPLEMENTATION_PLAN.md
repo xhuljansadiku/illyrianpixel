@@ -79,6 +79,8 @@
 | F6-6 | P1 | `/services/mirembajtja` | Përmbajtja reale e çdo pakete + afati i reagimit | Çdo premtim ka proces pas vetes | F1-5 | NOT STARTED |
 | F6-7 | P2 | `/services/aplikacione-mobile` | Teknologjitë reale, store fees, mirëmbajtja | Pa teknologji të paverifikuara | Q-06 | NOT STARTED |
 
+> **Statusi 2026-10-22: BLOCKED nga Q-05.** Matrica e mungesave është te `docs/OPEN_QUESTIONS.md`. Gjatë kontrollit u verifikua që afatet përputhen (FAQ "2–4 javë, deri 6" ↔ kalkulatori "5–10 ditë … 4–6 javë") dhe u rregullua schema `availableLanguage` → shqip, anglisht, gjermanisht, kroatisht (si te FAQ, e konfirmuar nga pronari).
+>
 > Sipas rregullit "pa faqe ekstra": ndryshimet bëhen brenda seksioneve ekzistuese ose si një bllok i vetëm i shkurtër për faqe.
 
 ## Faza 7 — Portofoli dhe blogu

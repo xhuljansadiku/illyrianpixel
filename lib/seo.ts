@@ -105,7 +105,7 @@ export const organizationSchema = {
     telephone: "+355694726827",
     contactType: "customer service",
     email: "info@illyrianpixel.com",
-    availableLanguage: ["Albanian", "English"],
+    availableLanguage: ["Albanian", "English", "German", "Croatian"],
     areaServed: ["AL", "XK", "DE", "GB", "CH", "IT", "SE", "US", "CA"]
   },
   sameAs: [
