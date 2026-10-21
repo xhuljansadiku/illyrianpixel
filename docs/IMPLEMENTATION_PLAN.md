@@ -61,11 +61,11 @@
 | ID | P | Ku | Problemi | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|---|
 | F5-1 | P1 | Vercel → Domains | `www` → 307 (V-09) | Pronari: "Redirect to illyrianpixel.com" me **308 Permanent** | `curl -I https://www.illyrianpixel.com` → 308 | Pronari | NOT STARTED |
-| F5-2 | P2 | `app/admin/layout` | `/admin/login` i indeksueshëm (V-10) | `robots: { index: false, follow: false }` | Head live: `noindex` | — | NOT STARTED |
-| F5-3 | P2 | layout-et `oferta`/`klienti`/`feedback` | Canonical + hreflang i kreut (V-11) | `alternates: {}` (pa canonical/hreflang) në këto layout-e | Head pa canonical te kreu | — | NOT STARTED |
-| F5-4 | P2 | `/cmimet`, `/sherbimet` | Dy `<h1>` (V-12) | Një `<h1>` me dy `<span>` | 1 `<h1>` në çdo faqe | — | NOT STARTED |
-| F5-5 | P2 | `lib/seo.ts` | `areaServed` fiks (V-15) | Lista e vendeve reale (AL, XK, DE, IT, UK, SE, US) nga një konstante e vetme | Schema validohet me Rich Results Test | — | NOT STARTED |
-| F5-6 | P2 | — | Prod audit i varësive | `npm audit --omit=dev` | 0 të larta/kritike, ose të dokumentuara | — | NOT STARTED |
+| F5-2 | P2 | `app/admin/layout` | `/admin/login` i indeksueshëm (V-10) | `robots: { index: false, follow: false }` | Head live: `noindex` | — | IN REVIEW: `noindex, nofollow`, pa canonical/hreflang (build-i statik i `/admin/login` i kontrolluar) |
+| F5-3 | P2 | layout-et `oferta`/`klienti`/`feedback` | Canonical + hreflang i kreut (V-11) | `alternates: {}` (pa canonical/hreflang) në këto layout-e | Head pa canonical te kreu | — | IN REVIEW: `alternates: {}` + noindex në layout-et `admin`, `oferta`, `klienti`, `feedback` |
+| F5-4 | P2 | `/cmimet`, `/sherbimet` | Dy `<h1>` (V-12) | Një `<h1>` me dy `<span>` | 1 `<h1>` në çdo faqe | — | IN REVIEW: një `<h1>` me dy `<span>`, animacioni GSAP i pandryshuar; build: 1 h1 në sq/en |
+| F5-5 | P2 | `lib/seo.ts` | `areaServed` fiks (V-15) | Lista e vendeve reale (AL, XK, DE, IT, UK, SE, US) nga një konstante e vetme | Schema validohet me Rich Results Test | — | IN REVIEW: `AREA_SERVED` (9 vende) për Organization/LocalBusiness/Service; hequr `contactOption: TollFree` (numër celular) dhe `Italian` (gjuhë e pakonfirmuar). Rich Results Test s'u ekzekutua (kërkon URL publike) |
+| F5-6 | P2 | — | Prod audit i varësive | `npm audit --omit=dev` | 0 të larta/kritike, ose të dokumentuara | — | DONE: prod 0. Dev: `npm audit fix` 12 → 11; të mbeturat kërkojnë Tailwind 4 ose eslint-config-next 14 (major) — vetëm mjete zhvillimi, s'shkojnë në faqe |
 
 ## Faza 6 — Faqet e shërbimeve (8)
 

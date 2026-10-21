@@ -169,16 +169,19 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
 
           <div className="section-wrap relative py-28 md:py-40">
             <p className="ip-eyebrow hero-eyebrow">{t("hero.eyebrow")}</p>
-            <div className="hero-line1 mt-8 overflow-hidden">
-              <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
-                {t("hero.titleLine1")}
-              </h1>
-            </div>
-            <div className="hero-line2 overflow-hidden">
-              <h1 className="cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
-                {t("hero.titleLine2")}
-              </h1>
-            </div>
+            {/* Një <h1> i vetëm (2026-10-22) — më parë çdo rresht ishte <h1> më vete */}
+            <h1>
+              <span className="hero-line1 mt-8 block overflow-hidden">
+                <span className="block font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-white">
+                  {t("hero.titleLine1")}
+                </span>
+              </span>
+              <span className="hero-line2 block overflow-hidden">
+                <span className="block cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
+                  {t("hero.titleLine2")}
+                </span>
+              </span>
+            </h1>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
             <p className="hero-subtext mt-6 md:whitespace-pre-line font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
               {t("hero.subtext")}
