@@ -70,7 +70,7 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       { icon: "convert", title: "Focused on sales, not just looks", body: "" },
       { icon: "speed",   title: "Speed that directly impacts sales", body: "" },
       { icon: "mRoi",    title: "Analytics and continuous optimization", body: "" },
-      { icon: "support", title: "Security and 24/7 support", body: "" },
+      { icon: "support", title: "Security and post-launch support", body: "" },
     ],
   },
   processHeadline: "Four steps. A store ready to sell.",

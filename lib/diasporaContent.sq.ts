@@ -55,7 +55,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "nga kudo.",
     heroIntro:
       "Ndërtojmë website profesionale për biznese shqiptare që operojnë në Gjermani, pavarësisht nëse jeni vetë atje apo e drejtoni nga Shqipëria. Në shqip, thjeshtë, pa telefonata të pafundme.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24h · Klientë realë në Gjermani",
+    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Klientë realë në Gjermani",
     hookLine: "Website për biznese shqiptare në Gjermani, me klientë realë si provë.",
     trustStats,
     painSection: {
@@ -84,7 +84,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "CTA që sjellin kërkesa reale", body: "Çdo faqe ndërtohet për të kthyer vizitorët në klientë, jo thjesht për të dukur mirë." },
         { icon: "support", title: "Komunikim 100% në shqip", body: "Flasim gjuhën tuaj, kuptojmë kontekstin e biznesit shqiptar jashtë vendit." },
         { icon: "seo", title: "Gjetshëm nga klientët e duhur", body: "SEO bazë i përfshirë, që të gjeteni si nga shqiptarë ashtu edhe nga tregu lokal gjerman." },
-        { icon: "speed", title: "Shpejtë, pa humbje kohe", body: "Plan brenda 24 orëve, faqja gati brenda javëve, jo muajve." },
+        { icon: "speed", title: "Shpejtë, pa humbje kohe", body: "Plan brenda 24–48 orëve, faqja gati brenda javëve, jo muajve." },
       ],
     },
     process: DIASPORA_PROCESS,
@@ -105,7 +105,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "gati për klientë të rinj.",
     heroIntro:
       "Ndërtojmë website profesionale për biznese shqiptare në Angli, Skoci e Uells, që ju vendosin krah për krah me konkurrentët britanikë, jo pas tyre.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24h · Klient real në Londër",
+    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Klient real në Londër",
     hookLine: "Website për biznese shqiptare në UK, me rezultate reale, jo premtime.",
     trustStats,
     painSection: {
@@ -134,7 +134,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "CTA që sjellin kërkesa reale", body: "Struktura e faqes çon vizitorin drejt kontaktit, jo drejt konfuzionit." },
         { icon: "support", title: "Komunikim i qartë në shqip dhe anglisht", body: "Ju shpjegojmë çdo hap thjeshtë, pa zhargon teknik." },
         { icon: "seo", title: "Gjetshëm në Google UK dhe nga shqiptarët", body: "Optimizim që mbulon të dyja audiencat tuaja njëherësh." },
-        { icon: "speed", title: "Plan brenda 24 orësh", body: "S'humbisni kohë, e dini shpejt çfarë përfshin projekti dhe sa kushton." },
+        { icon: "speed", title: "Plan brenda 24–48 orësh", body: "S'humbisni kohë, e dini shpejt çfarë përfshin projekti dhe sa kushton." },
       ],
     },
     process: DIASPORA_PROCESS,
@@ -155,7 +155,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "shërbim shqiptar.",
     heroIntro:
       "Ndërtojmë website profesionale për biznese shqiptare në Zvicër, me cilësinë që pret ky treg dhe komunikimin e thjeshtë që ju duhet nga larg.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24h · Komunikim 100% në shqip",
+    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Komunikim 100% në shqip",
     hookLine: "Website i nivelit zviceran, i menaxhuar thjeshtë në shqip.",
     trustStats,
     painSection: {
@@ -184,7 +184,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "Website që ndërton besim", body: "Struktura dhe pamja komunikojnë seriozitet që në sekondat e para." },
         { icon: "support", title: "Komunikim i qartë në shqip", body: "Çdo pyetje merr përgjigje pa barriera gjuhësore." },
         { icon: "seo", title: "Gjetshëm nga komuniteti shqiptar në Zvicër", body: "SEO që ju lidh me klientët që ju kërkojnë pikërisht ju." },
-        { icon: "speed", title: "Proces i shpejtë, pa humbje kohe", body: "Plan i qartë brenda 24 orësh, pa muaj pritje." },
+        { icon: "speed", title: "Proces i shpejtë, pa humbje kohe", body: "Plan i qartë brenda 24–48 orësh, pa muaj pritje." },
       ],
     },
     process: DIASPORA_PROCESS,
@@ -206,7 +206,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "duhet prezencë profesionale.",
     heroIntro:
       "Ndërtojmë website dygjuhëshe (shqip/italisht) për biznese shqiptare në Itali, që flasin njëkohësisht me tregun italian dhe komunitetin shqiptar.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24h · Klient real në Milano",
+    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Klient real në Milano",
     hookLine: "Website dygjuhësh për biznese shqiptare në Itali, me klient real si provë.",
     trustStats,
     painSection: {
@@ -235,7 +235,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "Mesazh që sjell kërkesa reale", body: "Struktura e faqes udhëheq vizitorin drejt kontaktit, jo drejt konfuzionit." },
         { icon: "support", title: "Komunikim në shqip dhe italisht", body: "Ju shpjegojmë çdo hap qartë, pa barriera gjuhësore." },
         { icon: "seo", title: "Gjetshëm nga të dyja audiencat", body: "SEO i strukturuar për kërkime në shqip dhe italisht njëkohësisht." },
-        { icon: "speed", title: "Plan brenda 24 orësh", body: "E dini shpejt çfarë përfshin projekti dhe sa kushton." },
+        { icon: "speed", title: "Plan brenda 24–48 orësh", body: "E dini shpejt çfarë përfshin projekti dhe sa kushton." },
       ],
     },
     process: DIASPORA_PROCESS,
@@ -256,7 +256,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "biznesin tuaj.",
     heroIntro:
       "Ndërtojmë website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini, me raportim të qartë dhe pa varësi nga telefonata.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24h · Komunikim 100% në shqip",
+    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Komunikim 100% në shqip",
     hookLine: "Website që punon 24/7, edhe me 6-9 orë diferencë kohe.",
     trustStats,
     painSection: {
@@ -285,7 +285,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "Website që sjell kërkesa, jo vetëm vizita", body: "Struktura e faqes e çon vizitorin drejt kontaktit real." },
         { icon: "support", title: "Komunikim i qartë në shqip", body: "Pa barriera gjuhësore, pavarësisht sa larg jeni." },
         { icon: "seo", title: "Gjetshëm nga komuniteti shqiptar në SHBA/Kanada", body: "SEO që ju lidh direkt me audiencën tuaj specifike." },
-        { icon: "speed", title: "Proces i shpejtë, edhe nga larg", body: "Plan brenda 24 orësh, pa nevojë prezence fizike." },
+        { icon: "speed", title: "Proces i shpejtë, edhe nga larg", body: "Plan brenda 24–48 orësh, pa nevojë prezence fizike." },
       ],
     },
     process: DIASPORA_PROCESS,

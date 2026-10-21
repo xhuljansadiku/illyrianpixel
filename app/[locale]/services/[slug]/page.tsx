@@ -28,7 +28,7 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
   sq: {
     website: {
       title: "Website Premium me Konvertim të Lartë — Tiranë & Diasporë",
-      desc: "Ndërtojmë website luksoz me dizajn editorial, SEO on-page dhe arkitekturë konvertimi. Çdo faqe është strategji, jo vetëm estetikë. Konsultim falas · Plan 24h.",
+      desc: "Ndërtojmë website luksoz me dizajn editorial, SEO on-page dhe arkitekturë konvertimi. Çdo faqe është strategji, jo vetëm estetikë. Konsultim falas · Plan 24–48h.",
     },
     ecommerce: {
       title: "E-Commerce & Dyqane Online me ROI të Matshëm — Shqipëri",
@@ -58,7 +58,7 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
   en: {
     website: {
       title: "Premium High-Conversion Website — Tirana & Diaspora",
-      desc: "We build luxury websites with editorial design, on-page SEO and conversion architecture. Every page is strategy, not just aesthetics. Free consultation · 24h plan.",
+      desc: "We build luxury websites with editorial design, on-page SEO and conversion architecture. Every page is strategy, not just aesthetics. Free consultation · 24–48h plan.",
     },
     ecommerce: {
       title: "E-Commerce & Online Stores with Measurable ROI — Albania",

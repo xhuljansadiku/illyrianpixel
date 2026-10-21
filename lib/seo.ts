@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/routing";
 const siteUrl = "https://illyrianpixel.com";
 const defaultTitle = "Illyrian Pixel";
 const defaultDescription =
-  "Agjenci dixhitale premium — Website, E-Commerce, SEO & Marketing për biznese shqiptare në Shqipëri, Kosovë dhe diasporë. Konsultim falas, plan brenda 24h.";
+  "Agjenci dixhitale premium — Website, E-Commerce, SEO & Marketing për biznese shqiptare në Shqipëri, Kosovë dhe diasporë. Konsultim falas, plan brenda 24–48h.";
 
 export const seo = {
   siteUrl,

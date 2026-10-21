@@ -21,12 +21,12 @@
 
 | ID | P | Ku | Problemi | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|---|
-| F1-1 | P1 | `messages/*/home.json` `hero.paragraph1` | "dominojmë Google" | Fjali konkrete për atë që bëjmë (p.sh. "SEO që ju ndihmon të gjendeni në Google") | `grep -i domin` = 0 në tekstet publike | — | NOT STARTED |
-| F1-2 | P1 | `services/google-ads` Pro | "Dominoni Google para konkurrencës" | Përshkrim i konkretë i paketës | si më sipër | — | NOT STARTED |
-| F1-3 | P1 | `services/seo` | "Rezultate brenda 90 ditëve", "dominim organik" | "Raport i parë i progresit pas 30 ditësh; SEO zakonisht kërkon 3–6 muaj" (formulim pa garanci) | S'mbetet asnjë afat i garantuar për renditje | — | NOT STARTED |
-| F1-4 | P1 | Meta e `/projektet` | "ROI të Matshëm" | Titull pa pretendim ROI | Titulli live s'përmend ROI | — | NOT STARTED |
-| F1-5 | P1 | Mirëmbajtja, e-commerce, kartat | "24/7 monitorim", "reagim i menjëhershëm", "mbështetje 24/7" | Pas krijimit të monitorit: "Monitorim automatik çdo 5 minuta" + afat reagimi real | Çdo premtim 24/7 ka mjet ose proces pas vetes | Q-01 (monitor + afati i reagimit) | BLOCKED |
-| F1-6 | P2 | Kreu, `/contact`, diaspora | "Plan brenda 24h" | Mbahet nëse pronari e konfirmon; ndryshe "brenda 1 dite pune" | I konfirmuar ose i zbutur | Q-02 | BLOCKED |
+| F1-1 | P1 | `messages/*/home.json` `hero.paragraph1` | "dominojmë Google" | Fjali konkrete për atë që bëjmë (p.sh. "SEO që ju ndihmon të gjendeni në Google") | `grep -i domin` = 0 në tekstet publike | — | IN REVIEW |
+| F1-2 | P1 | `services/google-ads` Pro | "Dominoni Google para konkurrencës" | Përshkrim i konkretë i paketës | si më sipër | — | IN REVIEW |
+| F1-3 | P1 | `services/seo` | "Rezultate brenda 90 ditëve", "dominim organik" | "Raport i parë i progresit pas 30 ditësh; SEO zakonisht kërkon 3–6 muaj" (formulim pa garanci) | S'mbetet asnjë afat i garantuar për renditje | — | IN REVIEW |
+| F1-4 | P1 | Meta e `/projektet` | "ROI të Matshëm" | Titull pa pretendim ROI | Titulli live s'përmend ROI | — | IN REVIEW |
+| F1-5 | P1 | Mirëmbajtja, e-commerce, kartat | "24/7 monitorim", "reagim i menjëhershëm", "mbështetje 24/7" | Pas krijimit të monitorit: "Monitorim automatik çdo 5 minuta" + afat reagimi real | Çdo premtim 24/7 ka mjet ose proces pas vetes | Q-01 ✅ (24 orë); para merge: UptimeRobot aktiv; Q-12 për 4h/1h/pa limit | IN REVIEW |
+| F1-6 | P2 | Kreu, `/contact`, diaspora | "Plan brenda 24h" | Plan / strategji / ofertë → "24–48 orë"; "përgjigje brenda 24h" mbetet | I konfirmuar ose i zbutur | Q-02 ✅ | IN REVIEW |
 
 ## Faza 2 — Çmimet
 

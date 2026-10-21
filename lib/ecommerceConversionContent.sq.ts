@@ -70,7 +70,7 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       { icon: "convert", title: "Fokus te shitja, jo vetëm te pamja", body: "" },
       { icon: "speed",   title: "Shpejtësi që ndikon direkt në shitje", body: "" },
       { icon: "mRoi",    title: "Analitikë dhe optimizim i vazhdueshëm", body: "" },
-      { icon: "support", title: "Siguri dhe mbështetje 24/7", body: "" },
+      { icon: "support", title: "Siguri dhe mbështetje pas lansimit", body: "" },
     ],
   },
   processHeadline: "Katër hapa. Dyqan gati për shitje.",

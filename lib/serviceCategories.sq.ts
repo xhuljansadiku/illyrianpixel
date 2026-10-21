@@ -131,7 +131,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◈",
     ctaPrimary: "Fillo të shesësh online →",
     ctaSecondary: "Punet tona",
-    trustLine: "Konsultim falas · Strategji brenda 24h · Pa detyrim",
+    trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
     subServices: [
       "Shitje 24/7",
       "Checkout që konverton",
@@ -176,7 +176,7 @@ export const serviceCategories: ServiceCategory[] = [
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         giftValue: 147,
         tagline: "Platformë e-commerce për shkallëzim",
-        ideal: "Sistem i plotë për bizneset që duan të dominojnë online pa kufij, pa kompromis.",
+        ideal: "Sistem i plotë për bizneset që duan të rriten online pa kufizime teknike.",
         features: [
           "Pa limit produktesh",
           "Oferta shtesë & rekomandime që rrisin shitjen",
@@ -201,7 +201,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "▣",
     ctaPrimary: "Fillo sot →",
     ctaSecondary: "Punet tona",
-    trustLine: "Konsultim falas · Strategji brenda 24h · Pa detyrim",
+    trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
     subServices: [
       "iOS & Android nga një kod",
       "Dizajn i thjeshtë dhe modern",
@@ -334,7 +334,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◉",
     ctaPrimary: "Fillo sot →",
     ctaSecondary: "Punet tona",
-    trustLine: "Konsultim falas · Pa detyrim · Plan brenda 24h",
+    trustLine: "Konsultim falas · Pa detyrim · Plan brenda 24–48h",
     subServices: [
       "Instagram & Facebook",
       "Reels & TikTok",
@@ -474,7 +474,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Optimizim i vazhdueshëm",
       "Rindërtim faqesh të vjetra",
       "Siguri & backup ditor",
-      "Reagim i menjëhershëm",
+      "Reagim brenda 24 orësh",
     ],
     packages: [
       {
@@ -491,7 +491,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Support email me përgjigje brenda 48h",
         ],
         featureBullets: [
-          { emphasis: "Monitorim 24/7", detail: "ju njoftojmë menjëherë nëse faqja bie." },
+          { emphasis: "Monitorim 24/7", detail: "njoftohemi automatikisht nëse faqja bie." },
           { emphasis: "Backup javor", detail: "kopje e plotë çdo javë, gati për rikthim shpejt." },
           { emphasis: "Përditësime", detail: "mbajmë gjithçka të përditësuar dhe të sigurt." },
           { emphasis: "Raport mujor", detail: "ju tregojmë çdo muaj si po shkon faqja." },
@@ -504,7 +504,7 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Mirëmbajtje e plotë",
         ideal: "Mbrojtje dhe shpejtësi maksimale, për biznese që nuk durojnë ndërprerje.",
         features: [
-          "Monitorim uptime 24/7 me SMS dhe email",
+          "Monitorim uptime 24/7 me njoftime email dhe në telefon",
           "Backup ditor i automatizuar",
           "Sigurim SSL, firewall dhe skanim malware",
           "Optimizim cache dhe shpejtësi çdo muaj",

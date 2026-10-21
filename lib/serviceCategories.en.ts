@@ -91,7 +91,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◈",
     ctaPrimary: "Start selling online →",
     ctaSecondary: "Our work",
-    trustLine: "Free consultation · Strategy within 24h · No obligation",
+    trustLine: "Free consultation · Strategy within 24–48h · No obligation",
     subServices: [
       "24/7 sales",
       "Checkout that converts",
@@ -136,7 +136,7 @@ export const serviceCategories: ServiceCategory[] = [
         gift: "3 months of free technical maintenance (worth €147)",
         giftValue: 147,
         tagline: "An e-commerce platform built to scale",
-        ideal: "A complete system for businesses that want to dominate online, without limits, without compromise.",
+        ideal: "A complete system for businesses that want to grow online without technical limits.",
         features: [
           "No product limit",
           "Upsells & recommendations that increase sales",
@@ -161,7 +161,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "▣",
     ctaPrimary: "Start today →",
     ctaSecondary: "Our work",
-    trustLine: "Free consultation · Strategy within 24h · No obligation",
+    trustLine: "Free consultation · Strategy within 24–48h · No obligation",
     subServices: [
       "iOS & Android from one codebase",
       "Simple, modern design",
@@ -294,7 +294,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◉",
     ctaPrimary: "Start today →",
     ctaSecondary: "Our work",
-    trustLine: "Free consultation · No obligation · Plan within 24h",
+    trustLine: "Free consultation · No obligation · Plan within 24–48h",
     subServices: [
       "Instagram & Facebook",
       "Reels & TikTok",
@@ -434,7 +434,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Continuous optimization",
       "Rebuilding older sites",
       "Security & daily backup",
-      "Immediate response",
+      "Response within 24 hours",
     ],
     packages: [
       {
@@ -451,7 +451,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Email support with reply within 48h",
         ],
         featureBullets: [
-          { emphasis: "24/7 monitoring", detail: "we notify you immediately if the site goes down." },
+          { emphasis: "24/7 monitoring", detail: "we're alerted automatically if the site goes down." },
           { emphasis: "Weekly backup", detail: "a full copy every week, ready for a quick restore." },
           { emphasis: "Updates", detail: "we keep everything up to date and secure." },
           { emphasis: "Monthly report", detail: "we show you how the site is doing every month." },
@@ -464,7 +464,7 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Complete maintenance",
         ideal: "Maximum protection and speed, for businesses that can't afford downtime.",
         features: [
-          "24/7 uptime monitoring with SMS and email",
+          "24/7 uptime monitoring with email and phone alerts",
           "Automated daily backup",
           "SSL, firewall and malware scanning",
           "Cache and speed optimization every month",

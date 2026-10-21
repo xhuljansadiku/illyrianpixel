@@ -40,7 +40,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
     headingAccent: "always online and fast.",
     intro: "",
     items: [
-      { icon: "support", title: "24/7 monitoring and immediate response", body: "" },
+      { icon: "support", title: "Automatic 24/7 monitoring, response within 24 hours", body: "" },
       { icon: "speed",   title: "The site gets faster every month", body: "" },
       { icon: "seo",     title: "We rebuild old sites from scratch", body: "" },
       { icon: "convert", title: "You focus on the business, we focus on the tech", body: "" },
@@ -80,7 +80,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
   },
   feedbackLabel: "WHAT CLIENTS SAY",
   feedbackHeadline: "We take care of the site.\nYou take care of the business.",
-  feedbackSubline: "24/7 monitoring, immediate response and consistent performance, without interruptions.",
+  feedbackSubline: "Automatic 24/7 monitoring, response within 24 hours and consistent performance.",
   feedbackBadge: "Real clients",
   testimonials: [
     {

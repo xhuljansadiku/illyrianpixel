@@ -5,8 +5,8 @@
 
 | ID | Pyetja | Blokon | Përgjigja |
 |---|---|---|---|
-| Q-01 | Monitor uptime + afati real i reagimit kur bie faqja e një klienti | F1-5, F6-6 | 2026-10-21: **s'ka monitor**. Rekomandimi më poshtë. Afati i reagimit: ❓ |
-| Q-02 | "Plan konkret brenda 24 orësh": a e mban realisht çdo herë? | F1-6 | ❓ |
+| Q-01 | Monitor uptime + afati real i reagimit kur bie faqja e një klienti | F1-5, F6-6 | 2026-10-21: s'ka monitor → hapet UptimeRobot (falas). Afati i reagimit: **24 orë** ✅ |
+| Q-02 | "Plan konkret brenda 24 orësh": a e mban realisht çdo herë? | F1-6 | 2026-10-21: plani / oferta → **24–48 orë** ✅ ("përgjigje brenda 24h" mbetet) |
 | Q-03 | Çmimet e SEO / Google Ads | F2-1 | ❓ Opsionet më poshtë |
 | Q-04 | Telefoni në formularin e kontaktit: i detyrueshëm apo opsional? | F3-2 | ❓ |
 | Q-05 | Për çdo shërbim: përfshirjet, përjashtimet, rishikimet, pronësia e skedarëve dhe e kodit, kostot e palëve të treta | Faza 6 | ❓ |
@@ -15,6 +15,7 @@
 | Q-08 | Performanca mobile: opsioni A (75–85, më pak animacione vetëm në mobile) apo B (90+, shumicën e animacioneve jashtë)? | F8-1 | ❓ (në pritje që nga 2026-10-04) |
 | Q-09 | Dëshmitë në Supabase: a janë të gjitha reale dhe me leje publikimi? | Faza 7 | ❓ |
 | Q-10 | Link building "5–10" dhe "15–20 backlinks/muaj" te `/services/seo`: a ofrohet realisht? | F1, F2 | ❓ |
+| Q-12 | Mirëmbajtja: Pro "përgjigje brenda 4h", Premium "përgjigje brenda 1h", "ndërhyrje teknike pa limit", "WAF, anti-DDoS": a i mban realisht? | F1-5, F6-6 | ❓ |
 | Q-11 | Leje për deploy në prodhim (merge në `main`) | çdo fazë | Pyetet në fund të çdo faze |
 
 ---

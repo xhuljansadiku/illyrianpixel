@@ -117,7 +117,7 @@ const CONTENT: Record<Locale, {
         price: "€400",
         priceNote: "/ muaj",
         tagline: "Sistem i plotë Google Ads",
-        ideal: "Të gjitha formatet, A/B testing dhe strategji funnel. Dominoni Google para konkurrencës.",
+        ideal: "Të gjitha formatet, A/B testing dhe strategji funnel. Çdo fushatë matet dhe përmirësohet me të dhëna reale.",
         features: [
           "Search + Display + YouTube Ads",
           "Shopping Ads (për e-commerce)",
@@ -201,7 +201,7 @@ const CONTENT: Record<Locale, {
         price: "€400",
         priceNote: "/ month",
         tagline: "A complete Google Ads system",
-        ideal: "Every format, A/B testing and funnel strategy. Dominate Google ahead of the competition.",
+        ideal: "Every format, A/B testing and funnel strategy. Every campaign is measured and improved with real data.",
         features: [
           "Search + Display + YouTube Ads",
           "Shopping Ads (for e-commerce)",
