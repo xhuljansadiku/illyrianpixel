@@ -19,6 +19,7 @@
 | Q-13 | Consent Mode "advanced": para pëlqimit gtag dërgon ping-e **pa cookies** (`gcs=G100`), p.sh. `page_view`, `contact_click`. Google e lejon dhe e përdor për modelim; disa autoritete në BE (p.sh. CNIL) e shohin si të diskutueshme. Mbetet kështu, apo kalojmë në "basic" (gtag ngarkohet vetëm pas pranimit, por humbet modelimi i konvertimeve)? **Pyetje për jurist, jo për Claude.** | Faza 9 | ❓ |
 | Q-14 | Schema LocalBusiness: orari "E hënë–E premte 09:00–18:00" dhe `foundingDate: 2024`. A janë të sakta? (Premtimi i konfirmuar është takime online në mbrëmje / fundjavë.) | F5-5 | ❓ |
 | Q-15 | `/diaspora/shba-kanada`: "Dashboard i thjeshtë… Shihni dhe ndryshoni informacionin e biznesit vetë". A ofrohet vërtet një panel ku klienti ndryshon vetë përmbajtjen? (Portali `/klienti` tregon vetëm statusin e projektit.) | F7 | ❓ |
+| Q-16 | Shiriti i besimit te faqet e shërbimeve dhe të diasporës thoshte **"6 vite eksperiencë · 100 projekte · 80 klientë besnikë"**. U zëvendësua (2026-10-22) me numra nga të dhënat: **8 projekte në portofol · 7 vende me klientë · 8 qytete**. A janë 6/100/80 të vërteta (p.sh. eksperienca jote para agjencisë)? Nëse po, rikthehen me një ndryshim te `lib/conversionLandingShared.ts` (vlerat e vjetra janë aty të komentuara). | Faza 9 | ❓ |
 | Q-11 | Leje për deploy në prodhim (merge në `main`) | çdo fazë | Pyetet në fund të çdo faze |
 
 ---

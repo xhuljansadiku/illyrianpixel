@@ -1,4 +1,5 @@
 ﻿import { getCaseStudies } from "@/lib/caseStudies";
+import { CLIENT_CITIES, CLIENT_COUNTRIES } from "@/lib/clientLocations";
 import type { Locale } from "@/i18n/routing";
 
 export type WhyUsIcon =
@@ -35,22 +36,28 @@ export type ConversionTrustStats = {
   reachLabel?: string;
 };
 
+// 2026-10-22: numrat llogariten nga të dhënat e faqes (portofoli, lib/clientLocations), që të jenë
+// gjithmonë të vërtetë. Më parë ishin fiks "6 vite eksperiencë · 100 projekte · 80 klientë besnikë" —
+// s'dalin nga asnjë burim dhe s'përputhen me portofolin (8 projekte). Nëse pronari i konfirmon,
+// rikthehen duke zëvendësuar vlerat më poshtë me ato të komentuarat:
+// Vlerat e vjetra: sq { 6 "vite eksperiencë", 100 "projekte", 80 "klientë besnikë" }
+//                  en { 6 "years of experience", 100 "projects", 80 "loyal clients" }
 const CONVERSION_TRUST_STATS: Record<Locale, ConversionTrustStats> = {
   sq: {
-    primaryCount: 6,
-    primaryLabel: "vite eksperiencë",
-    secondaryCount: 100,
-    secondaryLabel: "projekte",
-    tertiaryCount: 80,
-    tertiaryLabel: "klientë besnikë",
+    primaryCount: getCaseStudies("sq").length,
+    primaryLabel: "projekte në portofol",
+    secondaryCount: CLIENT_COUNTRIES.length,
+    secondaryLabel: "vende me klientë",
+    tertiaryCount: CLIENT_CITIES.length,
+    tertiaryLabel: "qytete",
   },
   en: {
-    primaryCount: 6,
-    primaryLabel: "years of experience",
-    secondaryCount: 100,
-    secondaryLabel: "projects",
-    tertiaryCount: 80,
-    tertiaryLabel: "loyal clients",
+    primaryCount: getCaseStudies("en").length,
+    primaryLabel: "projects in our portfolio",
+    secondaryCount: CLIENT_COUNTRIES.length,
+    secondaryLabel: "countries with clients",
+    tertiaryCount: CLIENT_CITIES.length,
+    tertiaryLabel: "cities",
   },
 };
 

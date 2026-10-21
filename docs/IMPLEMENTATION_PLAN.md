@@ -105,6 +105,6 @@
 
 | ID | P | Ku | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|
-| F9-1 | P2 | `docs/POSITIONING_AND_MESSAGING.md` | Publiku, vlera, CTA-të; headline-i "Ktheje biznesin në BRAND." **mbetet** | Dokumenti i miratuar nga pronari | F1 | NOT STARTED |
-| F9-2 | P2 | `docs/SEO_PLAN.md` | Hartë rrugësh, qëllimi i fjalëve kyçe, lidhjet e brendshme, inventari i blogut | — | F5, F7 | NOT STARTED |
-| F9-3 | P1 | `docs/RELEASE_NOTES.md` + QA | Çfarë ndryshoi, testet, kufizimet, rikthimi (rollback) | Çdo kriter i kontrolluar | F1–F8 | NOT STARTED |
+| F9-1 | P2 | `docs/POSITIONING_AND_MESSAGING.md` | Publiku, vlera, CTA-të; headline-i "Ktheje biznesin në BRAND." **mbetet** | Dokumenti i miratuar nga pronari | F1 | IN REVIEW: `docs/POSITIONING_AND_MESSAGING.md`. Gjatë punës: shiriti "6 vite · 100 projekte · 80 klientë besnikë" (faqet e shërbimeve + diaspora) → numra nga të dhënat (8 projekte · 7 vende · 8 qytete), vlerat e vjetra të komentuara (Q-16); hero "Klientët i sjellim ne" → "Ne kujdesemi që klientët t'ju gjejnë online" |
+| F9-2 | P2 | `docs/SEO_PLAN.md` | Hartë rrugësh, qëllimi i fjalëve kyçe, lidhjet e brendshme, inventari i blogut | — | F5, F7 | IN REVIEW: `docs/SEO_PLAN.md` (inventari i 16 artikujve, lidhjet, 10 artikujt e rinj); sitemap-i përdor tani listën e vetme `lib/blogDedicatedSlugs.ts` |
+| F9-3 | P1 | `docs/RELEASE_NOTES.md` + QA | Çfarë ndryshoi, testet, kufizimet, rikthimi (rollback) | Çdo kriter i kontrolluar | F1–F8 | IN REVIEW: `docs/RELEASE_NOTES.md` |
