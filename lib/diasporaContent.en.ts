@@ -292,13 +292,13 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       ],
     },
     process: DIASPORA_PROCESS,
-    portfolioSlugs: ["suli-group-trockenbau", "palushi-brothers"],
-    portfolioSubline: "Examples of our work with Albanian businesses in the diaspora.",
+    portfolioSlugs: ["roofon-nyc", "suli-group-trockenbau", "palushi-brothers"],
+    portfolioSubline: "From New York (Roofon NYC) to Albanian businesses across Europe.",
     testimonials: [
       { quote: "Clients contact us with clear expectations from the very start.", name: "Vehbi P.", role: "Palushi Brothers", location: "London, England" },
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("USA / Canada"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],
-    hasLocalCaseStudy: false,
+    hasLocalCaseStudy: true,
   },
 };

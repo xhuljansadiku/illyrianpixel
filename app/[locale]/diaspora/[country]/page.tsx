@@ -32,7 +32,7 @@ const SEO_SQ: Record<CountrySlug, { title: string; desc: string }> = {
   },
   "shba-kanada": {
     title: "Website për Biznese Shqiptare në SHBA & Kanada",
-    desc: "Ndërtojmë website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini. Konsultim falas, plan brenda 24–48h.",
+    desc: "Ndërtojmë website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini. Klient real në Nju Jork (Roofon NYC). Konsultim falas, plan brenda 24–48h.",
   },
 };
 
@@ -55,7 +55,7 @@ const SEO_EN: Record<CountrySlug, { title: string; desc: string }> = {
   },
   "shba-kanada": {
     title: "Websites for Albanian Businesses in the USA & Canada",
-    desc: "Professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep. Free consultation, plan within 24–48h.",
+    desc: "Professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep. Real client in New York (Roofon NYC). Free consultation, plan within 24–48h.",
   },
 };
 

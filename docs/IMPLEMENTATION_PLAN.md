@@ -87,9 +87,11 @@
 
 | ID | P | Ku | Zgjidhja | Kriteri i pranimit | Varësi | Statusi |
 |---|---|---|---|---|---|---|
-| F7-1 | P2 | `lib/caseStudies.*` | Statusi i çdo projekti (Live / I përfunduar / Në punë / Koncept) | Asnjë projekt i papërfunduar si "i përfunduar" | Q-07 | NOT STARTED |
-| F7-2 | P2 | `/diaspora/shba-kanada` | Faqja tregon projekte nga DE/UK (`portfolioSlugs: suli-group-trockenbau, palushi-brothers`, `hasLocalCaseStudy: false`), ndonëse `roofon-nyc` (Nju Jork) është në portofol | Shtohet `roofon-nyc` dhe `hasLocalCaseStudy: true` (sq + en) | Faqja tregon rastin amerikan | — | NOT STARTED |
-| F7-3 | P2 | `/blog` | Inventari i 17 artikujve: mbaj / përditëso / bashko | Tabelë në `docs/SEO_PLAN.md` | — | NOT STARTED |
+| F7-1 | P2 | `lib/caseStudies.*` | Statusi i çdo projekti (Live / I përfunduar / Në punë / Koncept) | Asnjë projekt i papërfunduar si "i përfunduar" | Q-07 | BLOCKED: 6/8 linqe live kthejnë 200; bardhi-wellness + suli-group-trockenbau pa `liveUrl` → pyetje te Q-07 |
+| F7-2 | P2 | `/diaspora/shba-kanada` | Faqja tregon projekte nga DE/UK (`portfolioSlugs: suli-group-trockenbau, palushi-brothers`, `hasLocalCaseStudy: false`), ndonëse `roofon-nyc` (Nju Jork) është në portofol | Shtohet `roofon-nyc` dhe `hasLocalCaseStudy: true` (sq + en) | Faqja tregon rastin amerikan | — | IN REVIEW: roofon-nyc i pari në portofol, nëntitull + meta "Klient real në Nju Jork (Roofon NYC)" (sq + en) |
+| F7-3 | P2 | `/blog` | Inventari i 17 artikujve: mbaj / përditëso / bashko | Tabelë në `docs/SEO_PLAN.md` | — | IN REVIEW (shih SEO_PLAN) |
+
+| F7-4 | **P1** | `app/[locale]/blog/[slug]` | 10 nga 16 artikujt me dosje të veten s'ishin te `DEDICATED_BLOG_SLUGS` → i njëjti URL prerenderohej dy herë; build-i lokal shkroi versionin e vjetër nga `lib/blogPosts.*` mbi 7 artikuj (live ishte ende i saktë, por varej nga radha e build-it) | Lista → `lib/blogDedicatedSlugs.ts` me të 16; test që e krahason me dosjet | 16/16 artikuj me `<article>` + `<h2>` në sq/en | — | IN REVIEW |
 
 ## Faza 8 — Performanca dhe aksesueshmëria
 

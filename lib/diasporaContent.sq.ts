@@ -289,13 +289,13 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       ],
     },
     process: DIASPORA_PROCESS,
-    portfolioSlugs: ["suli-group-trockenbau", "palushi-brothers"],
-    portfolioSubline: "Shembuj nga puna jonë me biznese shqiptare në diasporë.",
+    portfolioSlugs: ["roofon-nyc", "suli-group-trockenbau", "palushi-brothers"],
+    portfolioSubline: "Nga Nju Jorku (Roofon NYC) te bizneset shqiptare në Evropë.",
     testimonials: [
       { quote: "Klientët na kontaktojnë me pritshmëri të qarta që në fillim.", name: "Vehbi P.", role: "Palushi Brothers", location: "Londër, Angli" },
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("SHBA / Kanada"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],
-    hasLocalCaseStudy: false,
+    hasLocalCaseStudy: true,
   },
 };

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 import { blogPosts, getBlogPostBySlugForLocale } from "@/lib/blogPosts";
+import { DEDICATED_BLOG_SLUGS } from "@/lib/blogDedicatedSlugs";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
@@ -17,14 +18,6 @@ const T: Record<Locale, { backToBlog: string; minRead: string }> = {
   en: { backToBlog: "Back to blog", minRead: "min read" },
 };
 
-const DEDICATED_BLOG_SLUGS = new Set([
-  "si-te-rrisesh-klientet-online",
-  "gabimet-kryesore-ne-website",
-  "pse-seo-eshte-kritik",
-  "google-ads-vs-seo",
-  "pse-ecommerce-eshte-i-rendesishem",
-  "cfare-eshte-branding"
-]);
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Web Design": "rgba(234,206,113,0.95)",
