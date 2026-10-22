@@ -105,7 +105,9 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
   feedbackLabel: "WHAT CLIENTS SAY",
   feedbackHeadline: "Stores that sell, every day.",
   feedbackSubline: "Real results, not promises.",
+  // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [
+    /*
     {
       quote: "After building the platform, clients could order easily and purchases grew significantly in the first month.",
       name: "Mariglent S.",
@@ -124,5 +126,6 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       role: "Palushi Brothers",
       location: "London, UK",
     },
+    */
   ],
 };

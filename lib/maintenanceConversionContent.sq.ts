@@ -82,7 +82,9 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
   feedbackHeadline: "Ne kujdesemi për faqen.\nJu për biznesin.",
   feedbackSubline: "Monitorim automatik 24/7, reagim brenda 24 orësh dhe performancë e qëndrueshme.",
   feedbackBadge: "Klientë realë",
+  // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [
+    /*
     {
       quote: "Që kur filluam mirëmbajtjen, faqja nuk ka pasur asnjë problem.\nNjoftohemi menjëherë për çdo gjë. Gjithçka është nën kontroll.",
       name: "Mariglent S.",
@@ -101,5 +103,6 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       role: "Hauswerk Niederbayern",
       location: "Straubing, Gjermani",
     },
+    */
   ],
 };

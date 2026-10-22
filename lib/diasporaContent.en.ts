@@ -92,8 +92,11 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["hauswerk-niederbayern", "suli-group-trockenbau"],
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Visitors find the right service quickly and inquiries come in more precise.", name: "Amir S.", role: "Hauswerk Niederbayern", location: "Straubing, Germany" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("Germany"),
     relatedBlogSlugs: ["website-dygjuhesh-biznes-diaspore", "menaxho-biznesin-nga-diaspora"],
@@ -142,8 +145,11 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["palushi-brothers"],
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Clients contact us with clear expectations from the very start.", name: "Vehbi P.", role: "Palushi Brothers", location: "London, England" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("United Kingdom"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],
@@ -193,8 +199,11 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["hauswerk-niederbayern", "palushi-brothers"],
     portfolioSubline: "Examples of our work with Albanian businesses in the diaspora.",
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Visitors find the right service quickly and inquiries come in more precise.", name: "Amir S.", role: "Hauswerk Niederbayern", location: "Straubing, Germany" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("Switzerland"),
     relatedBlogSlugs: ["website-dygjuhesh-biznes-diaspore", "menaxho-biznesin-nga-diaspora"],
@@ -243,8 +252,11 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["esm-group"],
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Clients understand what we do faster and conversations are more concrete.", name: "Mariglent S.", role: "ESM Group", location: "Milan, Italy" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("Italy"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],
@@ -278,7 +290,9 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       headingAccent: "not dependence on phone calls.",
       items: [
         { title: "Website + WhatsApp, always on", body: "Clients find and contact you whatever the time; the site works even while you sleep." },
-        { title: "A simple dashboard for remote control", body: "See and change your business information yourself, without waiting for your next visit home." },
+        // Q-15 (2026-10-22): there is no client self-edit panel yet
+        // { title: "A simple dashboard for remote control", body: "See and change your business information yourself, without waiting for your next visit home." },
+        { title: "We make the changes, remotely", body: "Message us on WhatsApp or email with what needs changing (prices, hours, photos) and we update the site as part of the maintenance package, without waiting for your next visit home." },
         { title: "Clear, asynchronous communication", body: "Written updates and screenshots, not dependence on a shared phone schedule." },
       ],
     },
@@ -294,8 +308,11 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["roofon-nyc", "suli-group-trockenbau", "palushi-brothers"],
     portfolioSubline: "From New York (Roofon NYC) to Albanian businesses across Europe.",
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Clients contact us with clear expectations from the very start.", name: "Vehbi P.", role: "Palushi Brothers", location: "London, England" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("USA / Canada"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],

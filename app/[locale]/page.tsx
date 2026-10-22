@@ -125,7 +125,8 @@ export default async function HomePage(props: Props) {
         <ClientsShowcase />
         <FeaturedWork items={portfolioItems} />
         <HomeOffers prices={offerPrices} />
-        <Testimonials items={testimonialItems} />
+        {/* Q-09 (2026-10-22): vetëm dëshmi nga admini (visible); pa to seksioni s'shfaqet */}
+        {testimonialItems.length > 0 && <Testimonials items={testimonialItems} />}
         <BeforeAfter />
         <HomeProcess />
         <FAQ items={faqItems} />

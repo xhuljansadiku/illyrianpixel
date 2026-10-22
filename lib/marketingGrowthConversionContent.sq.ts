@@ -129,7 +129,9 @@ export const marketingConversionLandingData: ConversionLandingData = {
   },
   feedbackLabel: "ÇFARË THONË KLIENTËT",
   feedbackHeadline: "Çfarë thonë klientët tanë.",
+  // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [
+    /*
     {
       quote: "Klientët na kontaktojnë me pritshmëri të qarta që në fillim.",
       name: "Vehbi P.",
@@ -142,5 +144,6 @@ export const marketingConversionLandingData: ConversionLandingData = {
       role: "Bardhi Wellness",
       location: "Prishtinë & Köln",
     },
+    */
   ],
 };

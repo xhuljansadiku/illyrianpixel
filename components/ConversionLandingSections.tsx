@@ -398,6 +398,8 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
         </div>
       </section>
 
+      {/* Q-09 (2026-10-22): pa dëshmi reale, seksioni s'shfaqet fare (jo titull bosh) */}
+      {data.testimonials.length > 0 && (
       <section className="relative z-[1] border-b border-white/[0.07]">
         <div className="section-wrap py-20 md:py-28">
           <div className="svc-reveal-heading">
@@ -453,6 +455,7 @@ export default function ConversionLandingSections(data: ConversionLandingData) {
           </div>
         </div>
       </section>
+      )}
     </>
   );
 }

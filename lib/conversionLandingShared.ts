@@ -1,5 +1,5 @@
 ﻿import { getCaseStudies } from "@/lib/caseStudies";
-import { CLIENT_CITIES, CLIENT_COUNTRIES } from "@/lib/clientLocations";
+import { CLIENT_COUNTRIES } from "@/lib/clientLocations";
 import type { Locale } from "@/i18n/routing";
 
 export type WhyUsIcon =
@@ -42,22 +42,27 @@ export type ConversionTrustStats = {
 // rikthehen duke zëvendësuar vlerat më poshtë me ato të komentuarat:
 // Vlerat e vjetra: sq { 6 "vite eksperiencë", 100 "projekte", 80 "klientë besnikë" }
 //                  en { 6 "years of experience", 100 "projects", 80 "loyal clients" }
+// Q-16 (2026-10-22): pronari ka eksperiencë që nga 2020 → vitet rikthehen (llogariten, s'vjetrohen);
+// "100 projekte / 80 klientë" mbeten jashtë derisa pronari të japë numrin real.
+export const EXPERIENCE_SINCE_YEAR = 2020;
+const experienceYears = () => new Date().getFullYear() - EXPERIENCE_SINCE_YEAR;
+
 const CONVERSION_TRUST_STATS: Record<Locale, ConversionTrustStats> = {
   sq: {
-    primaryCount: getCaseStudies("sq").length,
-    primaryLabel: "projekte në portofol",
-    secondaryCount: CLIENT_COUNTRIES.length,
-    secondaryLabel: "vende me klientë",
-    tertiaryCount: CLIENT_CITIES.length,
-    tertiaryLabel: "qytete",
+    primaryCount: experienceYears(),
+    primaryLabel: "vite eksperiencë",
+    secondaryCount: getCaseStudies("sq").length,
+    secondaryLabel: "projekte në portofol",
+    tertiaryCount: CLIENT_COUNTRIES.length,
+    tertiaryLabel: "vende me klientë",
   },
   en: {
-    primaryCount: getCaseStudies("en").length,
-    primaryLabel: "projects in our portfolio",
-    secondaryCount: CLIENT_COUNTRIES.length,
-    secondaryLabel: "countries with clients",
-    tertiaryCount: CLIENT_CITIES.length,
-    tertiaryLabel: "cities",
+    primaryCount: experienceYears(),
+    primaryLabel: "years of experience",
+    secondaryCount: getCaseStudies("en").length,
+    secondaryLabel: "projects in our portfolio",
+    tertiaryCount: CLIENT_COUNTRIES.length,
+    tertiaryLabel: "countries with clients",
   },
 };
 

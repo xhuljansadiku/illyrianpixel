@@ -93,7 +93,8 @@ export const organizationSchema = {
   email: "info@illyrianpixel.com",
   telephone: "+355694726827",
   description: defaultDescription,
-  foundingDate: "2024",
+  // Q-14 (2026-10-22): 2024 s'u konfirmua; pronari ka eksperiencë që nga 2020, agjencia doli live 2026 → pa foundingDate
+  // foundingDate: "2024",
   legalName: "Illyrian Pixel",
   areaServed: [...AREA_SERVED, { "@type": "AdministrativeArea", name: "Europe" }],
   knowsAbout: [
@@ -149,14 +150,15 @@ export const localBusinessSchema = {
   priceRange: "€€–€€€",
   currenciesAccepted: "EUR, ALL",
   paymentAccepted: "Cash, Credit Card, Bank Transfer",
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "18:00"
-    }
-  ],
+  // Q-14 (2026-10-22): orari s'u konfirmua (takimet janë online, edhe mbrëmje/fundjavë) → pa orar në schema
+  // openingHoursSpecification: [
+  //   {
+  //     "@type": "OpeningHoursSpecification",
+  //     dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  //     opens: "09:00",
+  //     closes: "18:00"
+  //   }
+  // ],
   description:
     "Agjenci ueb dizajni premium dhe marketing strategjik për biznese shqiptare. Website profesionale, SEO, Google Ads, E-Commerce dhe Branding me rezultate të matshme.",
   areaServed: AREA_SERVED,
