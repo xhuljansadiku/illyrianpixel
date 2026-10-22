@@ -80,10 +80,12 @@ const CONTENT: Record<Locale, {
         price: euro(SEO_MONTHLY.growth),
         priceNote: "/ muaj",
         tagline: "Rritje organike e qëndrueshme",
-        ideal: "Keywords të shumta, link building dhe SEO teknik. Pozicion që rritet çdo muaj.",
+        ideal: "Keywords të shumta, link building dhe SEO teknik. Punë e vazhdueshme për pozicion më të mirë.",
         features: [
           "Keywords 20–30 + analiza konkurrencës",
-          "Link building bazë (5–10 backlinks/muaj)",
+          // Q-10 (2026-10-22): s'ofrohet si numër fiks në muaj
+          // "Link building bazë (5–10 backlinks/muaj)",
+          "Regjistrim në direktori dhe lista lokale të besueshme",
           "SEO teknik (shpejtësi, schema, sitemap)",
           "Core Web Vitals optimization",
           "Raport 2-javësh i detajuar",
@@ -99,7 +101,9 @@ const CONTENT: Record<Locale, {
         ideal: "Sistem SEO i plotë.\nShkallëzim, autoritet domeni dhe rezultate afatgjata.",
         features: [
           "Keywords të pakufizuara",
-          "Link building i avancuar (15–20/muaj)",
+          // Q-10 (2026-10-22): s'ofrohet si numër fiks në muaj
+          // "Link building i avancuar (15–20/muaj)",
+          "Lidhje nga partnerë dhe media lokale, sipas mundësive",
           "SEO lokal + ndërkombëtar",
           "Content optimization mujore",
           "Call strategjik mujor",
@@ -145,10 +149,12 @@ const CONTENT: Record<Locale, {
         price: euro(SEO_MONTHLY.growth),
         priceNote: "/ month",
         tagline: "Sustainable organic growth",
-        ideal: "Multiple keywords, link building and technical SEO. A ranking that keeps improving every month.",
+        ideal: "Multiple keywords, link building and technical SEO. Ongoing work towards a better ranking.",
         features: [
           "20–30 keywords + competitor analysis",
-          "Base link building (5–10 backlinks/month)",
+          // Q-10 (2026-10-22): not offered as a fixed monthly number
+          // "Base link building (5–10 backlinks/month)",
+          "Listings in trusted local directories",
           "Technical SEO (speed, schema, sitemap)",
           "Core Web Vitals optimization",
           "Detailed bi-weekly report",
@@ -164,7 +170,9 @@ const CONTENT: Record<Locale, {
         ideal: "A complete SEO system.\nScaling, domain authority and long-term results.",
         features: [
           "Unlimited keywords",
-          "Advanced link building (15–20/month)",
+          // Q-10 (2026-10-22): not offered as a fixed monthly number
+          // "Advanced link building (15–20/month)",
+          "Links from partners and local media, where possible",
           "Local + international SEO",
           "Monthly content optimization",
           "Monthly strategy call",
