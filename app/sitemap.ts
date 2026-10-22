@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { DEDICATED_BLOG_SLUGS } from "@/lib/blogDedicatedSlugs";
+import { STRUCTURED_ARTICLES } from "@/lib/blogArticles";
 import { getBlogPostsForLocale } from "@/lib/blogPosts";
 import { getCaseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
@@ -25,6 +26,7 @@ const BLOG_DATES: Record<string, Date> = {
   "website-dygjuhesh-biznes-diaspore": new Date("2026-07-25"),
   "si-te-gjejne-klientet-shqiptare-biznesin-tend": new Date("2026-07-25"),
   "sa-kushton-website-kosove": new Date("2026-07-29"),
+  ...Object.fromEntries(STRUCTURED_ARTICLES.map((a) => [a.slug, new Date(a.published)])),
 };
 
 // localePrefix "as-needed": sq has no prefix, en is prefixed with /en

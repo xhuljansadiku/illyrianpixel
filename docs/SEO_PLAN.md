@@ -63,7 +63,7 @@ Fjalët numërohen vetëm brenda `<article>` (pa artikujt e ngjashëm dhe CTA-n�
 
 **Model i përbashkët:** asnjë artikull s'lidhet me një artikull tjetër brenda tekstit; lidhjet vijnë vetëm nga kutia "Artikuj të ngjashëm" poshtë. Çdo artikull i ri ka të paktën 1 lidhje te shërbimi dhe 1–2 te artikuj të tjerë brenda tekstit.
 
-## 4. Artikujt e rinj (10, në punë 2026-10-22)
+## 4. Artikujt e rinj (10, shkruar 2026-10-22, dega `content/blog-10`)
 
 Zgjedhur sipas pyetjeve reale të klientëve, pa dublikuar temat ekzistuese:
 
@@ -81,6 +81,8 @@ Zgjedhur sipas pyetjeve reale të klientëve, pa dublikuar temat ekzistuese:
 | 10 | Fotot e produkteve me telefon: udhëzim për dyqanet e vogla | e-commerce praktik | `/services/ecommerce`, dyqan-online-shqiperi |
 
 Rregullat: ton njerëzor dhe konkret, shembuj nga tregu shqiptar, pa statistika të shpikura (kur përmendet një numër, ose ka burim publik, ose paraqitet si vlerësim i përafërt), pa garanci rezultati, sq + en.
+
+Slug-et (në rendin e tabelës): `kur-duhet-website-i-ri`, `si-te-zgjedhesh-paketen-e-website`, `pyetje-para-se-te-paguash-per-website`, `mirembajtja-e-website-it`, `google-business-profile-udhezues`, `landing-page-qe-sjell-kerkesa`, `shpejtesia-e-website-it`, `domain-dhe-email-profesional`, `whatsapp-business-dhe-website`, `foto-produktesh-me-telefon`. Artikull i ri i këtij lloji: skedar te `lib/blogArticles/` + `index.ts` + dosje te `app/[locale]/blog/` + `DEDICATED_BLOG_SLUGS` + hyrje te `lib/blogPosts.sq/en`; `lib/blogArticles/blogArticles.test.ts` dështon nëse mungon ndonjë hap.
 
 ## 5. Shumëgjuhësia
 

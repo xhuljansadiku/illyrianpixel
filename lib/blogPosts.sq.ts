@@ -10,6 +10,86 @@ export type BlogPost = {
 export const blogPosts: BlogPost[] = [
   // ── Artikujt e rinj (shfaqen të parët) ──────────────────────────
   {
+    slug: "kur-duhet-website-i-ri",
+    title: "Kur i duhet biznesit një website i ri? 9 shenja që s'duhen injoruar",
+    category: "Web Design",
+    excerpt: "Jo çdo website i vjetër duhet hedhur poshtë. Por disa shenja tregojnë që faqja po ju kushton më shumë sesa po ju jep.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "si-te-zgjedhesh-paketen-e-website",
+    title: "Basic, Business apo Premium? Si ta zgjidhni paketën e duhur të website-it",
+    category: "Web Design",
+    excerpt: "Paketa më e shtrenjtë s'është gjithmonë më e mira për ju. Ja si ta matni çfarë ju duhet vërtet, pa paguar për gjëra që s'do t'i përdorni.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "pyetje-para-se-te-paguash-per-website",
+    title: "12 pyetje që duhet të bëni para se të paguani për një website",
+    category: "Web Design",
+    excerpt: "Shumica e problemeve me website-in nisin para se të nisë puna: në gjërat që s'u pyetën. Këto 12 pyetje ju kursejnë para dhe nerva.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "mirembajtja-e-website-it",
+    title: "Mirëmbajtja e website-it: çfarë duhet bërë çdo muaj (dhe pse s'është luks)",
+    category: "Web Design",
+    excerpt: "Një website s'është si një fletëpalosje që printohet një herë. Është më afër një makine: punon mirë vetëm nëse dikush kujdeset për të.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "google-business-profile-udhezues",
+    title: "Google Business Profile: si ta bëni biznesin të dukshëm në Google Maps",
+    category: "SEO",
+    excerpt: "Është falas, merr më pak se një orë, dhe shpesh është gjëja e parë që sheh klienti kur ju kërkon. Megjithatë, shumë biznese e lënë gjysmë të plotësuar.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "landing-page-qe-sjell-kerkesa",
+    title: "Landing page që sjell kërkesa: 9 parime që funksionojnë edhe për biznese të vogla",
+    category: "Marketing",
+    excerpt: "Reklama sjell njerëzit te dera. Faqja vendos nëse hyjnë. Ja çfarë e dallon një faqe që sjell kërkesa nga një faqe që thjesht ekziston.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "shpejtesia-e-website-it",
+    title: "Shpejtësia e website-it, pa zhargon: pse çdo sekondë ka rëndësi",
+    category: "Web Design",
+    excerpt: "Askush s'pret një faqe që s'hapet. Ja si ta kuptoni sa e shpejtë është faqja juaj, çfarë mat Google dhe çfarë e ngadalëson zakonisht.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "domain-dhe-email-profesional",
+    title: "Domain dhe email profesional: pse info@biznesi.com bën diferencën",
+    category: "Web Design",
+    excerpt: "Është gjëja më e vogël që mund të rregulloni online, dhe një nga të parat që vëren një klient i ri. Ja si ta bëni siç duhet, hap pas hapi.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "whatsapp-business-dhe-website",
+    title: "WhatsApp Business + website: si t'i bëni të punojnë bashkë",
+    category: "Marketing",
+    excerpt: "Shumë klientë s'duan të plotësojnë formularë. Duan t'ju shkruajnë, njësoj si i shkruajnë një miku. Ja si ta ndërtoni këtë rrugë pa humbur asnjë kërkesë.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
+    slug: "foto-produktesh-me-telefon",
+    title: "Foto produktesh me telefon: udhëzim praktik për dyqanet e vogla",
+    category: "E-Commerce",
+    excerpt: "Në dyqanin online, klienti s'e prek dot produktin. Fotoja është gjithçka që ka. Lajmi i mirë: telefoni juaj mjafton, nëse i dini disa rregulla.",
+    date: "Tetor 2026",
+    content: []
+  },
+  {
     slug: "sa-kushton-website-kosove",
     title: "Sa kushton një website profesional në Kosovë në 2026?",
     category: "Web Design",

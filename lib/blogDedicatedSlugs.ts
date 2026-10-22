@@ -19,4 +19,15 @@ export const DEDICATED_BLOG_SLUGS = new Set([
   "menaxho-biznesin-nga-diaspora",
   "website-dygjuhesh-biznes-diaspore",
   "si-te-gjejne-klientet-shqiptare-biznesin-tend",
+  // 2026-10-22: artikujt e strukturuar (lib/blogArticles)
+  "kur-duhet-website-i-ri",
+  "si-te-zgjedhesh-paketen-e-website",
+  "pyetje-para-se-te-paguash-per-website",
+  "mirembajtja-e-website-it",
+  "google-business-profile-udhezues",
+  "landing-page-qe-sjell-kerkesa",
+  "shpejtesia-e-website-it",
+  "domain-dhe-email-profesional",
+  "whatsapp-business-dhe-website",
+  "foto-produktesh-me-telefon",
 ]);

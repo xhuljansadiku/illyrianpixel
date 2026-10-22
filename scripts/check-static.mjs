@@ -14,6 +14,8 @@ const REQUIRED = [
   "/sq/blog",
   "/sq/blog/seo-tirane",
   "/en/blog/seo-tirane",
+  "/sq/blog/kur-duhet-website-i-ri",
+  "/en/blog/kur-duhet-website-i-ri",
   "/sq/privacy",
 ];
 

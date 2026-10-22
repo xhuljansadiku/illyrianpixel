@@ -22,7 +22,8 @@
 | 6 | `8d81ef2` | Schema `availableLanguage` = shqip, anglisht, gjermanisht, kroatisht (si te FAQ); matrica e mungesave | schema; `docs/OPEN_QUESTIONS.md` |
 | 7 | `8b5d88f` | **Gabim i fshehur:** 10 nga 16 artikujt e blogut prerenderoheshin dy herë → rrezik që build-i të shfaqte versionin e vjetër të shkurtër. Rregulluar + test. Roofon NYC te `/diaspora/shba-kanada` | `/blog/*`, `/diaspora/shba-kanada` |
 | 8 | `38ceb4c` | Kontrast AA (12 butona WhatsApp, etiketa të vogla), menuja mobile me tastierë (Escape, fokus, Tab brenda), popup-et, footer h3 → h2 | gjithë faqja |
-| 9 | (ky dokument) | `POSITIONING_AND_MESSAGING.md`, `SEO_PLAN.md`, `RELEASE_NOTES.md` | — |
+| 9 | `b5d59f6` | `POSITIONING_AND_MESSAGING.md`, `SEO_PLAN.md`, `RELEASE_NOTES.md` | — |
+| Blogu | `content/blog-10` | **10 artikuj të rinj**, sq + en (temat te `SEO_PLAN.md` §4), si të dhëna te `lib/blogArticles/` me një komponent të vetëm; test që kontrollon faqet, listën e blogut, artikujt e lidhur dhe çdo lidhje brenda tekstit | `/blog`, `/blog/<10 artikujt>`, sitemap |
 
 Gjithsej (fazat 0–8): 76 skedarë, +1 488 / −385 rreshta.
 
