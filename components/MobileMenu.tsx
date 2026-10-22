@@ -36,6 +36,43 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
     };
   }, [isOpen]);
 
+  // Tastiera (2026-10-22): Escape mbyll, fokusi hyn te "Mbyll" dhe kthehet te butoni i menusë,
+  // Tab qarkullon brenda menusë — më parë Escape s'bënte asgjë dhe Tab dilte te faqja pas saj.
+  // onClose vjen si funksion i ri në çdo render të Navbar — ref që efekti të mos rinisë (dhe të lëvizë fokusin)
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
+  useEffect(() => {
+    if (!isOpen || !panelRef.current) return;
+    const panel = panelRef.current;
+    const opener = document.activeElement as HTMLElement | null;
+    panel.querySelector<HTMLElement>("[data-mm-close]")?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onCloseRef.current();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = [...panel.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")];
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      opener?.focus?.();
+    };
+  }, [isOpen]);
+
   useIsomorphicLayoutEffect(() => {
     if (!isOpen || !panelRef.current) return;
     if (reduced) return;
@@ -62,7 +99,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
   if (!isOpen) return null;
 
   return (
-    <div ref={panelRef} className="fixed inset-0 z-[80]">
+    <div ref={panelRef} role="dialog" aria-modal="true" aria-label={t("menuLabel")} className="fixed inset-0 z-[80]">
       <div className="mm-backdrop absolute inset-0 bg-bg/95 backdrop-blur-md" />
 
       <div
@@ -83,6 +120,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
             {/* dropdown: <LanguageSwitcher /> */}
             <LanguageToggle />
             <button
+              data-mm-close
               aria-label={t("closeMenuAria")}
               onClick={onClose}
               className="inline-flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded-full border border-white/18 bg-white/[0.03] text-white/85 transition-colors duration-300 hover:border-accent/55 hover:bg-white/[0.06] hover:text-accentLight"
@@ -134,6 +172,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
           <div className="flex items-center justify-between gap-3">
             <div className="flex flex-col gap-1.5">
               <a
+                data-track-location="mobile_menu"
                 href="https://wa.me/355694726827"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -142,6 +181,7 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
                 {tFooter("whatsapp")}
               </a>
               <a
+                data-track-location="mobile_menu"
                 href="mailto:info@illyrianpixel.com"
                 className="font-body text-[13px] font-light tracking-[0.03em] text-white/50 transition-colors duration-300 hover:text-accentLight"
               >

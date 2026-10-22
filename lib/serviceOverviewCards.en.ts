@@ -81,7 +81,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "07",
     title: "Maintenance",
-    desc: "Maintenance for websites and e-commerce built by us or by others. Speed, security and continuous updates with 24/7 monitoring.",
+    desc: "Maintenance for websites and e-commerce built by us or by others. Speed, security and continuous updates with automatic 24/7 monitoring.",
     href: "/services/mirembajtja",
     visualVariant: "maintenance",
     cta: "See the service →"

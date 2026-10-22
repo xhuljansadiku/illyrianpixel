@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicePackageCard from "@/components/ServicePackageCard";
+import { SEO_MONTHLY, euro } from "@/lib/seoAdsPricing";
 import type { ServicePackage } from "@/lib/serviceCategories";
 import { buildMetadata } from "@/lib/seo";
 
@@ -50,7 +51,7 @@ const CONTENT: Record<Locale, {
     ),
     ctaPrimary: "Konsultim falas →",
     ctaSecondary: "Të gjitha paketat",
-    trustLine: "Konsultim falas · Pa detyrim · Rezultate brenda 90 ditëve",
+    trustLine: "Konsultim falas · Pa detyrim · Raport progresi çdo muaj",
     seeAlso: "Shiko edhe:",
     seeAlsoGoogleAds: "Google Ads",
     seeAlsoBoth: "SEO & Google Ads",
@@ -61,7 +62,7 @@ const CONTENT: Record<Locale, {
     packages: [
       {
         name: "Basic",
-        price: "€99",
+        price: euro(SEO_MONTHLY.starter),
         priceNote: "/ muaj",
         tagline: "Fillon pozicionimin në Google",
         ideal: "Optimizimi i parë i saktë.\nFaqja juaj fillon të gjendet nga klientët e duhur.",
@@ -76,13 +77,15 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Growth",
-        price: "€199",
+        price: euro(SEO_MONTHLY.growth),
         priceNote: "/ muaj",
         tagline: "Rritje organike e qëndrueshme",
-        ideal: "Keywords të shumta, link building dhe SEO teknik. Pozicion që rritet çdo muaj.",
+        ideal: "Keywords të shumta, link building dhe SEO teknik. Punë e vazhdueshme për pozicion më të mirë.",
         features: [
           "Keywords 20–30 + analiza konkurrencës",
-          "Link building bazë (5–10 backlinks/muaj)",
+          // Q-10 (2026-10-22): s'ofrohet si numër fiks në muaj
+          // "Link building bazë (5–10 backlinks/muaj)",
+          "Regjistrim në direktori dhe lista lokale të besueshme",
           "SEO teknik (shpejtësi, schema, sitemap)",
           "Core Web Vitals optimization",
           "Raport 2-javësh i detajuar",
@@ -92,13 +95,15 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Pro",
-        price: "€299",
+        price: euro(SEO_MONTHLY.pro),
         priceNote: "/ muaj",
-        tagline: "Autoritet dhe dominim organik",
+        tagline: "Autoritet dhe rritje organike afatgjatë",
         ideal: "Sistem SEO i plotë.\nShkallëzim, autoritet domeni dhe rezultate afatgjata.",
         features: [
           "Keywords të pakufizuara",
-          "Link building i avancuar (15–20/muaj)",
+          // Q-10 (2026-10-22): s'ofrohet si numër fiks në muaj
+          // "Link building i avancuar (15–20/muaj)",
+          "Lidhje nga partnerë dhe media lokale, sipas mundësive",
           "SEO lokal + ndërkombëtar",
           "Content optimization mujore",
           "Call strategjik mujor",
@@ -115,7 +120,7 @@ const CONTENT: Record<Locale, {
     ),
     ctaPrimary: "Free consultation →",
     ctaSecondary: "All packages",
-    trustLine: "Free consultation · No obligation · Results within 90 days",
+    trustLine: "Free consultation · No obligation · Monthly progress report",
     seeAlso: "See also:",
     seeAlsoGoogleAds: "Google Ads",
     seeAlsoBoth: "SEO & Google Ads",
@@ -126,7 +131,7 @@ const CONTENT: Record<Locale, {
     packages: [
       {
         name: "Basic",
-        price: "€99",
+        price: euro(SEO_MONTHLY.starter),
         priceNote: "/ month",
         tagline: "Starts your Google ranking",
         ideal: "The first proper optimization.\nYour site starts getting found by the right clients.",
@@ -141,13 +146,15 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Growth",
-        price: "€199",
+        price: euro(SEO_MONTHLY.growth),
         priceNote: "/ month",
         tagline: "Sustainable organic growth",
-        ideal: "Multiple keywords, link building and technical SEO. A ranking that keeps improving every month.",
+        ideal: "Multiple keywords, link building and technical SEO. Ongoing work towards a better ranking.",
         features: [
           "20–30 keywords + competitor analysis",
-          "Base link building (5–10 backlinks/month)",
+          // Q-10 (2026-10-22): not offered as a fixed monthly number
+          // "Base link building (5–10 backlinks/month)",
+          "Listings in trusted local directories",
           "Technical SEO (speed, schema, sitemap)",
           "Core Web Vitals optimization",
           "Detailed bi-weekly report",
@@ -157,13 +164,15 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Pro",
-        price: "€299",
+        price: euro(SEO_MONTHLY.pro),
         priceNote: "/ month",
         tagline: "Authority and organic dominance",
         ideal: "A complete SEO system.\nScaling, domain authority and long-term results.",
         features: [
           "Unlimited keywords",
-          "Advanced link building (15–20/month)",
+          // Q-10 (2026-10-22): not offered as a fixed monthly number
+          // "Advanced link building (15–20/month)",
+          "Links from partners and local media, where possible",
           "Local + international SEO",
           "Monthly content optimization",
           "Monthly strategy call",

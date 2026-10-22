@@ -63,7 +63,9 @@ export const webConversionLandingData: ConversionLandingData = {
   feedbackLabel: "ÇFARË THONË KLIENTËT",
   feedbackHeadline: "Rezultate reale nga biznese si i juaji.",
   feedbackSubline: "Më pak fjalë. Më shumë rezultate.",
+  // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [
+    /*
     {
       quote: "Klientët e kuptojnë më shpejt çfarë bëjmë dhe bisedat janë më konkrete.",
       name: "Mariglent S.",
@@ -88,5 +90,6 @@ export const webConversionLandingData: ConversionLandingData = {
       role: "Palushi Brothers",
       location: "Londër, Angli",
     },
+    */
   ],
 };

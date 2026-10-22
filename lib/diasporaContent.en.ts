@@ -58,7 +58,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "from anywhere.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses operating in Germany, whether you are there yourself or run it from Albania. In Albanian, simply, without endless phone calls.",
-    heroTrustLine: "Free consultation · Plan within 24h · Real clients in Germany",
+    heroTrustLine: "Free consultation · Plan within 24–48h · Real clients in Germany",
     hookLine: "Websites for Albanian businesses in Germany, with real clients as proof.",
     trustStats,
     painSection: {
@@ -87,13 +87,16 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "CTAs that bring real inquiries", body: "Every page is built to turn visitors into clients, not just to look good." },
         { icon: "support", title: "100% communication in Albanian", body: "We speak your language and understand the context of an Albanian business abroad." },
         { icon: "seo", title: "Found by the right clients", body: "Basic SEO included, so you are found both by Albanians and by the local German market." },
-        { icon: "speed", title: "Fast, no wasted time", body: "A plan within 24 hours, the site ready in weeks, not months." },
+        { icon: "speed", title: "Fast, no wasted time", body: "A plan within 24–48 hours, the site ready in weeks, not months." },
       ],
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["hauswerk-niederbayern", "suli-group-trockenbau"],
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Visitors find the right service quickly and inquiries come in more precise.", name: "Amir S.", role: "Hauswerk Niederbayern", location: "Straubing, Germany" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("Germany"),
     relatedBlogSlugs: ["website-dygjuhesh-biznes-diaspore", "menaxho-biznesin-nga-diaspora"],
@@ -108,7 +111,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "ready for new clients.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses in England, Scotland and Wales that put you side by side with British competitors, not behind them.",
-    heroTrustLine: "Free consultation · Plan within 24h · Real client in London",
+    heroTrustLine: "Free consultation · Plan within 24–48h · Real client in London",
     hookLine: "Websites for Albanian businesses in the UK, with real results, not promises.",
     trustStats,
     painSection: {
@@ -137,13 +140,16 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "CTAs that bring real inquiries", body: "The page structure leads visitors to get in touch, not to get confused." },
         { icon: "support", title: "Clear communication in Albanian and English", body: "We explain every step simply, without technical jargon." },
         { icon: "seo", title: "Found on Google UK and by Albanians", body: "Optimisation that covers both of your audiences at once." },
-        { icon: "speed", title: "A plan within 24 hours", body: "No wasted time: you quickly know what the project includes and what it costs." },
+        { icon: "speed", title: "A plan within 24–48 hours", body: "No wasted time: you quickly know what the project includes and what it costs." },
       ],
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["palushi-brothers"],
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Clients contact us with clear expectations from the very start.", name: "Vehbi P.", role: "Palushi Brothers", location: "London, England" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("United Kingdom"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],
@@ -158,7 +164,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "Albanian service.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses in Switzerland, with the quality this market expects and the simple communication you need from afar.",
-    heroTrustLine: "Free consultation · Plan within 24h · 100% communication in Albanian",
+    heroTrustLine: "Free consultation · Plan within 24–48h · 100% communication in Albanian",
     hookLine: "A Swiss-level website, managed simply in Albanian.",
     trustStats,
     painSection: {
@@ -187,14 +193,17 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "A website that builds trust", body: "The structure and look communicate seriousness in the first few seconds." },
         { icon: "support", title: "Clear communication in Albanian", body: "Every question gets an answer, without language barriers." },
         { icon: "seo", title: "Found by the Albanian community in Switzerland", body: "SEO that connects you with the clients looking for exactly you." },
-        { icon: "speed", title: "A fast process, no wasted time", body: "A clear plan within 24 hours, without months of waiting." },
+        { icon: "speed", title: "A fast process, no wasted time", body: "A clear plan within 24–48 hours, without months of waiting." },
       ],
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["hauswerk-niederbayern", "palushi-brothers"],
     portfolioSubline: "Examples of our work with Albanian businesses in the diaspora.",
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Visitors find the right service quickly and inquiries come in more precise.", name: "Amir S.", role: "Hauswerk Niederbayern", location: "Straubing, Germany" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("Switzerland"),
     relatedBlogSlugs: ["website-dygjuhesh-biznes-diaspore", "menaxho-biznesin-nga-diaspora"],
@@ -209,7 +218,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "you need a professional presence.",
     heroIntro:
       "We build bilingual websites (Albanian/Italian) for Albanian-owned businesses in Italy that speak to the Italian market and the Albanian community at the same time.",
-    heroTrustLine: "Free consultation · Plan within 24h · Real client in Milan",
+    heroTrustLine: "Free consultation · Plan within 24–48h · Real client in Milan",
     hookLine: "Bilingual websites for Albanian businesses in Italy, with a real client as proof.",
     trustStats,
     painSection: {
@@ -238,13 +247,16 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "A message that brings real inquiries", body: "The page structure leads visitors to get in touch, not to get confused." },
         { icon: "support", title: "Communication in Albanian and Italian", body: "We explain every step clearly, without language barriers." },
         { icon: "seo", title: "Found by both audiences", body: "SEO structured for searches in Albanian and Italian at the same time." },
-        { icon: "speed", title: "A plan within 24 hours", body: "You quickly know what the project includes and what it costs." },
+        { icon: "speed", title: "A plan within 24–48 hours", body: "You quickly know what the project includes and what it costs." },
       ],
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["esm-group"],
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Clients understand what we do faster and conversations are more concrete.", name: "Mariglent S.", role: "ESM Group", location: "Milan, Italy" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("Italy"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],
@@ -259,7 +271,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "your business.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep, with clear reporting and no dependence on phone calls.",
-    heroTrustLine: "Free consultation · Plan within 24h · 100% communication in Albanian",
+    heroTrustLine: "Free consultation · Plan within 24–48h · 100% communication in Albanian",
     hookLine: "A website that works 24/7, even with a 6–9 hour time difference.",
     trustStats,
     painSection: {
@@ -278,7 +290,9 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       headingAccent: "not dependence on phone calls.",
       items: [
         { title: "Website + WhatsApp, always on", body: "Clients find and contact you whatever the time; the site works even while you sleep." },
-        { title: "A simple dashboard for remote control", body: "See and change your business information yourself, without waiting for your next visit home." },
+        // Q-15 (2026-10-22): there is no client self-edit panel yet
+        // { title: "A simple dashboard for remote control", body: "See and change your business information yourself, without waiting for your next visit home." },
+        { title: "We make the changes, remotely", body: "Message us on WhatsApp or email with what needs changing (prices, hours, photos) and we update the site as part of the maintenance package, without waiting for your next visit home." },
         { title: "Clear, asynchronous communication", body: "Written updates and screenshots, not dependence on a shared phone schedule." },
       ],
     },
@@ -288,17 +302,20 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { icon: "convert", title: "A website that brings inquiries, not just visits", body: "The page structure leads visitors to real contact." },
         { icon: "support", title: "Clear communication in Albanian", body: "No language barriers, however far away you are." },
         { icon: "seo", title: "Found by the Albanian community in the USA/Canada", body: "SEO that connects you directly with your specific audience." },
-        { icon: "speed", title: "A fast process, even from afar", body: "A plan within 24 hours, no need to be there in person." },
+        { icon: "speed", title: "A fast process, even from afar", body: "A plan within 24–48 hours, no need to be there in person." },
       ],
     },
     process: DIASPORA_PROCESS,
-    portfolioSlugs: ["suli-group-trockenbau", "palushi-brothers"],
-    portfolioSubline: "Examples of our work with Albanian businesses in the diaspora.",
+    portfolioSlugs: ["roofon-nyc", "suli-group-trockenbau", "palushi-brothers"],
+    portfolioSubline: "From New York (Roofon NYC) to Albanian businesses across Europe.",
+    // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
+      /*
       { quote: "Clients contact us with clear expectations from the very start.", name: "Vehbi P.", role: "Palushi Brothers", location: "London, England" },
+      */
     ],
     ctaWhatsappHref: buildDiasporaWhatsAppHref("USA / Canada"),
     relatedBlogSlugs: ["menaxho-biznesin-nga-diaspora", "si-te-gjejne-klientet-shqiptare-biznesin-tend"],
-    hasLocalCaseStudy: false,
+    hasLocalCaseStudy: true,
   },
 };

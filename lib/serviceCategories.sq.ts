@@ -1,4 +1,5 @@
 ﻿import { activeWebHeroVariant } from "@/lib/webHeroVariants.sq";
+import { BUNDLE_MONTHLY, bundleSavings, euro } from "@/lib/seoAdsPricing";
 
 export type ServiceFeatureBullet = {
   emphasis: string;
@@ -131,7 +132,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◈",
     ctaPrimary: "Fillo të shesësh online →",
     ctaSecondary: "Punet tona",
-    trustLine: "Konsultim falas · Strategji brenda 24h · Pa detyrim",
+    trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
     subServices: [
       "Shitje 24/7",
       "Checkout që konverton",
@@ -176,7 +177,7 @@ export const serviceCategories: ServiceCategory[] = [
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         giftValue: 147,
         tagline: "Platformë e-commerce për shkallëzim",
-        ideal: "Sistem i plotë për bizneset që duan të dominojnë online pa kufij, pa kompromis.",
+        ideal: "Sistem i plotë për bizneset që duan të rriten online pa kufizime teknike.",
         features: [
           "Pa limit produktesh",
           "Oferta shtesë & rekomandime që rrisin shitjen",
@@ -201,7 +202,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "▣",
     ctaPrimary: "Fillo sot →",
     ctaSecondary: "Punet tona",
-    trustLine: "Konsultim falas · Strategji brenda 24h · Pa detyrim",
+    trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
     subServices: [
       "iOS & Android nga një kod",
       "Dizajn i thjeshtë dhe modern",
@@ -277,9 +278,11 @@ export const serviceCategories: ServiceCategory[] = [
     packages: [
       {
         name: "Starter",
-        price: "€149",
+        price: euro(BUNDLE_MONTHLY.starter),
         priceNote: "/ muaj",
-        ideal: "Filloni me Google Ads sot, plus bazat e SEO.\nBuxhet i vogël, rezultatet e para brenda muajit.",
+        perk: `Kursen €${bundleSavings("starter")}/muaj kundrejt SEO + Google Ads veç e veç`,
+        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
+        ideal: "Filloni me Google Ads sot, plus bazat e SEO.\nBuxhet i vogël, të dhënat e para brenda muajit.",
         features: [
           "Vendosja e Google Ads",
           "1 fushatë aktive",
@@ -291,9 +294,11 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Growth",
-        price: "€249",
+        price: euro(BUNDLE_MONTHLY.growth),
         priceNote: "/ muaj",
-        ideal: "Google Ads optimizohen çdo javë, SEO ju ngjit në Google.\nKlientë të rinj çdo muaj, buxheti nën kontroll.",
+        perk: `Kursen €${bundleSavings("growth")}/muaj kundrejt SEO + Google Ads veç e veç`,
+        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
+        ideal: "Google Ads optimizohen çdo javë, SEO ju ndihmon të ngjiteni në Google.\nÇdo kërkesë e matur, buxheti nën kontroll.",
         features: [
           "Google Ads i avancuar",
           "2–3 fushata aktive",
@@ -306,8 +311,10 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Pro",
-        price: "€399",
+        price: euro(BUNDLE_MONTHLY.pro),
         priceNote: "/ muaj",
+        perk: `Kursen €${bundleSavings("pro")}/muaj kundrejt SEO + Google Ads veç e veç`,
+        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
         ideal: "Google Ads i plotë, SEO teknik dhe teste A/B.\nÇdo vendim mbështetet në numra, jo në mendim.",
         features: [
           "Google Ads i plotë (Search + Display)",
@@ -334,7 +341,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◉",
     ctaPrimary: "Fillo sot →",
     ctaSecondary: "Punet tona",
-    trustLine: "Konsultim falas · Pa detyrim · Plan brenda 24h",
+    trustLine: "Konsultim falas · Pa detyrim · Plan brenda 24–48h",
     subServices: [
       "Instagram & Facebook",
       "Reels & TikTok",
@@ -474,7 +481,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Optimizim i vazhdueshëm",
       "Rindërtim faqesh të vjetra",
       "Siguri & backup ditor",
-      "Reagim i menjëhershëm",
+      "Reagim brenda 24 orësh",
     ],
     packages: [
       {
@@ -491,7 +498,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Support email me përgjigje brenda 48h",
         ],
         featureBullets: [
-          { emphasis: "Monitorim 24/7", detail: "ju njoftojmë menjëherë nëse faqja bie." },
+          { emphasis: "Monitorim 24/7", detail: "njoftohemi automatikisht nëse faqja bie." },
           { emphasis: "Backup javor", detail: "kopje e plotë çdo javë, gati për rikthim shpejt." },
           { emphasis: "Përditësime", detail: "mbajmë gjithçka të përditësuar dhe të sigurt." },
           { emphasis: "Raport mujor", detail: "ju tregojmë çdo muaj si po shkon faqja." },
@@ -504,18 +511,18 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Mirëmbajtje e plotë",
         ideal: "Mbrojtje dhe shpejtësi maksimale, për biznese që nuk durojnë ndërprerje.",
         features: [
-          "Monitorim uptime 24/7 me SMS dhe email",
+          "Monitorim uptime 24/7 me njoftime email dhe në telefon",
           "Backup ditor i automatizuar",
           "Sigurim SSL, firewall dhe skanim malware",
           "Optimizim cache dhe shpejtësi çdo muaj",
           "Ndërhyrje teknike deri 2 orë/muaj",
-          "Support prioritar me përgjigje brenda 4h",
+          "Support prioritar me përgjigje brenda 24 orësh",
         ],
         featureBullets: [
           { emphasis: "Backup ditor", detail: "kopje e re çdo ditë, humbni maksimum një ditë pune." },
           { emphasis: "Siguri e avancuar", detail: "firewall, skanim virusesh dhe SSL, faqja e mbrojtur mirë." },
           { emphasis: "Optimizim shpejtësie", detail: "faqja bëhet më e shpejtë çdo muaj." },
-          { emphasis: "2h ndërhyrje/muaj", detail: "ndryshime dhe rregullime falas, sa herë të duhet." },
+          { emphasis: "2h ndërhyrje/muaj", detail: "ndryshime dhe rregullime pa kosto shtesë, brenda 2 orëve në muaj." },
         ],
         featured: true,
       },
@@ -524,21 +531,21 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€149",
         priceNote: "/ muaj",
         tagline: "Partner teknik i plotë",
-        ideal: "Mbështetje e plotë pa limit, për biznese me trafik të lartë ose dyqan online aktiv.",
+        ideal: "Mbështetje e plotë me prioritet, për biznese me trafik të lartë ose dyqan online aktiv.",
         features: [
           "Monitorim avancuar me alarme në kohë reale",
           "Backup ditor + backup javor off-site",
-          "Siguri enterprise: WAF, anti-DDoS, skanim ditor",
+          "Mbrojtje DDoS dhe firewall përmes Vercel ose Cloudflare",
           "Optimizim i vazhdueshëm Core Web Vitals",
-          "Ndërhyrje teknike pa limit",
-          "Support prioritar me përgjigje brenda 1h",
+          "Ndërhyrje teknike deri 5 orë/muaj",
+          "Support me prioritet të parë, përgjigje të njëjtën ditë pune",
           "Raport javor i performancës dhe sigurisë",
         ],
         featureBullets: [
-          { emphasis: "Ndërhyrje pa limit", detail: "çdo ndryshim teknik, sa herë të duhet, pa kosto shtesë." },
-          { emphasis: "Siguri e nivelit më të lartë", detail: "mbrojtje si platformat e mëdha, kundër sulmeve dhe viruseve." },
-          { emphasis: "Optimizim për Google", detail: "faqja bëhet më e shpejtë, Google ju vendos më lart." },
-          { emphasis: "Përgjigje brenda 1h", detail: "problemi nuk pret, as zgjidhja jonë." },
+          { emphasis: "5h ndërhyrje/muaj", detail: "ndryshime teknike pa kosto shtesë, më shumë se dyfishi i Pro." },
+          { emphasis: "Siguri e nivelit më të lartë", detail: "mbrojtje nga sulmet përmes Vercel ose Cloudflare, si platformat e mëdha." },
+          { emphasis: "Optimizim për Google", detail: "faqja bëhet më e shpejtë, një nga sinjalet që Google vlerëson." },
+          { emphasis: "Përgjigje të njëjtën ditë", detail: "kërkesat tuaja trajtohen para të gjithave." },
         ],
       },
     ],

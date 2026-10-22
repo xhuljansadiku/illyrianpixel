@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
 import SectionMark from "@/components/SectionMark";
 
@@ -15,6 +15,8 @@ export type TestimonialItem = {
   category?: string | null;
 };
 
+// Q-09 (2026-10-22): citate statike pa klientë realë me leje → jashtë përdorimit, të ruajtura këtu.
+/*
 const quotes: TestimonialItem[] = [
   {
     quote: "Para, çdo gjë ua shpjegonim në telefon nga fillimi. Tani klientët vijnë të informuar dhe e dinë çfarë duan. Na ka kursyer shumë kohë.",
@@ -76,14 +78,15 @@ const quotesEn: TestimonialItem[] = [
     logo: "/images/logos/palushi-brothers.webp"
   }
 ];
+*/
 
 export default function Testimonials({ items }: { items?: TestimonialItem[] }) {
   const t = useTranslations("home.testimonials");
-  const locale = useLocale();
   // Items vijnë nga admini tashmë të lokalizuara (getVisibleTestimonials(locale)).
-  // Kur s'ka asnjë me përkthim, biem te citatet statike sipas gjuhës.
-  const fallback = locale === "en" ? quotesEn : quotes;
-  const list = items && items.length > 0 ? items : fallback;
+  // Q-09 (2026-10-22): citatet statike s'janë dëshmi reale → s'përdoren më si rezervë.
+  // const fallback = locale === "en" ? quotesEn : quotes;
+  // const list = items && items.length > 0 ? items : fallback;
+  const list = items ?? [];
   const hasCategories = list.some((item) => "category" in item && item.category);
 
   // Track-u horizontal punon mbi një listë të sheshtë — kategoria (nëse ka)

@@ -57,6 +57,7 @@ export default function WhatsAppButton() {
           </p>
           <div className="mt-3 flex items-center gap-2">
             <a
+              data-track-location="whatsapp_fab"
               href={href}
               target="_blank"
               rel="noopener noreferrer"

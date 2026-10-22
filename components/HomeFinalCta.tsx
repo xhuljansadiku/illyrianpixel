@@ -70,7 +70,7 @@ export default function HomeFinalCta({ whatsappHref }: { whatsappHref: string })
         <p className="mx-auto mt-4 max-w-xl text-white/55">{t("body")}</p>
 
         <div className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3 md:items-stretch">
-          <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className={`group relative flex flex-col overflow-hidden rounded-3xl border bg-[linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_55%)] p-7 text-left shadow-lift backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 ${TONES.whatsapp.border}`}>
+          <a data-track-location="home_final_cta" href={whatsappHref} target="_blank" rel="noopener noreferrer" className={`group relative flex flex-col overflow-hidden rounded-3xl border bg-[linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_55%)] p-7 text-left shadow-lift backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 ${TONES.whatsapp.border}`}>
             <ContactCard
               tone="whatsapp"
               title={t("whatsappTitle")}
@@ -100,7 +100,7 @@ export default function HomeFinalCta({ whatsappHref }: { whatsappHref: string })
             />
           </Link>
 
-          <a href="mailto:info@illyrianpixel.com" className={`group relative flex flex-col overflow-hidden rounded-3xl border bg-[linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_55%)] p-7 text-left shadow-lift backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 ${TONES.email.border}`}>
+          <a data-track-location="home_final_cta" href="mailto:info@illyrianpixel.com" className={`group relative flex flex-col overflow-hidden rounded-3xl border bg-[linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_55%)] p-7 text-left shadow-lift backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 ${TONES.email.border}`}>
             <ContactCard
               tone="email"
               title={t("emailTitle")}

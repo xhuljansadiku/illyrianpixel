@@ -651,6 +651,7 @@ export default function KingGenti() {
                   <p>{msg.text}</p>
                   {msg.link ? (
                     <a
+                      data-track-location="king_genti"
                       href={msg.link.href}
                       target="_blank"
                       rel="noopener noreferrer"

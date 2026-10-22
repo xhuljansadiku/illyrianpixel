@@ -10,12 +10,21 @@
     "months": "1-2 months",
     "flexible": "Flexible"
   },
+  "budgets": {
+    "under500": "Under €500",
+    "500to1000": "€500 – €1,000",
+    "1000to2000": "€1,000 – €2,000",
+    "over2000": "Over €2,000",
+    "unsure": "Not sure yet"
+  },
   "form": {
     "nameLabel": "Name",
     "namePlaceholder": "Your full name",
     "emailLabel": "E-mail",
     "emailPlaceholder": "Your email",
-    "phoneLabel": "Phone number",
+    "phoneLabel": "Phone / WhatsApp",
+    "phoneOptional": "(optional, for a faster reply)",
+    "selectPlaceholder": "Choose…",
     "businessNameLabel": "Business name (if you have one)",
     "businessNamePlaceholder": "Your company name...",
     "serviceLabel": "Service",
@@ -34,13 +43,13 @@
     "submit": "Send Request →"
   },
   "errors": {
-    "validation": "Please fill in your name, email, phone number and message.",
+    "validation": "Please fill in your name, email and message.",
     "generic": "Something went wrong. Please try again or email us directly: info@illyrianpixel.com",
     "network": "The request wasn't sent. Contact us directly: info@illyrianpixel.com"
   },
   "success": {
     "title": "Thank you.",
-    "body": "Your request has been received. We'll get back to you with a clear plan within 24 hours."
+    "body": "Your request has been received. We'll get back to you with a clear plan within 24–48 hours."
   },
   "location": "Tirana, Albania"
 }

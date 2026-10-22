@@ -1,4 +1,5 @@
 ﻿import { getCaseStudies } from "@/lib/caseStudies";
+import { CLIENT_COUNTRIES } from "@/lib/clientLocations";
 import type { Locale } from "@/i18n/routing";
 
 export type WhyUsIcon =
@@ -35,22 +36,33 @@ export type ConversionTrustStats = {
   reachLabel?: string;
 };
 
+// 2026-10-22: numrat llogariten nga të dhënat e faqes (portofoli, lib/clientLocations), që të jenë
+// gjithmonë të vërtetë. Më parë ishin fiks "6 vite eksperiencë · 100 projekte · 80 klientë besnikë" —
+// s'dalin nga asnjë burim dhe s'përputhen me portofolin (8 projekte). Nëse pronari i konfirmon,
+// rikthehen duke zëvendësuar vlerat më poshtë me ato të komentuarat:
+// Vlerat e vjetra: sq { 6 "vite eksperiencë", 100 "projekte", 80 "klientë besnikë" }
+//                  en { 6 "years of experience", 100 "projects", 80 "loyal clients" }
+// Q-16 (2026-10-22): pronari ka eksperiencë që nga 2020 → vitet rikthehen (llogariten, s'vjetrohen);
+// "100 projekte / 80 klientë" mbeten jashtë derisa pronari të japë numrin real.
+export const EXPERIENCE_SINCE_YEAR = 2020;
+const experienceYears = () => new Date().getFullYear() - EXPERIENCE_SINCE_YEAR;
+
 const CONVERSION_TRUST_STATS: Record<Locale, ConversionTrustStats> = {
   sq: {
-    primaryCount: 6,
+    primaryCount: experienceYears(),
     primaryLabel: "vite eksperiencë",
-    secondaryCount: 100,
-    secondaryLabel: "projekte",
-    tertiaryCount: 80,
-    tertiaryLabel: "klientë besnikë",
+    secondaryCount: getCaseStudies("sq").length,
+    secondaryLabel: "projekte në portofol",
+    tertiaryCount: CLIENT_COUNTRIES.length,
+    tertiaryLabel: "vende me klientë",
   },
   en: {
-    primaryCount: 6,
+    primaryCount: experienceYears(),
     primaryLabel: "years of experience",
-    secondaryCount: 100,
-    secondaryLabel: "projects",
-    tertiaryCount: 80,
-    tertiaryLabel: "loyal clients",
+    secondaryCount: getCaseStudies("en").length,
+    secondaryLabel: "projects in our portfolio",
+    tertiaryCount: CLIENT_COUNTRIES.length,
+    tertiaryLabel: "countries with clients",
   },
 };
 

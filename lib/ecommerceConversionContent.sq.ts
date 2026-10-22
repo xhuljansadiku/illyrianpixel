@@ -70,7 +70,7 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       { icon: "convert", title: "Fokus te shitja, jo vetëm te pamja", body: "" },
       { icon: "speed",   title: "Shpejtësi që ndikon direkt në shitje", body: "" },
       { icon: "mRoi",    title: "Analitikë dhe optimizim i vazhdueshëm", body: "" },
-      { icon: "support", title: "Siguri dhe mbështetje 24/7", body: "" },
+      { icon: "support", title: "Siguri dhe mbështetje pas lansimit", body: "" },
     ],
   },
   processHeadline: "Katër hapa. Dyqan gati për shitje.",
@@ -105,7 +105,9 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
   feedbackLabel: "ÇFARË THONË KLIENTËT",
   feedbackHeadline: "Dyqane që shesin, çdo ditë.",
   feedbackSubline: "Rezultate reale, jo premtime.",
+  // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [
+    /*
     {
       quote: "Pas ndërtimit të platformës, klientët mund të porosisin lehtë dhe blerjet u rritën ndjeshëm që muajin e parë.",
       name: "Mariglent S.",
@@ -124,5 +126,6 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       role: "Palushi Brothers",
       location: "Londër, Angli",
     },
+    */
   ],
 };

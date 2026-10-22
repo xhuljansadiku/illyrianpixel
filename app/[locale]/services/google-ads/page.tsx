@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicePackageCard from "@/components/ServicePackageCard";
+import { ADS_MONTHLY, euro } from "@/lib/seoAdsPricing";
 import type { ServicePackage } from "@/lib/serviceCategories";
 import { buildMetadata } from "@/lib/seo";
 
@@ -83,7 +84,7 @@ const CONTENT: Record<Locale, {
     packages: [
       {
         name: "Starter",
-        price: "€120",
+        price: euro(ADS_MONTHLY.starter),
         priceNote: "/ muaj",
         tagline: "Reklamat e para me rezultat real",
         ideal: "Setup i plotë dhe fushatë aktive.\nKlientët ju gjejnë kur kërkojnë shërbimin tuaj.",
@@ -98,7 +99,7 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Growth",
-        price: "€250",
+        price: euro(ADS_MONTHLY.growth),
         priceNote: "/ muaj",
         tagline: "Më shumë klientë, buxhet nën kontroll",
         ideal: "2–3 fushata të optimizuara çdo javë.\nRemarketing që rikthejnë vizitorët si klientë.",
@@ -114,10 +115,10 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Pro",
-        price: "€400",
+        price: euro(ADS_MONTHLY.pro),
         priceNote: "/ muaj",
         tagline: "Sistem i plotë Google Ads",
-        ideal: "Të gjitha formatet, A/B testing dhe strategji funnel. Dominoni Google para konkurrencës.",
+        ideal: "Të gjitha formatet, A/B testing dhe strategji funnel. Çdo fushatë matet dhe përmirësohet me të dhëna reale.",
         features: [
           "Search + Display + YouTube Ads",
           "Shopping Ads (për e-commerce)",
@@ -167,7 +168,7 @@ const CONTENT: Record<Locale, {
     packages: [
       {
         name: "Starter",
-        price: "€120",
+        price: euro(ADS_MONTHLY.starter),
         priceNote: "/ month",
         tagline: "Your first ads with real results",
         ideal: "Full setup and an active campaign.\nClients find you when they search for your service.",
@@ -182,7 +183,7 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Growth",
-        price: "€250",
+        price: euro(ADS_MONTHLY.growth),
         priceNote: "/ month",
         tagline: "More clients, budget under control",
         ideal: "2–3 campaigns optimized every week.\nRemarketing that turns visitors back into clients.",
@@ -198,10 +199,10 @@ const CONTENT: Record<Locale, {
       },
       {
         name: "Pro",
-        price: "€400",
+        price: euro(ADS_MONTHLY.pro),
         priceNote: "/ month",
         tagline: "A complete Google Ads system",
-        ideal: "Every format, A/B testing and funnel strategy. Dominate Google ahead of the competition.",
+        ideal: "Every format, A/B testing and funnel strategy. Every campaign is measured and improved with real data.",
         features: [
           "Search + Display + YouTube Ads",
           "Shopping Ads (for e-commerce)",

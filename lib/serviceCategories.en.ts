@@ -1,4 +1,5 @@
 import { activeWebHeroVariant } from "@/lib/webHeroVariants.en";
+import { BUNDLE_MONTHLY, bundleSavings, euro } from "@/lib/seoAdsPricing";
 import type { ServiceCategory } from "./serviceCategories.sq";
 
 export const serviceCategories: ServiceCategory[] = [
@@ -91,7 +92,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◈",
     ctaPrimary: "Start selling online →",
     ctaSecondary: "Our work",
-    trustLine: "Free consultation · Strategy within 24h · No obligation",
+    trustLine: "Free consultation · Strategy within 24–48h · No obligation",
     subServices: [
       "24/7 sales",
       "Checkout that converts",
@@ -136,7 +137,7 @@ export const serviceCategories: ServiceCategory[] = [
         gift: "3 months of free technical maintenance (worth €147)",
         giftValue: 147,
         tagline: "An e-commerce platform built to scale",
-        ideal: "A complete system for businesses that want to dominate online, without limits, without compromise.",
+        ideal: "A complete system for businesses that want to grow online without technical limits.",
         features: [
           "No product limit",
           "Upsells & recommendations that increase sales",
@@ -161,7 +162,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "▣",
     ctaPrimary: "Start today →",
     ctaSecondary: "Our work",
-    trustLine: "Free consultation · Strategy within 24h · No obligation",
+    trustLine: "Free consultation · Strategy within 24–48h · No obligation",
     subServices: [
       "iOS & Android from one codebase",
       "Simple, modern design",
@@ -237,9 +238,11 @@ export const serviceCategories: ServiceCategory[] = [
     packages: [
       {
         name: "Starter",
-        price: "€149",
+        price: euro(BUNDLE_MONTHLY.starter),
         priceNote: "/ month",
-        ideal: "Start with Google Ads today, plus SEO basics.\nSmall budget, first results within the month.",
+        perk: `Save €${bundleSavings("starter")}/month vs SEO + Google Ads separately`,
+        notIncluded: ["Ad budget (paid by you, directly to Google)"],
+        ideal: "Start with Google Ads today, plus SEO basics.\nSmall budget, first data within the month.",
         features: [
           "Google Ads setup",
           "1 active campaign",
@@ -251,9 +254,11 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Growth",
-        price: "€249",
+        price: euro(BUNDLE_MONTHLY.growth),
         priceNote: "/ month",
-        ideal: "Google Ads optimized every week, SEO gets you ranked on Google.\nNew clients every month, budget under control.",
+        perk: `Save €${bundleSavings("growth")}/month vs SEO + Google Ads separately`,
+        notIncluded: ["Ad budget (paid by you, directly to Google)"],
+        ideal: "Google Ads optimized every week, SEO helps you climb on Google.\nEvery inquiry measured, budget under control.",
         features: [
           "Advanced Google Ads",
           "2–3 active campaigns",
@@ -266,8 +271,10 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: "Pro",
-        price: "€399",
+        price: euro(BUNDLE_MONTHLY.pro),
         priceNote: "/ month",
+        perk: `Save €${bundleSavings("pro")}/month vs SEO + Google Ads separately`,
+        notIncluded: ["Ad budget (paid by you, directly to Google)"],
         ideal: "Full Google Ads, technical SEO and A/B testing.\nEvery decision backed by numbers, not guesswork.",
         features: [
           "Full Google Ads (Search + Display)",
@@ -294,7 +301,7 @@ export const serviceCategories: ServiceCategory[] = [
     icon: "◉",
     ctaPrimary: "Start today →",
     ctaSecondary: "Our work",
-    trustLine: "Free consultation · No obligation · Plan within 24h",
+    trustLine: "Free consultation · No obligation · Plan within 24–48h",
     subServices: [
       "Instagram & Facebook",
       "Reels & TikTok",
@@ -434,7 +441,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Continuous optimization",
       "Rebuilding older sites",
       "Security & daily backup",
-      "Immediate response",
+      "Response within 24 hours",
     ],
     packages: [
       {
@@ -451,7 +458,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Email support with reply within 48h",
         ],
         featureBullets: [
-          { emphasis: "24/7 monitoring", detail: "we notify you immediately if the site goes down." },
+          { emphasis: "24/7 monitoring", detail: "we're alerted automatically if the site goes down." },
           { emphasis: "Weekly backup", detail: "a full copy every week, ready for a quick restore." },
           { emphasis: "Updates", detail: "we keep everything up to date and secure." },
           { emphasis: "Monthly report", detail: "we show you how the site is doing every month." },
@@ -464,18 +471,18 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Complete maintenance",
         ideal: "Maximum protection and speed, for businesses that can't afford downtime.",
         features: [
-          "24/7 uptime monitoring with SMS and email",
+          "24/7 uptime monitoring with email and phone alerts",
           "Automated daily backup",
           "SSL, firewall and malware scanning",
           "Cache and speed optimization every month",
           "Up to 2 hours/month of technical work",
-          "Priority support with reply within 4h",
+          "Priority support with reply within 24 hours",
         ],
         featureBullets: [
           { emphasis: "Daily backup", detail: "a fresh copy every day, you lose at most one day of work." },
           { emphasis: "Advanced security", detail: "firewall, virus scanning and SSL, your site well protected." },
           { emphasis: "Speed optimization", detail: "the site gets faster every month." },
-          { emphasis: "2h of work/month", detail: "free changes and fixes, whenever needed." },
+          { emphasis: "2h of work/month", detail: "changes and fixes at no extra cost, within 2 hours a month." },
         ],
         featured: true,
       },
@@ -484,21 +491,21 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€149",
         priceNote: "/ month",
         tagline: "Complete technical partner",
-        ideal: "Unlimited full support, for high-traffic businesses or an active online store.",
+        ideal: "Full priority support, for high-traffic businesses or an active online store.",
         features: [
           "Advanced monitoring with real-time alerts",
           "Daily backup + weekly off-site backup",
-          "Enterprise security: WAF, anti-DDoS, daily scanning",
+          "DDoS protection and firewall via Vercel or Cloudflare",
           "Continuous Core Web Vitals optimization",
-          "Unlimited technical work",
-          "Priority support with reply within 1h",
+          "Up to 5 hours/month of technical work",
+          "Top-priority support, reply the same working day",
           "Weekly performance and security report",
         ],
         featureBullets: [
-          { emphasis: "Unlimited technical work", detail: "any technical change, whenever needed, at no extra cost." },
-          { emphasis: "Top-tier security", detail: "protection like the big platforms, against attacks and viruses." },
-          { emphasis: "Optimized for Google", detail: "the site gets faster, Google ranks you higher." },
-          { emphasis: "Reply within 1h", detail: "the problem doesn't wait, neither does our fix." },
+          { emphasis: "5h of work/month", detail: "technical changes at no extra cost, more than double Pro." },
+          { emphasis: "Top-tier security", detail: "attack protection via Vercel or Cloudflare, like the big platforms." },
+          { emphasis: "Optimized for Google", detail: "the site gets faster, one of the signals Google takes into account." },
+          { emphasis: "Same-day reply", detail: "your requests are handled before all others." },
         ],
       },
     ],

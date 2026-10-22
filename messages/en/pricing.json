@@ -45,9 +45,10 @@
     "plusMaintenance": "+ {price}/month maintenance",
     "timelineLabel": "Delivery time",
     "roiTitle": "How fast does it pay off?",
-    "roiQuestion": "How much is a new client worth to your business, on average? (€)",
-    "roiOnce": "With around {count} new clients brought in by your new online presence, the investment has fully paid for itself.",
-    "roiMonthly": "Around {count} new clients per month cover the monthly investment. Every client beyond that is profit.",
+    "roiQuestion": "How much profit (not revenue) does a new client leave you, on average? (€)",
+    "roiOnce": "With around {count} new clients, the profit from them covers the investment.",
+    "roiMonthly": "Around {count} new clients per month cover our monthly fee.",
+    "roiAdBudget": "The ad budget you pay to Google isn't included here, add it to your cost.",
     "maintenanceNote": "Maintenance protects your investment: backups, security, updates and small changes without stress.",
     "disclaimer": "Ballpark estimate. The final offer is customized for free after a short conversation.",
     "ctaWhatsApp": "Send the estimate on WhatsApp",
@@ -107,7 +108,7 @@
     "recommendedBadge": "Recommended for you",
     "split": "{now} now · {launch} at launch",
     "installments": "3 instalments: {a} · {b} · {c}",
-    "payback": "{count, plural, one {Pays for itself with ~# new client} other {Pays for itself with ~# new clients}}",
+    "payback": "{count, plural, one {Pays for itself with ~# new client} other {Pays for itself with ~# new clients}} ({value} profit each)",
     "perDay": "≈ {amount} a day",
     "forBrand": "{service} for “{name}”",
     "perDayYear": "≈ {amount} a day over the first year",
@@ -125,7 +126,7 @@
       "hint": "A shop that sells 24/7"
     },
     "google": {
-      "label": "Rank first on Google",
+      "label": "Get found on Google",
       "hint": "SEO & Google Ads that bring clients"
     },
     "unsure": "Not sure?",
@@ -138,7 +139,7 @@
   },
   "ideaCard": {
     "title": "Tell us your idea.",
-    "text": "Every app is different. Tell us what you have in mind and within 24 hours we'll send you a plan and an exact price, for free.",
+    "text": "Every app is different. Tell us what you have in mind and within 24–48 hours we'll send you a plan and an exact price, for free.",
     "cta": "Send your idea →"
   },
   "guarantee": {

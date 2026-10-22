@@ -40,7 +40,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
     headingAccent: "gjithmonë online dhe e shpejtë.",
     intro: "",
     items: [
-      { icon: "support", title: "Monitorim 24/7 dhe reagim i menjëhershëm", body: "" },
+      { icon: "support", title: "Monitorim automatik 24/7, reagim brenda 24 orësh", body: "" },
       { icon: "speed",   title: "Faqja bëhet më e shpejtë çdo muaj", body: "" },
       { icon: "seo",     title: "Rindërtojmë faqe të vjetra nga e para", body: "" },
       { icon: "convert", title: "Ju fokusoheni te biznesi, ne te teknika", body: "" },
@@ -80,9 +80,11 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
   },
   feedbackLabel: "ÇFARË THONË KLIENTËT",
   feedbackHeadline: "Ne kujdesemi për faqen.\nJu për biznesin.",
-  feedbackSubline: "Monitorim 24/7, reagim i menjëhershëm dhe performancë e qëndrueshme, pa ndërprerje.",
+  feedbackSubline: "Monitorim automatik 24/7, reagim brenda 24 orësh dhe performancë e qëndrueshme.",
   feedbackBadge: "Klientë realë",
+  // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [
+    /*
     {
       quote: "Që kur filluam mirëmbajtjen, faqja nuk ka pasur asnjë problem.\nNjoftohemi menjëherë për çdo gjë. Gjithçka është nën kontroll.",
       name: "Mariglent S.",
@@ -101,5 +103,6 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
       role: "Hauswerk Niederbayern",
       location: "Straubing, Gjermani",
     },
+    */
   ],
 };

@@ -11,13 +11,13 @@ type Props = { params: Promise<RouteParams> };
 const META: Record<Locale, { title: string; desc: string; home: string; hub: string }> = {
   sq: {
     title: "Website për Biznese Shqiptare në Diasporë",
-    desc: "Ndërtojmë website për biznese shqiptare në Gjermani, Britaninë e Madhe, Zvicër, Itali, SHBA dhe Kanada. Konsultim falas, plan brenda 24h, komunikim 100% në shqip.",
+    desc: "Ndërtojmë website për biznese shqiptare në Gjermani, Britaninë e Madhe, Zvicër, Itali, SHBA dhe Kanada. Konsultim falas, plan brenda 24–48h, komunikim 100% në shqip.",
     home: "Ballina",
     hub: "Diasporë",
   },
   en: {
     title: "Websites for Albanian Businesses in the Diaspora",
-    desc: "We build websites for Albanian-owned businesses in Germany, the UK, Switzerland, Italy, the USA and Canada. Free consultation, plan within 24h, 100% communication in Albanian.",
+    desc: "We build websites for Albanian-owned businesses in Germany, the UK, Switzerland, Italy, the USA and Canada. Free consultation, plan within 24–48h, 100% communication in Albanian.",
     home: "Home",
     hub: "Diaspora",
   },

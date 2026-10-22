@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/routing";
 const siteUrl = "https://illyrianpixel.com";
 const defaultTitle = "Illyrian Pixel";
 const defaultDescription =
-  "Agjenci dixhitale premium — Website, E-Commerce, SEO & Marketing për biznese shqiptare në Shqipëri, Kosovë dhe diasporë. Konsultim falas, plan brenda 24h.";
+  "Agjenci dixhitale premium — Website, E-Commerce, SEO & Marketing për biznese shqiptare në Shqipëri, Kosovë dhe diasporë. Konsultim falas, plan brenda 24–48h.";
 
 export const seo = {
   siteUrl,
@@ -68,6 +68,12 @@ export const buildMetadata = (
 };
 
 // ── Organization Schema ───────────────────────────────────────────────────────
+// Vendet ku shërbejmë (2026-10-22) — një listë e vetme për Organization, LocalBusiness dhe Service.
+// Më parë Service kishte vetëm 4 vende. Klientë realë: AL, XK, DE, IT, UK, SE, US; CH/CA nga faqet e diasporës.
+const AREA_SERVED = ["Albania", "Kosovo", "Germany", "United Kingdom", "Switzerland", "Italy", "Sweden", "United States", "Canada"].map(
+  (name) => ({ "@type": "Country", name })
+);
+
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -87,20 +93,10 @@ export const organizationSchema = {
   email: "info@illyrianpixel.com",
   telephone: "+355694726827",
   description: defaultDescription,
-  foundingDate: "2024",
+  // Q-14 (2026-10-22): 2024 s'u konfirmua; pronari ka eksperiencë që nga 2020, agjencia doli live 2026 → pa foundingDate
+  // foundingDate: "2024",
   legalName: "Illyrian Pixel",
-  areaServed: [
-    { "@type": "Country", name: "Albania" },
-    { "@type": "Country", name: "Kosovo" },
-    { "@type": "Country", name: "Germany" },
-    { "@type": "Country", name: "United Kingdom" },
-    { "@type": "Country", name: "Switzerland" },
-    { "@type": "Country", name: "Italy" },
-    { "@type": "Country", name: "Sweden" },
-    { "@type": "Country", name: "United States" },
-    { "@type": "Country", name: "Canada" },
-    { "@type": "AdministrativeArea", name: "Europe" }
-  ],
+  areaServed: [...AREA_SERVED, { "@type": "AdministrativeArea", name: "Europe" }],
   knowsAbout: [
     "Web Design", "E-Commerce", "SEO", "Digital Marketing",
     "Branding", "Social Media Marketing", "Google Ads"
@@ -110,9 +106,8 @@ export const organizationSchema = {
     telephone: "+355694726827",
     contactType: "customer service",
     email: "info@illyrianpixel.com",
-    availableLanguage: ["Albanian", "English", "Italian"],
-    areaServed: ["AL", "XK", "DE", "GB", "CH", "IT", "SE", "US", "CA"],
-    contactOption: "TollFree"
+    availableLanguage: ["Albanian", "English", "German", "Croatian"],
+    areaServed: ["AL", "XK", "DE", "GB", "CH", "IT", "SE", "US", "CA"]
   },
   sameAs: [
     "https://www.instagram.com/illyrianpixel/",
@@ -155,27 +150,18 @@ export const localBusinessSchema = {
   priceRange: "€€–€€€",
   currenciesAccepted: "EUR, ALL",
   paymentAccepted: "Cash, Credit Card, Bank Transfer",
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "18:00"
-    }
-  ],
+  // Q-14 (2026-10-22): orari s'u konfirmua (takimet janë online, edhe mbrëmje/fundjavë) → pa orar në schema
+  // openingHoursSpecification: [
+  //   {
+  //     "@type": "OpeningHoursSpecification",
+  //     dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  //     opens: "09:00",
+  //     closes: "18:00"
+  //   }
+  // ],
   description:
     "Agjenci ueb dizajni premium dhe marketing strategjik për biznese shqiptare. Website profesionale, SEO, Google Ads, E-Commerce dhe Branding me rezultate të matshme.",
-  areaServed: [
-    { "@type": "Country", name: "Albania" },
-    { "@type": "Country", name: "Kosovo" },
-    { "@type": "Country", name: "Germany" },
-    { "@type": "Country", name: "United Kingdom" },
-    { "@type": "Country", name: "Switzerland" },
-    { "@type": "Country", name: "Italy" },
-    { "@type": "Country", name: "Sweden" },
-    { "@type": "Country", name: "United States" },
-    { "@type": "Country", name: "Canada" }
-  ],
+  areaServed: AREA_SERVED,
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Shërbime Dixhitale Premium",
@@ -301,7 +287,7 @@ export const buildServiceSchema = (name: string, description: string, url: strin
   description,
   url,
   provider: { "@id": `${siteUrl}/#organization` },
-  areaServed: ["Albania", "Kosovo", "Germany", "Europe"],
+  areaServed: AREA_SERVED,
   serviceType: name,
   offers: {
     "@type": "Offer",

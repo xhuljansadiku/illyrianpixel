@@ -143,6 +143,9 @@ export const brandingConversionLandingData: ConversionLandingData = {
   portfolioSlugs: [],
   feedbackLabel: "",
   feedbackHeadline: "",
+  // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [
+    /*
+    */
   ],
 };

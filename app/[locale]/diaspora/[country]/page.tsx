@@ -16,46 +16,46 @@ export function generateStaticParams() {
 const SEO_SQ: Record<CountrySlug, { title: string; desc: string }> = {
   "gjermani": {
     title: "Website për Biznese Shqiptare në Gjermani",
-    desc: "Ndërtojmë website profesionale për biznese shqiptare në Gjermani. Klientë realë (Hauswerk Niederbayern, Suli Group). Konsultim falas, plan brenda 24h.",
+    desc: "Ndërtojmë website profesionale për biznese shqiptare në Gjermani. Klientë realë (Hauswerk Niederbayern, Suli Group). Konsultim falas, plan brenda 24–48h.",
   },
   "britani": {
     title: "Website për Biznese Shqiptare në Britaninë e Madhe",
-    desc: "Ndërtojmë website profesionale për biznese shqiptare në UK. Klient real (Palushi Brothers, Londër). Konsultim falas, plan brenda 24h.",
+    desc: "Ndërtojmë website profesionale për biznese shqiptare në UK. Klient real (Palushi Brothers, Londër). Konsultim falas, plan brenda 24–48h.",
   },
   "zvicer": {
     title: "Website për Biznese Shqiptare në Zvicër",
-    desc: "Ndërtojmë website profesionale, të nivelit zviceran, për biznese shqiptare në Zvicër. Komunikim 100% në shqip. Konsultim falas, plan brenda 24h.",
+    desc: "Ndërtojmë website profesionale, të nivelit zviceran, për biznese shqiptare në Zvicër. Komunikim 100% në shqip. Konsultim falas, plan brenda 24–48h.",
   },
   "itali": {
     title: "Website Dygjuhësh për Biznese Shqiptare në Itali",
-    desc: "Ndërtojmë website dygjuhëshe shqip/italisht për biznese shqiptare në Itali. Klient real (ESM Group, Milano). Konsultim falas, plan brenda 24h.",
+    desc: "Ndërtojmë website dygjuhëshe shqip/italisht për biznese shqiptare në Itali. Klient real (ESM Group, Milano). Konsultim falas, plan brenda 24–48h.",
   },
   "shba-kanada": {
     title: "Website për Biznese Shqiptare në SHBA & Kanada",
-    desc: "Ndërtojmë website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini. Konsultim falas, plan brenda 24h.",
+    desc: "Ndërtojmë website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini. Klient real në Nju Jork (Roofon NYC). Konsultim falas, plan brenda 24–48h.",
   },
 };
 
 const SEO_EN: Record<CountrySlug, { title: string; desc: string }> = {
   "gjermani": {
     title: "Websites for Albanian Businesses in Germany",
-    desc: "Professional websites for Albanian-owned businesses in Germany. Real clients (Hauswerk Niederbayern, Suli Group). Free consultation, plan within 24h.",
+    desc: "Professional websites for Albanian-owned businesses in Germany. Real clients (Hauswerk Niederbayern, Suli Group). Free consultation, plan within 24–48h.",
   },
   "britani": {
     title: "Websites for Albanian Businesses in the UK",
-    desc: "Professional websites for Albanian-owned businesses in the UK. Real client (Palushi Brothers, London). Free consultation, plan within 24h.",
+    desc: "Professional websites for Albanian-owned businesses in the UK. Real client (Palushi Brothers, London). Free consultation, plan within 24–48h.",
   },
   "zvicer": {
     title: "Websites for Albanian Businesses in Switzerland",
-    desc: "Professional, Swiss-level websites for Albanian-owned businesses in Switzerland. 100% communication in Albanian. Free consultation, plan within 24h.",
+    desc: "Professional, Swiss-level websites for Albanian-owned businesses in Switzerland. 100% communication in Albanian. Free consultation, plan within 24–48h.",
   },
   "itali": {
     title: "Bilingual Websites for Albanian Businesses in Italy",
-    desc: "Bilingual Albanian/Italian websites for Albanian-owned businesses in Italy. Real client (ESM Group, Milan). Free consultation, plan within 24h.",
+    desc: "Bilingual Albanian/Italian websites for Albanian-owned businesses in Italy. Real client (ESM Group, Milan). Free consultation, plan within 24–48h.",
   },
   "shba-kanada": {
     title: "Websites for Albanian Businesses in the USA & Canada",
-    desc: "Professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep. Free consultation, plan within 24h.",
+    desc: "Professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep. Real client in New York (Roofon NYC). Free consultation, plan within 24–48h.",
   },
 };
 

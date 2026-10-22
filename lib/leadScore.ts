@@ -16,7 +16,35 @@ export type LeadScore = {
   reasons: string[];
 };
 
+// Vlerat që formulari i kontaktit ruan në DB (2026-10-21). Gamat ndjekin paketat (€349–€1,999):
+// më parë ishin "< €1,000 / … / €7,000+" dhe pothuajse çdo lead binte te e para. Etiketat e
+// përkthyera janë te messages/*/contact.json `budgets` — vlera mbetet e njëjtë në sq dhe en.
+export const CONTACT_BUDGETS = [
+  { value: "Nën €500", key: "under500" },
+  { value: "€500 – €1,000", key: "500to1000" },
+  { value: "€1,000 – €2,000", key: "1000to2000" },
+  { value: "Mbi €2,000", key: "over2000" },
+  { value: "Nuk e di ende", key: "unsure" },
+] as const;
+
+/** Buxhetet që e shënojnë kontaktin si "PRIORITET" (Telegram + email) — të rejat + të vjetrat */
+export const PRIORITY_BUDGETS = ["Mbi €2,000", "€3,000 – €7,000", "€7,000+"];
+
+// Afati ruhet gjithmonë në shqip (më parë ruhej në gjuhën e faqes dhe kërkesat nga /en s'merrnin pikë)
+export const CONTACT_TIMELINES = [
+  { value: "ASAP", key: "asap" },
+  { value: "2-4 javë", key: "weeks" },
+  { value: "1-2 muaj", key: "months" },
+  { value: "Fleksibël", key: "flexible" },
+] as const;
+
 const BUDGET_POINTS: [string, number][] = [
+  ["Mbi €2,000", 32],
+  ["€1,000 – €2,000", 24],
+  ["€500 – €1,000", 16],
+  ["Nën €500", 6],
+  ["Nuk e di ende", 8],
+  // Gamat e vjetra — kontaktet e ruajtura para 2026-10-21
   ["€7,000+", 35],
   ["€3,000 – €7,000", 28],
   ["€1,000 – €3,000", 18],
@@ -28,6 +56,10 @@ const TIMELINE_POINTS: [string, number][] = [
   ["2-4 javë", 14],
   ["1-2 muaj", 8],
   ["Fleksibël", 4],
+  // Kontaktet e vjetra nga /en ruheshin në anglisht
+  ["2-4 weeks", 14],
+  ["1-2 months", 8],
+  ["Flexible", 4],
 ];
 
 const HIGH_VALUE_SERVICES = ["e-commerce", "ecommerce", "website", "web"];

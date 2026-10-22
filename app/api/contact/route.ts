@@ -5,6 +5,35 @@ import { Resend } from "resend";
 import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
 import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { logActivity } from "@/lib/activityLog";
+import { PRIORITY_BUDGETS } from "@/lib/leadScore";
+
+// Email-i i konfirmimit për klientin, në gjuhën e faqes nga e dërgoi (më parë vetëm shqip)
+const CONFIRMATION = {
+  sq: {
+    subject: "Kërkesa juaj u pranua — Illyrian Pixel",
+    eyebrow: "Kërkesa u pranua",
+    thanks: "Faleminderit",
+    body: "Kërkesa juaj u pranua me sukses dhe ekipi ynë do t'ju kontaktojë sa më shpejt për të diskutuar projektin tuaj.",
+    summary: "Përmbledhje e kërkesës suaj",
+    service: "Shërbimi",
+    budget: "Buxheti",
+    timeline: "Afati",
+    visit: "Vizito website-in",
+    whatsapp: "Na kontakto në WhatsApp",
+  },
+  en: {
+    subject: "We received your request — Illyrian Pixel",
+    eyebrow: "Request received",
+    thanks: "Thank you",
+    body: "Your request was received successfully and our team will get back to you as soon as possible to discuss your project.",
+    summary: "Summary of your request",
+    service: "Service",
+    budget: "Budget",
+    timeline: "Timeline",
+    visit: "Visit the website",
+    whatsapp: "Message us on WhatsApp",
+  },
+};
 
 const RATE_LIMIT = 3;
 const WINDOW_SECONDS = 60 * 60; // 1 orë
@@ -65,7 +94,8 @@ export async function POST(req: Request) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!name || !email || !phone || !message) {
+    // Telefoni është opsional që nga 2026-10-21 (diaspora shpesh s'e jep në mesazhin e parë)
+    if (!name || !email || !message) {
       return NextResponse.json(
         { success: false, error: "Fushat kryesore mungojnë." },
         { status: 400 }
@@ -95,8 +125,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const HIGH_BUDGETS = ["€3,000 – €7,000", "€7,000+"];
-    const isPriority = HIGH_BUDGETS.includes(budget) || Boolean(discountCode);
+    const isPriority = PRIORITY_BUDGETS.includes(budget) || Boolean(discountCode);
+    const c = CONFIRMATION[sourcePath.startsWith("/en") ? "en" : "sq"];
 
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
@@ -139,7 +169,10 @@ export async function POST(req: Request) {
     // Njoftim instant në Telegram — best-effort, s'bllokon asgjë
     let waDigits = String(phone).replace(/\D/g, "");
     if (waDigits.startsWith("0")) waDigits = "355" + waDigits.slice(1);
-    else if (!waDigits.startsWith("355") && waDigits.length <= 9) waDigits = "355" + waDigits;
+    else if (waDigits && !waDigits.startsWith("355") && waDigits.length <= 9) waDigits = "355" + waDigits;
+    const replyLink = waDigits
+      ? `<a href="https://wa.me/${waDigits}">💬 Shkruaji në WhatsApp</a>`
+      : `<a href="mailto:${escapeTelegramHtml(email)}">✉️ Përgjigju me email</a>`;
 
     await sendTelegramMessage(
       `${isPriority ? "🔥 <b>PRIORITET</b> — " : ""}📥 <b>Kontakt i ri nga website</b>\n\n` +
@@ -147,9 +180,9 @@ export async function POST(req: Request) {
         `🛠 ${escapeTelegramHtml(service || "—")}\n` +
         `💶 ${escapeTelegramHtml(budget || "—")} · ⏱ ${escapeTelegramHtml(timeline || "—")}\n` +
         `📧 ${escapeTelegramHtml(email)}\n` +
-        `📱 ${escapeTelegramHtml(phone)}\n\n` +
+        `📱 ${escapeTelegramHtml(phone || "—")}\n\n` +
         `💬 ${escapeTelegramHtml(message.slice(0, 300))}${message.length > 300 ? "…" : ""}\n\n` +
-        `<a href="https://wa.me/${waDigits}">💬 Shkruaji në WhatsApp</a> · <a href="${BRAND.website}/admin">🛠 Hap panelin</a>`
+        `${replyLink} · <a href="${BRAND.website}/admin">🛠 Hap panelin</a>`
     );
 
     await sendWhatsAppMessage(
@@ -158,7 +191,7 @@ export async function POST(req: Request) {
         `🛠 ${service || "—"}\n` +
         `💶 ${budget || "—"} · ⏱ ${timeline || "—"}\n` +
         `📧 ${email}\n` +
-        `📱 ${phone}\n\n` +
+        `📱 ${phone || "—"}\n\n` +
         `💬 ${message.slice(0, 300)}${message.length > 300 ? "…" : ""}`
     );
 
@@ -169,8 +202,8 @@ export async function POST(req: Request) {
         to: process.env.CONTACT_TO_EMAIL || BRAND.email,
         replyTo: email,
         subject: isPriority
-          ? `🔥 PRIORITET — Kërkesë e re nga ${name} — ${service}`
-          : `Kërkesë e re nga ${name} — ${service}`,
+          ? `🔥 PRIORITET — Kërkesë e re nga ${name} — ${service || "pa shërbim"}`
+          : `Kërkesë e re nga ${name} — ${service || "pa shërbim"}`,
         html: `
           <div style="margin:0;padding:0;background:#070707;font-family:Arial,Helvetica,sans-serif;color:#ffffff;">
             <div style="max-width:680px;margin:0 auto;padding:32px 18px;">
@@ -185,11 +218,11 @@ export async function POST(req: Request) {
                   <table style="width:100%;border-collapse:collapse;">
                     <tr><td style="padding:12px 0;color:#a0a0a0;width:160px;">Emri</td><td style="padding:12px 0;color:#ffffff;font-weight:600;">${safeName}</td></tr>
                     <tr><td style="padding:12px 0;color:#a0a0a0;">Email</td><td style="padding:12px 0;color:#ffffff;">${safeEmail}</td></tr>
-                    <tr><td style="padding:12px 0;color:#a0a0a0;">Telefon</td><td style="padding:12px 0;color:#ffffff;">${safePhone}</td></tr>
+                    <tr><td style="padding:12px 0;color:#a0a0a0;">Telefon</td><td style="padding:12px 0;color:#ffffff;">${safePhone || "-"}</td></tr>
                     <tr><td style="padding:12px 0;color:#a0a0a0;">Biznesi</td><td style="padding:12px 0;color:#ffffff;">${safeBusinessName || "-"}</td></tr>
-                    <tr><td style="padding:12px 0;color:#a0a0a0;">Shërbimi</td><td style="padding:12px 0;color:#ffffff;">${safeService}</td></tr>
-                    <tr><td style="padding:12px 0;color:#a0a0a0;">Buxheti</td><td style="padding:12px 0;color:#ffffff;">${safeBudget}</td></tr>
-                    <tr><td style="padding:12px 0;color:#a0a0a0;">Afati</td><td style="padding:12px 0;color:#ffffff;">${safeTimeline}</td></tr>
+                    <tr><td style="padding:12px 0;color:#a0a0a0;">Shërbimi</td><td style="padding:12px 0;color:#ffffff;">${safeService || "-"}</td></tr>
+                    <tr><td style="padding:12px 0;color:#a0a0a0;">Buxheti</td><td style="padding:12px 0;color:#ffffff;">${safeBudget || "-"}</td></tr>
+                    <tr><td style="padding:12px 0;color:#a0a0a0;">Afati</td><td style="padding:12px 0;color:#ffffff;">${safeTimeline || "-"}</td></tr>
                     ${discountCode ? `<tr><td style="padding:12px 0;color:#a0a0a0;">Kodi zbritjes</td><td style="padding:12px 0;color:#ab8339;font-weight:700;">${escapeHtml(discountCode)} — 10% zbritje</td></tr>` : ""}
                   </table>
                   <div style="margin-top:24px;padding:22px;background:#151515;border:1px solid #262626;border-radius:18px;">
@@ -210,29 +243,29 @@ export async function POST(req: Request) {
       await resend.emails.send({
         from: `${BRAND.name} <${BRAND.email}>`,
         to: email,
-        subject: "Kërkesa juaj u pranua — Illyrian Pixel",
+        subject: c.subject,
         html: `
           <div style="margin:0;padding:0;background:#070707;font-family:Arial,Helvetica,sans-serif;color:#ffffff;">
             <div style="max-width:680px;margin:0 auto;padding:32px 18px;">
               <div style="background:#0f0f0f;border:1px solid #262626;border-radius:22px;overflow:hidden;">
                 <div style="padding:34px 30px;text-align:center;background:#0a0a0a;border-bottom:1px solid #262626;">
                   <img src="${BRAND.logo}" alt="${BRAND.name}" width="150" style="display:block;margin:0 auto 20px;" />
-                  <p style="margin:0;color:#ab8339;font-size:12px;letter-spacing:2px;text-transform:uppercase;">Kërkesa u pranua</p>
-                  <h1 style="margin:14px 0 0;font-size:30px;line-height:1.2;color:#ffffff;">Faleminderit${greetingName}.</h1>
+                  <p style="margin:0;color:#ab8339;font-size:12px;letter-spacing:2px;text-transform:uppercase;">${c.eyebrow}</p>
+                  <h1 style="margin:14px 0 0;font-size:30px;line-height:1.2;color:#ffffff;">${c.thanks}${greetingName}.</h1>
                 </div>
                 <div style="padding:32px;">
-                  <p style="margin:0;color:#d8d8d8;line-height:1.9;font-size:15px;">Kërkesa juaj u pranua me sukses dhe ekipi ynë do t'ju kontaktojë sa më shpejt për të diskutuar projektin tuaj.</p>
+                  <p style="margin:0;color:#d8d8d8;line-height:1.9;font-size:15px;">${c.body}</p>
                   <div style="margin-top:26px;padding:22px;background:#151515;border:1px solid #262626;border-radius:18px;">
-                    <p style="margin:0 0 14px;color:#ab8339;font-size:14px;font-weight:700;">Përmbledhje e kërkesës suaj</p>
-                    <p style="margin:8px 0;color:#e8e8e8;"><strong>Shërbimi:</strong> ${safeService}</p>
-                    <p style="margin:8px 0;color:#e8e8e8;"><strong>Buxheti:</strong> ${safeBudget}</p>
-                    <p style="margin:8px 0;color:#e8e8e8;"><strong>Afati:</strong> ${safeTimeline}</p>
+                    <p style="margin:0 0 14px;color:#ab8339;font-size:14px;font-weight:700;">${c.summary}</p>
+                    <p style="margin:8px 0;color:#e8e8e8;"><strong>${c.service}:</strong> ${safeService || "—"}</p>
+                    <p style="margin:8px 0;color:#e8e8e8;"><strong>${c.budget}:</strong> ${safeBudget || "—"}</p>
+                    <p style="margin:8px 0;color:#e8e8e8;"><strong>${c.timeline}:</strong> ${safeTimeline || "—"}</p>
                   </div>
                   <div style="margin-top:30px;text-align:center;">
-                    <a href="${BRAND.website}" style="display:inline-block;background:#ab8339;color:#0a0a0a;text-decoration:none;padding:15px 24px;border-radius:999px;font-weight:700;">Vizito website-in</a>
+                    <a href="${BRAND.website}" style="display:inline-block;background:#ab8339;color:#0a0a0a;text-decoration:none;padding:15px 24px;border-radius:999px;font-weight:700;">${c.visit}</a>
                   </div>
                   <div style="margin-top:18px;text-align:center;">
-                    <a href="${BRAND.whatsapp}" style="display:inline-block;color:#ab8339;text-decoration:none;font-size:14px;">Na kontakto në WhatsApp</a>
+                    <a href="${BRAND.whatsapp}" style="display:inline-block;color:#ab8339;text-decoration:none;font-size:14px;">${c.whatsapp}</a>
                   </div>
                   <p style="margin:32px 0 0;color:#8a8a8a;line-height:1.8;font-size:13px;text-align:center;">
                     ${BRAND.name}<br />

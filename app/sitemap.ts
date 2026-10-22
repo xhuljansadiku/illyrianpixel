@@ -1,4 +1,6 @@
 import type { MetadataRoute } from "next";
+import { DEDICATED_BLOG_SLUGS } from "@/lib/blogDedicatedSlugs";
+import { STRUCTURED_ARTICLES } from "@/lib/blogArticles";
 import { getBlogPostsForLocale } from "@/lib/blogPosts";
 import { getCaseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
@@ -24,6 +26,7 @@ const BLOG_DATES: Record<string, Date> = {
   "website-dygjuhesh-biznes-diaspore": new Date("2026-07-25"),
   "si-te-gjejne-klientet-shqiptare-biznesin-tend": new Date("2026-07-25"),
   "sa-kushton-website-kosove": new Date("2026-07-29"),
+  ...Object.fromEntries(STRUCTURED_ARTICLES.map((a) => [a.slug, new Date(a.published)])),
 };
 
 // localePrefix "as-needed": sq has no prefix, en is prefixed with /en
@@ -54,24 +57,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/terms",                    priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },
   ];
 
-  const dedicatedBlogSlugs = new Set([
-    "si-te-rrisesh-klientet-online",
-    "gabimet-kryesore-ne-website",
-    "pse-seo-eshte-kritik",
-    "google-ads-vs-seo",
-    "pse-ecommerce-eshte-i-rendesishem",
-    "cfare-eshte-branding",
-    "sa-kushton-website-shqiperi",
-    "seo-tirane",
-    "dyqan-online-shqiperi",
-    "google-ads-shqiperi",
-    "web-design-tirane",
-    "social-media-menaxhim-shqiperi",
-    "menaxho-biznesin-nga-diaspora",
-    "website-dygjuhesh-biznes-diaspore",
-    "si-te-gjejne-klientet-shqiptare-biznesin-tend",
-    "sa-kushton-website-kosove",
-  ]);
+  // Burim i vetëm me app/[locale]/blog/[slug] (2026-10-22) — më parë dy lista të ndara
+  const dedicatedBlogSlugs = DEDICATED_BLOG_SLUGS;
 
   // Artikuj pa version anglisht — /en/... e tyre është noindex (buildMetadata sqOnly)
   const sqOnlyBlogSlugs = new Set(["si-te-rrisesh-klientet-online"]);

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ServiceCategory, ServicePackage } from "@/lib/serviceCategories";
-import { formatEuro, priceFraming } from "@/lib/pricingPsychology";
+import { AVG_CLIENT_VALUE, formatEuro, priceFraming } from "@/lib/pricingPsychology";
 import { trackEvent } from "@/lib/track";
 import CountUpPrice from "@/components/CountUpPrice";
 
@@ -115,7 +115,7 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
                   })}
                 </p>
               )}
-              {framing.payback && <p className="text-accent/90">{t("card.payback", { count: framing.payback })}</p>}
+              {framing.payback && <p className="text-accent/90">{t("card.payback", { count: framing.payback, value: formatEuro(AVG_CLIENT_VALUE) })}</p>}
             </div>
           )}
 
