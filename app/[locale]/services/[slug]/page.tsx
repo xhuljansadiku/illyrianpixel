@@ -5,6 +5,7 @@ import { getServiceCategoryBySlug } from "@/lib/serviceCategories";
 import { applyOverridesToCategory } from "@/lib/pricingOverrides";
 import { getPricingOverrides } from "@/lib/publicContent";
 import ServiceCategoryDetailPage from "@/components/ServiceCategoryDetailPage";
+import { getServiceFaqs } from "@/lib/serviceFaqs";
 import type { Locale } from "@/i18n/routing";
 
 const SERVICE_SLUGS = [
@@ -153,7 +154,7 @@ export default async function ServiceDetailPage(props: Props) {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
       />
-      <ServiceCategoryDetailPage category={category} />
+      <ServiceCategoryDetailPage category={category} faqs={getServiceFaqs(category, locale)} />
     </>
   );
 }

@@ -10,6 +10,8 @@ import SectionMark from "@/components/SectionMark";
 import ServicePackageCard from "@/components/ServicePackageCard";
 import { CustomPackageRow, GuaranteeNote, IdeaCard, isQuoteOnly } from "@/components/PricingExtras";
 import PackageCarousel from "@/components/PackageCarousel";
+import FAQ from "@/components/FAQ";
+import type { ServiceFaq } from "@/lib/serviceFaqs";
 import { brandingConversionLandingData as brandingConversionLandingData_sq } from "@/lib/brandingContentConversionContent.sq";
 import { brandingConversionLandingData as brandingConversionLandingData_en } from "@/lib/brandingContentConversionContent.en";
 import { ecommerceConversionLandingData as ecommerceConversionLandingData_sq } from "@/lib/ecommerceConversionContent.sq";
@@ -41,7 +43,7 @@ function conversionLandingForSlug(locale: Locale, slug: ServiceCategory["slug"])
   }
 }
 
-export default function ServiceCategoryDetailPage({ category }: { category: ServiceCategory }) {
+export default function ServiceCategoryDetailPage({ category, faqs = [] }: { category: ServiceCategory; faqs?: ServiceFaq[] }) {
   const t = useTranslations("services");
   const locale = useLocale() as Locale;
   const mainRef = useRef<HTMLElement>(null);
@@ -370,6 +372,9 @@ export default function ServiceCategoryDetailPage({ category }: { category: Serv
             </div>
           </section>
         )}
+
+        {/* FAQ e shërbimit (lib/serviceFaqs) — me skemë FAQPage nga komponenti <FAQ /> */}
+        {faqs.length > 0 && <FAQ items={faqs} />}
 
         {/* ── 4. FINAL CTA ── */}
         <section className="relative z-[1]">
