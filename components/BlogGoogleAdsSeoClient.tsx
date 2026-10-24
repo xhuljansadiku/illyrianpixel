@@ -92,7 +92,7 @@ export default function BlogGoogleAdsSeoClient() {
                     SEO works like investing in land: results come slowly, but once they arrive, they&apos;re yours. You don&apos;t pay per click, you don&apos;t lose your position when the budget stops, and over time SEO becomes ever more powerful.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Studies show that 75% of people never go past the first page of Google. The first position gets an average of 27% of clicks. The tenth position gets 2.5%. The difference between being first and tenth isn&apos;t 4x, it&apos;s over 10x the traffic.
+                    Click-through studies (e.g. Backlinko) show the first organic result gets around 27% of clicks, while the tenth gets roughly 2–3%. The difference between being first and tenth isn&apos;t 4x, it&apos;s about 10x the traffic.
                   </p>
                   <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-5">
                     <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">When SEO works</p>
@@ -143,7 +143,7 @@ export default function BlogGoogleAdsSeoClient() {
                     The typical strategy: start with Google Ads to test which keywords convert into real customers. Then invest in SEO precisely for those keywords. Once SEO starts performing, gradually reduce the Ads budget and free up capital for other investments.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    This combination is why businesses with a full digital strategy have a Customer Acquisition Cost (CAC) up to 60% lower after 18 months compared to those who rely on Ads alone.
+                    This combination is why businesses with a full digital strategy usually end up with a lower Customer Acquisition Cost (CAC) over time than those who rely on Ads alone.
                   </p>
                 </section>
 
@@ -255,7 +255,7 @@ export default function BlogGoogleAdsSeoClient() {
                     SEO funksionon si investimi në tokë: rezultatet vijnë ngadalë, por kur vijnë, janë të juajat. Nuk paguat për çdo klikim, nuk humbni pozicionin kur ndalon buxhetin, dhe me kalimin e kohës SEO bëhet gjithnjë e më i fuqishëm.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Studime tregojnë se 75% e njerëzve nuk kalojnë faqen e parë të Google. Pozicioni i parë merr mesatarisht 27% të klikimeve. Pozicioni i dhjetë merr 2.5%. Diferenca midis të qenit i pari dhe i dhjetë nuk është 4x është mbi 10x trafik.
+                    Studimet e klikimeve (p.sh. Backlinko) tregojnë se rezultati i parë organik merr rreth 27% të klikimeve, ndërsa i dhjeti rreth 2–3%. Diferenca midis të qenit i pari dhe i dhjetë nuk është 4x, është rreth 10x trafik.
                   </p>
                   <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-5">
                     <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">Kur funksionon SEO</p>
@@ -306,7 +306,7 @@ export default function BlogGoogleAdsSeoClient() {
                     Strategjia tipike: filloni me Google Ads për të testuar cilat fjalëkyçe konvertojnë në klientë realë. Pastaj investoni në SEO pikërisht për ato fjalëkyçe. Kur SEO fillon të performojë, ulni gradualisht buxhetin e Ads dhe çlironi kapital për investime të tjera.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Ky kombinim është arsyeja pse bizneset me strategji dixhitale të plotë kanë Kosto Blerje Klienti (CAC) deri 60% më të ulët pas 18 muajsh krahasuar me ata që mbështeten vetëm në Ads.
+                    Ky kombinim është arsyeja pse bizneset me strategji dixhitale të plotë zakonisht arrijnë një Kosto Blerje Klienti (CAC) më të ulët me kalimin e kohës, krahasuar me ata që mbështeten vetëm në Ads.
                   </p>
                 </section>
 

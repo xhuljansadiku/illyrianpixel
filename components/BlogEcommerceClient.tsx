@@ -40,7 +40,7 @@ export default function BlogEcommerceClient() {
                     Albanian shopper behavior has changed
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    In 2020, most Albanians preferred to buy in person. Today, statistics show that over 65% of Albanian consumers search for a product online before deciding where to buy it, whether online or in person.
+                    In 2020, most Albanians preferred to buy in person. Today, more and more Albanian consumers search for a product online before deciding where to buy it, whether online or in person.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     This means: if your product doesn&apos;t appear online with full information, price, and a way to get in touch, you lose those customers, not to a physical competitor, but to the digital competitor who understood the shift.
@@ -84,7 +84,7 @@ export default function BlogEcommerceClient() {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">05 — Your competitors already have one</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Every month without an online store, your competitor with one gains customers who could have been yours. The industry doesn&apos;t wait. The Albanian digital market is growing 23% every year.
+                        Every month without an online store, your competitor with one gains customers who could have been yours. The industry doesn&apos;t wait. The Albanian digital market keeps growing every year.
                       </p>
                     </div>
                   </div>
@@ -101,7 +101,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">A complicated checkout:</span> Every extra step in checkout lowers conversion by 10%. Customers want to buy fast, not fill out long forms.
+                        <span className="font-medium text-white/90">A complicated checkout:</span> Every extra step in checkout loses some buyers. Customers want to buy fast, not fill out long forms.
                       </span>
                     </li>
                     <li className="flex gap-3">
@@ -119,7 +119,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">No mobile optimization:</span> 78% of Albanian buyers shop from their phone. A store that doesn&apos;t work well on mobile is a store closed to most of them.
+                        <span className="font-medium text-white/90">No mobile optimization:</span> Most Albanian buyers shop from their phone. A store that doesn&apos;t work well on mobile is a store closed to most of them.
                       </span>
                     </li>
                   </ul>
@@ -206,7 +206,7 @@ export default function BlogEcommerceClient() {
                     Sjellja e blerësit shqiptar ka ndryshuar
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Në 2020, shumica e shqiptarëve preferonin të blinin fizikisht. Sot, statistikat tregojnë se mbi 65% e konsumatorëve shqiptarë kërkojnë produktin online para se të vendosin ku ta blejnë qoftë online qoftë fizikisht.
+                    Në 2020, shumica e shqiptarëve preferonin të blinin fizikisht. Sot, gjithnjë e më shumë konsumatorë shqiptarë kërkojnë produktin online para se të vendosin ku ta blejnë, qoftë online qoftë fizikisht.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Kjo do të thotë: nëse produkti juaj nuk shfaqet online me informacion të plotë, çmim dhe mundësi kontakti, ju i humbisni ata klientë jo konkurrentit fizik, por konkurrentit dixhital që ka kuptuar ndryshimin.
@@ -250,7 +250,7 @@ export default function BlogEcommerceClient() {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">05 — Konkurrentët tuaj tashmë e kanë</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Çdo muaj pa dyqan online, konkurrenti juaj me dyqan fiton klientë që mund të ishin juaj. Industria nuk pret. Tregu dixhital shqiptar po rritet me 23% çdo vit.
+                        Çdo muaj pa dyqan online, konkurrenti juaj me dyqan fiton klientë që mund të ishin juaj. Industria nuk pret. Tregu dixhital shqiptar rritet çdo vit.
                       </p>
                     </div>
                   </div>
@@ -267,7 +267,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">Checkout i komplikuar:</span> Çdo hap shtesë në checkout ul konvertimin me 10%. Klientët duan të blejnë shpejt, jo të plotësojnë formularë të gjatë.
+                        <span className="font-medium text-white/90">Checkout i komplikuar:</span> Çdo hap shtesë në checkout humb një pjesë të blerësve. Klientët duan të blejnë shpejt, jo të plotësojnë formularë të gjatë.
                       </span>
                     </li>
                     <li className="flex gap-3">
@@ -285,7 +285,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">Pa mobile optimization:</span> 78% e blerëve shqiptarë blejnë nga telefoni. Dyqan që nuk funksionon mirë në mobile = dyqan i mbyllur për shumicën.
+                        <span className="font-medium text-white/90">Pa mobile optimization:</span> Shumica e blerëve shqiptarë blejnë nga telefoni. Dyqan që nuk funksionon mirë në mobile = dyqan i mbyllur për shumicën.
                       </span>
                     </li>
                   </ul>
