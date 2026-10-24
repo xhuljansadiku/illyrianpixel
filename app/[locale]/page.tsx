@@ -42,7 +42,8 @@ const META: Record<Locale, { title: string; desc: string; keywords: string[] }> 
     // Pozicionimi ndërkombëtar me fokus diasporën (2026-10-05): titulli mban "Web Design" +
     // "Shqipëri" për renditjen lokale; klientë në 7 vende (DE, IT, UK, SE, US, AL, XK).
     title: "Web Design për Biznese në Europë, SHBA & Shqipëri",
-    desc: "Agjenci dixhitale ndërkombëtare: website, SEO & Google Ads për biznese në Gjermani, Itali, Angli, Suedi, SHBA, Shqipëri e Kosovë. Bisedë në shqip, plan falas brenda 24–48h.",
+    // ≤160 shkronja — Bing e raporton si gabim përshkrimin më të gjatë (2026-10-24, ishte 182)
+    desc: "Website, SEO & Google Ads për biznese në Gjermani, Itali, Angli, Suedi, SHBA, Shqipëri e Kosovë. Bisedë në shqip, plan falas brenda 24–48h.",
     keywords: [
       "web design shqipëri", "agjenci dixhitale tiranë", "website për biznes në gjermani",
       "agjenci shqiptare diasporë", "website biznes zvicër", "seo shqipëri", "google ads shqipëri",
@@ -51,7 +52,7 @@ const META: Record<Locale, { title: string; desc: string; keywords: string[] }> 
   },
   en: {
     title: "Web Design for Businesses in Europe, the USA & Albania",
-    desc: "International digital agency: websites, SEO & Google Ads for businesses in Germany, Italy, the UK, Sweden, the USA, Albania and Kosovo. We talk in Albanian. Free plan within 24–48h.",
+    desc: "Websites, SEO & Google Ads for businesses in Germany, Italy, the UK, Sweden, the USA, Albania and Kosovo. We talk in Albanian. Free plan in 24–48h.",
     keywords: [
       "web design albania", "digital agency tirana", "albanian web agency germany",
       "albanian diaspora business website", "web design for albanian businesses", "seo albania",
