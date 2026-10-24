@@ -7,6 +7,8 @@ import ServicePackageCard from "@/components/ServicePackageCard";
 import { ADS_MONTHLY, euro } from "@/lib/seoAdsPricing";
 import type { ServicePackage } from "@/lib/serviceCategories";
 import { buildMetadata } from "@/lib/seo";
+import FAQ from "@/components/FAQ";
+import { getGoogleAdsFaqs } from "@/lib/serviceFaqs";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -295,6 +297,9 @@ export default async function GoogleAdsPage(props: Props) {
             </p>
           </div>
         </section>
+
+        {/* FAQ (lib/serviceFaqs) — me skemë FAQPage */}
+        <FAQ items={getGoogleAdsFaqs(c, locale as Locale)} />
 
         {/* Back link */}
         <div className="section-wrap !pt-0">
