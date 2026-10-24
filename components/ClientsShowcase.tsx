@@ -99,7 +99,8 @@ export default function ClientsShowcase() {
                     <span className={`relative h-full ${client.showName ? "w-8 shrink-0" : "w-full"}`}>
                       <Image
                         src={client.logo}
-                        alt=""
+                        // aria-label i butonit mbetet emri i aksesueshëm; alt-i ndihmon Bing/Google Images
+                        alt={`${client.name} logo`}
                         fill
                         sizes="140px"
                         className={`object-contain transition-all duration-500 ${
