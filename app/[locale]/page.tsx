@@ -51,7 +51,7 @@ const META: Record<Locale, { title: string; desc: string; keywords: string[] }> 
     ],
   },
   en: {
-    title: "Web Design for Businesses in Europe, the USA & Albania",
+    title: "Web Design for Businesses in Europe, USA & Albania",
     desc: "Websites, SEO & Google Ads for businesses in Germany, Italy, the UK, Sweden, the USA, Albania and Kosovo. We talk in Albanian. Free plan in 24–48h.",
     keywords: [
       "web design albania", "digital agency tirana", "albanian web agency germany",

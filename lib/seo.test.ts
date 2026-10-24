@@ -16,6 +16,15 @@ describe("buildMetadata", () => {
     expect((meta.twitter as { title?: string })?.title).toBe("Çmimet | Illyrian Pixel");
   });
 
+  it("drops the brand suffix when the full title would exceed 70 characters (Bing limit)", () => {
+    const long = "Web Design for Businesses in Europe, the USA & Albania"; // 54 + 17 = 71
+    const meta = buildMetadata(long);
+    expect(meta.title).toBe(long);
+    expect((meta.openGraph as { title?: string })?.title).toBe(long);
+    expect(buildMetadata("Web Design for Businesses in Europe, USA & Albania").title)
+      .toBe("Web Design for Businesses in Europe, USA & Albania | Illyrian Pixel"); // 67
+  });
+
   it("builds the canonical URL from the path — every page must declare itself, not the homepage", () => {
     const meta = buildMetadata("Shërbimet", "Përmbledhje", "/sherbimet");
     expect(meta.alternates?.canonical).toBe("https://illyrianpixel.com/sherbimet");

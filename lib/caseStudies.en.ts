@@ -8,6 +8,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Milan, Italy",
     flagCodes: ["it"],
     year: "2026",
+    metaDescription: "ESM Group, Milan: brand identity, content structure and a clear website for an industrial company. A professional presence that builds trust.",
     intro:
       "A complete digital system for a serious industrial company.\nWe built the brand identity, content structure and a clear website that communicates value immediately.\n\nA professional presence that builds trust and attracts the right clients.",
     problem:
@@ -27,6 +28,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Pristina & Cologne",
     flagCodes: ["xk", "de"],
     year: "2026",
+    metaDescription: "Bardhi Wellness: identity, offer structure and a website with integrated payments for a personal fitness brand. Fewer questions, more purchases.",
     intro:
       "A complete online sales system for a personal fitness brand.\nWe built the identity, offer structure and a website with integrated payments for a simple, clear process.\n\nFewer questions, more purchases, an experience that turns visitors into clients.",
     problem:
@@ -65,6 +67,7 @@ export const caseStudies: CaseStudy[] = [
     location: "London, UK",
     flagCodes: ["gb"],
     year: "2026",
+    metaDescription: "Palushi Brothers, London: identity, a trust-optimized website and Google Ads for a construction company. Real inquiries from the right clients.",
     intro:
       "A complete lead generation system for a construction company in London.\nWe built the identity, content structure and a trust-optimized website, backed by Google Ads to bring in new clients.\n\nA presence that builds trust and generates real inquiries from the right clients.",
     problem:
@@ -84,6 +87,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Brooklyn, New York",
     flagCodes: ["us"],
     year: "2026",
+    metaDescription: "Roof ON NYC: a website for a family-owned roofing company in New York, with services, service areas and instant contact by phone or quote form.",
     intro:
       "A website for a family-owned roofing and waterproofing company in New York.\nWe built a strong site that shows their services and the areas they cover, and makes contact instant with click-to-call and a quote form.\n\nNew York clients find them, trust them and call.",
     problem:
@@ -141,6 +145,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Tirana, Albania",
     flagCodes: ["al"],
     year: "2026",
+    metaDescription: "A platform for a religious teacher with a wide Albanian-speaking audience: lectures, biography, Quran, hadiths, prayer times and qibla in one place.",
     intro:
       "A digital platform for a religious teacher with a wide Albanian-speaking audience.\nWe brought lectures, biography and daily resources such as the Quran, hadiths, prayer times and qibla direction into one place.\n\nA calm, trustworthy home online that followers use every day.",
     problem:

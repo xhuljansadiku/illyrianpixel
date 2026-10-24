@@ -16,7 +16,7 @@ export function generateStaticParams() {
 const SEO_SQ: Record<CountrySlug, { title: string; desc: string }> = {
   "gjermani": {
     title: "Website për Biznese Shqiptare në Gjermani",
-    desc: "Ndërtojmë website profesionale për biznese shqiptare në Gjermani. Klientë realë (Hauswerk Niederbayern, Suli Group). Konsultim falas, plan brenda 24–48h.",
+    desc: "Website profesionale për biznese shqiptare në Gjermani. Klientë realë (Hauswerk Niederbayern, Suli Group). Konsultim falas, plan brenda 24–48h.",
   },
   "britani": {
     title: "Website për Biznese Shqiptare në Britaninë e Madhe",
@@ -32,7 +32,7 @@ const SEO_SQ: Record<CountrySlug, { title: string; desc: string }> = {
   },
   "shba-kanada": {
     title: "Website për Biznese Shqiptare në SHBA & Kanada",
-    desc: "Ndërtojmë website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini. Klient real në Nju Jork (Roofon NYC). Konsultim falas, plan brenda 24–48h.",
+    desc: "Website për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini. Klient real në Nju Jork (Roof ON NYC). Konsultim falas, plan 24–48h.",
   },
 };
 
@@ -55,7 +55,7 @@ const SEO_EN: Record<CountrySlug, { title: string; desc: string }> = {
   },
   "shba-kanada": {
     title: "Websites for Albanian Businesses in the USA & Canada",
-    desc: "Professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep. Real client in New York (Roofon NYC). Free consultation, plan within 24–48h.",
+    desc: "Websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep. Real client in New York (Roof ON NYC). Free 24–48h plan.",
   },
 };
 

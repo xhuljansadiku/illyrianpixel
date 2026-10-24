@@ -7,7 +7,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 const TITLE = "Ke trafikun. Por ku janë klientët?";
 const DESCRIPTION =
-  "Shumica e bizneseve shpenzojnë para për të sjellë njerëz në faqe dhe i humbin menjëherë. Jo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj.";
+  "Shumica e bizneseve paguajnë për të sjellë vizitorë dhe i humbin menjëherë. Jo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj.";
 
 // BlogGrowthClient ekziston vetëm në shqip — /en mbetet noindex me canonical te versioni sq.
 export async function generateMetadata(props: Props): Promise<Metadata> {

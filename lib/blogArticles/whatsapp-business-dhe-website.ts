@@ -6,7 +6,7 @@ const article: StructuredArticlePair = {
   sq: {
     metaTitle: "WhatsApp Business dhe website: si t'i bëni të punojnë bashkë",
     metaDescription:
-      "Si ta lidhni WhatsApp Business me website-in: butoni i duhur, mesazhi i parashkruar, përgjigjet e shpejta dhe gabimet që i largojnë klientët para se t'ju shkruajnë.",
+      "Si ta lidhni WhatsApp Business me website-in: butoni i duhur, mesazhi i parashkruar, përgjigjet e shpejta dhe gabimet që i largojnë klientët.",
     keywords: ["whatsapp business", "buton whatsapp në website", "whatsapp për biznes", "wa.me link", "klientë nga whatsapp"],
     category: "Marketing",
     title: "WhatsApp Business + website: si t'i bëni të punojnë bashkë",
@@ -74,7 +74,7 @@ const article: StructuredArticlePair = {
   en: {
     metaTitle: "WhatsApp Business and Your Website: How to Make Them Work Together",
     metaDescription:
-      "How to connect WhatsApp Business with your website: the right button, the pre-filled message, quick replies and the mistakes that lose customers before they write.",
+      "How to connect WhatsApp Business with your website: the right button, a pre-filled message, quick replies and the mistakes that lose customers.",
     keywords: ["whatsapp business", "whatsapp button on website", "whatsapp for business", "wa.me link", "customers from whatsapp"],
     category: "Marketing",
     title: "WhatsApp Business + Your Website: How to Make Them Work Together",

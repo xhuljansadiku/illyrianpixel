@@ -7,11 +7,11 @@ import type { Locale } from "@/i18n/routing";
 const META: Record<Locale, { title: string; desc: string }> = {
   sq: {
     title: "Çmimet & paketat, Web, Marketing, Branding",
-    desc: "Investimi i duhur për rezultatin e duhur. Paketa transparente për website premium, e-commerce, SEO dhe branding, pa surpriza. Krahaso dhe zgjidh atë që përshtatet me objektivin tuaj.",
+    desc: "Paketa transparente për website premium, e-commerce, SEO dhe branding, pa surpriza. Krahasoni dhe zgjidhni atë që i përshtatet objektivit tuaj.",
   },
   en: {
     title: "Pricing & Packages, Web, Marketing, Branding",
-    desc: "The right investment for the right result. Transparent packages for premium websites, e-commerce, SEO and branding, no surprises. Compare and choose what fits your goal.",
+    desc: "Transparent packages for premium websites, e-commerce, SEO and branding, with no surprises. Compare them and choose the one that fits your goal.",
   },
 };
 

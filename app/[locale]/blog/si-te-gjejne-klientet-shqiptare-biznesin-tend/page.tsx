@@ -11,7 +11,7 @@ const CATEGORY_COLOR = "rgba(125,211,252,0.9)";
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Si Ju Gjejnë Klientët Shqiptarë Online: Shqipëri, Kosovë, Diasporë",
+    title: "Si Ju Gjejnë Klientët Online: Shqipëri, Kosovë, Diasporë",
     description:
       "Si kërkojnë online shqiptarët në Shqipëri, Kosovë dhe diasporë, dhe çfarë duhet të bëjë biznesi juaj për t'u gjetur nga e gjithë kjo audiencë.",
     keywords: ["si te gjejne klientet shqiptare", "seo shqiptare diaspore", "marketing per shqiptaret jashte vendit", "biznes shqiptar online"],

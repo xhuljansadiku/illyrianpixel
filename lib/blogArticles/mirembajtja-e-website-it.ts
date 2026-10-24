@@ -6,7 +6,7 @@ const article: StructuredArticlePair = {
   sq: {
     metaTitle: "Mirëmbajtja e website-it: çfarë duhet bërë çdo muaj",
     metaDescription:
-      "Backup, përditësime, siguri, shpejtësi: çfarë përfshin mirëmbajtja e një website-i, sa shpesh duhet bërë dhe kur ia vlen ta bëni vetë apo t'ia lini dikujt tjetër.",
+      "Backup, përditësime, siguri, shpejtësi: çfarë përfshin mirëmbajtja e website-it, sa shpesh bëhet dhe kur ia vlen ta bëni vetë apo t'ia lini dikujt.",
     keywords: ["mirëmbajtje website", "mirëmbajtja e faqes", "backup website", "përditësime wordpress", "siguria e website"],
     category: "Web Design",
     title: "Mirëmbajtja e website-it: çfarë duhet bërë çdo muaj (dhe pse s'është luks)",

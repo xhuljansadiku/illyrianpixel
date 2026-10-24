@@ -6,7 +6,7 @@ const article: StructuredArticlePair = {
   sq: {
     metaTitle: "Foto produktesh me telefon: udhëzim praktik për dyqanet e vogla",
     metaDescription:
-      "Si të bëni foto produktesh që shesin, vetëm me telefon: drita, sfondi, këndet, editimi i lehtë dhe si t'i përgatitni për dyqanin online pa e ngadalësuar faqen.",
+      "Foto produktesh që shesin, vetëm me telefon: drita, sfondi, këndet, editimi i lehtë dhe si t'i përgatitni për dyqanin online pa e ngadalësuar faqen.",
     keywords: ["foto produktesh", "foto me telefon", "fotografi produktesh dyqan online", "foto për e-commerce", "si të fotografoj produktet"],
     category: "E-Commerce",
     title: "Foto produktesh me telefon: udhëzim praktik për dyqanet e vogla",
@@ -83,7 +83,7 @@ const article: StructuredArticlePair = {
   en: {
     metaTitle: "Product Photos With Your Phone: A Practical Guide for Small Shops",
     metaDescription:
-      "How to take product photos that sell using only a phone: light, background, angles, light editing and preparing them for your online store without slowing it down.",
+      "Product photos that sell, using only a phone: light, background, angles, simple editing and preparing them for your online store without slowing it down.",
     keywords: ["product photos", "phone product photography", "product photography online store", "e-commerce photos", "how to photograph products"],
     category: "E-Commerce",
     title: "Product Photos With Your Phone: A Practical Guide for Small Shops",

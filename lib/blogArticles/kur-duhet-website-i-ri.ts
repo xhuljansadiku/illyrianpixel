@@ -6,7 +6,7 @@ const article: StructuredArticlePair = {
   sq: {
     metaTitle: "Kur i duhet biznesit një website i ri? 9 shenja të qarta",
     metaDescription:
-      "Si e kuptoni që website-i juaj po ju kushton klientë në vend që t'i sjellë: 9 shenja praktike, çfarë mund të rregullohet dhe kur ia vlen të nisni nga e para.",
+      "Si e kuptoni që website-i po ju kushton klientë në vend që t'i sjellë: 9 shenja praktike, çfarë rregullohet dhe kur ia vlen të nisni nga e para.",
     keywords: ["website i ri", "rindërtim website", "kur duhet website i ri", "website i vjetër biznes"],
     category: "Web Design",
     title: "Kur i duhet biznesit një website i ri? 9 shenja që s'duhen injoruar",

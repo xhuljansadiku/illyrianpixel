@@ -6,7 +6,7 @@ const article: StructuredArticlePair = {
   sq: {
     metaTitle: "Shpejtësia e website-it pa zhargon: Core Web Vitals për bizneset",
     metaDescription:
-      "Çfarë janë LCP, INP dhe CLS në gjuhë të thjeshtë, si ta matni shpejtësinë e faqes suaj falas dhe 6 shkaqet më të shpeshta pse një website hapet ngadalë.",
+      "LCP, INP dhe CLS në gjuhë të thjeshtë: si ta matni shpejtësinë e faqes falas dhe 6 shkaqet më të shpeshta pse një website hapet ngadalë.",
     keywords: ["shpejtësia e website", "core web vitals", "pagespeed", "website i ngadaltë", "optimizim shpejtësie"],
     category: "Web Design",
     title: "Shpejtësia e website-it, pa zhargon: pse çdo sekondë ka rëndësi",

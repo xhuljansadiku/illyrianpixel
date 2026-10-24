@@ -4,9 +4,9 @@ const article: StructuredArticlePair = {
   slug: "google-business-profile-udhezues",
   published: "2026-10-22",
   sq: {
-    metaTitle: "Google Business Profile: udhëzues për bizneset në Shqipëri dhe Kosovë",
+    metaTitle: "Google Business Profile: udhëzues për biznese në Shqipëri e Kosovë",
     metaDescription:
-      "Si ta krijoni dhe plotësoni profilin falas të biznesit në Google Maps: kategoria, orari, fotot, vlerësimet dhe gabimet që e mbajnë profilin të padukshëm.",
+      "Si ta krijoni dhe plotësoni profilin falas të biznesit në Google Maps: kategoria, orari, fotot, vlerësimet dhe gabimet që e mbajnë të padukshëm.",
     keywords: ["google business profile", "google maps biznes", "si të dal në google maps", "seo lokal shqipëri", "google my business"],
     category: "SEO",
     title: "Google Business Profile: si ta bëni biznesin të dukshëm në Google Maps",

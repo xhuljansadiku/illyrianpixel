@@ -14,6 +14,8 @@ export const seo = {
 };
 
 // ── buildMetadata ─────────────────────────────────────────────────────────────
+const TITLE_MAX = 70;
+
 export const buildMetadata = (
   title?: string,
   description?: string,
@@ -26,10 +28,14 @@ export const buildMetadata = (
   const enUrl = path ? `${siteUrl}/en${path}` : `${siteUrl}/en`;
   const sqOnly = opts?.sqOnly ?? false;
   const canonicalUrl = sqOnly || locale !== "en" ? sqUrl : enUrl;
+  // Bing e raporton si gabim titullin mbi 70 shkronja (2026-10-24) — kur titulli me
+  // " | Illyrian Pixel" kalon kufirin, prapashtesa hiqet; marka mbetet te og:site_name.
+  const branded = title ? `${title} | ${defaultTitle}` : defaultTitle;
+  const fullTitle = title && branded.length > TITLE_MAX ? title : branded;
 
   return {
     metadataBase: new URL(siteUrl),
-    title: title ? `${title} | ${defaultTitle}` : defaultTitle,
+    title: fullTitle,
     description: description ?? defaultDescription,
     ...(keywords?.length ? { keywords } : {}),
     ...(sqOnly && locale === "en" ? { robots: { index: false, follow: true } } : {}),
@@ -40,7 +46,7 @@ export const buildMetadata = (
         : { "sq": sqUrl, "sq-AL": sqUrl, "en": enUrl, "x-default": sqUrl }
     },
     openGraph: {
-      title: title ? `${title} | ${defaultTitle}` : defaultTitle,
+      title: fullTitle,
       description: description ?? defaultDescription,
       url: canonicalUrl,
       siteName: "Illyrian Pixel",
@@ -59,7 +65,7 @@ export const buildMetadata = (
       card: "summary_large_image",
       site: "@illyrianpixel",
       creator: "@illyrianpixel",
-      title: title ? `${title} | ${defaultTitle}` : defaultTitle,
+      title: fullTitle,
       description: description ?? defaultDescription,
       images: [{
         url: seo.ogImage,
