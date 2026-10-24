@@ -51,6 +51,8 @@ export const buildMetadata = (
         alt: "Illyrian Pixel — Agjenci Dixhitale Premium për Biznese Shqiptare"
       }],
       locale: locale === "en" ? "en_US" : "sq_AL",
+      // og:locale:alternate — Facebook/LinkedIn shohin që faqja ka edhe versionin në gjuhën tjetër
+      ...(sqOnly ? {} : { alternateLocale: locale === "en" ? ["sq_AL"] : ["en_US"] }),
       type: "website"
     },
     twitter: {

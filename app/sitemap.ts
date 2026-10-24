@@ -36,25 +36,27 @@ const localizedUrl = (locale: Locale, path: string) =>
 const LOCALES: Locale[] = ["sq", "en"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // date = ndryshimi i fundit real i faqes (nga git log, 2026-10-24). Google e injoron lastmod-in
+  // kur sheh që s'përputhet me ndryshimet — përditësoje kur ndryshon përmbajtja e faqes.
   const staticRoutes: { path: string; priority: number; changefreq: MetadataRoute.Sitemap[number]["changeFrequency"]; date: Date }[] = [
-    { path: "",                          priority: 1.0,  changefreq: "weekly",  date: LAUNCH_DATE },
-    { path: "/sherbimet",                priority: 0.9,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/cmimet",                   priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/contact",                  priority: 0.85, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/projektet",                priority: 0.8,  changefreq: "weekly",  date: LAUNCH_DATE },
-    { path: "/newsletter",               priority: 0.6,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/blog",                     priority: 0.75, changefreq: "weekly",  date: new Date("2026-05-15") },
-    { path: "/services/website",         priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/ecommerce",       priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/seo-google-ads",  priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/branding-content",priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/smm",             priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/mirembajtja",     priority: 0.7,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/aplikacione-mobile", priority: 0.75, changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/seo",             priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/services/google-ads",      priority: 0.8,  changefreq: "monthly", date: LAUNCH_DATE },
-    { path: "/privacy",                  priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },
-    { path: "/terms",                    priority: 0.3,  changefreq: "yearly",  date: LAUNCH_DATE },
+    { path: "",                          priority: 1.0,  changefreq: "weekly",  date: new Date("2026-10-22") },
+    { path: "/sherbimet",                priority: 0.9,  changefreq: "monthly", date: new Date("2026-10-07") },
+    { path: "/cmimet",                   priority: 0.85, changefreq: "monthly", date: new Date("2026-10-07") },
+    { path: "/contact",                  priority: 0.85, changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/projektet",                priority: 0.8,  changefreq: "weekly",  date: new Date("2026-10-21") },
+    { path: "/newsletter",               priority: 0.6,  changefreq: "monthly", date: new Date("2026-10-07") },
+    { path: "/blog",                     priority: 0.75, changefreq: "weekly",  date: new Date("2026-10-22") },
+    { path: "/services/website",         priority: 0.8,  changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/services/ecommerce",       priority: 0.8,  changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/services/seo-google-ads",  priority: 0.8,  changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/services/branding-content",priority: 0.75, changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/services/smm",             priority: 0.75, changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/services/mirembajtja",     priority: 0.7,  changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/services/aplikacione-mobile", priority: 0.75, changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/services/seo",             priority: 0.8,  changefreq: "monthly", date: new Date("2026-10-22") },
+    { path: "/services/google-ads",      priority: 0.8,  changefreq: "monthly", date: new Date("2026-10-21") },
+    { path: "/privacy",                  priority: 0.3,  changefreq: "yearly",  date: new Date("2026-10-13") },
+    { path: "/terms",                    priority: 0.3,  changefreq: "yearly",  date: new Date("2026-10-13") },
   ];
 
   // Burim i vetëm me app/[locale]/blog/[slug] (2026-10-22) — më parë dy lista të ndara
@@ -98,7 +100,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const projectEntries = LOCALES.flatMap((locale) =>
     getCaseStudies(locale).map((cs) => ({
       url: localizedUrl(locale, `/projektet/${cs.slug}`),
-      lastModified: LAUNCH_DATE,
+      // Redizajni i faqeve të projekteve (7e994bd)
+      lastModified: new Date("2026-10-14"),
       priority: 0.75,
       changeFrequency: "monthly" as const,
     }))
