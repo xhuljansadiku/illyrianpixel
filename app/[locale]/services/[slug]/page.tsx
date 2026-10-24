@@ -28,11 +28,11 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
   sq: {
     website: {
       title: "Website Premium me Konvertim të Lartë — Tiranë & Diasporë",
-      desc: "Ndërtojmë website luksoz me dizajn editorial, SEO on-page dhe arkitekturë konvertimi. Çdo faqe është strategji, jo vetëm estetikë. Konsultim falas · Plan 24–48h.",
+      desc: "Website me dizajn editorial, SEO on-page dhe arkitekturë konvertimi. Çdo faqe është strategji, jo vetëm estetikë. Konsultim falas · Plan 24–48h.",
     },
     ecommerce: {
       title: "E-Commerce & Dyqane Online me ROI të Matshëm — Shqipëri",
-      desc: "Dyqane online me checkout të optimizuar, pagesa të integruara dhe analitikë shitjesh. Çdo element është projektuar për të rritur vlerën mesatare të porosisë. 0 kosto konsultimi.",
+      desc: "Dyqane online me checkout të optimizuar, pagesa të integruara dhe analitikë shitjesh, të projektuara për të rritur vlerën e porosisë. Konsultim falas.",
     },
     "seo-google-ads": {
       title: "SEO & Google Ads për Biznese — Konvertim i Matshëm",
@@ -44,7 +44,7 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
     },
     smm: {
       title: "Social Media Marketing Premium — Instagram, Facebook, TikTok",
-      desc: "Menaxhim i plotë strategjik i rrjeteve sociale: content editorial, dizajn premium, posting i optimizuar dhe angazhim real. Ndërtojmë komunitet, jo vetëm followerë.",
+      desc: "Menaxhim strategjik i rrjeteve sociale: content editorial, dizajn premium, postim i optimizuar dhe angazhim real. Ndërtojmë komunitet, jo vetëm followerë.",
     },
     mirembajtja: {
       title: "Mirëmbajtje Website & E-Commerce — Monitorim 24/7 & Siguri",
@@ -58,7 +58,7 @@ const SEO: Record<Locale, Record<(typeof SERVICE_SLUGS)[number], { title: string
   en: {
     website: {
       title: "Premium High-Conversion Website — Tirana & Diaspora",
-      desc: "We build luxury websites with editorial design, on-page SEO and conversion architecture. Every page is strategy, not just aesthetics. Free consultation · 24–48h plan.",
+      desc: "Websites with editorial design, on-page SEO and conversion architecture. Every page is strategy, not just aesthetics. Free consultation · 24–48h plan.",
     },
     ecommerce: {
       title: "E-Commerce & Online Stores with Measurable ROI — Albania",

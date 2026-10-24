@@ -21,7 +21,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "projects.detail" });
   const cleanIntro = cs.intro.replace(/\n/g, " ");
   // buildMetadata jep canonical + hreflang sipas gjuhës (slug-et janë të njëjta në sq/en)
-  const base = buildMetadata(cs.title, cleanIntro, `/projektet/${cs.slug}`, undefined, locale);
+  const base = buildMetadata(cs.title, cs.metaDescription ?? cleanIntro, `/projektet/${cs.slug}`, undefined, locale);
   return {
     ...base,
     openGraph: {

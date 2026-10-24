@@ -6,7 +6,7 @@ import type { Locale } from "@/i18n/routing";
 const META: Record<Locale, { title: string; desc: string; keywords: string[] }> = {
   sq: {
     title: "Shërbime Dixhitale Premium, Website, Marketing & Branding",
-    desc: "Agjenci ueb dizajni luksoz me tre specializma: website premium me konvertim të lartë, marketing strategjik për biznese dhe branding identitar. Konsultim falas.",
+    desc: "Agjenci web me tre specializime: website premium me konvertim të lartë, marketing strategjik dhe branding identitar për biznese. Konsultim falas.",
     keywords: ["shërbime web design shqipëri", "website premium albania", "marketing online biznese", "seo shqipëri", "branding identitar", "e-commerce shqipëri", "social media marketing albania"],
   },
   en: {

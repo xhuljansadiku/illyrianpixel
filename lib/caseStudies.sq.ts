@@ -5,6 +5,8 @@ export type CaseStudy = {
   location: string;
   flagCodes: string[];
   year: string;
+  // ≤160 shkronja për <meta description>; pa të përdoret intro (shpesh 250+ shkronja)
+  metaDescription?: string;
   intro: string;
   problem: string;
   solution: string;
@@ -23,6 +25,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Milano, Itali",
     flagCodes: ["it"],
     year: "2026",
+    metaDescription: "ESM Group, Milano: identitet brandi, strukturë përmbajtjeje dhe website i qartë për një kompani industriale. Prezencë që krijon besim dhe sjell klientë.",
     intro:
       "Sistem i plotë dixhital për një kompani industriale serioze.\nNdërtuam identitetin e brandit, strukturën e përmbajtjes dhe një website të qartë që komunikon vlerën menjëherë.\n\nPrezencë profesionale që krijon besim dhe tërheq klientë të duhur.",
     problem:
@@ -42,6 +45,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Prishtinë & Köln",
     flagCodes: ["xk", "de"],
     year: "2026",
+    metaDescription: "Bardhi Wellness: identitet, strukturë oferte dhe website me pagesa të integruara për një brand personal fitnessi. Më pak pyetje, më shumë blerje.",
     intro:
       "Sistem i plotë për shitje online për një brand personal në fitness.\nNdërtuam identitetin, strukturën e ofertës dhe një website me pagesa të integruara për një proces të thjeshtë dhe të qartë.\n\nMë pak pyetje, më shumë blerje, një eksperiencë që kthen vizitorët në klientë.",
     problem:
@@ -80,6 +84,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Londër, Angli",
     flagCodes: ["gb"],
     year: "2026",
+    metaDescription: "Palushi Brothers, Londër: identitet, website i optimizuar për besim dhe Google Ads për një kompani ndërtimi. Kërkesa reale nga klientë të duhur.",
     intro:
       "Sistem i plotë për gjenerim kontaktesh për një kompani ndërtimi në Londër.\nNdërtuam identitetin, strukturën e përmbajtjes dhe një website të optimizuar për besim, i mbështetur me Google Ads për të sjellë klientë të rinj.\n\nNjë prezencë që krijon besim dhe gjeneron kërkesa reale nga klientë të duhur.",
     problem:
@@ -99,6 +104,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Brooklyn, Nju Jork",
     flagCodes: ["us"],
     year: "2026",
+    metaDescription: "Roof ON NYC: website për një kompani familjare çatish në Nju Jork, me shërbimet, zonat dhe kontakt të menjëhershëm me telefon e formular oferte.",
     intro:
       "Website për një kompani familjare çatish dhe hidroizolimi në Nju Jork.\nNdërtuam një faqe të fortë që tregon shërbimet, zonat ku punojnë dhe e bën kontaktin të menjëhershëm, me telefon dhe formular oferte.\n\nKlientët në Nju Jork e gjejnë, i besojnë dhe telefonojnë.",
     problem:
@@ -156,6 +162,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Tiranë, Shqipëri",
     flagCodes: ["al"],
     year: "2026",
+    metaDescription: "Platformë për një hoxhë me audiencë të gjerë shqipfolëse: ligjërata, biografi, Kurani, hadithet, kohët e namazit dhe kibla në një vend të vetëm.",
     intro:
       "Platformë dixhitale për një hoxhë me audiencë të gjerë shqipfolëse.\nBashkuam ligjëratat, biografinë dhe burime të përditshme si Kurani, hadithet, kohët e namazit dhe kibla në një vend të vetëm.\n\nNjë shtëpi online e qetë dhe e besueshme, që ndjekësit e përdorin çdo ditë.",
     problem:

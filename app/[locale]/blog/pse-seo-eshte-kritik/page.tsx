@@ -9,7 +9,7 @@ const META: Record<Locale, { title: string; description: string }> = {
   sq: {
     title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)",
     description:
-      "Të kesh një website të bukur që nuk shfaqet në Google është si të hapësh një dyqan luksoz në mes të shkretëtirës. Askush nuk e gjen, askush nuk blen.",
+      "Një website i bukur që nuk shfaqet në Google është si një dyqan luksoz në mes të shkretëtirës. Askush nuk e gjen, askush nuk blen.",
   },
   en: {
     title: "Why SEO is critical for serious businesses (not optional)",

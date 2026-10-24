@@ -9,12 +9,12 @@ const META: Record<Locale, { title: string; description: string }> = {
   sq: {
     title: "Google Ads apo SEO: Ku të investosh para?",
     description:
-      "Dy kanale të ndryshme, dy logjika të ndryshme. Njëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite. Ja si të zgjedhësh sipas situatës dhe buxhetit të biznesit tuaj.",
+      "Dy kanale, dy logjika. Njëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite. Ja si të zgjidhni sipas situatës dhe buxhetit të biznesit tuaj.",
   },
   en: {
     title: "Google Ads or SEO: Where should you invest your money?",
     description:
-      "Two different channels, two different logics. One delivers results tomorrow, the other builds something that lasts for years. Here's how to choose based on your situation and budget.",
+      "Two channels, two logics. One delivers results tomorrow, the other builds something that lasts for years. Here's how to choose for your situation and budget.",
   },
 };
 

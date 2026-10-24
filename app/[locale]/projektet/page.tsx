@@ -7,7 +7,7 @@ import type { Locale } from "@/i18n/routing";
 const META: Record<Locale, { title: string; desc: string }> = {
   sq: {
     title: "Projektet, Website për Biznese Reale",
-    desc: "Portofol i zgjedhur me kujdes: website premium, faqe me konvertim të lartë dhe branding identitar për biznese nga Shqipëria, Gjermania dhe Britania. Shikoni rezultatet reale.",
+    desc: "Portofol i zgjedhur: website premium, faqe me konvertim të lartë dhe branding për biznese nga Shqipëria, Gjermania dhe Britania. Shikoni rezultatet reale.",
   },
   en: {
     title: "Our Work, Websites for Real Businesses",
