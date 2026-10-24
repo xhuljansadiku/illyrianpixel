@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -29,6 +30,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("social-media-menaxhim-shqiperi", m.title, m.description, locale as Locale);
 
   if (locale === "en") {
     return (
@@ -37,6 +40,7 @@ export default async function Page(props: Props) {
         categoryColor="rgba(147,197,253,0.9)"
         breadcrumbLabel="Social Media Management"
         path="/blog/social-media-menaxhim-shqiperi"
+        article={article}
         title="Social Media Management in Albania: Prices and What to Expect"
         description="Pricing for professional social media management in Albania, what it includes, the main platforms, and how to choose the right agency."
         date="June 2026"
@@ -126,6 +130,7 @@ export default async function Page(props: Props) {
       categoryColor="rgba(147,197,253,0.9)"
       breadcrumbLabel="Social Media Menaxhim"
       path="/blog/social-media-menaxhim-shqiperi"
+      article={article}
       title="Social Media Menaxhim në Shqipëri: Çmime dhe çfarë të prisni"
       description="Çmimet e menaxhimit profesional të social media në Shqipëri, çfarë përfshin, platformat kryesore dhe si të zgjidhni agjencinë e duhur."
       date="Qershor 2026"

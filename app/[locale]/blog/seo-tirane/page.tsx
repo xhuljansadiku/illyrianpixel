@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -29,6 +30,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("seo-tirane", m.title, m.description, locale as Locale);
 
   if (locale === "en") {
     return (
@@ -37,6 +40,7 @@ export default async function Page(props: Props) {
         categoryColor="rgba(167,243,208,0.9)"
         breadcrumbLabel="SEO Tirana"
         path="/blog/seo-tirane"
+        article={article}
         title="SEO Tirana: How to Rank First on Google in 2026"
         description="How Albanian businesses reach page one of Google and what an SEO strategy that delivers real results in the Albanian market requires."
         date="May 2026"
@@ -125,6 +129,7 @@ export default async function Page(props: Props) {
       categoryColor="rgba(167,243,208,0.9)"
       breadcrumbLabel="SEO Tiranë"
       path="/blog/seo-tirane"
+      article={article}
       title="SEO Tiranë: Si të dilni i pari në Google në 2026"
       description="Si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që jep rezultate reale në tregun shqiptar."
       date="Maj 2026"

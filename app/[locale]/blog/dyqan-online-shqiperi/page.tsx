@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -29,6 +30,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("dyqan-online-shqiperi", m.title, m.description, locale as Locale);
 
   if (locale === "en") {
     return (
@@ -37,6 +40,7 @@ export default async function Page(props: Props) {
         categoryColor="rgba(196,181,253,0.9)"
         breadcrumbLabel="Online Store Albania"
         path="/blog/dyqan-online-shqiperi"
+        article={article}
         title="How to Open an Online Store in Albania: Complete 2026 Guide"
         description={<>{"A practical guide to opening an online store in Albania."}<br className="max-md:hidden" />{" Platforms, payments, real costs, and the first steps to start selling online today."}</>}
         date="May 2026"
@@ -142,6 +146,7 @@ export default async function Page(props: Props) {
       categoryColor="rgba(196,181,253,0.9)"
       breadcrumbLabel="Dyqan Online Shqipëri"
       path="/blog/dyqan-online-shqiperi"
+      article={article}
       title="Si të hapni dyqan online në Shqipëri: Udhëzues i plotë 2026"
       description={<>{"Udhëzues praktik për hapjen e dyqanit online në Shqipëri."}<br className="max-md:hidden" />{" Platformat, pagesat, kostot reale dhe hapat e parë për të filluar shitjet online sot."}</>}
       date="Maj 2026"

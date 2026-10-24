@@ -21,6 +21,8 @@ interface Props {
   breadcrumbLabel?: string;
   /** Canonical path, e.g. "/blog/seo-tirane" */
   path?: string;
+  /** Schema Article e gatshme (lib/blogDates → blogArticleSchema), shfaqet pranë breadcrumb-it */
+  article?: Record<string, unknown>;
   description: React.ReactNode;
   date: string;
   readTime: string;
@@ -33,6 +35,7 @@ export default function BlogArticleLayout({
   title,
   breadcrumbLabel,
   path,
+  article,
   description,
   date,
   readTime,
@@ -55,6 +58,13 @@ export default function BlogArticleLayout({
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
+        />
+      )}
+      {article && (
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: jsonLd(article) }}
         />
       )}
       <Navbar />

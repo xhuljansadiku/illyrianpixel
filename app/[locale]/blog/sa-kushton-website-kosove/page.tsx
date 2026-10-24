@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -29,6 +30,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("sa-kushton-website-kosove", m.title, m.description, locale as Locale);
 
   if (locale === "en") {
     return (
@@ -37,6 +40,7 @@ export default async function Page(props: Props) {
         categoryColor="rgba(234,206,113,0.95)"
         breadcrumbLabel="Website Cost Kosovo?"
         path="/blog/sa-kushton-website-kosove"
+        article={article}
         title="How Much Does a Professional Website Cost in Kosovo in 2026?"
         description={<>{"Real website pricing in Kosovo (Pristina, Prizren, Peja) for 2026."}<br className="max-md:hidden" />{" What a professional website includes and how to choose the right agency."}</>}
         date="July 2026"
@@ -120,6 +124,7 @@ export default async function Page(props: Props) {
       categoryColor="rgba(234,206,113,0.95)"
       breadcrumbLabel="Sa kushton website Kosovë?"
       path="/blog/sa-kushton-website-kosove"
+      article={article}
       title="Sa kushton një website profesional në Kosovë në 2026?"
       description={<>{"Çmimet reale të website-ve në Kosovë (Prishtinë, Prizren, Pejë) për 2026."}<br className="max-md:hidden" />{" Çfarë përfshin një faqe profesionale dhe si e zgjidhni agjencinë e duhur."}</>}
       date="Korrik 2026"

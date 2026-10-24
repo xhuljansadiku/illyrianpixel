@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BlogGrowthClient from "@/components/BlogGrowthClient";
 import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -24,6 +25,7 @@ export default function SiTeRriseshKlientetOnlinePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(blogArticleSchema("si-te-rrisesh-klientet-online", TITLE, DESCRIPTION, "sq")) }} />
       <BlogGrowthClient />
     </>
   );

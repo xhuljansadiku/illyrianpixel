@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BlogUxMistakesClient from "@/components/BlogUxMistakesClient";
 import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -36,7 +37,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-export default function GabimetKryesoreNeWebsitePage() {
+export default async function GabimetKryesoreNeWebsitePage(props: Props) {
+  const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("gabimet-kryesore-ne-website", m.title.replace(/ \| Blog$/, ""), m.description, locale as Locale);
   const breadcrumb = buildBreadcrumb([
     { name: "Home", url: seo.siteUrl },
     { name: "Blog", url: `${seo.siteUrl}/blog` },
@@ -45,6 +49,7 @@ export default function GabimetKryesoreNeWebsitePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(article) }} />
       <BlogUxMistakesClient />
     </>
   );
