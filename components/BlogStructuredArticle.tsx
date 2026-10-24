@@ -5,6 +5,7 @@ import type { Locale } from "@/i18n/routing";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 import { buildMetadata, jsonLd, seo } from "@/lib/seo";
 import type { BlogBlock, StructuredArticlePair } from "@/lib/blogArticles/types";
+import { blogArticleSchema } from "@/lib/blogDates";
 
 const P = "whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68";
 const LIST = "space-y-3 text-[1.02rem] leading-relaxed text-white/68";
@@ -67,17 +68,7 @@ export function structuredArticleMetadata(pair: StructuredArticlePair, locale: L
 export default function BlogStructuredArticle({ pair, locale }: { pair: StructuredArticlePair; locale: Locale }) {
   const a = pair[locale] ?? pair.sq;
   const path = `/blog/${pair.slug}`;
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: a.title,
-    description: a.metaDescription,
-    inLanguage: locale,
-    datePublished: pair.published,
-    author: { "@type": "Organization", name: "Illyrian Pixel" },
-    publisher: { "@id": `${seo.siteUrl}/#organization` },
-    mainEntityOfPage: `${seo.siteUrl}${locale === "en" ? "/en" : ""}${path}`,
-  };
+  const articleSchema = blogArticleSchema(pair.slug, a.title, a.metaDescription, locale);
 
   return (
     <>

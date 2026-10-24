@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -29,6 +30,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("web-design-tirane", m.title, m.description, locale as Locale);
 
   if (locale === "en") {
     return (
@@ -37,6 +40,7 @@ export default async function Page(props: Props) {
         categoryColor="rgba(234,206,113,0.95)"
         breadcrumbLabel="Web Design Tirana"
         path="/blog/web-design-tirane"
+        article={article}
         title={<>Web Design Tirana<br />How to Choose a Professional Agency</>}
         description={<>{"How to tell a serious agency apart from amateurs."}<br className="max-md:hidden" />{" The right criteria, the questions to ask, and the warning signs before signing a contract."}</>}
         date="May 2026"
@@ -135,6 +139,7 @@ export default async function Page(props: Props) {
       categoryColor="rgba(234,206,113,0.95)"
       breadcrumbLabel="Web Design Tiranë"
       path="/blog/web-design-tirane"
+      article={article}
       title={<>Web Design Tiranë<br />Si të zgjidhni agjenci profesionale</>}
       description={<>{"Si ta dalloni agjencinë serioze nga amatorët."}<br className="max-md:hidden" />{" Kriteret e sakta, pyetjet që duhet të bëni dhe shenjat paralajmëruese para nënshkrimit të kontratës."}</>}
       date="Maj 2026"

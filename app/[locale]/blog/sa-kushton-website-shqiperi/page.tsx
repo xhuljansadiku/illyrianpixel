@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -29,6 +30,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("sa-kushton-website-shqiperi", m.title, m.description, locale as Locale);
 
   if (locale === "en") {
     return (
@@ -37,6 +40,7 @@ export default async function Page(props: Props) {
         categoryColor="rgba(234,206,113,0.95)"
         breadcrumbLabel="Website Cost?"
         path="/blog/sa-kushton-website-shqiperi"
+        article={article}
         title="How Much Does a Professional Website Cost in Albania in 2026?"
         description={<>{"Real website pricing in Albania for 2026."}<br className="max-md:hidden" />{" Find out what a professional site costs, what it includes, and how to avoid costly mistakes."}</>}
         date="May 2026"
@@ -120,6 +124,7 @@ export default async function Page(props: Props) {
       categoryColor="rgba(234,206,113,0.95)"
       breadcrumbLabel="Sa kushton website?"
       path="/blog/sa-kushton-website-shqiperi"
+      article={article}
       title="Sa kushton një website profesional në Shqipëri në 2026?"
       description={<>{"Çmimet reale të website-ve në Shqipëri për 2026."}<br className="max-md:hidden" />{" Zbuloni sa kushton faqja profesionale, çfarë përfshin dhe si të shmangni gabimet e shtrenjta."}</>}
       date="Maj 2026"

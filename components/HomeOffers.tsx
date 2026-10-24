@@ -62,7 +62,7 @@ export default function HomeOffers({ prices }: { prices: Record<string, OfferPri
                 )}
 
                 <Link
-                  href={`/sherbimet/${o.slug}`}
+                  href={`/services/${o.slug}`}
                   className="mt-8 inline-flex w-fit items-center gap-2 border-b border-accent pb-1 text-[12px] font-semibold uppercase tracking-[0.16em] text-accent transition-colors hover:text-accentLight"
                 >
                   {o.cta} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>

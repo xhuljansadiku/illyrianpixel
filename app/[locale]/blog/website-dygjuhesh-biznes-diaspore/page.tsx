@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -26,16 +27,7 @@ const META: Record<Locale, { title: string; description: string; keywords: strin
 
 function articleSchema(locale: Locale) {
   const m = META[locale];
-  return {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: m.title,
-    description: m.description,
-    author: { "@type": "Organization", name: "Illyrian Pixel" },
-    publisher: { "@type": "Organization", name: "Illyrian Pixel" },
-    datePublished: "2026-07-25",
-    mainEntityOfPage: `${seo.siteUrl}${locale === "en" ? "/en" : ""}/blog/${SLUG}`,
-  };
+  return blogArticleSchema(SLUG, m.title, m.description, locale);
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {

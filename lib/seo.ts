@@ -274,6 +274,30 @@ export const buildFaqSchema = (items: { q: string; a: string }[]) => ({
   }))
 });
 
+// ── Article Schema (blog) ─────────────────────────────────────────────────────
+// 2026-10-24: një formë e vetme për të gjithë artikujt — më parë 26 faqe blogu s'kishin fare
+// Article, dhe asnjë s'kishte dateModified (AI-të dhe Google e përdorin për freskinë).
+export const buildArticleSchema = (a: {
+  title: string;
+  description: string;
+  path: string;
+  locale: Locale;
+  published: string;
+  modified?: string;
+}) => ({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: a.title,
+  description: a.description,
+  inLanguage: a.locale,
+  datePublished: a.published,
+  dateModified: a.modified ?? a.published,
+  image: seo.ogImage,
+  author: { "@type": "Organization", name: defaultTitle, url: siteUrl },
+  publisher: { "@id": `${siteUrl}/#organization` },
+  mainEntityOfPage: `${siteUrl}${a.locale === "en" ? "/en" : ""}${a.path}`,
+});
+
 // ── BreadcrumbList helper ─────────────────────────────────────────────────────
 export const buildBreadcrumb = (items: { name: string; url: string }[]) => ({
   "@context": "https://schema.org",

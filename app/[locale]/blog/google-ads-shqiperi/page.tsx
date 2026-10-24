@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { buildMetadata } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 import BlogArticleLayout from "@/components/BlogArticleLayout";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -29,6 +30,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("google-ads-shqiperi", m.title, m.description, locale as Locale);
 
   if (locale === "en") {
     return (
@@ -37,6 +40,7 @@ export default async function Page(props: Props) {
         categoryColor="rgba(252,211,77,0.9)"
         breadcrumbLabel="Google Ads Albania"
         path="/blog/google-ads-shqiperi"
+        article={article}
         title={<>Google Ads Albania<br />Real Prices and Expected Results</>}
         description="Real Google Ads pricing in Albania, the biggest mistakes, and how to manage your ad budget for maximum ROI in the Albanian market."
         date="May 2026"
@@ -143,6 +147,7 @@ export default async function Page(props: Props) {
       categoryColor="rgba(252,211,77,0.9)"
       breadcrumbLabel="Google Ads Shqipëri"
       path="/blog/google-ads-shqiperi"
+      article={article}
       title={<>Google Ads Shqipëri<br />Çmime reale dhe rezultate të pritshme</>}
       description="Çmimet reale të Google Ads në Shqipëri, gabimet kryesore dhe si ta menaxhoni buxhetin tuaj reklamues për ROI maksimal në tregun shqiptar."
       date="Maj 2026"

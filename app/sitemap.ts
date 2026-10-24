@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { DEDICATED_BLOG_SLUGS } from "@/lib/blogDedicatedSlugs";
-import { STRUCTURED_ARTICLES } from "@/lib/blogArticles";
+import { BLOG_DATES } from "@/lib/blogDates";
 import { getBlogPostsForLocale } from "@/lib/blogPosts";
 import { getCaseStudies } from "@/lib/caseStudies";
 import { seo } from "@/lib/seo";
@@ -9,25 +9,8 @@ import type { Locale } from "@/i18n/routing";
 
 // Actual site go-live date (confirmed by owner), not the first commit date
 const LAUNCH_DATE = new Date("2026-05-10");
-const BLOG_DATES: Record<string, Date> = {
-  "si-te-rrisesh-klientet-online": new Date("2026-04-10"),
-  "gabimet-kryesore-ne-website": new Date("2026-04-15"),
-  "pse-seo-eshte-kritik": new Date("2026-04-20"),
-  "google-ads-vs-seo": new Date("2026-05-05"),
-  "pse-ecommerce-eshte-i-rendesishem": new Date("2026-05-10"),
-  "cfare-eshte-branding": new Date("2026-05-15"),
-  "sa-kushton-website-shqiperi": new Date("2026-05-20"),
-  "seo-tirane": new Date("2026-05-22"),
-  "dyqan-online-shqiperi": new Date("2026-05-24"),
-  "google-ads-shqiperi": new Date("2026-05-26"),
-  "web-design-tirane": new Date("2026-05-28"),
-  "social-media-menaxhim-shqiperi": new Date("2026-05-30"),
-  "menaxho-biznesin-nga-diaspora": new Date("2026-07-25"),
-  "website-dygjuhesh-biznes-diaspore": new Date("2026-07-25"),
-  "si-te-gjejne-klientet-shqiptare-biznesin-tend": new Date("2026-07-25"),
-  "sa-kushton-website-kosove": new Date("2026-07-29"),
-  ...Object.fromEntries(STRUCTURED_ARTICLES.map((a) => [a.slug, new Date(a.published)])),
-};
+// lastmod i artikujve = ndryshimi i fundit i përmbajtjes (lib/blogDates, 2026-10-24) — më parë data e publikimit
+const blogLastMod = (slug: string) => (BLOG_DATES[slug] ? new Date(BLOG_DATES[slug].modified) : LAUNCH_DATE);
 
 // localePrefix "as-needed": sq has no prefix, en is prefixed with /en
 const localizedUrl = (locale: Locale, path: string) =>
@@ -82,7 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .filter((item) => dedicatedBlogSlugs.has(item.slug))
       .map((item) => ({
         url: localizedUrl(locale, `/blog/${item.slug}`),
-        lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
+        lastModified: blogLastMod(item.slug),
         priority: 0.7,
         changeFrequency: "monthly" as const,
       }));
@@ -90,7 +73,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .filter((item) => !dedicatedBlogSlugs.has(item.slug))
       .map((item) => ({
         url: localizedUrl(locale, `/blog/${item.slug}`),
-        lastModified: BLOG_DATES[item.slug] ?? LAUNCH_DATE,
+        lastModified: blogLastMod(item.slug),
         priority: 0.65,
         changeFrequency: "monthly" as const,
       }));

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BlogEcommerceClient from "@/components/BlogEcommerceClient";
 import { buildMetadata, buildBreadcrumb, seo, jsonLd } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
+import { blogArticleSchema } from "@/lib/blogDates";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -24,7 +25,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return buildMetadata(m.title, m.description, "/blog/pse-ecommerce-eshte-i-rendesishem", undefined, locale as Locale);
 }
 
-export default function PseEcommerceEshteIRendesishemPage() {
+export default async function PseEcommerceEshteIRendesishemPage(props: Props) {
+  const { locale } = await props.params;
+  const m = META[locale as Locale] ?? META.sq;
+  const article = blogArticleSchema("pse-ecommerce-eshte-i-rendesishem", m.title, m.description, locale as Locale);
   const breadcrumb = buildBreadcrumb([
     { name: "Home", url: seo.siteUrl },
     { name: "Blog", url: `${seo.siteUrl}/blog` },
@@ -33,6 +37,7 @@ export default function PseEcommerceEshteIRendesishemPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(article) }} />
       <BlogEcommerceClient />
     </>
   );

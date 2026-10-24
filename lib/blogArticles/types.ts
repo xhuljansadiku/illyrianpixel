@@ -31,4 +31,6 @@ export type StructuredArticlePair = {
   slug: string;
   /** ISO, për sitemap dhe schema Article */
   published: string;
+  /** ISO — vendose vetëm kur ndryshon përmbajtja (jo titulli/meta); pa të = published */
+  modified?: string;
 } & Record<Locale, StructuredArticle>;
