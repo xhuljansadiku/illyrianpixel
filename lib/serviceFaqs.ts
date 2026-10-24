@@ -68,7 +68,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
   "aplikacione-mobile": () => [
     {
       q: "Sa kushton një aplikacion mobile?",
-      a: "Çmimi jepet me ofertë, sipas numrit të ekraneve dhe funksioneve: Starter deri në 6 ekrane, Business deri në 12 ekrane me login dhe njoftime push, Premium me pagesa, backend të personalizuar dhe dizajn 100% custom. Konsultimi është falas.",
+      a: "Çmimi jepet me ofertë, sipas numrit të ekraneve dhe funksioneve: Starter deri në 6 ekrane, Business deri në 12 ekrane me login dhe njoftime push, Premium me pagesa, backend të personalizuar dhe dizajn 100% custom. Fillimisht diskutojmë çfarë ju duhet, pastaj ju japim çmimin. Konsultimi është falas.",
     },
     {
       q: "A funksionon aplikacioni në iOS dhe Android?",
@@ -80,7 +80,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Çfarë ndodh pas lançimit?",
-      a: "Paketa Starter përfshin 30 ditë mbështetje pas lançimit. Për funksione të reja ose ndryshime më pas, ju bëjmë ofertë të veçantë.",
+      a: "Paketa Starter përfshin 30 ditë mbështetje pas lançimit. Më pas ofrojmë mirëmbajtje, dhe nëse ju duhen funksione të reja ose upgrade, ju japim çmim të veçantë për to.",
     },
   ],
   "seo-google-ads": (c) => [
@@ -90,7 +90,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Kur shihen rezultatet?",
-      a: "Me Google Ads, të dhënat e para i keni brenda muajit të parë. SEO kërkon më shumë kohë: lëvizjet e para në renditje zakonisht duken pas 3–4 muajsh, sipas konkurrencës. Askush nuk mund të garantojë vendin e parë në Google.",
+      a: "Me Google Ads, të dhënat e para i keni brenda muajit të parë. SEO kërkon më shumë kohë: për fjalë kyçe me konkurrencë të ulët, lëvizjet e para zakonisht duken pas 3–4 muajsh, dhe rezultate më të qëndrueshme pas 6 muajsh e më shumë. Askush nuk mund të garantojë vendin e parë në Google.",
     },
     {
       q: "Sa shpesh raportoni?",
@@ -108,7 +108,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Kush e krijon përmbajtjen?",
-      a: "Ne. Përgatisim dizajnin sipas identitetit tuaj, caption-et dhe hashtag-et, dhe i publikojmë vetë. Ju vetëm aprovoni.",
+      a: "Ne. Fillojmë me disa shembuj postimesh sipas identitetit tuaj; kur ju pëlqejnë, vazhdojmë me dizajnin, caption-et, hashtag-et dhe publikimin. Sa shpesh i aprovoni postimet më pas, e caktojmë bashkë sipas marrëveshjes.",
     },
     {
       q: "A përfshihen reklamat me pagesë?",
@@ -144,8 +144,8 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
       a: "Çdo javë te Basic, çdo ditë te Pro, dhe çdo ditë plus një backup javor jashtë serverit (off-site) te Premium.",
     },
     {
-      q: "A mund të merrni një faqe ekzistuese ose të vjetër?",
-      a: "Po. Faqet ekzistuese i mirëmbajmë dhe i optimizojmë, dhe kur një faqe është shumë e vjetër, mund ta rindërtojmë. Aktivizimi bëhet brenda 24 orësh.",
+      q: "A mirëmbani faqe të ndërtuara nga të tjerë?",
+      a: "Po. Marrim përsipër edhe faqe të ndërtuara nga të tjerë: i mirëmbajmë dhe i optimizojmë, dhe kur një faqe është shumë e vjetër, mund ta rindërtojmë. Aktivizimi bëhet brenda 24 orësh.",
     },
   ],
 };
@@ -192,7 +192,7 @@ const EN: Record<ServiceCategory["slug"], Builder> = {
   "aplikacione-mobile": () => [
     {
       q: "How much does a mobile app cost?",
-      a: "Pricing is by quote, based on the number of screens and features: Starter up to 6 screens, Business up to 12 screens with login and push notifications, Premium with payments, a custom backend and 100% custom design. The consultation is free.",
+      a: "Pricing is by quote, based on the number of screens and features: Starter up to 6 screens, Business up to 12 screens with login and push notifications, Premium with payments, a custom backend and 100% custom design. We first discuss what you need, then give you the price. The consultation is free.",
     },
     {
       q: "Does the app work on iOS and Android?",
@@ -204,7 +204,7 @@ const EN: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "What happens after launch?",
-      a: "The Starter package includes 30 days of support after launch. For new features or changes later on, we send you a separate quote.",
+      a: "The Starter package includes 30 days of support after launch. After that we offer maintenance, and if you need new features or upgrades, we give you a separate price for them.",
     },
   ],
   "seo-google-ads": (c) => [
@@ -214,7 +214,7 @@ const EN: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "When will I see results?",
-      a: "With Google Ads, you have the first data within the first month. SEO takes longer: the first ranking movements usually show after 3–4 months, depending on competition. No one can guarantee the top spot on Google.",
+      a: "With Google Ads, you have the first data within the first month. SEO takes longer: for low-competition keywords, the first ranking movements usually show after 3–4 months, with more stable results after 6 months or more. No one can guarantee the top spot on Google.",
     },
     {
       q: "How often do you report?",
@@ -232,7 +232,7 @@ const EN: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Who creates the content?",
-      a: "We do. We prepare the design in your brand identity, the captions and hashtags, and publish everything ourselves. You only approve.",
+      a: "We do. We start with a few sample posts in your brand identity; once you like them, we continue with the design, captions, hashtags and publishing. How often you approve posts after that is agreed together.",
     },
     {
       q: "Are paid ads included?",
@@ -268,8 +268,8 @@ const EN: Record<ServiceCategory["slug"], Builder> = {
       a: "Weekly on Basic, daily on Pro, and daily plus a weekly off-site backup on Premium.",
     },
     {
-      q: "Can you take over an existing or old website?",
-      a: "Yes. We maintain and optimise existing sites, and when a site is very old, we can rebuild it. Activation happens within 24 hours.",
+      q: "Do you maintain websites built by someone else?",
+      a: "Yes. We also take over sites built by others: we maintain and optimise them, and when a site is very old, we can rebuild it. Activation happens within 24 hours.",
     },
   ],
 };
