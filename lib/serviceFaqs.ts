@@ -3,11 +3,11 @@
 // faqe (paketat, afatet dhe pagesat nga FAQ-ja e faqes kryesore). Çmimet lexohen nga paketat PAS
 // ndryshimeve te /admin (applyOverridesToCategory), që FAQ-ja të mos mbetet me çmim të vjetër.
 import type { Locale } from "@/i18n/routing";
-import type { ServiceCategory } from "@/lib/serviceCategories";
+import type { ServiceCategory, ServicePackage } from "@/lib/serviceCategories";
 
 export type ServiceFaq = { q: string; a: string };
 
-const price = (cat: ServiceCategory, name: string) => {
+const price = (cat: { packages: ServicePackage[] }, name: string) => {
   const p = cat.packages.find((x) => x.name === name);
   if (!p) return "";
   return p.priceNote ? `${p.price}${p.priceNote.replace(/^\s*\/\s*/, "/")}` : p.price;
@@ -277,4 +277,95 @@ const EN: Record<ServiceCategory["slug"], Builder> = {
 export function getServiceFaqs(category: ServiceCategory, locale: Locale): ServiceFaq[] {
   const builder = (locale === "en" ? EN : SQ)[category.slug];
   return builder ? builder(category) : [];
+}
+
+// ── /services/seo dhe /services/google-ads ────────────────────────────────────
+// Këto faqe kanë paketat e veta (lib/seoAdsPricing, pa /admin overrides); FAQ-ja i lexon prej tyre.
+type Pkgs = { packages: ServicePackage[] };
+
+const SEO_TIMING: Record<Locale, ServiceFaq> = {
+  sq: {
+    q: "Kur shihen rezultatet e SEO?",
+    a: "SEO kërkon kohë: për fjalë kyçe me konkurrencë të ulët, lëvizjet e para zakonisht duken pas 3–4 muajsh, dhe rezultate më të qëndrueshme pas 6 muajsh e më shumë. Askush nuk mund të garantojë vendin e parë në Google.",
+  },
+  en: {
+    q: "When will I see SEO results?",
+    a: "SEO takes time: for low-competition keywords, the first ranking movements usually show after 3–4 months, with more stable results after 6 months or more. No one can guarantee the top spot on Google.",
+  },
+};
+
+export function getSeoFaqs(c: Pkgs, locale: Locale): ServiceFaq[] {
+  if (locale === "en") {
+    return [
+      {
+        q: "How much does SEO cost?",
+        a: `Basic ${price(c, "Basic")} (10–15 keywords, on-page optimisation and Search Console setup), Growth ${price(c, "Growth")} (20–30 keywords, competitor analysis and technical SEO) and Pro ${price(c, "Pro")} (unlimited keywords, local + international SEO and monthly content optimisation). Prices exclude VAT.`,
+      },
+      SEO_TIMING.en,
+      {
+        q: "Do you build backlinks?",
+        a: "Yes, as part of the work, but we don't promise a fixed number per month. Growth includes listings in trusted directories and local listings; Pro adds links from partners and local media where possible.",
+      },
+      {
+        q: "How do you report progress?",
+        a: "Every package includes a monthly progress report. On Growth the report comes every 2 weeks, and Pro adds a monthly strategy call.",
+      },
+    ];
+  }
+  return [
+    {
+      q: "Sa kushton SEO?",
+      a: `Basic ${price(c, "Basic")} (10–15 fjalë kyçe, optimizim on-page dhe Search Console), Growth ${price(c, "Growth")} (20–30 fjalë kyçe, analizë e konkurrencës dhe SEO teknik) dhe Pro ${price(c, "Pro")} (fjalë kyçe pa limit, SEO lokal + ndërkombëtar dhe optimizim përmbajtjeje çdo muaj). Çmimet janë pa TVSH.`,
+    },
+    SEO_TIMING.sq,
+    {
+      q: "A ndërtoni backlinks?",
+      a: "Po, si pjesë e punës, por nuk premtojmë një numër fiks në muaj. Growth përfshin regjistrim në direktori dhe lista lokale të besueshme; Pro shton lidhje nga partnerë dhe media lokale, sipas mundësive.",
+    },
+    {
+      q: "Si raportoni progresin?",
+      a: "Çdo paketë ka raport progresi çdo muaj. Te Growth raporti vjen çdo 2 javë, dhe Pro shton një call strategjik mujor.",
+    },
+  ];
+}
+
+export function getGoogleAdsFaqs(c: Pkgs, locale: Locale): ServiceFaq[] {
+  if (locale === "en") {
+    return [
+      {
+        q: "How much does Google Ads management cost?",
+        a: `Starter ${price(c, "Starter")} (1 Search campaign with precise local targeting), Growth ${price(c, "Growth")} (2–3 Search + Display campaigns and remarketing) and Pro ${price(c, "Pro")} (Search, Display, YouTube and Shopping Ads). These are management fees, excluding VAT.`,
+      },
+      {
+        q: "Is the ad budget included?",
+        a: "No. You pay the ad budget yourself, directly to Google, so you always control how much is spent. Our fee covers setup, optimisation and reporting.",
+      },
+      {
+        q: "When will I see results?",
+        a: "Ads start showing as soon as the campaign goes live, and you have the first data (clicks, calls, enquiries) within the first month.",
+      },
+      {
+        q: "How do you measure results?",
+        a: "Every package includes conversion tracking, so we count enquiries and calls, not just clicks. Reports come monthly on Starter, every 2 weeks with a monthly call on Growth, and weekly with 2 monthly calls on Pro.",
+      },
+    ];
+  }
+  return [
+    {
+      q: "Sa kushton menaxhimi i Google Ads?",
+      a: `Starter ${price(c, "Starter")} (1 fushatë Search me targetim lokal të saktë), Growth ${price(c, "Growth")} (2–3 fushata Search + Display dhe remarketing) dhe Pro ${price(c, "Pro")} (Search, Display, YouTube dhe Shopping Ads). Këto janë tarifa menaxhimi, pa TVSH.`,
+    },
+    {
+      q: "A përfshihet buxheti i reklamave?",
+      a: "Jo. Buxhetin e reklamave e paguani ju, direkt te Google, kështu e kontrolloni gjithmonë sa shpenzohet. Tarifa jonë mbulon vendosjen, optimizimin dhe raportimin.",
+    },
+    {
+      q: "Kur shihen rezultatet?",
+      a: "Reklamat fillojnë të shfaqen sapo fushata aktivizohet, dhe të dhënat e para (klikime, thirrje, kërkesa) i keni brenda muajit të parë.",
+    },
+    {
+      q: "Si e matni rezultatin?",
+      a: "Çdo paketë përfshin tracking konvertimesh, që të numërojmë kërkesat dhe thirrjet, jo vetëm klikimet. Raporti vjen çdo muaj te Starter, çdo 2 javë me një call mujor te Growth, dhe çdo javë me 2 call mujore te Pro.",
+    },
+  ];
 }

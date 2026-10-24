@@ -7,6 +7,8 @@ import ServicePackageCard from "@/components/ServicePackageCard";
 import { SEO_MONTHLY, euro } from "@/lib/seoAdsPricing";
 import type { ServicePackage } from "@/lib/serviceCategories";
 import { buildMetadata } from "@/lib/seo";
+import FAQ from "@/components/FAQ";
+import { getSeoFaqs } from "@/lib/serviceFaqs";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -166,7 +168,7 @@ const CONTENT: Record<Locale, {
         name: "Pro",
         price: euro(SEO_MONTHLY.pro),
         priceNote: "/ month",
-        tagline: "Authority and organic dominance",
+        tagline: "Authority and long-term organic growth",
         ideal: "A complete SEO system.\nScaling, domain authority and long-term results.",
         features: [
           "Unlimited keywords",
@@ -243,6 +245,9 @@ export default async function SeoPage(props: Props) {
             </p>
           </div>
         </section>
+
+        {/* FAQ (lib/serviceFaqs) — me skemë FAQPage */}
+        <FAQ items={getSeoFaqs(c, locale as Locale)} />
 
         {/* Back link */}
         <div className="section-wrap !pt-0">
