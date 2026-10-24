@@ -47,7 +47,7 @@ export default async function Page(props: Props) {
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"Your physical store closes at 6 PM.\nYour online store never closes.\nThe Albanian e-commerce market is growing 25–30% every year, Albanians are buying more and more online.\nIf you're a business owner without an online store, your competitors are taking those sales every single day."}
+          {"Your physical store closes at 6 PM.\nYour online store never closes.\nThe Albanian e-commerce market keeps growing every year, and Albanians are buying more and more online.\nIf you're a business owner without an online store, your competitors are taking those sales every single day."}
         </p>
 
         <section className="space-y-4">
@@ -152,7 +152,7 @@ export default async function Page(props: Props) {
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-        {"Dyqani juaj fizik mbyllet në 18:00.\nDyqani online nuk mbyllet kurrë.\nTregu shqiptar i e-commerce po rritet me 25–30% çdo vit shqiptarët po blejnë gjithnjë e më shumë online.\nNëse jeni pronar biznesi pa dyqan online, konkurrentët tuaj po marrin ato shitje çdo ditë."}
+        {"Dyqani juaj fizik mbyllet në 18:00.\nDyqani online nuk mbyllet kurrë.\nTregu shqiptar i e-commerce rritet çdo vit dhe shqiptarët po blejnë gjithnjë e më shumë online.\nNëse jeni pronar biznesi pa dyqan online, konkurrentët tuaj po marrin ato shitje çdo ditë."}
       </p>
 
       <section className="space-y-4">

@@ -98,13 +98,13 @@ export default async function Page(props: Props) {
               </thead>
               <tbody className="divide-y divide-white/[0.06] text-white/65">
                 <tr><td className="px-4 py-3">3–4 months</td><td className="px-4 py-3">First ranking movements</td></tr>
-                <tr><td className="px-4 py-3">6 months</td><td className="px-4 py-3">Organic traffic grows 30–50%</td></tr>
+                <tr><td className="px-4 py-3">6 months</td><td className="px-4 py-3">Organic traffic starts to grow, depending on competition</td></tr>
                 <tr><td className="px-4 py-3">12 months</td><td className="px-4 py-3">Consolidated, stable results</td></tr>
               </tbody>
             </table>
           </div>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"SEO is a long-term investment businesses that invest today will dominate the Albanian digital market in the years ahead.\n"}
+            {"SEO is a long-term investment: businesses that start today build an advantage that competitors find hard to catch up with.\n"}
             <Link href="/services/seo-google-ads" className="text-accent underline underline-offset-4">Discover how we can help you with SEO and Google Ads</Link>{"."}</p>
         </section>
 
@@ -186,13 +186,13 @@ export default async function Page(props: Props) {
             </thead>
             <tbody className="divide-y divide-white/[0.06] text-white/65">
               <tr><td className="px-4 py-3">3–4 muaj</td><td className="px-4 py-3">Lëvizje të para në renditje</td></tr>
-              <tr><td className="px-4 py-3">6 muaj</td><td className="px-4 py-3">Trafiku organik rritet 30–50%</td></tr>
+              <tr><td className="px-4 py-3">6 muaj</td><td className="px-4 py-3">Trafiku organik nis të rritet, sipas konkurrencës</td></tr>
               <tr><td className="px-4 py-3">12 muaj</td><td className="px-4 py-3">Rezultate të konsoliduara dhe të qëndrueshme</td></tr>
             </tbody>
           </table>
         </div>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-          {"SEO është investim afatgjatë bizneset që investojnë sot do të dominojnë tregun digital shqiptar në vitet e ardhshme.\n"}
+          {"SEO është investim afatgjatë: bizneset që nisin sot ndërtojnë një avantazh që konkurrentët e kanë të vështirë ta arrijnë.\n"}
           <Link href="/services/seo-google-ads" className="text-accent underline underline-offset-4">Zbuloni si mund t&apos;ju ndihmojmë me SEO dhe Google Ads</Link>{"."}</p>
       </section>
 

@@ -85,7 +85,7 @@ export default function BlogBrandingClient() {
                     Businesses without clear branding pay more for every client. The reason: when you don&apos;t stand out clearly from the competition, price becomes the only way to attract clients. And a price war is a battle nobody wins.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Studies show that businesses with strong branding can charge 20–30% more for the same products. Not because the product is better, but because trust and perception are higher.
+                    Businesses with strong branding can charge more for the same products. Not because the product is better, but because trust and perception are higher.
                   </p>
                   <div className="rounded-2xl border border-accent/30 bg-accent/[0.08] p-5">
                     <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">A concrete example</p>
@@ -256,7 +256,7 @@ export default function BlogBrandingClient() {
                     Bizneset pa branding të qartë paguajnë më shumë për çdo klient. Arsyeja: kur nuk dalloheni qartë nga konkurrenca, e vetmja mënyrë për të tërhequr klientë është çmimi. Dhe lufta e çmimit është beteja që askush nuk fiton.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Studime tregojnë se bizneset me branding të fortë mund të ngarkojnë 20–30% çmim më të lartë për të njëjtat produkte. Jo sepse produkti është më i mirë, por sepse besimi dhe perceptimi janë më të lartë.
+                    Bizneset me branding të fortë mund të kërkojnë çmim më të lartë për të njëjtat produkte. Jo sepse produkti është më i mirë, por sepse besimi dhe perceptimi janë më të lartë.
                   </p>
                   <div className="rounded-2xl border border-accent/30 bg-accent/[0.08] p-5">
                     <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">Shembulli konkret</p>

@@ -1,7 +1,8 @@
 # Shënimet e publikimit — auditimi 2026-10-21/22
 
-> Gjendja: **asgjë s'është publikuar.** Degët janë lokale/në GitHub dhe presin miratimin e pronarit.
-> Baza: `main` @ `04870b2`. Degët janë zinxhir, secila mbi të mëparshmen:
+> Gjendja: **LIVE** — fazat 0–10 + 10 artikujt u bashkuan në `main` @ `da7cb01` (2026-10-22).
+> Premtimet e tepruara te artikujt e vjetër të blogut u zbutën më 2026-10-24 (`fix/blog-overclaims`).
+> Historiku: baza ishte `main` @ `04870b2`, degët ishin zinxhir, secila mbi të mëparshmen:
 >
 > `docs/audit-faza-0` → `fix/faza-1-premtimet` → `feat/faza-2-cmimet` → `fix/faza-3-formulari` →
 > `feat/faza-4-matja` → `fix/faza-5-seo` → `fix/faza-6-sherbimet` → `fix/faza-7-portofoli` →

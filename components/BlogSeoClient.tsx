@@ -38,7 +38,7 @@ export default function BlogSeoClient() {
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     When people have a problem, they don&apos;t look at Instagram ads to find the solution; they go to
                     Google. If your business doesn&apos;t show up on the first page for the services you offer, you
-                    simply don&apos;t exist for 90% of your potential market.
+                    simply don&apos;t exist for most of your potential market.
                   </p>
                 </section>
 
@@ -137,7 +137,7 @@ export default function BlogSeoClient() {
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Kur njerëzit kanë një problem, ata nuk shohin reklama në Instagram për të gjetur zgjidhjen; ata shkojnë
                     në Google. Nëse biznesi juaj nuk shfaqet në faqen e parë për shërbimet që ofroni, ju thjesht nuk ekzistoni
-                    për 90% të tregut tuaj potencial.
+                    për pjesën më të madhe të tregut tuaj potencial.
                   </p>
                 </section>
 

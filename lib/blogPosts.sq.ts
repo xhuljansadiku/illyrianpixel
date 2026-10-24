@@ -182,7 +182,7 @@ export const blogPosts: BlogPost[] = [
       "Gabimi më i shpeshtë i bizneseve shqiptare: blejnë paketa SEO të lira (50–100 € në muaj) dhe presin mrekulli. SEO serios kërkon punë të qëndrueshme: audit teknik i faqes, kërkim i fjalëve kyçe, krijim i përmbajtjes relevante, optimizim i vazhdueshëm. Çmimi minimal për SEO profesional që jep rezultate fillon nga 300–500 € në muaj.",
       "Google sot vlerëson tre gjëra mbi të gjitha: E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness), shpejtësia e faqes (Core Web Vitals) dhe përvojën e përdoruesit. Kjo nënkupton se nuk mjafton vetëm të shtoni fjalë kyçe, duhet të keni përmbajtje të vlefshme, faqe teknike të shëndetshme dhe reputacion të ndërtuar në kohë.",
       "Rezultatet SEO nuk vijnë brenda natës. Pritshmëritë realiste: muajt 1–2 janë auditim dhe optimizim teknik pa ndryshime të dukshme në renditje; muajt 3–4 filloni të shihni lëvizje për fjalë kyçe me konkurrencë të ulët; muajt 5–6 dhe pas, rezultate stabile për fjalë kyçe strategjike. Bizneset që braktisin SEO pas 2 muajsh humbasin investimin pa arritur asnjë rezultat.",
-      "Nëse jeni biznes me bazë në Tiranë, prioriteti juaj SEO duhet të jetë Google Business Profile (Google Maps) i plotësuar dhe optimizuar, SEO lokal me fjalë kyçe si 'shërbim + Tiranë', dhe faqe të shpejtë e mobile-friendly. Këto tre hapa të saktë mund t'ju sjellin klientë lokal brenda 60 ditësh nga fillimi."
+      "Nëse jeni biznes me bazë në Tiranë, prioriteti juaj SEO duhet të jetë Google Business Profile (Google Maps) i plotësuar dhe optimizuar, SEO lokal me fjalë kyçe si 'shërbim + Tiranë', dhe faqe të shpejtë e mobile-friendly. Këto tre hapa janë mënyra më e shpejtë për të filluar të merrni klientë lokalë nga Google."
     ]
   },
   {
