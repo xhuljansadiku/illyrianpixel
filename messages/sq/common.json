@@ -80,11 +80,11 @@
   },
   "cookieConsent": {
     "title": "Cookies & Privatësia",
-    "body": "Me lejen tuaj përdorim cookies analitike (Google Analytics, Microsoft Clarity) dhe marketingu (Google Ads). Pa pëlqim nuk vendosim asnjë prej tyre. Zgjedhjen mund ta ndryshoni kurdo te “Cilësimet e cookies” në fund të faqes.",
+    "body": "Cookies thelbësore e mbajnë faqen funksionale. Analitika dhe marketingu aktivizohen vetëm me pëlqimin tuaj.",
     "privacyLink": "Politika e privatësisë",
     "acceptAll": "Prano të gjitha",
     "essentialOnly": "Vetëm të nevojshme",
-    "customize": "Personalizo",
+    "customize": "Personalizo zgjedhjet",
     "save": "Ruaj zgjedhjen",
     "necessaryTitle": "Të nevojshme",
     "necessaryDesc": "Që faqja të funksionojë dhe të mbajë mend zgjedhjen tuaj. Gjithmonë aktive.",

@@ -80,11 +80,11 @@
   },
   "cookieConsent": {
     "title": "Cookies & Privacy",
-    "body": "With your permission we use analytics cookies (Google Analytics, Microsoft Clarity) and marketing cookies (Google Ads). Without consent we set none of them. You can change your choice anytime under “Cookie settings” at the bottom of the page.",
+    "body": "Essential cookies keep the site working. Analytics and marketing are activated only with your consent.",
     "privacyLink": "Privacy policy",
     "acceptAll": "Accept all",
     "essentialOnly": "Essential only",
-    "customize": "Customize",
+    "customize": "Customize choices",
     "save": "Save choices",
     "necessaryTitle": "Necessary",
     "necessaryDesc": "Keep the site working and remember your choice. Always on.",
