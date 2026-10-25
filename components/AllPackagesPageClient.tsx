@@ -176,6 +176,7 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
                   {t("hero.titleLine1")}
                 </span>
               </span>
+              {" " /* hapësirë për crawler-ët: dy rreshtat e titullit s'ngjiten */}
               <span className="hero-line2 block overflow-hidden">
                 <span className="block cursor-default font-display text-[clamp(2.6rem,6.5vw,5.6rem)] font-bold leading-[1.14] md:leading-[1.04] tracking-[-0.015em] md:tracking-[-0.03em] text-accent transition-all duration-500 hover:[text-shadow:0_0_48px_rgba(171,131,57,0.55)]">
                   {t("hero.titleLine2")}

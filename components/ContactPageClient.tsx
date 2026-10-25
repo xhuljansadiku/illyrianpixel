@@ -231,7 +231,7 @@ export default function ContactPageClient() {
 
               <div className="relative z-[1] p-7 md:p-9">
                 <p className="ip-eyebrow">
-                  project inquiry
+                  {locale === "en" ? "Project inquiry" : "Kërkesë projekti"}
                 </p>
 
                 {success ? (
