@@ -33,8 +33,9 @@ export default function RootDocument({ lang, children }: { lang: string; childre
         {/* ── Geo ── */}
         <meta name="geo.region" content="AL-11" />
         <meta name="geo.placename" content="Tiranë, Shqipëri" />
-        <meta name="geo.position" content="41.3275;19.8187" />
-        <meta name="ICBM" content="41.3275, 19.8187" />
+        {/* Pa koordinata të sakta: biznes online pa zyrë fizike (2026-10-25) */}
+        {/* <meta name="geo.position" content="41.3275;19.8187" /> */}
+        {/* <meta name="ICBM" content="41.3275, 19.8187" /> */}
       </head>
       <body suppressHydrationWarning className={bodyClassName}>
         {/* Skip navigation — WCAG 2.1 AA, keyboard accessible */}

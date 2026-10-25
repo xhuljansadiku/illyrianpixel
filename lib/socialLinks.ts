@@ -8,6 +8,10 @@ export type SocialLinkItem = {
   icon: SocialIconId;
 };
 
+// Google Business Profile (2 review, 2026-10-25). Biznes online pa zyrë fizike (pronari, opsioni "c"):
+// profili duhet me adresë të fshehur + zona shërbimi; schema (lib/seo) lidhet me të përmes CID-it.
+export const GOOGLE_BUSINESS_URL = "https://maps.google.com/?cid=10226535624287043227";
+
 export const SOCIAL_LINKS: SocialLinkItem[] = [
   { href: "https://www.instagram.com/illyrianpixel/", label: "Instagram", icon: "instagram" },
   { href: "https://www.tiktok.com/@illyrianpixel", label: "TikTok", icon: "tiktok" },

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/routing";
-import { SOCIAL_LINKS } from "@/lib/socialLinks";
+import { GOOGLE_BUSINESS_URL, SOCIAL_LINKS } from "@/lib/socialLinks";
 
 const siteUrl = "https://illyrianpixel.com";
 const defaultTitle = "Illyrian Pixel";
@@ -120,7 +120,7 @@ export const organizationSchema = {
   },
   // Nga e njëjta listë si footer-i (2026-10-25): më parë Facebook-u ishte /illyrianpixel ndërsa
   // lidhja reale është profile.php?id=…, dhe Threads mungonte — AI-të lidhin profilet sipas sameAs.
-  sameAs: SOCIAL_LINKS.map((s) => s.href)
+  sameAs: [...SOCIAL_LINKS.map((s) => s.href), GOOGLE_BUSINESS_URL]
   // aggregateRating/review u hoqën qëllimisht (2026-07-25): biznesi është i ri,
   // s'ka ende review reale në Google Business Profile. Google ndalon shprehimisht
   // review të rreme/vetë-krijuara në schema — rrezikon çaktivizim të rich
@@ -139,20 +139,14 @@ export const localBusinessSchema = {
   logo: `${siteUrl}/images/illyrianpixel_logo.png`,
   email: "info@illyrianpixel.com",
   telephone: "+355694726827",
+  // 2026-10-25: pa zyrë fizike → vetëm qyteti/vendi (si te Kushtet), pa rrugë, kod postar dhe koordinata.
+  // Vjetër: streetAddress "Tiranë Qendër", postalCode "1001", geo 41.3275,19.8187
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Tiranë Qendër",
     addressLocality: "Tiranë",
-    addressRegion: "Tiranë",
-    postalCode: "1001",
     addressCountry: "AL"
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 41.3275,
-    longitude: 19.8187
-  },
-  hasMap: "https://maps.google.com/?q=41.3275,19.8187",
+  hasMap: GOOGLE_BUSINESS_URL,
   priceRange: "€€–€€€",
   currenciesAccepted: "EUR, ALL",
   paymentAccepted: "Cash, Credit Card, Bank Transfer",
