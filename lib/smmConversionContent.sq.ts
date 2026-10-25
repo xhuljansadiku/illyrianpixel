@@ -41,7 +41,7 @@ export const smmConversionLandingData: ConversionLandingData = {
     intro: "",
     items: [
       { icon: "mAudience", title: "Content që tërheq klientët e duhur", body: "" },
-      { icon: "mFocus",    title: "Dizajn i njëjtë dhe profesional çdo ditë", body: "" },
+      { icon: "mFocus",    title: "Dizajn i qëndrueshëm dhe profesional çdo ditë", body: "" },
       { icon: "mScale",    title: "Posting i rregullt pa stres për ju", body: "" },
       { icon: "mRoi",      title: "Rezultate të matshme çdo muaj", body: "" },
     ],

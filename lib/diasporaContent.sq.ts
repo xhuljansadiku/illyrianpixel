@@ -192,7 +192,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { icon: "convert", title: "Website që ndërton besim", body: "Struktura dhe pamja komunikojnë seriozitet që në sekondat e para." },
         { icon: "support", title: "Komunikim i qartë në shqip", body: "Çdo pyetje merr përgjigje pa barriera gjuhësore." },
-        { icon: "seo", title: "Gjetshëm nga komuniteti shqiptar në Zvicër", body: "SEO që ju lidh me klientët që ju kërkojnë pikërisht ju." },
+        { icon: "seo", title: "Gjetshëm nga komuniteti shqiptar në Zvicër", body: "SEO që ju lidh me klientët që kërkojnë pikërisht shërbimin tuaj." },
         { icon: "speed", title: "Proces i shpejtë, pa humbje kohe", body: "Plan i qartë brenda 24–48 orësh, pa muaj pritje." },
       ],
     },
