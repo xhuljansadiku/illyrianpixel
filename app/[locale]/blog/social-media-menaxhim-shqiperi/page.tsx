@@ -51,7 +51,7 @@ export default async function Page(props: Props) {
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"Social media isn't just posting photos.\nIt's strategy, consistency, and communicating with your audience every day.\nAlbanian businesses that manage their social media professionally get 3–5 times more engagement and noticeably more customers.\nBut the price of social media management depends on many factors."}
+          {"Social media isn't just posting photos.\nIt's strategy, consistency, and communicating with your audience every day.\nBusinesses that run their social media with a plan and a steady rhythm usually get more engagement and more enquiries than those who post at random.\nBut the price of social media management depends on many factors."}
         </p>
 
         <section className="space-y-4">
@@ -141,7 +141,7 @@ export default async function Page(props: Props) {
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-        {"Social media nuk është vetëm postim fotosh.\nËshtë strategji, konsistencë dhe komunikim me audiencën tuaj çdo ditë.\nBizneset shqiptare që menaxhojnë rrjetet sociale profesionalisht kanë 3–5 herë më shumë angazhim dhe dukshëm më shumë klientë.\nPor çmimi i menaxhimit të social media varet nga shumë faktorë."}
+        {"Social media nuk është vetëm postim fotosh.\nËshtë strategji, konsistencë dhe komunikim me audiencën tuaj çdo ditë.\nBizneset që i menaxhojnë rrjetet sociale me plan dhe rregullsi zakonisht kanë më shumë angazhim dhe më shumë kërkesa sesa ato që postojnë rastësisht.\nPor çmimi i menaxhimit të social media varet nga shumë faktorë."}
       </p>
 
       <section className="space-y-4">

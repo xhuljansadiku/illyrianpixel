@@ -72,7 +72,7 @@ export default async function Page(props: Props) {
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Local keywords are true gold.</strong>{"\nAlbanians increasingly search in Albanian. \"Lawyer Tirana\", \"bakery Durrës\", \"web design Albania\" these searches have relatively low competition compared to Western markets."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Google Business Profile is essential.</strong>{"\nWithout photos, hours, reviews, and accurate categories, you're practically invisible for local searches."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Site speed matters critically.</strong>{"\nIf your site loads within 3 seconds, you're fine.\nIf not, Google ranks you lower regardless of content quality."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Site speed matters critically.</strong>{"\nIf your site loads within 3 seconds, you're fine.\nIf not, you lose visitors, and the site finds it harder to rank well."}</p>
         </section>
 
         <section className="space-y-4">
@@ -161,7 +161,7 @@ export default async function Page(props: Props) {
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Fjalët kyçe lokale janë ari i vërtetë.</strong>{"\nShqiptarët kërkojnë gjithnjë e më shumë në gjuhën shqipe. \"Avokat Tiranë\", \"bukëpjekës Durrës\", \"web design Shqipëri\" këto kërkime kanë konkurrencë relativisht të ulët krahasuar me tregjet perëndimore."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Google Business Profile është thelbësor.</strong>{"\nPa foto, orare, vlerësime dhe kategori të sakta jeni praktikisht të padukshëm për kërkimet lokale."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Shpejtësia e faqes ka rëndësi kritike.</strong>{"\nNëse faqja juaj hapet brenda 3 sekondave, jeni mirë.\nNëse jo, Google ju ul në renditje pavarësisht cilësisë së përmbajtjes."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Shpejtësia e faqes ka rëndësi kritike.</strong>{"\nNëse faqja juaj hapet brenda 3 sekondave, jeni mirë.\nNëse jo, humbni vizitorë dhe faqja e ka më të vështirë të renditet lart."}</p>
       </section>
 
       <section className="space-y-4">

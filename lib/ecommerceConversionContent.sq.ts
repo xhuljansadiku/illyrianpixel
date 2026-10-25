@@ -17,7 +17,7 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       "Dyqani ekziston.\nVizitorët vijnë.\nPor shumica largohen pa blerë.",
     items: [
       {
-        title: "70% e blerjeve braktiset para pagesës",
+        title: "Rreth 70% e karrocave të blerjes braktisen para pagesës (Baymard Institute)",
         body: "Checkout i komplikuar, mungesë besimi ose ngarkesë e ngadaltë, dhe blerësi humb.\nJo sepse nuk donte, por sepse diçka e ndaloi.",
       },
       {

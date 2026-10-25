@@ -101,7 +101,7 @@ export default async function Page(props: Props) {
             When is it worth investing more?
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"If your business gets 60–70% of its customers online, your website is your main sales channel.\nAlbanian businesses that invest €1,200–3,000 in a professional website report an average return within 6–12 months.\n"}
+            {"If your business gets 60–70% of its customers online, your website is your main sales channel.\nThe simple calculation: how much profit one new client leaves you, and how many such clients it takes to cover the cost. Our price calculator does this for you.\n"}
             <Link href="/cmimet" className="text-accent underline underline-offset-4">See our full pricing</Link>
             {" or contact us for a quote based on your needs."}
           </p>
@@ -185,7 +185,7 @@ export default async function Page(props: Props) {
           Kur ia vlen të investoni më shumë?
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-          {"Nëse biznesi juaj merr 60–70% të klientëve nga interneti, faqja juaj është kanali kryesor i shitjeve.\nBizneset shqiptare që investojnë 1,200–3,000 euro në website profesional raportojnë kthim mesatar brenda 6–12 muajsh.\n"}
+          {"Nëse biznesi juaj merr 60–70% të klientëve nga interneti, faqja juaj është kanali kryesor i shitjeve.\nLlogaritja e thjeshtë: sa fitim ju lë një klient i ri, dhe sa klientë të tillë duhen për të mbuluar koston. Kalkulatori ynë i çmimit e bën këtë llogari për ju.\n"}
           <Link href="/cmimet" className="text-accent underline underline-offset-4">Shikoni çmimet tona të plota</Link>
           {" ose na kontaktoni për ofertë sipas nevojave tuaja."}
         </p>

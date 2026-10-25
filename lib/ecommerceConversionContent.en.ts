@@ -17,7 +17,7 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       "The store exists.\nVisitors come.\nBut most leave without buying.",
     items: [
       {
-        title: "70% of purchases are abandoned before checkout",
+        title: "About 70% of shopping carts are abandoned before payment (Baymard Institute)",
         body: "A complicated checkout, lack of trust or slow loading, and the buyer is lost.\nNot because they didn't want to buy, but because something stopped them.",
       },
       {

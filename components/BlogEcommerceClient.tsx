@@ -70,7 +70,7 @@ export default function BlogEcommerceClient() {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">03 — Lower cost than a physical store</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Rent, staff, and operating costs of a physical store are high. An online store requires an initial investment (build) and a minimal monthly cost (hosting, maintenance). The ROI is many times higher.
+                        Rent, staff, and operating costs of a physical store are high. An online store requires an initial investment (build) and a small monthly cost (hosting, maintenance), so it often pays back faster.
                       </p>
                     </div>
 
@@ -150,7 +150,7 @@ export default function BlogEcommerceClient() {
                     </div>
                   </div>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    If your store sells even just 5 extra products a month thanks to the online channel, the investment is recovered within the first few months.
+                    Do the math: how much profit one sale leaves you, and how many extra sales a month it takes to cover the investment.
                   </p>
                 </section>
 
@@ -236,14 +236,14 @@ export default function BlogEcommerceClient() {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">03 — Kosto më e ulët se dyqani fizik</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Qiraja, stafi, kostot operative të dyqanit fizik janë të larta. Dyqani online kërkon investim fillestar (ndërtim) dhe kosto mujore minimale (hosting, mirëmbajtje). ROI-ja është shumë herë më e lartë.
+                        Qiraja, stafi, kostot operative të dyqanit fizik janë të larta. Dyqani online kërkon investim fillestar (ndërtim) dhe kosto të vogël mujore (hosting, mirëmbajtje), ndaj shpesh e kthen investimin më shpejt.
                       </p>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">04 — Të dhëna dhe analitikë reale</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Dyqani fizik nuk ju tregon kush hyri, çfarë shikoi dhe pse u largua pa blerë. Dyqani online ju jep çdo e dhënë: produktet më të shitura, rrugëtimin e blerësit, normën edhe shumë më tepër.
+                        Dyqani fizik nuk ju tregon kush hyri, çfarë shikoi dhe pse u largua pa blerë. Dyqani online ju jep të dhënat: produktet më të shitura, rrugëtimin e blerësit, normën e konvertimit dhe shumë më tepër.
                       </p>
                     </div>
 
@@ -316,7 +316,7 @@ export default function BlogEcommerceClient() {
                     </div>
                   </div>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Nëse dyqani juaj shet edhe vetëm 5 produkte shtesë në muaj falë kanalimit online, investimi rikuperohet brenda muajve të parë.
+                    Bëni llogarinë: sa fitim ju lë një shitje, dhe sa shitje shtesë në muaj duhen për të mbuluar investimin.
                   </p>
                 </section>
 
