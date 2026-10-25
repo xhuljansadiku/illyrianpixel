@@ -175,7 +175,7 @@ export default function ClientsShowcase() {
           <LazyMount className="absolute inset-0">
             <ClientGlobe locale={locale} variant="pins" focus={focus} start={[-22, 44]} sway />
           </LazyMount>
-          <p className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
+          <p className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/55">
             ↻ {t("dragGlobe")}
           </p>
         </div>
