@@ -31,7 +31,7 @@ const CONTENT: Record<Locale, {
   sq: {
     badge: "DOKUMENT LIGJOR · BE / GDPR",
     title: "Kushtet e Shërbimit",
-    updated: "E fundit e përditësuar: Maj 2026 · Illyrian Pixel, Tiranë, Shqipëri\nBazuar në Direktivën BE 2011/83/EU · Direktivën 2000/31/KE · GDPR 2016/679",
+    updated: "E fundit e përditësuar: Tetor 2026 · Illyrian Pixel, Tiranë, Shqipëri\nBazuar në Direktivën BE 2011/83/EU · Direktivën 2000/31/KE · GDPR 2016/679",
     sections: [
       {
         title: "1. Identiteti i Ofruesit të Shërbimit",
@@ -60,8 +60,8 @@ Sipas Nenit 6 të Direktivës 2000/31/KE, komunikimi tregtar duhet të jetë i q
         body: `Të gjitha çmimet janë në EUR. TVSH-ja (nëse aplikohet) do të specifikohet në faturë.
 
 Mënyra standarde e pagesës:
-• 50% avancë para fillimit të projektit
-• 50% para dorëzimit final
+• Projektet deri në €1,000: 50% paradhënie para fillimit dhe 50% para publikimit
+• Projektet mbi €1,000: 3 këste, 40% para fillimit, 30% pas aprovimit të dizajnit dhe 30% para publikimit
 
 Vonesa në pagesë mbi 14 ditë mund të rezultojë në pezullim të punës. Sipas Direktivës BE 2011/7/EU mbi pagesat me vonesë, mund të aplikohet interes ligjor prej 8% mbi normën bazë të BQE-së.`,
       },
@@ -85,8 +85,10 @@ E drejta e tërheqjes NDRYSHE NUK APLIKOHET nëse:
 Për të ushtruar këtë të drejtë, njoftoni me email info@illyrianpixel.com brenda afatit.`,
       },
       {
-        title: "7. Revizimet dhe Ndryshimet e Scope-it",
-        body: `Çdo projekt përfshin numrin e revizioneve të specifikuar në ofertë. Ndryshimet jashtë scope-it origjinal (ndryshime konceptuale, shtim funksionalitetesh të reja) trajtohen si punë shtesë dhe faturihen veçmas me tarifë të rënë dakord paraprakisht me shkrim.`,
+        title: "7. Revizimet, Ndryshimet e Objektit të Punës dhe Garancia e Dizajnit",
+        body: `Çdo projekt përfshin numrin e revizioneve të specifikuar në ofertë. Ndryshimet jashtë objektit fillestar të punës (ndryshime konceptuale, shtim funksionalitetesh të reja) trajtohen si punë shtesë dhe faturohen veçmas me tarifë të rënë dakord paraprakisht me shkrim.
+
+Garancia e dizajnit: nëse dizajni i parë nuk ju pëlqen pas 2 raundesh ndryshimesh, ju kthejmë paradhënien 100%. Garancia vlen për dizajnin e parë, para se ta aprovoni.`,
       },
       {
         title: "8. Pronësia Intelektuale",
@@ -111,7 +113,7 @@ Këto kufizime nuk cënojnë të drejtat ligjore të konsumatorit sipas ligjit e
       },
       {
         title: "10. Konfidencialiteti dhe Mbrojtja e të Dhënave",
-        body: `Të dyja palët bien dakord të mbajnë konfidenciale informacionin e ndarë gjatë bashkëpunimit. Kjo detyrim mbetet aktiv 3 vjet pas përfundimit të projektit.
+        body: `Të dyja palët bien dakord të mbajnë konfidenciale informacionin e ndarë gjatë bashkëpunimit. Ky detyrim mbetet aktiv 3 vjet pas përfundimit të projektit.
 
 Të dhënat personale përpunohen sipas Politikës sonë të Privatësisë dhe Rregullores GDPR (BE) 2016/679. Shikoni: illyrianpixel.com/privacy`,
       },
@@ -137,7 +139,7 @@ Ligji i zbatuar do të jetë ai i vendit të klientit nëse ky është konsumato
   en: {
     badge: "LEGAL DOCUMENT · EU / GDPR",
     title: "Terms of Service",
-    updated: "Last updated: May 2026 · Illyrian Pixel, Tirana, Albania\nBased on EU Directive 2011/83/EU · Directive 2000/31/EC · GDPR 2016/679",
+    updated: "Last updated: October 2026 · Illyrian Pixel, Tirana, Albania\nBased on EU Directive 2011/83/EU · Directive 2000/31/EC · GDPR 2016/679",
     sections: [
       {
         title: "1. Identity of the Service Provider",
@@ -166,8 +168,8 @@ Under Article 6 of Directive 2000/31/EC, commercial communication must be clear 
         body: `All prices are in EUR. VAT (where applicable) will be specified on the invoice.
 
 Standard payment structure:
-• 50% deposit before the project starts
-• 50% before final delivery
+• Projects up to €1,000: 50% deposit before the project starts and 50% before launch
+• Projects above €1,000: 3 instalments, 40% before the project starts, 30% after the design is approved and 30% before launch
 
 Payment delays exceeding 14 days may result in work being suspended. Under EU Directive 2011/7/EU on late payments, statutory interest of 8% above the ECB base rate may apply.`,
       },
@@ -191,8 +193,10 @@ The right of withdrawal DOES NOT APPLY if:
 To exercise this right, notify us by email at info@illyrianpixel.com within the deadline.`,
       },
       {
-        title: "7. Revisions and Scope Changes",
-        body: `Each project includes the number of revisions specified in the proposal. Changes outside the original scope (conceptual changes, new features added) are treated as additional work and billed separately at a rate agreed in writing beforehand.`,
+        title: "7. Revisions, Scope Changes and Design Guarantee",
+        body: `Each project includes the number of revisions specified in the proposal. Changes outside the original scope (conceptual changes, new features added) are treated as additional work and billed separately at a rate agreed in writing beforehand.
+
+Design guarantee: if you don't like the first design after 2 rounds of changes, we refund your deposit in full. The guarantee applies to the first design, before you approve it.`,
       },
       {
         title: "8. Intellectual Property",

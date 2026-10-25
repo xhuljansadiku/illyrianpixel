@@ -51,7 +51,7 @@ export default async function Page(props: Props) {
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"This is the question every Albanian business owner asks sooner or later.\nAnd it usually gets different answers ranging from 300 euros to 5,000 euros with no logical explanation.\nThe Albanian web design market is unstructured: there are freelancers who build sites for 300 euros and agencies asking 3,000 euros for the same visual result."}
+          {"This is the question every Albanian business owner asks sooner or later.\nAnd it usually gets different answers ranging from 300 euros to 5,000 euros, with no logical explanation.\nThe Albanian web design market is unstructured: there are freelancers who build sites for 300 euros and agencies asking 3,000 euros for the same visual result."}
         </p>
 
         <section className="space-y-4">
@@ -92,7 +92,7 @@ export default async function Page(props: Props) {
             What to avoid when choosing a price
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">The freelancer with a very low price.</strong>{"\n€300–500 doesn't even cover the minimum time needed for quality work.\nYou'll usually get a modified template with no SEO and no optimization."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Contracts without specifications.</strong>{"\nIf the contract doesn't precisely list the pages, features, and deadline you'll get surprises with extra costs."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Contracts without specifications.</strong>{"\nIf the contract doesn't precisely list the pages, features, and deadline, you'll get surprises with extra costs."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Free&rdquo; hosting and domain.</strong>{"\nWhen someone offers you everything \"free,\" you'll pay for it with poor performance and limited control."}</p>
         </section>
 
@@ -101,7 +101,7 @@ export default async function Page(props: Props) {
             When is it worth investing more?
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"If your business gets 60–70% of its customers online, your website is your main sales channel.\nAlbanian businesses that invest €1,200–3,000 in a professional website report an average return within 6–12 months.\n"}
+            {"If your business gets 60–70% of its customers online, your website is your main sales channel.\nThe simple calculation: how much profit one new client leaves you, and how many such clients it takes to cover the cost. Our price calculator does this for you.\n"}
             <Link href="/cmimet" className="text-accent underline underline-offset-4">See our full pricing</Link>
             {" or contact us for a quote based on your needs."}
           </p>
@@ -135,7 +135,7 @@ export default async function Page(props: Props) {
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-        {"Kjo është pyetja që çdo biznesmen shqiptar e bën herët a vonë.\nDhe zakonisht merr përgjigje të ndryshme nga 300 euro te 5,000 euro pa asnjë shpjegim logjik.\nTregu shqiptar i web design-it është i pastrukturuar: ka freelancer që bëjnë faqe me 300 euro dhe agjenci që kërkojnë 3,000 euro për të njëjtin rezultat vizual."}
+        {"Kjo është pyetja që çdo biznesmen shqiptar e bën herët a vonë.\nDhe zakonisht merr përgjigje të ndryshme nga 300 euro te 5,000 euro, pa asnjë shpjegim logjik.\nTregu shqiptar i web design-it është i pastrukturuar: ka freelancer që bëjnë faqe me 300 euro dhe agjenci që kërkojnë 3,000 euro për të njëjtin rezultat vizual."}
       </p>
 
       <section className="space-y-4">
@@ -166,8 +166,8 @@ export default async function Page(props: Props) {
           Çfarë ndikon në çmimin e një website-i
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">1. Kompleksiteti i dizajnit.</strong>{"\nNjë faqe me dizajn të personalizuar kushton 2–3 herë më shumë se një faqe e ndërtuar mbi template. Dizajni origjinal kërkon orë pune reale."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">2. Funksionet teknike.</strong>{"\nRezervimet online, sistemi i pagesave, integrimet me CRM çdo funksion i ri shton kohën e zhvillimit."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">3. SEO dhe optimizimi.</strong>{"\nFaqet me SEO të mirë ndërtohen ndryshe me strukturë të saktë, shpejtësi të lartë dhe meta të optimizuara.\nKjo kërkon kohë shtesë."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">2. Funksionet teknike.</strong>{"\nRezervimet online, sistemi i pagesave, integrimet me CRM: çdo funksion i ri shton kohën e zhvillimit."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">3. SEO dhe optimizimi.</strong>{"\nFaqet me SEO të mirë ndërtohen ndryshe: me strukturë të saktë, shpejtësi të lartë dhe meta të optimizuara.\nKjo kërkon kohë shtesë."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">4. Mirëmbajtja dhe hosting-u.</strong>{"\nHosting i mirë kushton 100–300 €/vit, mirëmbajtja mujore 50–200 €.\nPa to, faqja juaj do të ngadalësohet dhe do të ketë probleme sigurie."}</p>
       </section>
 
@@ -176,7 +176,7 @@ export default async function Page(props: Props) {
           Çfarë të shmangni kur zgjidhni çmimin
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Freelancer-i me çmim shumë të ulët.</strong>{"\n300–500 euro nuk mbulojnë as kohën minimale për punë cilësore.\nZakonisht merrni template të modifikuar pa SEO dhe pa optimizim."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kontratat pa specifikime.</strong>{"\nNëse kontratat nuk listojnë saktë faqet, funksionet dhe afatin do të keni surpriza me kostot shtesë."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kontratat pa specifikime.</strong>{"\nNëse kontratat nuk listojnë saktë faqet, funksionet dhe afatin, do të keni surpriza me kostot shtesë."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Falas&rdquo; hosting dhe domain.</strong>{"\nKur dikush ju ofron gjithçka \"falas\", do ta paguani me performancë të dobët dhe kontroll të kufizuar."}</p>
       </section>
 
@@ -185,7 +185,7 @@ export default async function Page(props: Props) {
           Kur ia vlen të investoni më shumë?
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-          {"Nëse biznesi juaj merr 60–70% të klientëve nga interneti, faqja juaj është kanali kryesor i shitjeve.\nBizneset shqiptare që investojnë 1,200–3,000 euro në website profesional raportojnë kthim mesatar brenda 6–12 muajsh.\n"}
+          {"Nëse biznesi juaj merr 60–70% të klientëve nga interneti, faqja juaj është kanali kryesor i shitjeve.\nLlogaritja e thjeshtë: sa fitim ju lë një klient i ri, dhe sa klientë të tillë duhen për të mbuluar koston. Kalkulatori ynë i çmimit e bën këtë llogari për ju.\n"}
           <Link href="/cmimet" className="text-accent underline underline-offset-4">Shikoni çmimet tona të plota</Link>
           {" ose na kontaktoni për ofertë sipas nevojave tuaja."}
         </p>

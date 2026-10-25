@@ -17,7 +17,7 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       "Dyqani ekziston.\nVizitorët vijnë.\nPor shumica largohen pa blerë.",
     items: [
       {
-        title: "70% e blerjeve braktiset para pagesës",
+        title: "Rreth 70% e karrocave të blerjes braktisen para pagesës (Baymard Institute)",
         body: "Checkout i komplikuar, mungesë besimi ose ngarkesë e ngadaltë, dhe blerësi humb.\nJo sepse nuk donte, por sepse diçka e ndaloi.",
       },
       {
@@ -102,8 +102,8 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
     "bardhi-wellness": "Rrugë e thjeshtuar drejt shërbimit dhe blerjes, rezultati: më pak pyetje, më shumë konvertime.",
     "hauswerk-niederbayern": "Vizitorët gjejnë shpejt shërbimin dhe kontaktojnë me pritshmëri të qarta.",
   },
-  feedbackLabel: "ÇFARË THONË KLIENTËT",
-  feedbackHeadline: "Dyqane që shesin, çdo ditë.",
+  feedbackLabel: "PROJEKTE",
+  feedbackHeadline: "Punë reale për biznese reale.",
   feedbackSubline: "Rezultate reale, jo premtime.",
   // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [

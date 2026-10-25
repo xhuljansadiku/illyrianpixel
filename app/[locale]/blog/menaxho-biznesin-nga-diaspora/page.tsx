@@ -14,7 +14,7 @@ const META: Record<Locale, { title: string; description: string; keywords: strin
   sq: {
     title: "Menaxho Biznesin nga Diaspora: Udhëzues 2026",
     description:
-      "Si e menaxhoni biznesin në Shqipëri ose Kosovë kur jetoni jashtë. Website si zyra juaj digjitale 24/7, pa qenë atje çdo ditë.",
+      "Si e menaxhoni biznesin në Shqipëri ose Kosovë kur jetoni jashtë. Website si zyra juaj dixhitale 24/7, pa qenë atje çdo ditë.",
     keywords: ["biznes shqiptar diasporë", "menaxho biznesin nga jashtë", "website biznesi shqiptar gjermani", "administro biznesin online shqipëri"],
   },
   en: {
@@ -64,7 +64,7 @@ export default async function Page(props: Props) {
           ]}
         >
           <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-            {"Thousands of Albanians and Kosovars now live in Germany, Switzerland, Austria, the US or Canada, while their business a restaurant, a shop, a construction company stays back home.\nThe challenge is the same for everyone: how do you run a business when you're physically 2,000 km away, in a different timezone, and can't be there every day to supervise everything?"}
+            {"Thousands of Albanians and Kosovars now live in Germany, Switzerland, Austria, the US or Canada, while their business (a restaurant, a shop, a construction company) stays back home.\nThe challenge is the same for everyone: how do you run a business when you're physically 2,000 km away, in a different timezone, and can't be there every day to supervise everything?"}
           </p>
 
           <section className="space-y-4">
@@ -72,7 +72,7 @@ export default async function Page(props: Props) {
               Why phone calls and Facebook alone stop being enough
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"The traditional solution has been a phone and one trusted person on the ground usually family who answers everything.\nThat works up to a point, but it has real limits: the person back home can't reply to every Facebook message in real time, doesn't always know the latest prices, and new customers often give up before getting an answer."}
+              {"The traditional solution has been a phone and one trusted person on the ground (usually family) who answers everything.\nThat works up to a point, but it has real limits: the person back home can't reply to every Facebook message in real time, doesn't always know the latest prices, and new customers often give up before getting an answer."}
             </p>
           </section>
 
@@ -81,7 +81,7 @@ export default async function Page(props: Props) {
               A website as your digital office, working 24/7
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"A well-built website becomes your digital office running 24/7, no matter where you are or what time it is there.\nA customer in Tirana sees your exact prices, services and hours at 10pm while you're asleep in Munich.\nThey don't wait for a reply the information is already there."}
+              {"A well-built website becomes your digital office running 24/7, no matter where you are or what time it is there.\nA customer in Tirana sees your exact prices, services and hours at 10pm while you're asleep in Munich.\nThey don't wait for a reply: the information is already there."}
             </p>
           </section>
 
@@ -91,9 +91,9 @@ export default async function Page(props: Props) {
             </h2>
             <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
               <li className="whitespace-pre-line"><strong className="text-white">Clear service/pricing pages</strong>{" that don't need frequent manual updates."}</li>
-              <li className="whitespace-pre-line"><strong className="text-white">A direct WhatsApp button</strong>{" that rings your phone wherever you are not a local number someone else has to keep answering."}</li>
+              <li className="whitespace-pre-line"><strong className="text-white">A direct WhatsApp button</strong>{" that rings your phone wherever you are, not a local number someone else has to keep answering."}</li>
               <li className="whitespace-pre-line"><strong className="text-white">Google Maps and accurate opening hours</strong>{" for the physical location back home."}</li>
-              <li className="whitespace-pre-line"><strong className="text-white">A simple admin panel</strong>{" a trusted person in Albania can use to upload photos or change a price themselves, without asking you every time."}</li>
+              <li className="whitespace-pre-line"><strong className="text-white">Someone who makes changes quickly</strong>{" when you or a trusted person in Albania sends a new photo or price, without waiting for days."}</li>
             </ul>
           </section>
 
@@ -102,7 +102,7 @@ export default async function Page(props: Props) {
               Your role changes and that&apos;s the point
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"You're no longer the one answering every single message you're the one making strategic decisions, while the website and one local person with admin access handle the day-to-day.\nMany diaspora business owners tell us the same thing: \"The website gave me my time back I don't have to be on the phone every minute anymore.\""}
+              {"You're no longer the one answering every single message: you're the one making strategic decisions, while the website and one local person handle the day-to-day."}
             </p>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
               {"Reporting is the part people forget. If you're abroad, you want to know what's happening without being there: how many contact messages came in this month, which services are requested most, which cities or countries your customers are searching from.\nA simple dashboard with these numbers gives you real control, without having to call someone just to ask \"how's it going?\""}
@@ -112,7 +112,7 @@ export default async function Page(props: Props) {
           <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
             <p className="font-display text-[1.1rem] text-white">Running a business back home while living abroad?</p>
             <p className="mt-2 text-[0.95rem] text-white/65">
-              {"For most of the diaspora business owners we've helped, a proper website pays for itself within 2-3 months. Free consultation, no obligation."}
+              {"In a short call we'll show you what your business would actually need. Free consultation, no obligation."}
             </p>
             <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
               Contact us here →
@@ -133,16 +133,16 @@ export default async function Page(props: Props) {
         breadcrumbLabel="Menaxho Biznesin nga Diaspora"
         path={`/blog/${SLUG}`}
         title="Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje"
-        description="Website si zyra juaj digjitale që punon edhe kur ju flini në një timezone tjetër."
+        description="Website si zyra juaj dixhitale që punon edhe kur ju flini në një brez tjetër orar."
         date="Korrik 2026"
         readTime="6 min lexim"
         related={[
           { href: "/blog/website-dygjuhesh-biznes-diaspore", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë" },
-          { href: "/blog/si-te-gjejne-klientet-shqiptare-biznesin-tend", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë" },
+          { href: "/blog/si-te-gjejne-klientet-shqiptare-biznesin-tend", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë" },
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë.\nSfida është e njëjtë për të gjithë: si e menaxhon një biznes kur je fizikisht 2.000 km larg, në një timezone tjetër, dhe s'mund të jesh atje çdo ditë për të mbikëqyrur gjithçka?"}
+          {"Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë.\nSfida është e njëjtë për të gjithë: si e menaxhon një biznes kur je fizikisht 2.000 km larg, në një brez tjetër orar, dhe s'mund të jesh atje çdo ditë për të mbikëqyrur gjithçka?"}
         </p>
 
         <section className="space-y-4">
@@ -156,10 +156,10 @@ export default async function Page(props: Props) {
 
         <section className="space-y-4">
           <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-            Website si zyra juaj digjitale, 24/7
+            Website si zyra juaj dixhitale, 24/7
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Website-i i mirë-ndërtuar bëhet zyra juaj digjitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje.\nKlienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih.\nNuk pret që dikush t'i përgjigjet, informacioni është aty, gati."}
+            {"Website-i i mirë-ndërtuar bëhet zyra juaj dixhitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje.\nKlienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih.\nNuk pret që dikush t'i përgjigjet, informacioni është aty, gati."}
           </p>
         </section>
 
@@ -169,9 +169,9 @@ export default async function Page(props: Props) {
           </h2>
           <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
             <li className="whitespace-pre-line"><strong className="text-white">Faqe shërbimesh/çmimesh të qarta</strong>{" që s'kanë nevojë përditësim të shpeshtë manual."}</li>
-            <li className="whitespace-pre-line"><strong className="text-white">Buton direkt WhatsApp</strong>{" që bie në telefonin tuaj kudo që jeni jo në një numër lokal që dikush tjetër duhet ta mbajë."}</li>
+            <li className="whitespace-pre-line"><strong className="text-white">Buton direkt WhatsApp</strong>{" që bie në telefonin tuaj kudo që jeni, jo në një numër lokal që dikush tjetër duhet ta mbajë."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">Google Maps dhe orari i saktë</strong>{" i biznesit në vend."}</li>
-            <li className="whitespace-pre-line"><strong className="text-white">Panel administrimi i thjeshtë</strong>{" që një person i besuar në Shqipëri mund ta përdorë vetë për të ngarkuar foto apo ndryshuar një çmim, pa ju pyetur çdo herë."}</li>
+            <li className="whitespace-pre-line"><strong className="text-white">Dikush që i bën ndryshimet shpejt</strong>{" kur ju ose një person i besuar në Shqipëri dërgoni një foto apo një çmim të ri, pa pritur ditë të tëra."}</li>
           </ul>
         </section>
 
@@ -180,7 +180,7 @@ export default async function Page(props: Props) {
             Roli juaj ndryshon dhe kjo është pika
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Nuk jeni më ai që përgjigjet çdo mesazhi, jeni ai që merr vendimet strategjike, ndërsa website-i dhe një person lokal me akses admin trajtojnë ditën-për-ditë.\nShumë pronarë biznesesh në diasporë na thonë të njëjtën gjë: \"Website-i më dha kohën time mbrapsht, tani s'më duhet të jem në telefon çdo minutë.\""}
+            {"Nuk jeni më ai që përgjigjet çdo mesazhi, jeni ai që merr vendimet strategjike, ndërsa website-i dhe një person lokal trajtojnë ditën-për-ditë."}
           </p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
             {"Raportimi është pjesa që shpesh harrohet. Nëse jeni jashtë, doni të dini çfarë ndodh pa qenë atje: sa mesazhe kontakti vijnë në muaj, cilat shërbime kërkohen më shumë, nga cilat qytete apo vende po ju gjejnë klientët.\nNjë panel i thjeshtë me këto numra ju jep kontroll real, pa pasur nevojë të thërrisni dikë për të pyetur \"si po shkon?\""}
@@ -190,7 +190,7 @@ export default async function Page(props: Props) {
         <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
           <p className="font-display text-[1.1rem] text-white">Drejtoni biznes në atdhe ndërsa jetoni jashtë?</p>
           <p className="mt-2 text-[0.95rem] text-white/65">
-            {"Për shumicën e bizneseve që kemi ndihmuar në këtë situatë, website-i i duhur shlyhet vetë brenda 2-3 muajve. Konsultim falas, pa asnjë obligim."}
+            {"Në një bisedë të shkurtër ju tregojmë çfarë do t'i duhej realisht biznesit tuaj. Konsultim falas, pa asnjë obligim."}
           </p>
           <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
             Na kontaktoni këtu →

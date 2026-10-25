@@ -29,7 +29,7 @@ const COPY = {
     posts: [
       { slug: "menaxho-biznesin-nga-diaspora", title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje" },
       { slug: "website-dygjuhesh-biznes-diaspore", title: "Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë" },
-      { slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend", title: "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë" },
+      { slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend", title: "Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë" },
     ],
   },
   en: {

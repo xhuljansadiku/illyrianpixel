@@ -21,7 +21,7 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
       { description: "Formular kontakti + lidhje WhatsApp", qty: 1, price: 100 },
     ],
     notes:
-      "Përfshihet: dizajn responsiv, SEO bazë, trajnim 1-orësh për përdorim.\nPagesa: 50% paradhënie, 50% para publikimit.\nAfati: 2–4 javë nga miratimi i dizajnit.",
+      "Përfshihet: dizajn responsiv, SEO bazë, trajnim 1-orësh për përdorim.\nPagesa: deri në €1,000, 50% paradhënie dhe 50% para publikimit; mbi €1,000, 3 këste (40% në fillim, 30% pas aprovimit të dizajnit, 30% para publikimit).\nAfati: 2–4 javë nga miratimi i dizajnit.",
   },
   {
     id: "ecommerce",
@@ -33,7 +33,7 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
       { description: "Trajnim për menaxhim produktesh e porosish", qty: 1, price: 150 },
     ],
     notes:
-      "Përfshihet: katalog produktesh, shportë, pagesa online, panel porosish.\nPagesa: 50% paradhënie, 50% para publikimit.\nAfati: 4–6 javë.",
+      "Përfshihet: katalog produktesh, shportë, pagesa online, panel porosish.\nPagesa: deri në €1,000, 50% paradhënie dhe 50% para publikimit; mbi €1,000, 3 këste (40% në fillim, 30% pas aprovimit të dizajnit, 30% para publikimit).\nAfati: 4–6 javë.",
   },
   {
     id: "seo-mujor",
@@ -61,6 +61,6 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
       { description: "Dizajn logoje — 3 koncepte + revizione", qty: 1, price: 350 },
       { description: "Paketë identiteti vizual (ngjyra, fonte, udhëzues)", qty: 1, price: 250 },
     ],
-    notes: "Dorëzohen: skedarët burimorë (AI/SVG), versionet për web e print, udhëzuesi i brendit.",
+    notes: "Dorëzohen: skedarët burimorë (AI/SVG), versionet për web e print, udhëzuesi i brandit.",
   },
 ];

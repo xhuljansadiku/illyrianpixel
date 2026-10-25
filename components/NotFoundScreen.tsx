@@ -11,8 +11,8 @@ const COPY = {
   sq: {
     label: "GABIM 404",
     title: "Faqja nuk u gjet",
-    body: "URL-ja që kërkuat nuk ekziston ose është zhvendosur. Kthehu në faqen kryesore dhe vazhdo eksplorimin.",
-    back: "← Kthehu në shtëpi",
+    body: "URL-ja që kërkuat nuk ekziston ose është zhvendosur. Kthehuni në faqen kryesore dhe vazhdoni eksplorimin.",
+    back: "← Kthehu në faqen kryesore",
   },
   en: {
     label: "ERROR 404",

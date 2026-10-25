@@ -35,7 +35,7 @@ const defaultFaqsSq: FaqItem[] = [
   },
   {
     q: "Çfarë kam nevojë të përgatis para fillimit?",
-    a: "Mjafton të na tregoni çfarë bën biznesi juaj, kë synoni të arrini dhe çfarë nuk ju pëlqen tek prezenca juaj aktuale.\nPër pjesën tjetër kujdesemi ne, struktura, tekstet dhe dizajni."
+    a: "Mjafton të na tregoni çfarë bën biznesi juaj, kë synoni të arrini dhe çfarë nuk ju pëlqen te prezenca juaj aktuale.\nPër pjesën tjetër kujdesemi ne: struktura, tekstet dhe dizajni."
   }
 ];
 
@@ -54,7 +54,7 @@ const defaultFaqsEn: FaqItem[] = [
   },
   {
     q: "Do you work with international clients?",
-    a: "Yes, we have clients in Germany, Italy, England, Sweden and the US, as well as in Albania and Kosovo.\nWe communicate in Albanian, English, German and Croatian.\nMeetings happen online, the process is the same for everyone."
+    a: "Yes, we have clients in Germany, Italy, the UK, Sweden and the US, as well as in Albania and Kosovo.\nWe communicate in Albanian, English, German and Croatian.\nMeetings happen online, the process is the same for everyone."
   },
   {
     q: "How does payment work?",

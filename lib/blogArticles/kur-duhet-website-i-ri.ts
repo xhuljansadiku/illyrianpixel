@@ -3,6 +3,7 @@ import type { StructuredArticlePair } from "./types";
 const article: StructuredArticlePair = {
   slug: "kur-duhet-website-i-ri",
   published: "2026-10-22",
+  modified: "2026-10-25",
   sq: {
     metaTitle: "Kur i duhet biznesit një website i ri? 9 shenja të qarta",
     metaDescription:
@@ -28,8 +29,8 @@ const article: StructuredArticlePair = {
       { h2: "2. Hapet ngadalë" },
       { p: "Nëse faqja mendohet disa sekonda para se të shfaqë diçka, një pjesë e vizitorëve ikin para se ta shohin. Shkaqet zakonisht janë foto të rënda, plugin-e të panevojshëm ose hosting i lirë. Disa nga këto rregullohen pa ndërtuar faqe të re; të tjera, si një temë e vjetër WordPress e mbingarkuar, jo. Më shumë për këtë te [udhëzuesi për shpejtësinë e website-it](/blog/shpejtesia-e-website-it)." },
 
-      { h2: "3. S'mund ta ndryshoni vetë asgjë" },
-      { p: "Ndryshoni orarin, shtoni një shërbim, ndërroni një foto, dhe për çdo gjë duhet të shkruani dikujt dhe të prisni. Ose më keq: personi që e bëri faqen s'përgjigjet më. Kur një ndryshim i vogël kërkon një javë, faqja fillon të mbetet pas biznesit, dhe informacioni i vjetër është më i keq se mungesa e informacionit." },
+      { h2: "3. Çdo ndryshim i vogël zgjat me javë" },
+      { p: "Ndryshoni orarin, shtoni një shërbim, ndërroni një foto, dhe ndryshimi del në faqe pas ditësh apo javësh. Ose më keq: personi që e bëri faqen s'përgjigjet më. Kur një ndryshim i vogël kërkon një javë, faqja fillon të mbetet pas biznesit, dhe informacioni i vjetër është më i keq se mungesa e informacionit." },
 
       { h2: "4. Informacioni është i vjetër dhe askush s'e ka vënë re" },
       { p: "Çmime të 2022-shit, një numër telefoni që s'përdoret më, shërbime që s'i ofroni. Klienti që i lexon s'e di cila pjesë është e saktë, ndaj dyshon për të gjitha. Nëse e gjeni veten duke u thënë klientëve \"mos e shihni faqen, s'është e përditësuar\", faqja po punon kundër jush." },
@@ -81,8 +82,8 @@ const article: StructuredArticlePair = {
       { h2: "2. It loads slowly" },
       { p: "If the page thinks for a few seconds before showing anything, some visitors leave before they see it. The usual causes are heavy images, unnecessary plugins or cheap hosting. Some of that can be fixed without a new site; some of it, like a bloated old WordPress theme, can't. More on that in our [guide to website speed](/blog/shpejtesia-e-website-it)." },
 
-      { h2: "3. You can't change anything yourself" },
-      { p: "Opening hours change, you add a service, you want a new photo, and every time you have to message someone and wait. Or worse, the person who built it no longer replies. When a small edit takes a week, the site starts falling behind the business, and outdated information is worse than none." },
+      { h2: "3. Every small change takes weeks" },
+      { p: "Opening hours change, you add a service, you want a new photo, and the change shows up days or weeks later. Or worse, the person who built it no longer replies. When a small edit takes a week, the site starts falling behind the business, and outdated information is worse than none." },
 
       { h2: "4. The information is out of date and nobody noticed" },
       { p: "Prices from 2022, a phone number nobody answers, services you no longer offer. A customer reading it can't tell which part is accurate, so they doubt all of it. If you catch yourself telling customers \"don't look at the website, it's not up to date\", the site is working against you." },

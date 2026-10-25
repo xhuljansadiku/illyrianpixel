@@ -70,7 +70,7 @@ export default function BlogEcommerceClient() {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">03 — Lower cost than a physical store</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Rent, staff, and operating costs of a physical store are high. An online store requires an initial investment (build) and a minimal monthly cost (hosting, maintenance). The ROI is many times higher.
+                        Rent, staff, and operating costs of a physical store are high. An online store requires an initial investment (build) and a small monthly cost (hosting, maintenance), so it often pays back faster.
                       </p>
                     </div>
 
@@ -107,7 +107,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">Limited payment options:</span> Many Albanians don&apos;t have an international credit card. If you don&apos;t accept PayPal, cash on delivery, or Stripe, you lose half your buyers.
+                        <span className="font-medium text-white/90">Limited payment options:</span> Many Albanians don&apos;t have an international credit card. If you don&apos;t offer cash on delivery or an online payment method that works in Albania, you lose a large share of your buyers.
                       </span>
                     </li>
                     <li className="flex gap-3">
@@ -150,7 +150,7 @@ export default function BlogEcommerceClient() {
                     </div>
                   </div>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    If your store sells even just 5 extra products a month thanks to the online channel, the investment is recovered within the first few months.
+                    Do the math: how much profit one sale leaves you, and how many extra sales a month it takes to cover the investment.
                   </p>
                 </section>
 
@@ -209,7 +209,7 @@ export default function BlogEcommerceClient() {
                     Në 2020, shumica e shqiptarëve preferonin të blinin fizikisht. Sot, gjithnjë e më shumë konsumatorë shqiptarë kërkojnë produktin online para se të vendosin ku ta blejnë, qoftë online qoftë fizikisht.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Kjo do të thotë: nëse produkti juaj nuk shfaqet online me informacion të plotë, çmim dhe mundësi kontakti, ju i humbisni ata klientë jo konkurrentit fizik, por konkurrentit dixhital që ka kuptuar ndryshimin.
+                    Kjo do të thotë: nëse produkti juaj nuk shfaqet online me informacion të plotë, çmim dhe mundësi kontakti, ju i humbisni ata klientë, jo konkurrentit fizik, por konkurrentit dixhital që ka kuptuar ndryshimin.
                   </p>
                 </section>
 
@@ -229,21 +229,21 @@ export default function BlogEcommerceClient() {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">02 — Tregu i diasporës</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Disa milion shqiptarë jetojnë jashtë vendit. Ata blejnë produkte shqiptare, u dërgojnë dhurata familjes dhe mbështesin bizneset vendase por vetëm nëse mund ta bëjnë online. Pa dyqan online, ky treg nuk ekziston për ju.
+                        Disa milion shqiptarë jetojnë jashtë vendit. Ata blejnë produkte shqiptare, u dërgojnë dhurata familjes dhe mbështesin bizneset vendase, por vetëm nëse mund ta bëjnë online. Pa dyqan online, ky treg nuk ekziston për ju.
                       </p>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">03 — Kosto më e ulët se dyqani fizik</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Qiraja, stafi, kostot operative të dyqanit fizik janë të larta. Dyqani online kërkon investim fillestar (ndërtim) dhe kosto mujore minimale (hosting, mirëmbajtje). ROI-ja është shumë herë më e lartë.
+                        Qiraja, stafi, kostot operative të dyqanit fizik janë të larta. Dyqani online kërkon investim fillestar (ndërtim) dhe kosto të vogël mujore (hosting, mirëmbajtje), ndaj shpesh e kthen investimin më shpejt.
                       </p>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">04 — Të dhëna dhe analitikë reale</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Dyqani fizik nuk ju tregon kush hyri, çfarë shikoi dhe pse u largua pa blerë. Dyqani online ju jep çdo e dhënë: produktet më të shitura, rrugëtimin e blerësit, normën edhe shumë më tepër.
+                        Dyqani fizik nuk ju tregon kush hyri, çfarë shikoi dhe pse u largua pa blerë. Dyqani online ju jep të dhënat: produktet më të shitura, rrugëtimin e blerësit, normën e konvertimit dhe shumë më tepër.
                       </p>
                     </div>
 
@@ -273,7 +273,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">Pagesa të limituara:</span> Shumë shqiptarë nuk kanë kartë krediti ndërkombëtare. Nëse nuk pranoni PayPal, pagesë në dorëzim ose Stripe, humbni gjysmën e blerësve.
+                        <span className="font-medium text-white/90">Pagesa të limituara:</span> Shumë shqiptarë nuk kanë kartë krediti ndërkombëtare. Nëse nuk ofroni pagesë në dorëzim ose një mënyrë pagese online që funksionon në Shqipëri, humbni një pjesë të madhe të blerësve.
                       </span>
                     </li>
                     <li className="flex gap-3">
@@ -316,7 +316,7 @@ export default function BlogEcommerceClient() {
                     </div>
                   </div>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Nëse dyqani juaj shet edhe vetëm 5 produkte shtesë në muaj falë kanalimit online, investimi rikuperohet brenda muajve të parë.
+                    Bëni llogarinë: sa fitim ju lë një shitje, dhe sa shitje shtesë në muaj duhen për të mbuluar investimin.
                   </p>
                 </section>
 
@@ -340,7 +340,7 @@ export default function BlogEcommerceClient() {
                       Përfundim
                     </h2>
                     <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                      Dyqani online nuk është opsion për bizneset shqiptare është nevoja e parë dixhitale. Çdo muaj pa të, humbni shitje reale. Pyetja nuk është &quot;a kemi nevojë?&quot; pyetja është &quot;sa shpejt mund ta nisim?&quot;
+                      Dyqani online nuk është opsion për bizneset shqiptare, është nevoja e parë dixhitale. Çdo muaj pa të, humbni shitje reale. Pyetja nuk është &quot;a kemi nevojë?&quot;, pyetja është &quot;sa shpejt mund ta nisim?&quot;
                     </p>
                   </section>
 

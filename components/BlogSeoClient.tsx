@@ -25,7 +25,7 @@ export default function BlogSeoClient() {
                     shkretëtirës. Askush nuk e gjen, askush nuk blen.</>}
       date={en ? "April 2026" : "Prill 2026"}
       readTime={en ? "7 min read" : "7 min lexim"}
-      related={en ? [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "The Mistakes Businesses Make on Their Website (and How We Fix Them)" }] : [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Ke trafikun. Por ku janë klientët?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)" }]}
+      related={en ? [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "The Mistakes Businesses Make on Their Website (and How We Fix Them)" }] : [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Keni trafikun. Por ku janë klientët?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)" }]}
     >
       <div className="blog-growth-article space-y-16 md:space-y-24">
 
@@ -148,7 +148,7 @@ export default function BlogSeoClient() {
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Reklamat (PPC) funksionojnë vetëm sa kohë ju paguani. Momentin që ndaloni buxhetin, ato zhduken. SEO është
                     një investim në pronën tuaj dixhitale. Ai ndërton një fluks vizitorësh që vijnë në mënyrë organike,
-                    duke ulur koston e blerjes së klientit (CAC) në afatgjatë.
+                    duke ulur koston e blerjes së klientit (CAC) në afat të gjatë.
                   </p>
                 </section>
 
@@ -166,7 +166,7 @@ export default function BlogSeoClient() {
 
                 <section className="space-y-4">
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">
-                    SEO është Luftë për Territor
+                    SEO është luftë për territor
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Hapësira në faqen e parë të Google është e kufizuar. Janë vetëm 10 vende organike. Nëse nuk jeni ju aty,
@@ -204,7 +204,7 @@ export default function BlogSeoClient() {
                       Përmbledhje
                     </h2>
                     <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                      Bizneset serioze nuk luajnë bixhoz me fatin. Ata kontrollojnë se si dhe ku i gjejnë klientët. SEO është
+                      Bizneset serioze nuk luajnë bixhoz me fatin. Ato kontrollojnë se si dhe ku i gjejnë klientët. SEO është
                       themeli që siguron që website-i juaj të mos jetë thjesht një shpenzim, por pasuria juaj më e madhe
                       online.
                     </p>

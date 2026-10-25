@@ -41,7 +41,7 @@ export const smmConversionLandingData: ConversionLandingData = {
     intro: "",
     items: [
       { icon: "mAudience", title: "Content that attracts the right clients", body: "" },
-      { icon: "mFocus",    title: "The same professional design every day", body: "" },
+      { icon: "mFocus",    title: "Consistent, professional design every day", body: "" },
       { icon: "mScale",    title: "Regular posting, no stress for you", body: "" },
       { icon: "mRoi",      title: "Measurable results every month", body: "" },
     ],

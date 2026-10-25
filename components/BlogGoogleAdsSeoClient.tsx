@@ -29,10 +29,10 @@ export default function BlogGoogleAdsSeoClient() {
                     <br />
                     Njëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite.
                     <br />
-                    Ja si të zgjedhësh sipas situatës suaj.</>}
+                    Ja si të zgjidhni sipas situatës suaj.</>}
       date={en ? "May 2026" : "Maj 2026"}
       readTime={en ? "6 min read" : "6 min lexim"}
-      related={en ? [{ href: "/blog/pse-seo-eshte-kritik", category: "Strategy", categoryColor: "", title: "Why SEO Is Critical for Serious Businesses (Not Optional)" }, { href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }] : [{ href: "/blog/pse-seo-eshte-kritik", category: "Strategji", categoryColor: "", title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)" }, { href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Ke trafikun. Por ku janë klientët?" }]}
+      related={en ? [{ href: "/blog/pse-seo-eshte-kritik", category: "Strategy", categoryColor: "", title: "Why SEO Is Critical for Serious Businesses (Not Optional)" }, { href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }] : [{ href: "/blog/pse-seo-eshte-kritik", category: "Strategji", categoryColor: "", title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)" }, { href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Keni trafikun. Por ku janë klientët?" }]}
     >
       <div className="blog-growth-article space-y-16 md:space-y-24">
 
@@ -219,10 +219,10 @@ export default function BlogGoogleAdsSeoClient() {
                     Google Ads: rezultate nesër, investim i vazhdueshëm
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Google Ads funksionon si rubineti: hap rubinetin dhe uji rrjedh menjëherë. Mbyll rubinetin dhe nuk ka asgjë. Kjo nuk është e keqe është thjesht si funksionon sistemi.
+                    Google Ads funksionon si rubineti: hap rubinetin dhe uji rrjedh menjëherë. Mbyll rubinetin dhe nuk ka asgjë. Kjo nuk është e keqe, është thjesht si funksionon sistemi.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Nëse keni një produkt ose shërbim me çmim të qartë, nevojë të menjëhershme dhe buxhet reklamash, Google Ads mund të sjellë klientë brenda ditëve të para. Ky është avantazhi i tij kryesor: shpejtësia. Nuk ka nevojë të presësh muaj fushatat aktivizohen dhe klientët fillojnë të telefonojnë.
+                    Nëse keni një produkt ose shërbim me çmim të qartë, nevojë të menjëhershme dhe buxhet reklamash, Google Ads mund të sjellë klientë brenda ditëve të para. Ky është avantazhi i tij kryesor: shpejtësia. Nuk ka nevojë të prisni muaj: fushatat aktivizohen dhe klientët fillojnë të telefonojnë.
                   </p>
                   <div className="rounded-2xl border border-accent/30 bg-accent/[0.08] p-5">
                     <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">Kur funksionon Google Ads</p>
@@ -252,7 +252,7 @@ export default function BlogGoogleAdsSeoClient() {
                     SEO: investim i ngadaltë që zgjat vite
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    SEO funksionon si investimi në tokë: rezultatet vijnë ngadalë, por kur vijnë, janë të juajat. Nuk paguat për çdo klikim, nuk humbni pozicionin kur ndalon buxhetin, dhe me kalimin e kohës SEO bëhet gjithnjë e më i fuqishëm.
+                    SEO funksionon si investimi në tokë: rezultatet vijnë ngadalë, por kur vijnë, janë të juajat. Nuk paguani për çdo klikim, nuk humbni pozicionin kur ndaloni buxhetin, dhe me kalimin e kohës SEO bëhet gjithnjë e më i fuqishëm.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Studimet e klikimeve (p.sh. Backlinko) tregojnë se rezultati i parë organik merr rreth 27% të klikimeve, ndërsa i dhjeti rreth 2–3%. Diferenca midis të qenit i pari dhe i dhjetë nuk është 4x, është rreth 10x trafik.
@@ -274,7 +274,7 @@ export default function BlogGoogleAdsSeoClient() {
                       </li>
                       <li className="flex gap-3">
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                        <span>Reduktim i kostos së blerjes së klientit në afatgjatë</span>
+                        <span>Reduktim i kostos së blerjes së klientit në afat të gjatë</span>
                       </li>
                     </ul>
                   </div>
@@ -285,13 +285,13 @@ export default function BlogGoogleAdsSeoClient() {
                     Kostoja reale e secilit kanal
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Google Ads ka kosto direkte dhe të dukshme: pagesh për çdo klikim. Në tregun shqiptar, çmimet variojnë nga €0.30 për klikime të zakonshme deri €3–8 për industri konkurruese si juridike, mjekësi ose ndërtim.
+                    Google Ads ka kosto direkte dhe të dukshme: paguani për çdo klikim. Në tregun shqiptar, çmimet variojnë nga €0.30 për klikime të zakonshme deri €3–8 për industri konkurruese si juridike, mjekësi ose ndërtim.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    SEO ka kosto indirekte: kohë dhe punë profesionale. Rezultatet e para fillojnë të shfaqen pas 3–6 muajsh. Por pasi arrihet pozicioni, trafiku vjen pa kosto shtesë mujore çdo vizitor organik është falas.
+                    SEO ka kosto indirekte: kohë dhe punë profesionale. Rezultatet e para fillojnë të shfaqen pas 3–6 muajsh. Por pasi arrihet pozicioni, trafiku vjen pa kosto shtesë mujore: çdo vizitor organik është falas.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Llogaritni kështu: nëse shpenzoni €300/muaj në Google Ads dhe sjellin 30 klientë potencialë, kostoja për kontakt është €10. SEO i mirë mund të sjellë 300 vizitorë organikë çdo muaj por duhet 12 muaj për të arritur aty.
+                    Llogaritni kështu: nëse shpenzoni €300/muaj në Google Ads dhe sjellin 30 klientë potencialë, kostoja për kontakt është €10. SEO i mirë mund të sjellë 300 vizitorë organikë çdo muaj, por duhen 12 muaj për të arritur aty.
                   </p>
                 </section>
 
@@ -300,10 +300,10 @@ export default function BlogGoogleAdsSeoClient() {
                     Strategjia e zgjuar: të dyja bashkë
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Bizneset më të suksesshme nuk zgjedhin kombinojnë. Google Ads mban faqen aktive dhe gjeneron të ardhura tani, ndërsa SEO ndërton themelin organik për të ardhmen.
+                    Bizneset më të suksesshme nuk zgjedhin: kombinojnë. Google Ads mban faqen aktive dhe gjeneron të ardhura tani, ndërsa SEO ndërton themelin organik për të ardhmen.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Strategjia tipike: filloni me Google Ads për të testuar cilat fjalëkyçe konvertojnë në klientë realë. Pastaj investoni në SEO pikërisht për ato fjalëkyçe. Kur SEO fillon të performojë, ulni gradualisht buxhetin e Ads dhe çlironi kapital për investime të tjera.
+                    Strategjia tipike: filloni me Google Ads për të testuar cilat fjalë kyçe konvertojnë në klientë realë. Pastaj investoni në SEO pikërisht për ato fjalë kyçe. Kur SEO fillon të performojë, ulni gradualisht buxhetin e Ads dhe çlironi kapital për investime të tjera.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     Ky kombinim është arsyeja pse bizneset me strategji dixhitale të plotë zakonisht arrijnë një Kosto Blerje Klienti (CAC) më të ulët me kalimin e kohës, krahasuar me ata që mbështeten vetëm në Ads.
@@ -338,7 +338,7 @@ export default function BlogGoogleAdsSeoClient() {
                       Përfundim
                     </h2>
                     <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                      Nuk ka përgjigje universale. Por ka një rregull të pandryshueshëm: mos investoni në asnjërin kanal pa pasur faqe që konverton. Njëmijë vizitorë në ditë nuk bëjnë asgjë nëse Website nuk i kthen në klientë. Website-i është baza pas saj, zgjidhni kanalin që i përshtatet fazës suaj.
+                      Nuk ka përgjigje universale. Por ka një rregull të pandryshueshëm: mos investoni në asnjërin kanal pa pasur faqe që konverton. Një mijë vizitorë në ditë nuk bëjnë asgjë nëse website-i nuk i kthen në klientë. Website-i është baza; pas saj, zgjidhni kanalin që i përshtatet fazës suaj.
                     </p>
                   </section>
 

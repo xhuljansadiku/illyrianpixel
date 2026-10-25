@@ -44,7 +44,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Structure optimized for conversion",
           "Google Analytics",
           "1–2 languages",
-          "Mobile & speed optimization",
+          "Optimizim për celular & shpejtësi",
         ],
         featured: true,
       },
@@ -440,8 +440,8 @@ export const serviceCategories: ServiceCategory[] = [
       "24/7 monitoring",
       "Continuous optimization",
       "Rebuilding older sites",
-      "Security & daily backup",
-      "Response within 24 hours",
+      "Security & regular backups",
+      "Response within 24–48 hours",
     ],
     packages: [
       {
@@ -496,7 +496,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Advanced monitoring with real-time alerts",
           "Daily backup + weekly off-site backup",
           "DDoS protection and firewall via Vercel or Cloudflare",
-          "Continuous Core Web Vitals optimization",
+          "Continuous Optimizim i Core Web Vitals",
           "Up to 5 hours/month of technical work",
           "Top-priority support, reply the same working day",
           "Weekly performance and security report",

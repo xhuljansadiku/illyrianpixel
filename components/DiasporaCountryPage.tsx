@@ -26,7 +26,7 @@ const COPY = {
     blogTitles: {
       "menaxho-biznesin-nga-diaspora": "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje",
       "website-dygjuhesh-biznes-diaspore": "Website dygjuhësh (shqip + gjuha e vendit): pse i duhet çdo biznesi shqiptar në diasporë",
-      "si-te-gjejne-klientet-shqiptare-biznesin-tend": "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë",
+      "si-te-gjejne-klientet-shqiptare-biznesin-tend": "Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë",
     } as Record<string, string>,
   },
   en: {

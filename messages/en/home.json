@@ -215,7 +215,7 @@
         "title": "E-Commerce",
         "for": "For businesses that want to sell online, around the clock.",
         "points": [
-          "Card, PayPal or Stripe payments",
+          "Card, PayPal or cash-on-delivery payments",
           "Manage products and orders yourself",
           "Ready for customers across Europe"
         ],
@@ -266,7 +266,7 @@
     "promiseTitle": "No risk for you",
     "promises": [
       "Free plan and quote",
-      "50% upfront, 50% after approval",
+      "50% upfront, 50% before launch · 3 instalments above €1,000",
       "We speak Albanian, English, German and Croatian"
     ]
   },

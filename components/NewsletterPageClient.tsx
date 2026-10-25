@@ -27,14 +27,14 @@ const STEPS: Record<string, string[]> = {
   sq: [
     "Shkruani email-in tuaj",
     "Merrni kodin menjëherë në inbox",
-    "Citoni kodin kur kontaktoni",
-    "10% zbritje aplikohet automatikisht",
+    "Shkruani kodin te formulari i kontaktit",
+    "Zbritja 10% llogaritet në ofertën tuaj",
   ],
   en: [
     "Enter your email",
     "Get your code instantly in your inbox",
-    "Quote the code when you contact us",
-    "10% discount applied automatically",
+    "Enter the code in the contact form",
+    "The 10% discount is taken off your quote",
   ],
 };
 
@@ -113,7 +113,7 @@ export default function NewsletterPageClient() {
             <p className="mt-6 max-w-md font-body text-[1rem] font-light leading-[1.75] text-white/42">
               {locale === "en"
                 ? "Subscribe and get your exclusive code sent straight to your email."
-                : "Abonohu dhe merr kodin tënd ekskluziv direkt në email."}
+                : "Abonohuni dhe merrni kodin tuaj ekskluziv direkt në email."}
             </p>
           </div>
         </section>
@@ -195,7 +195,7 @@ export default function NewsletterPageClient() {
                 ) : (
                   <>
                     <p className="ip-eyebrow mb-6">
-                      {locale === "en" ? "Get your code" : "Merr kodin tënd"}
+                      {locale === "en" ? "Get your code" : "Merrni kodin tuaj"}
                     </p>
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div>

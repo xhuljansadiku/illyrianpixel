@@ -51,7 +51,7 @@ export default async function Page(props: Props) {
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"Social media isn't just posting photos.\nIt's strategy, consistency, and communicating with your audience every day.\nAlbanian businesses that manage their social media professionally get 3–5 times more engagement and noticeably more customers.\nBut the price of social media management depends on many factors."}
+          {"Social media isn't just posting photos.\nIt's strategy, consistency, and communicating with your audience every day.\nBusinesses that run their social media with a plan and a steady rhythm usually get more engagement and more enquiries than those who post at random.\nBut the price of social media management depends on many factors."}
         </p>
 
         <section className="space-y-4">
@@ -59,10 +59,10 @@ export default async function Page(props: Props) {
             What professional social media management includes
           </h2>
           <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
-            <li className="whitespace-pre-line"><strong className="text-white">Content creation.</strong>{"\nPhotos, videos, copy everything that appears on your profile."}</li>
+            <li className="whitespace-pre-line"><strong className="text-white">Content creation.</strong>{"\nPhotos, videos, copy: everything that appears on your profile."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">Editorial calendar.</strong>{"\nMonthly plan with themes, posting dates, and goals for each period."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">Community management.</strong>{"\nResponding to comments and messages.\nBusinesses that ignore comments lose credibility."}</li>
-            <li className="whitespace-pre-line"><strong className="text-white">Analytics and reporting.</strong>{"\nReach, engagement, clicks, leads the data drives the decisions."}</li>
+            <li className="whitespace-pre-line"><strong className="text-white">Analytics and reporting.</strong>{"\nReach, engagement, clicks, leads: the data drives the decisions."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">Paid advertising.</strong>{"\nManaging Meta Ads campaigns (Facebook + Instagram) for fast growth."}</li>
           </ul>
         </section>
@@ -107,7 +107,7 @@ export default async function Page(props: Props) {
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Ask about strategy, not just posts.</strong>{"\nA serious agency starts with these questions:\nWho is the audience?\nWhat is the goal?\nHow is success measured?"}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Understand account ownership.</strong>{"\nYour social media accounts should be yours.\nAlways keep admin access."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Avoid very long contracts with no results.</strong>{"\n3–6 month contracts are normal.\nAvoid 12 months with no way out."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Avoid very long contracts with no results.</strong>{"\n3–6 month contracts are normal.\nAvoid 12-month contracts with no way out."}</p>
           <p className="text-[1.02rem] leading-relaxed text-white/68">
             Discover our <Link href="/services/branding-content" className="text-accent underline underline-offset-4">branding and content strategy</Link> or check out our <Link href="/services/seo-google-ads" className="text-accent underline underline-offset-4">SEO & Google Ads package</Link>.
           </p>
@@ -141,7 +141,7 @@ export default async function Page(props: Props) {
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-        {"Social media nuk është vetëm postim fotosh.\nËshtë strategji, konsistencë dhe komunikim me audiencën tuaj çdo ditë.\nBizneset shqiptare që menaxhojnë rrjetet sociale profesionalisht kanë 3–5 herë më shumë angazhim dhe dukshëm më shumë klientë.\nPor çmimi i menaxhimit të social media varet nga shumë faktorë."}
+        {"Social media nuk është vetëm postim fotosh.\nËshtë strategji, konsistencë dhe komunikim me audiencën tuaj çdo ditë.\nBizneset që i menaxhojnë rrjetet sociale me plan dhe rregullsi zakonisht kanë më shumë angazhim dhe më shumë kërkesa sesa ato që postojnë rastësisht.\nPor çmimi i menaxhimit të social media varet nga shumë faktorë."}
       </p>
 
       <section className="space-y-4">
@@ -149,10 +149,10 @@ export default async function Page(props: Props) {
           Çfarë përfshin menaxhimi profesional i social media
         </h2>
         <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
-          <li className="whitespace-pre-line"><strong className="text-white">Content creation.</strong>{"\nFotografitë, videot, tekstet gjithçka që shfaqet në profilin tuaj."}</li>
+          <li className="whitespace-pre-line"><strong className="text-white">Content creation.</strong>{"\nFotografitë, videot, tekstet: gjithçka që shfaqet në profilin tuaj."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">Kalendari editorial.</strong>{"\nPlan mujor me tema, datat e postimeve dhe objektivat për çdo periudhë."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">Community management.</strong>{"\nPërgjigja ndaj komenteve dhe mesazheve.\nBizneset që i injorojnë komentet humbasin besueshmëri."}</li>
-          <li className="whitespace-pre-line"><strong className="text-white">Analitika dhe raportimi.</strong>{"\nReach, engagement, klikime, leads të dhënat drejtojnë vendimet."}</li>
+          <li className="whitespace-pre-line"><strong className="text-white">Analitika dhe raportimi.</strong>{"\nReach, engagement, klikime, leads: të dhënat drejtojnë vendimet."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">Reklamat e paguara.</strong>{"\nMenaxhimi i fushatave Meta Ads (Facebook + Instagram) për rritje të shpejtë."}</li>
         </ul>
       </section>
@@ -197,7 +197,7 @@ export default async function Page(props: Props) {
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Pyesni për strategji, jo vetëm postime.</strong>{"\nAgjencia serioze fillon me pyetjet:\nKush është audienca?\nCili është objektivi?\nSi matet suksesi?"}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kuptoni pronësinë e llogarive.</strong>{"\nLlogaritë e social media duhet të jenë tuajat.\nKeni gjithmonë aksesin e administratorit."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Shmangni kontratat shumë të gjata pa rezultate.</strong>{"\nKontratat 3–6 mujore janë normale.\n12 muaj pa mundësi largimi shmangeni."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Shmangni kontratat shumë të gjata pa rezultate.</strong>{"\nKontratat 3–6 mujore janë normale.\nKontratat 12-mujore pa mundësi largimi, shmangini."}</p>
         <p className="text-[1.02rem] leading-relaxed text-white/68">
           Zbuloni <Link href="/services/branding-content" className="text-accent underline underline-offset-4">strategjinë tonë të branding dhe content</Link> ose shikoni <Link href="/services/seo-google-ads" className="text-accent underline underline-offset-4">paketën SEO & Google Ads</Link>.
         </p>

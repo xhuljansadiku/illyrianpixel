@@ -13,7 +13,7 @@ export default function BlogGrowthClient() {
     <BlogArticleLayout
       category="Rritje"
       categoryColor=""
-      title={<>Ke trafikun.
+      title={<>Keni trafikun.
                 <br className="hidden md:block" />
                 Por ku janë <span className="text-accent">klientët?</span></>}
       description="Shumica e bizneseve shpenzojnë para për të sjellë njerëz në faqe dhe i humbin menjëherë. Jo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj."
@@ -26,8 +26,8 @@ export default function BlogGrowthClient() {
             <section className="space-y-4">
               <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Problemi nuk është reklama</h2>
               <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                Kur shitjet nuk shkojnë, reagimi i parë është: &quot;duhet më shumë reklamë&quot;. Por para se të rrisësh
-                buxhetin, bëji vetes një pyetje: nëse 1000 njerëz hyjnë në faqe dhe vetëm 10 kontaktojnë, problemi nuk
+                Kur shitjet nuk shkojnë, reagimi i parë është: &quot;duhet më shumë reklamë&quot;. Por para se të rrisni
+                buxhetin, bëjini vetes një pyetje: nëse 1000 njerëz hyjnë në faqe dhe vetëm 10 kontaktojnë, problemi nuk
                 është sa njerëz vijnë, por çfarë ndodh kur ata arrijnë.
               </p>
             </section>
@@ -59,8 +59,8 @@ export default function BlogGrowthClient() {
             <section className="space-y-4">
               <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Bëji klientët të besojnë</h2>
               <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                Njerëzit nuk besojnë atë që thua ti, besojnë atë që thonë të tjerët për ty. Para se t&apos;i kërkosh
-                vizitorit të veprojë, jepi arsye reale:
+                Njerëzit nuk besojnë atë që thoni ju, besojnë atë që thonë të tjerët për ju. Para se t&apos;i kërkoni
+                vizitorit të veprojë, jepini arsye reale:
               </p>
               <ul className="space-y-3 text-[1.01rem] leading-relaxed text-text">
                 <li className="flex gap-3">
@@ -95,7 +95,7 @@ export default function BlogGrowthClient() {
                 Gabimi që shohim çdo ditë: faqe me gjashtë butona dhe shumë popup-e. Kur klienti nuk di ku të klikojë,
                 nuk klikon askund. Çdo seksion duhet të ketë një qëllim të vetëm dhe një hap të qartë.
                 <br className="hidden md:block" />
-                Zgjidh një: &quot;Kontakto tani&quot;, &quot;Merr ofertën&quot; ose &quot;Fillo sot&quot;, dhe mbaje
+                Zgjidhni një: &quot;Kontakto tani&quot;, &quot;Merr ofertën&quot; ose &quot;Fillo sot&quot;, dhe mbajeni
                 konsistent.
               </p>
             </section>
@@ -109,25 +109,25 @@ export default function BlogGrowthClient() {
                 <li className="flex gap-3">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   <span>
-                    <span className="font-medium text-white/90">Oferta:</span> Kush je dhe çfarë ofron.
+                    <span className="font-medium text-white/90">Oferta:</span> Kush jeni dhe çfarë ofroni.
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   <span>
-                    <span className="font-medium text-white/90">Problemi:</span> Çfarë po e mundon klientin tënd.
+                    <span className="font-medium text-white/90">Problemi:</span> Çfarë po e mundon klientin tuaj.
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   <span>
-                    <span className="font-medium text-white/90">Zgjidhja:</span> Si e zgjidh ti konkretisht.
+                    <span className="font-medium text-white/90">Zgjidhja:</span> Si e zgjidhni ju konkretisht.
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   <span>
-                    <span className="font-medium text-white/90">Dëshmia:</span> Pse duhet të të besojnë ty.
+                    <span className="font-medium text-white/90">Dëshmia:</span> Pse duhet t&apos;ju besojnë.
                   </span>
                 </li>
                 <li className="flex gap-3">
@@ -147,7 +147,7 @@ export default function BlogGrowthClient() {
                   Statistikat që vërtet kanë rëndësi
                 </h2>
                 <p className="text-[1.02rem] leading-snug text-text md:text-[1.08rem]">
-                  Nuk ke nevojë për dhjetë dashboard-e. Tre gjëra mjaftojnë:
+                  Nuk keni nevojë për dhjetë dashboard-e. Tre gjëra mjaftojnë:
                 </p>
                 <div className="space-y-1.5">
                   <p className="text-[1.01rem] leading-snug text-text">
@@ -168,7 +168,7 @@ export default function BlogGrowthClient() {
                 </h2>
                 <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                   Rritja nuk fillon me më shumë buxhet reklamash, fillon me një faqe që di punën e saj. Mesazh i qartë,
-                  besim i shpejtë dhe një rrugë e thjeshtë drejt kontaktit. Rregulloje këtë dhe çdo euro reklamë do të
+                  besim i shpejtë dhe një rrugë e thjeshtë drejt kontaktit. Rregullojeni këtë dhe çdo euro reklamë do të
                   kthehet mbrapsht.
                 </p>
               </section>

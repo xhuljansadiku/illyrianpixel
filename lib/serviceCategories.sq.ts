@@ -19,7 +19,7 @@ export type ServicePackage = {
   cta?: string;
   /** Dhurata e përfshirë (p.sh. "3 muaj mirëmbajtje teknike falas") — premtim real, jo zbritje */
   gift?: string;
-  /** Vlera reale e dhuratës në € — për "Vlera që merr / Ti paguan" (value stack) */
+  /** Vlera reale e dhuratës në € — për "Vlera që merrni / Ju paguani" (value stack) */
   giftValue?: number;
   /** Përfitim i vogël i përfshirë (p.sh. "30 ditë rregullime falas") — rresht i thjeshtë, jo kutia 🎁 */
   perk?: string;
@@ -67,7 +67,7 @@ export const serviceCategories: ServiceCategory[] = [
         features: [
           "Dizajn profesional dhe i pastër",
           "Deri në 5 faqe",
-          "Form kontakti",
+          "Formular kontakti",
           "SEO bazë",
           "Mobile-first & i shpejtë",
         ],
@@ -84,7 +84,7 @@ export const serviceCategories: ServiceCategory[] = [
           "Strukturë e optimizuar për konvertim",
           "Google Analytics",
           "1–2 gjuhë",
-          "Mobile & speed optimization",
+          "Optimizim për celular & shpejtësi",
         ],
         featured: true,
       },
@@ -131,7 +131,7 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "◈",
     ctaPrimary: "Fillo të shesësh online →",
-    ctaSecondary: "Punet tona",
+    ctaSecondary: "Punët tona",
     trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
     subServices: [
       "Shitje 24/7",
@@ -201,7 +201,7 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "▣",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punet tona",
+    ctaSecondary: "Punët tona",
     trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
     subServices: [
       "iOS & Android nga një kod",
@@ -340,7 +340,7 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "◉",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punet tona",
+    ctaSecondary: "Punët tona",
     trustLine: "Konsultim falas · Pa detyrim · Plan brenda 24–48h",
     subServices: [
       "Instagram & Facebook",
@@ -390,7 +390,7 @@ export const serviceCategories: ServiceCategory[] = [
           "20 postime/muaj + Stories ditore",
           "5 Reels / Video",
           "Të gjitha platformat",
-          "Ads management bazë (Meta Ads)",
+          "Menaxhim bazë i reklamave (Meta Ads)",
           "Hashtags strategjikë",
           "Call strategjik mujor + raport javor",
         ],
@@ -410,7 +410,7 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "◆",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punet tona",
+    ctaSecondary: "Punët tona",
     trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
     subServices: [
       "Logo & Identitet vizual",
@@ -468,20 +468,20 @@ export const serviceCategories: ServiceCategory[] = [
     title: "Mirëmbajtja",
     headline: "Mirëmbajtje, optimizim dhe rindërtim website për biznese shqiptare.",
     subheadline:
-      "Mbajmë faqen tuaj gjithmonë online, e shpejtë dhe e sigurt. Edhe faqe të vjetra i rindërtojmë dhe i optimizojmë.",
+      "Mbajmë faqen tuaj gjithmonë online, të shpejtë dhe të sigurt. Edhe faqe të vjetra i rindërtojmë dhe i optimizojmë.",
     short:
       "Faqja juaj online, e shpejtë dhe e sigurt, çdo ditë.",
     description: "",
     icon: "◈",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punet tona",
+    ctaSecondary: "Punët tona",
     trustLine: "Konsultim falas · Aktivizim brenda 24h · Pa obligim",
     subServices: [
       "Monitorim 24/7",
       "Optimizim i vazhdueshëm",
       "Rindërtim faqesh të vjetra",
-      "Siguri & backup ditor",
-      "Reagim brenda 24 orësh",
+      "Siguri & backup i rregullt",
+      "Reagim brenda 24–48 orësh",
     ],
     packages: [
       {

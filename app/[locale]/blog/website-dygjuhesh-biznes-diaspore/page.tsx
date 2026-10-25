@@ -81,7 +81,7 @@ export default async function Page(props: Props) {
               Real translation, not a &quot;Google Translate&quot; widget
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"The right solution isn't a translate widget bolted on top of the page automatic translations are obvious and lower trust instantly.\nThe right solution is real bilingual structure: every page translated by a person, separate URLs for each language (e.g. domain.com and domain.com/en), and a clear signal to Google (hreflang) about which page serves which visitor."}
+              {"The right solution isn't a translate widget bolted on top of the page: automatic translations are obvious and lower trust instantly.\nThe right solution is real bilingual structure: every page translated by a person, separate URLs for each language (e.g. domain.com and domain.com/en), and a clear signal to Google (hreflang) about which page serves which visitor."}
             </p>
           </section>
 
@@ -90,7 +90,7 @@ export default async function Page(props: Props) {
               A pattern we&apos;ve built before
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"We've built exactly this for clients like Hauswerk Niederbayern (a construction company in Straubing, Germany) and Suli Group Trockenbau businesses founded by Albanians operating in the German market but with an Albanian team and contact network.\nA bilingual website gave them more accurate inquiries from both sides, without wasting time on calls just to clarify the language."}
+              {"We've built exactly this for clients like Hauswerk Niederbayern (a construction company in Straubing, Germany) and Suli Group Trockenbau: businesses founded by Albanians operating in the German market but with an Albanian team and contact network.\nA bilingual website gave them more accurate inquiries from both sides, without wasting time on calls just to clarify the language."}
             </p>
           </section>
 
@@ -99,9 +99,9 @@ export default async function Page(props: Props) {
               What this looks like in practice
             </h2>
             <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
-              <li className="whitespace-pre-line">{"Homepage and services fully translated not just the headings."}</li>
+              <li className="whitespace-pre-line">{"Homepage and services fully translated, not just the headings."}</li>
               <li className="whitespace-pre-line">{"A phone/WhatsApp number that works for both audiences."}</li>
-              <li className="whitespace-pre-line">{"Prices shown in the right currency for each market (EUR for Germany/Switzerland, CHF added if you're in Switzerland)."}</li>
+              <li className="whitespace-pre-line">{"Prices shown in the right currency for each market (EUR for Germany, CHF for Switzerland)."}</li>
               <li className="whitespace-pre-line">{"Proof of work / portfolio shown in both languages."}</li>
             </ul>
           </section>
@@ -111,7 +111,7 @@ export default async function Page(props: Props) {
               The SEO upside is real, not theoretical
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"Google indexes each language separately, which means you rank simultaneously for German/English searches (from local customers) and Albanian searches (from the community and families searching for \"Albanian construction company Germany\" or similar).\nA single-language website shuts off half of that traffic from the start."}
+              {"Google indexes each language separately, which means you rank simultaneously for German/English searches (from local customers) and Albanian searches (from the community and families searching for \"firma ndërtimi shqiptare gjermani\" (Albanian construction company Germany) or similar).\nA single-language website shuts off half of that traffic from the start."}
             </p>
           </section>
 
@@ -144,7 +144,7 @@ export default async function Page(props: Props) {
         readTime="6 min lexim"
         related={[
           { href: "/blog/menaxho-biznesin-nga-diaspora", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje" },
-          { href: "/blog/si-te-gjejne-klientet-shqiptare-biznesin-tend", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë" },
+          { href: "/blog/si-te-gjejne-klientet-shqiptare-biznesin-tend", category: "Diasporë", categoryColor: CATEGORY_COLOR, title: "Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë" },
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -156,7 +156,7 @@ export default async function Page(props: Props) {
             Të zgjedhësh vetëm një gjuhë ju kushton gjysmën e mundësisë
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Shumë biznese shqiptare në diasporë zgjidhin vetëm një gjuhë dhe humbasin gjysmën e mundësisë.\nNjë kompani ndërtimi në Gjermani me website vetëm gjermanisht e ka të vështirë të tërheqë punonjës apo nënkontraktorë shqiptarë që e njohin cilësinë e punës shqiptare por parapëlqejnë të komunikojnë në gjuhën e tyre.\nAnasjelltas, një website vetëm shqip humbet besueshmërinë tek klientët gjermanë që presin standard lokal profesional."}
+            {"Shumë biznese shqiptare në diasporë zgjidhin vetëm një gjuhë dhe humbasin gjysmën e mundësisë.\nNjë kompani ndërtimi në Gjermani me website vetëm gjermanisht e ka të vështirë të tërheqë punonjës apo nënkontraktorë shqiptarë që e njohin cilësinë e punës shqiptare, por parapëlqejnë të komunikojnë në gjuhën e tyre.\nAnasjelltas, një website vetëm shqip humbet besueshmërinë tek klientët gjermanë që presin standard lokal profesional."}
           </p>
         </section>
 
@@ -185,7 +185,7 @@ export default async function Page(props: Props) {
           <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
             <li className="whitespace-pre-line">{"Faqja kryesore dhe shërbimet plotësisht të përkthyera, jo vetëm titujt."}</li>
             <li className="whitespace-pre-line">{"Numri i telefonit/WhatsApp funksional për të dyja audiencat."}</li>
-            <li className="whitespace-pre-line">{"Çmimet e paraqitura në monedhën e duhur për secilin treg (EUR për Gjermani/Zvicër, mund të shtohet CHF nëse jeni në Zvicër)."}</li>
+            <li className="whitespace-pre-line">{"Çmimet e paraqitura në monedhën e duhur për secilin treg (EUR për Gjermaninë, CHF për Zvicrën)."}</li>
             <li className="whitespace-pre-line">{"Dëshmi/portofol që tregojnë cilësinë e punës në të dyja gjuhët."}</li>
           </ul>
         </section>
@@ -195,7 +195,7 @@ export default async function Page(props: Props) {
             Përfitimi SEO është real, jo teorik
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Google e indekson secilën gjuhë veç e veç, që do të thotë se rankoni njëkohësisht për kërkime gjermane/angleze (nga klientë vendas) dhe kërkime shqipe (nga komuniteti dhe familjet që kërkojnë 'firma ndërtimi shqiptare gjermani' apo të ngjashme).\nNjë website vetëm-gjuhësh ju mbyll gjysmën e këtij trafiku që në start."}
+            {"Google e indekson secilën gjuhë veç e veç, që do të thotë se renditeni njëkohësisht për kërkime gjermane/angleze (nga klientë vendas) dhe kërkime shqipe (nga komuniteti dhe familjet që kërkojnë 'firma ndërtimi shqiptare gjermani' apo të ngjashme).\nNjë website njëgjuhësh ju mbyll gjysmën e këtij trafiku që në start."}
           </p>
         </section>
 

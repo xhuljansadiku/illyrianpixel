@@ -45,7 +45,7 @@ export default function ErrorScreen({
           href="/"
           className="inline-flex items-center gap-2 border border-accent/40 text-accent px-8 py-3 text-sm tracking-widest uppercase hover:bg-accent/10 transition-colors duration-300"
         >
-          ← Kthehu në shtëpi
+          ← Kthehu në faqen kryesore
         </Link>
       </div>
     </main>

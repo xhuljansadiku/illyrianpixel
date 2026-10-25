@@ -16,7 +16,7 @@ const article: StructuredArticlePair = {
     readTime: "8 min lexim",
     related: [
       { slug: "seo-tirane", title: "SEO Tiranë: Si të dilni i pari në Google në 2026", category: "SEO" },
-      { slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend", title: "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë", category: "Diasporë" },
+      { slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend", title: "Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë", category: "Diasporë" },
     ],
     blocks: [
       { p: "Kur dikush kërkon \"pastiçeri afër meje\" ose \"mekanik Fushë Kosovë\", rezultati i parë që sheh shpesh s'është një website. Është harta, me tre biznese, yjet e tyre dhe një buton për t'u telefonuar. Ato kartela vijnë nga Google Business Profile (më parë Google My Business)." },

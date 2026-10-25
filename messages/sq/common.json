@@ -60,7 +60,7 @@
     "comingSoon": "Së shpejti"
   },
   "globalCta": {
-    "label": "NEXT STEP",
+    "label": "HAPI TJETËR",
     "title": "Gati për hapin tjetër?",
     "body": "Rezervo një call dhe kthejmë drejtimin në plan konkret me prioritete të qarta.",
     "primaryActionText": "Fillo Bisedën",
@@ -94,7 +94,7 @@
     "marketingDesc": "Google Ads: matja e rezultateve të reklamave dhe reklama më të përshtatshme për ju."
   },
   "whatsapp": {
-    "popoverText": "Na shkruaj në WhatsApp për një ofertë të shpejtë.",
+    "popoverText": "Na shkruani në WhatsApp për një ofertë të shpejtë.",
     "openChat": "Hap WhatsApp",
     "close": "Mbyll",
     "fabAria": "Hap popup WhatsApp"
@@ -125,7 +125,7 @@
     "closeAria": "Mbyll",
     "badge": "Ofertë ekskluzive",
     "title": "10% zbritje për çdo shërbim",
-    "body": "Abonohu dhe merr kodin tënd të zbritjes direkt në email.",
+    "body": "Abonohuni dhe merrni kodin tuaj të zbritjes direkt në email.",
     "placeholder": "email@kompania.com",
     "submit": "Merr 10% →",
     "sending": "Duke dërguar…",
@@ -143,7 +143,7 @@
     "dialogAria": "Mbreti Genti — asistenti i Illyrian Pixel",
     "openAria": "Hap Mbretin Genti — asistenti i Illyrian Pixel",
     "closeAria": "Mbyll",
-    "placeholder": "Shkruaj pyetjen tënde…",
+    "placeholder": "Shkruani pyetjen tuaj…",
     "send": "DËRGO",
     "s1": "Sa kushton një website?",
     "s2": "Si ju kontaktoj?",

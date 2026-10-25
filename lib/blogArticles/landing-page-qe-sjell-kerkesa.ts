@@ -16,7 +16,7 @@ const article: StructuredArticlePair = {
     readTime: "8 min lexim",
     related: [
       { slug: "google-ads-vs-seo", title: "Google Ads apo SEO: Ku të investosh para?", category: "Marketing" },
-      { slug: "si-te-rrisesh-klientet-online", title: "Ke trafikun. Por ku janë klientët?", category: "Rritje" },
+      { slug: "si-te-rrisesh-klientet-online", title: "Keni trafikun. Por ku janë klientët?", category: "Rritje" },
     ],
     blocks: [
       { p: "Një skenar që e shohim shpesh: një biznes nis reklama në Google ose Instagram, sheh klikime në raport, por telefoni s'bie më shumë se më parë. Përfundimi i zakonshëm është \"reklamat s'funksionojnë\". Shpesh reklamat po funksionojnë mirë. Problemi është faqja ku zbresin njerëzit." },

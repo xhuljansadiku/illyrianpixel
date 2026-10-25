@@ -127,7 +127,7 @@ export default async function Page(props: Props) {
             <li><span className="text-accent font-semibold">Standard package:</span> €400–700/month</li>
             <li><span className="text-accent font-semibold">Advanced package:</span> €700–1,500/month</li>
           </ul>
-          <p className="whitespace-pre-line text-[0.95rem] text-white/55">{"Recommended minimum ad budget: €300/month.\nProfessional management is worth it once your budget exceeds €500/month."}</p>
+          <p className="whitespace-pre-line text-[0.95rem] text-white/55">{"Recommended minimum ad budget: €300/month.\nWith a small budget, focusing on 1–2 services and a good landing page matters more than the number of campaigns."}</p>
         </section>
 
         <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
@@ -158,7 +158,7 @@ export default async function Page(props: Props) {
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-        {"Google Ads është kanali më i drejtpërdrejtë i marketingut dixhital paguani dhe shfaqeni menjëherë para klientëve që kërkojnë saktësisht atë që ofroni.\nPor shumë biznese shqiptare humbasin para me Google Ads sepse nuk i konfigurojnë si duhet.\nJa çmimet reale dhe çfarë mund të prisni."}
+        {"Google Ads është kanali më i drejtpërdrejtë i marketingut dixhital: paguani dhe shfaqeni menjëherë para klientëve që kërkojnë saktësisht atë që ofroni.\nPor shumë biznese shqiptare humbasin para me Google Ads sepse nuk i konfigurojnë si duhet.\nJa çmimet reale dhe çfarë mund të prisni."}
       </p>
 
       <section className="space-y-4">
@@ -192,7 +192,7 @@ export default async function Page(props: Props) {
         </h2>
         <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
           <li className="whitespace-pre-line"><strong className="text-white">1. Fjalë kyçe shumë të gjera.</strong>{"\n\"Makinë\" si fjalë kyçe do t'ju kushtojë shumë.\n\"Blerje makinë Tiranë 2026\" është shumë më efektive."}</li>
-          <li className="whitespace-pre-line"><strong className="text-white">2. Pa negative keywords.</strong>{"\nReklamat tuaja shfaqen edhe për kërkime krejtësisht të palidhura ha buxhetin pa rezultat."}</li>
+          <li className="whitespace-pre-line"><strong className="text-white">2. Pa negative keywords.</strong>{"\nReklamat tuaja shfaqen edhe për kërkime krejtësisht të palidhura dhe ju hanë buxhetin pa rezultat."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">3. Dërgimi i trafikut në faqen kryesore.</strong>{"\nÇdo reklamë duhet të shkojë në landing page specifike."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">4. Pa gjurmim konvertimesh.</strong>{"\nNëse nuk dini cilat reklama sjellin klientë, jeni duke fluturuar verbërisht."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">5. Buxheti shumë i shpërndarë.</strong>{"\nFokusohuni në 2–3 shërbime kryesore dhe dominoni ato fjalë kyçe."}</li>
@@ -234,7 +234,7 @@ export default async function Page(props: Props) {
           <li><span className="text-accent font-semibold">Paketa e mesme:</span> 400–700 €/muaj</li>
           <li><span className="text-accent font-semibold">Paketa avancuara:</span> 700–1,500 €/muaj</li>
         </ul>
-        <p className="whitespace-pre-line text-[0.95rem] text-white/55">{"Buxheti minimal i reklamave i rekomanduar: 300 €/muaj.\nMenaxhimi profesional ia vlen kur buxheti kalon 500 €/muaj."}</p>
+        <p className="whitespace-pre-line text-[0.95rem] text-white/55">{"Buxheti minimal i reklamave i rekomanduar: 300 €/muaj.\nMe buxhet të vogël, fokusi te 1–2 shërbime dhe një landing page e mirë ka më shumë rëndësi se numri i fushatave."}</p>
       </section>
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">

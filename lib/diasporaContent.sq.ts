@@ -39,7 +39,9 @@ const DIASPORA_PROCESS = [
   {
     step: "4",
     title: "Publikimi & dorëzimi",
-    desc: "E hedhim live dhe ju japim akses admin të thjeshtë.\nBëni vetë ndryshime, pa pritur askënd.",
+    // Q-15 (2026-10-22): s'ka panel për klientin — ndryshimet i bëjmë ne (2026-10-25)
+    // desc: "E hedhim live dhe ju japim akses admin të thjeshtë.\nBëni vetë ndryshime, pa pritur askënd.",
+    desc: "E hedhim live dhe kujdesemi ne për ndryshimet.\nNa shkruani çfarë duhet ndryshuar dhe e bëjmë ne.",
   },
 ] as const;
 
@@ -65,7 +67,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { title: "Mesazhe pa përgjigje në kohë reale", body: "Klientët shkruajnë në Facebook/Instagram në orë kur s'jeni në gjendje të përgjigjeni, dhe humbin durimin." },
         { title: "Besim i ulët nga një prezencë e vjetër", body: "Një sit i vjetëruar ose thjesht një faqe Facebook nuk krijon besimin që kërkon tregu gjerman." },
-        { title: "Menaxhim i vështirë nga distanca", body: "Çdo ndryshim i vogël, çmim, foto, orar, kërkon të thërrasësh dikë tjetër dhe të presësh." },
+        { title: "Menaxhim i vështirë nga distanca", body: "Çdo ndryshim i vogël, çmim, foto, orar, kërkon të thërrisni dikë tjetër dhe të prisni." },
       ],
     },
     solutionSection: {
@@ -75,7 +77,8 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { title: "WhatsApp & formular gjithmonë aktiv", body: "Klientët ju gjejnë dhe ju kontaktojnë 24/7, pa pritur orarin tuaj të punës." },
         { title: "Dizajn që përshtatet me standardet gjermane", body: "Strukturë e qartë, profesionale, që krijon besim që në 5 sekondat e para." },
-        { title: "Admin panel i thjeshtë", body: "Ndryshoni vetë çmime, foto dhe tekste, pa varësi nga dikush tjetër." },
+        // Q-15: { title: "Admin panel i thjeshtë", body: "Ndryshoni vetë çmime, foto dhe tekste, pa varësi nga dikush tjetër." },
+        { title: "Ndryshimet i bëjmë ne", body: "Na shkruani në WhatsApp ose email çfarë duhet ndryshuar (çmime, foto, tekste) dhe e përditësojmë faqen me paketën e mirëmbajtjes." },
       ],
     },
     whyUs: {
@@ -189,7 +192,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { icon: "convert", title: "Website që ndërton besim", body: "Struktura dhe pamja komunikojnë seriozitet që në sekondat e para." },
         { icon: "support", title: "Komunikim i qartë në shqip", body: "Çdo pyetje merr përgjigje pa barriera gjuhësore." },
-        { icon: "seo", title: "Gjetshëm nga komuniteti shqiptar në Zvicër", body: "SEO që ju lidh me klientët që ju kërkojnë pikërisht ju." },
+        { icon: "seo", title: "Gjetshëm nga komuniteti shqiptar në Zvicër", body: "SEO që ju lidh me klientët që kërkojnë pikërisht shërbimin tuaj." },
         { icon: "speed", title: "Proces i shpejtë, pa humbje kohe", body: "Plan i qartë brenda 24–48 orësh, pa muaj pritje." },
       ],
     },
@@ -235,7 +238,8 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { title: "Sit dygjuhësh shqip/italisht", body: "Të njëjtin mesazh profesional, në gjuhën që flet secili vizitor." },
         { title: "Dizajn që krijon besim menjëherë", body: "Strukturë e qartë që e bën vizitorin të marrë vendim shpejt." },
-        { title: "Admin i thjeshtë për ndryshime vetë", body: "Ndryshoni çmime, foto e orare pa pritur dikë tjetër." },
+        // Q-15: { title: "Admin i thjeshtë për ndryshime vetë", body: "Ndryshoni çmime, foto e orare pa pritur dikë tjetër." },
+        { title: "Ndryshimet i bëjmë ne", body: "Na shkruani çfarë duhet ndryshuar (çmime, foto, orare) dhe e përditësojmë faqen me paketën e mirëmbajtjes." },
       ],
     },
     whyUs: {
@@ -304,7 +308,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["roofon-nyc", "suli-group-trockenbau", "palushi-brothers"],
-    portfolioSubline: "Nga Nju Jorku (Roofon NYC) te bizneset shqiptare në Evropë.",
+    portfolioSubline: "Nga Nju Jorku (Roof ON NYC) te bizneset shqiptare në Evropë.",
     // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
       /*

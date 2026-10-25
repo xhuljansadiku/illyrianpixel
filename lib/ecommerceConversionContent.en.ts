@@ -17,7 +17,7 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
       "The store exists.\nVisitors come.\nBut most leave without buying.",
     items: [
       {
-        title: "70% of purchases are abandoned before checkout",
+        title: "About 70% of shopping carts are abandoned before payment (Baymard Institute)",
         body: "A complicated checkout, lack of trust or slow loading, and the buyer is lost.\nNot because they didn't want to buy, but because something stopped them.",
       },
       {
@@ -102,8 +102,8 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
     "bardhi-wellness": "A simplified path to the service and purchase, result: fewer questions, more conversions.",
     "hauswerk-niederbayern": "Visitors quickly find the service and reach out with clear expectations.",
   },
-  feedbackLabel: "WHAT CLIENTS SAY",
-  feedbackHeadline: "Stores that sell, every day.",
+  feedbackLabel: "OUR WORK",
+  feedbackHeadline: "Real work for real businesses.",
   feedbackSubline: "Real results, not promises.",
   // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [

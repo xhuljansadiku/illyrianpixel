@@ -64,7 +64,7 @@ const CONTENT: Record<Locale, {
     howItWorks: [
       {
         eyebrow: "Tarifa jonë",
-        title: "Fee menaxhimi",
+        title: "Tarifë menaxhimi",
         body: "Çmimi i paketës = tarifa jonë për setup, optimizim dhe raportim.",
       },
       {
@@ -75,7 +75,7 @@ const CONTENT: Record<Locale, {
       {
         eyebrow: "Transparencë totale",
         title: "Çdo euro nën kontroll",
-        body: <>Shihni saktësisht ku shkon çdo euro.<br className="hidden md:block" /> Raport i qartë çdo javë ose 2 javë.</>,
+        body: <>Shihni saktësisht ku shkon çdo euro.<br className="hidden md:block" /> Raport i qartë çdo muaj, çdo 2 javë ose çdo javë, sipas paketës.</>,
       },
     ],
     packagesEyebrow: "TARIFA MENAXHIMI",
@@ -104,7 +104,7 @@ const CONTENT: Record<Locale, {
         price: euro(ADS_MONTHLY.growth),
         priceNote: "/ muaj",
         tagline: "Më shumë klientë, buxhet nën kontroll",
-        ideal: "2–3 fushata të optimizuara çdo javë.\nRemarketing që rikthejnë vizitorët si klientë.",
+        ideal: "2–3 fushata të optimizuara çdo javë.\nRemarketing që i rikthen vizitorët si klientë.",
         features: [
           "2–3 fushata aktive (Search + Display)",
           "Remarketing i konfiguruar",
@@ -159,7 +159,7 @@ const CONTENT: Record<Locale, {
       {
         eyebrow: "Full transparency",
         title: "Every euro accounted for",
-        body: <>See exactly where every euro goes.<br className="hidden md:block" /> A clear report every week or two.</>,
+        body: <>See exactly where every euro goes.<br className="hidden md:block" /> A clear report monthly, every 2 weeks or weekly, depending on the plan.</>,
       },
     ],
     packagesEyebrow: "MANAGEMENT FEE",

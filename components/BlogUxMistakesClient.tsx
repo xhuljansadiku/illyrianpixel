@@ -40,7 +40,7 @@ export default function BlogUxMistakesClient() {
                     Pa u ankuar, pa lënë email, pa u kthyer më.</>}
       date={en ? "April 2026" : "Prill 2026"}
       readTime={en ? "4 min read" : "4 min lexim"}
-      related={en ? [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }, { href: "/blog/pse-seo-eshte-kritik", category: "Strategy", categoryColor: "", title: "Why SEO Is Critical for Serious Businesses (Not Optional)" }] : [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Ke trafikun. Por ku janë klientët?" }, { href: "/blog/pse-seo-eshte-kritik", category: "Strategji", categoryColor: "", title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)" }]}
+      related={en ? [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }, { href: "/blog/pse-seo-eshte-kritik", category: "Strategy", categoryColor: "", title: "Why SEO Is Critical for Serious Businesses (Not Optional)" }] : [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Keni trafikun. Por ku janë klientët?" }, { href: "/blog/pse-seo-eshte-kritik", category: "Strategji", categoryColor: "", title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)" }]}
     >
       <div className="blog-growth-article space-y-16 md:space-y-24">
 
@@ -165,7 +165,7 @@ export default function BlogUxMistakesClient() {
                     <br className="hidden md:block" />
                     &quot;Agjenci dixhitale inovative me zgjidhje të personalizuara&quot; nuk i thotë asgjë askujt.
                     <br className="hidden md:block" />
-                    Thuaj saktësisht çfarë bën dhe për kë.
+                    Thoni saktësisht çfarë bëni dhe për kë.
                   </p>
                 </section>
 
@@ -183,7 +183,7 @@ export default function BlogUxMistakesClient() {
                 <section className="space-y-4">
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Mungon dëshmia</h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Njerëzit nuk besojnë atë që thua ti për veten, besojnë atë që thonë të tjerët për ty.
+                    Njerëzit nuk besojnë atë që thoni ju për veten, besojnë atë që thonë të tjerët për ju.
                     <br className="hidden md:block" />
                     Pa komente reale, pa numra dhe pa rezultate konkrete, besimi nuk ndërtohet.
                     <br className="hidden md:block" />
@@ -219,7 +219,7 @@ export default function BlogUxMistakesClient() {
                       Si i rregullojmë?
                     </h2>
                     <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                      Nuk ka nevojë të ndërtosh gjithçka nga e para.
+                      Nuk ka nevojë të ndërtoni gjithçka nga e para.
                       <br className="hidden md:block" />
                       Shpesh mjaftojnë ndryshime kirurgjikale: një titull më i qartë, një hierarki vizuale më e pastër dhe një
                       thirrje për veprim në vendin e duhur.
