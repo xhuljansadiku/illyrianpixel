@@ -17,9 +17,11 @@ type Props = {
 export default function ConversionTrustBar({ stats }: Props) {
   const reduced = useReducedMotion();
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [primary, setPrimary] = useState(0);
-  const [secondary, setSecondary] = useState(0);
-  const [tertiary, setTertiary] = useState(0);
+  // Nisin me numrat realë, që HTML-i i serverit (Google, AI, pa JS) të mos shfaqë "0+" (2026-10-25).
+  // Në shfletues kthehen në 0 pas hidratimit dhe numërojnë kur seksioni hyn në ekran, si më parë.
+  const [primary, setPrimary] = useState(stats.primaryCount);
+  const [secondary, setSecondary] = useState(stats.secondaryCount);
+  const [tertiary, setTertiary] = useState(stats.tertiaryCount);
   const ranRef = useRef(false);
 
   useEffect(() => {
@@ -35,6 +37,11 @@ export default function ConversionTrustBar({ stats }: Props) {
 
     const el = rootRef.current;
     if (!el) return;
+    if (!ranRef.current) {
+      setPrimary(0);
+      setSecondary(0);
+      setTertiary(0);
+    }
 
     const obs = new IntersectionObserver(
       ([entry]) => {
