@@ -25,7 +25,7 @@ export default function BlogSeoClient() {
                     shkretëtirës. Askush nuk e gjen, askush nuk blen.</>}
       date={en ? "April 2026" : "Prill 2026"}
       readTime={en ? "7 min read" : "7 min lexim"}
-      related={en ? [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "The Mistakes Businesses Make on Their Website (and How We Fix Them)" }] : [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Ke trafikun. Por ku janë klientët?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)" }]}
+      related={en ? [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Growth", categoryColor: "", title: "You Have the Traffic. So Where Are the Customers?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "The Mistakes Businesses Make on Their Website (and How We Fix Them)" }] : [{ href: "/blog/si-te-rrisesh-klientet-online", category: "Rritje", categoryColor: "", title: "Keni trafikun. Por ku janë klientët?" }, { href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)" }]}
     >
       <div className="blog-growth-article space-y-16 md:space-y-24">
 

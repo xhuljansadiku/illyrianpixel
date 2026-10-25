@@ -19,7 +19,7 @@ export type ServicePackage = {
   cta?: string;
   /** Dhurata e përfshirë (p.sh. "3 muaj mirëmbajtje teknike falas") — premtim real, jo zbritje */
   gift?: string;
-  /** Vlera reale e dhuratës në € — për "Vlera që merr / Ti paguan" (value stack) */
+  /** Vlera reale e dhuratës në € — për "Vlera që merrni / Ju paguani" (value stack) */
   giftValue?: number;
   /** Përfitim i vogël i përfshirë (p.sh. "30 ditë rregullime falas") — rresht i thjeshtë, jo kutia 🎁 */
   perk?: string;

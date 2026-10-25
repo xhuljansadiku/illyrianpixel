@@ -6,7 +6,7 @@ import { blogArticleSchema } from "@/lib/blogDates";
 
 type Props = { params: Promise<{ locale: string }> };
 
-const TITLE = "Ke trafikun. Por ku janë klientët?";
+const TITLE = "Keni trafikun. Por ku janë klientët?";
 const DESCRIPTION =
   "Shumica e bizneseve paguajnë për të sjellë vizitorë dhe i humbin menjëherë. Jo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj.";
 

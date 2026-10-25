@@ -67,7 +67,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { title: "Mesazhe pa përgjigje në kohë reale", body: "Klientët shkruajnë në Facebook/Instagram në orë kur s'jeni në gjendje të përgjigjeni, dhe humbin durimin." },
         { title: "Besim i ulët nga një prezencë e vjetër", body: "Një sit i vjetëruar ose thjesht një faqe Facebook nuk krijon besimin që kërkon tregu gjerman." },
-        { title: "Menaxhim i vështirë nga distanca", body: "Çdo ndryshim i vogël, çmim, foto, orar, kërkon të thërrasësh dikë tjetër dhe të presësh." },
+        { title: "Menaxhim i vështirë nga distanca", body: "Çdo ndryshim i vogël, çmim, foto, orar, kërkon të thërrisni dikë tjetër dhe të prisni." },
       ],
     },
     solutionSection: {

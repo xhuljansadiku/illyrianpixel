@@ -19,7 +19,7 @@ const L: Record<Locale, Record<string, string>> = {
     outcomes: "Çfarë fitoi klienti",
     next: "Projekti tjetër",
     ctaTitle: "Biznesi yt meriton të njëjtin rezultat.",
-    ctaBody: "Na trego për projektin, të kthejmë përgjigje brenda 24 orësh.",
+    ctaBody: "Na tregoni për projektin dhe ju kthejmë përgjigje brenda 24 orësh.",
     ctaBtn: "Fillo bisedën",
   },
   en: {

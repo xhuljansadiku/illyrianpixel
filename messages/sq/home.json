@@ -12,7 +12,7 @@
     "ctaGlobe": "Bëhu klienti ynë i radhës",
     "scrollCue": "Zbulo më shumë",
     "builder": {
-      "placeholder": "Shkruaj emrin e biznesit tënd…",
+      "placeholder": "Shkruani emrin e biznesit tuaj…",
       "inputLabel": "Emri i biznesit",
       "defaultName": "Biznesi Yt",
       "styleLabel": "Stili",
@@ -32,7 +32,7 @@
       "nav3": "Kontakt",
       "siteCta": "Na kontaktoni",
       "cta": "Më pëlqen, dua këtë",
-      "hint": "Provoje: shkruaj emrin e biznesit tënd"
+      "hint": "Provojeni: shkruani emrin e biznesit tuaj"
     }
   },
   "whyUs": {
@@ -178,7 +178,7 @@
   "newsletter": {
     "badge": "Ofertë ekskluzive",
     "headline": "10% zbritje për çdo shërbim",
-    "introLine1": "Abonohu dhe merr kodin tënd të zbritjes direkt në email",
+    "introLine1": "Abonohuni dhe merrni kodin tuaj të zbritjes direkt në email",
     "introLine2": "Website, SEO, Google Ads, Branding, Social Media.",
     "yourCode": "Kodi juaj",
     "codeSentLine1": "E-mail me kodin u dërgua.",
@@ -234,7 +234,7 @@
         "cta": "Shiko paketat"
       }
     ],
-    "calcPre": "Nuk je i sigurt çfarë të duhet?",
+    "calcPre": "Nuk jeni të sigurt çfarë ju duhet?",
     "calcCta": "Llogarit çmimin në 1 minutë"
   },
   "processV2": {

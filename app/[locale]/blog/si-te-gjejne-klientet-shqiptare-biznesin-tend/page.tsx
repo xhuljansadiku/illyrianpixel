@@ -139,7 +139,7 @@ export default async function Page(props: Props) {
         categoryColor={CATEGORY_COLOR}
         breadcrumbLabel="Si Ju Gjejnë Klientët Shqiptarë Online"
         path={`/blog/${SLUG}`}
-        title="Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë"
+        title="Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë"
         description="Çfarë duhet të dijë biznesi juaj për t'u gjetur nga e gjithë kjo audiencë e shpërndarë."
         date="Korrik 2026"
         readTime="6 min lexim"

@@ -139,7 +139,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend",
-    title: "Si e gjejnë klientët shqiptarë biznesin tënd online, kudo që të jenë",
+    title: "Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë",
     category: "Diasporë",
     excerpt: "Shqiptarët në Shqipëri, Kosovë dhe diasporë kërkojnë ndryshe nga tregjet perëndimore.\nÇfarë duhet të dijë biznesi juaj për t'u gjetur nga e gjithë kjo audiencë e shpërndarë.",
     date: "Korrik 2026",
@@ -252,7 +252,7 @@ export const blogPosts: BlogPost[] = [
   // ── Artikujt e vjetër (shfaqen të fundit) ───────────────────────
   {
     slug: "si-te-rrisesh-klientet-online",
-    title: "Ke trafikun. Por ku janë klientët?",
+    title: "Keni trafikun. Por ku janë klientët?",
     category: "Rritje",
     excerpt:
       "Shumica e bizneseve shpenzojnë para për të sjellë njerëz në faqe dhe i humbin menjëherë.\nJo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj.",
@@ -293,7 +293,7 @@ export const blogPosts: BlogPost[] = [
     title: "Google Ads apo SEO: Ku të investosh para?",
     category: "Marketing",
     excerpt:
-      "Dy kanale të ndryshme, dy logjika të ndryshme.\nNjëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite.\nJa si të zgjedhësh sipas situatës suaj.",
+      "Dy kanale të ndryshme, dy logjika të ndryshme.\nNjëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite.\nJa si të zgjidhni sipas situatës suaj.",
     date: "Prill 2026",
     content: []
   },

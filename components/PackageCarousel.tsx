@@ -17,7 +17,7 @@ export default function PackageCarousel({ children, focusIndex = 0, columns = 3 
     box.scrollTo({ left: card.offsetLeft - (box.clientWidth - card.clientWidth) / 2, behavior: smooth ? "smooth" : "auto" });
   };
 
-  // Hapet te paketa e rekomanduar; rifokusohet kur "Çfarë do të arrish?" zgjedh tjetër
+  // Hapet te paketa e rekomanduar; rifokusohet kur "Çfarë doni të arrini?" zgjedh tjetër
   useEffect(() => {
     center(focusIndex, false);
     setActive(focusIndex);

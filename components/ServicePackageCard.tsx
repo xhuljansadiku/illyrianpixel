@@ -29,7 +29,7 @@ type Props = {
   /** Kategoria — vendos cilin framing marrin çmimet (pagesë e ndarë, këste, €/ditë) */
   slug?: ServiceCategory["slug"];
   recurring?: boolean;
-  /** Paketa e rekomanduar nga "Çfarë do të arrish?" */
+  /** Paketa e rekomanduar nga "Çfarë doni të arrini?" */
   highlight?: boolean;
   /** Emri që vizitori shkroi te hero-ja ("Ndërto brandin tënd") */
   brandName?: string;
@@ -126,7 +126,7 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
             </p>
           )}
 
-          {/* Dhurata + value stack: "Vlera që merr €746 · Ti paguan €599" — vlera e dhuratës është reale */}
+          {/* Dhurata + value stack: "Vlera që merrni €746 · Ju paguani €599" — vlera e dhuratës është reale */}
           {pkg.gift && (
             <div className="mt-3 rounded-xl border border-accent/30 bg-accent/[0.07] px-3.5 py-3 font-ui">
               <p className="flex items-start gap-2 text-[12px] font-medium leading-snug text-accentLight">

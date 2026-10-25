@@ -33,7 +33,7 @@ const ANNUAL_DISCOUNT = 0.2;
 // Garancia e dizajnit vlen për projektet me dizajn (pagesë një herë)
 const GUARANTEE_SLUGS = new Set<ServiceCategory["slug"]>(["website", "ecommerce", "branding-content"]);
 
-// "Çfarë do të arrish?" (2026-10-20) — paradoksi i zgjedhjes: 3 objektiva → 1 paketë e rekomanduar
+// "Çfarë doni të arrini?" (2026-10-20) — paradoksi i zgjedhjes: 3 objektiva → 1 paketë e rekomanduar
 const GOALS: { key: "calls" | "sell" | "google"; icon: string; slug: ServiceCategory["slug"]; pkg: string }[] = [
   { key: "calls", icon: "📞", slug: "website", pkg: "Business" },
   { key: "sell", icon: "🛒", slug: "ecommerce", pkg: "Growth" },
