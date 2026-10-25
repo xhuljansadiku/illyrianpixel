@@ -42,7 +42,9 @@ const DIASPORA_PROCESS = [
   {
     step: "4",
     title: "Launch & handover",
-    desc: "We put it live and give you a simple admin.\nMake changes yourself, without waiting for anyone.",
+    // Q-15 (2026-10-22): no client self-edit panel — we make the changes (2026-10-25)
+    // desc: "We put it live and give you a simple admin.\nMake changes yourself, without waiting for anyone.",
+    desc: "We put it live and take care of the changes.\nTell us what needs changing and we do it.",
   },
 ] as const;
 
@@ -78,7 +80,8 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { title: "WhatsApp & a contact form, always on", body: "Clients find you and contact you 24/7, without waiting for your working hours." },
         { title: "Design that meets German standards", body: "A clear, professional structure that builds trust in the first 5 seconds." },
-        { title: "A simple admin panel", body: "Change prices, photos and text yourself, without depending on anyone." },
+        // Q-15: { title: "A simple admin panel", body: "Change prices, photos and text yourself, without depending on anyone." },
+        { title: "We make the changes", body: "Message us on WhatsApp or email with what needs changing (prices, photos, text) and we update the site as part of the maintenance package." },
       ],
     },
     whyUs: {
@@ -238,7 +241,8 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       items: [
         { title: "A bilingual Albanian/Italian site", body: "The same professional message, in the language each visitor speaks." },
         { title: "Design that builds trust straight away", body: "A clear structure that helps visitors decide quickly." },
-        { title: "A simple admin for your own changes", body: "Change prices, photos and opening hours without waiting for anyone." },
+        // Q-15: { title: "A simple admin for your own changes", body: "Change prices, photos and opening hours without waiting for anyone." },
+        { title: "We make the changes", body: "Tell us what needs changing (prices, photos, opening hours) and we update the site as part of the maintenance package." },
       ],
     },
     whyUs: {
