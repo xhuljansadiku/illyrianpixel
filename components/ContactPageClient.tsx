@@ -10,6 +10,7 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { GuaranteeNote } from "@/components/PricingExtras";
 import { CONTACT_BUDGETS, CONTACT_TIMELINES } from "@/lib/leadScore";
 import { trackEvent } from "@/lib/track";
+import { GOOGLE_BUSINESS_URL } from "@/lib/socialLinks";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
 type DropdownOption = {
@@ -417,7 +418,7 @@ export default function ContactPageClient() {
                     Instagram
                   </a>
                   <a
-                    href="https://maps.google.com/?q=41.3275,19.8187"
+                    href={GOOGLE_BUSINESS_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="font-ui text-[12px] font-light tracking-[0.5px] text-muted transition-colors duration-300 hover:text-accent"
