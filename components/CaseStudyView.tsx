@@ -95,8 +95,8 @@ export default function CaseStudyView({ cs, next, locale }: Props) {
 
       {/* Hero */}
       <section className="section-wrap relative max-w-6xl pb-0 pt-10 md:pb-0 md:pt-16">
-        <nav aria-label="Breadcrumb" className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/35">
-          <Link href="/projektet" className="transition-colors hover:text-accent">{l.projects}</Link>
+        <nav aria-label="Breadcrumb" className="font-mono text-[12px] uppercase tracking-[0.2em] text-white/55">
+          <Link href="/projektet" className="underline decoration-white/30 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">{l.projects}</Link>
           <span className="mx-2">/</span>
           <span className="text-white/60">{cs.title}</span>
         </nav>
