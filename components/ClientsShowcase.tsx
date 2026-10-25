@@ -13,6 +13,7 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { getCaseStudies } from "@/lib/caseStudies";
 import { CLIENT_COUNTRIES } from "@/lib/clientLocations";
 import SectionMark from "@/components/SectionMark";
+import LazyMount from "@/components/LazyMount";
 import type { GlobeFocus } from "@/components/ClientGlobe";
 
 const ClientGlobe = dynamic(() => import("@/components/ClientGlobe"), { ssr: false });
@@ -170,7 +171,10 @@ export default function ClientsShowcase() {
         </div>
 
         <div className="relative mx-auto h-[360px] w-full max-w-[560px] sm:h-[460px] lg:h-[560px]">
-          <ClientGlobe locale={locale} variant="pins" focus={focus} start={[-22, 44]} sway />
+          {/* d3 + harta e botës shkarkohen vetëm kur seksioni afrohet në ekran (2026-10-25) */}
+          <LazyMount className="absolute inset-0">
+            <ClientGlobe locale={locale} variant="pins" focus={focus} start={[-22, 44]} sway />
+          </LazyMount>
           <p className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
             ↻ {t("dragGlobe")}
           </p>

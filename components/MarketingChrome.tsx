@@ -8,7 +8,8 @@ import SmoothScroll from "@/components/SmoothScroll";
 // por shkarkohej në çdo faqe; dërgonte te formsubmit.co (CSP e bllokon) dhe anashkalonte CRM-në.
 // Për ta rikthyer: hiq "// InquiryModal:" këtu dhe te <InquiryModal /> më poshtë, dhe kaloje te /api/contact.
 // InquiryModal: import InquiryModal from "@/components/InquiryModal";
-import NewsletterPopup from "@/components/NewsletterPopup";
+// NewsletterPopup: dynamic + pas ndërveprimit të parë (2026-10-25) — më parë ishte në chunk-un kryesor
+const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"), { ssr: false });
 import CookieConsent from "@/components/CookieConsent";
 import { useFirstInteraction } from "@/lib/useFirstInteraction";
 
@@ -75,7 +76,8 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
       {isDesktop && interacted && <AmbientParticles />}
       <SmoothScroll>
         <div className="relative z-[1]">
-          <InteractiveGlow />
+          {/* Drita ndjek mausin — në celular s'ka maus (2026-10-25) */}
+          {isDesktop && <InteractiveGlow />}
           {isDesktop && interacted && <MagneticButtons />}
           <GlobalReveals />
           {isDesktop && interacted && <CustomCursor />}
@@ -90,7 +92,7 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
         </div>
       </SmoothScroll>
       {/* InquiryModal: <InquiryModal /> */}
-      <NewsletterPopup />
+      {interacted && <NewsletterPopup />}
     </>
   );
 }
