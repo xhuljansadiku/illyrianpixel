@@ -61,6 +61,6 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
       { description: "Dizajn logoje — 3 koncepte + revizione", qty: 1, price: 350 },
       { description: "Paketë identiteti vizual (ngjyra, fonte, udhëzues)", qty: 1, price: 250 },
     ],
-    notes: "Dorëzohen: skedarët burimorë (AI/SVG), versionet për web e print, udhëzuesi i brendit.",
+    notes: "Dorëzohen: skedarët burimorë (AI/SVG), versionet për web e print, udhëzuesi i brandit.",
   },
 ];

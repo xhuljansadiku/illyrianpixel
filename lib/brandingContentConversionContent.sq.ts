@@ -8,7 +8,7 @@ export const brandingConversionLandingData: ConversionLandingData = {
   painSection: {
     anchorId: "realiteti",
     eyebrow: "Reflektim",
-    headingBefore: "Brendi juaj",
+    headingBefore: "Brandi juaj",
     headingAccent: "nuk tregon vlerën reale.",
     intro:
       "Biznesi është i mirë.\nPor marka nuk e tregon.\nKlientët e duhur nuk ju gjejnë.",

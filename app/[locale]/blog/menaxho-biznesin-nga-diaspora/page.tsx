@@ -14,7 +14,7 @@ const META: Record<Locale, { title: string; description: string; keywords: strin
   sq: {
     title: "Menaxho Biznesin nga Diaspora: Udhëzues 2026",
     description:
-      "Si e menaxhoni biznesin në Shqipëri ose Kosovë kur jetoni jashtë. Website si zyra juaj digjitale 24/7, pa qenë atje çdo ditë.",
+      "Si e menaxhoni biznesin në Shqipëri ose Kosovë kur jetoni jashtë. Website si zyra juaj dixhitale 24/7, pa qenë atje çdo ditë.",
     keywords: ["biznes shqiptar diasporë", "menaxho biznesin nga jashtë", "website biznesi shqiptar gjermani", "administro biznesin online shqipëri"],
   },
   en: {
@@ -133,7 +133,7 @@ export default async function Page(props: Props) {
         breadcrumbLabel="Menaxho Biznesin nga Diaspora"
         path={`/blog/${SLUG}`}
         title="Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje"
-        description="Website si zyra juaj digjitale që punon edhe kur ju flini në një timezone tjetër."
+        description="Website si zyra juaj dixhitale që punon edhe kur ju flini në një timezone tjetër."
         date="Korrik 2026"
         readTime="6 min lexim"
         related={[
@@ -156,10 +156,10 @@ export default async function Page(props: Props) {
 
         <section className="space-y-4">
           <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-            Website si zyra juaj digjitale, 24/7
+            Website si zyra juaj dixhitale, 24/7
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Website-i i mirë-ndërtuar bëhet zyra juaj digjitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje.\nKlienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih.\nNuk pret që dikush t'i përgjigjet, informacioni është aty, gati."}
+            {"Website-i i mirë-ndërtuar bëhet zyra juaj dixhitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje.\nKlienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih.\nNuk pret që dikush t'i përgjigjet, informacioni është aty, gati."}
           </p>
         </section>
 
