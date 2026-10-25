@@ -143,10 +143,12 @@ export default function ParticleCloudHero() {
           { y: 0, opacity: 1, duration: 0.7, delay: 0.18, ease: "power2.inOut" }
         );
 
+        // Paragrafi është elementi LCP: vetëm rrëshqitje, pa opacity/blur — me fade, teksti i
+        // dukshëm në HTML fshihej deri sa të ngarkohej GSAP dhe LCP-ja kalonte ~5s në celular (2026-10-25).
         gsap.fromTo(
           paragraphRef.current,
-          { y: 18, opacity: 0, filter: "blur(4px)" },
-          { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, delay: 0.38, ease: "power2.inOut" }
+          { y: 18 },
+          { y: 0, duration: 0.7, delay: 0.38, ease: "power2.inOut" }
         );
 
         gsap.fromTo(

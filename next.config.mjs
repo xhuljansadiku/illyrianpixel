@@ -5,6 +5,8 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Pa header-in "X-Powered-By: Next.js" (s'i duhet askujt, tregon vetëm teknologjinë)
+  poweredByHeader: false,
   trailingSlash: false,
   compress: true,
 
@@ -57,6 +59,8 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           { key: "X-Content-Type-Options",    value: "nosniff" },
+          // Izolon dritaren nga faqet që hapen me window.open (2026-10-25)
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "X-Frame-Options",           value: "SAMEORIGIN" },
           { key: "Referrer-Policy",           value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy",        value: "camera=(), microphone=(), geolocation=()" },

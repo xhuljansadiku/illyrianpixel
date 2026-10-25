@@ -26,9 +26,9 @@ export default function PageTransitionOverlay() {
       gsap.set(overlay, { pointerEvents: "auto" });
       gsap
         .timeline()
-        .fromTo(overlay, { opacity: 0, clipPath: "inset(100% 0% 0% 0%)" }, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.3, ease: "power3.inOut" })
+        .fromTo(overlay, { autoAlpha: 0, clipPath: "inset(100% 0% 0% 0%)" }, { autoAlpha: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.3, ease: "power3.inOut" })
         .call(() => router.push(href))
-        .to(overlay, { opacity: 0, clipPath: "inset(0% 0% 100% 0%)", duration: 0.3, delay: 0.1, ease: "power3.inOut" })
+        .to(overlay, { autoAlpha: 0, clipPath: "inset(0% 0% 100% 0%)", duration: 0.3, delay: 0.1, ease: "power3.inOut" })
         .set(overlay, { pointerEvents: "none" });
     };
 
@@ -36,5 +36,7 @@ export default function PageTransitionOverlay() {
     return () => window.removeEventListener("case-transition", onTransition as EventListener);
   }, [router, reduced]);
 
-  return <div ref={overlayRef} className="pointer-events-none fixed inset-0 z-[130] bg-bg opacity-0" />;
+  // invisible (visibility: hidden) kur s'është aktive: me vetëm opacity-0, kontrolluesit e kontrastit
+  // (axe/Lighthouse) e merrnin si shtresë sipër çdo butoni → "kontrast 1.04" (2026-10-25). autoAlpha e ndez.
+  return <div ref={overlayRef} className="pointer-events-none invisible fixed inset-0 z-[130] bg-bg opacity-0" />;
 }

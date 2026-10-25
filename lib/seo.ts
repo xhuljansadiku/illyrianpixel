@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/routing";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 const siteUrl = "https://illyrianpixel.com";
 const defaultTitle = "Illyrian Pixel";
@@ -117,12 +118,9 @@ export const organizationSchema = {
     availableLanguage: ["Albanian", "English", "German", "Croatian"],
     areaServed: ["AL", "XK", "DE", "GB", "CH", "IT", "SE", "US", "CA"]
   },
-  sameAs: [
-    "https://www.instagram.com/illyrianpixel/",
-    "https://www.facebook.com/illyrianpixel",
-    "https://www.linkedin.com/company/illyrianpixel/",
-    "https://www.tiktok.com/@illyrianpixel"
-  ]
+  // Nga e njëjta listë si footer-i (2026-10-25): më parë Facebook-u ishte /illyrianpixel ndërsa
+  // lidhja reale është profile.php?id=…, dhe Threads mungonte — AI-të lidhin profilet sipas sameAs.
+  sameAs: SOCIAL_LINKS.map((s) => s.href)
   // aggregateRating/review u hoqën qëllimisht (2026-07-25): biznesi është i ri,
   // s'ka ende review reale në Google Business Profile. Google ndalon shprehimisht
   // review të rreme/vetë-krijuara në schema — rrezikon çaktivizim të rich

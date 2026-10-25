@@ -76,7 +76,7 @@ export default function CookieConsent() {
       <p className={`hidden font-display text-[1.05rem] font-semibold leading-snug text-white ${details ? "md:block" : ""}`}>
         {t("title")}
       </p>
-      <p className={`text-[11.5px] leading-relaxed text-white/55 md:text-[12.5px] ${details ? "md:mt-1.5" : "md:flex-1"}`}>
+      <p className={`text-[12px] leading-relaxed text-white/60 md:text-[12.5px] ${details ? "md:mt-1.5" : "md:flex-1"}`}>
         {t("body")}{" "}
         <Link href="/privacy" className="text-accent underline underline-offset-2 hover:text-accent">{t("privacyLink")}</Link>.
       </p>
@@ -104,7 +104,7 @@ export default function CookieConsent() {
         <button
           type="button"
           onClick={() => save(ALL)}
-          className="interactive-button ip-cta-primary flex-1 justify-center whitespace-nowrap text-[11px] md:text-[12px]"
+          className="interactive-button ip-cta-primary flex-1 justify-center whitespace-nowrap text-[12px] md:text-[12px]"
         >
           {t("acceptAll")}
         </button>
@@ -121,7 +121,7 @@ export default function CookieConsent() {
             <button
               type="button"
               onClick={() => save(NONE)}
-              className="flex-1 justify-center whitespace-nowrap rounded-full border border-white/14 px-4 py-2.5 text-[11px] tracking-[0.08em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 md:text-[12px]"
+              className="flex-1 justify-center whitespace-nowrap rounded-full border border-white/14 px-4 py-2.5 text-[12px] tracking-[0.08em] text-white/55 transition duration-200 hover:border-white/28 hover:text-white/80 md:text-[12px]"
             >
               {t("essentialOnly")}
             </button>
@@ -131,7 +131,7 @@ export default function CookieConsent() {
                 setChoice(readConsent() ?? NONE);
                 setDetails(true);
               }}
-              className="w-full px-2 py-1 text-center text-[11px] tracking-[0.08em] text-white/55 underline underline-offset-2 transition hover:text-white/75 md:w-auto md:text-[12px]"
+              className="w-full px-2 py-1 text-center text-[12px] tracking-[0.08em] text-white/55 underline underline-offset-2 transition hover:text-white/75 md:w-auto md:text-[12px]"
             >
               {t("customize")}
             </button>
