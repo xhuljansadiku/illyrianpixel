@@ -440,8 +440,8 @@ export const serviceCategories: ServiceCategory[] = [
       "24/7 monitoring",
       "Continuous optimization",
       "Rebuilding older sites",
-      "Security & daily backup",
-      "Response within 24 hours",
+      "Security & regular backups",
+      "Response within 24–48 hours",
     ],
     packages: [
       {

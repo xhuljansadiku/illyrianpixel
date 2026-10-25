@@ -311,7 +311,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     },
     process: DIASPORA_PROCESS,
     portfolioSlugs: ["roofon-nyc", "suli-group-trockenbau", "palushi-brothers"],
-    portfolioSubline: "From New York (Roofon NYC) to Albanian businesses across Europe.",
+    portfolioSubline: "From New York (Roof ON NYC) to Albanian businesses across Europe.",
     // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
     testimonials: [
       /*

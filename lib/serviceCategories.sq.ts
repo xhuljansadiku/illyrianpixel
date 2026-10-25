@@ -480,8 +480,8 @@ export const serviceCategories: ServiceCategory[] = [
       "Monitorim 24/7",
       "Optimizim i vazhdueshëm",
       "Rindërtim faqesh të vjetra",
-      "Siguri & backup ditor",
-      "Reagim brenda 24 orësh",
+      "Siguri & backup i rregullt",
+      "Reagim brenda 24–48 orësh",
     ],
     packages: [
       {

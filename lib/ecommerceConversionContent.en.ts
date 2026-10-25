@@ -102,8 +102,8 @@ export const ecommerceConversionLandingData: ConversionLandingData = {
     "bardhi-wellness": "A simplified path to the service and purchase, result: fewer questions, more conversions.",
     "hauswerk-niederbayern": "Visitors quickly find the service and reach out with clear expectations.",
   },
-  feedbackLabel: "WHAT CLIENTS SAY",
-  feedbackHeadline: "Stores that sell, every day.",
+  feedbackLabel: "OUR WORK",
+  feedbackHeadline: "Real work for real businesses.",
   feedbackSubline: "Real results, not promises.",
   // Q-09 (2026-10-22): s'janë dëshmi reale me leje publikimi → fshehur derisa pronari të sjellë dëshmi të vërteta
   testimonials: [

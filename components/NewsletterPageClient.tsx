@@ -27,14 +27,14 @@ const STEPS: Record<string, string[]> = {
   sq: [
     "Shkruani email-in tuaj",
     "Merrni kodin menjëherë në inbox",
-    "Citoni kodin kur kontaktoni",
-    "10% zbritje aplikohet automatikisht",
+    "Shkruani kodin te formulari i kontaktit",
+    "Zbritja 10% llogaritet në ofertën tuaj",
   ],
   en: [
     "Enter your email",
     "Get your code instantly in your inbox",
-    "Quote the code when you contact us",
-    "10% discount applied automatically",
+    "Enter the code in the contact form",
+    "The 10% discount is taken off your quote",
   ],
 };
 
