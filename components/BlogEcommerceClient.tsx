@@ -107,7 +107,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">Limited payment options:</span> Many Albanians don&apos;t have an international credit card. If you don&apos;t accept PayPal, cash on delivery, or Stripe, you lose half your buyers.
+                        <span className="font-medium text-white/90">Limited payment options:</span> Many Albanians don&apos;t have an international credit card. If you don&apos;t offer cash on delivery or an online payment method that works in Albania, you lose a large share of your buyers.
                       </span>
                     </li>
                     <li className="flex gap-3">
@@ -273,7 +273,7 @@ export default function BlogEcommerceClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">Pagesa të limituara:</span> Shumë shqiptarë nuk kanë kartë krediti ndërkombëtare. Nëse nuk pranoni PayPal, pagesë në dorëzim ose Stripe, humbni gjysmën e blerësve.
+                        <span className="font-medium text-white/90">Pagesa të limituara:</span> Shumë shqiptarë nuk kanë kartë krediti ndërkombëtare. Nëse nuk ofroni pagesë në dorëzim ose një mënyrë pagese online që funksionon në Shqipëri, humbni një pjesë të madhe të blerësve.
                       </span>
                     </li>
                     <li className="flex gap-3">

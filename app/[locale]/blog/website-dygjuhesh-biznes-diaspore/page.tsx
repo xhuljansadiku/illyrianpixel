@@ -101,7 +101,7 @@ export default async function Page(props: Props) {
             <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
               <li className="whitespace-pre-line">{"Homepage and services fully translated not just the headings."}</li>
               <li className="whitespace-pre-line">{"A phone/WhatsApp number that works for both audiences."}</li>
-              <li className="whitespace-pre-line">{"Prices shown in the right currency for each market (EUR for Germany/Switzerland, CHF added if you're in Switzerland)."}</li>
+              <li className="whitespace-pre-line">{"Prices shown in the right currency for each market (EUR for Germany, CHF for Switzerland)."}</li>
               <li className="whitespace-pre-line">{"Proof of work / portfolio shown in both languages."}</li>
             </ul>
           </section>
@@ -185,7 +185,7 @@ export default async function Page(props: Props) {
           <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
             <li className="whitespace-pre-line">{"Faqja kryesore dhe shërbimet plotësisht të përkthyera, jo vetëm titujt."}</li>
             <li className="whitespace-pre-line">{"Numri i telefonit/WhatsApp funksional për të dyja audiencat."}</li>
-            <li className="whitespace-pre-line">{"Çmimet e paraqitura në monedhën e duhur për secilin treg (EUR për Gjermani/Zvicër, mund të shtohet CHF nëse jeni në Zvicër)."}</li>
+            <li className="whitespace-pre-line">{"Çmimet e paraqitura në monedhën e duhur për secilin treg (EUR për Gjermaninë, CHF për Zvicrën)."}</li>
             <li className="whitespace-pre-line">{"Dëshmi/portofol që tregojnë cilësinë e punës në të dyja gjuhët."}</li>
           </ul>
         </section>

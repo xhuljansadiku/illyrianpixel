@@ -85,7 +85,7 @@ export default async function Page(props: Props) {
           </h2>
           <p className="text-[1.02rem] leading-relaxed text-white/68">This is the main obstacle for Albanian businesses, but there are solutions:</p>
           <ul className="space-y-2 text-[1.02rem] leading-relaxed text-white/68">
-            <li><strong className="text-white">Stripe</strong>: Available in Albania. Fee: 1.5% + €0.25/transaction.</li>
+            <li><strong className="text-white">Stripe</strong>: For businesses registered in the EU, the UK or the US (not yet for businesses registered in Albania). A good fit if your company is in the diaspora.</li>
             <li><strong className="text-white">PayPal</strong>: Globally recognized, ideal if you sell internationally.</li>
             <li><strong className="text-white">Local card</strong>: Raiffeisen, BKT, Credins offer integrated terminals.</li>
             <li><strong className="text-white">Cash on Delivery</strong>: Still very popular with Albanians. Don&apos;t remove it from your options.</li>
@@ -191,7 +191,7 @@ export default async function Page(props: Props) {
         </h2>
         <p className="text-[1.02rem] leading-relaxed text-white/68">Ky është pengesa kryesore për bizneset shqiptare, por ka zgjidhje:</p>
         <ul className="space-y-2 text-[1.02rem] leading-relaxed text-white/68">
-          <li><strong className="text-white">Stripe</strong>: Disponueshëm në Shqipëri. Komisioni: 1.5% + 0.25€/transaksion.</li>
+          <li><strong className="text-white">Stripe</strong>: Për biznese të regjistruara në BE, Britani ose SHBA (jo ende për biznese të regjistruara në Shqipëri). I përshtatshëm nëse kompania juaj është në diasporë.</li>
           <li><strong className="text-white">PayPal</strong>: I njohur globalisht, ideal nëse shisni ndërkombëtarisht.</li>
           <li><strong className="text-white">Kartë lokale</strong>: Raiffeisen, BKT, Credins ofrojnë terminale të integruara.</li>
           <li><strong className="text-white">Cash on Delivery</strong>: Ende shumë e preferuar nga shqiptarët. Mos e hiqni nga opsionet.</li>

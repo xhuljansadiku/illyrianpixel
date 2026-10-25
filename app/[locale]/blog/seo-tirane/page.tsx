@@ -71,7 +71,7 @@ export default async function Page(props: Props) {
             How SEO works in the Albanian market in 2026
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Local keywords are true gold.</strong>{"\nAlbanians increasingly search in Albanian. \"Lawyer Tirana\", \"bakery Durrës\", \"web design Albania\" these searches have relatively low competition compared to Western markets."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Google My Business is mandatory.</strong>{"\nWithout photos, hours, reviews, and accurate categories, you're practically invisible for local searches."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Google Business Profile is essential.</strong>{"\nWithout photos, hours, reviews, and accurate categories, you're practically invisible for local searches."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Site speed matters critically.</strong>{"\nIf your site loads within 3 seconds, you're fine.\nIf not, Google ranks you lower regardless of content quality."}</p>
         </section>
 
@@ -81,7 +81,7 @@ export default async function Page(props: Props) {
           </h2>
           <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
             <li className="whitespace-pre-line"><strong className="text-white">1. Keyword research.</strong>{"\nBefore anything else, know what your customers are searching for not what you think they search for."}</li>
-            <li className="whitespace-pre-line"><strong className="text-white">2. Technical page optimization.</strong>{"\nCore Web Vitals (LCP, FCP, CLS) are metrics Google measures directly."}</li>
+            <li className="whitespace-pre-line"><strong className="text-white">2. Technical page optimization.</strong>{"\nCore Web Vitals (LCP, INP, CLS) are metrics Google measures directly."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">3. Optimized content.</strong>{"\nBlog articles, service pages, FAQs every page needs a clear SEO purpose."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">4. Local link building.</strong>{"\nLinks from Albanian directories and local media increase your site's authority."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">5. Local SEO and citations.</strong>{"\nYour name, address, and phone number must be identical across every platform."}</li>
@@ -160,7 +160,7 @@ export default async function Page(props: Props) {
           Si funksionon SEO në tregun shqiptar 2026
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Fjalët kyçe lokale janë ari i vërtetë.</strong>{"\nShqiptarët kërkojnë gjithnjë e më shumë në gjuhën shqipe. \"Avokat Tiranë\", \"bukëpjekës Durrës\", \"web design Shqipëri\" këto kërkime kanë konkurrencë relativisht të ulët krahasuar me tregjet perëndimore."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Google My Business është i detyrueshëm.</strong>{"\nPa foto, orare, reviews dhe kategori të sakta jeni praktikisht të padukshëm për kërkimet lokale."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Google Business Profile është thelbësor.</strong>{"\nPa foto, orare, vlerësime dhe kategori të sakta jeni praktikisht të padukshëm për kërkimet lokale."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Shpejtësia e faqes ka rëndësi kritike.</strong>{"\nNëse faqja juaj hapet brenda 3 sekondave, jeni mirë.\nNëse jo, Google ju ul në renditje pavarësisht cilësisë së përmbajtjes."}</p>
       </section>
 
@@ -170,7 +170,7 @@ export default async function Page(props: Props) {
         </h2>
         <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
           <li className="whitespace-pre-line"><strong className="text-white">1. Hulumtimi i fjalëve kyçe.</strong>{"\nPara gjithçkaje, dini çfarë kërkojnë klientët tuaj jo çfarë mendoni ju."}</li>
-          <li className="whitespace-pre-line"><strong className="text-white">2. Optimizimi teknik i faqes.</strong>{"\nCore Web Vitals (LCP, FCP, CLS) janë metrika që Google mat drejtpërdrejt."}</li>
+          <li className="whitespace-pre-line"><strong className="text-white">2. Optimizimi teknik i faqes.</strong>{"\nCore Web Vitals (LCP, INP, CLS) janë metrika që Google mat drejtpërdrejt."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">3. Përmbajtje e optimizuar.</strong>{"\nArtikujt e blogut, faqet e shërbimeve, FAQ çdo faqe duhet të ketë qëllim të qartë SEO."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">4. Link building lokal.</strong>{"\nLidhjet nga direktoritë shqiptare dhe media lokale rrisin autoritetin e faqes suaj."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">5. SEO lokale dhe citations.</strong>{"\nEmri, adresa dhe numri i telefonit duhet të jenë identikë në çdo platformë."}</li>
