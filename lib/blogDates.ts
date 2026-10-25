@@ -22,7 +22,8 @@ const HANDWRITTEN: Record<string, BlogDates> = {
   "google-ads-shqiperi": { published: "2026-05-26", modified: "2026-07-30" },
   "web-design-tirane": { published: "2026-05-28", modified: "2026-07-30" },
   "social-media-menaxhim-shqiperi": { published: "2026-05-30", modified: "2026-07-12" },
-  "menaxho-biznesin-nga-diaspora": { published: "2026-07-25", modified: "2026-07-30" },
+  // 2026-10-25: hiqet citimi i shpikur, premtimi "shlyhet brenda 2–3 muajve" dhe paneli admin
+  "menaxho-biznesin-nga-diaspora": { published: "2026-07-25", modified: "2026-10-25" },
   "website-dygjuhesh-biznes-diaspore": { published: "2026-07-25", modified: "2026-07-30" },
   "si-te-gjejne-klientet-shqiptare-biznesin-tend": { published: "2026-07-25", modified: "2026-07-30" },
   "sa-kushton-website-kosove": { published: "2026-07-29", modified: "2026-07-30" },
