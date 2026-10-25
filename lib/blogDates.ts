@@ -12,21 +12,21 @@ const HANDWRITTEN: Record<string, BlogDates> = {
   "si-te-rrisesh-klientet-online": { published: "2026-04-10", modified: "2026-10-25" },
   "gabimet-kryesore-ne-website": { published: "2026-04-15", modified: "2026-10-25" },
   // 2026-10-24: hiqen statistikat pa burim dhe premtimet për rezultate (fix/blog-overclaims)
-  "pse-seo-eshte-kritik": { published: "2026-04-20", modified: "2026-10-24" },
+  "pse-seo-eshte-kritik": { published: "2026-04-20", modified: "2026-10-25" },
   "google-ads-vs-seo": { published: "2026-05-05", modified: "2026-10-25" },
   "pse-ecommerce-eshte-i-rendesishem": { published: "2026-05-10", modified: "2026-10-25" },
-  "cfare-eshte-branding": { published: "2026-05-15", modified: "2026-10-24" },
+  "cfare-eshte-branding": { published: "2026-05-15", modified: "2026-10-25" },
   "sa-kushton-website-shqiperi": { published: "2026-05-20", modified: "2026-10-25" },
   "seo-tirane": { published: "2026-05-22", modified: "2026-10-25" },
   "dyqan-online-shqiperi": { published: "2026-05-24", modified: "2026-10-25" },
   "google-ads-shqiperi": { published: "2026-05-26", modified: "2026-10-25" },
-  "web-design-tirane": { published: "2026-05-28", modified: "2026-07-30" },
+  "web-design-tirane": { published: "2026-05-28", modified: "2026-10-25" },
   "social-media-menaxhim-shqiperi": { published: "2026-05-30", modified: "2026-10-25" },
   // 2026-10-25: hiqet citimi i shpikur, premtimi "shlyhet brenda 2–3 muajve" dhe paneli admin
   "menaxho-biznesin-nga-diaspora": { published: "2026-07-25", modified: "2026-10-25" },
   "website-dygjuhesh-biznes-diaspore": { published: "2026-07-25", modified: "2026-10-25" },
   "si-te-gjejne-klientet-shqiptare-biznesin-tend": { published: "2026-07-25", modified: "2026-10-25" },
-  "sa-kushton-website-kosove": { published: "2026-07-29", modified: "2026-07-30" },
+  "sa-kushton-website-kosove": { published: "2026-07-29", modified: "2026-10-25" },
 };
 
 export const BLOG_DATES: Record<string, BlogDates> = {

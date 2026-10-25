@@ -209,7 +209,7 @@ export default function BlogEcommerceClient() {
                     Në 2020, shumica e shqiptarëve preferonin të blinin fizikisht. Sot, gjithnjë e më shumë konsumatorë shqiptarë kërkojnë produktin online para se të vendosin ku ta blejnë, qoftë online qoftë fizikisht.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Kjo do të thotë: nëse produkti juaj nuk shfaqet online me informacion të plotë, çmim dhe mundësi kontakti, ju i humbisni ata klientë jo konkurrentit fizik, por konkurrentit dixhital që ka kuptuar ndryshimin.
+                    Kjo do të thotë: nëse produkti juaj nuk shfaqet online me informacion të plotë, çmim dhe mundësi kontakti, ju i humbisni ata klientë, jo konkurrentit fizik, por konkurrentit dixhital që ka kuptuar ndryshimin.
                   </p>
                 </section>
 
@@ -229,7 +229,7 @@ export default function BlogEcommerceClient() {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">02 — Tregu i diasporës</p>
                       <p className="mt-2 text-[1rem] leading-relaxed text-text">
-                        Disa milion shqiptarë jetojnë jashtë vendit. Ata blejnë produkte shqiptare, u dërgojnë dhurata familjes dhe mbështesin bizneset vendase por vetëm nëse mund ta bëjnë online. Pa dyqan online, ky treg nuk ekziston për ju.
+                        Disa milion shqiptarë jetojnë jashtë vendit. Ata blejnë produkte shqiptare, u dërgojnë dhurata familjes dhe mbështesin bizneset vendase, por vetëm nëse mund ta bëjnë online. Pa dyqan online, ky treg nuk ekziston për ju.
                       </p>
                     </div>
 
@@ -340,7 +340,7 @@ export default function BlogEcommerceClient() {
                       Përfundim
                     </h2>
                     <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                      Dyqani online nuk është opsion për bizneset shqiptare është nevoja e parë dixhitale. Çdo muaj pa të, humbni shitje reale. Pyetja nuk është &quot;a kemi nevojë?&quot; pyetja është &quot;sa shpejt mund ta nisim?&quot;
+                      Dyqani online nuk është opsion për bizneset shqiptare, është nevoja e parë dixhitale. Çdo muaj pa të, humbni shitje reale. Pyetja nuk është &quot;a kemi nevojë?&quot;, pyetja është &quot;sa shpejt mund ta nisim?&quot;
                     </p>
                   </section>
 

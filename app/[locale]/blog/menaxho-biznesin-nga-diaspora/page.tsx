@@ -64,7 +64,7 @@ export default async function Page(props: Props) {
           ]}
         >
           <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-            {"Thousands of Albanians and Kosovars now live in Germany, Switzerland, Austria, the US or Canada, while their business a restaurant, a shop, a construction company stays back home.\nThe challenge is the same for everyone: how do you run a business when you're physically 2,000 km away, in a different timezone, and can't be there every day to supervise everything?"}
+            {"Thousands of Albanians and Kosovars now live in Germany, Switzerland, Austria, the US or Canada, while their business (a restaurant, a shop, a construction company) stays back home.\nThe challenge is the same for everyone: how do you run a business when you're physically 2,000 km away, in a different timezone, and can't be there every day to supervise everything?"}
           </p>
 
           <section className="space-y-4">
@@ -72,7 +72,7 @@ export default async function Page(props: Props) {
               Why phone calls and Facebook alone stop being enough
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"The traditional solution has been a phone and one trusted person on the ground usually family who answers everything.\nThat works up to a point, but it has real limits: the person back home can't reply to every Facebook message in real time, doesn't always know the latest prices, and new customers often give up before getting an answer."}
+              {"The traditional solution has been a phone and one trusted person on the ground (usually family) who answers everything.\nThat works up to a point, but it has real limits: the person back home can't reply to every Facebook message in real time, doesn't always know the latest prices, and new customers often give up before getting an answer."}
             </p>
           </section>
 
@@ -81,7 +81,7 @@ export default async function Page(props: Props) {
               A website as your digital office, working 24/7
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"A well-built website becomes your digital office running 24/7, no matter where you are or what time it is there.\nA customer in Tirana sees your exact prices, services and hours at 10pm while you're asleep in Munich.\nThey don't wait for a reply the information is already there."}
+              {"A well-built website becomes your digital office running 24/7, no matter where you are or what time it is there.\nA customer in Tirana sees your exact prices, services and hours at 10pm while you're asleep in Munich.\nThey don't wait for a reply: the information is already there."}
             </p>
           </section>
 
@@ -91,7 +91,7 @@ export default async function Page(props: Props) {
             </h2>
             <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
               <li className="whitespace-pre-line"><strong className="text-white">Clear service/pricing pages</strong>{" that don't need frequent manual updates."}</li>
-              <li className="whitespace-pre-line"><strong className="text-white">A direct WhatsApp button</strong>{" that rings your phone wherever you are not a local number someone else has to keep answering."}</li>
+              <li className="whitespace-pre-line"><strong className="text-white">A direct WhatsApp button</strong>{" that rings your phone wherever you are, not a local number someone else has to keep answering."}</li>
               <li className="whitespace-pre-line"><strong className="text-white">Google Maps and accurate opening hours</strong>{" for the physical location back home."}</li>
               <li className="whitespace-pre-line"><strong className="text-white">Someone who makes changes quickly</strong>{" when you or a trusted person in Albania sends a new photo or price, without waiting for days."}</li>
             </ul>
@@ -133,7 +133,7 @@ export default async function Page(props: Props) {
         breadcrumbLabel="Menaxho Biznesin nga Diaspora"
         path={`/blog/${SLUG}`}
         title="Kam biznes në Shqipëri ose Kosovë, jetoj jashtë: si e menaxhoj online pa qenë atje"
-        description="Website si zyra juaj dixhitale që punon edhe kur ju flini në një timezone tjetër."
+        description="Website si zyra juaj dixhitale që punon edhe kur ju flini në një brez tjetër orar."
         date="Korrik 2026"
         readTime="6 min lexim"
         related={[
@@ -142,7 +142,7 @@ export default async function Page(props: Props) {
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë.\nSfida është e njëjtë për të gjithë: si e menaxhon një biznes kur je fizikisht 2.000 km larg, në një timezone tjetër, dhe s'mund të jesh atje çdo ditë për të mbikëqyrur gjithçka?"}
+          {"Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë.\nSfida është e njëjtë për të gjithë: si e menaxhon një biznes kur je fizikisht 2.000 km larg, në një brez tjetër orar, dhe s'mund të jesh atje çdo ditë për të mbikëqyrur gjithçka?"}
         </p>
 
         <section className="space-y-4">
@@ -169,7 +169,7 @@ export default async function Page(props: Props) {
           </h2>
           <ul className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
             <li className="whitespace-pre-line"><strong className="text-white">Faqe shërbimesh/çmimesh të qarta</strong>{" që s'kanë nevojë përditësim të shpeshtë manual."}</li>
-            <li className="whitespace-pre-line"><strong className="text-white">Buton direkt WhatsApp</strong>{" që bie në telefonin tuaj kudo që jeni jo në një numër lokal që dikush tjetër duhet ta mbajë."}</li>
+            <li className="whitespace-pre-line"><strong className="text-white">Buton direkt WhatsApp</strong>{" që bie në telefonin tuaj kudo që jeni, jo në një numër lokal që dikush tjetër duhet ta mbajë."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">Google Maps dhe orari i saktë</strong>{" i biznesit në vend."}</li>
             <li className="whitespace-pre-line"><strong className="text-white">Dikush që i bën ndryshimet shpejt</strong>{" kur ju ose një person i besuar në Shqipëri dërgoni një foto apo një çmim të ri, pa pritur ditë të tëra."}</li>
           </ul>

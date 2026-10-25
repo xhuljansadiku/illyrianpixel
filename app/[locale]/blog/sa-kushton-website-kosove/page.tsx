@@ -100,7 +100,7 @@ export default async function Page(props: Props) {
 
         <section className="space-y-4">
           <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-            The diaspora angle Kosovo has more than most
+            The diaspora: an advantage Kosovo has more than most
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
             {"Kosovo has an especially large diaspora in Switzerland and Germany that keeps close business ties with family and partners back home.\nIf you have clients or partners in the diaspora, a bilingual website (Albanian + German) widens your reach significantly from day one."}
@@ -160,7 +160,7 @@ export default async function Page(props: Props) {
           </table>
         </div>
         <p className="text-[0.85rem] text-white/45">
-          Çmimet janë të ngjashme me tregun shqiptar, meqë shumica e agjencive serioze punojnë njëkohësisht me klientë në të dy vendet me të njëjtën ekip dhe tarifa.
+          Çmimet janë të ngjashme me tregun shqiptar, meqë shumica e agjencive serioze punojnë njëkohësisht me klientë në të dy vendet me të njëjtin ekip dhe tarifa.
         </p>
       </section>
 

@@ -158,7 +158,7 @@ export default async function Page(props: Props) {
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-        {"Google Ads është kanali më i drejtpërdrejtë i marketingut dixhital paguani dhe shfaqeni menjëherë para klientëve që kërkojnë saktësisht atë që ofroni.\nPor shumë biznese shqiptare humbasin para me Google Ads sepse nuk i konfigurojnë si duhet.\nJa çmimet reale dhe çfarë mund të prisni."}
+        {"Google Ads është kanali më i drejtpërdrejtë i marketingut dixhital: paguani dhe shfaqeni menjëherë para klientëve që kërkojnë saktësisht atë që ofroni.\nPor shumë biznese shqiptare humbasin para me Google Ads sepse nuk i konfigurojnë si duhet.\nJa çmimet reale dhe çfarë mund të prisni."}
       </p>
 
       <section className="space-y-4">
@@ -192,7 +192,7 @@ export default async function Page(props: Props) {
         </h2>
         <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
           <li className="whitespace-pre-line"><strong className="text-white">1. Fjalë kyçe shumë të gjera.</strong>{"\n\"Makinë\" si fjalë kyçe do t'ju kushtojë shumë.\n\"Blerje makinë Tiranë 2026\" është shumë më efektive."}</li>
-          <li className="whitespace-pre-line"><strong className="text-white">2. Pa negative keywords.</strong>{"\nReklamat tuaja shfaqen edhe për kërkime krejtësisht të palidhura ha buxhetin pa rezultat."}</li>
+          <li className="whitespace-pre-line"><strong className="text-white">2. Pa negative keywords.</strong>{"\nReklamat tuaja shfaqen edhe për kërkime krejtësisht të palidhura dhe ju hanë buxhetin pa rezultat."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">3. Dërgimi i trafikut në faqen kryesore.</strong>{"\nÇdo reklamë duhet të shkojë në landing page specifike."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">4. Pa gjurmim konvertimesh.</strong>{"\nNëse nuk dini cilat reklama sjellin klientë, jeni duke fluturuar verbërisht."}</li>
           <li className="whitespace-pre-line"><strong className="text-white">5. Buxheti shumë i shpërndarë.</strong>{"\nFokusohuni në 2–3 shërbime kryesore dhe dominoni ato fjalë kyçe."}</li>

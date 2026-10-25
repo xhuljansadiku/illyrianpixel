@@ -32,7 +32,7 @@ export const caseStudies: CaseStudy[] = [
       "Oferta dhe eksperienca e kompanisë nuk pasqyroheshin qartë online, duke krijuar paqartësi në llojin e projekteve dhe ritmin e kontakteve hyrëse.",
     solution:
       "Ndërtuam strukturë të pastër me seksione të ndara sipas shërbimeve, prova konkrete pune dhe një navigim që e çon vizitorin drejt kërkesës pa pengesa.",
-    result: "Klientët e duhur, mesazhi i duhur e bëmë website-in të flasë për ta.",
+    result: "Klientët e duhur, mesazhi i duhur: e bëmë website-in të flasë për ta.",
     metrics: ["Mesazh i qartë për biznese", "Navigim i thjeshtë dhe i qartë", "Kërkesa industriale cilësore"],
     tags: ["Identitet brandi", "Përmbajtje (IT/EN)", "Website"],
     heroImage: "/images/projects/esm-group.avif",
@@ -91,7 +91,7 @@ export const caseStudies: CaseStudy[] = [
       "Vizitorët vinin me pritshmëri të ndryshme dhe pa një kuadër të qartë të shërbimeve, gjë që e bënte më të vështirë filtrimin e kërkesave.",
     solution:
       "Riorganizuam seksionet e ofertës, provave të punës dhe kontaktit për të vendosur një rrjedhë më bindëse nga interesi te kërkesa.",
-    result: "Vizitorët besojnë dhe nisin bisedë serioze, jo hezitim.",
+    result: "Vizitorët i besojnë kompanisë dhe nisin një bisedë serioze, pa hezitim.",
     metrics: ["Vlerësime klientësh të dukshme", "Shërbime të kuptueshme", "Biseda hyrëse cilësore"],
     tags: ["Identitet brandi", "Përmbajtje", "Website", "Google Ads"],
     heroImage: "/images/projects/palushi-brothers.png",
@@ -149,7 +149,7 @@ export const caseStudies: CaseStudy[] = [
       "Mesazhi i shërbimeve ishte i shpërndarë dhe nuk theksonte mjaftueshëm pikat kyçe të diferencimit të kompanisë.",
     solution:
       "Riorganizuam përmbajtjen me seksione të qarta, butona kontakti të qartë dhe një stil elegant me ngjyra të errëta.",
-    result: "Oferta komunikon me autoritet, vizitori orientohet drejt kontaktit.",
+    result: "Oferta flet me autoritet dhe e orienton vizitorin drejt kontaktit.",
     metrics: ["Stil elegant dhe premium", "Seksione shërbimesh të qarta", "Kontakt pa hezitim"],
     tags: ["Ndërtim", "Korporativ", "Më shumë kërkesa"],
     heroImage: "/images/projects/suli-group-trockenbau.png",

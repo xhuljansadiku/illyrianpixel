@@ -15,7 +15,7 @@ export const caseStudies: CaseStudy[] = [
       "The company's offering and experience weren't clearly reflected online, creating ambiguity about the type of projects and the pace of incoming contacts.",
     solution:
       "We built a clean structure with service-first sections, concrete proof and a navigation flow that guides the user toward an inquiry without friction.",
-    result: "The right clients, the right message, we made the website speak for them.",
+    result: "The right clients, the right message: we made the website speak for them.",
     metrics: ["Structured B2B message", "Friction-free navigation", "Quality industrial inquiries"],
     tags: ["Branding", "Content (IT/EN)", "Website"],
     heroImage: "/images/projects/esm-group.avif",
@@ -54,7 +54,7 @@ export const caseStudies: CaseStudy[] = [
       "Visitors didn't always immediately understand the relevant service and the right step to send an inquiry.",
     solution:
       "We created a strong homepage hierarchy, clear service separation and direct CTAs for immediate contact.",
-    result: "Local clients find the service and start contact directly.",
+    result: "Local clients find the service and get in touch directly.",
     metrics: ["Clearly distinguished services", "Direct CTA", "Inquiries with accurate expectations"],
     tags: ["Local Service", "Lead Flow", "Clarity"],
     heroImage: "/images/projects/hauswerk-niederbayern.avif",
@@ -74,7 +74,7 @@ export const caseStudies: CaseStudy[] = [
       "Visitors arrived with varying expectations and without a clear framework of services, making it harder to filter inquiries.",
     solution:
       "We reorganized the offer, proof and contact sections to establish a more convincing flow from interest to inquiry.",
-    result: "Visitors trust and start a serious conversation, not hesitation.",
+    result: "Visitors trust the company and start a serious conversation, without hesitating.",
     metrics: ["Visible social proof", "Understandable services", "Quality inbound conversations"],
     tags: ["Branding", "Content", "Website", "Google Ads"],
     heroImage: "/images/projects/palushi-brothers.png",
@@ -132,7 +132,7 @@ export const caseStudies: CaseStudy[] = [
       "The services message was scattered and didn't sufficiently highlight the company's key differentiators.",
     solution:
       "We reorganized the content with clear sections, focused CTAs and a controlled dark-luxury aesthetic.",
-    result: "The offer communicates with authority, the visitor is guided toward contact.",
+    result: "The offer speaks with authority and guides the visitor toward contact.",
     metrics: ["Controlled dark-luxury aesthetic", "Clear service sections", "Contact without hesitation"],
     tags: ["Construction", "Corporate", "Lead Gen"],
     heroImage: "/images/projects/suli-group-trockenbau.png",

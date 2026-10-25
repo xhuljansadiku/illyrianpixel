@@ -181,7 +181,7 @@ export default async function Page(props: Props) {
           </table>
         </div>
         <p className="text-[1.02rem] leading-relaxed text-white/68">
-          Për shumicën e bizneseve shqiptare, <strong className="text-white">WooCommerce</strong> është zgjidhja optimale çmim i arsyeshëm dhe fleksibilitet i plotë.
+          Për shumicën e bizneseve shqiptare, <strong className="text-white">WooCommerce</strong> është zgjidhja optimale: çmim i arsyeshëm dhe fleksibilitet i plotë.
         </p>
       </section>
 
@@ -189,7 +189,7 @@ export default async function Page(props: Props) {
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
           Hapi 2: Zgjidhja e pagesave online
         </h2>
-        <p className="text-[1.02rem] leading-relaxed text-white/68">Ky është pengesa kryesore për bizneset shqiptare, por ka zgjidhje:</p>
+        <p className="text-[1.02rem] leading-relaxed text-white/68">Kjo është pengesa kryesore për bizneset shqiptare, por ka zgjidhje:</p>
         <ul className="space-y-2 text-[1.02rem] leading-relaxed text-white/68">
           <li><strong className="text-white">Stripe</strong>: Për biznese të regjistruara në BE, Britani ose SHBA (jo ende për biznese të regjistruara në Shqipëri). I përshtatshëm nëse kompania juaj është në diasporë.</li>
           <li><strong className="text-white">PayPal</strong>: I njohur globalisht, ideal nëse shisni ndërkombëtarisht.</li>
@@ -203,7 +203,7 @@ export default async function Page(props: Props) {
           Hapi 3: Çfarë duhet teknikisht
         </h2>
         <ul className="space-y-2 text-[1.02rem] text-white/68">
-          {["Domenin (.com ose .al)", "Hosting të shpejtë (nuk kurseni këtu)", "Certifikatë SSL (HTTPS)", "Sistem menaxhimi produktesh", "Integrim pagese", "Faqe produkti të optimizuara për SEO", "Konfirmim emaili porosie", "Politikë kthimi dhe kushte shërbimi"].map((item) => (
+          {["Domenin (.com ose .al)", "Hosting i shpejtë (mos kurseni këtu)", "Certifikatë SSL (HTTPS)", "Sistem menaxhimi produktesh", "Integrim pagese", "Faqe produkti të optimizuara për SEO", "Konfirmim emaili porosie", "Politikë kthimi dhe kushte shërbimi"].map((item) => (
             <li key={item} className="flex items-start gap-2">
               <span className="mt-1 text-accent">✓</span>
               <span>{item}</span>

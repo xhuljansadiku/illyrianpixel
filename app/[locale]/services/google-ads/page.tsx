@@ -64,7 +64,7 @@ const CONTENT: Record<Locale, {
     howItWorks: [
       {
         eyebrow: "Tarifa jonë",
-        title: "Fee menaxhimi",
+        title: "Tarifë menaxhimi",
         body: "Çmimi i paketës = tarifa jonë për setup, optimizim dhe raportim.",
       },
       {
@@ -104,7 +104,7 @@ const CONTENT: Record<Locale, {
         price: euro(ADS_MONTHLY.growth),
         priceNote: "/ muaj",
         tagline: "Më shumë klientë, buxhet nën kontroll",
-        ideal: "2–3 fushata të optimizuara çdo javë.\nRemarketing që rikthejnë vizitorët si klientë.",
+        ideal: "2–3 fushata të optimizuara çdo javë.\nRemarketing që i rikthen vizitorët si klientë.",
         features: [
           "2–3 fushata aktive (Search + Display)",
           "Remarketing i konfiguruar",

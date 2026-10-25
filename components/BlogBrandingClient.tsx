@@ -283,7 +283,7 @@ export default function BlogBrandingClient() {
                     <li className="flex gap-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>
-                        <span className="font-medium text-white/90">Klientët pyesin gjithmonë çmimin e parë.</span> Kur çmimi është pyetja e parë, branding nuk ka bërë punën e tij. Besimi i madh zhvendos fokusit nga çmimi te vlera.
+                        <span className="font-medium text-white/90">Klientët pyesin gjithmonë çmimin e parë.</span> Kur çmimi është pyetja e parë, branding nuk ka bërë punën e tij. Besimi i madh e zhvendos fokusin nga çmimi te vlera.
                       </span>
                     </li>
                     <li className="flex gap-3">

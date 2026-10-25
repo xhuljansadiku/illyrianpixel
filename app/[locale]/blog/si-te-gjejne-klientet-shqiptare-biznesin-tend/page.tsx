@@ -64,7 +64,7 @@ export default async function Page(props: Props) {
           ]}
         >
           <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-            {"The Albanian-speaking audience today isn't concentrated in one country. It's split between Albania, Kosovo, and large communities in Germany, Switzerland, Italy, Belgium, the US and Canada.\nFor a business that wants to reach this audience, that means one important thing: your online strategy can't be thought of as only \"for Albania\" or only \"for the diaspora\" it has to cover both."}
+            {"The Albanian-speaking audience today isn't concentrated in one country. It's split between Albania, Kosovo, and large communities in Germany, Switzerland, Italy, Belgium, the US and Canada.\nFor a business that wants to reach this audience, that means one important thing: your online strategy can't be thought of as only \"for Albania\" or only \"for the diaspora\": it has to cover both."}
           </p>
 
           <section className="space-y-4">
@@ -72,7 +72,7 @@ export default async function Page(props: Props) {
               Albanians search in Albanian, even from Munich or Toronto
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"Someone in the diaspora searching for \"inheritance lawyer albania\" or \"money transfer albania germany\" types that search in Albanian, not in German.\nBusinesses with well-optimized Albanian content capture this traffic that competitors with foreign-language-only websites miss entirely."}
+              {"Someone in the diaspora searching for \"avokat trashëgimie shqipëri\" (inheritance lawyer Albania) or \"dërgesa parash shqipëri gjermani\" (money transfer Albania–Germany) types it in Albanian, not in German.\nBusinesses with well-optimized Albanian content capture this traffic that competitors with foreign-language-only websites miss entirely."}
             </p>
           </section>
 
@@ -114,7 +114,7 @@ export default async function Page(props: Props) {
               One audience, not three separate markets
             </h2>
             <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-              {"If your real audience spans Albania, Kosovo and the diaspora at once, don't split your strategy as if they were separate, unrelated markets.\nIt's the same audience, geographically spread out but united by language, culture and communication channels and that's exactly why you should approach it as one market, not several."}
+              {"If your real audience spans Albania, Kosovo and the diaspora at once, don't split your strategy as if they were separate, unrelated markets.\nIt's the same audience, geographically spread out but united by language, culture and communication channels, and that's exactly why you should approach it as one market, not several."}
             </p>
           </section>
 
@@ -175,7 +175,7 @@ export default async function Page(props: Props) {
             Citations e komunitetit japin dyfish vlerë
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Përmendjet në direktoret e komunitetit shqiptar (shoqata biznesi, dhoma tregtie shqiptaro-gjermane/zvicerane, grupe LinkedIn/Facebook të profesionistëve shqiptarë jashtë vendit) kanë vlerë të dyfishtë: japin backlink real për SEO, dhe ju vendosin drejtpërdrejt para audiencës që kërkoni, jo thjesht para algoritmit të Google."}
+            {"Përmendjet në direktoritë e komunitetit shqiptar (shoqata biznesi, dhoma tregtie shqiptaro-gjermane/zvicerane, grupe LinkedIn/Facebook të profesionistëve shqiptarë jashtë vendit) kanë vlerë të dyfishtë: japin backlink real për SEO, dhe ju vendosin drejtpërdrejt para audiencës që kërkoni, jo thjesht para algoritmit të Google."}
           </p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
             {"Rasti tipik: një biznes në Tiranë me klientë të rregullt nga diaspora (p.sh. shërbime avokatie, transport mallrash, apo ndërtim/renovim shtëpish për familje që jetojnë jashtë) fiton më shumë nga një postim i mirë-shpërndarë në një grup Facebook të diasporës gjermane sesa nga muaj të tërë reklamash gjenerike Google drejtuar vetëm publikut brenda Shqipërisë."}

@@ -59,8 +59,8 @@ export default async function Page(props: Props) {
             What sets a professional agency apart from amateurs
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">A real portfolio, not templates.</strong>{"\nAsk for live URLs of projects.\nIf every site looks the same, they're probably working off the same template."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Price transparency.</strong>{"\nA serious agency gives you a detailed quote with a breakdown by component design, development, SEO, hosting."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">A structured process.</strong>{"\nProfessional projects are preceded by a planning and briefing phase.\nIf the agency starts designing without understanding your business that's not a good sign."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Price transparency.</strong>{"\nA serious agency gives you a detailed quote with a breakdown by component: design, development, SEO, hosting."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">A structured process.</strong>{"\nProfessional projects are preceded by a planning and briefing phase.\nIf the agency starts designing without understanding your business, that's not a good sign."}</p>
         </section>
 
         <section className="space-y-4">
@@ -70,10 +70,10 @@ export default async function Page(props: Props) {
           <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
             <li><strong className="text-white">1.</strong> Can I see projects similar to my industry?</li>
             <li><strong className="text-white">2.</strong> Who will actually build the project? (some subcontract)</li>
-            <li><strong className="text-white">3.</strong> What will the site look like in 2 years is it built with modern technology?</li>
+            <li><strong className="text-white">3.</strong> What will the site look like in 2 years? Is it built with modern technology?</li>
             <li><strong className="text-white">4.</strong> What exactly does the SEO you offer include?</li>
             <li><strong className="text-white">5.</strong> Who owns the code and the domain after the project?</li>
-            <li><strong className="text-white">6.</strong> How are changes handled after delivery are they free or paid?</li>
+            <li><strong className="text-white">6.</strong> How are changes handled after delivery: are they free or paid?</li>
             <li><strong className="text-white">7.</strong> Can you show me references or testimonials from your clients?</li>
           </ol>
         </section>
@@ -158,8 +158,8 @@ export default async function Page(props: Props) {
           Çfarë e dallon agjencinë profesionale nga amatorët
         </h2>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Portfolio i vërtetë, jo template.</strong>{"\nKërkojini URL-të aktive të projekteve.\nNëse të gjitha faqet duken njëlloj, ndoshta punojnë me të njëjtin template."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Transparencë në çmim.</strong>{"\nAgjencia serioze ju jep ofertë të detajuar me breakdown sipas komponentëve dizajn, zhvillim, SEO, hosting."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Proces i strukturuar.</strong>{"\nProjekteve profesionale u paraprin faza e planifikimit dhe briefing-ut.\nNëse agjencia fillon të dizajnoj pa kuptuar biznesin tuaj kjo nuk është shenjë e mirë."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Transparencë në çmim.</strong>{"\nAgjencia serioze ju jep ofertë të detajuar me breakdown sipas komponentëve: dizajn, zhvillim, SEO, hosting."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Proces i strukturuar.</strong>{"\nProjekteve profesionale u paraprin faza e planifikimit dhe briefing-ut.\nNëse agjencia fillon të dizajnojë pa kuptuar biznesin tuaj, kjo nuk është shenjë e mirë."}</p>
       </section>
 
       <section className="space-y-4">
@@ -169,10 +169,10 @@ export default async function Page(props: Props) {
         <ol className="space-y-3 text-[1.02rem] leading-relaxed text-white/68">
           <li><strong className="text-white">1.</strong> Mund të shoh projekte të ngjashme me industrinë time?</li>
           <li><strong className="text-white">2.</strong> Kush do ta bëjë realisht projektin? (disa nënkontraktojnë)</li>
-          <li><strong className="text-white">3.</strong> Si do të duket faqja pas 2 vitesh a ndërtohet me teknologji moderne?</li>
+          <li><strong className="text-white">3.</strong> Si do të duket faqja pas 2 vitesh? A ndërtohet me teknologji moderne?</li>
           <li><strong className="text-white">4.</strong> Çfarë saktësisht përfshin SEO-i që ofrojnë?</li>
           <li><strong className="text-white">5.</strong> Kush zotëron kodin dhe domain-in pas projektit?</li>
-          <li><strong className="text-white">6.</strong> Si menaxhohen ndryshimet pas dorëzimit janë falas apo paguhen?</li>
+          <li><strong className="text-white">6.</strong> Si menaxhohen ndryshimet pas dorëzimit: janë falas apo paguhen?</li>
           <li><strong className="text-white">7.</strong> A mund të më tregoni referenca ose dëshmi nga klientët tuaj?</li>
         </ol>
       </section>
@@ -199,7 +199,7 @@ export default async function Page(props: Props) {
 
       <section className="space-y-4">
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
-          Çfarë duhet të specifikojë kontratat e web design
+          Çfarë duhet të specifikojë kontrata e web design-it
         </h2>
         <ul className="space-y-2 text-[1.02rem] text-white/68">
           {[
