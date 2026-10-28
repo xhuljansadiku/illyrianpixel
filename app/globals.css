@@ -2197,6 +2197,60 @@ html[data-aura="cta"] body {
 .brand-builder-in { animation: brandBuilderIn 0.5s ease-out both; }
 @media (prefers-reduced-motion: reduce) { .brand-builder-in { animation: none; } }
 
+/* ── Fija e artë (demo 2026-10-28): intro pa ekran pritjeje — lib/goldThread.ts ── */
+/* Gjithçka varet nga html[data-intro]; pa të (vizitat e tjera, reduced motion) s'ndodh asgjë */
+.gold-thread {
+  display: none;
+}
+html[data-intro] .gold-thread {
+  display: block;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 130;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(171, 131, 57, 0), #ab8339 40%, #eace71 85%, #fff6d6);
+  box-shadow: 0 0 12px rgba(234, 206, 113, 0.5);
+  transform: translateX(-100%);
+  animation: goldThreadRun 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards, goldThreadFade 0.4s 0.7s ease-out forwards;
+}
+/* Shkëndija në majë të fijes */
+html[data-intro] .gold-thread::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #fff6d6 0%, rgba(234, 206, 113, 0.8) 35%, rgba(171, 131, 57, 0) 70%);
+}
+@keyframes goldThreadRun {
+  to { transform: translateX(0); }
+}
+@keyframes goldThreadFade {
+  to { opacity: 0; }
+}
+
+/* Logoja shkëlqen sapo fija mbërrin: shenja, pastaj teksti */
+html[data-intro] .nav-logo-mark { animation: introGlow 0.8s 0.45s ease-out both; }
+html[data-intro] .nav-logo-text { animation: introGlow 0.8s 0.6s ease-out both; }
+@keyframes introGlow {
+  40% { filter: brightness(1.45) drop-shadow(0 0 10px rgba(234, 206, 113, 0.6)); }
+}
+
+/* Fjala e artë e hero-s ndizet. Filtri te mbështjellësi, jo te .hero-brand-accent:
+   bashkë me background-clip:text, Safari mund ta vizatojë gradientin si drejtkëndësh.
+   Celular: pa animacion hyrës, ndizet pas fijes. Desktop: pasi GSAP e ngre (brand-landed). */
+@media (max-width: 1023px) {
+  html[data-intro] .hero-brand-word { animation: introFlare 1s 0.6s ease-out both; }
+}
+html[data-intro] .hero-brand-word.brand-landed { animation: introFlare 1s 0.3s ease-out both; }
+/* Më e butë se introGlow: me brightness më të lartë ari kthehej në të verdhë */
+@keyframes introFlare {
+  40% { filter: brightness(1.18) drop-shadow(0 0 18px rgba(234, 206, 113, 0.55)); }
+}
+
 /* ── Efektet "wow" (2026-10-20) ───────────────────────────────────────────── */
 /* SectionTitleSweep: brez drite e artë që kalon nëpër titujt e seksioneve me scroll */
 .light-sweep-on {

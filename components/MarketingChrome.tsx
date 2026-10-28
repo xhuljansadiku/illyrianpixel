@@ -72,6 +72,8 @@ export default function MarketingChrome({ children }: { children: React.ReactNod
   return (
     <>
       {/* Preloader: <Preloader /> */}
+      {/* Fija e artë: e fshehur me CSS përveç gjatë intro-s (lib/goldThread.ts) */}
+      <div aria-hidden className="gold-thread" />
       {/* GoldCurtain: <GoldCurtain /> */}
       {isDesktop && interacted && <AmbientParticles />}
       <SmoothScroll>
