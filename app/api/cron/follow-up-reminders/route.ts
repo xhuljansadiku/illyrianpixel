@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { isAuthorizedCron } from "@/lib/secureCompare";
 import { Resend } from "resend";
 import { NEWSLETTER_BRAND, followUpReminderEmailHtml } from "@/lib/newsletterEmail";
+import { tiranaIsoDate } from "@/lib/dateSq";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,7 +20,7 @@ export async function GET(req: Request) {
   const today = new Date();
   const cutoff = new Date(today);
   cutoff.setDate(cutoff.getDate() + 2);
-  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  const cutoffStr = tiranaIsoDate(cutoff);
 
   const { data: contacts, error } = await supabase
     .from("contacts")

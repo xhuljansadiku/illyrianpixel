@@ -1,4 +1,5 @@
 import { confirmUrl, newsletterToken, unsubscribeUrl } from "@/lib/newsletterTokens";
+import { formatSq, tiranaIsoDate } from "@/lib/dateSq";
 
 export const NEWSLETTER_BRAND = {
   name: "Illyrian Pixel",
@@ -131,13 +132,13 @@ type ReminderContact = {
 
 export function followUpReminderEmailHtml(contacts: ReminderContact[]): string {
   const BRAND = NEWSLETTER_BRAND;
-  const today = new Date().toISOString().slice(0, 10);
+  const today = tiranaIsoDate();
 
   const rows = contacts
     .map((c) => {
       const overdue = c.follow_up_date !== null && c.follow_up_date < today;
       const dateLabel = c.follow_up_date
-        ? new Date(`${c.follow_up_date}T00:00:00`).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" })
+        ? formatSq(c.follow_up_date)
         : "—";
       let statusLabel = "";
       if (c.follow_up_date) {
@@ -240,7 +241,7 @@ export function staleContactsEmailHtml(contacts: StaleContact[], days: number, i
 
   const rows = contacts
     .map((c) => {
-      const dateLabel = new Date(c.created_at).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+      const dateLabel = formatSq(c.created_at);
       return `<tr>
         <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:#ffffff;">${c.name}</td>
         <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:rgba(255,255,255,0.6);">${c.phone || c.email}</td>
