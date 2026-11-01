@@ -32,6 +32,8 @@ function countOf(table: string) {
 }
 
 export default async function AdminPage() {
+  // Ora e serverit para leximit — pika e nisjes për polling-un e kontakteve të reja
+  const renderedAt = new Date().toISOString();
   const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
   const oneWeekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString();
 
@@ -301,6 +303,7 @@ export default async function AdminPage() {
       trashedContacts={trashedContacts}
       trashedQuotes={trashedQuotes}
       autoActivity={autoActivity}
+      renderedAt={renderedAt}
     />
   );
 }

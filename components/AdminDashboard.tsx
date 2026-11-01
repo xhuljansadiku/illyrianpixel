@@ -223,6 +223,7 @@ export default function AdminDashboard({
   trashedContacts: initialTrashedContacts,
   trashedQuotes: initialTrashedQuotes,
   autoActivity,
+  renderedAt,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
@@ -244,6 +245,7 @@ export default function AdminDashboard({
   trashedContacts: TrashedContact[];
   trashedQuotes: TrashedQuote[];
   autoActivity: AutoActivity[];
+  renderedAt: string;
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<AdminTab>("overview");
@@ -269,7 +271,8 @@ export default function AdminDashboard({
   const [quotePrefill, setQuotePrefill] = useState<{ contact: QuoteContact; key: number } | null>(null);
   const [toasts, setToasts] = useState<{ id: string; text: string }[]>([]);
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const lastCheckRef = useRef(new Date().toISOString());
+  // Ora e serverit (jo e kompjuterit) — përndryshe një orë e pasaktë humbiste ose dyfishonte kontakte
+  const lastCheckRef = useRef(renderedAt);
   // Kontaktet që erdhën nga polling-u pas ngarkimit — që statistikat e serverit të mos ngecin
   const [liveNewContacts, setLiveNewContacts] = useState(0);
   const liveContactIdsRef = useRef(new Set<number>());
@@ -337,7 +340,7 @@ export default function AdminDashboard({
           ]);
           playNotificationSound();
         }
-        lastCheckRef.current = new Date().toISOString();
+        if (data.success && data.now) lastCheckRef.current = data.now;
       } catch {
         // ignore — will retry on next tick
       }
