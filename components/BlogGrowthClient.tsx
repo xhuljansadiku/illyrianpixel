@@ -57,7 +57,7 @@ export default function BlogGrowthClient() {
             </section>
 
             <section className="space-y-4">
-              <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Bëjini klientët t'ju besojnë</h2>
+              <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Bëjini klientët t&apos;ju besojnë</h2>
               <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                 Njerëzit nuk besojnë atë që thoni ju, besojnë atë që thonë të tjerët për ju. Para se t&apos;i kërkoni
                 vizitorit të veprojë, jepini arsye reale:

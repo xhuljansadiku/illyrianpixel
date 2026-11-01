@@ -91,7 +91,7 @@ export default async function Page(props: Props) {
           <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
             What to avoid when choosing a price
           </h2>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">The cheap offer that doesn't say what's included.</strong>{"\nA low price isn't a problem in itself. The problem is an offer that doesn't say how many pages, what SEO, what hosting, and who owns the site at the end.\nIn those cases you'll usually get a modified template with no SEO and no optimization."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">The cheap offer that doesn&apos;t say what&apos;s included.</strong>{"\nA low price isn't a problem in itself. The problem is an offer that doesn't say how many pages, what SEO, what hosting, and who owns the site at the end.\nIn those cases you'll usually get a modified template with no SEO and no optimization."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Contracts without specifications.</strong>{"\nIf the contract doesn't precisely list the pages, features, and deadline, you'll get surprises with extra costs."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Free&rdquo; hosting and domain.</strong>{"\nWhen someone offers you everything \"free,\" you'll pay for it with poor performance and limited control."}</p>
         </section>
@@ -175,7 +175,7 @@ export default async function Page(props: Props) {
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
           Çfarë të shmangni kur zgjidhni çmimin
         </h2>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Oferta e lirë që s'thotë çfarë përfshin.</strong>{"\nÇmimi i ulët vetvetiu s'është problem. Problem është kur oferta s'tregon sa faqe, çfarë SEO, çfarë hosting dhe kush e zotëron faqen në fund.\nNë këto raste zakonisht merrni një template të modifikuar, pa SEO dhe pa optimizim."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Oferta e lirë që s&apos;thotë çfarë përfshin.</strong>{"\nÇmimi i ulët vetvetiu s'është problem. Problem është kur oferta s'tregon sa faqe, çfarë SEO, çfarë hosting dhe kush e zotëron faqen në fund.\nNë këto raste zakonisht merrni një template të modifikuar, pa SEO dhe pa optimizim."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kontratat pa specifikime.</strong>{"\nNëse kontratat nuk listojnë saktë faqet, funksionet dhe afatin, do të keni surpriza me kostot shtesë."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Falas&rdquo; hosting dhe domain.</strong>{"\nKur dikush ju ofron gjithçka \"falas\", do ta paguani me performancë të dobët dhe kontroll të kufizuar."}</p>
       </section>
