@@ -118,6 +118,7 @@ export default function QuotesTab({
   recurring,
   setRecurring,
   prefill,
+  createKey,
   jumpSearch,
   trashedQuotes,
   setTrashedQuotes,
@@ -128,6 +129,7 @@ export default function QuotesTab({
   recurring: RecurringInvoice[];
   setRecurring: React.Dispatch<React.SetStateAction<RecurringInvoice[]>>;
   prefill?: { contact: QuoteContact; key: number } | null;
+  createKey?: number;
   jumpSearch?: { term: string; key: number } | null;
   trashedQuotes: TrashedQuote[];
   setTrashedQuotes: (q: TrashedQuote[]) => void;
@@ -230,6 +232,12 @@ export default function QuotesTab({
     setError("");
     setShowForm(true);
   };
+
+  // Hapur nga Ctrl+K → "… i ri": hap direkt formularin bosh
+  useEffect(() => {
+    if (createKey) openCreate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createKey]);
 
   const openEdit = (q: QuoteRecord) => {
     setForm({

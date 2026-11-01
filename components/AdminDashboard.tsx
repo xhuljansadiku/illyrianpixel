@@ -264,6 +264,7 @@ export default function AdminDashboard({
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [contactsJump, setContactsJump] = useState<{ term: string; key: number } | null>(null);
   const [subscribersJump, setSubscribersJump] = useState<{ term: string; key: number } | null>(null);
   const [quotesJump, setQuotesJump] = useState<{ term: string; key: number } | null>(null);
@@ -271,6 +272,13 @@ export default function AdminDashboard({
   const [quotePrefill, setQuotePrefill] = useState<{ contact: QuoteContact; key: number } | null>(null);
   const [toasts, setToasts] = useState<{ id: string; text: string }[]>([]);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [createQuoteKey, setCreateQuoteKey] = useState(0);
+  const [createProjectKey, setCreateProjectKey] = useState(0);
+  // Pastroji kur largohesh nga tab-i — përndryshe formulari rihapej vetë sa herë ktheheshe
+  useEffect(() => {
+    if (tab !== "quotes") setCreateQuoteKey(0);
+    if (tab !== "projects") setCreateProjectKey(0);
+  }, [tab]);
   // Ora e serverit (jo e kompjuterit) — përndryshe një orë e pasaktë humbiste ose dyfishonte kontakte
   const lastCheckRef = useRef(renderedAt);
   // Kontaktet që erdhën nga polling-u pas ngarkimit — që statistikat e serverit të mos ngecin
@@ -495,31 +503,54 @@ export default function AdminDashboard({
     return { contactMatches, subscriberMatches, blogMatches, quoteMatches, projectMatches, faqMatches };
   }, [globalSearch, contacts, subscribers, blogPosts, staticPosts, quotes, projectsList, faqsList]);
 
+  // Mbyll rezultatet me klik jashtë kërkimit (desktop ose mobile)
+  useEffect(() => {
+    if (!globalSearch) return;
+    const onDown = (e: MouseEvent) => {
+      if (!(e.target as Element).closest?.("[data-global-search]")) setGlobalSearch("");
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [globalSearch]);
+
+  const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      setGlobalSearch("");
+      setMobileSearchOpen(false);
+      e.currentTarget.blur();
+    }
+  };
+
   const goToContact = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("contacts");
     setContactsJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToSubscriber = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("subscribers");
     setSubscribersJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToQuote = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("quotes");
     setQuotesJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToProject = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("projects");
     setProjectsJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToFaq = () => {
+    setMobileSearchOpen(false);
     setTab("content");
     setGlobalSearch("");
   };
@@ -546,14 +577,20 @@ export default function AdminDashboard({
       icon: <AdminIcon name="plus" className="h-4 w-4" />,
       label: "Ofertë / Faturë e re",
       hint: "Krijo",
-      onRun: () => setTab("quotes"),
+      onRun: () => {
+        setTab("quotes");
+        setCreateQuoteKey(Date.now());
+      },
     },
     {
       id: "new-project",
       icon: <AdminIcon name="plus" className="h-4 w-4" />,
       label: "Projekt i ri",
       hint: "Krijo",
-      onRun: () => setTab("projects"),
+      onRun: () => {
+        setTab("projects");
+        setCreateProjectKey(Date.now());
+      },
     },
     {
       id: "new-post",
@@ -586,6 +623,111 @@ export default function AdminDashboard({
       onRun: () => logout(),
     },
   ];
+
+  // Rezultatet e kërkimit global — të njëjtat për shiritin desktop dhe atë mobile
+  const renderGlobalResults = (wide: boolean) =>
+    globalResults && (
+      <div className={`absolute left-0 top-full z-40 mt-2 max-h-96 ${wide ? "w-96" : "w-full"} overflow-y-auto rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px]`}>
+        {globalResults.contactMatches.length === 0 &&
+        globalResults.subscriberMatches.length === 0 &&
+        globalResults.blogMatches.length === 0 &&
+        globalResults.quoteMatches.length === 0 &&
+        globalResults.projectMatches.length === 0 &&
+        globalResults.faqMatches.length === 0 ? (
+          <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
+        ) : (
+          <>
+            {globalResults.contactMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
+                {globalResults.contactMatches.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => goToContact(c.email)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.email}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.subscriberMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
+                {globalResults.subscriberMatches.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => goToSubscriber(s.email)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {s.email}
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.blogMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
+                {globalResults.blogMatches.map((p) => (
+                  <button
+                    key={p.slug}
+                    onClick={() => {
+                      setTab("blog");
+                      setGlobalSearch("");
+                    }}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {p.title}
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.quoteMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
+                {globalResults.quoteMatches.map((doc) => (
+                  <button
+                    key={doc.id}
+                    onClick={() => goToQuote(doc.number)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {doc.number} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {doc.client_name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.projectMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
+                {globalResults.projectMatches.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => goToProject(p.name)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {p.name} {p.client_name && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {p.client_name}</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.faqMatches.length > 0 && (
+              <div className="py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
+                {globalResults.faqMatches.map((f) => (
+                  <button
+                    key={f.id}
+                    onClick={() => goToFaq()}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {f.question}
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
 
   return (
     <div data-theme={theme} className="admin-shell flex min-h-screen flex-col bg-[var(--a-bg)] text-[var(--a-text)] md:flex-row">
@@ -707,7 +849,7 @@ export default function AdminDashboard({
       <header className="sticky top-0 z-30 hidden h-16 shrink-0 items-center gap-2 border-b border-[var(--a-border)] bg-[var(--a-bg)]/85 px-6 backdrop-blur-md md:flex lg:px-8">
 
         {/* Global search */}
-        <div className="relative w-full max-w-sm">
+        <div className="relative w-full max-w-sm" data-global-search>
           <AdminIcon
             name="search"
             className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[rgb(var(--a-text-rgb)/0.35)]"
@@ -716,6 +858,7 @@ export default function AdminDashboard({
             type="text"
             value={globalSearch}
             onChange={(e) => setGlobalSearch(e.target.value)}
+            onKeyDown={onSearchKeyDown}
             placeholder="Kërko kontakte, oferta, projekte…"
             className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] py-2 pl-9 pr-14 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
           />
@@ -727,108 +870,7 @@ export default function AdminDashboard({
           >
             ⌘K
           </button>
-          {globalResults && (
-            <div className="absolute left-0 top-full z-40 mt-2 max-h-96 w-96 overflow-y-auto rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px]">
-              {globalResults.contactMatches.length === 0 &&
-              globalResults.subscriberMatches.length === 0 &&
-              globalResults.blogMatches.length === 0 &&
-              globalResults.quoteMatches.length === 0 &&
-              globalResults.projectMatches.length === 0 &&
-              globalResults.faqMatches.length === 0 ? (
-                <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
-              ) : (
-                <>
-                  {globalResults.contactMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
-                      {globalResults.contactMatches.map((c) => (
-                        <button
-                          key={c.id}
-                          onClick={() => goToContact(c.email)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.email}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.subscriberMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
-                      {globalResults.subscriberMatches.map((s) => (
-                        <button
-                          key={s.id}
-                          onClick={() => goToSubscriber(s.email)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {s.email}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.blogMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
-                      {globalResults.blogMatches.map((p) => (
-                        <button
-                          key={p.slug}
-                          onClick={() => {
-                            setTab("blog");
-                            setGlobalSearch("");
-                          }}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {p.title}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.quoteMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
-                      {globalResults.quoteMatches.map((doc) => (
-                        <button
-                          key={doc.id}
-                          onClick={() => goToQuote(doc.number)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {doc.number} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {doc.client_name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.projectMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
-                      {globalResults.projectMatches.map((p) => (
-                        <button
-                          key={p.id}
-                          onClick={() => goToProject(p.name)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {p.name} {p.client_name && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {p.client_name}</span>}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.faqMatches.length > 0 && (
-                    <div className="py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
-                      {globalResults.faqMatches.map((f) => (
-                        <button
-                          key={f.id}
-                          onClick={() => goToFaq()}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {f.question}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
+          {renderGlobalResults(true)}
         </div>
 
         <div className="flex-1" />
@@ -870,8 +912,34 @@ export default function AdminDashboard({
               <p className="ip-eyebrow">Illyrian Pixel</p>
               <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{TAB_TITLES[tab].title}</h1>
             </div>
+            <button
+              onClick={() => {
+                setMobileSearchOpen((v) => !v);
+                setGlobalSearch("");
+              }}
+              aria-label="Kërko"
+              aria-expanded={mobileSearchOpen}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
+            >
+              <AdminIcon name="search" className="h-3.5 w-3.5" />
+            </button>
             <NotificationsBell setTab={setTab} />
           </div>
+          {/* Kërkimi global në celular — më parë ekzistonte vetëm në desktop */}
+          {mobileSearchOpen && (
+            <div className="relative mb-3 md:hidden" data-global-search>
+              <input
+                type="search"
+                autoFocus
+                value={globalSearch}
+                onChange={(e) => setGlobalSearch(e.target.value)}
+                onKeyDown={onSearchKeyDown}
+                placeholder="Kërko kontakte, oferta, projekte…"
+                className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3.5 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              {renderGlobalResults(false)}
+            </div>
+          )}
 
           {/* Page title (desktop) */}
           <div className="hidden md:block">
@@ -924,6 +992,7 @@ export default function AdminDashboard({
             )}
             {tab === "quotes" && (
               <QuotesTab
+                createKey={createQuoteKey}
                 quotes={quotes}
                 setQuotes={setQuotes}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
@@ -937,6 +1006,7 @@ export default function AdminDashboard({
             )}
             {tab === "projects" && (
               <ProjectsTab
+                createKey={createProjectKey}
                 projects={projectsList}
                 setProjects={setProjectsList}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}

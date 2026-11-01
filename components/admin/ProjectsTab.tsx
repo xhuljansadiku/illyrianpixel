@@ -51,11 +51,13 @@ export default function ProjectsTab({
   setProjects,
   contacts,
   jumpSearch,
+  createKey,
 }: {
   projects: ProjectRecord[];
   setProjects: React.Dispatch<React.SetStateAction<ProjectRecord[]>>;
   contacts: QuoteContact[];
   jumpSearch?: { term: string; key: number } | null;
+  createKey?: number;
 }) {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -122,6 +124,12 @@ export default function ProjectsTab({
     setError("");
     setShowForm(true);
   };
+
+  // Hapur nga Ctrl+K → "… i ri": hap direkt formularin bosh
+  useEffect(() => {
+    if (createKey) openCreate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createKey]);
 
   const openEdit = (p: ProjectRecord) => {
     setForm({
