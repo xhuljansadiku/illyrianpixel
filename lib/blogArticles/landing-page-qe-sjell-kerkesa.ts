@@ -15,7 +15,7 @@ const article: StructuredArticlePair = {
     date: "Tetor 2026",
     readTime: "8 min lexim",
     related: [
-      { slug: "google-ads-vs-seo", title: "Google Ads apo SEO: Ku të investosh para?", category: "Marketing" },
+      { slug: "google-ads-vs-seo", title: "Google Ads apo SEO: ku të investoni para?", category: "Marketing" },
       { slug: "si-te-rrisesh-klientet-online", title: "Keni trafikun. Por ku janë klientët?", category: "Rritje" },
     ],
     blocks: [

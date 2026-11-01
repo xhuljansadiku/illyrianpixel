@@ -8,9 +8,9 @@ type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string }> = {
   sq: {
-    title: "Gabimet që bëjnë bizneset në website | Blog",
+    title: "Gabimet që bëjnë bizneset në website",
     description:
-      "Gabimet më të zakonshme që ulin besimin e vizitorit dhe si t'i rregullosh pa ndërtuar gjithçka nga e para.",
+      "Gabimet më të zakonshme që ulin besimin e vizitorit dhe si t'i rregulloni pa ndërtuar gjithçka nga e para.",
   },
   en: {
     title: "The mistakes businesses make on their website | Blog",

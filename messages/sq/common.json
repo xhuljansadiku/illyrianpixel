@@ -44,7 +44,7 @@
       "mobileApp": "Aplikacione Mobile"
     },
     "contactHeading": "Kontakt",
-    "contactNow": "Kontakto Tani",
+    "contactNow": "Kontakto tani",
     "whatsapp": "WhatsApp",
     "email": "info@illyrianpixel.com",
     "locationLine": "Tiranë, Shqipëri · Gjermani · Online",
@@ -64,7 +64,7 @@
     "title": "Gati për hapin tjetër?",
     "body": "Rezervo një call dhe kthejmë drejtimin në plan konkret me prioritete të qarta.",
     "primaryActionText": "Fillo Bisedën",
-    "secondaryActionText": "Kontakto Tani"
+    "secondaryActionText": "Kontakto tani"
   },
   "exitPopup": {
     "dialogAria": "Ofertë e veçantë",

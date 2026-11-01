@@ -12,7 +12,7 @@ const CATEGORY_COLOR = "rgba(125,211,252,0.9)";
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Website Dygjuhësh për Biznesin Shqiptar në Diasporë",
+    title: "Website dygjuhësh për biznesin shqiptar në diasporë",
     description:
       "Pse çdo biznes i hapur nga shqiptarë në Gjermani, Zvicër apo SHBA ka nevojë për website dygjuhësh që flet të dyja audiencat.",
     keywords: ["website dygjuhësh shqip gjermanisht", "biznes shqiptar gjermani", "website biznesi diasporë", "përkthim website shqip"],

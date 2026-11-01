@@ -20,7 +20,7 @@ export default function BlogGoogleAdsSeoClient() {
                     <br className="hidden md:block" />
                     Where Should You Invest <span className="text-accent">Your Money?</span></> : <>Google Ads apo SEO:
                     <br className="hidden md:block" />
-                    Ku të investosh <span className="text-accent">para?</span></>}
+                    Ku të investoni <span className="text-accent">para?</span></>}
       description={en ? <>Two different channels, two different logics.
                     <br />
                     One delivers results tomorrow, the other builds something that lasts for years.
@@ -122,7 +122,7 @@ export default function BlogGoogleAdsSeoClient() {
                     The real cost of each channel
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Google Ads has a direct, visible cost: you pay for every click. In the Albanian market, prices range from €0.30 for common clicks up to €3–8 for competitive industries like legal, medical, or construction.
+                    Google Ads has a direct, visible cost: you pay for every click. In the Albanian market, prices range from about €0.20 for common clicks up to €2–3 for competitive industries like legal, medical, or real estate.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     SEO has an indirect cost: time and professional work. The first results start to appear after 3–6 months. But once the position is reached, traffic comes with no additional monthly cost, every organic visitor is free.
@@ -285,7 +285,7 @@ export default function BlogGoogleAdsSeoClient() {
                     Kostoja reale e secilit kanal
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Google Ads ka kosto direkte dhe të dukshme: paguani për çdo klikim. Në tregun shqiptar, çmimet variojnë nga €0.30 për klikime të zakonshme deri €3–8 për industri konkurruese si juridike, mjekësi ose ndërtim.
+                    Google Ads ka kosto direkte dhe të dukshme: paguani për çdo klikim. Në tregun shqiptar, çmimet variojnë nga rreth €0.20 për klikime të zakonshme deri €2–3 për industri konkurruese si juridike, mjekësi ose pasuri të paluajtshme.
                   </p>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                     SEO ka kosto indirekte: kohë dhe punë profesionale. Rezultatet e para fillojnë të shfaqen pas 3–6 muajsh. Por pasi arrihet pozicioni, trafiku vjen pa kosto shtesë mujore: çdo vizitor organik është falas.

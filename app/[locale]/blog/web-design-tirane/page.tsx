@@ -9,9 +9,9 @@ type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Agjenci Web Tiranë: Si të Zgjidhni Web Design Profesional (2026)",
+    title: "Agjenci web në Tiranë: si të zgjidhni një agjenci profesionale (2026)",
     description:
-      "Si të zgjidhni agjenci web tiranë të besueshme. Kriteret, pyetjet e duhura dhe gabimet të shmangni para se të nënshkruani kontratën.",
+      "Si të zgjidhni një agjenci web të besueshme në Tiranë. Kriteret, pyetjet e duhura dhe gabimet që duhen shmangur para se të nënshkruani kontratën.",
     keywords: ["agjenci web tiranë", "web design tiranë", "agjenci web design shqipëri", "website professional tiranë"],
   },
   en: {
@@ -146,7 +146,7 @@ export default async function Page(props: Props) {
       readTime="6 min lexim"
       related={[
         { href: "/blog/sa-kushton-website-shqiperi", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Shqipëri në 2026?" },
-        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: Si të dilni i pari në Google në 2026" },
+        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: si të dilni i pari në Google në 2026" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -223,7 +223,7 @@ export default async function Page(props: Props) {
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
         <p className="font-display text-[1.1rem] text-white">Doni të diskutoni projektin tuaj?</p>
-        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas pa asnjë obligim.</p>
+        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
         <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
           Na kontaktoni këtu →
         </Link>

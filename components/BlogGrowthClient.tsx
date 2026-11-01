@@ -42,13 +42,13 @@ export default function BlogGrowthClient() {
                 <p className="text-xs font-medium uppercase tracking-[0.15em] text-accent/90">Formula e thjeshtë</p>
                 <p className="mt-2 text-[1rem] leading-relaxed text-text">Çfarë bën + Për kë + Rezultati.</p>
                 <p className="mt-3 text-[0.98rem] leading-relaxed text-text">
-                  &quot;Ndihmojmë bizneset të shesin më shumë online pa rritur buxhetin e reklamave&quot; —{" "}
+                  &quot;Ndihmojmë bizneset të shesin më shumë online pa rritur buxhetin e reklamave&quot;:{" "}
                   <span className="inline-flex rounded-full bg-[#4B3B17] px-3 py-1 text-[0.82rem] font-medium leading-none text-white">
                     Kjo është ofertë.
                   </span>
                 </p>
                 <p className="mt-3 text-[0.98rem] leading-relaxed text-text">
-                  &quot;Agjenci dixhitale me eksperiencë&quot; —{" "}
+                  &quot;Agjenci dixhitale me eksperiencë&quot;:{" "}
                   <span className="inline-flex rounded-full border border-red-500/45 bg-red-950/90 px-3 py-1 text-[0.82rem] font-medium leading-none text-red-100">
                     Kjo nuk është ofertë.
                   </span>
@@ -57,7 +57,7 @@ export default function BlogGrowthClient() {
             </section>
 
             <section className="space-y-4">
-              <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Bëji klientët të besojnë</h2>
+              <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Bëjini klientët t'ju besojnë</h2>
               <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
                 Njerëzit nuk besojnë atë që thoni ju, besojnë atë që thonë të tjerët për ju. Para se t&apos;i kërkoni
                 vizitorit të veprojë, jepini arsye reale:

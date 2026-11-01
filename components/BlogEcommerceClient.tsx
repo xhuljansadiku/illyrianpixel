@@ -28,7 +28,7 @@ export default function BlogEcommerceClient() {
                     Gabimet më të shpeshta, kostot reale dhe çfarë humbisni çdo muaj pa e-commerce.</>}
       date={en ? "May 2026" : "Maj 2026"}
       readTime={en ? "7 min read" : "7 min lexim"}
-      related={en ? [{ href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "The Mistakes Businesses Make on Their Website (and How We Fix Them)" }, { href: "/blog/google-ads-vs-seo", category: "Marketing", categoryColor: "", title: "Google Ads or SEO: Where Should You Invest Your Money?" }] : [{ href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)" }, { href: "/blog/google-ads-vs-seo", category: "Marketing", categoryColor: "", title: "Google Ads apo SEO: Ku të investosh para?" }]}
+      related={en ? [{ href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "The Mistakes Businesses Make on Their Website (and How We Fix Them)" }, { href: "/blog/google-ads-vs-seo", category: "Marketing", categoryColor: "", title: "Google Ads or SEO: Where Should You Invest Your Money?" }] : [{ href: "/blog/gabimet-kryesore-ne-website", category: "UX", categoryColor: "", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)" }, { href: "/blog/google-ads-vs-seo", category: "Marketing", categoryColor: "", title: "Google Ads apo SEO: ku të investoni para?" }]}
     >
       <div className="blog-growth-article space-y-16 md:space-y-24">
 

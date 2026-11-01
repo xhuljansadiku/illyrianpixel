@@ -15,7 +15,7 @@ const article: StructuredArticlePair = {
     date: "Tetor 2026",
     readTime: "7 min lexim",
     related: [
-      { slug: "dyqan-online-shqiperi", title: "Si të hapni dyqan online në Shqipëri: Udhëzues i plotë 2026", category: "E-Commerce" },
+      { slug: "dyqan-online-shqiperi", title: "Si të hapni dyqan online në Shqipëri: udhëzues i plotë 2026", category: "E-Commerce" },
       { slug: "shpejtesia-e-website-it", title: "Shpejtësia e website-it, pa zhargon: pse çdo sekondë ka rëndësi", category: "Web Design" },
     ],
     blocks: [

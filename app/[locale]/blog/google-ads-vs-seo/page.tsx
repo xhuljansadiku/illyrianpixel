@@ -8,7 +8,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string }> = {
   sq: {
-    title: "Google Ads apo SEO: Ku të investosh para?",
+    title: "Google Ads apo SEO: ku të investoni para?",
     description:
       "Dy kanale, dy logjika. Njëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite. Ja si të zgjidhni sipas situatës dhe buxhetit të biznesit tuaj.",
   },

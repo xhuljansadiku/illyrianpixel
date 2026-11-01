@@ -9,7 +9,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Social Media Menaxhim Shqipëri: Çmime 2026",
+    title: "Social Media Menaxhim në Shqipëri: çmime 2026",
     description:
       "Çmimet e menaxhimit të rrjeteve sociale në Shqipëri për 2026. Çfarë përfshin, sa kushton dhe si të zgjidhni agjencinë e duhur për biznesin tuaj.",
     keywords: ["social media menaxhim shqipëri", "menaxhim rrjete sociale tiranë", "instagram menaxhim shqipëri", "facebook marketing shqipëri"],
@@ -95,9 +95,9 @@ export default async function Page(props: Props) {
           <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
             Main platforms for Albanian businesses
           </h2>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Instagram:</strong>{"\nThe number 1 platform for businesses with a visual product.\nAlbania has high penetration, especially in the 18–45 age group."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Instagram:</strong>{"\nUsually the main platform for businesses with a visual product.\nAlbania has high penetration, especially in the 18–45 age group."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Facebook:</strong>{"\nStill important for the 35+ audience.\nMeta ads are especially effective."}</p>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">TikTok:</strong>{"\nThe fastest-growing platform.\nIf your audience is 16–30 years old, TikTok should be a priority."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">TikTok:</strong>{"\nOne of the fastest-growing platforms.\nIf your audience is 16–30 years old, TikTok should be a priority."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">LinkedIn:</strong>{"\nFor B2B businesses and professionals.\nOften overlooked by Albanian businesses, but with a very valuable audience."}</p>
         </section>
 
@@ -131,13 +131,13 @@ export default async function Page(props: Props) {
       breadcrumbLabel="Social Media Menaxhim"
       path="/blog/social-media-menaxhim-shqiperi"
       article={article}
-      title="Social Media Menaxhim në Shqipëri: Çmime dhe çfarë të prisni"
+      title="Social Media Menaxhim në Shqipëri: çmime dhe çfarë të prisni"
       description="Çmimet e menaxhimit profesional të social media në Shqipëri, çfarë përfshin, platformat kryesore dhe si të zgjidhni agjencinë e duhur."
       date="Qershor 2026"
       readTime="7 min lexim"
       related={[
-        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: Çmime reale dhe rezultate të pritshme" },
-        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë: Si të zgjidhni agjenci profesionale" },
+        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: çmime reale dhe rezultate të pritshme" },
+        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë: si të zgjidhni agjenci profesionale" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -185,9 +185,9 @@ export default async function Page(props: Props) {
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
           Platformat kryesore për bizneset shqiptare
         </h2>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Instagram:</strong>{"\nPlatforma numër 1 për bizneset me produkt vizual.\nShqipëria ka penetrim të lartë, veçanërisht grupmoshat 18–45."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Instagram:</strong>{"\nZakonisht platforma kryesore për bizneset me produkt vizual.\nShqipëria ka penetrim të lartë, veçanërisht grupmoshat 18–45."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Facebook:</strong>{"\nAkoma e rëndësishme për audiencë 35+.\nReklamat Meta janë veçanërisht efektive."}</p>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">TikTok:</strong>{"\nPlatforma me rritjen më të shpejtë.\nNëse audienca juaj është 16–30 vjeçe, TikTok duhet të jetë prioritet."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">TikTok:</strong>{"\nNjë nga platformat që rritet më shpejt.\nNëse audienca juaj është 16–30 vjeçe, TikTok duhet të jetë prioritet."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">LinkedIn:</strong>{"\nPër biznese B2B dhe profesionistë.\nShpesh e neglizhuar nga bizneset shqiptare, por me audiencë shumë të vlefshme."}</p>
       </section>
 
@@ -205,7 +205,7 @@ export default async function Page(props: Props) {
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
         <p className="font-display text-[1.1rem] text-white">Doni të diskutoni projektin tuaj?</p>
-        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas pa asnjë obligim.</p>
+        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
         <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
           Na kontaktoni këtu →
         </Link>
