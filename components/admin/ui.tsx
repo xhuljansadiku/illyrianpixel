@@ -77,9 +77,9 @@ export function EnglishFieldsSection({ children, hasContent }: { children: React
 // Etiketë e vogël në lista: a e ka rreshti përkthimin anglisht?
 export function EnBadge({ translated }: { translated: boolean }) {
   return translated ? (
-    <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">EN ✓</span>
+    <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-emerald-400">EN ✓</span>
   ) : (
-    <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90" title="Pa përkthim — nuk shfaqet në /en">pa EN</span>
+    <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-amber-400/90" title="Pa përkthim — nuk shfaqet në /en">pa EN</span>
   );
 }
 

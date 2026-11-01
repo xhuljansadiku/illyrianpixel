@@ -62,7 +62,7 @@ const LOG_ACTION_LABELS: Record<string, (detail: string | null) => string> = {
   assigned_to: (d) => (d ? `U caktua tek ${d}` : "U hoq caktimi"),
   follow_up_date: (d) => (d ? `Data e ndjekjes u vendos: ${formatDay(`${d}T00:00:00`)}` : "U hoq data e ndjekjes"),
   value: (d) => (d ? `Vlera u vendos: ${d}` : "U hoq vlera"),
-  email: (d) => `📧 Email i dërguar: ${d ?? ""}`,
+  email: (d) => `Email i dërguar: ${d ?? ""}`,
 };
 
 function whatsappHref(phone: string) {
@@ -162,7 +162,7 @@ const REPLY_TEMPLATES: {
   },
   {
     id: "followup",
-    label: "Follow-up i sjellshëm",
+    label: "Kujtesë e sjellshme",
     subject: "A keni pasur kohë të shihni propozimin tonë?",
     message: () =>
       `Donim thjesht të sigurohemi që e keni marrë mesazhin tonë të mëparshëm.\n\nJemi këtu për çdo pyetje dhe mund ta përshtatim ofertën sipas nevojave tuaja. Nëse preferoni një bisedë të shkurtër, na tregoni kur ju përshtatet.`,
@@ -727,7 +727,7 @@ export default function ContactsTab({
           onClick={() => downloadContactsCSV(filtered)}
           className="font-ui rounded-[10px] border border-[var(--a-border)] px-4 py-2.5 text-[12px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
-          ⬇ Export CSV
+          Eksporto CSV
         </button>
         <div className="flex rounded-[10px] border border-[var(--a-border)]">
           <button
@@ -736,7 +736,7 @@ export default function ContactsTab({
               viewMode === "kanban" ? "bg-accent/10 text-accent" : "text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
             }`}
           >
-            📋 Kanban
+            Kanban
           </button>
           <button
             onClick={() => setViewMode("calendar")}
@@ -744,7 +744,7 @@ export default function ContactsTab({
               viewMode === "calendar" ? "bg-accent/10 text-accent" : "text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
             }`}
           >
-            📅 Kalendar
+            Kalendar
           </button>
         </div>
         <button
@@ -753,7 +753,7 @@ export default function ContactsTab({
             showTrash ? "border-accent/50 bg-accent/10 text-accent" : "border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
           }`}
         >
-          🗑 Koshi {trashedContacts.length > 0 ? `(${trashedContacts.length})` : ""}
+          Koshi {trashedContacts.length > 0 ? `(${trashedContacts.length})` : ""}
         </button>
       </div>
 
@@ -778,7 +778,7 @@ export default function ContactsTab({
                       disabled={trashBusyId === tc.id}
                       className="font-ui rounded-[10px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                     >
-                      ↩ Rikthe
+                      Rikthe
                     </button>
                     <button
                       onClick={() => permanentlyDeleteContact(tc)}
@@ -907,46 +907,46 @@ export default function ContactsTab({
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                                   <span className="font-display font-semibold text-[var(--a-text)]">{c.name}</span>
                                   {c.viewed_at ? (
-                                    <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] bg-[rgb(var(--a-text-rgb)/0.05)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]">
+                                    <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] bg-[rgb(var(--a-text-rgb)/0.05)] px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]">
                                       ✓ E lexuar
                                     </span>
                                   ) : (
-                                    <span className="animate-pulse rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-accent">
-                                      🆕 I ri
+                                    <span className="animate-pulse rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[11.5px] font-bold uppercase tracking-[0.1em] text-accent">
+                                      E re
                                     </span>
                                   )}
                                   <span
                                     title={`Lead score: ${score.score}/100\n${score.reasons.join("\n")}`}
-                                    className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${LEAD_LABEL_STYLES[score.label]}`}
+                                    className={`rounded-full border px-2 py-0.5 text-[11.5px] font-bold ${LEAD_LABEL_STYLES[score.label]}`}
                                   >
                                     {LEAD_LABEL_TEXT[score.label]} · {score.score}
                                   </span>
                                   {c.value != null && (
-                                    <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                                    <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold text-accent">
                                       {formatMoney(Number(c.value))}
                                     </span>
                                   )}
                                   <span className="text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">{c.email}</span>
                                   {c.discount_code && (
-                                    <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
+                                    <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-accent">
                                       {c.discount_code}
                                     </span>
                                   )}
                                   {overdue && (
-                                    <span className="rounded-full border border-red-400/30 bg-red-400/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-red-400">
-                                      ⚠ Vonuar
+                                    <span className="rounded-full border border-red-400/30 bg-red-400/8 px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-red-400">
+                                      Vonuar
                                     </span>
                                   )}
                                   {(duplicateCounts.get(c.email.trim().toLowerCase()) ?? 1) > 1 && (
                                     <span
                                       title="Ky email ka shkruar më parë"
-                                      className="rounded-full border border-blue-400/30 bg-blue-400/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-blue-300"
+                                      className="rounded-full border border-blue-400/30 bg-blue-400/8 px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-blue-300"
                                     >
-                                      🔁 {duplicateCounts.get(c.email.trim().toLowerCase())}×
+                                      Ka shkruar {duplicateCounts.get(c.email.trim().toLowerCase())}×
                                     </span>
                                   )}
                                   {(c.tags ?? []).map((tag) => (
-                                    <span key={tag} className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] bg-[rgb(var(--a-text-rgb)/0.05)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.55)]">
+                                    <span key={tag} className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] bg-[rgb(var(--a-text-rgb)/0.05)] px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.55)]">
                                       {tag}
                                     </span>
                                   ))}
@@ -956,9 +956,9 @@ export default function ContactsTab({
                                 </p>
                                 {(c.assigned_to || c.follow_up_date) && (
                                   <p className="mt-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">
-                                    {c.assigned_to && <>👤 {c.assigned_to}</>}
+                                    {c.assigned_to && <>Caktuar: {c.assigned_to}</>}
                                     {c.assigned_to && c.follow_up_date && " · "}
-                                    {c.follow_up_date && <>📅 {formatDay(`${c.follow_up_date}T00:00:00`)}</>}
+                                    {c.follow_up_date && <>Kujtesë: {formatDay(`${c.follow_up_date}T00:00:00`)}</>}
                                   </p>
                                 )}
                               </div>
@@ -979,13 +979,13 @@ export default function ContactsTab({
                               {/* Quick actions */}
                               <div className="mt-4 flex flex-wrap gap-2">
                                 <a href={`tel:${c.phone}`} className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
-                                  📞 Telefono
+                                  Telefono
                                 </a>
                                 <a href={`mailto:${c.email}`} className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
-                                  ✉️ Email
+                                  Email
                                 </a>
                                 <a href={whatsappHref(c.phone)} target="_blank" rel="noreferrer" className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
-                                  💬 WhatsApp
+                                  WhatsApp
                                 </a>
                                 <button
                                   onClick={() => openReply(c)}
@@ -995,19 +995,19 @@ export default function ContactsTab({
                                       : "border-accent/40 text-accent hover:bg-accent/10"
                                   }`}
                                 >
-                                  📨 Përgjigju nga paneli
+                                  Përgjigju nga paneli
                                 </button>
                                 <button
                                   onClick={() => onCreateQuote(c)}
                                   className="rounded-full border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10"
                                 >
-                                  🧾 Krijo ofertë
+                                  Krijo ofertë
                                 </button>
                                 <button
                                   onClick={() => copyPortalLink(c)}
                                   className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                                 >
-                                  {copiedPortalId === c.id ? "U kopjua ✓" : "🔗 Portal klienti"}
+                                  {copiedPortalId === c.id ? "U kopjua ✓" : "Portal klienti"}
                                 </button>
                               </div>
 
@@ -1062,7 +1062,7 @@ export default function ContactsTab({
                                       </span>
                                     )}
                                   </div>
-                                  <p className="mt-2 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+                                  <p className="mt-2 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">
                                     Email-i dërgohet i brenduar nga info@illyrianpixel.com dhe ruhet automatikisht te shënimet.
                                   </p>
                                 </div>
@@ -1167,10 +1167,10 @@ export default function ContactsTab({
                                   <div className="mb-2 rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2">
                                     <p className="whitespace-pre-wrap text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{c.notes}</p>
                                     <div className="mt-1.5 flex items-center justify-between">
-                                      <span className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">Shënim i vjetër</span>
+                                      <span className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">Shënim i vjetër</span>
                                       <button
                                         onClick={() => deleteLegacyNote(c)}
-                                        className="font-ui text-[10px] font-semibold text-red-400/70 transition-colors hover:text-red-400"
+                                        className="font-ui text-[11.5px] font-semibold text-red-400/70 transition-colors hover:text-red-400"
                                       >
                                         Fshi
                                       </button>
@@ -1196,13 +1196,13 @@ export default function ContactsTab({
                                               <button
                                                 onClick={() => saveNoteEdit(c.id, n.id)}
                                                 disabled={noteBusy === n.id}
-                                                className="font-ui text-[10px] font-semibold text-accent transition-colors hover:text-accent/80 disabled:opacity-50"
+                                                className="font-ui text-[11.5px] font-semibold text-accent transition-colors hover:text-accent/80 disabled:opacity-50"
                                               >
                                                 {noteBusy === n.id ? "Duke ruajtur…" : "Ruaj"}
                                               </button>
                                               <button
                                                 onClick={() => setEditingNoteId(null)}
-                                                className="font-ui text-[10px] font-semibold text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[rgb(var(--a-text-rgb)/0.7)]"
+                                                className="font-ui text-[11.5px] font-semibold text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[rgb(var(--a-text-rgb)/0.7)]"
                                               >
                                                 Anulo
                                               </button>
@@ -1212,7 +1212,7 @@ export default function ContactsTab({
                                           <>
                                             <p className="whitespace-pre-wrap text-[12px] text-[rgb(var(--a-text-rgb)/0.7)]">{n.text}</p>
                                             <div className="mt-1.5 flex items-center justify-between gap-2">
-                                              <span className="text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">
+                                              <span className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.35)]">
                                                 {formatDate(n.created_at)}
                                                 {n.updated_at !== n.created_at ? " (ndryshuar)" : ""}
                                               </span>
@@ -1222,14 +1222,14 @@ export default function ContactsTab({
                                                     setEditingNoteId(n.id);
                                                     setEditNoteDraft((d) => ({ ...d, [n.id]: n.text }));
                                                   }}
-                                                  className="font-ui text-[10px] font-semibold text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[rgb(var(--a-text-rgb)/0.7)]"
+                                                  className="font-ui text-[11.5px] font-semibold text-[rgb(var(--a-text-rgb)/0.4)] transition-colors hover:text-[rgb(var(--a-text-rgb)/0.7)]"
                                                 >
                                                   Edito
                                                 </button>
                                                 <button
                                                   onClick={() => deleteNote(c.id, n.id)}
                                                   disabled={noteBusy === n.id}
-                                                  className="font-ui text-[10px] font-semibold text-red-400/70 transition-colors hover:text-red-400 disabled:opacity-50"
+                                                  className="font-ui text-[11.5px] font-semibold text-red-400/70 transition-colors hover:text-red-400 disabled:opacity-50"
                                                 >
                                                   Fshi
                                                 </button>
@@ -1441,7 +1441,7 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
       </div>
       <div className="grid grid-cols-7 gap-1.5">
         {WEEKDAY_LABELS.map((d) => (
-          <div key={d} className="text-center text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">
+          <div key={d} className="text-center text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">
             {d}
           </div>
         ))}
@@ -1467,7 +1467,7 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
                       key={c.id}
                       onClick={() => onSelectContact(c)}
                       title={`${c.name} · ${c.service}`}
-                      className={`block w-full truncate rounded-[10px] px-1.5 py-0.5 text-left text-[10px] transition-colors ${
+                      className={`block w-full truncate rounded-[10px] px-1.5 py-0.5 text-left text-[11.5px] transition-colors ${
                         overdue
                           ? "bg-red-400/10 text-red-400 hover:bg-red-400/20"
                           : "bg-accent/10 text-accent hover:bg-accent/20"
@@ -1478,7 +1478,7 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
                   );
                 })}
                 {items.length > 3 && (
-                  <p className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">+{items.length - 3} më shumë</p>
+                  <p className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">+{items.length - 3} më shumë</p>
                 )}
               </div>
             </div>

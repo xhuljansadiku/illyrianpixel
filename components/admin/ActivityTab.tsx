@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { CARD, INPUT, EmptyState, SkeletonRows, useDebounced, formatSq } from "@/components/admin/ui";
+import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
 type ActivityRow = {
   id: number;
@@ -11,22 +12,22 @@ type ActivityRow = {
   created_at: string;
 };
 
-const ENTITY_META: Record<string, { icon: string; label: string }> = {
-  blog: { icon: "📝", label: "Blog" },
-  quote: { icon: "🧾", label: "Oferta & Fatura" },
-  recurring: { icon: "🔁", label: "Të rikurrueshme" },
-  project: { icon: "📁", label: "Projekte" },
-  task: { icon: "☑️", label: "Detyra" },
-  faq: { icon: "❓", label: "FAQ" },
-  testimonial: { icon: "💬", label: "Testimoniale" },
-  portfolio: { icon: "🖼️", label: "Portofoli" },
-  pricing: { icon: "💶", label: "Çmime" },
-  contact: { icon: "📇", label: "Kontakte" },
-  newsletter: { icon: "✉️", label: "Newsletter" },
-  settings: { icon: "⚙️", label: "Cilësime" },
-  auto: { icon: "🤖", label: "Automatike" },
-  client: { icon: "👤", label: "Nga klientët" },
-  expense: { icon: "💸", label: "Shpenzime" },
+const ENTITY_META: Record<string, { icon: AdminIconName; label: string }> = {
+  blog: { icon: "pen", label: "Blog" },
+  quote: { icon: "receipt", label: "Oferta & fatura" },
+  recurring: { icon: "clock", label: "Të përsëritura" },
+  project: { icon: "folder", label: "Projekte" },
+  task: { icon: "check", label: "Detyra" },
+  faq: { icon: "note", label: "Pyetje (FAQ)" },
+  testimonial: { icon: "users", label: "Testimoniale" },
+  portfolio: { icon: "layers", label: "Portofoli" },
+  pricing: { icon: "wallet", label: "Çmime" },
+  contact: { icon: "inbox", label: "Kërkesa" },
+  newsletter: { icon: "mail", label: "Newsletter" },
+  settings: { icon: "settings", label: "Cilësime" },
+  auto: { icon: "zap", label: "Automatike" },
+  client: { icon: "users", label: "Nga klientët" },
+  expense: { icon: "wallet", label: "Shpenzime" },
 };
 
 function relativeTime(iso: string): string {
@@ -148,14 +149,15 @@ export default function ActivityTab() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="🔍 Kërko në histori…"
+          placeholder="Kërko në histori…"
           className={INPUT + " min-w-[220px]"}
         />
         <select value={entityFilter} onChange={(e) => setEntityFilter(e.target.value)} className={INPUT}>
           <option value="all">Të gjitha llojet</option>
           {usedEntities.map((e) => (
             <option key={e} value={e}>
-              {ENTITY_META[e].icon} {ENTITY_META[e].label}
+              <AdminIcon name={ENTITY_META[e].icon} className="mr-1.5 inline h-3.5 w-3.5 align-[-2px]" />
+              {ENTITY_META[e].label}
             </option>
           ))}
         </select>
@@ -210,8 +212,8 @@ export default function ActivityTab() {
               <ul className="divide-y divide-[var(--a-border)]">
                 {g.items.map((r) => (
                   <li key={r.id} className="flex items-start gap-3 px-5 py-3">
-                    <span className="mt-0.5 text-[15px]" title={ENTITY_META[r.entity]?.label ?? r.entity}>
-                      {ENTITY_META[r.entity]?.icon ?? "•"}
+                    <span className="mt-0.5 text-[rgb(var(--a-text-rgb)/0.55)]" title={ENTITY_META[r.entity]?.label ?? r.entity}>
+                      {ENTITY_META[r.entity] ? <AdminIcon name={ENTITY_META[r.entity].icon} className="h-4 w-4" /> : "•"}
                     </span>
                     <span className="min-w-0 flex-1 text-[13px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.75)]">
                       {r.label}

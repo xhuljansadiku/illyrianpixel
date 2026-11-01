@@ -579,7 +579,7 @@ export default function QuotesTab({
                       disabled={trashBusyId === tq.id}
                       className="font-ui rounded-[10px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
                     >
-                      ↩ Rikthe
+                      Rikthe
                     </button>
                     <button
                       onClick={() => permanentlyDeleteQuote(tq)}
@@ -651,7 +651,7 @@ export default function QuotesTab({
         </button>
         <input
           type="text"
-          placeholder="🔍 Kërko numër/klient/email…"
+          placeholder="Kërko numër/klient/email…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className={INPUT + " min-w-[180px]"}
@@ -673,7 +673,7 @@ export default function QuotesTab({
           onClick={() => downloadQuotesCSV(filtered)}
           className="font-ui rounded-[10px] border border-[var(--a-border)] px-4 py-2 text-[12px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
         >
-          ⬇ Eksporto CSV
+          Eksporto CSV
         </button>
       </div>
 
@@ -690,7 +690,7 @@ export default function QuotesTab({
               className={INPUT}
               title="Mbush artikujt dhe shënimet nga një shabllon i gatshëm"
             >
-              <option value="">⚡ Nga shablloni…</option>
+              <option value="">Nga shablloni…</option>
               {QUOTE_TEMPLATES.map((t) => (
                 <option key={t.id} value={t.id}>{t.label}</option>
               ))}
@@ -930,23 +930,23 @@ export default function QuotesTab({
                       aria-label="Zgjidh dokumentin"
                     />
                     <span className="font-display font-semibold text-[var(--a-text)]">{q.number}</span>
-                    <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.5)]">
+                    <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.5)]">
                       {QUOTE_KIND_LABELS[q.kind]}
                     </span>
-                    <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[q.status]}`}>
+                    <span className={`rounded-full border px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[q.status]}`}>
                       {QUOTE_STATUS_LABELS[q.status]}
                     </span>
                     {isOverdueInvoice && (
-                      <span className="rounded-full border border-red-400/35 bg-red-400/8 px-2 py-0.5 text-[10px] font-semibold text-red-400">
-                        🔴 Vonuar
+                      <span className="rounded-full border border-red-400/35 bg-red-400/8 px-2 py-0.5 text-[11.5px] font-semibold text-red-400">
+                        Vonuar
                       </span>
                     )}
                     {q.viewed_at && (
                       <span
                         title={`Klienti e ka hapur ${q.view_count ?? 1} herë`}
-                        className="rounded-full border border-accent/35 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent"
+                        className="rounded-full border border-accent/35 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold text-accent"
                       >
-                        👁 Parë{(q.view_count ?? 0) > 1 ? ` ${q.view_count}×` : ""} ·{" "}
+                        Parë{(q.view_count ?? 0) > 1 ? ` ${q.view_count}×` : ""} ·{" "}
                         {formatSq(q.viewed_at, "day-time")}
                       </span>
                     )}
@@ -975,13 +975,13 @@ export default function QuotesTab({
                 >
                   {clientResponse && (
                     <p className={`font-semibold ${clientResponse.accepted ? "text-emerald-400/90" : "text-red-400/80"}`}>
-                      {clientResponse.accepted ? "✓ Pranuar nga klienti" : "✖ Refuzuar nga klienti"} ·{" "}
+                      {clientResponse.accepted ? "✓ Pranuar nga klienti" : "Refuzuar nga klienti"} ·{" "}
                       {formatSq(clientResponse.at, "datetime")}
                     </p>
                   )}
                   {q.client_note && (
                     <p className={`italic text-[rgb(var(--a-text-rgb)/0.65)] ${clientResponse ? "mt-1" : ""}`}>
-                      {clientResponse && !clientResponse.accepted ? "Arsyeja: " : ""}💬 &quot;{q.client_note}&quot;
+                      {clientResponse && !clientResponse.accepted ? "Arsyeja: " : ""}&quot;{q.client_note}&quot;
                     </p>
                   )}
                 </div>
@@ -1004,7 +1004,7 @@ export default function QuotesTab({
                   rel="noreferrer"
                   className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                 >
-                  🖨 PDF
+                  PDF
                 </a>
                 <button
                   onClick={() => sendEmail(q)}
@@ -1012,7 +1012,7 @@ export default function QuotesTab({
                   title={q.client_email ? `Dërgo te ${q.client_email}` : "Klienti s'ka email"}
                   className="font-ui rounded-[10px] border border-accent/40 px-3 py-1.5 text-[11px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
                 >
-                  {busyId === q.id ? "…" : sentId === q.id ? "U dërgua ✓" : "✉️ Dërgo me email"}
+                  {busyId === q.id ? "…" : sentId === q.id ? "U dërgua ✓" : "Dërgo me email"}
                 </button>
                 {q.public_token && (
                   <button
@@ -1020,7 +1020,7 @@ export default function QuotesTab({
                     title="Kopjo lidhjen publike që klienti hap për ta parë e pranuar online"
                     className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
                   >
-                    {copiedId === q.id ? "U kopjua ✓" : "🔗 Lidhja publike"}
+                    {copiedId === q.id ? "U kopjua ✓" : "Lidhja publike"}
                   </button>
                 )}
                 <button

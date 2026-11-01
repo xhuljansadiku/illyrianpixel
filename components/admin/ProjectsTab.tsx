@@ -381,7 +381,7 @@ export default function ProjectsTab({
         </button>
         <input
           type="text"
-          placeholder="🔍 Kërko sipas emrit/klientit…"
+          placeholder="Kërko sipas emrit/klientit…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className={INPUT + " min-w-[180px]"}
@@ -574,11 +574,11 @@ export default function ProjectsTab({
                       aria-label="Zgjidh projektin"
                     />
                     <span className="font-display font-semibold text-[var(--a-text)]">{p.name}</span>
-                    <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[p.status]}`}>
+                    <span className={`rounded-full border px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[p.status]}`}>
                       {PROJECT_STATUS_LABELS[p.status]}
                     </span>
                     {(p.tags ?? []).map((tag) => (
-                      <span key={tag} className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold ${tagColor(tag)}`}>
+                      <span key={tag} className={`rounded-full border px-2 py-0.5 text-[11.5px] font-semibold ${tagColor(tag)}`}>
                         {tag}
                       </span>
                     ))}
@@ -587,7 +587,7 @@ export default function ProjectsTab({
                     {p.client_name ? `${p.client_name} · ` : ""}
                     {p.deadline ? (
                       <span className={isOverdueProject ? "font-semibold text-red-400" : undefined}>
-                        {isOverdueProject ? "🔴 " : ""}afati: {formatDay(p.deadline)}
+                        {isOverdueProject ? "" : ""}afati: {formatDay(p.deadline)}
                       </span>
                     ) : (
                       "pa afat"
@@ -620,7 +620,7 @@ export default function ProjectsTab({
                     onClick={() => updateProject(p, { phase: ph })}
                     disabled={busyId === p.id}
                     title={PROJECT_PHASE_LABELS[ph]}
-                    className={`font-ui rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] transition-colors disabled:opacity-50 ${
+                    className={`font-ui rounded-full px-3 py-1 text-[11.5px] font-semibold uppercase tracking-[0.08em] transition-colors disabled:opacity-50 ${
                       idx < phaseIdx
                         ? "border border-accent/25 bg-accent/5 text-accent/55"
                         : idx === phaseIdx
@@ -652,15 +652,15 @@ export default function ProjectsTab({
                     />
                     <span className={`flex-1 text-[12px] ${t.done ? "text-[rgb(var(--a-text-rgb)/0.3)] line-through" : "text-[rgb(var(--a-text-rgb)/0.75)]"}`}>
                       {t.title}
-                      {t.due_at ? <span className="ml-2 text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">({formatDay(t.due_at)})</span> : null}
+                      {t.due_at ? <span className="ml-2 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.35)]">({formatDay(t.due_at)})</span> : null}
                     </span>
                     {(t.time_spent_minutes ?? 0) > 0 && (
-                      <span className="text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">{formatMinutes(t.time_spent_minutes)}</span>
+                      <span className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.35)]">{formatMinutes(t.time_spent_minutes)}</span>
                     )}
                     <button
                       onClick={() => addTime(p, t.id, 15)}
                       title="Shto 15 minuta"
-                      className="text-[10px] text-[rgb(var(--a-text-rgb)/0.25)] opacity-0 transition-colors group-hover:opacity-100 hover:!text-accent"
+                      className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.25)] opacity-0 transition-colors group-hover:opacity-100 hover:!text-accent"
                     >
                       +15min
                     </button>
@@ -820,11 +820,11 @@ function KanbanCard({ project, busy }: { project: ProjectRecord; busy: boolean }
         {project.client_name || "—"}
         {project.tasks.length > 0 ? ` · ${doneTasks}/${project.tasks.length}` : ""}
       </p>
-      <span className={`mt-1.5 inline-block rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[project.status]}`}>
+      <span className={`mt-1.5 inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] ${STATUS_COLORS[project.status]}`}>
         {PROJECT_STATUS_LABELS[project.status]}
       </span>
       {(project.tags ?? []).map((tag) => (
-        <span key={tag} className={`ml-1 mt-1.5 inline-block rounded-full border px-2 py-0.5 text-[9px] font-semibold ${tagColor(tag)}`}>
+        <span key={tag} className={`ml-1 mt-1.5 inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold ${tagColor(tag)}`}>
           {tag}
         </span>
       ))}

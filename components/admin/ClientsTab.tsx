@@ -264,7 +264,7 @@ function ClientRowActions({
           className={BTN_PLAIN + " disabled:opacity-40"}
           title="Dërgo email me planet e mirëmbajtjes"
         >
-          {offerBusyKey === row.key ? "Duke dërguar…" : offerSentKeys.has(row.key) ? "Oferta u dërgua ✓" : "🛡 Mirëmbajtja"}
+          {offerBusyKey === row.key ? "Duke dërguar…" : offerSentKeys.has(row.key) ? "Oferta u dërgua ✓" : "Ofro mirëmbajtje"}
         </button>
       )}
       {row.manualId && (
@@ -583,14 +583,14 @@ export default function ClientsTab({
                   {row.business && <p className="mt-0.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</p>}
                 </div>
                 {row.recurringCount > 0 ? (
-                  <span className="shrink-0 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                  <span className="shrink-0 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold text-accent">
                     rekurrent
                   </span>
                 ) : (
                   (row.paidTotal > 0 || row.projects.length > 0) && (
                     <span
-                      className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90"
-                      title="Klient pa plan mirëmbajtjeje — mundësi upsell-i"
+                      className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-amber-400/90"
+                      title="Klient pa plan mirëmbajtjeje — mundësi për një plan mujor"
                     >
                       pa mirëmbajtje
                     </span>
@@ -614,7 +614,7 @@ export default function ClientsTab({
                   {row.projects.map((p) => (
                     <span
                       key={p.id}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[10.5px] text-[rgb(var(--a-text-rgb)/0.65)]"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.65)]"
                     >
                       <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[p.status]}`} />
                       {p.name} · {PROJECT_STATUS_LABELS[p.status]}
@@ -664,7 +664,7 @@ export default function ClientsTab({
         <div className={CARD + " hidden overflow-x-auto sm:block"}>
           <table className="w-full min-w-[920px] border-collapse text-[12px]">
             <thead>
-              <tr className="border-b border-[var(--a-border)] text-left text-[10px] uppercase tracking-[0.08em] text-[rgb(var(--a-text-rgb)/0.45)]">
+              <tr className="border-b border-[var(--a-border)] text-left text-[11.5px] uppercase tracking-[0.08em] text-[rgb(var(--a-text-rgb)/0.45)]">
                 <th className="px-4 py-3 font-medium">Klienti</th>
                 <th className="px-4 py-3 font-medium">Shërbimi</th>
                 <th className="px-4 py-3 font-medium">Klient që nga</th>
@@ -686,14 +686,14 @@ export default function ClientsTab({
                     </button>
                     {row.business && <p className="mt-0.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</p>}
                     {row.recurringCount > 0 ? (
-                      <span className="mt-1 inline-block rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                      <span className="mt-1 inline-block rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold text-accent">
                         rekurrent
                       </span>
                     ) : (
                       (row.paidTotal > 0 || row.projects.length > 0) && (
                         <span
-                          className="mt-1 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90"
-                          title="Klient pa plan mirëmbajtjeje — mundësi upsell-i"
+                          className="mt-1 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-amber-400/90"
+                          title="Klient pa plan mirëmbajtjeje — mundësi për një plan mujor"
                         >
                           pa mirëmbajtje
                         </span>
@@ -710,7 +710,7 @@ export default function ClientsTab({
                         {row.projects.map((p) => (
                           <span
                             key={p.id}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[10.5px] text-[rgb(var(--a-text-rgb)/0.65)]"
+                            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.65)]"
                           >
                             <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[p.status]}`} />
                             {p.name} · {PROJECT_STATUS_LABELS[p.status]}
@@ -727,7 +727,7 @@ export default function ClientsTab({
                       <p className="text-[11px] text-accent">{formatMoney(row.recurringMonthly)}/muaj</p>
                     )}
                     {row.pendingTotal > 0 && (
-                      <p className="text-[10.5px] text-[rgb(var(--a-text-rgb)/0.45)]">{formatMoney(row.pendingTotal)} në pritje</p>
+                      <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.45)]">{formatMoney(row.pendingTotal)} në pritje</p>
                     )}
                     {row.paidTotal === 0 && row.recurringMonthly === 0 && row.pendingTotal === 0 && (
                       <span className="text-[rgb(var(--a-text-rgb)/0.35)]">—</span>

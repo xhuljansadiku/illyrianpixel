@@ -107,7 +107,7 @@ export default function NotesTab() {
               <button onClick={() => setViewing(null)} className="shrink-0 text-[13px] opacity-60 hover:opacity-100 transition-opacity">✕</button>
             </div>
             <p className="mt-3 text-[13px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.8)] whitespace-pre-wrap">{viewing.content}</p>
-            <p className="mt-4 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+            <p className="mt-4 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">
               {formatSq(viewing.updated_at)}
             </p>
           </div>
@@ -160,18 +160,19 @@ export default function NotesTab() {
                 </div>
                 <button
                   onClick={() => togglePin(note)}
-                  title={note.pinned ? "Hiq pin" : "Pin"}
-                  className="shrink-0 text-[15px] opacity-60 hover:opacity-100 transition-opacity"
+                  title={note.pinned ? "Hiq nga lart" : "Mbaje lart"}
+                  aria-pressed={note.pinned}
+                  className={`shrink-0 rounded-md px-1.5 py-0.5 text-[12px] font-semibold transition-colors ${note.pinned ? "text-accent" : "text-[rgb(var(--a-text-rgb)/0.45)] hover:text-[var(--a-text)]"}`}
                 >
-                  {note.pinned ? "📌" : "📍"}
+                  {note.pinned ? "Lart ✓" : "Mbaje lart"}
                 </button>
               </div>
               <div className="flex gap-2 mt-auto pt-1">
-                <button onClick={() => setViewing(note)} className={BTN_PLAIN + " text-[10px] px-2 py-1"}>Shiko</button>
-                <button onClick={() => startEdit(note)} className={BTN_PLAIN + " text-[10px] px-2 py-1"}>Ndrysho</button>
-                <button onClick={() => handleDelete(note)} className={BTN_DANGER + " text-[10px] px-2 py-1"}>Fshi</button>
+                <button onClick={() => setViewing(note)} className={BTN_PLAIN + " text-[11.5px] px-2 py-1"}>Shiko</button>
+                <button onClick={() => startEdit(note)} className={BTN_PLAIN + " text-[11.5px] px-2 py-1"}>Ndrysho</button>
+                <button onClick={() => handleDelete(note)} className={BTN_DANGER + " text-[11.5px] px-2 py-1"}>Fshi</button>
               </div>
-              <p className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+              <p className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">
                 {formatSq(note.updated_at)}
               </p>
             </div>

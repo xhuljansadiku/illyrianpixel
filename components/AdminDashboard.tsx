@@ -680,7 +680,7 @@ export default function AdminDashboard({
           <>
             {globalResults.contactMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
                 {globalResults.contactMatches.map((c) => (
                   <button
                     key={c.id}
@@ -694,7 +694,7 @@ export default function AdminDashboard({
             )}
             {globalResults.subscriberMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
                 {globalResults.subscriberMatches.map((s) => (
                   <button
                     key={s.id}
@@ -708,7 +708,7 @@ export default function AdminDashboard({
             )}
             {globalResults.blogMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
                 {globalResults.blogMatches.map((p) => (
                   <button
                     key={p.slug}
@@ -725,7 +725,7 @@ export default function AdminDashboard({
             )}
             {globalResults.quoteMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
                 {globalResults.quoteMatches.map((doc) => (
                   <button
                     key={doc.id}
@@ -739,7 +739,7 @@ export default function AdminDashboard({
             )}
             {globalResults.projectMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
                 {globalResults.projectMatches.map((p) => (
                   <button
                     key={p.id}
@@ -753,7 +753,7 @@ export default function AdminDashboard({
             )}
             {globalResults.faqMatches.length > 0 && (
               <div className="py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
                 {globalResults.faqMatches.map((f) => (
                   <button
                     key={f.id}
@@ -781,7 +781,8 @@ export default function AdminDashboard({
               key={t.id}
               className="rounded-xl border border-accent/40 bg-[var(--a-card)] px-4 py-3 text-[12px] text-[var(--a-text)] shadow-xl backdrop-blur-[12px] animate-[fadeIn_0.2s_ease-out]"
             >
-              {t.id.startsWith("err-") ? "⚠️" : "🔔"} {t.text}
+              <span className={`mr-2 inline-block h-2 w-2 rounded-full ${t.id.startsWith("err-") ? "bg-red-400" : "bg-accent"}`} aria-hidden />
+              {t.text}
             </div>
           ))}
         </div>
@@ -861,7 +862,7 @@ export default function AdminDashboard({
             IP
           </div>
           <div className="relative min-w-0">
-            <p className="font-mono text-[8px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
             <p className="font-display text-[0.95rem] font-bold leading-tight text-[var(--a-text)]">Admin Panel</p>
           </div>
         </div>
@@ -907,7 +908,7 @@ export default function AdminDashboard({
             type="button"
             onClick={() => setPaletteOpen(true)}
             title="Hap command palette (Ctrl/⌘ + K)"
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-[6px] border border-[var(--a-border)] px-1.5 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-[6px] border border-[var(--a-border)] px-1.5 py-0.5 text-[11.5px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
           >
             ⌘K
           </button>
@@ -1015,8 +1016,7 @@ export default function AdminDashboard({
               <div className="mt-4 grid grid-cols-2 gap-4 md:mt-4 md:grid-cols-3 lg:grid-cols-5">
                 <StatCard label="Kontakte gjithsej" value={stats.totalContacts} featured />
                 <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
-                <StatCard label="Subscriber-a" value={stats.totalSubscribers} />
-                <StatCard label="Subscriber-a (javë)" value={stats.subscribersThisWeek} />
+                <StatCard label="Fituar (%)" value={Math.round(stats.conversionRate)} />
                 <StatCard label="Me kod zbritjeje" value={stats.discountUsed} />
               </div>
 
@@ -1142,7 +1142,7 @@ export default function AdminDashboard({
 function StatCard({ label, value, featured }: { label: string; value: number; featured?: boolean }) {
   return (
     <div className={CARD + (featured ? " border-accent/30 p-5" : " p-5")}>
-      <p className="font-ui text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[rgb(var(--a-text-rgb)/0.45)]">
+      <p className="font-ui text-[12px] font-semibold uppercase tracking-[0.14em] text-[rgb(var(--a-text-rgb)/0.45)]">
         {label}
       </p>
       <p
@@ -1259,7 +1259,7 @@ function SidebarNav({
                     >
                       <AdminIcon name={item.icon} className="h-[15px] w-[15px]" />
                       {!!item.alert && (
-                        <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-bold text-white ring-2 ring-[var(--a-card2)]">
+                        <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] font-bold text-white ring-2 ring-[var(--a-card2)]">
                           {item.alert > 9 ? "9+" : item.alert}
                         </span>
                       )}
@@ -1571,8 +1571,8 @@ export function OverviewTab({
                     style={{ height: `${Math.max(4, (m.count / maxLeadsInMonth) * 56)}px` }}
                     title={`${m.count} leads`}
                   />
-                  <span className="text-[10px] font-semibold text-[var(--a-text)]">{m.count}</span>
-                  <span className="text-[9px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</span>
+                  <span className="text-[11.5px] font-semibold text-[var(--a-text)]">{m.count}</span>
+                  <span className="text-[11px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</span>
                 </div>
               ))}
             </div>
@@ -1674,7 +1674,7 @@ export function OverviewTab({
                 {Array.from(projectsSummary.byPhase.entries()).map(([phase, count]) => (
                   <span
                     key={phase}
-                    className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent"
+                    className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-accent"
                   >
                     {PROJECT_PHASE_LABELS[phase as keyof typeof PROJECT_PHASE_LABELS] ?? phase} · {count}
                   </span>
@@ -1793,7 +1793,7 @@ function ContactsChart({ contacts }: { contacts: Contact[] }) {
               className="rounded-sm bg-gradient-to-t from-accent/40 to-accent/90 transition-colors group-hover:to-accent"
               style={{ height: `${Math.max(3, (count / max) * 96)}px` }}
             />
-            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[11.5px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
               {formatDay(date)}: {count}
             </div>
           </div>

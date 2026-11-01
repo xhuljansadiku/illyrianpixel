@@ -52,7 +52,7 @@ function SubscribersChart({ subscribers }: { subscribers: Subscriber[] }) {
               className="rounded-sm bg-accent/40 transition-colors group-hover:bg-accent"
               style={{ height: `${Math.max(3, (count / max) * 96)}px` }}
             />
-            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[11.5px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
               {formatDay(date)}: {count}
             </div>
           </div>
@@ -349,7 +349,7 @@ export default function SubscribersTab({
           <div className="overflow-x-auto">
             <table className="w-full text-left text-[12px]">
               <thead>
-                <tr className="text-[10px] uppercase tracking-[0.12em] text-[rgb(var(--a-text-rgb)/0.35)]">
+                <tr className="text-[11.5px] uppercase tracking-[0.12em] text-[rgb(var(--a-text-rgb)/0.35)]">
                   <th className="pb-2 pr-4 font-semibold">Subjekti</th>
                   <th className="pb-2 pr-4 font-semibold">Data</th>
                   <th className="pb-2 pr-4 text-right font-semibold">Dërguar</th>
@@ -369,7 +369,7 @@ export default function SubscribersTab({
                       <td className="max-w-[220px] truncate py-2.5 pr-4 text-[var(--a-text)]" title={b.subject}>
                         {b.subject}
                         {pending && (
-                          <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
+                          <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-accent">
                             Planifikuar
                           </span>
                         )}
@@ -388,7 +388,7 @@ export default function SubscribersTab({
               </tbody>
             </table>
           </div>
-          <p className="mt-3 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+          <p className="mt-3 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">
             Hapjet maten me tracking pixel (disa klientë email-i i bllokojnë), klikimet nga lidhjet e email-it. Numrat janë persona unikë.
           </p>
         </div>
@@ -420,7 +420,7 @@ export default function SubscribersTab({
           disabled={subscribers.length === 0}
           className="font-ui rounded-[10px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10 disabled:opacity-40"
         >
-          ⬇ Export CSV
+          Eksporto CSV
         </button>
       </div>
 
@@ -462,13 +462,13 @@ export default function SubscribersTab({
               />
               <span className="truncate text-[14px] text-[rgb(var(--a-text-rgb)/0.8)]" title={s.email}>{s.email}</span>
               {s.unsubscribed && (
-                <span className="shrink-0 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]">
+                <span className="shrink-0 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]">
                   Çregjistruar
                 </span>
               )}
               {!s.unsubscribed && !s.confirmed_at && (
                 <span
-                  className="shrink-0 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]"
+                  className="shrink-0 rounded-full border border-[rgb(var(--a-text-rgb)/0.15)] px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.4)]"
                   title="S'ka klikuar ende linkun e konfirmimit — nuk merr broadcast-e"
                 >
                   Pa konfirmuar

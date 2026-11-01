@@ -171,7 +171,7 @@ function TwoFactorCard() {
         </p>
         {enabled !== null && (
           <span
-            className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${
+            className={`rounded-full border px-2.5 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] ${
               enabled
                 ? "border-emerald-400/30 bg-emerald-400/8 text-emerald-300"
                 : "border-[rgb(var(--a-text-rgb)/0.2)] text-[rgb(var(--a-text-rgb)/0.45)]"
@@ -674,7 +674,7 @@ export default function SettingsTab({
               disabled={logins.length === 0}
               className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1 text-[11px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
             >
-              ⬇ CSV
+              CSV
             </button>
           </div>
         </div>
@@ -709,7 +709,7 @@ export default function SettingsTab({
           download
           className="font-ui inline-flex items-center gap-2 rounded-[10px] border border-accent/40 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-accent transition-colors hover:bg-accent/10"
         >
-          ⬇ Shkarko backup (JSON)
+          Shkarko backup (JSON)
         </a>
       </div>
     </div>
@@ -783,14 +783,14 @@ function EmailTemplatesEditor() {
               <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                 <p className="text-[12px] font-semibold text-[var(--a-text)]">{EMAIL_TEMPLATE_LABELS[key]}</p>
                 {EMAIL_TEMPLATE_PLACEHOLDERS[key].length > 0 && (
-                  <p className="text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">
+                  <p className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.35)]">
                     Placeholders: {EMAIL_TEMPLATE_PLACEHOLDERS[key].map((p) => (
                       <code key={p} className="ml-1 text-accent">{p}</code>
                     ))}
                   </p>
                 )}
               </div>
-              <label className="mb-1 block text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              <label className="mb-1 block text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
                 Subjekti
               </label>
               <input
@@ -801,7 +801,7 @@ function EmailTemplatesEditor() {
                 }
                 className="font-ui mb-3 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
-              <label className="mb-1 block text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              <label className="mb-1 block text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
                 Teksti
               </label>
               <textarea

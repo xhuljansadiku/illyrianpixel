@@ -115,7 +115,7 @@ export default function CommandPalette({
                 </span>
                 <span className="flex-1">{action.label}</span>
                 {action.hint && (
-                  <span className="text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">
+                  <span className="text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">
                     {action.hint}
                   </span>
                 )}
@@ -123,7 +123,7 @@ export default function CommandPalette({
             ))
           )}
         </div>
-        <div className="flex items-center gap-3 border-t border-[var(--a-border)] px-4 py-2 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">
+        <div className="flex items-center gap-3 border-t border-[var(--a-border)] px-4 py-2 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">
           <span>↑↓ lëviz</span>
           <span>↵ zgjedh</span>
           <span>esc mbyll</span>

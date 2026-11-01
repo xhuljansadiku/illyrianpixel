@@ -219,12 +219,12 @@ export default function FaqManager({
                   {f.question}
                   <span className="ml-2 inline-block align-middle"><EnBadge translated={Boolean(f.question_en && f.answer_en)} /></span>
                   {f.category && (
-                    <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent">
+                    <span className="ml-2 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-accent">
                       {f.category}
                     </span>
                   )}
                   {!f.visible && (
-                    <span className="ml-2 rounded-full border border-[rgb(var(--a-text-rgb)/0.2)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.45)]">
+                    <span className="ml-2 rounded-full border border-[rgb(var(--a-text-rgb)/0.2)] px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.45)]">
                       E fshehur
                     </span>
                   )}
@@ -244,7 +244,7 @@ export default function FaqManager({
             </div>
             <div className="mt-3 flex flex-wrap gap-2 border-t border-[var(--a-border)] pt-3">
               <button onClick={() => toggleVisible(f)} disabled={busyId === f.id} className={BTN_PLAIN}>
-                {f.visible ? "🙈 Fshih" : "👁 Shfaq"}
+                {f.visible ? "Fshih" : "Shfaq"}
               </button>
               <button onClick={() => startEdit(f)} className={BTN_PLAIN}>
                 Edito
