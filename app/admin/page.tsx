@@ -12,8 +12,45 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+// Supabase kthen maksimumi 1000 rreshta për kërkesë — për tabelat që statistikat
+// i lexojnë të plota (log-e, detyra, open/click) lexo faqe pas faqeje.
+async function fetchAllRows<T>(
+  build: (from: number, to: number) => PromiseLike<{ data: T[] | null }>
+): Promise<T[]> {
+  const PAGE = 1000;
+  const rows: T[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data } = await build(from, from + PAGE - 1);
+    rows.push(...(data ?? []));
+    if (!data || data.length < PAGE) return rows;
+  }
+}
+
+// Numërim direkt në DB (pa ngarkuar rreshtat) — statistikat s'priten më te 300 kontaktet e ngarkuara
+function countOf(table: string) {
+  return supabase.from(table).select("id", { count: "exact", head: true });
+}
+
 export default async function AdminPage() {
   const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const oneWeekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString();
+
+  const [
+    totalContactsRes,
+    contactsWeekRes,
+    doneContactsRes,
+    discountContactsRes,
+    activeSubscribersRes,
+    subscribersWeekRes,
+  ] = await Promise.all([
+    countOf("contacts").is("deleted_at", null),
+    countOf("contacts").is("deleted_at", null).gte("created_at", oneWeekAgoIso),
+    countOf("contacts").is("deleted_at", null).eq("status", "done"),
+    countOf("contacts").is("deleted_at", null).not("discount_code", "is", null),
+    // Vetëm abonentët aktivë — si te Analitika (më parë "Përmbledhje" numëronte edhe të çregjistruarit)
+    countOf("newsletter_subscribers").eq("unsubscribed", false),
+    countOf("newsletter_subscribers").eq("unsubscribed", false).gte("subscribed_at", oneWeekAgoIso),
+  ]);
 
   const [
     contactsRes,
@@ -51,11 +88,16 @@ export default async function AdminPage() {
       .from("blog_posts")
       .select("*")
       .order("created_at", { ascending: false }),
-    supabase
-      .from("contact_logs")
-      .select("*")
-      .eq("action", "status")
-      .order("created_at", { ascending: true }),
+    // Vetëm mbylljet — e vetmja gjë që duhet për "ditë mesatare deri në mbyllje"
+    fetchAllRows<{ contact_id: string; created_at: string }>((from, to) =>
+      supabase
+        .from("contact_logs")
+        .select("contact_id, created_at")
+        .eq("action", "status")
+        .eq("detail", "Mbyllur")
+        .order("created_at", { ascending: true })
+        .range(from, to)
+    ),
     supabase
       .from("admin_logins")
       .select("*")
@@ -98,11 +140,14 @@ export default async function AdminPage() {
       .select("*")
       .order("created_at", { ascending: false })
       .limit(100),
-    supabase
-      .from("project_tasks")
-      .select("*")
-      .order("sort", { ascending: true })
-      .order("id", { ascending: true }),
+    fetchAllRows<{ project_id: number } & Record<string, unknown>>((from, to) =>
+      supabase
+        .from("project_tasks")
+        .select("*")
+        .order("sort", { ascending: true })
+        .order("id", { ascending: true })
+        .range(from, to)
+    ),
     supabase
       .from("faqs")
       .select("*")
@@ -131,7 +176,7 @@ export default async function AdminPage() {
   const contacts = contactsRes.data ?? [];
   const subscribers = subscribersRes.data ?? [];
   const blogPosts = blogRes.data ?? [];
-  const contactLogs = contactLogsRes.data ?? [];
+  const contactLogs = contactLogsRes;
   const adminLogins = adminLoginsRes.data ?? [];
   const quotes = quotesRes.data ?? [];
   const testimonials = testimonialsRes.data ?? [];
@@ -143,7 +188,7 @@ export default async function AdminPage() {
   const trashedQuotes = trashedQuotesRes.data ?? [];
   const autoActivity = autoActivityRes.data ?? [];
 
-  const projectTasks = projectTasksRes.data ?? [];
+  const projectTasks = projectTasksRes;
   const projects = (projectsRes.data ?? []).map((p) => ({
     ...p,
     tasks: projectTasks.filter((t) => t.project_id === p.id),
@@ -165,13 +210,17 @@ export default async function AdminPage() {
   let broadcasts: { id: string; subject: string; created_at: string; sent_count: number; opens: number; clicks: number }[] = [];
   if (broadcastRows.length > 0) {
     const ids = broadcastRows.map((b) => b.id);
-    const { data: events } = await supabase
-      .from("newsletter_events")
-      .select("broadcast_id, email, type")
-      .in("broadcast_id", ids);
+    const events = await fetchAllRows<{ broadcast_id: string; email: string; type: string }>((from, to) =>
+      supabase
+        .from("newsletter_events")
+        .select("broadcast_id, email, type")
+        .in("broadcast_id", ids)
+        .order("id", { ascending: true })
+        .range(from, to)
+    );
     const opensMap = new Map<string, Set<string>>();
     const clicksMap = new Map<string, Set<string>>();
-    for (const e of events ?? []) {
+    for (const e of events) {
       const map = e.type === "open" ? opensMap : clicksMap;
       if (!map.has(e.broadcast_id)) map.set(e.broadcast_id, new Set());
       map.get(e.broadcast_id)!.add(e.email);
@@ -188,19 +237,19 @@ export default async function AdminPage() {
 
   const visitors30 = (pageViewsRes.data ?? []).reduce((sum, r) => sum + (r.count ?? 0), 0);
 
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-  const doneCount = contacts.filter((c) => c.status === "done").length;
+  // Mbyllja e parë për çdo kontakt (log-et vijnë sipas datës, në rritje)
+  const firstClose = new Map<string, string>();
+  for (const l of contactLogs) {
+    const key = String(l.contact_id);
+    if (!firstClose.has(key)) firstClose.set(key, l.created_at);
+  }
 
   const closeDurations: number[] = [];
   for (const c of contacts) {
     if (c.status !== "done") continue;
-    const closedLog = contactLogs.find(
-      (l) => String(l.contact_id) === String(c.id) && l.detail === "Mbyllur"
-    );
-    if (closedLog) {
-      const days = (new Date(closedLog.created_at).getTime() - new Date(c.created_at).getTime()) / 86400000;
+    const closedAt = firstClose.get(String(c.id));
+    if (closedAt) {
+      const days = (new Date(closedAt).getTime() - new Date(c.created_at).getTime()) / 86400000;
       if (days >= 0) closeDurations.push(days);
     }
   }
@@ -218,13 +267,14 @@ export default async function AdminPage() {
     .slice(0, 5)
     .map(([service, count]) => ({ service, count }));
 
+  const totalContacts = totalContactsRes.count ?? 0;
   const stats = {
-    totalContacts: contacts.length,
-    totalSubscribers: subscribers.length,
-    contactsThisWeek: contacts.filter((c) => new Date(c.created_at) >= oneWeekAgo).length,
-    subscribersThisWeek: subscribers.filter((s) => new Date(s.subscribed_at) >= oneWeekAgo).length,
-    discountUsed: contacts.filter((c) => !!c.discount_code).length,
-    conversionRate: contacts.length > 0 ? (doneCount / contacts.length) * 100 : 0,
+    totalContacts,
+    totalSubscribers: activeSubscribersRes.count ?? 0,
+    contactsThisWeek: contactsWeekRes.count ?? 0,
+    subscribersThisWeek: subscribersWeekRes.count ?? 0,
+    discountUsed: discountContactsRes.count ?? 0,
+    conversionRate: totalContacts > 0 ? ((doneContactsRes.count ?? 0) / totalContacts) * 100 : 0,
     avgDaysToClose,
     topServices,
   };

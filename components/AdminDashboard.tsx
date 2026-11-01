@@ -207,7 +207,7 @@ export default function AdminDashboard({
   subscribers: initialSubscribers,
   blogPosts: initialBlogPosts,
   staticPosts,
-  stats,
+  stats: serverStats,
   adminLogins,
   siteSettings,
   quotes: initialQuotes,
@@ -270,6 +270,17 @@ export default function AdminDashboard({
   const [toasts, setToasts] = useState<{ id: string; text: string }[]>([]);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const lastCheckRef = useRef(new Date().toISOString());
+  // Kontaktet që erdhën nga polling-u pas ngarkimit — që statistikat e serverit të mos ngecin
+  const [liveNewContacts, setLiveNewContacts] = useState(0);
+  const liveContactIdsRef = useRef(new Set<number>());
+  const stats = useMemo(
+    () => ({
+      ...serverStats,
+      totalContacts: serverStats.totalContacts + liveNewContacts,
+      contactsThisWeek: serverStats.contactsThisWeek + liveNewContacts,
+    }),
+    [serverStats, liveNewContacts]
+  );
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -314,7 +325,11 @@ export default function AdminDashboard({
           const newOnes: Contact[] = data.contacts;
           setContacts((prev) => {
             const existingIds = new Set(prev.map((c) => c.id));
-            return [...newOnes.filter((c) => !existingIds.has(c.id)), ...prev];
+            const fresh = newOnes.filter((c) => !existingIds.has(c.id));
+            // Set-i e bën të sigurt edhe nëse React e thërret këtë funksion dy herë
+            for (const c of fresh) liveContactIdsRef.current.add(c.id);
+            setLiveNewContacts(liveContactIdsRef.current.size);
+            return [...fresh, ...prev];
           });
           setToasts((t) => [
             ...t,
