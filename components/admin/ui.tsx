@@ -222,30 +222,53 @@ export function useDebounced<T>(value: T, delayMs = 300): T {
 export function useUndoToast(delayMs = 5000) {
   const [toast, setToast] = useState<{ message: string; onUndo: () => void } | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Veprimi që pret të kryhet. Më parë humbiste (dhe "i fshiri" rishfaqej pas rifreskimit)
+  // kur fshije diçka tjetër brenda 5 sekondave, ndërroje tab-in ose rifreskoje faqen.
+  const pendingCommitRef = useRef<(() => void) | null>(null);
+
+  const flush = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = null;
+    const commit = pendingCommitRef.current;
+    pendingCommitRef.current = null;
+    commit?.();
+  };
 
   const show = (message: string, onUndo: () => void, onCommit: () => void) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
+    // Një fshirje e re → kryej menjëherë të mëparshmen, mos e anulo
+    flush();
+    pendingCommitRef.current = onCommit;
     setToast({
       message,
       onUndo: () => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+        pendingCommitRef.current = null;
         setToast(null);
         onUndo();
       },
     });
     timeoutRef.current = setTimeout(() => {
       setToast(null);
-      onCommit();
+      flush();
     }, delayMs);
   };
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    // Rifreskim/mbyllje e faqes gjatë pritjes: kryej veprimin dhe kërko konfirmim nga
+    // shfletuesi, që kërkesa të ketë kohë të niset para se faqja të largohet.
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!pendingCommitRef.current) return;
+      flush();
+      e.preventDefault();
     };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      // Ndërrim tab-i (komponenti mbyllet) → kryej veprimin në pritje
+      flush();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderUndoToast = () => {
