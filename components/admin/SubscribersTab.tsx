@@ -265,7 +265,11 @@ export default function SubscribersTab({
             ...prev,
           ]);
         } else {
-          setBroadcastResult(`U dërgua te ${data.sent} subscriber-a.`);
+          setBroadcastResult(
+            data.failed
+              ? `U dërgua te ${data.sent} subscriber-a — ${data.failed} dështuan.`
+              : `U dërgua te ${data.sent} subscriber-a.`
+          );
         }
         setBroadcastSubject("");
         setBroadcastMessage("");

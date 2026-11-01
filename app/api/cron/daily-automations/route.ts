@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { isAuthorizedCron } from "@/lib/secureCompare";
 import { Resend } from "resend";
-import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
-import { unsubscribeHeaders } from "@/lib/newsletterTokens";
+import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { fetchBroadcastRecipients, sendBroadcast } from "@/lib/newsletterBroadcast";
 import { staleContactsEmailHtml } from "@/lib/newsletterEmail";
 import {
   quoteEmailHtml,
@@ -192,36 +192,27 @@ export async function GET(req: Request) {
     .limit(10);
 
   if (dueBroadcasts && dueBroadcasts.length > 0) {
-    const { data: subscribers } = await supabase
-      .from("newsletter_subscribers")
-      .select("email")
-      .eq("unsubscribed", false)
-      .not("confirmed_at", "is", null); // vetëm double opt-in të konfirmuar
-    const recipients = (subscribers ?? []).map((s) => s.email);
+    const recipients = await fetchBroadcastRecipients(supabase).catch(() => [] as string[]);
 
     if (recipients.length > 0) {
       const { whatsapp_number } = await getSiteSettings();
       const whatsappUrl = `https://wa.me/${whatsapp_number}`;
-      const BATCH_SIZE = 100;
 
       for (const b of dueBroadcasts) {
-        for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
-          const chunk = recipients.slice(i, i + BATCH_SIZE);
-          await resend.batch.send(
-            chunk.map((email) => ({
-              from: NEWSLETTER_BRAND.from,
-              to: email,
-              subject: b.subject,
-              html: broadcastEmailHtml(b.subject, b.message, whatsappUrl, { broadcastId: b.id, email }),
-              headers: unsubscribeHeaders(email),
-            }))
-          );
-        }
+        const result = await sendBroadcast({
+          subject: b.subject,
+          message: b.message,
+          whatsappUrl,
+          broadcastId: b.id,
+          recipients,
+        });
+        // Asnjë s'u dërgua (p.sh. Resend poshtë) — lëre pa sent_at që ta riprovojë cron-i nesër
+        if (result.sent === 0) continue;
         await supabase
           .from("newsletter_broadcasts")
-          .update({ sent_at: nowIso, sent_count: recipients.length })
+          .update({ sent_at: nowIso, sent_count: result.sent })
           .eq("id", b.id);
-        sentBroadcasts.push(b.subject);
+        sentBroadcasts.push(result.failed ? `${b.subject} (${result.failed} dështuan)` : b.subject);
       }
     }
   }
