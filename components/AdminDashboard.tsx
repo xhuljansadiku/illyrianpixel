@@ -24,6 +24,7 @@ import BlogTab from "@/components/admin/BlogTab";
 import SubscribersTab from "@/components/admin/SubscribersTab";
 import ContactsTab from "@/components/admin/ContactsTab";
 import BrandTab from "@/components/admin/BrandTab";
+import TodayTab from "@/components/admin/TodayTab";
 import { CARD, EmptyState, formatDate, formatDay, isOverdue, localIsoDate } from "@/components/admin/ui";
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
@@ -446,7 +447,7 @@ export default function AdminDashboard({
   }).length;
 
   const NAV_ITEMS: { id: typeof tab; icon: AdminIconName; label: string; count?: number; alert?: number }[] = [
-    { id: "overview", icon: "home", label: "Përmbledhje" },
+    { id: "overview", icon: "home", label: "Sot" },
     { id: "contacts", icon: "inbox", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
     { id: "quotes", icon: "receipt", label: "Oferta & Fatura", count: quotes.length },
     { id: "projects", icon: "folder", label: "Projektet", count: projectsList.length },
@@ -465,7 +466,7 @@ export default function AdminDashboard({
   ];
 
   const TAB_TITLES: Record<typeof tab, { title: string; subtitle: string }> = {
-    overview: { title: "Përmbledhje", subtitle: "Pamje e përgjithshme e aktivitetit" },
+    overview: { title: "Sot", subtitle: "Çfarë kërkon vëmendje dhe si po ecin paratë" },
     contacts: { title: "Kontaktet", subtitle: "Menaxho kontaktet dhe lead-et" },
     quotes: { title: "Oferta & Fatura", subtitle: "Krijo, dërgo dhe gjurmo oferta e fatura" },
     projects: { title: "Projektet", subtitle: "Ndiq fazat dhe detyrat e çdo projekti" },
@@ -966,18 +967,14 @@ export default function AdminDashboard({
           {/* Content */}
           <div className="mt-6">
             {tab === "overview" && (
-              <OverviewTab
+              <TodayTab
                 contacts={contacts}
-                subscribers={subscribers}
-                stats={stats}
-                adminLogins={adminLogins}
-                projects={projectsList}
                 quotes={quotes}
-                broadcasts={broadcasts}
-                onGoToContact={goToContact}
-                onGoToQuote={goToQuote}
-                onGoToProject={goToProject}
-                autoActivity={autoActivity}
+                projects={projectsList}
+                onOpenContact={goToContact}
+                onOpenQuote={goToQuote}
+                onOpenProject={goToProject}
+                onGoTo={setTab}
               />
             )}
             {tab === "contacts" && (
@@ -1041,7 +1038,7 @@ export default function AdminDashboard({
             )}
             {tab === "history" && <ActivityTab />}
             {tab === "assistant" && <AssistantTab />}
-            {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
+            {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} autoActivity={autoActivity} />}
             {tab === "notes" && <NotesTab />}
             {tab === "todos" && <TodosTab />}
             {tab === "brand" && <BrandTab />}
@@ -1145,7 +1142,9 @@ function SidebarNav({
 }
 
 // ── Overview tab ─────────────────────────────────────────────────────────────
-function OverviewTab({
+// Përmbledhja e vjetër — zëvendësuar nga "Sot" (components/admin/TodayTab.tsx, 2026-11-02).
+// Ruhet pa u përdorur (eksportuar që lint-i të mos ankohet) deri sa "Sot" të konfirmohet.
+export function OverviewTab({
   contacts,
   subscribers,
   stats,
