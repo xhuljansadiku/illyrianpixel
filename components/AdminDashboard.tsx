@@ -1233,12 +1233,13 @@ function OverviewTab({
     const ref = new Date();
     for (let i = 5; i >= 0; i--) {
       const d = new Date(ref.getFullYear(), ref.getMonth() - i, 1);
-      const key = d.toISOString().slice(0, 7);
+      // Jo toISOString(): mesnata lokale e ditës 1 është ende muaji i kaluar në UTC
+      const key = localIsoDate(d).slice(0, 7);
       months.push(key);
       counts.set(key, 0);
     }
     for (const c of contacts) {
-      const key = c.created_at.slice(0, 7);
+      const key = localIsoDate(new Date(c.created_at)).slice(0, 7);
       if (counts.has(key)) counts.set(key, (counts.get(key) ?? 0) + 1);
     }
     return months.map((key) => {
