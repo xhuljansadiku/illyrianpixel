@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm, formatSq } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm, formatSq, localIsoDate } from "@/components/admin/ui";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
 
 type Expense = {
@@ -37,7 +37,7 @@ const EMPTY_FORM: ExpenseForm = {
   description: "",
   category: EXPENSE_CATEGORIES[0],
   amount: "",
-  expense_date: new Date().toISOString().slice(0, 10),
+  expense_date: localIsoDate(),
   notes: "",
 };
 

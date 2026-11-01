@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, EmptyState, formatDate, formatDay, useConfirm, useDebounced, useUndoToast, formatSq } from "@/components/admin/ui";
+import { CARD, EmptyState, formatDate, formatDay, useConfirm, useDebounced, useUndoToast, formatSq, localIsoDate } from "@/components/admin/ui";
 import type { Subscriber, BroadcastStat } from "@/components/AdminDashboard";
 
 const PAGE_SIZE = 10;
@@ -13,7 +13,7 @@ function downloadCSV(rows: Subscriber[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `newsletter-subscribers-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.download = `newsletter-subscribers-${localIsoDate()}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -27,11 +27,11 @@ function SubscribersChart({ subscribers }: { subscribers: Subscriber[] }) {
     for (let i = 29; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      map.set(d.toISOString().slice(0, 10), 0);
+      map.set(localIsoDate(d), 0);
     }
 
     subscribers.forEach((s) => {
-      const key = new Date(s.subscribed_at).toISOString().slice(0, 10);
+      const key = localIsoDate(new Date(s.subscribed_at));
       if (map.has(key)) map.set(key, (map.get(key) ?? 0) + 1);
     });
 

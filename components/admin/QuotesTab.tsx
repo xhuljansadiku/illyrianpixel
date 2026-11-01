@@ -13,7 +13,7 @@ import {
 } from "@/lib/quotes";
 import RecurringInvoices from "@/components/admin/RecurringInvoices";
 import { QUOTE_TEMPLATES } from "@/lib/quoteTemplates";
-import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, useToasts, formatSq } from "@/components/admin/ui";
+import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, useToasts, formatSq, localIsoDate } from "@/components/admin/ui";
 
 const STATUS_COLORS: Record<QuoteRecord["status"], string> = {
   draft: "border-[rgb(var(--a-text-rgb)/0.2)] bg-[rgb(var(--a-text-rgb)/0.05)] text-[rgb(var(--a-text-rgb)/0.55)]",
@@ -54,7 +54,7 @@ const EMPTY_FORM: QuoteForm = {
   discount: "",
   tax_rate: "",
   notes: "",
-  issued_at: new Date().toISOString().slice(0, 10),
+  issued_at: localIsoDate(),
   due_at: "",
 };
 
@@ -98,7 +98,7 @@ function downloadQuotesCSV(rows: QuoteRecord[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `oferta-fatura-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.download = `oferta-fatura-${localIsoDate()}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -154,7 +154,7 @@ export default function QuotesTab({
   const debouncedSearch = useDebounced(search, 250);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(quotes.length >= 300);
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = localIsoDate();
 
   const loadMore = async () => {
     setLoadingMore(true);

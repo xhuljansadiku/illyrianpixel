@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CARD, EmptyState, formatDate } from "@/components/admin/ui";
+import { CARD, EmptyState, formatDate, localIsoDate } from "@/components/admin/ui";
 import {
   EMAIL_TEMPLATE_KEYS,
   EMAIL_TEMPLATE_LABELS,
@@ -28,7 +28,7 @@ function downloadLoginHistoryCSV(rows: AdminLogin[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `hyrjet-admin-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.download = `hyrjet-admin-${localIsoDate()}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }

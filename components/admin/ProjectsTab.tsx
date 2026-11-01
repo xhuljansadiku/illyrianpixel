@@ -14,7 +14,7 @@ import {
 } from "@/lib/projects";
 import type { QuoteContact } from "@/components/admin/QuotesTab";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
-import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, formatSq } from "@/components/admin/ui";
+import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, formatSq, localIsoDate } from "@/components/admin/ui";
 
 const STATUS_COLORS: Record<ProjectStatus, string> = {
   active: "border-blue-400/30 bg-blue-400/8 text-blue-300",
@@ -552,7 +552,7 @@ export default function ProjectsTab({
           const doneTasks = p.tasks.filter((t) => t.done).length;
           const progress = p.tasks.length > 0 ? Math.round((doneTasks / p.tasks.length) * 100) : 0;
           const phaseIdx = PROJECT_PHASES.indexOf(p.phase);
-          const isOverdueProject = p.status !== "done" && !!p.deadline && p.deadline < new Date().toISOString().slice(0, 10);
+          const isOverdueProject = p.status !== "done" && !!p.deadline && p.deadline < localIsoDate();
           return (
             <div key={p.id} className={CARD + " p-5"}>
               <div className="flex flex-wrap items-center justify-between gap-3">

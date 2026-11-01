@@ -24,7 +24,7 @@ import BlogTab from "@/components/admin/BlogTab";
 import SubscribersTab from "@/components/admin/SubscribersTab";
 import ContactsTab from "@/components/admin/ContactsTab";
 import BrandTab from "@/components/admin/BrandTab";
-import { CARD, EmptyState, formatDate, formatDay, isOverdue } from "@/components/admin/ui";
+import { CARD, EmptyState, formatDate, formatDay, isOverdue, localIsoDate } from "@/components/admin/ui";
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
 function SunIcon({ className }: { className?: string }) {
@@ -427,7 +427,7 @@ export default function AdminDashboard({
     router.refresh();
   };
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localIsoDate();
   const dueSoonCount = contacts.filter((c) => {
     if ((c.status || "new") === "done") return false;
     if (!c.follow_up_date) return false;
@@ -1097,7 +1097,7 @@ function OverviewTab({
   onGoToProject: (term: string) => void;
   autoActivity: AutoActivity[];
 }) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localIsoDate();
 
   const overdueFollowUps = useMemo(() => contacts.filter(isOverdue).length, [contacts]);
 
@@ -1116,7 +1116,7 @@ function OverviewTab({
   const upcomingDeadlines = useMemo(() => {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() + 3);
-    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const cutoffStr = localIsoDate(cutoff);
     return projects
       .filter((p) => p.status !== "done" && p.deadline && p.deadline <= cutoffStr)
       .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1));
@@ -1223,7 +1223,7 @@ function OverviewTab({
   const followUps = useMemo(() => {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() + 2);
-    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const cutoffStr = localIsoDate(cutoff);
     return contacts
       .filter((c) => (c.status || "new") !== "done" && c.follow_up_date && c.follow_up_date <= cutoffStr)
       .sort((a, b) => (a.follow_up_date! < b.follow_up_date! ? -1 : 1));
@@ -1551,11 +1551,11 @@ function ContactsChart({ contacts }: { contacts: Contact[] }) {
     for (let i = 29; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      map.set(d.toISOString().slice(0, 10), 0);
+      map.set(localIsoDate(d), 0);
     }
 
     contacts.forEach((c) => {
-      const key = new Date(c.created_at).toISOString().slice(0, 10);
+      const key = localIsoDate(new Date(c.created_at));
       if (map.has(key)) map.set(key, (map.get(key) ?? 0) + 1);
     });
 

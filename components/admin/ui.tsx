@@ -77,6 +77,13 @@ export function formatSq(value: string | Date, format: SqDateFormat = "date"): s
   }
 }
 
+// "YYYY-MM-DD" sipas orës lokale. Mos përdor toISOString().slice(0, 10): ai jep datën
+// UTC — në Shqipëri (UTC+1/+2) mesnata lokale bëhet dita e mëparshme, dhe "sot"
+// ndryshon vetëm në 01:00/02:00.
+export function localIsoDate(d: Date = new Date()): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 // Numra me ndarës mijëshesh shqip (1.234) — pa u varur nga ICU "sq-AL"
 export function formatNumberSq(n: number): string {
   return n.toLocaleString("de-DE");
