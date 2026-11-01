@@ -8,6 +8,7 @@ import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { quoteTotals, formatMoney, type QuoteRecord } from "@/lib/quotes";
 import { insertQuoteWithNumber } from "@/lib/quotesServer";
 import { DEFAULT_PROJECT_TASKS } from "@/lib/projects";
+import { advanceContactStatus } from "@/lib/contactStatusServer";
 import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
@@ -87,6 +88,11 @@ export async function POST(req: Request, props: { params: Promise<{ token: strin
       ? `Klienti ${quote.client_name} PRANOI ofertën ${quote.number}${note ? ` — "${note}"` : ""}`
       : `Klienti ${quote.client_name} refuzoi ofertën ${quote.number}${note ? ` — arsyeja: "${note}"` : ""}`
   );
+
+  // Ofertë e pranuar → kërkesa e lidhur bëhet "Fituar"
+  if (action === "accept") {
+    await advanceContactStatus(supabase, quote.contact_id, "done", ["new", "in-progress", "quoted"]);
+  }
 
   // Ofertë e pranuar → krijo projektin vetë me checklist-ën standarde (best-effort)
   if (action === "accept") {

@@ -59,6 +59,7 @@ export default async function AdminPage() {
     subscribersRes,
     blogRes,
     contactLogsRes,
+    lostReasonsRes,
     adminLoginsRes,
     siteSettings,
     quotesRes,
@@ -90,16 +91,24 @@ export default async function AdminPage() {
       .from("blog_posts")
       .select("*")
       .order("created_at", { ascending: false }),
-    // Vetëm mbylljet — e vetmja gjë që duhet për "ditë mesatare deri në mbyllje"
+    // Vetëm fitoret — e vetmja gjë që duhet për "ditë mesatare deri në mbyllje".
+    // "Mbyllur" = etiketa e vjetër (para 2026-11-02) e statusit "done", tani "Fituar".
     fetchAllRows<{ contact_id: string; created_at: string }>((from, to) =>
       supabase
         .from("contact_logs")
         .select("contact_id, created_at")
         .eq("action", "status")
-        .eq("detail", "Mbyllur")
+        .in("detail", ["Mbyllur", "Fituar", "Fituar (automatikisht)"])
         .order("created_at", { ascending: true })
         .range(from, to)
     ),
+    // Pse humbën kërkesat (90 ditët e fundit) — për "Rruga e klientit" te "Sot"
+    supabase
+      .from("contact_logs")
+      .select("detail")
+      .eq("action", "lost_reason")
+      .gte("created_at", new Date(Date.now() - 90 * 86400000).toISOString())
+      .limit(1000),
     supabase
       .from("admin_logins")
       .select("*")
@@ -179,6 +188,14 @@ export default async function AdminPage() {
   const subscribers = subscribersRes.data ?? [];
   const blogPosts = blogRes.data ?? [];
   const contactLogs = contactLogsRes;
+
+  const lostReasonCounts = new Map<string, number>();
+  for (const r of lostReasonsRes.data ?? []) {
+    if (r.detail) lostReasonCounts.set(r.detail, (lostReasonCounts.get(r.detail) ?? 0) + 1);
+  }
+  const lostReasons = Array.from(lostReasonCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(([reason, count]) => ({ reason, count }));
   const adminLogins = adminLoginsRes.data ?? [];
   const quotes = quotesRes.data ?? [];
   const testimonials = testimonialsRes.data ?? [];
@@ -304,6 +321,7 @@ export default async function AdminPage() {
       trashedQuotes={trashedQuotes}
       autoActivity={autoActivity}
       renderedAt={renderedAt}
+      lostReasons={lostReasons}
     />
   );
 }

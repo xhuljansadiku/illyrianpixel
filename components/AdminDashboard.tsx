@@ -25,6 +25,7 @@ import SubscribersTab from "@/components/admin/SubscribersTab";
 import ContactsTab from "@/components/admin/ContactsTab";
 import BrandTab from "@/components/admin/BrandTab";
 import TodayTab from "@/components/admin/TodayTab";
+import { isClosedContactStatus } from "@/lib/contactStatus";
 import { CARD, EmptyState, formatDate, formatDay, isOverdue, localIsoDate } from "@/components/admin/ui";
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
@@ -225,6 +226,7 @@ export default function AdminDashboard({
   trashedQuotes: initialTrashedQuotes,
   autoActivity,
   renderedAt,
+  lostReasons,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
@@ -247,6 +249,7 @@ export default function AdminDashboard({
   trashedQuotes: TrashedQuote[];
   autoActivity: AutoActivity[];
   renderedAt: string;
+  lostReasons: { reason: string; count: number }[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<AdminTab>("overview");
@@ -441,7 +444,7 @@ export default function AdminDashboard({
 
   const today = localIsoDate();
   const dueSoonCount = contacts.filter((c) => {
-    if ((c.status || "new") === "done") return false;
+    if (isClosedContactStatus(c.status)) return false;
     if (!c.follow_up_date) return false;
     return c.follow_up_date <= today;
   }).length;
@@ -1008,6 +1011,7 @@ export default function AdminDashboard({
           <div className="mt-6">
             {tab === "overview" && (
               <TodayTab
+                lostReasons={lostReasons}
                 contacts={contacts}
                 quotes={quotes}
                 projects={projectsList}
@@ -1387,7 +1391,7 @@ export function OverviewTab({
     cutoff.setDate(cutoff.getDate() + 2);
     const cutoffStr = localIsoDate(cutoff);
     return contacts
-      .filter((c) => (c.status || "new") !== "done" && c.follow_up_date && c.follow_up_date <= cutoffStr)
+      .filter((c) => !isClosedContactStatus(c.status) && c.follow_up_date && c.follow_up_date <= cutoffStr)
       .sort((a, b) => (a.follow_up_date! < b.follow_up_date! ? -1 : 1));
   }, [contacts]);
 

@@ -11,6 +11,7 @@ import {
   type DragEndEvent,
 } from "@dnd-kit/core";
 import { CARD, EmptyState, Skeleton, STATUS_LABELS, formatDate, formatDay, isOverdue, useConfirm, useDebounced, useUndoToast, formatSq, localIsoDate } from "@/components/admin/ui";
+import { CONTACT_STATUSES, CONTACT_STATUS_LABELS, LOST_REASONS, LOST_REASON_LABELS, type LostReason } from "@/lib/contactStatus";
 import { formatMoney } from "@/lib/quotes";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
@@ -47,13 +48,17 @@ const CONTACT_FILTERS_KEY = "ip_admin_contact_saved_filters";
 const STATUS_COLORS: Record<string, string> = {
   new: "border-blue-400/30 bg-blue-400/8 text-blue-300",
   "in-progress": "border-yellow-400/30 bg-yellow-400/8 text-yellow-300",
+  quoted: "border-violet-400/30 bg-violet-400/8 text-violet-300",
   done: "border-emerald-400/30 bg-emerald-400/8 text-emerald-300",
+  lost: "border-red-400/30 bg-red-400/8 text-red-300",
 };
 
-const STATUS_COLUMNS = ["new", "in-progress", "done"] as const;
+// Rruga e kërkesës: E re → Në bisedë → Ofertë e dërguar → Fituar / Humbur
+const STATUS_COLUMNS = CONTACT_STATUSES;
 
 const LOG_ACTION_LABELS: Record<string, (detail: string | null) => string> = {
   status: (d) => `Statusi u ndryshua → ${d}`,
+  lost_reason: (d) => `Arsyeja pse humbi: ${d ?? ""}`,
   assigned_to: (d) => (d ? `U caktua tek ${d}` : "U hoq caktimi"),
   follow_up_date: (d) => (d ? `Data e ndjekjes u vendos: ${formatDay(`${d}T00:00:00`)}` : "U hoq data e ndjekjes"),
   value: (d) => (d ? `Vlera u vendos: ${d}` : "U hoq vlera"),
@@ -207,6 +212,7 @@ export default function ContactsTab({
   const [addingNoteFor, setAddingNoteFor] = useState<number | null>(null);
   const [noteBusy, setNoteBusy] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<"kanban" | "calendar">("kanban");
+  const [lostPrompt, setLostPrompt] = useState<{ ids: number[]; bulk: boolean } | null>(null);
   const [confirm, renderConfirm] = useConfirm();
   const { showUndo, renderUndoToast } = useUndoToast();
   const debouncedSearch = useDebounced(search, 250);
@@ -421,7 +427,7 @@ export default function ContactsTab({
 
   const updateContact = async (
     id: number,
-    update: Partial<Pick<Contact, "status" | "notes" | "assigned_to" | "follow_up_date" | "tags">>
+    update: Partial<Pick<Contact, "status" | "notes" | "assigned_to" | "follow_up_date" | "tags">> & { lost_reason?: LostReason }
   ) => {
     setSavingId(id);
     setSaveError((e) => ({ ...e, [id]: "" }));
@@ -433,7 +439,9 @@ export default function ContactsTab({
       });
       const data = await res.json();
       if (data.success) {
-        setContacts(contacts.map((c) => (c.id === id ? { ...c, ...update } : c)));
+        const { lost_reason: _reason, ...fields } = update;
+        void _reason;
+        setContacts(contacts.map((c) => (c.id === id ? { ...c, ...fields } : c)));
         if (expanded === id) loadLogs(id);
       } else {
         setSaveError((e) => ({ ...e, [id]: data.error ?? "Gabim i panjohur." }));
@@ -555,15 +563,19 @@ export default function ContactsTab({
     });
   };
 
-  const bulkUpdateStatus = async (status: string) => {
+  const bulkUpdateStatus = async (status: string, lostReason?: LostReason) => {
     if (!status || selected.size === 0) return;
+    if (status === "lost" && !lostReason) {
+      setLostPrompt({ ids: Array.from(selected), bulk: true });
+      return;
+    }
     const ids = Array.from(selected);
     setBulkBusy(true);
     try {
       const res = await fetch("/api/admin/contacts/bulk", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids, status }),
+        body: JSON.stringify({ ids, status, lost_reason: lostReason }),
       });
       const data = await res.json();
       if (data.success) {
@@ -633,6 +645,23 @@ export default function ContactsTab({
     }
   };
 
+  // "Humbur" pyet gjithmonë pse — 1 klikim tani, të dhëna të vlefshme pas 3 muajsh
+  const changeStatus = (id: number, status: string) => {
+    if (status === "lost") {
+      setLostPrompt({ ids: [id], bulk: false });
+      return;
+    }
+    updateContact(id, { status });
+  };
+
+  const chooseLostReason = (reason: LostReason) => {
+    if (!lostPrompt) return;
+    const { ids, bulk } = lostPrompt;
+    setLostPrompt(null);
+    if (bulk) bulkUpdateStatus("lost", reason);
+    else updateContact(ids[0], { status: "lost", lost_reason: reason });
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -640,7 +669,7 @@ export default function ContactsTab({
     const id = Number(active.id);
     const contact = contacts.find((c) => c.id === id);
     if (!contact || (contact.status || "new") === newStatus) return;
-    updateContact(id, { status: newStatus });
+    changeStatus(id, newStatus);
   };
 
   return (
@@ -808,9 +837,11 @@ export default function ContactsTab({
             className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-1.5 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
           >
             <option value="" disabled>Ndrysho statusin...</option>
-            <option value="new">I ri</option>
-            <option value="in-progress">Në proces</option>
-            <option value="done">Mbyllur</option>
+            {CONTACT_STATUSES.map((st) => (
+              <option key={st} value={st}>
+                {CONTACT_STATUS_LABELS[st]}
+              </option>
+            ))}
           </select>
           <button
             onClick={bulkDelete}
@@ -832,7 +863,7 @@ export default function ContactsTab({
 
       {viewMode === "kanban" && (
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
           {STATUS_COLUMNS.map((col) => {
             const items = filtered.filter((c) => (c.status || "new") === col);
             const colValue = items.reduce((sum, c) => sum + (Number(c.value) || 0), 0);
@@ -1082,13 +1113,15 @@ export default function ContactsTab({
                                 <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Status</label>
                                 <select
                                   value={status}
-                                  onChange={(e) => updateContact(c.id, { status: e.target.value })}
+                                  onChange={(e) => changeStatus(c.id, e.target.value)}
                                   disabled={savingId === c.id}
                                   className="font-ui rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent disabled:opacity-50"
                                 >
-                                  <option value="new">I ri</option>
-                                  <option value="in-progress">Në proces</option>
-                                  <option value="done">Mbyllur</option>
+                                  {CONTACT_STATUSES.map((st) => (
+                                    <option key={st} value={st}>
+                                      {CONTACT_STATUS_LABELS[st]}
+                                    </option>
+                                  ))}
                                 </select>
                               </div>
 
@@ -1291,6 +1324,38 @@ export default function ContactsTab({
       )}
       {renderConfirm()}
       {renderUndoToast()}
+      {lostPrompt && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 p-4" onClick={() => setLostPrompt(null)}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lost-reason-title"
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.key === "Escape" && setLostPrompt(null)}
+            className={CARD + " w-full max-w-sm p-5"}
+          >
+            <h3 id="lost-reason-title" className="font-display text-[1.1rem] font-bold text-[var(--a-text)]">
+              Pse humbi{lostPrompt.ids.length > 1 ? ` (${lostPrompt.ids.length} kërkesa)` : ""}?
+            </h3>
+            <p className="mt-1 text-[13px] text-[rgb(var(--a-text-rgb)/0.55)]">Pas disa muajsh, këtu do shohësh çfarë t&apos;i largon klientët.</p>
+            <div className="mt-4 grid gap-2">
+              {LOST_REASONS.map((r, i) => (
+                <button
+                  key={r}
+                  autoFocus={i === 0}
+                  onClick={() => chooseLostReason(r)}
+                  className="font-ui rounded-xl border border-[var(--a-border)] px-4 py-2.5 text-left text-[14px] text-[var(--a-text)] transition-colors hover:border-accent/50 hover:bg-[rgb(var(--a-text-rgb)/0.04)]"
+                >
+                  {LOST_REASON_LABELS[r]}
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setLostPrompt(null)} className="font-ui mt-3 w-full rounded-xl px-4 py-2 text-[13px] text-[rgb(var(--a-text-rgb)/0.55)] hover:text-[var(--a-text)]">
+              Anulo
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

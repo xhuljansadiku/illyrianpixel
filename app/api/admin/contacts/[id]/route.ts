@@ -1,18 +1,13 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { logActivity } from "@/lib/activityLog";
+import { CONTACT_STATUS_LABELS, LOST_REASON_LABELS, isContactStatus, isLostReason } from "@/lib/contactStatus";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const ALLOWED_STATUS = ["new", "in-progress", "done"];
-const STATUS_LABELS: Record<string, string> = {
-  new: "I ri",
-  "in-progress": "Në proces",
-  done: "Mbyllur",
-};
 
 export async function PATCH(req: Request, props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -22,11 +17,17 @@ export async function PATCH(req: Request, props: { params: Promise<{ id: string 
   const logs: { contact_id: string; action: string; detail: string | null }[] = [];
 
   if (typeof body.status === "string") {
-    if (!ALLOWED_STATUS.includes(body.status)) {
+    const status: unknown = body.status;
+    if (!isContactStatus(status)) {
       return NextResponse.json({ success: false, error: "Status i pavlefshëm." }, { status: 400 });
     }
-    update.status = body.status;
-    logs.push({ contact_id: params.id, action: "status", detail: STATUS_LABELS[body.status] });
+    update.status = status;
+    logs.push({ contact_id: params.id, action: "status", detail: CONTACT_STATUS_LABELS[status] });
+    // "Humbur" ruan edhe arsyen — për të mësuar pse humbasin klientët
+    const reason: unknown = body.lost_reason;
+    if (status === "lost" && isLostReason(reason)) {
+      logs.push({ contact_id: params.id, action: "lost_reason", detail: LOST_REASON_LABELS[reason] });
+    }
   }
 
   if (body.viewed === true) {
@@ -86,7 +87,7 @@ export async function PATCH(req: Request, props: { params: Promise<{ id: string 
 
   const contactName = data?.[0]?.name ?? "kontakti";
   if (typeof body.status === "string") {
-    await logActivity("contact", "update", `Kontakti ${contactName} kaloi në "${STATUS_LABELS[body.status]}"`);
+    await logActivity("contact", "update", `Kontakti ${contactName} kaloi në "${CONTACT_STATUS_LABELS[body.status as keyof typeof CONTACT_STATUS_LABELS]}"`);
   } else if (body.restore === true) {
     await logActivity("contact", "update", `U rikthye kontakti ${contactName} nga koshi`);
   } else if (typeof body.follow_up_date === "string" && body.follow_up_date) {

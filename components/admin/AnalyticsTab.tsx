@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CARD, EmptyState, STATUS_LABELS, formatDate, formatSq, formatNumberSq } from "@/components/admin/ui";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
 import type { Contact, Stats } from "@/components/AdminDashboard";
+import { isClosedContactStatus } from "@/lib/contactStatus";
 
 function printMonthlyReport(contacts: Contact[], stats: Stats) {
   const now = new Date();
@@ -114,15 +115,15 @@ export default function AnalyticsTab({
     const wonR = contactsR.filter((c) => (c.status || "new") === "done");
     return [
       { label: "Vizitorë", value: visitors30 },
-      { label: "Kontakte", value: contactsR.length },
+      { label: "Kërkesa", value: contactsR.length },
       { label: "Oferta të dërguara", value: quotesR.length },
-      { label: "Fituar (mbyllur)", value: wonR.length },
+      { label: "Fituar", value: wonR.length },
     ];
   }, [contacts, quotes, visitors30, cutoff, until]);
 
   const pipeline = useMemo(() => {
     const open = contacts
-      .filter((c) => (c.status || "new") !== "done")
+      .filter((c) => !isClosedContactStatus(c.status))
       .reduce((sum, c) => sum + (Number(c.value) || 0), 0);
     const won = contacts
       .filter((c) => (c.status || "new") === "done")

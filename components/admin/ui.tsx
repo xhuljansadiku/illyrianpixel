@@ -2,6 +2,7 @@
 
 import { forwardRef, useEffect, useRef, useState, type ReactNode } from "react";
 import { dateParts } from "@/lib/dateSq";
+import { CONTACT_STATUS_LABELS, isClosedContactStatus } from "@/lib/contactStatus";
 
 // Ndihmësit e datave jetojnë te lib/dateSq (të përbashkët me faqet publike dhe email-et)
 export { dateParts, formatSq, formatNumberSq, localIsoDate } from "@/lib/dateSq";
@@ -18,16 +19,15 @@ export function formatDay(iso: string) {
 
 export function isOverdue(c: { follow_up_date: string | null; status: string | null }) {
   if (!c.follow_up_date) return false;
-  if ((c.status || "new") === "done") return false;
+  if (isClosedContactStatus(c.status)) return false;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return new Date(`${c.follow_up_date}T00:00:00`) < today;
 }
 
+// Statuset e kërkesave vijnë nga lib/contactStatus (burimi i vetëm)
 export const STATUS_LABELS: Record<string, string> = {
-  new: "I ri",
-  "in-progress": "Në proces",
-  done: "Mbyllur",
+  ...CONTACT_STATUS_LABELS,
 };
 
 export const CARD =

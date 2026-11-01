@@ -12,6 +12,7 @@ import { quoteTotals, formatMoney } from "@/lib/quotes";
 import type { ProjectRecord } from "@/lib/projects";
 import { CARD, formatSq, localIsoDate } from "@/components/admin/ui";
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
+import { isClosedContactStatus } from "@/lib/contactStatus";
 
 type Tone = "red" | "yellow" | "green";
 
@@ -63,6 +64,7 @@ function monthKey(iso: string) {
 }
 
 export default function TodayTab({
+  lostReasons = [],
   contacts,
   quotes,
   projects,
@@ -71,6 +73,7 @@ export default function TodayTab({
   onOpenProject,
   onGoTo,
 }: {
+  lostReasons?: { reason: string; count: number }[];
   contacts: Contact[];
   quotes: QuoteRecord[];
   projects: ProjectRecord[];
@@ -91,7 +94,7 @@ export default function TodayTab({
 
     for (const c of contacts) {
       const status = c.status || "new";
-      if (status === "done") continue;
+      if (isClosedContactStatus(status)) continue;
 
       // Kërkesë e re që s'është hapur ende — përgjigja e shpejtë fiton klientin
       if (status === "new" && !c.viewed_at) {
@@ -259,7 +262,9 @@ export default function TodayTab({
     const leads = contacts.filter((c) => recent(c.created_at)).length;
     const offers = quotes.filter((q) => q.kind === "quote" && q.status !== "draft" && recent(q.created_at));
     const won = offers.filter((q) => q.status === "accepted" || q.status === "paid").length;
-    const lost = offers.filter((q) => q.status === "rejected").length;
+    // Humbur = oferta të refuzuara + kërkesa të shënuara "Humbur" (edhe pa ofertë)
+    const lostLeads = contacts.filter((c) => c.status === "lost" && recent(c.created_at)).length;
+    const lost = Math.max(offers.filter((q) => q.status === "rejected").length, lostLeads);
     const paid = quotes.filter((q) => q.kind === "invoice" && q.status === "paid" && recent(q.updated_at)).length;
     return { leads, offers: offers.length, won, lost, paid };
   }, [contacts, quotes]);
@@ -415,9 +420,11 @@ export default function TodayTab({
           </ol>
           <p className="mt-2 text-[12.5px] text-[rgb(var(--a-text-rgb)/0.5)]">
             {path.lost > 0
-              ? `${path.lost} ofert${path.lost === 1 ? "ë" : "a"} u refuzu${path.lost === 1 ? "a" : "an"}.`
+              ? `Humbur: ${path.lost}${
+                  lostReasons.length > 0 ? ` — ${lostReasons.map((r) => `${r.reason.toLowerCase()} (${r.count})`).join(", ")}` : ""
+                }.`
               : path.offers > 0
-                ? "Asnjë ofertë e refuzuar."
+                ? "Asnjë ofertë e humbur."
                 : "Kur të dërgosh oferta, këtu shfaqet sa prej tyre bëhen klientë."}
           </p>
         </section>

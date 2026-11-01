@@ -5,6 +5,7 @@ import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { quoteEmailHtml } from "@/lib/adminEmails";
 import { QUOTE_KIND_LABELS, type QuoteRecord } from "@/lib/quotes";
 import { logActivity } from "@/lib/activityLog";
+import { advanceContactStatus } from "@/lib/contactStatusServer";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -48,6 +49,11 @@ export async function POST(_req: Request, props: { params: Promise<{ id: string 
       .from("quotes")
       .update({ status: "sent", updated_at: new Date().toISOString() })
       .eq("id", params.id);
+  }
+
+  // Kërkesa e lidhur kalon vetë te "Ofertë e dërguar" (vetëm ofertat, jo faturat)
+  if (record.kind === "quote") {
+    await advanceContactStatus(supabase, record.contact_id, "quoted", ["new", "in-progress"]);
   }
 
   await logActivity("quote", "send", `${record.number} iu dërgua me email ${quote.client_email}`);
