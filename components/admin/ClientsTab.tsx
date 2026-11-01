@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm, formatSq } from "@/components/admin/ui";
 import type { Contact } from "@/components/AdminDashboard";
 import { PROJECT_STATUS_LABELS, type ProjectRecord } from "@/lib/projects";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
@@ -219,7 +219,7 @@ const EMPTY_CLIENT_FORM: ClientForm = {
 
 function formatMonth(iso: string) {
   if (!iso) return "—";
-  const label = new Date(iso).toLocaleDateString("sq-AL", { month: "long", year: "numeric" });
+  const label = formatSq(iso, "month-year");
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 

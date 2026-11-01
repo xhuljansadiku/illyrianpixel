@@ -20,6 +20,68 @@ export function formatDay(iso: string) {
   return `${get("day")}/${get("month")}`;
 }
 
+// Emrat shqip statikë — Chrome s'ka të dhëna ICU për "sq-AL", kështu që
+// toLocaleDateString("sq-AL") nxirrte muaj në anglisht dhe datat në rendin muaj/ditë.
+const SQ_MONTHS = ["janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor"];
+const SQ_MONTHS_SHORT = ["Jan", "Shk", "Mar", "Pri", "Maj", "Qer", "Kor", "Gsh", "Sht", "Tet", "Nën", "Dhj"];
+const SQ_WEEKDAYS = ["e diel", "e hënë", "e martë", "e mërkurë", "e enjte", "e premte", "e shtunë"];
+
+type SqDateFormat = "date" | "datetime" | "day-time" | "month-year" | "month-short" | "weekday-date";
+
+// Datë shqip për çdo shfletues. Pranon:
+//  - timestamp ISO ("2026-11-01T09:30:00Z") → ora sipas Europe/Tirane
+//  - datë e thjeshtë ("2026-11-01") → ajo ditë, pa zhvendosje nga zona kohore
+//  - Date lokal (p.sh. new Date(y, m, 1) për grafikët) → sipas orës lokale
+export function formatSq(value: string | Date, format: SqDateFormat = "date"): string {
+  let p: { y: number; mo: number; d: number; h: number; mi: number; wd: number };
+  if (value instanceof Date) {
+    p = { y: value.getFullYear(), mo: value.getMonth(), d: value.getDate(), h: value.getHours(), mi: value.getMinutes(), wd: value.getDay() };
+  } else if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [y, mo, d] = value.split("-").map(Number);
+    p = { y, mo: mo - 1, d, h: 0, mi: 0, wd: new Date(Date.UTC(y, mo - 1, d)).getUTCDay() };
+  } else {
+    const get = dateParts(value, {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+      weekday: "short",
+    });
+    p = {
+      y: Number(get("year")),
+      mo: Number(get("month")) - 1,
+      d: Number(get("day")),
+      h: Number(get("hour")),
+      mi: Number(get("minute")),
+      wd: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday")),
+    };
+  }
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const date = `${pad(p.d)}.${pad(p.mo + 1)}.${p.y}`;
+  const time = `${pad(p.h)}:${pad(p.mi)}`;
+  switch (format) {
+    case "datetime":
+      return `${date}, ${time}`;
+    case "day-time":
+      return `${pad(p.d)}.${pad(p.mo + 1)}, ${time}`;
+    case "month-year":
+      return `${SQ_MONTHS[p.mo]} ${p.y}`;
+    case "month-short":
+      return SQ_MONTHS_SHORT[p.mo];
+    case "weekday-date":
+      return `${SQ_WEEKDAYS[p.wd]}, ${p.d} ${SQ_MONTHS[p.mo]} ${p.y}`;
+    default:
+      return date;
+  }
+}
+
+// Numra me ndarës mijëshesh shqip (1.234) — pa u varur nga ICU "sq-AL"
+export function formatNumberSq(n: number): string {
+  return n.toLocaleString("de-DE");
+}
+
 export function isOverdue(c: { follow_up_date: string | null; status: string | null }) {
   if (!c.follow_up_date) return false;
   if ((c.status || "new") === "done") return false;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, EmptyState, formatDate, formatDay, useConfirm, useDebounced, useUndoToast } from "@/components/admin/ui";
+import { CARD, EmptyState, formatDate, formatDay, useConfirm, useDebounced, useUndoToast, formatSq } from "@/components/admin/ui";
 import type { Subscriber, BroadcastStat } from "@/components/AdminDashboard";
 
 const PAGE_SIZE = 10;
@@ -233,7 +233,7 @@ export default function SubscribersTab({
     if (
       !(await confirm({
         message: willSchedule
-          ? `Të planifikohet ky email për ${new Date(broadcastScheduled).toLocaleString("sq-AL")}?`
+          ? `Të planifikohet ky email për ${formatSq(new Date(broadcastScheduled), "datetime")}?`
           : `Të dërgohet ky email te ${activeCount} subscriber-a aktivë?`,
         confirmText: willSchedule ? "Planifiko" : "Dërgo",
       }))
@@ -250,7 +250,7 @@ export default function SubscribersTab({
       const data = await res.json();
       if (data.success) {
         if (data.scheduled) {
-          setBroadcastResult(`U planifikua për ${new Date(broadcastScheduled).toLocaleString("sq-AL")}.`);
+          setBroadcastResult(`U planifikua për ${formatSq(new Date(broadcastScheduled), "datetime")}.`);
           setScheduledBroadcasts((prev) => [
             {
               id: `pending-${Date.now()}`,

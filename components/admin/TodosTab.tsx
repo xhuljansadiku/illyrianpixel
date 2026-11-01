@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useToasts, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useToasts, useConfirm, formatSq } from "@/components/admin/ui";
 
 type Todo = {
   id: number;
@@ -105,7 +105,7 @@ export default function TodosTab() {
               ? "text-red-400"
               : "text-[rgb(var(--a-text-rgb)/0.4)]"
           )}>
-            {new Date(todo.done ? todo.due_at : todo.due_at).toLocaleDateString("sq-AL")}
+            {formatSq(todo.due_at)}
             {!todo.done && new Date(todo.due_at) < new Date() ? " — e vonuar" : ""}
           </p>
         )}

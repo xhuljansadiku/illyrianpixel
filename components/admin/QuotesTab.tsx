@@ -13,7 +13,7 @@ import {
 } from "@/lib/quotes";
 import RecurringInvoices from "@/components/admin/RecurringInvoices";
 import { QUOTE_TEMPLATES } from "@/lib/quoteTemplates";
-import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, useToasts } from "@/components/admin/ui";
+import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, useToasts, formatSq } from "@/components/admin/ui";
 
 const STATUS_COLORS: Record<QuoteRecord["status"], string> = {
   draft: "border-[rgb(var(--a-text-rgb)/0.2)] bg-[rgb(var(--a-text-rgb)/0.05)] text-[rgb(var(--a-text-rgb)/0.55)]",
@@ -59,7 +59,7 @@ const EMPTY_FORM: QuoteForm = {
 };
 
 function formatDay(iso: string) {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return formatSq(iso);
 }
 
 function formItemsToQuoteItems(items: QuoteForm["items"]): QuoteItem[] {
@@ -536,7 +536,7 @@ export default function QuotesTab({
                 <div key={tq.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-[var(--a-border)] px-3 py-2.5">
                   <div>
                     <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{tq.number} <span className="text-[rgb(var(--a-text-rgb)/0.4)]">— {tq.client_name}</span></p>
-                    <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">fshirë më {new Date(tq.deleted_at).toLocaleDateString("sq-AL")}</p>
+                    <p className="text-[11px] text-[rgb(var(--a-text-rgb)/0.4)]">fshirë më {formatSq(tq.deleted_at)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -877,7 +877,7 @@ export default function QuotesTab({
                         className="rounded-full border border-accent/35 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent"
                       >
                         👁 Parë{(q.view_count ?? 0) > 1 ? ` ${q.view_count}×` : ""} ·{" "}
-                        {new Date(q.viewed_at).toLocaleString("sq-AL", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                        {formatSq(q.viewed_at, "day-time")}
                       </span>
                     )}
                   </div>
@@ -906,13 +906,7 @@ export default function QuotesTab({
                   {clientResponse && (
                     <p className={`font-semibold ${clientResponse.accepted ? "text-emerald-400/90" : "text-red-400/80"}`}>
                       {clientResponse.accepted ? "✓ Pranuar nga klienti" : "✖ Refuzuar nga klienti"} ·{" "}
-                      {new Date(clientResponse.at).toLocaleString("sq-AL", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {formatSq(clientResponse.at, "datetime")}
                     </p>
                   )}
                   {q.client_note && (

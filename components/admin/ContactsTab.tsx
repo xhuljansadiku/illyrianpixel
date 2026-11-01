@@ -10,7 +10,7 @@ import {
   useSensors,
   type DragEndEvent,
 } from "@dnd-kit/core";
-import { CARD, EmptyState, Skeleton, STATUS_LABELS, formatDate, formatDay, isOverdue, useConfirm, useDebounced, useUndoToast } from "@/components/admin/ui";
+import { CARD, EmptyState, Skeleton, STATUS_LABELS, formatDate, formatDay, isOverdue, useConfirm, useDebounced, useUndoToast, formatSq } from "@/components/admin/ui";
 import { formatMoney } from "@/lib/quotes";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
@@ -1333,7 +1333,7 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
     for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
 
     return {
-      label: base.toLocaleDateString("sq-AL", { month: "long", year: "numeric" }),
+      label: formatSq(base, "month-year"),
       weeks,
       todayStr: new Date().toISOString().slice(0, 10),
     };

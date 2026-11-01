@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, INPUT, EmptyState, SkeletonRows, useDebounced } from "@/components/admin/ui";
+import { CARD, INPUT, EmptyState, SkeletonRows, useDebounced, formatSq } from "@/components/admin/ui";
 
 type ActivityRow = {
   id: number;
@@ -38,7 +38,7 @@ function relativeTime(iso: string): string {
   if (hours < 24) return `para ${hours} or${hours === 1 ? "e" : "ësh"}`;
   const days = Math.floor(hours / 24);
   if (days < 7) return `para ${days} dit${days === 1 ? "e" : "ësh"}`;
-  return new Date(iso).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return formatSq(iso);
 }
 
 function dayLabel(iso: string): string {
@@ -49,7 +49,7 @@ function dayLabel(iso: string): string {
     a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   if (sameDay(d, today)) return "Sot";
   if (sameDay(d, yesterday)) return "Dje";
-  return d.toLocaleDateString("sq-AL", { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
+  return formatSq(d, "weekday-date");
 }
 
 export default function ActivityTab() {
@@ -218,7 +218,7 @@ export default function ActivityTab() {
                     </span>
                     <span
                       className="shrink-0 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]"
-                      title={new Date(r.created_at).toLocaleString("sq-AL")}
+                      title={formatSq(r.created_at, "datetime")}
                     >
                       {relativeTime(r.created_at)}
                     </span>

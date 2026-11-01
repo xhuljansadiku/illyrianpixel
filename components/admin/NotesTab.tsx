@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useToasts, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useToasts, useConfirm, formatSq } from "@/components/admin/ui";
 
 type Note = {
   id: number;
@@ -108,7 +108,7 @@ export default function NotesTab() {
             </div>
             <p className="mt-3 text-[13px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.8)] whitespace-pre-wrap">{viewing.content}</p>
             <p className="mt-4 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
-              {new Date(viewing.updated_at).toLocaleDateString("sq-AL")}
+              {formatSq(viewing.updated_at)}
             </p>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default function NotesTab() {
                 <button onClick={() => handleDelete(note)} className={BTN_DANGER + " text-[10px] px-2 py-1"}>Fshi</button>
               </div>
               <p className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
-                {new Date(note.updated_at).toLocaleDateString("sq-AL")}
+                {formatSq(note.updated_at)}
               </p>
             </div>
           ))}

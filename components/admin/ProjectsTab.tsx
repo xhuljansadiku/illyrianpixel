@@ -14,7 +14,7 @@ import {
 } from "@/lib/projects";
 import type { QuoteContact } from "@/components/admin/QuotesTab";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
-import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast } from "@/components/admin/ui";
+import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, formatSq } from "@/components/admin/ui";
 
 const STATUS_COLORS: Record<ProjectStatus, string> = {
   active: "border-blue-400/30 bg-blue-400/8 text-blue-300",
@@ -43,7 +43,7 @@ const EMPTY_FORM: ProjectForm = {
 };
 
 function formatDay(iso: string) {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return formatSq(iso);
 }
 
 export default function ProjectsTab({
