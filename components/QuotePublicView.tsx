@@ -8,13 +8,11 @@ import {
   type QuoteRecord,
 } from "@/lib/quotes";
 import { ClientDocFooter, ClientDocHeader, ClientDocShell, docLabel } from "@/components/ClientDocShell";
+import { formatSq } from "@/lib/dateSq";
 
+// Shqip në çdo shfletues (toLocaleDateString("sq-AL") dilte në anglisht në Chrome)
 function formatDay(iso: string) {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString("sq-AL", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  return formatSq(iso, "long");
 }
 
 export default function QuotePublicView({ quote, token }: { quote: QuoteRecord; token: string }) {

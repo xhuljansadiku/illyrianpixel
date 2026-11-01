@@ -2,6 +2,7 @@
 import { NEWSLETTER_BRAND } from "@/lib/newsletterEmail";
 import { quoteTotals, formatMoney, quotePublicUrl, QUOTE_KIND_LABELS, type QuoteRecord } from "@/lib/quotes";
 import { getEmailTemplate, applyPlaceholders } from "@/lib/emailTemplates";
+import { formatSq } from "@/lib/dateSq";
 
 export function escapeHtml(value: string) {
   return value
@@ -117,7 +118,7 @@ export function quoteEmailHtml(quote: QuoteRecord): string {
                 <td style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.8;">
                   <span style="color:rgba(171,131,57,0.8);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:0.15em;">${kindLabel} ${escapeHtml(quote.number)}</span><br>
                   Për: <span style="color:#ffffff;">${escapeHtml(quote.client_name)}</span>${quote.client_business ? ` · ${escapeHtml(quote.client_business)}` : ""}<br>
-                  Data: ${new Date(`${quote.issued_at}T00:00:00`).toLocaleDateString("sq-AL")}${quote.due_at ? ` · Vlen deri më: ${new Date(`${quote.due_at}T00:00:00`).toLocaleDateString("sq-AL")}` : ""}
+                  Data: ${formatSq(quote.issued_at)}${quote.due_at ? ` · Vlen deri më: ${formatSq(quote.due_at)}` : ""}
                 </td>
               </tr>
             </table>
@@ -204,7 +205,7 @@ export async function invoiceOverdueEmailHtml(quote: QuoteRecord): Promise<{ sub
   const totals = quoteTotals(quote.items, quote.discount, quote.tax_rate);
   const url = quote.public_token ? quotePublicUrl(quote.public_token) : NEWSLETTER_BRAND.website;
   const dueLabel = quote.due_at
-    ? new Date(`${quote.due_at}T00:00:00`).toLocaleDateString("sq-AL")
+    ? formatSq(quote.due_at)
     : "";
   const vars = { number: quote.number, total: formatMoney(totals.total) };
   const template = await getEmailTemplate("invoice_overdue");
