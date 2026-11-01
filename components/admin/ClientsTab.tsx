@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm, formatSq } from "@/components/admin/ui";
+import ClientPanel from "@/components/admin/ClientPanel";
 import type { Contact } from "@/components/AdminDashboard";
 import { PROJECT_STATUS_LABELS, type ProjectRecord } from "@/lib/projects";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
@@ -38,6 +39,7 @@ type ClientRow = {
   notes: string | null;
   contact: Contact | null;
   projects: ProjectRecord[];
+  docs: QuoteRecord[];
   paidTotal: number;
   pendingTotal: number;
   recurringMonthly: number;
@@ -93,6 +95,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
         notes: null,
         contact,
         projects: [],
+        docs: [],
         paidTotal: 0,
         pendingTotal: 0,
         recurringMonthly: 0,
@@ -127,6 +130,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     const key = keyFor(q.contact_id, q.client_name);
     const service = contact?.service || shortService(q.items?.[0]?.description) || null;
     const row = ensure(key, q.client_name, q.client_business, q.client_email, contact?.phone ?? null, service, contact, q.contact_id, q.updated_at || q.created_at);
+    row.docs.push(q);
     const totals = quoteTotals(q.items, q.discount, q.tax_rate);
     if (q.status === "paid") row.paidTotal += totals.total;
     else if (q.status === "sent" || q.status === "accepted") row.pendingTotal += totals.total;
@@ -184,6 +188,7 @@ function applyManualOverrides(autoRows: ClientRow[], manual: ManualClient[]): Cl
         notes: m.notes,
         contact: null,
         projects: [],
+        docs: [],
         paidTotal: 0,
         pendingTotal: 0,
         recurringMonthly: 0,
@@ -277,12 +282,16 @@ export default function ClientsTab({
   quotes,
   recurring,
   onGoToContact,
+  onGoToQuote,
+  onGoToProject,
 }: {
   contacts: Contact[];
   projects: ProjectRecord[];
   quotes: QuoteRecord[];
   recurring: RecurringInvoice[];
   onGoToContact: (term: string) => void;
+  onGoToQuote: (term: string) => void;
+  onGoToProject: (term: string) => void;
 }) {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounced(search, 250);
@@ -297,6 +306,8 @@ export default function ClientsTab({
   const [saving, setSaving] = useState(false);
   const { pushToast, renderToasts } = useToasts();
   const [confirm, renderConfirm] = useConfirm();
+  // Klienti i hapur në panelin anësor (sipas çelësit, që të ndjekë ndryshimet e të dhënave)
+  const [openKey, setOpenKey] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/clients")
@@ -438,10 +449,27 @@ export default function ClientsTab({
     }
   };
 
+  const openClient = openKey ? clients.find((c) => c.key === openKey) ?? null : null;
+
   return (
     <div className="space-y-6">
       {renderToasts()}
       {renderConfirm()}
+      {openClient && (
+        <ClientPanel
+          client={openClient}
+          onClose={() => setOpenKey(null)}
+          onOpenProject={onGoToProject}
+          onOpenQuote={onGoToQuote}
+          onOpenContact={onGoToContact}
+          onEdit={() => {
+            setOpenKey(null);
+            openEdit(openClient);
+          }}
+          onCopyPortal={() => copyPortalLink(openClient)}
+          portalCopied={copiedKey === openClient.key}
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className={CARD + " p-4"}>
@@ -547,8 +575,8 @@ export default function ClientsTab({
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <button
-                    onClick={() => onGoToContact(row.name)}
-                    className="block font-ui text-[13px] font-semibold text-[var(--a-text)] hover:text-accent"
+                    onClick={() => setOpenKey(row.key)}
+                    className="block text-left font-ui text-[14px] font-semibold text-[var(--a-text)] hover:text-accent"
                   >
                     {row.name}
                   </button>
@@ -651,8 +679,8 @@ export default function ClientsTab({
                 <tr key={row.key} className="border-b border-[var(--a-border)] last:border-0 hover:bg-[rgb(var(--a-text-rgb)/0.02)]">
                   <td className="px-4 py-3 align-top">
                     <button
-                      onClick={() => onGoToContact(row.name)}
-                      className="block font-ui text-[13px] font-semibold text-[var(--a-text)] hover:text-accent"
+                      onClick={() => setOpenKey(row.key)}
+                      className="block text-left font-ui text-[14px] font-semibold text-[var(--a-text)] hover:text-accent"
                     >
                       {row.name}
                     </button>

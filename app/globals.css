@@ -126,6 +126,26 @@ body {
   animation: drawerIn 0.22s ease-out;
 }
 
+/* Paneli i klientit në admin hyn nga e djathta */
+@keyframes drawerInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-drawer-in-right {
+  animation: drawerInRight 0.22s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drawer-in-right {
+    animation: none;
+  }
+}
+
 .admin-shell[data-theme="light"] {
   --a-bg: #f7f1e6;
   --a-card: #fffdf8;

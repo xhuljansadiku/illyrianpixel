@@ -1087,7 +1087,15 @@ export default function AdminDashboard({
             {tab === "todos" && <TodosTab />}
             {tab === "brand" && <BrandTab />}
             {tab === "clients" && (
-              <ClientsTab contacts={contacts} projects={projectsList} quotes={quotes} recurring={recurringList} onGoToContact={goToContact} />
+              <ClientsTab
+                contacts={contacts}
+                projects={projectsList}
+                quotes={quotes}
+                recurring={recurringList}
+                onGoToContact={goToContact}
+                onGoToQuote={goToQuote}
+                onGoToProject={goToProject}
+              />
             )}
             {tab === "finances" && <FinancesTab quotes={quotes} recurring={recurringList} />}
           </div>
