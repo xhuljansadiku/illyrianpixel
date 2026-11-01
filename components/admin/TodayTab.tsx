@@ -80,7 +80,7 @@ export default function TodayTab({
   onOpenContact: (term: string) => void;
   onOpenQuote: (term: string) => void;
   onOpenProject: (term: string) => void;
-  onGoTo: (tab: "blog" | "subscribers" | "contacts" | "quotes" | "finances") => void;
+  onGoTo: (tab: "blog" | "subscribers" | "contacts" | "quotes" | "invoices" | "finances") => void;
 }) {
   // Përshëndetja dhe data llogariten vetëm në shfletues (serveri punon në UTC → hydration mismatch)
   const [now, setNow] = useState<Date | null>(null);
@@ -373,7 +373,7 @@ export default function TodayTab({
             {money.trend === null ? "Pa krahasim me muajin e kaluar" : `${money.trend >= 0 ? "▲" : "▼"} ${Math.abs(money.trend)}% nga muaji i kaluar`}
           </p>
         </button>
-        <button onClick={() => onGoTo("quotes")} className={CARD + " p-5 text-left transition-colors hover:border-accent/40"}>
+        <button onClick={() => onGoTo("invoices")} className={CARD + " p-5 text-left transition-colors hover:border-accent/40"}>
           <p className="text-[12.5px] text-[rgb(var(--a-text-rgb)/0.55)]">Pritet të paguhet</p>
           <p className="mt-1.5 font-display text-[1.7rem] font-bold leading-none text-[var(--a-text)] tabular-nums">{formatMoney(money.pending)}</p>
           <p className={`mt-2 text-[12px] ${money.overdueCount > 0 ? "text-red-300" : "text-[rgb(var(--a-text-rgb)/0.45)]"}`}>
@@ -403,7 +403,7 @@ export default function TodayTab({
               { label: "Kërkesa", value: path.leads, onRun: () => onGoTo("contacts") },
               { label: "Oferta", value: path.offers, onRun: () => onGoTo("quotes") },
               { label: "Fituar", value: path.won, onRun: () => onGoTo("quotes") },
-              { label: "Paguar", value: path.paid, onRun: () => onGoTo("finances") },
+              { label: "Paguar", value: path.paid, onRun: () => onGoTo("invoices") },
             ].map((step, i, arr) => {
               const prevValue = i > 0 ? arr[i - 1].value : null;
               const rate = prevValue ? Math.round((step.value / prevValue) * 100) : null;

@@ -63,6 +63,7 @@ const VALID_TABS = [
   "clients",
   "finances",
   "brand",
+  "invoices",
 ] as const;
 
 export type AdminTab = (typeof VALID_TABS)[number];
@@ -449,6 +450,10 @@ export default function AdminDashboard({
     return c.follow_up_date <= today;
   }).length;
 
+  const overdueInvoiceCount = quotes.filter(
+    (q) => q.kind === "invoice" && (q.status === "sent" || q.status === "accepted") && !!q.due_at && q.due_at < today
+  ).length;
+
   // Menuja e grupuar sipas punës (2026-11-02): 16 elemente → 10, në grupe Shitja / Puna /
   // Paratë / Marketingu. Tab-et e bashkuara (p.sh. Detyrat + Shënime) kanë nën-shirit;
   // ID-të e vjetra mbeten, ndaj lidhjet ?tab=notes etj. vazhdojnë të funksionojnë.
@@ -458,7 +463,7 @@ export default function AdminDashboard({
       label: "Shitja",
       items: [
         { id: "contacts", icon: "inbox", label: "Kërkesat", count: contacts.length, alert: dueSoonCount },
-        { id: "quotes", icon: "receipt", label: "Ofertat & Faturat", count: quotes.length },
+        { id: "quotes", icon: "receipt", label: "Ofertat", count: quotes.filter((q) => q.kind === "quote").length },
       ],
     },
     {
@@ -469,7 +474,18 @@ export default function AdminDashboard({
         { id: "todos", icon: "check", label: "Detyrat" },
       ],
     },
-    { label: "Paratë", items: [{ id: "finances", icon: "wallet", label: "Financat" }] },
+    {
+      label: "Paratë",
+      items: [
+        {
+          id: "invoices",
+          icon: "wallet",
+          label: "Faturat & Pagesat",
+          count: quotes.filter((q) => q.kind === "invoice" && (q.status === "sent" || q.status === "accepted")).length,
+          alert: overdueInvoiceCount,
+        },
+      ],
+    },
     {
       label: "Marketingu",
       items: [
@@ -487,7 +503,8 @@ export default function AdminDashboard({
   const TAB_TITLES: Record<typeof tab, { title: string; subtitle: string }> = {
     overview: { title: "Sot", subtitle: "Çfarë kërkon vëmendje dhe si po ecin paratë" },
     contacts: { title: "Kërkesat", subtitle: "Kush ju ka shkruar dhe në çfarë hapi ndodhet" },
-    quotes: { title: "Ofertat & Faturat", subtitle: "Krijo, dërgo dhe ndiq ofertat dhe faturat" },
+    quotes: { title: "Ofertat", subtitle: "Krijo, dërgo dhe ndiq ofertat" },
+    invoices: { title: "Faturat", subtitle: "Kush ka paguar, kush pritet dhe kush është vonë" },
     projects: { title: "Projektet", subtitle: "Fazat dhe detyrat e çdo projekti" },
     subscribers: { title: "Newsletter", subtitle: "Abonentët dhe email-et për ta" },
     blog: { title: "Blog", subtitle: "Artikujt dhe publikimi i planifikuar" },
@@ -499,7 +516,7 @@ export default function AdminDashboard({
     clients: { title: "Klientët", subtitle: "Projektet, pagesat dhe pagesat e përsëritura për çdo klient" },
     notes: { title: "Shënime", subtitle: "Ide dhe shënime të shpejta" },
     todos: { title: "Detyrat", subtitle: "Çfarë duhet bërë" },
-    finances: { title: "Financat", subtitle: "Të ardhura, shpenzime dhe fitimi neto" },
+    finances: { title: "Të ardhura & shpenzime", subtitle: "Të ardhura, shpenzime dhe fitimi neto" },
     brand: { title: "Marka", subtitle: "Logo, ngjyra, fonte dhe toni (privat)" },
   };
 
@@ -560,7 +577,8 @@ export default function AdminDashboard({
 
   const goToQuote = (term: string) => {
     setMobileSearchOpen(false);
-    setTab("quotes");
+    // Faturat (FA-…) jetojnë te "Faturat & Pagesat", ofertat te "Ofertat"
+    setTab(/^FA-/i.test(term) ? "invoices" : "quotes");
     setQuotesJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
@@ -1033,6 +1051,7 @@ export default function AdminDashboard({
             )}
             {tab === "quotes" && (
               <QuotesTab
+                kindLock="quote"
                 createKey={createQuoteKey}
                 quotes={quotes}
                 setQuotes={setQuotes}
@@ -1040,6 +1059,19 @@ export default function AdminDashboard({
                 recurring={recurringList}
                 setRecurring={setRecurringList}
                 prefill={quotePrefill}
+                jumpSearch={quotesJump}
+                trashedQuotes={trashedQuotes}
+                setTrashedQuotes={setTrashedQuotes}
+              />
+            )}
+            {tab === "invoices" && (
+              <QuotesTab
+                kindLock="invoice"
+                quotes={quotes}
+                setQuotes={setQuotes}
+                contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
+                recurring={recurringList}
+                setRecurring={setRecurringList}
                 jumpSearch={quotesJump}
                 trashedQuotes={trashedQuotes}
                 setTrashedQuotes={setTrashedQuotes}
@@ -1141,6 +1173,10 @@ const SUB_TABS: Partial<Record<AdminTab, { id: AdminTab; label: string }[]>> = {
     { id: "analytics", label: "Statistikat" },
     { id: "assistant", label: "Mbreti Genti" },
   ],
+  invoices: [
+    { id: "invoices", label: "Faturat" },
+    { id: "finances", label: "Të ardhura & shpenzime" },
+  ],
   settings: [
     { id: "settings", label: "Cilësimet" },
     { id: "history", label: "Historia" },
@@ -1173,6 +1209,7 @@ const TAB_ICONS: Record<AdminTab, AdminIconName> = {
   clients: "briefcase",
   finances: "wallet",
   brand: "palette",
+  invoices: "wallet",
 };
 
 // ── Sidebar / drawer navigation (e ndarë mes desktop dhe mobile) ────────────

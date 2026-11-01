@@ -122,6 +122,7 @@ export default function QuotesTab({
   jumpSearch,
   trashedQuotes,
   setTrashedQuotes,
+  kindLock,
 }: {
   quotes: QuoteRecord[];
   setQuotes: (q: QuoteRecord[]) => void;
@@ -133,6 +134,9 @@ export default function QuotesTab({
   jumpSearch?: { term: string; key: number } | null;
   trashedQuotes: TrashedQuote[];
   setTrashedQuotes: (q: TrashedQuote[]) => void;
+  // 2026-11-02: ofertat (Shitja) dhe faturat (Paratë) shfaqen veç — e njëjta listë,
+  // e filtruar sipas llojit. Pa kindLock sillet si më parë (të dyja bashkë).
+  kindLock?: QuoteRecord["kind"];
 }) {
   const [view, setView] = useState<"docs" | "recurring">("docs");
   const [showTrash, setShowTrash] = useState(false);
@@ -142,7 +146,7 @@ export default function QuotesTab({
   const [form, setForm] = useState<QuoteForm>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [kindFilter, setKindFilter] = useState<"all" | "quote" | "invoice">("all");
+  const [kindFilter, setKindFilter] = useState<"all" | "quote" | "invoice">(kindLock ?? "all");
   const [statusFilter, setStatusFilter] = useState<"all" | QuoteRecord["status"]>("all");
   const [search, setSearch] = useState("");
   const [busyId, setBusyId] = useState<number | null>(null);
@@ -210,24 +214,44 @@ export default function QuotesTab({
 
   const filtered = useMemo(() => {
     const q2 = debouncedSearch.trim().toLowerCase();
-    return quotes.filter((q) => {
+    const list = quotes.filter((q) => {
       if (kindFilter !== "all" && q.kind !== kindFilter) return false;
       if (statusFilter !== "all" && q.status !== statusFilter) return false;
       if (q2 && !`${q.number} ${q.client_name} ${q.client_email ?? ""}`.toLowerCase().includes(q2)) return false;
       return true;
     });
-  }, [quotes, kindFilter, statusFilter, debouncedSearch]);
+    if (kindLock !== "invoice") return list;
+    // Faturat: të papaguarat me afat të kaluar në krye, pastaj sipas afatit më të afërt
+    const rank = (q: QuoteRecord) => (q.status === "sent" || q.status === "accepted" ? 0 : q.status === "draft" ? 1 : 2);
+    return [...list].sort((a, b) => rank(a) - rank(b) || (a.due_at ?? "9999") .localeCompare(b.due_at ?? "9999"));
+  }, [quotes, kindFilter, statusFilter, debouncedSearch, kindLock]);
+
+  const kindDocs = useMemo(() => (kindLock ? quotes.filter((q) => q.kind === kindLock) : quotes), [quotes, kindLock]);
+  const kindTrash = kindLock ? trashedQuotes.filter((t) => t.kind === kindLock) : trashedQuotes;
 
   const stats = useMemo(() => {
-    const accepted = quotes.filter((q) => q.status === "accepted" || q.status === "paid");
-    const open = quotes.filter((q) => q.status === "draft" || q.status === "sent");
     const sum = (list: QuoteRecord[]) =>
       list.reduce((acc, q) => acc + quoteTotals(q.items, q.discount, q.tax_rate).total, 0);
-    return { acceptedValue: sum(accepted), openValue: sum(open), total: quotes.length };
-  }, [quotes]);
+    const today = localIsoDate();
+    const accepted = kindDocs.filter((q) => q.status === "accepted" || q.status === "paid");
+    const open = kindDocs.filter((q) => q.status === "draft" || q.status === "sent");
+    const unpaid = kindDocs.filter((q) => q.status === "sent" || q.status === "accepted");
+    const overdue = unpaid.filter((q) => q.due_at && q.due_at < today);
+    const decided = kindDocs.filter((q) => q.status !== "draft" && q.status !== "sent");
+    return {
+      acceptedValue: sum(accepted),
+      openValue: sum(open),
+      total: kindDocs.length,
+      paidValue: sum(kindDocs.filter((q) => q.status === "paid")),
+      unpaidValue: sum(unpaid),
+      overdueValue: sum(overdue),
+      overdueCount: overdue.length,
+      winRate: decided.length > 0 ? Math.round((accepted.length / decided.length) * 100) : null,
+    };
+  }, [kindDocs]);
 
   const openCreate = () => {
-    setForm(EMPTY_FORM);
+    setForm(kindLock ? { ...EMPTY_FORM, kind: kindLock } : EMPTY_FORM);
     setEditingId(null);
     setError("");
     setShowForm(true);
@@ -505,10 +529,13 @@ export default function QuotesTab({
     <div>
       {/* Nën-seksionet: dokumente / të rikurrueshme */}
       <div className="mb-5 flex flex-wrap gap-2">
-        {([
-          ["docs", `🧾 Dokumentet (${quotes.length})`],
-          ["recurring", `🔁 Të rikurrueshme (${recurring.length})`],
-        ] as const).map(([id, label]) => (
+        {(kindLock === "quote"
+          ? ([["docs", `Ofertat (${kindDocs.length})`]] as const)
+          : ([
+              ["docs", kindLock === "invoice" ? `Faturat (${kindDocs.length})` : `Dokumentet (${quotes.length})`],
+              ["recurring", `Të përsëritura (${recurring.length})`],
+            ] as const)
+        ).map(([id, label]) => (
           <button
             key={id}
             onClick={() => setView(id)}
@@ -527,7 +554,7 @@ export default function QuotesTab({
             showTrash ? "border border-accent/30 bg-accent/10 text-accent" : "border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.5)] hover:text-[var(--a-text)]"
           }`}
         >
-          🗑 Koshi {trashedQuotes.length > 0 ? `(${trashedQuotes.length})` : ""}
+          Koshi {kindTrash.length > 0 ? `(${kindTrash.length})` : ""}
         </button>
       </div>
 
@@ -536,11 +563,11 @@ export default function QuotesTab({
           <p className="mb-3 font-ui text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
             Oferta/fatura të fshira — rikthej ose fshi përgjithmonë
           </p>
-          {trashedQuotes.length === 0 ? (
+          {kindTrash.length === 0 ? (
             <p className="text-[13px] text-[rgb(var(--a-text-rgb)/0.4)]">Koshi është bosh.</p>
           ) : (
             <div className="space-y-2">
-              {trashedQuotes.map((tq) => (
+              {kindTrash.map((tq) => (
                 <div key={tq.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-[var(--a-border)] px-3 py-2.5">
                   <div>
                     <p className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{tq.number} <span className="text-[rgb(var(--a-text-rgb)/0.4)]">— {tq.client_name}</span></p>
@@ -575,18 +602,43 @@ export default function QuotesTab({
       <>
       {/* Stats */}
       <div className="mb-5 grid grid-cols-2 gap-4 md:grid-cols-3">
-        <div className={CARD + " border-accent/30 p-5"}>
-          <p className="font-display text-[2rem] font-bold text-accent">{formatMoney(stats.acceptedValue)}</p>
-          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Të pranuara / paguara</p>
-        </div>
-        <div className={CARD + " p-5"}>
-          <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{formatMoney(stats.openValue)}</p>
-          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Në pritje (draft + dërguar)</p>
-        </div>
-        <div className={CARD + " p-5"}>
-          <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{stats.total}</p>
-          <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Dokumente gjithsej</p>
-        </div>
+        {kindLock === "invoice" ? (
+          <>
+            <div className={CARD + " border-accent/30 p-5"}>
+              <p className="font-display text-[1.8rem] font-bold text-accent">{formatMoney(stats.paidValue)}</p>
+              <p className="mt-1 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">Paguar gjithsej</p>
+            </div>
+            <div className={CARD + " p-5"}>
+              <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{formatMoney(stats.unpaidValue)}</p>
+              <p className="mt-1 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">Pritet të paguhet</p>
+            </div>
+            <div className={CARD + ` p-5 ${stats.overdueCount > 0 ? "border-red-400/30" : ""}`}>
+              <p className={`font-display text-[1.7rem] font-bold ${stats.overdueCount > 0 ? "text-red-300" : "text-[var(--a-text)]"}`}>
+                {formatMoney(stats.overdueValue)}
+              </p>
+              <p className="mt-1 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">
+                E vonuar{stats.overdueCount > 0 ? ` · ${stats.overdueCount} fatur${stats.overdueCount === 1 ? "ë" : "a"}` : ""}
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={CARD + " border-accent/30 p-5"}>
+              <p className="font-display text-[1.8rem] font-bold text-accent">{formatMoney(stats.acceptedValue)}</p>
+              <p className="mt-1 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">{kindLock === "quote" ? "Të pranuara" : "Të pranuara / paguara"}</p>
+            </div>
+            <div className={CARD + " p-5"}>
+              <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{formatMoney(stats.openValue)}</p>
+              <p className="mt-1 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">Në pritje (draft + dërguar)</p>
+            </div>
+            <div className={CARD + " p-5"}>
+              <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">
+                {kindLock === "quote" ? (stats.winRate !== null ? `${stats.winRate}%` : "—") : stats.total}
+              </p>
+              <p className="mt-1 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">{kindLock === "quote" ? "Pranohen (nga ato me përgjigje)" : "Dokumente gjithsej"}</p>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Toolbar */}
@@ -595,7 +647,7 @@ export default function QuotesTab({
           onClick={openCreate}
           className="font-ui rounded-[10px] bg-accent px-5 py-2.5 text-[12px] font-bold tracking-[0.5px] text-[#0a0a0a] transition-all hover:shadow-[0_0_20px_rgba(171,131,57,0.4)]"
         >
-          ＋ Ofertë / Faturë e re
+          {kindLock === "invoice" ? "＋ Faturë e re" : kindLock === "quote" ? "＋ Ofertë e re" : "＋ Ofertë / Faturë e re"}
         </button>
         <input
           type="text"
@@ -604,11 +656,13 @@ export default function QuotesTab({
           onChange={(e) => setSearch(e.target.value)}
           className={INPUT + " min-w-[180px]"}
         />
-        <select value={kindFilter} onChange={(e) => setKindFilter(e.target.value as typeof kindFilter)} className={INPUT}>
-          <option value="all">Të gjitha llojet</option>
-          <option value="quote">Vetëm oferta</option>
-          <option value="invoice">Vetëm fatura</option>
-        </select>
+        {!kindLock && (
+          <select value={kindFilter} onChange={(e) => setKindFilter(e.target.value as typeof kindFilter)} className={INPUT}>
+            <option value="all">Të gjitha llojet</option>
+            <option value="quote">Vetëm oferta</option>
+            <option value="invoice">Vetëm fatura</option>
+          </select>
+        )}
         <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)} className={INPUT}>
           <option value="all">Çdo status</option>
           {Object.entries(QUOTE_STATUS_LABELS).map(([k, v]) => (
@@ -649,7 +703,7 @@ export default function QuotesTab({
               <select
                 value={form.kind}
                 onChange={(e) => setForm((f) => ({ ...f, kind: e.target.value as QuoteForm["kind"] }))}
-                disabled={!!editingId}
+                disabled={!!editingId || !!kindLock}
                 className={INPUT + " w-full disabled:opacity-50"}
               >
                 <option value="quote">Ofertë (OF)</option>
@@ -843,7 +897,15 @@ export default function QuotesTab({
 
       {/* List */}
       <div className="space-y-3">
-        {filtered.length === 0 && <EmptyState text="Asnjë dokument ende. Krijo ofertën e parë me butonin lart." />}
+        {filtered.length === 0 && (
+          <EmptyState
+            text={
+              kindLock === "invoice"
+                ? "Asnjë faturë ende. Kur klienti pranon një ofertë online, fatura e paradhënies krijohet vetë."
+                : "Asnjë ofertë ende. Krijo të parën me butonin lart — ose nga një kërkesë, me butonin \"Krijo ofertë\"."
+            }
+          />
+        )}
         {filtered.map((q) => {
           const totals = quoteTotals(q.items, q.discount, q.tax_rate);
           const isOverdueInvoice =
