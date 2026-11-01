@@ -446,43 +446,62 @@ export default function AdminDashboard({
     return c.follow_up_date <= today;
   }).length;
 
-  const NAV_ITEMS: { id: typeof tab; icon: AdminIconName; label: string; count?: number; alert?: number }[] = [
-    { id: "overview", icon: "home", label: "Sot" },
-    { id: "contacts", icon: "inbox", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
-    { id: "quotes", icon: "receipt", label: "Oferta & Fatura", count: quotes.length },
-    { id: "projects", icon: "folder", label: "Projektet", count: projectsList.length },
-    { id: "clients", icon: "briefcase", label: "Klientët" },
-    { id: "finances", icon: "wallet", label: "Financat" },
-    { id: "blog", icon: "pen", label: "Blog", count: blogPosts.length + staticPosts.length },
-    { id: "subscribers", icon: "mail", label: "Newsletter", count: subscribers.length },
-    { id: "content", icon: "layers", label: "Përmbajtja" },
-    { id: "analytics", icon: "chart", label: "Analitika" },
-    { id: "notes", icon: "note", label: "Notes" },
-    { id: "todos", icon: "check", label: "To Do" },
-    { id: "history", icon: "clock", label: "Historia" },
-    { id: "assistant", icon: "crown", label: "Mbreti Genti" },
-    { id: "brand", icon: "palette", label: "Marka" },
-    { id: "settings", icon: "settings", label: "Cilësimet" },
+  // Menuja e grupuar sipas punës (2026-11-02): 16 elemente → 10, në grupe Shitja / Puna /
+  // Paratë / Marketingu. Tab-et e bashkuara (p.sh. Detyrat + Shënime) kanë nën-shirit;
+  // ID-të e vjetra mbeten, ndaj lidhjet ?tab=notes etj. vazhdojnë të funksionojnë.
+  const NAV_GROUPS: NavGroup[] = [
+    { label: null, items: [{ id: "overview", icon: "home", label: "Sot" }] },
+    {
+      label: "Shitja",
+      items: [
+        { id: "contacts", icon: "inbox", label: "Kërkesat", count: contacts.length, alert: dueSoonCount },
+        { id: "quotes", icon: "receipt", label: "Ofertat & Faturat", count: quotes.length },
+      ],
+    },
+    {
+      label: "Puna",
+      items: [
+        { id: "clients", icon: "briefcase", label: "Klientët" },
+        { id: "projects", icon: "folder", label: "Projektet", count: projectsList.length },
+        { id: "todos", icon: "check", label: "Detyrat" },
+      ],
+    },
+    { label: "Paratë", items: [{ id: "finances", icon: "wallet", label: "Financat" }] },
+    {
+      label: "Marketingu",
+      items: [
+        { id: "blog", icon: "layers", label: "Faqja" },
+        { id: "subscribers", icon: "mail", label: "Newsletter", count: subscribers.filter((sub) => !sub.unsubscribed).length },
+        { id: "analytics", icon: "chart", label: "Analitika" },
+      ],
+    },
+    { label: null, bottom: true, items: [{ id: "settings", icon: "settings", label: "Cilësimet" }] },
   ];
+  const NAV_ITEMS = NAV_GROUPS.flatMap((g) => g.items);
+  const parentTab = parentOf(tab);
+  const subTabs = SUB_TABS[parentTab];
 
   const TAB_TITLES: Record<typeof tab, { title: string; subtitle: string }> = {
     overview: { title: "Sot", subtitle: "Çfarë kërkon vëmendje dhe si po ecin paratë" },
-    contacts: { title: "Kontaktet", subtitle: "Menaxho kontaktet dhe lead-et" },
-    quotes: { title: "Oferta & Fatura", subtitle: "Krijo, dërgo dhe gjurmo oferta e fatura" },
-    projects: { title: "Projektet", subtitle: "Ndiq fazat dhe detyrat e çdo projekti" },
-    subscribers: { title: "Newsletter", subtitle: "Abonentët, broadcast dhe statistika" },
-    blog: { title: "Blog", subtitle: "Artikujt e blogut dhe publikimi i planifikuar" },
-    content: { title: "Përmbajtja", subtitle: "Testimoniale, portofol dhe çmime — pa deploy" },
-    analytics: { title: "Analitika", subtitle: "Funnel, burime dhe performanca" },
+    contacts: { title: "Kërkesat", subtitle: "Kush ju ka shkruar dhe në çfarë hapi ndodhet" },
+    quotes: { title: "Ofertat & Faturat", subtitle: "Krijo, dërgo dhe ndiq ofertat dhe faturat" },
+    projects: { title: "Projektet", subtitle: "Fazat dhe detyrat e çdo projekti" },
+    subscribers: { title: "Newsletter", subtitle: "Abonentët dhe email-et për ta" },
+    blog: { title: "Blog", subtitle: "Artikujt dhe publikimi i planifikuar" },
+    content: { title: "Përmbajtja e faqes", subtitle: "Testimoniale, portofol, pyetje dhe çmime — pa deploy" },
+    analytics: { title: "Statistikat", subtitle: "Rruga e vizitorëve, burimet dhe performanca" },
     history: { title: "Historia", subtitle: "Çdo veprim i regjistruar — çfarë ke bërë dhe kur" },
-    assistant: { title: "Mbreti Genti", subtitle: "Bisedat me asistentin virtual — çfarë pyesin vizitorët" },
-    settings: { title: "Cilësimet", subtitle: "Konfigurime dhe siguria" },
-    clients: { title: "Klientët", subtitle: "Klientët që kanë paguar — projektet, pagesat dhe rekurrenca" },
-    notes: { title: "Notes", subtitle: "Shënime të shpejta, personale" },
-    todos: { title: "To Do", subtitle: "Lista jote e detyrave" },
-    finances: { title: "Financat", subtitle: "Fitime, shpenzime dhe fitimi neto" },
-    brand: { title: "Marka", subtitle: "Udhëzuesi i markës — logo, ngjyra, fonte, ton (privat)" },
+    assistant: { title: "Mbreti Genti", subtitle: "Çfarë pyesin vizitorët asistentin virtual" },
+    settings: { title: "Cilësimet", subtitle: "Faqja, email-et, siguria dhe backup-i" },
+    clients: { title: "Klientët", subtitle: "Projektet, pagesat dhe pagesat e përsëritura për çdo klient" },
+    notes: { title: "Shënime", subtitle: "Ide dhe shënime të shpejta" },
+    todos: { title: "Detyrat", subtitle: "Çfarë duhet bërë" },
+    finances: { title: "Financat", subtitle: "Të ardhura, shpenzime dhe fitimi neto" },
+    brand: { title: "Marka", subtitle: "Logo, ngjyra, fonte dhe toni (privat)" },
   };
+
+  // Titulli i faqes ndjek elementin e menusë (p.sh. "Faqja"), nën-shiriti zgjedh pjesën
+  const pageTitle = NAV_ITEMS.find((i) => i.id === parentTab)?.label ?? TAB_TITLES[tab].title;
 
   const globalResults = useMemo(() => {
     const q = globalSearch.trim().toLowerCase();
@@ -566,12 +585,12 @@ export default function AdminDashboard({
   };
 
   const paletteActions: CommandPaletteAction[] = [
-    ...NAV_ITEMS.map((item) => ({
-      id: `nav-${item.id}`,
-      icon: <AdminIcon name={item.icon} className="h-4 w-4" />,
-      label: TAB_TITLES[item.id].title,
+    ...VALID_TABS.map((id) => ({
+      id: `nav-${id}`,
+      icon: <AdminIcon name={TAB_ICONS[id]} className="h-4 w-4" />,
+      label: TAB_TITLES[id].title,
       hint: "Shko te",
-      onRun: () => setTab(item.id),
+      onRun: () => setTab(id),
     })),
     {
       id: "new-quote",
@@ -779,7 +798,7 @@ export default function AdminDashboard({
             </div>
 
             <nav className="mt-5 flex flex-1 flex-col gap-1 overflow-y-auto">
-              <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} onNavigate={() => setMobileNavOpen(false)} />
+              <SidebarNav groups={NAV_GROUPS} activeTab={parentTab} setTab={setTab} onNavigate={() => setMobileNavOpen(false)} />
               <div className="mt-1 px-1">
                 <NotificationsBell
                   setTab={(t) => {
@@ -826,8 +845,8 @@ export default function AdminDashboard({
           </div>
         </div>
 
-        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4 pt-1">
-          <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} />
+        <nav className="flex flex-1 flex-col overflow-y-auto px-3 pb-4 pt-1">
+          <SidebarNav groups={NAV_GROUPS} activeTab={parentTab} setTab={setTab} />
         </nav>
 
         <div className="border-t border-[var(--a-border)] p-3">
@@ -911,7 +930,7 @@ export default function AdminDashboard({
             </button>
             <div className="min-w-0 flex-1">
               <p className="ip-eyebrow">Illyrian Pixel</p>
-              <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{TAB_TITLES[tab].title}</h1>
+              <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{pageTitle}</h1>
             </div>
             <button
               onClick={() => {
@@ -944,9 +963,30 @@ export default function AdminDashboard({
 
           {/* Page title (desktop) */}
           <div className="hidden md:block">
-            <h2 className="font-display text-[1.7rem] font-bold tracking-[-0.01em] text-[var(--a-text)]">{TAB_TITLES[tab].title}</h2>
-            <p className="mt-1.5 text-[12.5px] text-[rgb(var(--a-text-rgb)/0.45)]">{TAB_TITLES[tab].subtitle}</p>
+            <h2 className="font-display text-[1.7rem] font-bold tracking-[-0.01em] text-[var(--a-text)]">{pageTitle}</h2>
+            <p className="mt-1.5 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">{TAB_TITLES[tab].subtitle}</p>
           </div>
+
+          {/* Nën-shiriti për tab-et e bashkuara (Detyrat/Shënime, Blog/Përmbajtja, …) */}
+          {subTabs && (
+            <div role="tablist" aria-label={pageTitle} className="mt-4 inline-flex flex-wrap gap-1 rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] p-1">
+              {subTabs.map((st) => (
+                <button
+                  key={st.id}
+                  role="tab"
+                  aria-selected={tab === st.id}
+                  onClick={() => setTab(st.id)}
+                  className={`font-ui rounded-lg px-3.5 py-1.5 text-[13px] font-semibold transition-colors ${
+                    tab === st.id
+                      ? "bg-[var(--a-card)] text-[var(--a-text)] shadow-sm"
+                      : "text-[rgb(var(--a-text-rgb)/0.55)] hover:text-[var(--a-text)]"
+                  }`}
+                >
+                  {st.label}
+                </button>
+              ))}
+            </div>
+          )}
 
           {tab === "contacts" && (
             <>
@@ -1072,70 +1112,119 @@ function StatCard({ label, value, featured }: { label: string; value: number; fe
   );
 }
 
-// Numri i item-eve "kryesore" para ndarëses "Menaxhimi" në sidebar
-const MAIN_NAV_COUNT = 7;
+type NavItem = { id: AdminTab; icon: AdminIconName; label: string; count?: number; alert?: number };
+type NavGroup = { label: string | null; bottom?: boolean; items: NavItem[] };
+
+// Tab-et e bashkuara nën një element të menusë — çelësi është tab-i "prind"
+const SUB_TABS: Partial<Record<AdminTab, { id: AdminTab; label: string }[]>> = {
+  todos: [
+    { id: "todos", label: "Detyrat" },
+    { id: "notes", label: "Shënime" },
+  ],
+  blog: [
+    { id: "blog", label: "Blog" },
+    { id: "content", label: "Përmbajtja e faqes" },
+  ],
+  analytics: [
+    { id: "analytics", label: "Statistikat" },
+    { id: "assistant", label: "Mbreti Genti" },
+  ],
+  settings: [
+    { id: "settings", label: "Cilësimet" },
+    { id: "history", label: "Historia" },
+    { id: "brand", label: "Marka" },
+  ],
+};
+
+function parentOf(tab: AdminTab): AdminTab {
+  for (const [parent, subs] of Object.entries(SUB_TABS)) {
+    if (subs?.some((st) => st.id === tab)) return parent as AdminTab;
+  }
+  return tab;
+}
+
+// Ikona për çdo tab (edhe nën-tab-et) — për command palette
+const TAB_ICONS: Record<AdminTab, AdminIconName> = {
+  overview: "home",
+  contacts: "inbox",
+  quotes: "receipt",
+  projects: "folder",
+  subscribers: "mail",
+  blog: "pen",
+  content: "layers",
+  analytics: "chart",
+  history: "clock",
+  assistant: "crown",
+  settings: "settings",
+  notes: "note",
+  todos: "check",
+  clients: "briefcase",
+  finances: "wallet",
+  brand: "palette",
+};
 
 // ── Sidebar / drawer navigation (e ndarë mes desktop dhe mobile) ────────────
 function SidebarNav({
-  navItems,
-  tab,
+  groups,
+  activeTab,
   setTab,
-  collapsed,
   onNavigate,
 }: {
-  navItems: { id: AdminTab; icon: AdminIconName; label: string; count?: number; alert?: number }[];
-  tab: AdminTab;
+  groups: NavGroup[];
+  activeTab: AdminTab;
   setTab: (t: AdminTab) => void;
-  collapsed?: boolean;
   onNavigate?: () => void;
 }) {
   return (
     <>
-      {navItems.map((item, i) => (
-        <Fragment key={item.id}>
-          {i === MAIN_NAV_COUNT &&
-            (collapsed ? (
-              <div className="my-2 border-t border-[var(--a-border)]" />
-            ) : (
-              <p className="mb-1 mt-4 px-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-[rgb(var(--a-text-rgb)/0.25)]">
-                Menaxhimi
-              </p>
-            ))}
-          <button
-            onClick={() => {
-              setTab(item.id);
-              onNavigate?.();
-            }}
-            title={collapsed ? item.label : undefined}
-            className={`font-ui relative flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-all duration-200 ${
-              tab === item.id
-                ? "bg-[rgb(var(--a-text-rgb)/0.07)] text-[var(--a-text)]"
-                : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.03)] hover:text-[rgb(var(--a-text-rgb)/0.8)]"
-            } ${collapsed ? "justify-center" : "justify-between"}`}
-          >
-            {tab === item.id && (
-              <span className="absolute left-0 top-1/2 h-4 w-[2.5px] -translate-y-1/2 rounded-full bg-accent" />
-            )}
-            <span className="flex min-w-0 items-center gap-3">
-              <span
-                className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                  tab === item.id ? "bg-accent/15 text-accent" : "bg-[rgb(var(--a-text-rgb)/0.04)]"
-                }`}
-              >
-                <AdminIcon name={item.icon} className="h-[15px] w-[15px]" />
-                {!!item.alert && (
-                  <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-[var(--a-card2)]">
-                    {item.alert > 9 ? "9+" : item.alert}
+      {groups.map((group, gi) => (
+        <div key={gi} className={group.bottom ? "mt-auto border-t border-[var(--a-border)] pt-2" : gi > 0 ? "mt-4" : ""}>
+          {group.label && (
+            <p className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              {group.label}
+            </p>
+          )}
+          <div className="space-y-0.5">
+            {group.items.map((item) => {
+              const active = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setTab(item.id);
+                    onNavigate?.();
+                  }}
+                  aria-current={active ? "page" : undefined}
+                  className={`font-ui relative flex w-full items-center justify-between gap-3 rounded-xl px-2.5 py-2 text-left text-[13.5px] font-semibold transition-colors duration-200 ${
+                    active
+                      ? "bg-[rgb(var(--a-text-rgb)/0.07)] text-[var(--a-text)]"
+                      : "text-[rgb(var(--a-text-rgb)/0.55)] hover:bg-[rgb(var(--a-text-rgb)/0.04)] hover:text-[var(--a-text)]"
+                  }`}
+                >
+                  {active && <span className="absolute left-0 top-1/2 h-4 w-[2.5px] -translate-y-1/2 rounded-full bg-accent" />}
+                  <span className="flex min-w-0 items-center gap-3">
+                    <span
+                      className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                        active ? "bg-accent/15 text-accent" : "bg-[rgb(var(--a-text-rgb)/0.04)]"
+                      }`}
+                    >
+                      <AdminIcon name={item.icon} className="h-[15px] w-[15px]" />
+                      {!!item.alert && (
+                        <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-bold text-white ring-2 ring-[var(--a-card2)]">
+                          {item.alert > 9 ? "9+" : item.alert}
+                        </span>
+                      )}
+                    </span>
+                    <span className="truncate">{item.label}</span>
                   </span>
-                )}
-              </span>
-              {!collapsed && <span className="truncate">{item.label}</span>}
-            </span>
-            {!collapsed && item.count !== undefined && (
-              <span className="shrink-0 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{item.count}</span>
-            )}
-          </button>
-        </Fragment>
+                  {item.count !== undefined && item.count > 0 && (
+                    <span className="shrink-0 text-[12px] tabular-nums text-[rgb(var(--a-text-rgb)/0.4)]">{item.count}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       ))}
     </>
   );
