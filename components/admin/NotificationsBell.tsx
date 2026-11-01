@@ -187,7 +187,7 @@ export default function NotificationsBell({
                   <span className="min-w-0 flex-1 text-[12px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.75)]">
                     {r.label}
                   </span>
-                  <span className="shrink-0 text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">
+                  <span className="shrink-0 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.35)]">
                     {relativeTime(r.created_at)}
                   </span>
                 </button>
@@ -215,7 +215,7 @@ export default function NotificationsBell({
             <span className="relative flex h-4 w-4 items-center justify-center">
               <BellIcon className="h-4 w-4" />
               {unread > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold leading-none text-white ring-2 ring-[var(--a-card2)]">
+                <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[11px] font-bold leading-none text-white ring-2 ring-[var(--a-card2)]">
                   {unread > 9 ? "9+" : unread}
                 </span>
               )}
@@ -223,7 +223,7 @@ export default function NotificationsBell({
             {!collapsed && "Njoftimet"}
           </span>
           {!collapsed && unread > 0 && (
-            <span className="rounded-full bg-red-500/15 px-1.5 py-0.5 text-[10px] font-bold text-red-400">{unread}</span>
+            <span className="rounded-full bg-red-500/15 px-1.5 py-0.5 text-[11.5px] font-bold text-red-400">{unread}</span>
           )}
         </button>
         {open && (
@@ -248,7 +248,7 @@ export default function NotificationsBell({
       >
         <BellIcon className="h-4 w-4" />
         {unread > 0 && (
-          <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold leading-none text-white ring-2 ring-[var(--a-card)]">
+          <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[11px] font-bold leading-none text-white ring-2 ring-[var(--a-card)]">
             {unread > 9 ? "9+" : unread}
           </span>
         )}

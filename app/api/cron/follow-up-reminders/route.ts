@@ -27,7 +27,7 @@ export async function GET(req: Request) {
     .select("id, name, email, phone, follow_up_date, assigned_to")
     .is("deleted_at", null)
     .lte("follow_up_date", cutoffStr)
-    .neq("status", "done")
+    .not("status", "in", "(done,lost)") // fituar ose humbur — s'kërkojnë më kujtesë
     .order("follow_up_date", { ascending: true });
 
   if (error) {

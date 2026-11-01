@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CARD, EmptyState, STATUS_LABELS, formatDate, formatSq, formatNumberSq } from "@/components/admin/ui";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
 import type { Contact, Stats } from "@/components/AdminDashboard";
+import { isClosedContactStatus } from "@/lib/contactStatus";
 
 function printMonthlyReport(contacts: Contact[], stats: Stats) {
   const now = new Date();
@@ -114,15 +115,15 @@ export default function AnalyticsTab({
     const wonR = contactsR.filter((c) => (c.status || "new") === "done");
     return [
       { label: "Vizitorë", value: visitors30 },
-      { label: "Kontakte", value: contactsR.length },
+      { label: "Kërkesa", value: contactsR.length },
       { label: "Oferta të dërguara", value: quotesR.length },
-      { label: "Fituar (mbyllur)", value: wonR.length },
+      { label: "Fituar", value: wonR.length },
     ];
   }, [contacts, quotes, visitors30, cutoff, until]);
 
   const pipeline = useMemo(() => {
     const open = contacts
-      .filter((c) => (c.status || "new") !== "done")
+      .filter((c) => !isClosedContactStatus(c.status))
       .reduce((sum, c) => sum + (Number(c.value) || 0), 0);
     const won = contacts
       .filter((c) => (c.status || "new") === "done")
@@ -220,7 +221,7 @@ export default function AnalyticsTab({
           onClick={() => printMonthlyReport(contacts, stats)}
           className="font-ui rounded-[10px] border border-accent/40 px-4 py-2 text-[12px] font-semibold text-accent transition-colors hover:bg-accent/10"
         >
-          🖨 Eksporto raport (PDF)
+          Eksporto raport (PDF)
         </button>
       </div>
 
@@ -259,10 +260,10 @@ export default function AnalyticsTab({
                 className="rounded-sm bg-accent/40 transition-colors group-hover:bg-accent"
                 style={{ height: `${Math.max(3, (m.total / monthlyRevenueMax) * 120)}px` }}
               />
-              <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[11.5px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
                 {formatMoney(m.total)}
               </div>
-              <p className="mt-2 text-center text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</p>
+              <p className="mt-2 text-center text-[11.5px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</p>
             </div>
           ))}
         </div>
@@ -296,7 +297,7 @@ export default function AnalyticsTab({
             );
           })}
         </div>
-        <p className="mt-3 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+        <p className="mt-3 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">
           Vizitorët maten nga tracking i brendshëm i faqeve (pa cookies, 30 ditët e fundit, pavarësisht intervalit të zgjedhur). Oferta = dokumente jo-draft të krijuara në {rangeLabel}.
         </p>
       </div>
@@ -326,7 +327,7 @@ export default function AnalyticsTab({
             })}
           </div>
         )}
-        <p className="mt-3 text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">
+        <p className="mt-3 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">
           “(e panjohur)” janë kontakte të ardhura para aktivizimit të gjurmimit të burimit.
         </p>
       </div>

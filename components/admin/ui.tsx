@@ -2,6 +2,7 @@
 
 import { forwardRef, useEffect, useRef, useState, type ReactNode } from "react";
 import { dateParts } from "@/lib/dateSq";
+import { CONTACT_STATUS_LABELS, isClosedContactStatus } from "@/lib/contactStatus";
 
 // Ndihmësit e datave jetojnë te lib/dateSq (të përbashkët me faqet publike dhe email-et)
 export { dateParts, formatSq, formatNumberSq, localIsoDate } from "@/lib/dateSq";
@@ -18,16 +19,15 @@ export function formatDay(iso: string) {
 
 export function isOverdue(c: { follow_up_date: string | null; status: string | null }) {
   if (!c.follow_up_date) return false;
-  if ((c.status || "new") === "done") return false;
+  if (isClosedContactStatus(c.status)) return false;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return new Date(`${c.follow_up_date}T00:00:00`) < today;
 }
 
+// Statuset e kërkesave vijnë nga lib/contactStatus (burimi i vetëm)
 export const STATUS_LABELS: Record<string, string> = {
-  new: "I ri",
-  "in-progress": "Në proces",
-  done: "Mbyllur",
+  ...CONTACT_STATUS_LABELS,
 };
 
 export const CARD =
@@ -77,9 +77,9 @@ export function EnglishFieldsSection({ children, hasContent }: { children: React
 // Etiketë e vogël në lista: a e ka rreshti përkthimin anglisht?
 export function EnBadge({ translated }: { translated: boolean }) {
   return translated ? (
-    <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">EN ✓</span>
+    <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-emerald-400">EN ✓</span>
   ) : (
-    <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90" title="Pa përkthim — nuk shfaqet në /en">pa EN</span>
+    <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-amber-400/90" title="Pa përkthim — nuk shfaqet në /en">pa EN</span>
   );
 }
 

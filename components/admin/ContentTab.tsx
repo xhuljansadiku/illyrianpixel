@@ -38,10 +38,10 @@ export default function ContentTab({
     <div>
       <div className="mb-5 flex flex-wrap gap-2">
         {([
-          ["testimonials", `💬 Testimoniale (${testimonials.length})`],
-          ["portfolio", `🖼️ Portofoli (${portfolioItems.length})`],
-          ["pricing", "💶 Çmimet"],
-          ["faqs", `❓ FAQ (${faqs.length})`],
+          ["testimonials", `Testimoniale (${testimonials.length})`],
+          ["portfolio", `Portofoli (${portfolioItems.length})`],
+          ["pricing", "Çmimet"],
+          ["faqs", `FAQ (${faqs.length})`],
         ] as const).map(([id, label]) => (
           <button
             key={id}
@@ -253,10 +253,10 @@ function TestimonialsManager({
             <div className="mt-2 flex flex-wrap items-center gap-2 text-[12px] text-[rgb(var(--a-text-rgb)/0.45)]">
               <span className="font-semibold text-[var(--a-text)]">{t.name}</span>
               {t.company && <span>· {t.company}</span>}
-              {t.result && <span className="rounded-full border border-accent/30 px-2 py-0.5 text-[10px] text-accent/85">{t.result}</span>}
-              {t.category && <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-accent">{t.category}</span>}
+              {t.result && <span className="rounded-full border border-accent/30 px-2 py-0.5 text-[11.5px] text-accent/85">{t.result}</span>}
+              {t.category && <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] uppercase tracking-[0.1em] text-accent">{t.category}</span>}
               <EnBadge translated={Boolean(t.quote_en)} />
-              {!t.visible && <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.2)] px-2 py-0.5 text-[10px] uppercase">I fshehur</span>}
+              {!t.visible && <span className="rounded-full border border-[rgb(var(--a-text-rgb)/0.2)] px-2 py-0.5 text-[11.5px] uppercase">I fshehur</span>}
             </div>
             <div className="mt-3 flex flex-wrap gap-2 border-t border-[var(--a-border)] pt-3">
               <button onClick={() => move(t, -1)} disabled={busyId === t.id || idx === 0} className={BTN_PLAIN + " disabled:opacity-30"}>↑</button>
@@ -479,7 +479,7 @@ function PortfolioManager({
           <input type="text" placeholder="Live URL (https://...)" value={form.live_url} onChange={(e) => setForm((f) => ({ ...f, live_url: e.target.value }))} className={INPUT} />
           <div className="flex items-center gap-2">
             <label className={BTN_PLAIN + " cursor-pointer whitespace-nowrap"}>
-              {uploading ? "Duke ngarkuar…" : "📤 Ngarko imazh"}
+              {uploading ? "Duke ngarkuar…" : "Ngarko imazh"}
               <input
                 type="file"
                 accept="image/jpeg,image/png,image/webp,image/avif"
@@ -645,7 +645,7 @@ function PricingManager({
                 <div key={key} className="flex flex-wrap items-center gap-2.5">
                   <span className="w-32 truncate text-[13px] text-[rgb(var(--a-text-rgb)/0.75)]">
                     {pkg.name}
-                    {overridden && <span className="ml-1.5 text-[10px] text-accent">●</span>}
+                    {overridden && <span className="ml-1.5 text-[11.5px] text-accent">●</span>}
                   </span>
                   <span className="w-28 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">
                     Kodi: {pkg.price}{pkg.priceNote ?? ""}

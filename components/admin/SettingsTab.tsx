@@ -171,7 +171,7 @@ function TwoFactorCard() {
         </p>
         {enabled !== null && (
           <span
-            className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${
+            className={`rounded-full border px-2.5 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] ${
               enabled
                 ? "border-emerald-400/30 bg-emerald-400/8 text-emerald-300"
                 : "border-[rgb(var(--a-text-rgb)/0.2)] text-[rgb(var(--a-text-rgb)/0.45)]"
@@ -366,7 +366,45 @@ function TwoFactorCard() {
 }
 
 // ── Settings tab ──────────────────────────────────────────────────────────────
-export default function SettingsTab({ adminLogins, initialSettings }: { adminLogins: AdminLogin[]; initialSettings: SiteSettings }) {
+// Shëndeti i sistemit — zhvendosur nga faqja e parë te Cilësimet (2026-11-02): backup-i
+// dhe automatizimet janë punë teknike që kontrollohen rrallë, jo çdo mëngjes.
+function SystemHealthCard({ autoActivity }: { autoActivity: { action: string; label: string; created_at: string }[] }) {
+  const lastBackup = autoActivity.find((a) => a.action === "backup") ?? null;
+  const daysSinceBackup = lastBackup ? Math.floor((Date.now() - new Date(lastBackup.created_at).getTime()) / 86400000) : null;
+  const backupHealthy = daysSinceBackup !== null && daysSinceBackup <= 8;
+  return (
+    <div className={CARD + " p-5"}>
+      <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+        Shëndeti i sistemit
+      </p>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <div className={`rounded-[10px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
+          <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">Backup javor</p>
+          <p className={`mt-1 text-[14px] font-semibold ${backupHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
+            {lastBackup ? (daysSinceBackup === 0 ? "Sot" : `${daysSinceBackup} ditë më parë`) : "Asnjë backup ende"}
+            {lastBackup && !backupHealthy ? " — duhet kontrolluar" : ""}
+          </p>
+        </div>
+        <div className="rounded-[10px] border border-[var(--a-border)] px-4 py-3">
+          <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.5)]">Automatizimi i fundit</p>
+          <p className="mt-1 truncate text-[13px] font-medium text-[var(--a-text)]" title={autoActivity[0]?.label}>
+            {autoActivity[0] ? `${autoActivity[0].label} · ${formatDate(autoActivity[0].created_at)}` : "Asnjë veprim ende"}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function SettingsTab({
+  adminLogins,
+  initialSettings,
+  autoActivity = [],
+}: {
+  adminLogins: AdminLogin[];
+  initialSettings: SiteSettings;
+  autoActivity?: { action: string; label: string; created_at: string }[];
+}) {
   const [settings, setSettings] = useState(initialSettings);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -424,6 +462,7 @@ export default function SettingsTab({ adminLogins, initialSettings }: { adminLog
 
   return (
     <div className="space-y-4">
+      <SystemHealthCard autoActivity={autoActivity} />
       <div className={CARD + " p-5"}>
         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
           Cilësime të faqes
@@ -635,7 +674,7 @@ export default function SettingsTab({ adminLogins, initialSettings }: { adminLog
               disabled={logins.length === 0}
               className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1 text-[11px] font-semibold text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
             >
-              ⬇ CSV
+              CSV
             </button>
           </div>
         </div>
@@ -670,7 +709,7 @@ export default function SettingsTab({ adminLogins, initialSettings }: { adminLog
           download
           className="font-ui inline-flex items-center gap-2 rounded-[10px] border border-accent/40 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-accent transition-colors hover:bg-accent/10"
         >
-          ⬇ Shkarko backup (JSON)
+          Shkarko backup (JSON)
         </a>
       </div>
     </div>
@@ -744,14 +783,14 @@ function EmailTemplatesEditor() {
               <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                 <p className="text-[12px] font-semibold text-[var(--a-text)]">{EMAIL_TEMPLATE_LABELS[key]}</p>
                 {EMAIL_TEMPLATE_PLACEHOLDERS[key].length > 0 && (
-                  <p className="text-[10px] text-[rgb(var(--a-text-rgb)/0.35)]">
+                  <p className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.35)]">
                     Placeholders: {EMAIL_TEMPLATE_PLACEHOLDERS[key].map((p) => (
                       <code key={p} className="ml-1 text-accent">{p}</code>
                     ))}
                   </p>
                 )}
               </div>
-              <label className="mb-1 block text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              <label className="mb-1 block text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
                 Subjekti
               </label>
               <input
@@ -762,7 +801,7 @@ function EmailTemplatesEditor() {
                 }
                 className="font-ui mb-3 w-full rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-3 py-2 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
               />
-              <label className="mb-1 block text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              <label className="mb-1 block text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
                 Teksti
               </label>
               <textarea

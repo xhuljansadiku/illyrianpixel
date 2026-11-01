@@ -123,7 +123,7 @@ export default function AssistantTab() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="🔍 Kërko në mesazhe…"
+          placeholder="Kërko në mesazhe…"
           className={INPUT + " min-w-[220px]"}
         />
         <label className="flex items-center gap-2 font-ui text-[11px] text-[rgb(var(--a-text-rgb)/0.6)]">
@@ -160,7 +160,7 @@ export default function AssistantTab() {
                   </p>
                 </div>
                 {c.hasUnmatched && (
-                  <span className="shrink-0 rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[10px] text-amber-300">
+                  <span className="shrink-0 rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[11.5px] text-amber-300">
                     pa përgjigje
                   </span>
                 )}

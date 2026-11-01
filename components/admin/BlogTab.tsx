@@ -303,7 +303,7 @@ export default function BlogTab({
 
         <div className="mt-3">
           <label className="mb-1.5 block text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">
-            ⏰ Planifiko publikimin (ops. — lëre bosh për publikim të menjëhershëm)
+            Planifiko publikimin (ops. — lëre bosh për publikim të menjëhershëm)
           </label>
           <div className="flex flex-wrap items-center gap-3">
             <input
@@ -398,8 +398,8 @@ export default function BlogTab({
                 />
                 {p.title}
                 {p.published === false && p.scheduled_for && (
-                  <span className="ml-2 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2 py-0.5 text-[10px] font-semibold text-yellow-300">
-                    ⏰ Planifikuar · {formatDate(p.scheduled_for)}
+                  <span className="ml-2 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2 py-0.5 text-[11.5px] font-semibold text-yellow-300">
+                    Planifikuar · {formatDate(p.scheduled_for)}
                   </span>
                 )}
               </p>

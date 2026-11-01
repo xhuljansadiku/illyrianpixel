@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm, formatSq } from "@/components/admin/ui";
+import ClientPanel from "@/components/admin/ClientPanel";
 import type { Contact } from "@/components/AdminDashboard";
 import { PROJECT_STATUS_LABELS, type ProjectRecord } from "@/lib/projects";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
@@ -38,6 +39,7 @@ type ClientRow = {
   notes: string | null;
   contact: Contact | null;
   projects: ProjectRecord[];
+  docs: QuoteRecord[];
   paidTotal: number;
   pendingTotal: number;
   recurringMonthly: number;
@@ -93,6 +95,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
         notes: null,
         contact,
         projects: [],
+        docs: [],
         paidTotal: 0,
         pendingTotal: 0,
         recurringMonthly: 0,
@@ -127,6 +130,7 @@ function buildClients(contacts: Contact[], projects: ProjectRecord[], quotes: Qu
     const key = keyFor(q.contact_id, q.client_name);
     const service = contact?.service || shortService(q.items?.[0]?.description) || null;
     const row = ensure(key, q.client_name, q.client_business, q.client_email, contact?.phone ?? null, service, contact, q.contact_id, q.updated_at || q.created_at);
+    row.docs.push(q);
     const totals = quoteTotals(q.items, q.discount, q.tax_rate);
     if (q.status === "paid") row.paidTotal += totals.total;
     else if (q.status === "sent" || q.status === "accepted") row.pendingTotal += totals.total;
@@ -184,6 +188,7 @@ function applyManualOverrides(autoRows: ClientRow[], manual: ManualClient[]): Cl
         notes: m.notes,
         contact: null,
         projects: [],
+        docs: [],
         paidTotal: 0,
         pendingTotal: 0,
         recurringMonthly: 0,
@@ -259,7 +264,7 @@ function ClientRowActions({
           className={BTN_PLAIN + " disabled:opacity-40"}
           title="Dërgo email me planet e mirëmbajtjes"
         >
-          {offerBusyKey === row.key ? "Duke dërguar…" : offerSentKeys.has(row.key) ? "Oferta u dërgua ✓" : "🛡 Mirëmbajtja"}
+          {offerBusyKey === row.key ? "Duke dërguar…" : offerSentKeys.has(row.key) ? "Oferta u dërgua ✓" : "Ofro mirëmbajtje"}
         </button>
       )}
       {row.manualId && (
@@ -277,12 +282,16 @@ export default function ClientsTab({
   quotes,
   recurring,
   onGoToContact,
+  onGoToQuote,
+  onGoToProject,
 }: {
   contacts: Contact[];
   projects: ProjectRecord[];
   quotes: QuoteRecord[];
   recurring: RecurringInvoice[];
   onGoToContact: (term: string) => void;
+  onGoToQuote: (term: string) => void;
+  onGoToProject: (term: string) => void;
 }) {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounced(search, 250);
@@ -297,6 +306,8 @@ export default function ClientsTab({
   const [saving, setSaving] = useState(false);
   const { pushToast, renderToasts } = useToasts();
   const [confirm, renderConfirm] = useConfirm();
+  // Klienti i hapur në panelin anësor (sipas çelësit, që të ndjekë ndryshimet e të dhënave)
+  const [openKey, setOpenKey] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/clients")
@@ -438,10 +449,27 @@ export default function ClientsTab({
     }
   };
 
+  const openClient = openKey ? clients.find((c) => c.key === openKey) ?? null : null;
+
   return (
     <div className="space-y-6">
       {renderToasts()}
       {renderConfirm()}
+      {openClient && (
+        <ClientPanel
+          client={openClient}
+          onClose={() => setOpenKey(null)}
+          onOpenProject={onGoToProject}
+          onOpenQuote={onGoToQuote}
+          onOpenContact={onGoToContact}
+          onEdit={() => {
+            setOpenKey(null);
+            openEdit(openClient);
+          }}
+          onCopyPortal={() => copyPortalLink(openClient)}
+          portalCopied={copiedKey === openClient.key}
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className={CARD + " p-4"}>
@@ -547,22 +575,22 @@ export default function ClientsTab({
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <button
-                    onClick={() => onGoToContact(row.name)}
-                    className="block font-ui text-[13px] font-semibold text-[var(--a-text)] hover:text-accent"
+                    onClick={() => setOpenKey(row.key)}
+                    className="block text-left font-ui text-[14px] font-semibold text-[var(--a-text)] hover:text-accent"
                   >
                     {row.name}
                   </button>
                   {row.business && <p className="mt-0.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</p>}
                 </div>
                 {row.recurringCount > 0 ? (
-                  <span className="shrink-0 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                  <span className="shrink-0 rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold text-accent">
                     rekurrent
                   </span>
                 ) : (
                   (row.paidTotal > 0 || row.projects.length > 0) && (
                     <span
-                      className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90"
-                      title="Klient pa plan mirëmbajtjeje — mundësi upsell-i"
+                      className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-amber-400/90"
+                      title="Klient pa plan mirëmbajtjeje — mundësi për një plan mujor"
                     >
                       pa mirëmbajtje
                     </span>
@@ -586,7 +614,7 @@ export default function ClientsTab({
                   {row.projects.map((p) => (
                     <span
                       key={p.id}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[10.5px] text-[rgb(var(--a-text-rgb)/0.65)]"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.65)]"
                     >
                       <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[p.status]}`} />
                       {p.name} · {PROJECT_STATUS_LABELS[p.status]}
@@ -636,7 +664,7 @@ export default function ClientsTab({
         <div className={CARD + " hidden overflow-x-auto sm:block"}>
           <table className="w-full min-w-[920px] border-collapse text-[12px]">
             <thead>
-              <tr className="border-b border-[var(--a-border)] text-left text-[10px] uppercase tracking-[0.08em] text-[rgb(var(--a-text-rgb)/0.45)]">
+              <tr className="border-b border-[var(--a-border)] text-left text-[11.5px] uppercase tracking-[0.08em] text-[rgb(var(--a-text-rgb)/0.45)]">
                 <th className="px-4 py-3 font-medium">Klienti</th>
                 <th className="px-4 py-3 font-medium">Shërbimi</th>
                 <th className="px-4 py-3 font-medium">Klient që nga</th>
@@ -651,21 +679,21 @@ export default function ClientsTab({
                 <tr key={row.key} className="border-b border-[var(--a-border)] last:border-0 hover:bg-[rgb(var(--a-text-rgb)/0.02)]">
                   <td className="px-4 py-3 align-top">
                     <button
-                      onClick={() => onGoToContact(row.name)}
-                      className="block font-ui text-[13px] font-semibold text-[var(--a-text)] hover:text-accent"
+                      onClick={() => setOpenKey(row.key)}
+                      className="block text-left font-ui text-[14px] font-semibold text-[var(--a-text)] hover:text-accent"
                     >
                       {row.name}
                     </button>
                     {row.business && <p className="mt-0.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.5)]">{row.business}</p>}
                     {row.recurringCount > 0 ? (
-                      <span className="mt-1 inline-block rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                      <span className="mt-1 inline-block rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 text-[11.5px] font-semibold text-accent">
                         rekurrent
                       </span>
                     ) : (
                       (row.paidTotal > 0 || row.projects.length > 0) && (
                         <span
-                          className="mt-1 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400/90"
-                          title="Klient pa plan mirëmbajtjeje — mundësi upsell-i"
+                          className="mt-1 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11.5px] font-semibold text-amber-400/90"
+                          title="Klient pa plan mirëmbajtjeje — mundësi për një plan mujor"
                         >
                           pa mirëmbajtje
                         </span>
@@ -682,7 +710,7 @@ export default function ClientsTab({
                         {row.projects.map((p) => (
                           <span
                             key={p.id}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[10.5px] text-[rgb(var(--a-text-rgb)/0.65)]"
+                            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[12px] text-[rgb(var(--a-text-rgb)/0.65)]"
                           >
                             <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[p.status]}`} />
                             {p.name} · {PROJECT_STATUS_LABELS[p.status]}
@@ -699,7 +727,7 @@ export default function ClientsTab({
                       <p className="text-[11px] text-accent">{formatMoney(row.recurringMonthly)}/muaj</p>
                     )}
                     {row.pendingTotal > 0 && (
-                      <p className="text-[10.5px] text-[rgb(var(--a-text-rgb)/0.45)]">{formatMoney(row.pendingTotal)} në pritje</p>
+                      <p className="text-[12px] text-[rgb(var(--a-text-rgb)/0.45)]">{formatMoney(row.pendingTotal)} në pritje</p>
                     )}
                     {row.paidTotal === 0 && row.recurringMonthly === 0 && row.pendingTotal === 0 && (
                       <span className="text-[rgb(var(--a-text-rgb)/0.35)]">—</span>

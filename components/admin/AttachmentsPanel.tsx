@@ -84,8 +84,8 @@ export default function AttachmentsPanel({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Bashkëngjitje</p>
-        <label className="font-ui cursor-pointer rounded-[2px] border border-[var(--a-border)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
+        <p className="text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.35)]">Bashkëngjitje</p>
+        <label className="font-ui cursor-pointer rounded-[2px] border border-[var(--a-border)] px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]">
           {uploading ? "Duke ngarkuar…" : "+ Skedar"}
           <input
             ref={fileRef}
@@ -118,9 +118,9 @@ export default function AttachmentsPanel({
                 className="flex-1 truncate text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:text-accent"
                 title={a.name}
               >
-                📎 {a.name}
+                {a.name}
               </a>
-              <span className="text-[10px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatSize(a.size)}</span>
+              <span className="text-[11.5px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatSize(a.size)}</span>
               <button
                 onClick={() => remove(a.id)}
                 className="text-[rgb(var(--a-text-rgb)/0.3)] transition-colors hover:text-red-400"

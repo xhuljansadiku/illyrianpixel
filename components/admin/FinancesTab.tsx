@@ -220,7 +220,7 @@ export default function FinancesTab({ quotes, recurring }: { quotes: QuoteRecord
                   className="rounded-sm bg-emerald-400/60 transition-colors group-hover:bg-emerald-400"
                   style={{ height: `${Math.max(3, (m.revenue / monthlyMax) * 128)}px` }}
                 />
-                <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[11.5px] text-white opacity-0 transition-opacity group-hover:opacity-100">
                   {formatMoney(m.revenue)}
                 </div>
               </div>
@@ -229,7 +229,7 @@ export default function FinancesTab({ quotes, recurring }: { quotes: QuoteRecord
                   className="rounded-sm bg-red-400/60 transition-colors group-hover:bg-red-400"
                   style={{ height: `${Math.max(3, (m.expenses / monthlyMax) * 128)}px` }}
                 />
-                <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[11.5px] text-white opacity-0 transition-opacity group-hover:opacity-100">
                   {formatMoney(m.expenses)}
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function FinancesTab({ quotes, recurring }: { quotes: QuoteRecord
         </div>
         <div className="mt-2 flex gap-4">
           {monthly.map((m) => (
-            <p key={m.key} className="flex-1 text-center text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.45)]">
+            <p key={m.key} className="flex-1 text-center text-[11.5px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.45)]">
               {m.label}
             </p>
           ))}
@@ -370,7 +370,7 @@ export default function FinancesTab({ quotes, recurring }: { quotes: QuoteRecord
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-ui text-[13px] font-semibold text-[var(--a-text)]">{e.description}</span>
-                  <span className="rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[10px] text-[rgb(var(--a-text-rgb)/0.7)]">
+                  <span className="rounded-full border border-[var(--a-border)] px-2 py-0.5 text-[11.5px] text-[rgb(var(--a-text-rgb)/0.7)]">
                     {e.category}
                   </span>
                 </div>

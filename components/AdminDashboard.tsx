@@ -24,6 +24,8 @@ import BlogTab from "@/components/admin/BlogTab";
 import SubscribersTab from "@/components/admin/SubscribersTab";
 import ContactsTab from "@/components/admin/ContactsTab";
 import BrandTab from "@/components/admin/BrandTab";
+import TodayTab from "@/components/admin/TodayTab";
+import { isClosedContactStatus } from "@/lib/contactStatus";
 import { CARD, EmptyState, formatDate, formatDay, isOverdue, localIsoDate } from "@/components/admin/ui";
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
@@ -61,6 +63,7 @@ const VALID_TABS = [
   "clients",
   "finances",
   "brand",
+  "invoices",
 ] as const;
 
 export type AdminTab = (typeof VALID_TABS)[number];
@@ -224,6 +227,7 @@ export default function AdminDashboard({
   trashedQuotes: initialTrashedQuotes,
   autoActivity,
   renderedAt,
+  lostReasons,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
@@ -246,6 +250,7 @@ export default function AdminDashboard({
   trashedQuotes: TrashedQuote[];
   autoActivity: AutoActivity[];
   renderedAt: string;
+  lostReasons: { reason: string; count: number }[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<AdminTab>("overview");
@@ -440,48 +445,83 @@ export default function AdminDashboard({
 
   const today = localIsoDate();
   const dueSoonCount = contacts.filter((c) => {
-    if ((c.status || "new") === "done") return false;
+    if (isClosedContactStatus(c.status)) return false;
     if (!c.follow_up_date) return false;
     return c.follow_up_date <= today;
   }).length;
 
-  const NAV_ITEMS: { id: typeof tab; icon: AdminIconName; label: string; count?: number; alert?: number }[] = [
-    { id: "overview", icon: "home", label: "Përmbledhje" },
-    { id: "contacts", icon: "inbox", label: "Kontaktet", count: contacts.length, alert: dueSoonCount },
-    { id: "quotes", icon: "receipt", label: "Oferta & Fatura", count: quotes.length },
-    { id: "projects", icon: "folder", label: "Projektet", count: projectsList.length },
-    { id: "clients", icon: "briefcase", label: "Klientët" },
-    { id: "finances", icon: "wallet", label: "Financat" },
-    { id: "blog", icon: "pen", label: "Blog", count: blogPosts.length + staticPosts.length },
-    { id: "subscribers", icon: "mail", label: "Newsletter", count: subscribers.length },
-    { id: "content", icon: "layers", label: "Përmbajtja" },
-    { id: "analytics", icon: "chart", label: "Analitika" },
-    { id: "notes", icon: "note", label: "Notes" },
-    { id: "todos", icon: "check", label: "To Do" },
-    { id: "history", icon: "clock", label: "Historia" },
-    { id: "assistant", icon: "crown", label: "Mbreti Genti" },
-    { id: "brand", icon: "palette", label: "Marka" },
-    { id: "settings", icon: "settings", label: "Cilësimet" },
+  const overdueInvoiceCount = quotes.filter(
+    (q) => q.kind === "invoice" && (q.status === "sent" || q.status === "accepted") && !!q.due_at && q.due_at < today
+  ).length;
+
+  // Menuja e grupuar sipas punës (2026-11-02): 16 elemente → 10, në grupe Shitja / Puna /
+  // Paratë / Marketingu. Tab-et e bashkuara (p.sh. Detyrat + Shënime) kanë nën-shirit;
+  // ID-të e vjetra mbeten, ndaj lidhjet ?tab=notes etj. vazhdojnë të funksionojnë.
+  const NAV_GROUPS: NavGroup[] = [
+    { label: null, items: [{ id: "overview", icon: "home", label: "Sot" }] },
+    {
+      label: "Shitja",
+      items: [
+        { id: "contacts", icon: "inbox", label: "Kërkesat", count: contacts.length, alert: dueSoonCount },
+        { id: "quotes", icon: "receipt", label: "Ofertat", count: quotes.filter((q) => q.kind === "quote").length },
+      ],
+    },
+    {
+      label: "Puna",
+      items: [
+        { id: "clients", icon: "briefcase", label: "Klientët" },
+        { id: "projects", icon: "folder", label: "Projektet", count: projectsList.length },
+        { id: "todos", icon: "check", label: "Detyrat" },
+      ],
+    },
+    {
+      label: "Paratë",
+      items: [
+        {
+          id: "invoices",
+          icon: "wallet",
+          label: "Faturat & Pagesat",
+          count: quotes.filter((q) => q.kind === "invoice" && (q.status === "sent" || q.status === "accepted")).length,
+          alert: overdueInvoiceCount,
+        },
+      ],
+    },
+    {
+      label: "Marketingu",
+      items: [
+        { id: "blog", icon: "layers", label: "Faqja" },
+        { id: "subscribers", icon: "mail", label: "Newsletter", count: subscribers.filter((sub) => !sub.unsubscribed).length },
+        { id: "analytics", icon: "chart", label: "Analitika" },
+      ],
+    },
+    { label: null, bottom: true, items: [{ id: "settings", icon: "settings", label: "Cilësimet" }] },
   ];
+  const NAV_ITEMS = NAV_GROUPS.flatMap((g) => g.items);
+  const parentTab = parentOf(tab);
+  const subTabs = SUB_TABS[parentTab];
 
   const TAB_TITLES: Record<typeof tab, { title: string; subtitle: string }> = {
-    overview: { title: "Përmbledhje", subtitle: "Pamje e përgjithshme e aktivitetit" },
-    contacts: { title: "Kontaktet", subtitle: "Menaxho kontaktet dhe lead-et" },
-    quotes: { title: "Oferta & Fatura", subtitle: "Krijo, dërgo dhe gjurmo oferta e fatura" },
-    projects: { title: "Projektet", subtitle: "Ndiq fazat dhe detyrat e çdo projekti" },
-    subscribers: { title: "Newsletter", subtitle: "Abonentët, broadcast dhe statistika" },
-    blog: { title: "Blog", subtitle: "Artikujt e blogut dhe publikimi i planifikuar" },
-    content: { title: "Përmbajtja", subtitle: "Testimoniale, portofol dhe çmime — pa deploy" },
-    analytics: { title: "Analitika", subtitle: "Funnel, burime dhe performanca" },
+    overview: { title: "Sot", subtitle: "Çfarë kërkon vëmendje dhe si po ecin paratë" },
+    contacts: { title: "Kërkesat", subtitle: "Kush ju ka shkruar dhe në çfarë hapi ndodhet" },
+    quotes: { title: "Ofertat", subtitle: "Krijo, dërgo dhe ndiq ofertat" },
+    invoices: { title: "Faturat", subtitle: "Kush ka paguar, kush pritet dhe kush është vonë" },
+    projects: { title: "Projektet", subtitle: "Fazat dhe detyrat e çdo projekti" },
+    subscribers: { title: "Newsletter", subtitle: "Abonentët dhe email-et për ta" },
+    blog: { title: "Blog", subtitle: "Artikujt dhe publikimi i planifikuar" },
+    content: { title: "Përmbajtja e faqes", subtitle: "Testimoniale, portofol, pyetje dhe çmime — pa deploy" },
+    analytics: { title: "Statistikat", subtitle: "Rruga e vizitorëve, burimet dhe performanca" },
     history: { title: "Historia", subtitle: "Çdo veprim i regjistruar — çfarë ke bërë dhe kur" },
-    assistant: { title: "Mbreti Genti", subtitle: "Bisedat me asistentin virtual — çfarë pyesin vizitorët" },
-    settings: { title: "Cilësimet", subtitle: "Konfigurime dhe siguria" },
-    clients: { title: "Klientët", subtitle: "Klientët që kanë paguar — projektet, pagesat dhe rekurrenca" },
-    notes: { title: "Notes", subtitle: "Shënime të shpejta, personale" },
-    todos: { title: "To Do", subtitle: "Lista jote e detyrave" },
-    finances: { title: "Financat", subtitle: "Fitime, shpenzime dhe fitimi neto" },
-    brand: { title: "Marka", subtitle: "Udhëzuesi i markës — logo, ngjyra, fonte, ton (privat)" },
+    assistant: { title: "Mbreti Genti", subtitle: "Çfarë pyesin vizitorët asistentin virtual" },
+    settings: { title: "Cilësimet", subtitle: "Faqja, email-et, siguria dhe backup-i" },
+    clients: { title: "Klientët", subtitle: "Projektet, pagesat dhe pagesat e përsëritura për çdo klient" },
+    notes: { title: "Shënime", subtitle: "Ide dhe shënime të shpejta" },
+    todos: { title: "Detyrat", subtitle: "Çfarë duhet bërë" },
+    finances: { title: "Të ardhura & shpenzime", subtitle: "Të ardhura, shpenzime dhe fitimi neto" },
+    brand: { title: "Marka", subtitle: "Logo, ngjyra, fonte dhe toni (privat)" },
   };
+
+  // Titulli i faqes ndjek elementin e menusë (p.sh. "Faqja"), nën-shiriti zgjedh pjesën
+  const pageTitle = NAV_ITEMS.find((i) => i.id === parentTab)?.label ?? TAB_TITLES[tab].title;
 
   const globalResults = useMemo(() => {
     const q = globalSearch.trim().toLowerCase();
@@ -537,7 +577,8 @@ export default function AdminDashboard({
 
   const goToQuote = (term: string) => {
     setMobileSearchOpen(false);
-    setTab("quotes");
+    // Faturat (FA-…) jetojnë te "Faturat & Pagesat", ofertat te "Ofertat"
+    setTab(/^FA-/i.test(term) ? "invoices" : "quotes");
     setQuotesJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
@@ -565,12 +606,12 @@ export default function AdminDashboard({
   };
 
   const paletteActions: CommandPaletteAction[] = [
-    ...NAV_ITEMS.map((item) => ({
-      id: `nav-${item.id}`,
-      icon: <AdminIcon name={item.icon} className="h-4 w-4" />,
-      label: TAB_TITLES[item.id].title,
+    ...VALID_TABS.map((id) => ({
+      id: `nav-${id}`,
+      icon: <AdminIcon name={TAB_ICONS[id]} className="h-4 w-4" />,
+      label: TAB_TITLES[id].title,
       hint: "Shko te",
-      onRun: () => setTab(item.id),
+      onRun: () => setTab(id),
     })),
     {
       id: "new-quote",
@@ -639,7 +680,7 @@ export default function AdminDashboard({
           <>
             {globalResults.contactMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
                 {globalResults.contactMatches.map((c) => (
                   <button
                     key={c.id}
@@ -653,7 +694,7 @@ export default function AdminDashboard({
             )}
             {globalResults.subscriberMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
                 {globalResults.subscriberMatches.map((s) => (
                   <button
                     key={s.id}
@@ -667,7 +708,7 @@ export default function AdminDashboard({
             )}
             {globalResults.blogMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
                 {globalResults.blogMatches.map((p) => (
                   <button
                     key={p.slug}
@@ -684,7 +725,7 @@ export default function AdminDashboard({
             )}
             {globalResults.quoteMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
                 {globalResults.quoteMatches.map((doc) => (
                   <button
                     key={doc.id}
@@ -698,7 +739,7 @@ export default function AdminDashboard({
             )}
             {globalResults.projectMatches.length > 0 && (
               <div className="border-b border-[var(--a-border)] py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
                 {globalResults.projectMatches.map((p) => (
                   <button
                     key={p.id}
@@ -712,7 +753,7 @@ export default function AdminDashboard({
             )}
             {globalResults.faqMatches.length > 0 && (
               <div className="py-1.5">
-                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
+                <p className="px-3 pb-1 text-[11.5px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
                 {globalResults.faqMatches.map((f) => (
                   <button
                     key={f.id}
@@ -740,7 +781,8 @@ export default function AdminDashboard({
               key={t.id}
               className="rounded-xl border border-accent/40 bg-[var(--a-card)] px-4 py-3 text-[12px] text-[var(--a-text)] shadow-xl backdrop-blur-[12px] animate-[fadeIn_0.2s_ease-out]"
             >
-              {t.id.startsWith("err-") ? "⚠️" : "🔔"} {t.text}
+              <span className={`mr-2 inline-block h-2 w-2 rounded-full ${t.id.startsWith("err-") ? "bg-red-400" : "bg-accent"}`} aria-hidden />
+              {t.text}
             </div>
           ))}
         </div>
@@ -778,7 +820,7 @@ export default function AdminDashboard({
             </div>
 
             <nav className="mt-5 flex flex-1 flex-col gap-1 overflow-y-auto">
-              <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} onNavigate={() => setMobileNavOpen(false)} />
+              <SidebarNav groups={NAV_GROUPS} activeTab={parentTab} setTab={setTab} onNavigate={() => setMobileNavOpen(false)} />
               <div className="mt-1 px-1">
                 <NotificationsBell
                   setTab={(t) => {
@@ -820,13 +862,13 @@ export default function AdminDashboard({
             IP
           </div>
           <div className="relative min-w-0">
-            <p className="font-mono text-[8px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent/55">Illyrian Pixel</p>
             <p className="font-display text-[0.95rem] font-bold leading-tight text-[var(--a-text)]">Admin Panel</p>
           </div>
         </div>
 
-        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4 pt-1">
-          <SidebarNav navItems={NAV_ITEMS} tab={tab} setTab={setTab} />
+        <nav className="flex flex-1 flex-col overflow-y-auto px-3 pb-4 pt-1">
+          <SidebarNav groups={NAV_GROUPS} activeTab={parentTab} setTab={setTab} />
         </nav>
 
         <div className="border-t border-[var(--a-border)] p-3">
@@ -866,7 +908,7 @@ export default function AdminDashboard({
             type="button"
             onClick={() => setPaletteOpen(true)}
             title="Hap command palette (Ctrl/⌘ + K)"
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-[6px] border border-[var(--a-border)] px-1.5 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-[6px] border border-[var(--a-border)] px-1.5 py-0.5 text-[11.5px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)]"
           >
             ⌘K
           </button>
@@ -910,7 +952,7 @@ export default function AdminDashboard({
             </button>
             <div className="min-w-0 flex-1">
               <p className="ip-eyebrow">Illyrian Pixel</p>
-              <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{TAB_TITLES[tab].title}</h1>
+              <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{pageTitle}</h1>
             </div>
             <button
               onClick={() => {
@@ -943,9 +985,30 @@ export default function AdminDashboard({
 
           {/* Page title (desktop) */}
           <div className="hidden md:block">
-            <h2 className="font-display text-[1.7rem] font-bold tracking-[-0.01em] text-[var(--a-text)]">{TAB_TITLES[tab].title}</h2>
-            <p className="mt-1.5 text-[12.5px] text-[rgb(var(--a-text-rgb)/0.45)]">{TAB_TITLES[tab].subtitle}</p>
+            <h2 className="font-display text-[1.7rem] font-bold tracking-[-0.01em] text-[var(--a-text)]">{pageTitle}</h2>
+            <p className="mt-1.5 text-[13px] text-[rgb(var(--a-text-rgb)/0.5)]">{TAB_TITLES[tab].subtitle}</p>
           </div>
+
+          {/* Nën-shiriti për tab-et e bashkuara (Detyrat/Shënime, Blog/Përmbajtja, …) */}
+          {subTabs && (
+            <div role="tablist" aria-label={pageTitle} className="mt-4 inline-flex flex-wrap gap-1 rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] p-1">
+              {subTabs.map((st) => (
+                <button
+                  key={st.id}
+                  role="tab"
+                  aria-selected={tab === st.id}
+                  onClick={() => setTab(st.id)}
+                  className={`font-ui rounded-lg px-3.5 py-1.5 text-[13px] font-semibold transition-colors ${
+                    tab === st.id
+                      ? "bg-[var(--a-card)] text-[var(--a-text)] shadow-sm"
+                      : "text-[rgb(var(--a-text-rgb)/0.55)] hover:text-[var(--a-text)]"
+                  }`}
+                >
+                  {st.label}
+                </button>
+              ))}
+            </div>
+          )}
 
           {tab === "contacts" && (
             <>
@@ -953,8 +1016,7 @@ export default function AdminDashboard({
               <div className="mt-4 grid grid-cols-2 gap-4 md:mt-4 md:grid-cols-3 lg:grid-cols-5">
                 <StatCard label="Kontakte gjithsej" value={stats.totalContacts} featured />
                 <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
-                <StatCard label="Subscriber-a" value={stats.totalSubscribers} />
-                <StatCard label="Subscriber-a (javë)" value={stats.subscribersThisWeek} />
+                <StatCard label="Fituar (%)" value={Math.round(stats.conversionRate)} />
                 <StatCard label="Me kod zbritjeje" value={stats.discountUsed} />
               </div>
 
@@ -966,18 +1028,15 @@ export default function AdminDashboard({
           {/* Content */}
           <div className="mt-6">
             {tab === "overview" && (
-              <OverviewTab
+              <TodayTab
+                lostReasons={lostReasons}
                 contacts={contacts}
-                subscribers={subscribers}
-                stats={stats}
-                adminLogins={adminLogins}
-                projects={projectsList}
                 quotes={quotes}
-                broadcasts={broadcasts}
-                onGoToContact={goToContact}
-                onGoToQuote={goToQuote}
-                onGoToProject={goToProject}
-                autoActivity={autoActivity}
+                projects={projectsList}
+                onOpenContact={goToContact}
+                onOpenQuote={goToQuote}
+                onOpenProject={goToProject}
+                onGoTo={setTab}
               />
             )}
             {tab === "contacts" && (
@@ -992,6 +1051,7 @@ export default function AdminDashboard({
             )}
             {tab === "quotes" && (
               <QuotesTab
+                kindLock="quote"
                 createKey={createQuoteKey}
                 quotes={quotes}
                 setQuotes={setQuotes}
@@ -999,6 +1059,19 @@ export default function AdminDashboard({
                 recurring={recurringList}
                 setRecurring={setRecurringList}
                 prefill={quotePrefill}
+                jumpSearch={quotesJump}
+                trashedQuotes={trashedQuotes}
+                setTrashedQuotes={setTrashedQuotes}
+              />
+            )}
+            {tab === "invoices" && (
+              <QuotesTab
+                kindLock="invoice"
+                quotes={quotes}
+                setQuotes={setQuotes}
+                contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
+                recurring={recurringList}
+                setRecurring={setRecurringList}
                 jumpSearch={quotesJump}
                 trashedQuotes={trashedQuotes}
                 setTrashedQuotes={setTrashedQuotes}
@@ -1041,12 +1114,20 @@ export default function AdminDashboard({
             )}
             {tab === "history" && <ActivityTab />}
             {tab === "assistant" && <AssistantTab />}
-            {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} />}
+            {tab === "settings" && <SettingsTab adminLogins={adminLogins} initialSettings={siteSettings} autoActivity={autoActivity} />}
             {tab === "notes" && <NotesTab />}
             {tab === "todos" && <TodosTab />}
             {tab === "brand" && <BrandTab />}
             {tab === "clients" && (
-              <ClientsTab contacts={contacts} projects={projectsList} quotes={quotes} recurring={recurringList} onGoToContact={goToContact} />
+              <ClientsTab
+                contacts={contacts}
+                projects={projectsList}
+                quotes={quotes}
+                recurring={recurringList}
+                onGoToContact={goToContact}
+                onGoToQuote={goToQuote}
+                onGoToProject={goToProject}
+              />
             )}
             {tab === "finances" && <FinancesTab quotes={quotes} recurring={recurringList} />}
           </div>
@@ -1061,7 +1142,7 @@ export default function AdminDashboard({
 function StatCard({ label, value, featured }: { label: string; value: number; featured?: boolean }) {
   return (
     <div className={CARD + (featured ? " border-accent/30 p-5" : " p-5")}>
-      <p className="font-ui text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[rgb(var(--a-text-rgb)/0.45)]">
+      <p className="font-ui text-[12px] font-semibold uppercase tracking-[0.14em] text-[rgb(var(--a-text-rgb)/0.45)]">
         {label}
       </p>
       <p
@@ -1075,77 +1156,133 @@ function StatCard({ label, value, featured }: { label: string; value: number; fe
   );
 }
 
-// Numri i item-eve "kryesore" para ndarëses "Menaxhimi" në sidebar
-const MAIN_NAV_COUNT = 7;
+type NavItem = { id: AdminTab; icon: AdminIconName; label: string; count?: number; alert?: number };
+type NavGroup = { label: string | null; bottom?: boolean; items: NavItem[] };
+
+// Tab-et e bashkuara nën një element të menusë — çelësi është tab-i "prind"
+const SUB_TABS: Partial<Record<AdminTab, { id: AdminTab; label: string }[]>> = {
+  todos: [
+    { id: "todos", label: "Detyrat" },
+    { id: "notes", label: "Shënime" },
+  ],
+  blog: [
+    { id: "blog", label: "Blog" },
+    { id: "content", label: "Përmbajtja e faqes" },
+  ],
+  analytics: [
+    { id: "analytics", label: "Statistikat" },
+    { id: "assistant", label: "Mbreti Genti" },
+  ],
+  invoices: [
+    { id: "invoices", label: "Faturat" },
+    { id: "finances", label: "Të ardhura & shpenzime" },
+  ],
+  settings: [
+    { id: "settings", label: "Cilësimet" },
+    { id: "history", label: "Historia" },
+    { id: "brand", label: "Marka" },
+  ],
+};
+
+function parentOf(tab: AdminTab): AdminTab {
+  for (const [parent, subs] of Object.entries(SUB_TABS)) {
+    if (subs?.some((st) => st.id === tab)) return parent as AdminTab;
+  }
+  return tab;
+}
+
+// Ikona për çdo tab (edhe nën-tab-et) — për command palette
+const TAB_ICONS: Record<AdminTab, AdminIconName> = {
+  overview: "home",
+  contacts: "inbox",
+  quotes: "receipt",
+  projects: "folder",
+  subscribers: "mail",
+  blog: "pen",
+  content: "layers",
+  analytics: "chart",
+  history: "clock",
+  assistant: "crown",
+  settings: "settings",
+  notes: "note",
+  todos: "check",
+  clients: "briefcase",
+  finances: "wallet",
+  brand: "palette",
+  invoices: "wallet",
+};
 
 // ── Sidebar / drawer navigation (e ndarë mes desktop dhe mobile) ────────────
 function SidebarNav({
-  navItems,
-  tab,
+  groups,
+  activeTab,
   setTab,
-  collapsed,
   onNavigate,
 }: {
-  navItems: { id: AdminTab; icon: AdminIconName; label: string; count?: number; alert?: number }[];
-  tab: AdminTab;
+  groups: NavGroup[];
+  activeTab: AdminTab;
   setTab: (t: AdminTab) => void;
-  collapsed?: boolean;
   onNavigate?: () => void;
 }) {
   return (
     <>
-      {navItems.map((item, i) => (
-        <Fragment key={item.id}>
-          {i === MAIN_NAV_COUNT &&
-            (collapsed ? (
-              <div className="my-2 border-t border-[var(--a-border)]" />
-            ) : (
-              <p className="mb-1 mt-4 px-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-[rgb(var(--a-text-rgb)/0.25)]">
-                Menaxhimi
-              </p>
-            ))}
-          <button
-            onClick={() => {
-              setTab(item.id);
-              onNavigate?.();
-            }}
-            title={collapsed ? item.label : undefined}
-            className={`font-ui relative flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-left text-[13px] font-semibold tracking-[0.3px] transition-all duration-200 ${
-              tab === item.id
-                ? "bg-[rgb(var(--a-text-rgb)/0.07)] text-[var(--a-text)]"
-                : "text-[rgb(var(--a-text-rgb)/0.45)] hover:bg-[rgb(var(--a-text-rgb)/0.03)] hover:text-[rgb(var(--a-text-rgb)/0.8)]"
-            } ${collapsed ? "justify-center" : "justify-between"}`}
-          >
-            {tab === item.id && (
-              <span className="absolute left-0 top-1/2 h-4 w-[2.5px] -translate-y-1/2 rounded-full bg-accent" />
-            )}
-            <span className="flex min-w-0 items-center gap-3">
-              <span
-                className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                  tab === item.id ? "bg-accent/15 text-accent" : "bg-[rgb(var(--a-text-rgb)/0.04)]"
-                }`}
-              >
-                <AdminIcon name={item.icon} className="h-[15px] w-[15px]" />
-                {!!item.alert && (
-                  <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-[var(--a-card2)]">
-                    {item.alert > 9 ? "9+" : item.alert}
+      {groups.map((group, gi) => (
+        <div key={gi} className={group.bottom ? "mt-auto border-t border-[var(--a-border)] pt-2" : gi > 0 ? "mt-4" : ""}>
+          {group.label && (
+            <p className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--a-text-rgb)/0.35)]">
+              {group.label}
+            </p>
+          )}
+          <div className="space-y-0.5">
+            {group.items.map((item) => {
+              const active = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setTab(item.id);
+                    onNavigate?.();
+                  }}
+                  aria-current={active ? "page" : undefined}
+                  className={`font-ui relative flex w-full items-center justify-between gap-3 rounded-xl px-2.5 py-2 text-left text-[13.5px] font-semibold transition-colors duration-200 ${
+                    active
+                      ? "bg-[rgb(var(--a-text-rgb)/0.07)] text-[var(--a-text)]"
+                      : "text-[rgb(var(--a-text-rgb)/0.55)] hover:bg-[rgb(var(--a-text-rgb)/0.04)] hover:text-[var(--a-text)]"
+                  }`}
+                >
+                  {active && <span className="absolute left-0 top-1/2 h-4 w-[2.5px] -translate-y-1/2 rounded-full bg-accent" />}
+                  <span className="flex min-w-0 items-center gap-3">
+                    <span
+                      className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                        active ? "bg-accent/15 text-accent" : "bg-[rgb(var(--a-text-rgb)/0.04)]"
+                      }`}
+                    >
+                      <AdminIcon name={item.icon} className="h-[15px] w-[15px]" />
+                      {!!item.alert && (
+                        <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] font-bold text-white ring-2 ring-[var(--a-card2)]">
+                          {item.alert > 9 ? "9+" : item.alert}
+                        </span>
+                      )}
+                    </span>
+                    <span className="truncate">{item.label}</span>
                   </span>
-                )}
-              </span>
-              {!collapsed && <span className="truncate">{item.label}</span>}
-            </span>
-            {!collapsed && item.count !== undefined && (
-              <span className="shrink-0 text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{item.count}</span>
-            )}
-          </button>
-        </Fragment>
+                  {item.count !== undefined && item.count > 0 && (
+                    <span className="shrink-0 text-[12px] tabular-nums text-[rgb(var(--a-text-rgb)/0.4)]">{item.count}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       ))}
     </>
   );
 }
 
 // ── Overview tab ─────────────────────────────────────────────────────────────
-function OverviewTab({
+// Përmbledhja e vjetër — zëvendësuar nga "Sot" (components/admin/TodayTab.tsx, 2026-11-02).
+// Ruhet pa u përdorur (eksportuar që lint-i të mos ankohet) deri sa "Sot" të konfirmohet.
+export function OverviewTab({
   contacts,
   subscribers,
   stats,
@@ -1299,7 +1436,7 @@ function OverviewTab({
     cutoff.setDate(cutoff.getDate() + 2);
     const cutoffStr = localIsoDate(cutoff);
     return contacts
-      .filter((c) => (c.status || "new") !== "done" && c.follow_up_date && c.follow_up_date <= cutoffStr)
+      .filter((c) => !isClosedContactStatus(c.status) && c.follow_up_date && c.follow_up_date <= cutoffStr)
       .sort((a, b) => (a.follow_up_date! < b.follow_up_date! ? -1 : 1));
   }, [contacts]);
 
@@ -1434,8 +1571,8 @@ function OverviewTab({
                     style={{ height: `${Math.max(4, (m.count / maxLeadsInMonth) * 56)}px` }}
                     title={`${m.count} leads`}
                   />
-                  <span className="text-[10px] font-semibold text-[var(--a-text)]">{m.count}</span>
-                  <span className="text-[9px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</span>
+                  <span className="text-[11.5px] font-semibold text-[var(--a-text)]">{m.count}</span>
+                  <span className="text-[11px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</span>
                 </div>
               ))}
             </div>
@@ -1537,7 +1674,7 @@ function OverviewTab({
                 {Array.from(projectsSummary.byPhase.entries()).map(([phase, count]) => (
                   <span
                     key={phase}
-                    className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent"
+                    className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-accent"
                   >
                     {PROJECT_PHASE_LABELS[phase as keyof typeof PROJECT_PHASE_LABELS] ?? phase} · {count}
                   </span>
@@ -1656,7 +1793,7 @@ function ContactsChart({ contacts }: { contacts: Contact[] }) {
               className="rounded-sm bg-gradient-to-t from-accent/40 to-accent/90 transition-colors group-hover:to-accent"
               style={{ height: `${Math.max(3, (count / max) * 96)}px` }}
             />
-            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[10px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black px-2 py-1 text-[11.5px] text-[var(--a-text)] opacity-0 transition-opacity group-hover:opacity-100">
               {formatDay(date)}: {count}
             </div>
           </div>

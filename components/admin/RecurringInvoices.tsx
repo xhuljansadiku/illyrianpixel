@@ -398,7 +398,7 @@ export default function RecurringInvoices({
                   <div className="flex flex-wrap items-center gap-2.5">
                     <span className="font-display font-semibold text-[var(--a-text)]">{r.client_name}</span>
                     <span
-                      className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${
+                      className={`rounded-full border px-2 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] ${
                         r.active
                           ? "border-emerald-400/30 bg-emerald-400/8 text-emerald-300"
                           : "border-[rgb(var(--a-text-rgb)/0.2)] bg-[rgb(var(--a-text-rgb)/0.05)] text-[rgb(var(--a-text-rgb)/0.55)]"
@@ -423,7 +423,7 @@ export default function RecurringInvoices({
                   disabled={busyId === r.id}
                   className="font-ui rounded-[10px] border border-[var(--a-border)] px-3 py-1.5 text-[11px] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:border-accent/50 hover:text-[var(--a-text)] disabled:opacity-50"
                 >
-                  {r.active ? "⏸ Ndalo" : "▶ Aktivizo"}
+                  {r.active ? "Ndalo" : "Aktivizo"}
                 </button>
                 <button
                   onClick={() => openEdit(r)}

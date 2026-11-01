@@ -80,7 +80,7 @@ export default function TodosTab() {
         className="mt-0.5 shrink-0 w-4 h-4 rounded border border-[var(--a-border)] flex items-center justify-center hover:border-accent transition-colors"
         title={todo.done ? "Shëno si e papërfunduar" : "Shëno si e kryer"}
       >
-        {todo.done && <span className="text-accent text-[10px]">✓</span>}
+        {todo.done && <span className="text-accent text-[11.5px]">✓</span>}
       </button>
 
       <div className="flex-1 min-w-0">
@@ -93,14 +93,14 @@ export default function TodosTab() {
               onKeyDown={(e) => { if (e.key === "Enter") saveEdit(); if (e.key === "Escape") setEditing(null); }}
               className={INPUT + " flex-1"}
             />
-            <button onClick={saveEdit} className={BTN_GOLD + " text-[10px] px-2 py-1"}>Ruaj</button>
-            <button onClick={() => setEditing(null)} className={BTN_PLAIN + " text-[10px] px-2 py-1"}>✕</button>
+            <button onClick={saveEdit} className={BTN_GOLD + " text-[11.5px] px-2 py-1"}>Ruaj</button>
+            <button onClick={() => setEditing(null)} className={BTN_PLAIN + " text-[11.5px] px-2 py-1"}>✕</button>
           </div>
         ) : (
           <p className={"text-[12px] text-[var(--a-text)] " + (todo.done ? "line-through" : "")}>{todo.text}</p>
         )}
         {todo.due_at && (
-          <p className={"mt-0.5 text-[10px] " + (
+          <p className={"mt-0.5 text-[11.5px] " + (
             !todo.done && new Date(todo.due_at) < new Date()
               ? "text-red-400"
               : "text-[rgb(var(--a-text-rgb)/0.4)]"
@@ -113,8 +113,8 @@ export default function TodosTab() {
 
       {editing?.id !== todo.id && (
         <div className="flex gap-1 shrink-0">
-          <button onClick={() => { setEditing(todo); setEditText(todo.text); }} className={BTN_PLAIN + " text-[10px] px-2 py-1"}>✎</button>
-          <button onClick={() => handleDelete(todo)} className={BTN_DANGER + " text-[10px] px-2 py-1"}>✕</button>
+          <button onClick={() => { setEditing(todo); setEditText(todo.text); }} className={BTN_PLAIN + " text-[11.5px] px-2 py-1"}>✎</button>
+          <button onClick={() => handleDelete(todo)} className={BTN_DANGER + " text-[11.5px] px-2 py-1"}>✕</button>
         </div>
       )}
     </div>
