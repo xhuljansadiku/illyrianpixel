@@ -14,6 +14,11 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: false, error: "Mungon parametri 'after'." }, { status: 400 });
   }
 
+  // Ora e serverit, marrë PARA kërkesës — klienti e përdor si "after" herën tjetër.
+  // Kështu s'varet nga ora e kompjuterit, dhe një kontakt i futur gjatë kësaj kërkese
+  // del sërish herën tjetër (klienti i heq dublikatat sipas id).
+  const now = new Date().toISOString();
+
   const { data, error } = await supabase
     .from("contacts")
     .select("*")
@@ -26,5 +31,5 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, contacts: data });
+  return NextResponse.json({ success: true, contacts: data, now });
 }

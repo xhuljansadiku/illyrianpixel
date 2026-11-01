@@ -10,7 +10,7 @@ import {
   useSensors,
   type DragEndEvent,
 } from "@dnd-kit/core";
-import { CARD, EmptyState, Skeleton, STATUS_LABELS, formatDate, formatDay, isOverdue, useConfirm, useDebounced, useUndoToast } from "@/components/admin/ui";
+import { CARD, EmptyState, Skeleton, STATUS_LABELS, formatDate, formatDay, isOverdue, useConfirm, useDebounced, useUndoToast, formatSq, localIsoDate } from "@/components/admin/ui";
 import { formatMoney } from "@/lib/quotes";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
@@ -93,7 +93,7 @@ function downloadContactsCSV(rows: Contact[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `kontaktet-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.download = `kontaktet-${localIsoDate()}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -310,8 +310,8 @@ export default function ContactsTab({
       if (dateFrom && new Date(c.created_at) < new Date(dateFrom)) return false;
       if (dateTo && new Date(c.created_at) > new Date(dateTo + "T23:59:59")) return false;
       if (followUpFilter === "none" && c.follow_up_date) return false;
-      if (followUpFilter === "overdue" && !(c.follow_up_date && c.follow_up_date < new Date().toISOString().slice(0, 10))) return false;
-      if (followUpFilter === "upcoming" && !(c.follow_up_date && c.follow_up_date >= new Date().toISOString().slice(0, 10))) return false;
+      if (followUpFilter === "overdue" && !(c.follow_up_date && c.follow_up_date < localIsoDate())) return false;
+      if (followUpFilter === "upcoming" && !(c.follow_up_date && c.follow_up_date >= localIsoDate())) return false;
       return true;
     });
   }, [contacts, debouncedSearch, serviceFilter, tagFilter, dateFrom, dateTo, followUpFilter]);
@@ -1316,26 +1316,26 @@ function FollowUpCalendar({ contacts, onSelectContact }: { contacts: Contact[]; 
     const cells: { date: Date; key: string }[] = [];
     for (let i = 0; i < startOffset; i++) {
       const d = new Date(year, month, 1 - (startOffset - i));
-      cells.push({ date: d, key: d.toISOString().slice(0, 10) });
+      cells.push({ date: d, key: localIsoDate(d) });
     }
     for (let d = 1; d <= lastDay.getDate(); d++) {
       const date = new Date(year, month, d);
-      cells.push({ date, key: date.toISOString().slice(0, 10) });
+      cells.push({ date, key: localIsoDate(date) });
     }
     while (cells.length % 7 !== 0) {
       const last = cells[cells.length - 1].date;
       const d = new Date(last);
       d.setDate(d.getDate() + 1);
-      cells.push({ date: d, key: d.toISOString().slice(0, 10) });
+      cells.push({ date: d, key: localIsoDate(d) });
     }
 
     const weeks: { date: Date; key: string }[][] = [];
     for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
 
     return {
-      label: base.toLocaleDateString("sq-AL", { month: "long", year: "numeric" }),
+      label: formatSq(base, "month-year"),
       weeks,
-      todayStr: new Date().toISOString().slice(0, 10),
+      todayStr: localIsoDate(),
     };
   }, [monthOffset]);
 

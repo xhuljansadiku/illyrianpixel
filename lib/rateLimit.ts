@@ -1,10 +1,14 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // IP-ja e klientit — në Vercel, x-forwarded-for mbishkruhet nga proxy-ja, s'mund të falsifikohet
+// Fillimisht kokat që i vendos vetë Vercel (klienti s'mund t'i falsifikojë), pastaj
+// x-forwarded-for. Përndryshe një sulmues mund të dërgonte IP të rreme në çdo tentativë
+// dhe të anashkalonte bllokimin pas 5 dështimesh te /api/admin/login.
 export function getClientIp(req: Request): string {
   return (
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-    req.headers.get("x-real-ip") ??
+    req.headers.get("x-vercel-forwarded-for")?.split(",")[0].trim() ||
+    req.headers.get("x-real-ip")?.trim() ||
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
     "unknown"
   );
 }

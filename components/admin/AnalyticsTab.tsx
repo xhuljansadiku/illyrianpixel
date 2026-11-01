@@ -1,13 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CARD, EmptyState, STATUS_LABELS, formatDate } from "@/components/admin/ui";
+import { CARD, EmptyState, STATUS_LABELS, formatDate, formatSq, formatNumberSq } from "@/components/admin/ui";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
 import type { Contact, Stats } from "@/components/AdminDashboard";
 
 function printMonthlyReport(contacts: Contact[], stats: Stats) {
   const now = new Date();
-  const monthLabel = now.toLocaleDateString("sq-AL", { month: "long", year: "numeric" });
+  const monthLabel = formatSq(now, "month-year");
   const monthContacts = contacts.filter((c) => {
     const d = new Date(c.created_at);
     return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
@@ -138,7 +138,7 @@ export default function AnalyticsTab({
     const now = new Date();
     for (let i = 5; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      months.push({ key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`, label: d.toLocaleDateString("sq-AL", { month: "short" }), total: 0 });
+      months.push({ key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`, label: formatSq(d, "month-short"), total: 0 });
     }
     const byKey = new Map(months.map((m) => [m.key, m]));
     quotes
@@ -282,7 +282,7 @@ export default function AnalyticsTab({
                 <div className="mb-1 flex items-center justify-between text-[12px]">
                   <span className="text-[rgb(var(--a-text-rgb)/0.65)]">{step.label}</span>
                   <span className="text-[rgb(var(--a-text-rgb)/0.45)]">
-                    {step.value.toLocaleString("sq-AL")}
+                    {formatNumberSq(step.value)}
                     {rate !== null && <span className="ml-2 text-accent/70">({rate.toFixed(1)}%)</span>}
                   </span>
                 </div>

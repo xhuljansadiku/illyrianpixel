@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, INPUT, EmptyState, SkeletonRows, useDebounced } from "@/components/admin/ui";
+import { CARD, INPUT, EmptyState, SkeletonRows, useDebounced, formatSq } from "@/components/admin/ui";
 
 type AssistantMessage = {
   id: number;
@@ -30,7 +30,7 @@ function relativeTime(iso: string): string {
   if (hours < 24) return `para ${hours} or${hours === 1 ? "e" : "ësh"}`;
   const days = Math.floor(hours / 24);
   if (days < 7) return `para ${days} dit${days === 1 ? "e" : "ësh"}`;
-  return new Date(iso).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return formatSq(iso);
 }
 
 export default function AssistantTab() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm } from "@/components/admin/ui";
+import { CARD, INPUT, BTN_GOLD, BTN_PLAIN, BTN_DANGER, EmptyState, SkeletonRows, useDebounced, useToasts, useConfirm, formatSq, localIsoDate } from "@/components/admin/ui";
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
 
 type Expense = {
@@ -37,12 +37,12 @@ const EMPTY_FORM: ExpenseForm = {
   description: "",
   category: EXPENSE_CATEGORIES[0],
   amount: "",
-  expense_date: new Date().toISOString().slice(0, 10),
+  expense_date: localIsoDate(),
   notes: "",
 };
 
 function formatDay(iso: string) {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return formatSq(iso);
 }
 
 function monthKey(iso: string) {
@@ -90,7 +90,7 @@ export default function FinancesTab({ quotes, recurring }: { quotes: QuoteRecord
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
       months.push({
         key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`,
-        label: d.toLocaleDateString("sq-AL", { month: "short" }),
+        label: formatSq(d, "month-short"),
         revenue: 0,
         expenses: 0,
       });

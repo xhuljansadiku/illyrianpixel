@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
@@ -14,6 +14,13 @@ export default function AdminLoginPage() {
   const [step, setStep] = useState<"password" | "token">("password");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Paneli ridrejton këtu me ?expired=1 kur një veprim merr 401 (sesioni skadoi)
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("expired") === "1") {
+      setError("Sesioni skadoi. Hyni përsëri.");
+    }
+  }, []);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();

@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { Resend } from "resend";
-import { NEWSLETTER_BRAND, broadcastEmailHtml } from "@/lib/newsletterEmail";
-import { unsubscribeHeaders } from "@/lib/newsletterTokens";
+import { fetchBroadcastRecipients, sendBroadcast } from "@/lib/newsletterBroadcast";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { logActivity } from "@/lib/activityLog";
 
@@ -10,10 +8,6 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const BATCH_SIZE = 100;
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -28,17 +22,12 @@ export async function POST(req: Request) {
     typeof body.scheduled_for === "string" && body.scheduled_for ? new Date(body.scheduled_for) : null;
   const isScheduled = !!scheduledFor && !Number.isNaN(scheduledFor.getTime()) && scheduledFor.getTime() > Date.now();
 
-  const { data: subscribers, error } = await supabase
-    .from("newsletter_subscribers")
-    .select("email")
-    .eq("unsubscribed", false)
-    .not("confirmed_at", "is", null); // vetëm double opt-in të konfirmuar
-
-  if (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  let recipients: string[];
+  try {
+    recipients = await fetchBroadcastRecipients(supabase);
+  } catch (err) {
+    return NextResponse.json({ success: false, error: (err as Error).message }, { status: 500 });
   }
-
-  const recipients = (subscribers ?? []).map((s) => s.email);
   if (recipients.length === 0) {
     return NextResponse.json({ success: false, error: "Asnjë subscriber aktiv i konfirmuar." }, { status: 400 });
   }
@@ -68,29 +57,33 @@ export async function POST(req: Request) {
   // Regjistro broadcast-in që open/click të lidhen me të
   const { data: broadcast } = await supabase
     .from("newsletter_broadcasts")
-    .insert({ subject, message, sent_count: recipients.length, sent_at: new Date().toISOString() })
+    .insert({ subject, message, sent_count: 0, sent_at: new Date().toISOString() })
     .select("id")
     .single();
 
-  for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
-    const chunk = recipients.slice(i, i + BATCH_SIZE);
-    await resend.batch.send(
-      chunk.map((email) => ({
-        from: NEWSLETTER_BRAND.from,
-        to: email,
-        subject,
-        html: broadcastEmailHtml(
-          subject,
-          message,
-          whatsappUrl,
-          broadcast ? { broadcastId: broadcast.id, email } : undefined
-        ),
-        headers: unsubscribeHeaders(email),
-      }))
+  const result = await sendBroadcast({ subject, message, whatsappUrl, broadcastId: broadcast?.id, recipients });
+
+  if (broadcast) {
+    if (result.sent === 0) {
+      // Asnjë s'u dërgua — mos e lër në histori si broadcast i dërguar
+      await supabase.from("newsletter_broadcasts").delete().eq("id", broadcast.id);
+    } else {
+      await supabase.from("newsletter_broadcasts").update({ sent_count: result.sent }).eq("id", broadcast.id);
+    }
+  }
+
+  if (result.sent === 0) {
+    return NextResponse.json(
+      { success: false, error: `Dërgimi dështoi: ${result.error ?? "gabim i panjohur"}` },
+      { status: 502 }
     );
   }
 
-  await logActivity("newsletter", "send", `U dërgua broadcast "${subject}" te ${recipients.length} abonentë`);
+  await logActivity(
+    "newsletter",
+    "send",
+    `U dërgua broadcast "${subject}" te ${result.sent} abonentë${result.failed ? ` (${result.failed} dështuan)` : ""}`
+  );
 
-  return NextResponse.json({ success: true, sent: recipients.length });
+  return NextResponse.json({ success: true, sent: result.sent, failed: result.failed });
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { BACKUP_TABLES, fetchBackupTable } from "@/lib/backup";
 
 // Pa këtë, Next.js e statikon këtë route (asnjë req/params i përdorur) dhe kthen
 // përgjithmonë "foton" e parë të bazës së të dhënave në vend të backup-it aktual.
@@ -10,34 +11,17 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const TABLES = [
-  "contacts",
-  "contact_notes",
-  "contact_logs",
-  "quotes",
-  "recurring_invoices",
-  "projects",
-  "project_tasks",
-  "blog_posts",
-  "faqs",
-  "testimonials",
-  "portfolio_items",
-  "newsletter_subscribers",
-  "newsletter_broadcasts",
-  "pricing_overrides",
-] as const;
-
 export async function GET() {
   const data: Record<string, unknown> = {
     exported_at: new Date().toISOString(),
   };
 
-  for (const table of TABLES) {
-    const { data: rows, error } = await supabase.from(table).select("*");
-    if (error) {
-      return NextResponse.json({ success: false, error: `${table}: ${error.message}` }, { status: 500 });
+  try {
+    for (const table of BACKUP_TABLES) {
+      data[table] = await fetchBackupTable(supabase, table);
     }
-    data[table] = rows;
+  } catch (err) {
+    return NextResponse.json({ success: false, error: (err as Error).message }, { status: 500 });
   }
 
   const filename = `illyrianpixel-backup-${new Date().toISOString().slice(0, 10)}.json`;

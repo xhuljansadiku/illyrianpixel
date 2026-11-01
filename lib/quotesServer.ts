@@ -25,14 +25,23 @@ export async function insertQuoteWithNumber(
   const prefix = fields.kind === "invoice" ? "FA" : "OF";
   const year = new Date().getFullYear();
 
-  const { count } = await supabase
+  // Numri i ri = më i madhi ekzistues + 1 (përfshirë ato në kosh). Më parë merrej
+  // numërimi i rreshtave: pas një fshirjeje të përhershme numri përsëritej — e
+  // papranueshme për faturat — dhe me shumë boshllëqe krijimi dështonte fare.
+  // Krahasim numerik, jo alfabetik ("1000" < "999" si tekst).
+  const { data: existing, error: numbersError } = await supabase
     .from("quotes")
-    .select("id", { count: "exact", head: true })
+    .select("number")
     .like("number", `${prefix}-${year}-%`);
+  if (numbersError) return { error: numbersError.message };
+  const maxN = (existing ?? []).reduce((max, row) => {
+    const n = parseInt(String(row.number).split("-")[2] ?? "", 10);
+    return Number.isFinite(n) && n > max ? n : max;
+  }, 0);
 
-  // Provo disa numra radhazi në rast përplasjeje (unique constraint)
+  // Provo disa numra radhazi në rast përplasjeje (dy krijime njëkohësisht)
   let lastError = "Nuk u gjenerua dot numri.";
-  for (let n = (count ?? 0) + 1; n <= (count ?? 0) + 5; n++) {
+  for (let n = maxN + 1; n <= maxN + 5; n++) {
     const number = `${prefix}-${year}-${String(n).padStart(3, "0")}`;
     const { data, error } = await supabase
       .from("quotes")

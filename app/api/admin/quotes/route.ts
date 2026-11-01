@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { parseQuoteItems } from "@/lib/quotes";
+import { insertQuoteWithNumber } from "@/lib/quotesServer";
 import { logActivity } from "@/lib/activityLog";
 
 const supabase = createClient(
@@ -48,46 +49,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: "Shto të paktën një artikull të vlefshëm." }, { status: 400 });
   }
 
-  const prefix = kind === "invoice" ? "FA" : "OF";
-  const year = new Date().getFullYear();
+  const { quote, error } = await insertQuoteWithNumber(supabase, {
+    kind,
+    contact_id: contactId,
+    client_name: clientName,
+    client_email: clientEmail,
+    client_business: clientBusiness,
+    items,
+    discount,
+    tax_rate: taxRate,
+    notes,
+    issued_at: issuedAt,
+    due_at: dueAt,
+  });
 
-  const { count } = await supabase
-    .from("quotes")
-    .select("id", { count: "exact", head: true })
-    .like("number", `${prefix}-${year}-%`);
-
-  // Provo disa numra radhazi në rast përplasjeje (unique constraint)
-  let lastError = "Nuk u gjenerua dot numri.";
-  for (let n = (count ?? 0) + 1; n <= (count ?? 0) + 5; n++) {
-    const number = `${prefix}-${year}-${String(n).padStart(3, "0")}`;
-    const { data, error } = await supabase
-      .from("quotes")
-      .insert({
-        number,
-        kind,
-        contact_id: contactId,
-        client_name: clientName,
-        client_email: clientEmail,
-        client_business: clientBusiness,
-        items,
-        discount,
-        tax_rate: taxRate,
-        notes,
-        ...(issuedAt ? { issued_at: issuedAt } : {}),
-        due_at: dueAt,
-      })
-      .select()
-      .single();
-
-    if (!error) {
-      await logActivity("quote", "create", `U krijua ${kind === "invoice" ? "fatura" : "oferta"} ${number} për ${clientName}`);
-      return NextResponse.json({ success: true, quote: data });
-    }
-    if (error.code !== "23505") {
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-    }
-    lastError = error.message;
+  if (!quote) {
+    return NextResponse.json({ success: false, error: error ?? "Nuk u krijua dot." }, { status: 500 });
   }
 
-  return NextResponse.json({ success: false, error: lastError }, { status: 500 });
+  await logActivity("quote", "create", `U krijua ${kind === "invoice" ? "fatura" : "oferta"} ${quote.number} për ${clientName}`);
+  return NextResponse.json({ success: true, quote });
 }

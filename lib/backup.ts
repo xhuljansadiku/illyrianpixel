@@ -3,14 +3,20 @@
 // për të mos shtuar një cron të tretë në Vercel (plani Hobby lejon maksimumi 2).
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+// E përbashkët për backup-in javor dhe shkarkimin nga paneli (/api/admin/export).
+// Lihen jashtë qëllimisht admin_logins dhe rate_limits (vetëm log-e teknike).
 export const BACKUP_TABLES = [
   "contacts",
   "contact_notes",
   "contact_logs",
   "quotes",
   "recurring_invoices",
+  "clients",
+  "expenses",
   "projects",
   "project_tasks",
+  "project_feedback",
+  "attachments",
   "faqs",
   "testimonials",
   "portfolio_items",
@@ -18,9 +24,52 @@ export const BACKUP_TABLES = [
   "blog_posts",
   "newsletter_subscribers",
   "newsletter_broadcasts",
+  "newsletter_events",
   "site_settings",
   "email_templates",
+  "admin_notes",
+  "admin_todos",
+  "admin_activity",
+  "assistant_messages",
 ] as const;
+
+type BackupTable = (typeof BACKUP_TABLES)[number];
+
+// Tabelat pa kolonë "id" — renditen sipas çelësit të tyre primar
+const ORDER_KEY: Partial<Record<BackupTable, string>> = {
+  pricing_overrides: "key",
+  email_templates: "key",
+  site_settings: "key",
+};
+
+// Sekretet e 2FA dhe versioni i sesionit nuk dalin kurrë në backup — ky skedar
+// shkon me email dhe shkarkohet, dhe me to kushdo do ta anashkalonte 2FA-në.
+const SECRET_SETTING_PREFIXES = ["totp_", "admin_session"];
+
+// Supabase kthen maksimumi 1000 rreshta për kërkesë — pa faqosje, backup-i
+// do pritej në heshtje sapo një tabelë të kalonte këtë numër.
+const PAGE_SIZE = 1000;
+
+export async function fetchBackupTable(
+  supabase: SupabaseClient,
+  table: BackupTable
+): Promise<Record<string, unknown>[]> {
+  const rows: Record<string, unknown>[] = [];
+  for (let from = 0; ; from += PAGE_SIZE) {
+    const { data, error } = await supabase
+      .from(table)
+      .select("*")
+      .order(ORDER_KEY[table] ?? "id", { ascending: true })
+      .range(from, from + PAGE_SIZE - 1);
+    if (error) throw new Error(`${table}: ${error.message}`);
+    rows.push(...(data ?? []));
+    if (!data || data.length < PAGE_SIZE) break;
+  }
+  if (table === "site_settings") {
+    return rows.filter((r) => !SECRET_SETTING_PREFIXES.some((p) => String(r.key).startsWith(p)));
+  }
+  return rows;
+}
 
 export function csvEscape(value: unknown): string {
   if (value === null || value === undefined) return "";
@@ -45,8 +94,12 @@ export async function buildWeeklyBackup(
   const tableCounts: Record<string, number> = {};
 
   for (const table of BACKUP_TABLES) {
-    const { data, error } = await supabase.from(table).select("*").limit(20000);
-    if (error || !data) continue;
+    let data: Record<string, unknown>[];
+    try {
+      data = await fetchBackupTable(supabase, table);
+    } catch {
+      continue;
+    }
     tableCounts[table] = data.length;
     attachments.push({ filename: `${table}.csv`, content: rowsToCsv(data) });
   }

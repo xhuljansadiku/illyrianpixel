@@ -14,7 +14,7 @@ import {
 } from "@/lib/projects";
 import type { QuoteContact } from "@/components/admin/QuotesTab";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
-import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast } from "@/components/admin/ui";
+import { CARD, INPUT, EmptyState, useConfirm, useDebounced, useUndoToast, formatSq, localIsoDate } from "@/components/admin/ui";
 
 const STATUS_COLORS: Record<ProjectStatus, string> = {
   active: "border-blue-400/30 bg-blue-400/8 text-blue-300",
@@ -43,7 +43,7 @@ const EMPTY_FORM: ProjectForm = {
 };
 
 function formatDay(iso: string) {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString("sq-AL", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return formatSq(iso);
 }
 
 export default function ProjectsTab({
@@ -51,11 +51,13 @@ export default function ProjectsTab({
   setProjects,
   contacts,
   jumpSearch,
+  createKey,
 }: {
   projects: ProjectRecord[];
   setProjects: React.Dispatch<React.SetStateAction<ProjectRecord[]>>;
   contacts: QuoteContact[];
   jumpSearch?: { term: string; key: number } | null;
+  createKey?: number;
 }) {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -122,6 +124,12 @@ export default function ProjectsTab({
     setError("");
     setShowForm(true);
   };
+
+  // Hapur nga Ctrl+K → "… i ri": hap direkt formularin bosh
+  useEffect(() => {
+    if (createKey) openCreate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createKey]);
 
   const openEdit = (p: ProjectRecord) => {
     setForm({
@@ -552,7 +560,7 @@ export default function ProjectsTab({
           const doneTasks = p.tasks.filter((t) => t.done).length;
           const progress = p.tasks.length > 0 ? Math.round((doneTasks / p.tasks.length) * 100) : 0;
           const phaseIdx = PROJECT_PHASES.indexOf(p.phase);
-          const isOverdueProject = p.status !== "done" && !!p.deadline && p.deadline < new Date().toISOString().slice(0, 10);
+          const isOverdueProject = p.status !== "done" && !!p.deadline && p.deadline < localIsoDate();
           return (
             <div key={p.id} className={CARD + " p-5"}>
               <div className="flex flex-wrap items-center justify-between gap-3">

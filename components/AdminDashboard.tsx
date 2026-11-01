@@ -24,7 +24,7 @@ import BlogTab from "@/components/admin/BlogTab";
 import SubscribersTab from "@/components/admin/SubscribersTab";
 import ContactsTab from "@/components/admin/ContactsTab";
 import BrandTab from "@/components/admin/BrandTab";
-import { CARD, EmptyState, formatDate, formatDay, isOverdue } from "@/components/admin/ui";
+import { CARD, EmptyState, formatDate, formatDay, isOverdue, localIsoDate } from "@/components/admin/ui";
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
 function SunIcon({ className }: { className?: string }) {
@@ -207,7 +207,7 @@ export default function AdminDashboard({
   subscribers: initialSubscribers,
   blogPosts: initialBlogPosts,
   staticPosts,
-  stats,
+  stats: serverStats,
   adminLogins,
   siteSettings,
   quotes: initialQuotes,
@@ -223,6 +223,7 @@ export default function AdminDashboard({
   trashedContacts: initialTrashedContacts,
   trashedQuotes: initialTrashedQuotes,
   autoActivity,
+  renderedAt,
 }: {
   contacts: Contact[];
   subscribers: Subscriber[];
@@ -244,6 +245,7 @@ export default function AdminDashboard({
   trashedContacts: TrashedContact[];
   trashedQuotes: TrashedQuote[];
   autoActivity: AutoActivity[];
+  renderedAt: string;
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<AdminTab>("overview");
@@ -262,6 +264,7 @@ export default function AdminDashboard({
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [globalSearch, setGlobalSearch] = useState("");
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [contactsJump, setContactsJump] = useState<{ term: string; key: number } | null>(null);
   const [subscribersJump, setSubscribersJump] = useState<{ term: string; key: number } | null>(null);
   const [quotesJump, setQuotesJump] = useState<{ term: string; key: number } | null>(null);
@@ -269,7 +272,26 @@ export default function AdminDashboard({
   const [quotePrefill, setQuotePrefill] = useState<{ contact: QuoteContact; key: number } | null>(null);
   const [toasts, setToasts] = useState<{ id: string; text: string }[]>([]);
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const lastCheckRef = useRef(new Date().toISOString());
+  const [createQuoteKey, setCreateQuoteKey] = useState(0);
+  const [createProjectKey, setCreateProjectKey] = useState(0);
+  // Pastroji kur largohesh nga tab-i — përndryshe formulari rihapej vetë sa herë ktheheshe
+  useEffect(() => {
+    if (tab !== "quotes") setCreateQuoteKey(0);
+    if (tab !== "projects") setCreateProjectKey(0);
+  }, [tab]);
+  // Ora e serverit (jo e kompjuterit) — përndryshe një orë e pasaktë humbiste ose dyfishonte kontakte
+  const lastCheckRef = useRef(renderedAt);
+  // Kontaktet që erdhën nga polling-u pas ngarkimit — që statistikat e serverit të mos ngecin
+  const [liveNewContacts, setLiveNewContacts] = useState(0);
+  const liveContactIdsRef = useRef(new Set<number>());
+  const stats = useMemo(
+    () => ({
+      ...serverStats,
+      totalContacts: serverStats.totalContacts + liveNewContacts,
+      contactsThisWeek: serverStats.contactsThisWeek + liveNewContacts,
+    }),
+    [serverStats, liveNewContacts]
+  );
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -314,7 +336,11 @@ export default function AdminDashboard({
           const newOnes: Contact[] = data.contacts;
           setContacts((prev) => {
             const existingIds = new Set(prev.map((c) => c.id));
-            return [...newOnes.filter((c) => !existingIds.has(c.id)), ...prev];
+            const fresh = newOnes.filter((c) => !existingIds.has(c.id));
+            // Set-i e bën të sigurt edhe nëse React e thërret këtë funksion dy herë
+            for (const c of fresh) liveContactIdsRef.current.add(c.id);
+            setLiveNewContacts(liveContactIdsRef.current.size);
+            return [...fresh, ...prev];
           });
           setToasts((t) => [
             ...t,
@@ -322,13 +348,51 @@ export default function AdminDashboard({
           ]);
           playNotificationSound();
         }
-        lastCheckRef.current = new Date().toISOString();
+        if (data.success && data.now) lastCheckRef.current = data.now;
       } catch {
         // ignore — will retry on next tick
       }
     }, 45000);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Roje e vetme për të gjitha thirrjet /api/admin (95+ në tab-e). Pa të, kur sesioni
+  // skadonte butonat thjesht s'bënin asgjë, dhe veprimet që dështonin s'tregonin gabim.
+  // 401 → kthehu te login-i; veprim (jo GET) që dështon → toast me gabimin e serverit.
+  useEffect(() => {
+    const originalFetch = window.fetch;
+    let redirecting = false;
+    window.fetch = async (input, init) => {
+      const res = await originalFetch(input, init);
+      const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+      const path = new URL(url, window.location.origin).pathname;
+      if (!path.startsWith("/api/admin/") || path === "/api/admin/logout") return res;
+
+      if (res.status === 401) {
+        if (!redirecting) {
+          redirecting = true;
+          window.location.href = "/admin/login?expired=1";
+        }
+        return res;
+      }
+
+      const method = (init?.method ?? (input instanceof Request ? input.method : "GET")).toUpperCase();
+      if (!res.ok && method !== "GET") {
+        let message = `Veprimi dështoi (${res.status}).`;
+        try {
+          const data = await res.clone().json();
+          if (data?.error) message = `Veprimi dështoi: ${data.error}`;
+        } catch {
+          // përgjigje pa JSON — mbaj mesazhin e përgjithshëm
+        }
+        setToasts((t) => [...t, { id: `err-${Date.now()}-${Math.random()}`, text: message }]);
+      }
+      return res;
+    };
+    return () => {
+      window.fetch = originalFetch;
+    };
   }, []);
 
   useEffect(() => {
@@ -374,7 +438,7 @@ export default function AdminDashboard({
     router.refresh();
   };
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localIsoDate();
   const dueSoonCount = contacts.filter((c) => {
     if ((c.status || "new") === "done") return false;
     if (!c.follow_up_date) return false;
@@ -439,31 +503,54 @@ export default function AdminDashboard({
     return { contactMatches, subscriberMatches, blogMatches, quoteMatches, projectMatches, faqMatches };
   }, [globalSearch, contacts, subscribers, blogPosts, staticPosts, quotes, projectsList, faqsList]);
 
+  // Mbyll rezultatet me klik jashtë kërkimit (desktop ose mobile)
+  useEffect(() => {
+    if (!globalSearch) return;
+    const onDown = (e: MouseEvent) => {
+      if (!(e.target as Element).closest?.("[data-global-search]")) setGlobalSearch("");
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [globalSearch]);
+
+  const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      setGlobalSearch("");
+      setMobileSearchOpen(false);
+      e.currentTarget.blur();
+    }
+  };
+
   const goToContact = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("contacts");
     setContactsJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToSubscriber = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("subscribers");
     setSubscribersJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToQuote = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("quotes");
     setQuotesJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToProject = (term: string) => {
+    setMobileSearchOpen(false);
     setTab("projects");
     setProjectsJump({ term, key: Date.now() });
     setGlobalSearch("");
   };
 
   const goToFaq = () => {
+    setMobileSearchOpen(false);
     setTab("content");
     setGlobalSearch("");
   };
@@ -490,14 +577,20 @@ export default function AdminDashboard({
       icon: <AdminIcon name="plus" className="h-4 w-4" />,
       label: "Ofertë / Faturë e re",
       hint: "Krijo",
-      onRun: () => setTab("quotes"),
+      onRun: () => {
+        setTab("quotes");
+        setCreateQuoteKey(Date.now());
+      },
     },
     {
       id: "new-project",
       icon: <AdminIcon name="plus" className="h-4 w-4" />,
       label: "Projekt i ri",
       hint: "Krijo",
-      onRun: () => setTab("projects"),
+      onRun: () => {
+        setTab("projects");
+        setCreateProjectKey(Date.now());
+      },
     },
     {
       id: "new-post",
@@ -531,6 +624,111 @@ export default function AdminDashboard({
     },
   ];
 
+  // Rezultatet e kërkimit global — të njëjtat për shiritin desktop dhe atë mobile
+  const renderGlobalResults = (wide: boolean) =>
+    globalResults && (
+      <div className={`absolute left-0 top-full z-40 mt-2 max-h-96 ${wide ? "w-96" : "w-full"} overflow-y-auto rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px]`}>
+        {globalResults.contactMatches.length === 0 &&
+        globalResults.subscriberMatches.length === 0 &&
+        globalResults.blogMatches.length === 0 &&
+        globalResults.quoteMatches.length === 0 &&
+        globalResults.projectMatches.length === 0 &&
+        globalResults.faqMatches.length === 0 ? (
+          <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
+        ) : (
+          <>
+            {globalResults.contactMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
+                {globalResults.contactMatches.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => goToContact(c.email)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.email}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.subscriberMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
+                {globalResults.subscriberMatches.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => goToSubscriber(s.email)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {s.email}
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.blogMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
+                {globalResults.blogMatches.map((p) => (
+                  <button
+                    key={p.slug}
+                    onClick={() => {
+                      setTab("blog");
+                      setGlobalSearch("");
+                    }}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {p.title}
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.quoteMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
+                {globalResults.quoteMatches.map((doc) => (
+                  <button
+                    key={doc.id}
+                    onClick={() => goToQuote(doc.number)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {doc.number} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {doc.client_name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.projectMatches.length > 0 && (
+              <div className="border-b border-[var(--a-border)] py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
+                {globalResults.projectMatches.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => goToProject(p.name)}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {p.name} {p.client_name && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {p.client_name}</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+            {globalResults.faqMatches.length > 0 && (
+              <div className="py-1.5">
+                <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
+                {globalResults.faqMatches.map((f) => (
+                  <button
+                    key={f.id}
+                    onClick={() => goToFaq()}
+                    className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
+                  >
+                    {f.question}
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+
   return (
     <div data-theme={theme} className="admin-shell flex min-h-screen flex-col bg-[var(--a-bg)] text-[var(--a-text)] md:flex-row">
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
@@ -542,7 +740,7 @@ export default function AdminDashboard({
               key={t.id}
               className="rounded-xl border border-accent/40 bg-[var(--a-card)] px-4 py-3 text-[12px] text-[var(--a-text)] shadow-xl backdrop-blur-[12px] animate-[fadeIn_0.2s_ease-out]"
             >
-              🔔 {t.text}
+              {t.id.startsWith("err-") ? "⚠️" : "🔔"} {t.text}
             </div>
           ))}
         </div>
@@ -651,7 +849,7 @@ export default function AdminDashboard({
       <header className="sticky top-0 z-30 hidden h-16 shrink-0 items-center gap-2 border-b border-[var(--a-border)] bg-[var(--a-bg)]/85 px-6 backdrop-blur-md md:flex lg:px-8">
 
         {/* Global search */}
-        <div className="relative w-full max-w-sm">
+        <div className="relative w-full max-w-sm" data-global-search>
           <AdminIcon
             name="search"
             className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[rgb(var(--a-text-rgb)/0.35)]"
@@ -660,6 +858,7 @@ export default function AdminDashboard({
             type="text"
             value={globalSearch}
             onChange={(e) => setGlobalSearch(e.target.value)}
+            onKeyDown={onSearchKeyDown}
             placeholder="Kërko kontakte, oferta, projekte…"
             className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] py-2 pl-9 pr-14 text-[12px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
           />
@@ -671,108 +870,7 @@ export default function AdminDashboard({
           >
             ⌘K
           </button>
-          {globalResults && (
-            <div className="absolute left-0 top-full z-40 mt-2 max-h-96 w-96 overflow-y-auto rounded-xl border border-[var(--a-card-border)] bg-[var(--a-card)] shadow-2xl backdrop-blur-[12px]">
-              {globalResults.contactMatches.length === 0 &&
-              globalResults.subscriberMatches.length === 0 &&
-              globalResults.blogMatches.length === 0 &&
-              globalResults.quoteMatches.length === 0 &&
-              globalResults.projectMatches.length === 0 &&
-              globalResults.faqMatches.length === 0 ? (
-                <p className="px-3 py-3 text-[11px] text-[rgb(var(--a-text-rgb)/0.35)]">Asnjë rezultat.</p>
-              ) : (
-                <>
-                  {globalResults.contactMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Kontakte</p>
-                      {globalResults.contactMatches.map((c) => (
-                        <button
-                          key={c.id}
-                          onClick={() => goToContact(c.email)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.email}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.subscriberMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Newsletter</p>
-                      {globalResults.subscriberMatches.map((s) => (
-                        <button
-                          key={s.id}
-                          onClick={() => goToSubscriber(s.email)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {s.email}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.blogMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Blog</p>
-                      {globalResults.blogMatches.map((p) => (
-                        <button
-                          key={p.slug}
-                          onClick={() => {
-                            setTab("blog");
-                            setGlobalSearch("");
-                          }}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {p.title}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.quoteMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Oferta / Fatura</p>
-                      {globalResults.quoteMatches.map((doc) => (
-                        <button
-                          key={doc.id}
-                          onClick={() => goToQuote(doc.number)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {doc.number} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {doc.client_name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.projectMatches.length > 0 && (
-                    <div className="border-b border-[var(--a-border)] py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">Projekte</p>
-                      {globalResults.projectMatches.map((p) => (
-                        <button
-                          key={p.id}
-                          onClick={() => goToProject(p.name)}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {p.name} {p.client_name && <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {p.client_name}</span>}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  {globalResults.faqMatches.length > 0 && (
-                    <div className="py-1.5">
-                      <p className="px-3 pb-1 text-[10px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.3)]">FAQ</p>
-                      {globalResults.faqMatches.map((f) => (
-                        <button
-                          key={f.id}
-                          onClick={() => goToFaq()}
-                          className="block w-full px-3 py-1.5 text-left text-[12px] text-[rgb(var(--a-text-rgb)/0.7)] transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)] hover:text-[var(--a-text)]"
-                        >
-                          {f.question}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
+          {renderGlobalResults(true)}
         </div>
 
         <div className="flex-1" />
@@ -814,8 +912,34 @@ export default function AdminDashboard({
               <p className="ip-eyebrow">Illyrian Pixel</p>
               <h1 className="truncate font-display text-[1.15rem] font-bold leading-tight text-[var(--a-text)]">{TAB_TITLES[tab].title}</h1>
             </div>
+            <button
+              onClick={() => {
+                setMobileSearchOpen((v) => !v);
+                setGlobalSearch("");
+              }}
+              aria-label="Kërko"
+              aria-expanded={mobileSearchOpen}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--a-border)] text-[rgb(var(--a-text-rgb)/0.6)] transition-colors hover:text-[var(--a-text)]"
+            >
+              <AdminIcon name="search" className="h-3.5 w-3.5" />
+            </button>
             <NotificationsBell setTab={setTab} />
           </div>
+          {/* Kërkimi global në celular — më parë ekzistonte vetëm në desktop */}
+          {mobileSearchOpen && (
+            <div className="relative mb-3 md:hidden" data-global-search>
+              <input
+                type="search"
+                autoFocus
+                value={globalSearch}
+                onChange={(e) => setGlobalSearch(e.target.value)}
+                onKeyDown={onSearchKeyDown}
+                placeholder="Kërko kontakte, oferta, projekte…"
+                className="font-ui w-full rounded-xl border border-[var(--a-border)] bg-[var(--a-input)] px-3.5 py-2.5 text-[13px] text-[var(--a-text)] outline-none transition-colors focus:border-accent"
+              />
+              {renderGlobalResults(false)}
+            </div>
+          )}
 
           {/* Page title (desktop) */}
           <div className="hidden md:block">
@@ -868,6 +992,7 @@ export default function AdminDashboard({
             )}
             {tab === "quotes" && (
               <QuotesTab
+                createKey={createQuoteKey}
                 quotes={quotes}
                 setQuotes={setQuotes}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
@@ -881,6 +1006,7 @@ export default function AdminDashboard({
             )}
             {tab === "projects" && (
               <ProjectsTab
+                createKey={createProjectKey}
                 projects={projectsList}
                 setProjects={setProjectsList}
                 contacts={contacts.map((c) => ({ id: c.id, name: c.name, email: c.email, business_name: c.business_name }))}
@@ -1044,7 +1170,7 @@ function OverviewTab({
   onGoToProject: (term: string) => void;
   autoActivity: AutoActivity[];
 }) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localIsoDate();
 
   const overdueFollowUps = useMemo(() => contacts.filter(isOverdue).length, [contacts]);
 
@@ -1063,7 +1189,7 @@ function OverviewTab({
   const upcomingDeadlines = useMemo(() => {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() + 3);
-    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const cutoffStr = localIsoDate(cutoff);
     return projects
       .filter((p) => p.status !== "done" && p.deadline && p.deadline <= cutoffStr)
       .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1));
@@ -1170,7 +1296,7 @@ function OverviewTab({
   const followUps = useMemo(() => {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() + 2);
-    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const cutoffStr = localIsoDate(cutoff);
     return contacts
       .filter((c) => (c.status || "new") !== "done" && c.follow_up_date && c.follow_up_date <= cutoffStr)
       .sort((a, b) => (a.follow_up_date! < b.follow_up_date! ? -1 : 1));
@@ -1498,11 +1624,11 @@ function ContactsChart({ contacts }: { contacts: Contact[] }) {
     for (let i = 29; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      map.set(d.toISOString().slice(0, 10), 0);
+      map.set(localIsoDate(d), 0);
     }
 
     contacts.forEach((c) => {
-      const key = new Date(c.created_at).toISOString().slice(0, 10);
+      const key = localIsoDate(new Date(c.created_at));
       if (map.has(key)) map.set(key, (map.get(key) ?? 0) + 1);
     });
 
