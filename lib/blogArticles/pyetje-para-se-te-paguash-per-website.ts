@@ -15,7 +15,7 @@ const article: StructuredArticlePair = {
     date: "Tetor 2026",
     readTime: "8 min lexim",
     related: [
-      { slug: "web-design-tirane", title: "Web Design Tiranë: Si të zgjidhni agjenci profesionale", category: "Web Design" },
+      { slug: "web-design-tirane", title: "Web Design Tiranë: si të zgjidhni agjenci profesionale", category: "Web Design" },
       { slug: "si-te-zgjedhesh-paketen-e-website", title: "Basic, Business apo Premium? Si ta zgjidhni paketën e duhur të website-it", category: "Web Design" },
     ],
     blocks: [

@@ -9,7 +9,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "SEO Tiranë: Si dilni i pari në Google 2026",
+    title: "SEO Tiranë: si të dilni i pari në Google në 2026",
     description:
       "SEO profesional në Tiranë. Mësoni si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që funksionon.",
     keywords: ["seo tiranë", "seo shqipëri", "google ranking tiranë", "optimizim motorë kërkimi"],
@@ -130,12 +130,12 @@ export default async function Page(props: Props) {
       breadcrumbLabel="SEO Tiranë"
       path="/blog/seo-tirane"
       article={article}
-      title="SEO Tiranë: Si të dilni i pari në Google në 2026"
+      title="SEO Tiranë: si të dilni i pari në Google në 2026"
       description="Si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që jep rezultate reale në tregun shqiptar."
       date="Maj 2026"
       readTime="7 min lexim"
       related={[
-        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: Çmime reale dhe rezultate të pritshme" },
+        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: çmime reale dhe rezultate të pritshme" },
         { href: "/blog/sa-kushton-website-shqiperi", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Shqipëri në 2026?" },
       ]}
     >
@@ -203,7 +203,7 @@ export default async function Page(props: Props) {
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
         <p className="font-display text-[1.1rem] text-white">Doni të diskutoni projektin tuaj?</p>
-        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas pa asnjë obligim.</p>
+        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
         <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
           Na kontaktoni këtu →
         </Link>

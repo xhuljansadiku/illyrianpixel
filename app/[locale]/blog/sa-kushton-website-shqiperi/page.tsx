@@ -91,7 +91,7 @@ export default async function Page(props: Props) {
           <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
             What to avoid when choosing a price
           </h2>
-          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">The freelancer with a very low price.</strong>{"\n€300–500 doesn't even cover the minimum time needed for quality work.\nYou'll usually get a modified template with no SEO and no optimization."}</p>
+          <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">The cheap offer that doesn't say what's included.</strong>{"\nA low price isn't a problem in itself. The problem is an offer that doesn't say how many pages, what SEO, what hosting, and who owns the site at the end.\nIn those cases you'll usually get a modified template with no SEO and no optimization."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Contracts without specifications.</strong>{"\nIf the contract doesn't precisely list the pages, features, and deadline, you'll get surprises with extra costs."}</p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Free&rdquo; hosting and domain.</strong>{"\nWhen someone offers you everything \"free,\" you'll pay for it with poor performance and limited control."}</p>
         </section>
@@ -131,7 +131,7 @@ export default async function Page(props: Props) {
       readTime="6 min lexim"
       related={[
         { href: "/blog/sa-kushton-website-kosove", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Kosovë në 2026?" },
-        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë: Si të zgjidhni agjenci profesionale" },
+        { href: "/blog/web-design-tirane", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Web Design Tiranë: si të zgjidhni agjenci profesionale" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -175,7 +175,7 @@ export default async function Page(props: Props) {
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
           Çfarë të shmangni kur zgjidhni çmimin
         </h2>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Freelancer-i me çmim shumë të ulët.</strong>{"\n300–500 euro nuk mbulojnë as kohën minimale për punë cilësore.\nZakonisht merrni template të modifikuar pa SEO dhe pa optimizim."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Oferta e lirë që s'thotë çfarë përfshin.</strong>{"\nÇmimi i ulët vetvetiu s'është problem. Problem është kur oferta s'tregon sa faqe, çfarë SEO, çfarë hosting dhe kush e zotëron faqen në fund.\nNë këto raste zakonisht merrni një template të modifikuar, pa SEO dhe pa optimizim."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kontratat pa specifikime.</strong>{"\nNëse kontratat nuk listojnë saktë faqet, funksionet dhe afatin, do të keni surpriza me kostot shtesë."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">&ldquo;Falas&rdquo; hosting dhe domain.</strong>{"\nKur dikush ju ofron gjithçka \"falas\", do ta paguani me performancë të dobët dhe kontroll të kufizuar."}</p>
       </section>
@@ -193,7 +193,7 @@ export default async function Page(props: Props) {
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
         <p className="font-display text-[1.1rem] text-white">Doni të diskutoni projektin tuaj?</p>
-        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas pa asnjë obligim.</p>
+        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
         <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
           Na kontaktoni këtu →
         </Link>

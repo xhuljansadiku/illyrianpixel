@@ -12,7 +12,7 @@ const CATEGORY_COLOR = "rgba(125,211,252,0.9)";
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Menaxho Biznesin nga Diaspora: Udhëzues 2026",
+    title: "Si ta menaxhoni biznesin nga diaspora: udhëzues 2026",
     description:
       "Si e menaxhoni biznesin në Shqipëri ose Kosovë kur jetoni jashtë. Website si zyra juaj dixhitale 24/7, pa qenë atje çdo ditë.",
     keywords: ["biznes shqiptar diasporë", "menaxho biznesin nga jashtë", "website biznesi shqiptar gjermani", "administro biznesin online shqipëri"],
@@ -142,7 +142,7 @@ export default async function Page(props: Props) {
         ]}
       >
         <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
-          {"Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë.\nSfida është e njëjtë për të gjithë: si e menaxhon një biznes kur je fizikisht 2.000 km larg, në një brez tjetër orar, dhe s'mund të jesh atje çdo ditë për të mbikëqyrur gjithçka?"}
+          {"Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë.\nSfida është e njëjtë për të gjithë: si e menaxhoni një biznes kur jeni fizikisht 2.000 km larg, në një brez tjetër orar, dhe s'mund të jeni atje çdo ditë për të mbikëqyrur gjithçka?"}
         </p>
 
         <section className="space-y-4">
@@ -159,7 +159,7 @@ export default async function Page(props: Props) {
             Website si zyra juaj dixhitale, 24/7
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Website-i i mirë-ndërtuar bëhet zyra juaj dixhitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje.\nKlienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih.\nNuk pret që dikush t'i përgjigjet, informacioni është aty, gati."}
+            {"Website-i i ndërtuar mirë bëhet zyra juaj dixhitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje.\nKlienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih.\nNuk pret që dikush t'i përgjigjet, informacioni është aty, gati."}
           </p>
         </section>
 

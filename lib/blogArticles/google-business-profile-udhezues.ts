@@ -15,7 +15,7 @@ const article: StructuredArticlePair = {
     date: "Tetor 2026",
     readTime: "8 min lexim",
     related: [
-      { slug: "seo-tirane", title: "SEO Tiranë: Si të dilni i pari në Google në 2026", category: "SEO" },
+      { slug: "seo-tirane", title: "SEO Tiranë: si të dilni i pari në Google në 2026", category: "SEO" },
       { slug: "si-te-gjejne-klientet-shqiptare-biznesin-tend", title: "Si e gjejnë klientët shqiptarë biznesin tuaj online, kudo që të jenë", category: "Diasporë" },
     ],
     blocks: [

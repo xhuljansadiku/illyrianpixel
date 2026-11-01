@@ -70,7 +70,7 @@ export default function BlogSeoClient() {
                     SEO Is a Battle for Territory
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Space on Google&apos;s first page is limited. There are only 10 organic spots. If you&apos;re not
+                    Space on Google&apos;s first page is limited. There are only a handful of organic spots near the top, and ads and the map take the rest. If you&apos;re not
                     there, your competitor is. Every day you neglect SEO, you&apos;re handing over territory and
                     customers to your more active rivals.
                   </p>
@@ -169,7 +169,7 @@ export default function BlogSeoClient() {
                     SEO është luftë për territor
                   </h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Hapësira në faqen e parë të Google është e kufizuar. Janë vetëm 10 vende organike. Nëse nuk jeni ju aty,
+                    Hapësira në faqen e parë të Google është e kufizuar. Vendet organike lart në faqe janë pak; pjesën tjetër e zënë reklamat dhe harta. Nëse nuk jeni ju aty,
                     është konkurrenca juaj. Çdo ditë që neglizhoni SEO-n, ju po i falni territor dhe klientë rivalëve tuaj më
                     aktivë.
                   </p>

@@ -112,9 +112,9 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Si e drejtoni një biznes në atdhe kur jetoni në Gjermani, Zvicër apo SHBA.\nWebsite si zyra juaj dixhitale që punon edhe kur ju flini në një brez tjetër orar.",
     date: "Korrik 2026",
     content: [
-      "Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë. Sfida është e njëjtë për të gjithë: si e menaxhon një biznes kur je fizikisht 2.000 km larg, në një brez tjetër orar, dhe s'mund të jesh atje çdo ditë për të mbikëqyrur gjithçka?",
+      "Mijëra shqiptarë e kosovarë jetojnë sot në Gjermani, Zvicër, Austri, SHBA apo Kanada, ndërsa biznesi i tyre, restoranti, dyqani, kompania e ndërtimit, mbetet në Shqipëri apo Kosovë. Sfida është e njëjtë për të gjithë: si e menaxhoni një biznes kur jeni fizikisht 2.000 km larg, në një brez tjetër orar, dhe s'mund të jeni atje çdo ditë për të mbikëqyrur gjithçka?",
       "Zgjidhja tradicionale ka qenë telefoni dhe një person besnik në vend, zakonisht familje, që përgjigjet për gjithçka. Kjo funksionon deri në një pikë, por ka limite reale: personi në Shqipëri nuk mund t'i përgjigjet çdo mesazhi Facebook në kohë reale, nuk di gjithmonë çmimet e sakta të përditësuara, dhe klientët e rinj shpesh dorëzohen para se të marrin përgjigje.",
-      "Website-i i mirë-ndërtuar bëhet zyra juaj dixhitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje. Klienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih. Nuk pret që dikush t'i përgjigjet, informacioni është aty, gati.",
+      "Website-i i ndërtuar mirë bëhet zyra juaj dixhitale që punon 24/7, pavarësisht ku jeni ju apo çfarë ore është atje. Klienti në Tiranë sheh çmimet, shërbimet dhe orarin e saktë në orën 22:00 kur ju jeni në gjumë në Mynih. Nuk pret që dikush t'i përgjigjet, informacioni është aty, gati.",
       "Çfarë duhet të ketë realisht një website i tillë: faqe shërbimesh/çmimesh të qarta që s'kanë nevojë përditësim të shpeshtë manual, buton direkt WhatsApp që bie në telefonin tuaj kudo që jeni (jo në një numër lokal që dikush tjetër duhet ta mbajë), Google Maps dhe orari i saktë i biznesit në vend, dhe një panel administrimi aq i thjeshtë sa një person i besuar në Shqipëri mund të ngarkojë foto apo të ndryshojë një çmim vetë, pa ju pyetur çdo herë.",
       "Roli juaj nga jashtë ndryshon: nuk jeni më ai që përgjigjet çdo mesazhi, jeni ai që merr vendimet strategjike, ndërsa website-i dhe një person lokal trajtojnë ditën-për-ditë.",
       "Raportimi është pjesa që shpesh harrohet. Nëse jeni jashtë, doni të dini çfarë ndodh pa qenë atje: sa mesazhe kontakti vijnë në muaj, cilat shërbime kërkohen më shumë, nga cilat qytete apo vende po ju gjejnë klientët. Një panel i thjeshtë me këto numra ju jep kontroll real, pa pasur nevojë të thërrisni dikë për të pyetur 'si po shkon?'",
@@ -145,10 +145,10 @@ export const blogPosts: BlogPost[] = [
     date: "Korrik 2026",
     content: [
       "Audienca shqiptare sot nuk është e përqendruar në një vend të vetëm. Është e ndarë mes Shqipërisë, Kosovës, dhe komuniteteve të mëdha në Gjermani, Zvicër, Itali, Belgjikë, SHBA e Kanada. Për një biznes që dëshiron t'i shërbejë kësaj audience, kjo do të thotë një gjë të rëndësishme: strategjia juaj online s'mund të mendohet vetëm 'për Shqipërinë' apo vetëm 'për diasporën', duhet të mbulojë të dyja.",
-      "Shqiptarët kërkojnë shumë shpesh në gjuhën shqipe, pavarësisht se jetojnë në Mynih apo Toronto. Dikush në diasporë që kërkon 'avokat për çështje trashëgimie shqipëri' apo 'dërgesa parash shqipëri gjermani' e shkruan kërkimin në shqip, jo në gjermanisht. Bizneset që kanë përmbajtje shqip të mirë-optimizuar kapin këtë trafik që konkurrentët me website vetëm në gjuhë të huaj e humbasin plotësisht.",
+      "Shqiptarët kërkojnë shumë shpesh në gjuhën shqipe, pavarësisht se jetojnë në Mynih apo Toronto. Dikush në diasporë që kërkon 'avokat për çështje trashëgimie shqipëri' apo 'dërgesa parash shqipëri gjermani' e shkruan kërkimin në shqip, jo në gjermanisht. Bizneset që kanë përmbajtje shqip të optimizuar mirë kapin këtë trafik që konkurrentët me website vetëm në gjuhë të huaj e humbasin plotësisht.",
       "Kanalet e komunikimit ndryshojnë nga tregjet perëndimore. WhatsApp është mbizotërues për kontakt direkt, edhe në diasporë. Grupet e Facebook (qytetare, profesionale, të diasporës në qytete specifike gjermane apo zvicerane) janë burim i fortë referimi. Google Maps/Business Profile mbetet kritik për këdo që kërkon të gjejë një biznes fizik në Shqipëri apo Kosovë nga jashtë, para se të udhëtojë apo të kontaktojë familjen atje.",
       "Citations dhe përmendje në direktoritë e komunitetit shqiptar (shoqata biznesi, dhoma tregtie shqiptaro-gjermane/zvicerane, grupe LinkedIn/Facebook të profesionistëve shqiptarë jashtë vendit) kanë vlerë të dyfishtë: japin backlink real për SEO, dhe ju vendosin drejtpërdrejt para audiencës që kërkoni, jo thjesht para algoritmit të Google.",
-      "Rasti tipik: një biznes në Tiranë me klientë të rregullt nga diaspora (p.sh. shërbime avokatie, transport mallrash, apo ndërtim/renovim shtëpish për familje që jetojnë jashtë) fiton më shumë nga një postim i mirë-shpërndarë në një grup Facebook të diasporës gjermane sesa nga muaj të tërë reklamash gjenerike Google drejtuar vetëm publikut brenda Shqipërisë.",
+      "Rasti tipik: një biznes në Tiranë me klientë të rregullt nga diaspora (p.sh. shërbime avokatie, transport mallrash, apo ndërtim/renovim shtëpish për familje që jetojnë jashtë) shpesh fiton më shumë nga një postim i shpërndarë mirë në një grup Facebook të diasporës gjermane sesa nga muaj të tërë reklamash gjenerike Google drejtuar vetëm publikut brenda Shqipërisë.",
       "Struktura praktike që rekomandojmë: website me përmbajtje shqip si bazë (jo dytësore), buton WhatsApp të dukshëm në çdo faqe, prani aktive në Google Business Profile me adresën e saktë në Shqipëri/Kosovë, dhe të paktën një prezencë (postim, listim, apo partneritet) në një kanal komuniteti të diasporës relevant për biznesin tuaj specifik.",
       "Nëse audienca juaj reale përfshin Shqipërinë, Kosovën dhe diasporën njëkohësisht, mos e ndani strategjinë sikur të ishin tregje të veçanta e të pavarura. Janë e njëjta audiencë, e shpërndarë gjeografikisht por e bashkuar nga gjuha, kultura dhe kanalet e komunikimit, dhe kjo është pikërisht arsyeja pse duhet t'i qaseni si një treg i vetëm, jo disa."
     ]
@@ -171,7 +171,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "seo-tirane",
-    title: "SEO Tiranë: Si të dilni i pari në Google në 2026",
+    title: "SEO Tiranë: si të dilni i pari në Google në 2026",
     category: "SEO",
     excerpt: "Si bizneset shqiptare dalin në faqen e parë të Google dhe çfarë kërkon strategji SEO që jep rezultate reale në tregun shqiptar.",
     date: "Maj 2026",
@@ -187,7 +187,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "dyqan-online-shqiperi",
-    title: "Si të hapni dyqan online në Shqipëri: Udhëzues i plotë 2026",
+    title: "Si të hapni dyqan online në Shqipëri: udhëzues i plotë 2026",
     category: "E-Commerce",
     excerpt: "Udhëzues praktik për hapjen e dyqanit online në Shqipëri.\nPlatformat, pagesat, kostot reale dhe hapat e parë për të filluar shitjet online.",
     date: "Maj 2026",
@@ -203,7 +203,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "google-ads-shqiperi",
-    title: "Google Ads Shqipëri: Çmime reale dhe rezultate të pritshme",
+    title: "Google Ads Shqipëri: çmime reale dhe rezultate të pritshme",
     category: "Marketing",
     excerpt: "Çmimet reale të Google Ads në Shqipëri, gabimet kryesore dhe si ta menaxhoni buxhetin tuaj reklamues për ROI maksimal.",
     date: "Maj 2026",
@@ -219,7 +219,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "web-design-tirane",
-    title: "Web Design Tiranë: Si të zgjidhni agjenci profesionale",
+    title: "Web Design Tiranë: si të zgjidhni agjenci profesionale",
     category: "Web Design",
     excerpt: "Si ta dalloni agjencinë serioze nga amatorët.\nKriteret e sakta, pyetjet që duhet të bëni dhe shenjat paralajmëruese para nënshkrimit.",
     date: "Maj 2026",
@@ -235,7 +235,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "social-media-menaxhim-shqiperi",
-    title: "Social Media Menaxhim në Shqipëri: Çmime dhe çfarë të prisni",
+    title: "Social Media Menaxhim në Shqipëri: çmime dhe çfarë të prisni",
     category: "Social Media",
     excerpt: "Çmimet e menaxhimit profesional të social media në Shqipëri, platformat kryesore dhe si të zgjidhni agjencinë e duhur.",
     date: "Maj 2026",
@@ -290,7 +290,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "google-ads-vs-seo",
-    title: "Google Ads apo SEO: Ku të investosh para?",
+    title: "Google Ads apo SEO: ku të investoni para?",
     category: "Marketing",
     excerpt:
       "Dy kanale të ndryshme, dy logjika të ndryshme.\nNjëra jep rezultate nesër, tjetra ndërton diçka që zgjat vite.\nJa si të zgjidhni sipas situatës suaj.",

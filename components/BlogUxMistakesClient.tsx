@@ -204,7 +204,7 @@ export default function BlogUxMistakesClient() {
                 <section className="space-y-4">
                   <h2 className="blog-growth-h2 font-display text-[clamp(1.5rem,3vw,2rem)] leading-tight text-white">Barriera e celularit</h2>
                   <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                    Mbi 60% e vizitorëve vijnë nga telefoni.
+                    Shumica e vizitorëve sot vijnë nga telefoni.
                     <br className="hidden md:block" />
                     Nëse butonat janë të vegjël, teksti del jashtë ekranit ose formulari është i vështirë për t&apos;u
                     plotësuar, ju po humbisni shumicën e audiencës pa e ditur.

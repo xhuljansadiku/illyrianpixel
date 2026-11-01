@@ -164,7 +164,7 @@ export default function BlogBrandingClient() {
                     <div className="space-y-2 text-[1.01rem] leading-relaxed text-text">
                       <p className="flex gap-2"><span className="text-accent">◆</span> Professional logo + variants (horizontal, vertical, icon)</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Color palette + curated typography</p>
-                      <p className="flex gap-2"><span className="text-accent">◆</span> Brand Guidelines — how to use the brand everywhere</p>
+                      <p className="flex gap-2"><span className="text-accent">◆</span> Brand Guidelines: how to use the brand everywhere</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Tone of voice and key messages</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Templates for social media and physical materials</p>
                     </div>
@@ -175,7 +175,7 @@ export default function BlogBrandingClient() {
                       Conclusion
                     </h2>
                     <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                      Branding is the one investment that pays off on every channel: website, social media, business cards, even you yourself when talking to clients. It&apos;s not a cost — it&apos;s a foundation. And like any foundation, it&apos;s worth building right the first time.
+                      Branding is one of the few investments that pays off on every channel: website, social media, business cards, even you yourself when talking to clients. It&apos;s not a cost; it&apos;s a foundation. And like any foundation, it&apos;s worth building right the first time.
                     </p>
                   </section>
 
@@ -335,7 +335,7 @@ export default function BlogBrandingClient() {
                     <div className="space-y-2 text-[1.01rem] leading-relaxed text-text">
                       <p className="flex gap-2"><span className="text-accent">◆</span> Logo profesionale + variante (horizontal, vertikal, ikon)</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Paleta ngjyrash + tipografi e hartuar</p>
-                      <p className="flex gap-2"><span className="text-accent">◆</span> Brand Guidelines — si të përdoret marka kudo</p>
+                      <p className="flex gap-2"><span className="text-accent">◆</span> Brand Guidelines: si të përdoret marka kudo</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Ton i zërit dhe mesazhet kyçe</p>
                       <p className="flex gap-2"><span className="text-accent">◆</span> Templates për social media dhe materiale fizike</p>
                     </div>
@@ -346,7 +346,7 @@ export default function BlogBrandingClient() {
                       Përfundim
                     </h2>
                     <p className="text-[1.02rem] leading-relaxed text-text md:text-[1.08rem]">
-                      Branding është investimi i vetëm dixhital që vlen në çdo kanal: website, social media, kartëvizita, vetë ju kur flisni me klientë. Nuk është kosto, është themel. Dhe si çdo themel, ia vlen ta ndërtoni mirë herën e parë.
+                      Branding është nga të paktat investime që vlejnë në çdo kanal: website, social media, kartëvizita, vetë ju kur flisni me klientë. Nuk është kosto, është themel. Dhe si çdo themel, ia vlen ta ndërtoni mirë herën e parë.
                     </p>
                   </section>
 

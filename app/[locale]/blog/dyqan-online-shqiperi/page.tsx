@@ -147,13 +147,13 @@ export default async function Page(props: Props) {
       breadcrumbLabel="Dyqan Online Shqipëri"
       path="/blog/dyqan-online-shqiperi"
       article={article}
-      title="Si të hapni dyqan online në Shqipëri: Udhëzues i plotë 2026"
+      title="Si të hapni dyqan online në Shqipëri: udhëzues i plotë 2026"
       description={<>{"Udhëzues praktik për hapjen e dyqanit online në Shqipëri."}<br className="max-md:hidden" />{" Platformat, pagesat, kostot reale dhe hapat e parë për të filluar shitjet online sot."}</>}
       date="Maj 2026"
       readTime="8 min lexim"
       related={[
         { href: "/blog/sa-kushton-website-shqiperi", category: "Web Design", categoryColor: "rgba(234,206,113,0.95)", title: "Sa kushton një website profesional në Shqipëri në 2026?" },
-        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: Çmime reale dhe rezultate të pritshme" },
+        { href: "/blog/google-ads-shqiperi", category: "Marketing", categoryColor: "rgba(252,211,77,0.9)", title: "Google Ads Shqipëri: çmime reale dhe rezultate të pritshme" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -237,7 +237,7 @@ export default async function Page(props: Props) {
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
         <p className="font-display text-[1.1rem] text-white">Doni të diskutoni projektin tuaj?</p>
-        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas pa asnjë obligim.</p>
+        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
         <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
           Na kontaktoni këtu →
         </Link>

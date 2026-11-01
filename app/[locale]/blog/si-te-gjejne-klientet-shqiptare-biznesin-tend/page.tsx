@@ -12,7 +12,7 @@ const CATEGORY_COLOR = "rgba(125,211,252,0.9)";
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Si Ju Gjejnë Klientët Online: Shqipëri, Kosovë, Diasporë",
+    title: "Si ju gjejnë klientët online: Shqipëri, Kosovë, diasporë",
     description:
       "Si kërkojnë online shqiptarët në Shqipëri, Kosovë dhe diasporë, dhe çfarë duhet të bëjë biznesi juaj për t'u gjetur nga e gjithë kjo audiencë.",
     keywords: ["si te gjejne klientet shqiptare", "seo shqiptare diaspore", "marketing per shqiptaret jashte vendit", "biznes shqiptar online"],
@@ -157,7 +157,7 @@ export default async function Page(props: Props) {
             Shqiptarët kërkojnë në shqip, edhe nga Mynihu apo Toronto
           </h2>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Dikush në diasporë që kërkon 'avokat për çështje trashëgimie shqipëri' apo 'dërgesa parash shqipëri gjermani' e shkruan kërkimin në shqip, jo në gjermanisht.\nBizneset që kanë përmbajtje shqip të mirë-optimizuar kapin këtë trafik që konkurrentët me website vetëm në gjuhë të huaj e humbasin plotësisht."}
+            {"Dikush në diasporë që kërkon 'avokat për çështje trashëgimie shqipëri' apo 'dërgesa parash shqipëri gjermani' e shkruan kërkimin në shqip, jo në gjermanisht.\nBizneset që kanë përmbajtje shqip të optimizuar mirë kapin këtë trafik që konkurrentët me website vetëm në gjuhë të huaj e humbasin plotësisht."}
           </p>
         </section>
 
@@ -178,7 +178,7 @@ export default async function Page(props: Props) {
             {"Përmendjet në direktoritë e komunitetit shqiptar (shoqata biznesi, dhoma tregtie shqiptaro-gjermane/zvicerane, grupe LinkedIn/Facebook të profesionistëve shqiptarë jashtë vendit) kanë vlerë të dyfishtë: japin backlink real për SEO, dhe ju vendosin drejtpërdrejt para audiencës që kërkoni, jo thjesht para algoritmit të Google."}
           </p>
           <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68">
-            {"Rasti tipik: një biznes në Tiranë me klientë të rregullt nga diaspora (p.sh. shërbime avokatie, transport mallrash, apo ndërtim/renovim shtëpish për familje që jetojnë jashtë) fiton më shumë nga një postim i mirë-shpërndarë në një grup Facebook të diasporës gjermane sesa nga muaj të tërë reklamash gjenerike Google drejtuar vetëm publikut brenda Shqipërisë."}
+            {"Rasti tipik: një biznes në Tiranë me klientë të rregullt nga diaspora (p.sh. shërbime avokatie, transport mallrash, apo ndërtim/renovim shtëpish për familje që jetojnë jashtë) shpesh fiton më shumë nga një postim i shpërndarë mirë në një grup Facebook të diasporës gjermane sesa nga muaj të tërë reklamash gjenerike Google drejtuar vetëm publikut brenda Shqipërisë."}
           </p>
         </section>
 
@@ -205,7 +205,7 @@ export default async function Page(props: Props) {
 
         <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
           <p className="font-display text-[1.1rem] text-white">Doni të arrini gjithë tregun shqipfolës, jo vetëm një fetë të tij?</p>
-          <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas pa asnjë obligim.</p>
+          <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
           <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
             Na kontaktoni këtu →
           </Link>

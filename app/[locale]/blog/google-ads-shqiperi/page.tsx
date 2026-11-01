@@ -9,7 +9,7 @@ type Props = { params: Promise<{ locale: string }> };
 
 const META: Record<Locale, { title: string; description: string; keywords: string[] }> = {
   sq: {
-    title: "Google Ads Shqipëri: Çmime dhe rezultate 2026",
+    title: "Google Ads Shqipëri: çmime dhe rezultate 2026",
     description:
       "Çmimet reale të Google Ads në Shqipëri dhe çfarë të prisni. Si funksionojnë reklamat në Google për bizneset shqiptare dhe kur ia vlen.",
     keywords: ["google ads shqipëri", "reklama google shqipëri", "google ads tiranë", "ppc shqipëri"],
@@ -153,8 +153,8 @@ export default async function Page(props: Props) {
       date="Maj 2026"
       readTime="7 min lexim"
       related={[
-        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: Si të dilni i pari në Google në 2026" },
-        { href: "/blog/social-media-menaxhim-shqiperi", category: "Social Media", categoryColor: "rgba(147,197,253,0.9)", title: "Social Media Menaxhim në Shqipëri: Çmime dhe çfarë të prisni" },
+        { href: "/blog/seo-tirane", category: "SEO", categoryColor: "rgba(167,243,208,0.9)", title: "SEO Tiranë: si të dilni i pari në Google në 2026" },
+        { href: "/blog/social-media-menaxhim-shqiperi", category: "Social Media", categoryColor: "rgba(147,197,253,0.9)", title: "Social Media Menaxhim në Shqipëri: çmime dhe çfarë të prisni" },
       ]}
     >
       <p className="whitespace-pre-line text-[1.05rem] leading-relaxed text-white/72">
@@ -239,7 +239,7 @@ export default async function Page(props: Props) {
 
       <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
         <p className="font-display text-[1.1rem] text-white">Doni të diskutoni projektin tuaj?</p>
-        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas pa asnjë obligim.</p>
+        <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
         <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
           Na kontaktoni këtu →
         </Link>

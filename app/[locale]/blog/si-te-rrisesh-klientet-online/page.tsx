@@ -20,7 +20,7 @@ export default function SiTeRriseshKlientetOnlinePage() {
   const breadcrumb = buildBreadcrumb([
     { name: "Home", url: seo.siteUrl },
     { name: "Blog", url: `${seo.siteUrl}/blog` },
-    { name: "Si të rrisësh klientët online", url: `${seo.siteUrl}/blog/si-te-rrisesh-klientet-online` },
+    { name: "Si të rritni klientët online", url: `${seo.siteUrl}/blog/si-te-rrisesh-klientet-online` },
   ]);
   return (
     <>
