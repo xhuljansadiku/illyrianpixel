@@ -331,6 +331,44 @@ export default function AdminDashboard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Roje e vetme për të gjitha thirrjet /api/admin (95+ në tab-e). Pa të, kur sesioni
+  // skadonte butonat thjesht s'bënin asgjë, dhe veprimet që dështonin s'tregonin gabim.
+  // 401 → kthehu te login-i; veprim (jo GET) që dështon → toast me gabimin e serverit.
+  useEffect(() => {
+    const originalFetch = window.fetch;
+    let redirecting = false;
+    window.fetch = async (input, init) => {
+      const res = await originalFetch(input, init);
+      const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+      const path = new URL(url, window.location.origin).pathname;
+      if (!path.startsWith("/api/admin/") || path === "/api/admin/logout") return res;
+
+      if (res.status === 401) {
+        if (!redirecting) {
+          redirecting = true;
+          window.location.href = "/admin/login?expired=1";
+        }
+        return res;
+      }
+
+      const method = (init?.method ?? (input instanceof Request ? input.method : "GET")).toUpperCase();
+      if (!res.ok && method !== "GET") {
+        let message = `Veprimi dështoi (${res.status}).`;
+        try {
+          const data = await res.clone().json();
+          if (data?.error) message = `Veprimi dështoi: ${data.error}`;
+        } catch {
+          // përgjigje pa JSON — mbaj mesazhin e përgjithshëm
+        }
+        setToasts((t) => [...t, { id: `err-${Date.now()}-${Math.random()}`, text: message }]);
+      }
+      return res;
+    };
+    return () => {
+      window.fetch = originalFetch;
+    };
+  }, []);
+
   useEffect(() => {
     if (toasts.length === 0) return;
     const timer = setTimeout(() => setToasts((t) => t.slice(1)), 6000);
@@ -542,7 +580,7 @@ export default function AdminDashboard({
               key={t.id}
               className="rounded-xl border border-accent/40 bg-[var(--a-card)] px-4 py-3 text-[12px] text-[var(--a-text)] shadow-xl backdrop-blur-[12px] animate-[fadeIn_0.2s_ease-out]"
             >
-              🔔 {t.text}
+              {t.id.startsWith("err-") ? "⚠️" : "🔔"} {t.text}
             </div>
           ))}
         </div>
