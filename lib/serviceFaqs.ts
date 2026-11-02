@@ -116,7 +116,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Si e matni rezultatin?",
-      a: "Me raport të performancës: çdo muaj te Starter, çdo 2 javë te Growth, dhe çdo javë plus një call strategjik mujor te Pro.",
+      a: "Me raport të performancës: çdo muaj te Starter, çdo 2 javë te Growth, dhe çdo javë plus një takim strategjik mujor te Pro.",
     },
   ],
   "branding-content": (c) => [
@@ -319,12 +319,12 @@ export function getSeoFaqs(c: Pkgs, locale: Locale): ServiceFaq[] {
     },
     SEO_TIMING.sq,
     {
-      q: "A ndërtoni backlinks?",
+      q: "A ndërtoni lidhje nga faqe të tjera (backlinks)?",
       a: "Po, si pjesë e punës, por nuk premtojmë një numër fiks në muaj. Growth përfshin regjistrim në direktori dhe lista lokale të besueshme; Pro shton lidhje nga partnerë dhe media lokale, sipas mundësive.",
     },
     {
       q: "Si raportoni progresin?",
-      a: "Çdo paketë ka raport progresi çdo muaj. Te Growth raporti vjen çdo 2 javë, dhe Pro shton një call strategjik mujor.",
+      a: "Çdo paketë ka raport progresi çdo muaj. Te Growth raporti vjen çdo 2 javë, dhe Pro shton një takim strategjik çdo muaj.",
     },
   ];
 }

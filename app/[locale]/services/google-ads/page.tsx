@@ -54,7 +54,7 @@ const CONTENT: Record<Locale, {
     subtitle: (
       <>Ne menaxhojmë fushatat.<br className="hidden md:block" /> Ju paguani buxhetin e reklamave drejtpërdrejt tek Google.</>
     ),
-    ctaPrimary: "Konsultim falas →",
+    ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Të gjitha paketat",
     trustLine: "Konsultim falas · Pa detyrim · Rezultate të matshme",
     seeAlso: "Shiko edhe:",
