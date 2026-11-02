@@ -166,7 +166,7 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
               </p>
             )}
 
-            {/* Tags — 20-24px gap from trust, 13px, px-3.5 py-2 */}
+            {/* Text audit 2 (2026-11-02): shiriti i përfitimeve (subServices) hequr, përsëriste "Si e zgjidhim"
             <div className="mt-6 flex flex-wrap gap-2">
               {category.subServices.map((s) => (
                 <span key={s} className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-2 font-body text-[13px] font-light tracking-[0.03em] text-white/75 transition-colors duration-300 hover:border-accent/25 hover:text-white/90">
@@ -174,6 +174,7 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
                 </span>
               ))}
             </div>
+            */}
 
             {/* SEO micro-line */}
             <p className="mt-6 font-mono text-[10px] tracking-[0.2em] text-white/25">
@@ -412,9 +413,11 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
                       : category.slug === "branding-content" ? t("brandingContent.finalCta")
                       : t("defaultFinalCta")}
                   </Link>
+                  {/* Text audit 2 (2026-11-02): butoni i dytë hequr, një CTA e vetme
                   <Link href="/contact" className="group ip-cta-secondary ip-cta-secondary--lg">
                     {t("contactUs")} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </Link>
+                  */}
                 </div>
 
                 <div className="mt-12">

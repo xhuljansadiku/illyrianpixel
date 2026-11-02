@@ -33,13 +33,13 @@ export const heroVariantPremium: WebHeroVariant = {
 // Tone: Blunt, urgent, loss-aversion-driven. Every second costs them clients.
 // Competitor framing, real-time FOMO, hard close.
 export const heroVariantAggressive: WebHeroVariant = {
-  headline: "Krijim website profesional për biznese që duan më shumë klientë, jo vetëm vizitorë.",
-  subheadline:
-    "Ndërtojmë website që duken profesionale dhe kthejnë vizitorët në klientë realë.",
+  headline: "Krijim website profesional që sjell klientë.",
+  // Text audit 2 (2026-11-02): subheadline hequr, përsëriste H1 ("Ndërtojmë website që duken profesionale dhe kthejnë vizitorët në klientë realë.")
+  subheadline: "",
   description: "",
-  ctaPrimary: "Fillo projektin →",
+  ctaPrimary: "Merr ofertë falas",
   ctaSecondary: "Shiko Projektet",
-  trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
+  trustLine: "Përgjigje brenda 24 orësh",
   subServices: [
     "Website premium",
     "SEO që sjell klientë",

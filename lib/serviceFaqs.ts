@@ -16,7 +16,7 @@ const price = (cat: { packages: ServicePackage[] }, name: string) => {
 const PAYMENT: Record<Locale, ServiceFaq> = {
   sq: {
     q: "Si funksionon pagesa?",
-    a: "Për projektet deri në €1,000: 50% paradhënie për të nisur punën dhe 50% para publikimit. Mbi €1,000: 3 këste, 40% në fillim, 30% kur aprovoni dizajnin dhe 30% para lansimit.",
+    a: "Për projektet deri në €1,000: 50% paradhënie për të nisur punën dhe 50% para publikimit. Mbi €1,000: 3 këste, 40% në fillim, 30% kur aprovoni dizajnin dhe 30% para publikimit.",
   },
   en: {
     q: "How does payment work?",
@@ -30,7 +30,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
   website: (c) => [
     {
       q: "Sa kushton një website?",
-      a: `Paketat janë Basic ${price(c, "Basic")} (deri në 5 faqe), Business ${price(c, "Business")} (deri në 8 faqe, 1–2 gjuhë) dhe Premium ${price(c, "Premium")} (dizajn 100% custom, SEO i avancuar). Për e-commerce ose funksione speciale, oferta e personalizuar fillon ${price(c, "Custom").toLowerCase()}.`,
+      a: `Paketat janë Basic ${price(c, "Basic")} (deri në 5 faqe), Business ${price(c, "Business")} (deri në 8 faqe, 1–2 gjuhë) dhe Premium ${price(c, "Premium")} (dizajn 100% i personalizuar, SEO i avancuar). Për e-commerce ose funksione speciale, oferta e personalizuar fillon ${price(c, "Custom").toLowerCase()}.`,
     },
     {
       q: "Sa zgjat ndërtimi i një website-i?",
@@ -38,7 +38,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "A përfshihet SEO?",
-      a: "Po, çdo website vjen me SEO bazë: strukturë e saktë, faqe të shpejta dhe meta të optimizuara. Paketa Premium përfshin SEO të avancuar on-page; strategjia e vazhdueshme SEO është shërbim i veçantë.",
+      a: "Po, çdo website vjen me SEO bazë: strukturë e saktë, faqe të shpejta dhe meta të optimizuara. Paketa Premium përfshin SEO të avancuar; strategjia e vazhdueshme SEO është shërbim i veçantë.",
     },
     PAYMENT.sq,
     {
@@ -61,7 +61,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     PAYMENT.sq,
     {
-      q: "Çfarë ndodh pas lansimit?",
+      q: "Çfarë ndodh pas publikimit?",
       a: "Starter përfshin 30 ditë rregullime falas për gabime teknike. Growth dhe Advanced përfshijnë 3 muaj mirëmbajtje teknike falas.",
     },
   ],
@@ -315,7 +315,7 @@ export function getSeoFaqs(c: Pkgs, locale: Locale): ServiceFaq[] {
   return [
     {
       q: "Sa kushton SEO?",
-      a: `Basic ${price(c, "Basic")} (10–15 fjalë kyçe, optimizim on-page dhe Search Console), Growth ${price(c, "Growth")} (20–30 fjalë kyçe, analizë e konkurrencës dhe SEO teknik) dhe Pro ${price(c, "Pro")} (fjalë kyçe pa limit, SEO lokal + ndërkombëtar dhe optimizim përmbajtjeje çdo muaj). Çmimet janë pa TVSH.`,
+      a: `Basic ${price(c, "Basic")} (10–15 fjalë kyçe, optimizim i faqeve dhe Search Console), Growth ${price(c, "Growth")} (20–30 fjalë kyçe, analizë e konkurrencës dhe SEO teknik) dhe Pro ${price(c, "Pro")} (fjalë kyçe pa limit, SEO lokal + ndërkombëtar dhe optimizim përmbajtjeje çdo muaj). Çmimet janë pa TVSH.`,
     },
     SEO_TIMING.sq,
     {

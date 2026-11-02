@@ -11,22 +11,22 @@ export const webConversionLandingData: ConversionLandingData = {
     items: [
       {
         icon: "convert",
-        title: "Website profesional",
+        title: "Website që sjell kërkesa",
         body: "",
       },
       {
         icon: "seo",
-        title: "Strukturë e qartë dhe pa konfuzion",
+        title: "Strukturë e qartë",
         body: "",
       },
       {
         icon: "speed",
-        title: "SEO që ju sjell klientë",
+        title: "SEO e përfshirë",
         body: "",
       },
       {
         icon: "support",
-        title: "Partner afatgjatë",
+        title: "Mirëmbajtje pas publikimit",
         body: "",
       },
     ],
