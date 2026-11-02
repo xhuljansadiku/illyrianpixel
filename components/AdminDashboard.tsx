@@ -14,8 +14,9 @@ import FinancesTab from "@/components/admin/FinancesTab";
 import NotificationsBell from "@/components/admin/NotificationsBell";
 import CommandPalette, { type CommandPaletteAction } from "@/components/admin/CommandPalette";
 import type { QuoteRecord, RecurringInvoice } from "@/lib/quotes";
-import { quoteTotals, formatMoney } from "@/lib/quotes";
-import { PROJECT_PHASE_LABELS, type ProjectRecord } from "@/lib/projects";
+// OverviewTab: import { quoteTotals, formatMoney } from "@/lib/quotes";
+// OverviewTab: import { PROJECT_PHASE_LABELS } from "@/lib/projects";
+import type { ProjectRecord } from "@/lib/projects";
 import type { TestimonialRow, PortfolioRow, FaqRow } from "@/lib/publicContent";
 import type { PricingOverrides } from "@/lib/pricingOverrides";
 import SettingsTab from "@/components/admin/SettingsTab";
@@ -26,7 +27,8 @@ import ContactsTab from "@/components/admin/ContactsTab";
 import BrandTab from "@/components/admin/BrandTab";
 import TodayTab from "@/components/admin/TodayTab";
 import { isClosedContactStatus } from "@/lib/contactStatus";
-import { CARD, EmptyState, formatDate, formatDay, isOverdue, localIsoDate } from "@/components/admin/ui";
+import { CARD, formatDay, localIsoDate } from "@/components/admin/ui";
+// OverviewTab: EmptyState, formatDate, isOverdue nga "@/components/admin/ui"
 import { AdminIcon, type AdminIconName } from "@/components/admin/icons";
 
 function SunIcon({ className }: { className?: string }) {
@@ -185,7 +187,7 @@ export type SiteSettings = {
 // Statike (jo toLocaleDateString) qëllimisht — Node.js në server shpesh s'ka
 // të dhëna të plota ICU për "sq-AL" dhe prodhon tekst tjetër nga browser-i,
 // duke shkaktuar hydration mismatch. Kjo garanton identitet server/klient.
-const SHORT_MONTH_LABELS = ["Jan", "Shk", "Mar", "Pri", "Maj", "Qer", "Kor", "Gsh", "Sht", "Tet", "Nën", "Dhj"];
+// OverviewTab: const SHORT_MONTH_LABELS = ["Jan", "Shk", "Mar", "Pri", "Maj", "Qer", "Kor", "Gsh", "Sht", "Tet", "Nën", "Dhj"];
 
 function playNotificationSound() {
   try {
@@ -1281,476 +1283,476 @@ function SidebarNav({
 
 // ── Overview tab ─────────────────────────────────────────────────────────────
 // Përmbledhja e vjetër — zëvendësuar nga "Sot" (components/admin/TodayTab.tsx, 2026-11-02).
-// Ruhet pa u përdorur (eksportuar që lint-i të mos ankohet) deri sa "Sot" të konfirmohet.
-export function OverviewTab({
-  contacts,
-  subscribers,
-  stats,
-  adminLogins,
-  projects,
-  quotes,
-  broadcasts,
-  onGoToContact,
-  onGoToQuote,
-  onGoToProject,
-  autoActivity,
-}: {
-  contacts: Contact[];
-  subscribers: Subscriber[];
-  stats: Stats;
-  adminLogins: AdminLogin[];
-  projects: ProjectRecord[];
-  quotes: QuoteRecord[];
-  broadcasts: BroadcastStat[];
-  onGoToContact: (term: string) => void;
-  onGoToQuote: (term: string) => void;
-  onGoToProject: (term: string) => void;
-  autoActivity: AutoActivity[];
-}) {
-  const today = localIsoDate();
-
-  const overdueFollowUps = useMemo(() => contacts.filter(isOverdue).length, [contacts]);
-
-  const overdueInvoices = useMemo(
-    () =>
-      quotes
-        .filter((q) => q.kind === "invoice" && q.status !== "paid" && q.status !== "draft" && q.due_at && q.due_at < today)
-        .sort((a, b) => (a.due_at! < b.due_at! ? -1 : 1)),
-    [quotes, today]
-  );
-  const overdueInvoicesTotal = useMemo(
-    () => overdueInvoices.reduce((sum, q) => sum + quoteTotals(q.items, q.discount, q.tax_rate).total, 0),
-    [overdueInvoices]
-  );
-
-  const upcomingDeadlines = useMemo(() => {
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() + 3);
-    const cutoffStr = localIsoDate(cutoff);
-    return projects
-      .filter((p) => p.status !== "done" && p.deadline && p.deadline <= cutoffStr)
-      .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1));
-  }, [projects]);
-  const overdueDeadlinesCount = useMemo(
-    () => upcomingDeadlines.filter((p) => p.deadline! < today).length,
-    [upcomingDeadlines, today]
-  );
-
-  const needsAttention = overdueInvoices.length > 0 || overdueFollowUps > 0 || upcomingDeadlines.length > 0;
-
-  const lastBackup = useMemo(
-    () => autoActivity.find((a) => a.action === "backup") ?? null,
-    [autoActivity]
-  );
-  const daysSinceBackup = lastBackup
-    ? Math.floor((Date.now() - new Date(lastBackup.created_at).getTime()) / 86400000)
-    : null;
-  const backupHealthy = daysSinceBackup !== null && daysSinceBackup <= 8;
-
-  // SLA — koha mesatare deri sa admini hap kontaktin e ri për herë të parë
-  // (viewed_at), llogaritur nga kontaktet e 30 ditëve të fundit. Përdor vetëm
-  // të dhëna që ekzistojnë tashmë (viewed_at bulk-loaded), pa query të re.
-  const avgResponseHours = useMemo(() => {
-    const cutoff = Date.now() - 30 * 86400000;
-    const durations = contacts
-      .filter((c) => c.viewed_at && new Date(c.created_at).getTime() >= cutoff)
-      .map((c) => (new Date(c.viewed_at!).getTime() - new Date(c.created_at).getTime()) / 3600000)
-      .filter((h) => h >= 0);
-    if (durations.length === 0) return null;
-    return durations.reduce((sum, h) => sum + h, 0) / durations.length;
-  }, [contacts]);
-  const responseHealthy = avgResponseHours !== null && avgResponseHours <= 24;
-
-  // KPI Marketing — leads/muaj (6 muajt e fundit), konvertimi ofertë→klient
-  // (oferta të dërguara që u pranuan/u paguan) dhe burimet kryesore të leads.
-  // Gjithçka nga contacts/quotes që ekzistojnë tashmë si props, pa query të re.
-  const leadsByMonth = useMemo(() => {
-    const counts = new Map<string, number>();
-    const months: string[] = [];
-    const ref = new Date();
-    for (let i = 5; i >= 0; i--) {
-      const d = new Date(ref.getFullYear(), ref.getMonth() - i, 1);
-      // Jo toISOString(): mesnata lokale e ditës 1 është ende muaji i kaluar në UTC
-      const key = localIsoDate(d).slice(0, 7);
-      months.push(key);
-      counts.set(key, 0);
-    }
-    for (const c of contacts) {
-      const key = localIsoDate(new Date(c.created_at)).slice(0, 7);
-      if (counts.has(key)) counts.set(key, (counts.get(key) ?? 0) + 1);
-    }
-    return months.map((key) => {
-      const monthIdx = Number(key.slice(5, 7)) - 1;
-      return { key, label: SHORT_MONTH_LABELS[monthIdx], count: counts.get(key) ?? 0 };
-    });
-  }, [contacts]);
-  const maxLeadsInMonth = Math.max(1, ...leadsByMonth.map((m) => m.count));
-
-  const quoteConversion = useMemo(() => {
-    const sent = quotes.filter((q) => q.kind === "quote" && q.status !== "draft");
-    const won = sent.filter((q) => q.status === "accepted" || q.status === "paid");
-    return {
-      sent: sent.length,
-      won: won.length,
-      rate: sent.length > 0 ? (won.length / sent.length) * 100 : null,
-    };
-  }, [quotes]);
-
-  const topLeadSources = useMemo(() => {
-    const counts = new Map<string, number>();
-    for (const c of contacts) {
-      const src = c.source_path?.trim() || "(i panjohur)";
-      counts.set(src, (counts.get(src) ?? 0) + 1);
-    }
-    return Array.from(counts.entries())
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5);
-  }, [contacts]);
-
-  const scheduledBroadcasts = useMemo(
-    () =>
-      broadcasts
-        .filter((b) => !b.sent_at && b.scheduled_for)
-        .sort((a, b) => (a.scheduled_for! < b.scheduled_for! ? -1 : 1)),
-    [broadcasts]
-  );
-
-  const projectsSummary = useMemo(() => {
-    const active = projects.filter((p) => p.status === "active");
-    const withTasks = projects.filter((p) => p.tasks.length > 0);
-    const avgPct =
-      withTasks.length === 0
-        ? null
-        : Math.round(
-            (withTasks.reduce((sum, p) => sum + p.tasks.filter((t) => t.done).length / p.tasks.length, 0) /
-              withTasks.length) *
-              100
-          );
-    const byPhase = new Map<string, number>();
-    active.forEach((p) => byPhase.set(p.phase, (byPhase.get(p.phase) ?? 0) + 1));
-    return { active: active.length, total: projects.length, avgPct, byPhase };
-  }, [projects]);
-
-  const followUps = useMemo(() => {
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() + 2);
-    const cutoffStr = localIsoDate(cutoff);
-    return contacts
-      .filter((c) => !isClosedContactStatus(c.status) && c.follow_up_date && c.follow_up_date <= cutoffStr)
-      .sort((a, b) => (a.follow_up_date! < b.follow_up_date! ? -1 : 1));
-  }, [contacts]);
-
-  const recentContacts = useMemo(
-    () => [...contacts].sort((a, b) => (a.created_at < b.created_at ? 1 : -1)).slice(0, 5),
-    [contacts]
-  );
-
-  return (
-    <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
-        <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
-        <StatCard label="Subscriber-a aktivë" value={subscribers.filter((s) => !s.unsubscribed).length} />
-        <StatCard label="Norma e konvertimit (%)" value={Math.round(stats.conversionRate)} featured />
-      </div>
-
-      {/* Kërkon vëmendjen sot — bashkon fatura të vonuara, follow-up të vonuara dhe afate projektesh */}
-      <div className={`${CARD} p-5 ${needsAttention ? "border-red-400/25" : ""}`}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          Kërkon vëmendjen sot
-        </p>
-        {!needsAttention ? (
-          <p className="text-[13px] text-emerald-300">✅ Asgjë urgjente — fatura, follow-up dhe afate janë në rregull.</p>
-        ) : (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-            <button
-              onClick={() => onGoToQuote("")}
-              disabled={overdueInvoices.length === 0}
-              className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
-                overdueInvoices.length === 0
-                  ? "border-emerald-400/25 bg-emerald-400/5"
-                  : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
-              }`}
-            >
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Fatura të vonuara</p>
-              <p className={`mt-1 text-[14px] font-semibold ${overdueInvoices.length === 0 ? "text-emerald-300" : "text-red-300"}`}>
-                {overdueInvoices.length === 0
-                  ? "✅ Asnjë"
-                  : `🔴 ${overdueInvoices.length} · ${formatMoney(overdueInvoicesTotal)}`}
-              </p>
-            </button>
-            <button
-              onClick={() => onGoToContact("")}
-              disabled={overdueFollowUps === 0}
-              className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
-                overdueFollowUps === 0
-                  ? "border-emerald-400/25 bg-emerald-400/5"
-                  : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
-              }`}
-            >
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Follow-up të vonuara</p>
-              <p className={`mt-1 text-[14px] font-semibold ${overdueFollowUps === 0 ? "text-emerald-300" : "text-red-300"}`}>
-                {overdueFollowUps === 0 ? "✅ Asnjë" : `🔴 ${overdueFollowUps}`}
-              </p>
-            </button>
-            <button
-              onClick={() => onGoToProject("")}
-              disabled={upcomingDeadlines.length === 0}
-              className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
-                upcomingDeadlines.length === 0
-                  ? "border-emerald-400/25 bg-emerald-400/5"
-                  : overdueDeadlinesCount > 0
-                    ? "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
-                    : "border-yellow-400/25 bg-yellow-400/5 hover:border-yellow-400/45"
-              }`}
-            >
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Afate projektesh (3 ditë)</p>
-              <p
-                className={`mt-1 text-[14px] font-semibold ${
-                  upcomingDeadlines.length === 0 ? "text-emerald-300" : overdueDeadlinesCount > 0 ? "text-red-300" : "text-yellow-300"
-                }`}
-              >
-                {upcomingDeadlines.length === 0
-                  ? "✅ Asnjë"
-                  : `${overdueDeadlinesCount > 0 ? "🔴" : "⏳"} ${upcomingDeadlines.length}${overdueDeadlinesCount > 0 ? ` (${overdueDeadlinesCount} vonuar)` : ""}`}
-              </p>
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Shëndeti i sistemit */}
-      <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          Shëndeti i sistemit
-        </p>
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          <div className={`rounded-[10px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
-            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Backup javor</p>
-            <p className={`mt-1 text-[14px] font-semibold ${backupHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
-              {lastBackup
-                ? `${backupHealthy ? "✅" : "⚠️"} ${daysSinceBackup === 0 ? "sot" : `${daysSinceBackup} ditë më parë`}`
-                : "⚠️ Asnjë backup ende"}
-            </p>
-          </div>
-          <div
-            className={`rounded-[10px] border px-4 py-3 ${avgResponseHours === null ? "border-[var(--a-border)]" : responseHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}
-            title="Koha mesatare deri sa admini hap kontaktin e ri për herë të parë, 30 ditët e fundit"
-          >
-            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">SLA · Koha e parë përgjigjeje</p>
-            <p className={`mt-1 text-[14px] font-semibold ${avgResponseHours === null ? "text-[var(--a-text)]" : responseHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
-              {avgResponseHours === null
-                ? "— pa të dhëna ende"
-                : `${responseHealthy ? "✅" : "⚠️"} ${avgResponseHours < 1 ? "< 1 orë" : avgResponseHours < 24 ? `${Math.round(avgResponseHours)} orë` : `${Math.round(avgResponseHours / 24)} ditë`} mesatarisht`}
-            </p>
-          </div>
-          <div className="rounded-[10px] border border-[var(--a-border)] px-4 py-3">
-            <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Automatizimi i fundit</p>
-            <p className="mt-1 truncate text-[13px] font-medium text-[var(--a-text)]" title={autoActivity[0]?.label}>
-              {autoActivity[0] ? autoActivity[0].label : "Asnjë veprim ende"}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* KPI Marketing */}
-      <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          KPI Marketing
-        </p>
-        <div className="grid gap-6 md:grid-cols-2">
-          <div>
-            <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
-              Leads / muaj (6 muajt e fundit)
-            </p>
-            <div className="flex items-end gap-2.5" style={{ height: 84 }}>
-              {leadsByMonth.map((m) => (
-                <div key={m.key} className="flex flex-1 flex-col items-center gap-1.5">
-                  <div
-                    className="w-full rounded-t-[2px] bg-accent/70"
-                    style={{ height: `${Math.max(4, (m.count / maxLeadsInMonth) * 56)}px` }}
-                    title={`${m.count} leads`}
-                  />
-                  <span className="text-[11.5px] font-semibold text-[var(--a-text)]">{m.count}</span>
-                  <span className="text-[11px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="font-display text-[1.7rem] font-bold text-accent">
-                {quoteConversion.rate !== null ? `${quoteConversion.rate.toFixed(0)}%` : "—"}
-              </p>
-              <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">
-                Konvertimi ofertë→klient ({quoteConversion.won}/{quoteConversion.sent})
-              </p>
-            </div>
-            <div>
-              <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">
-                {leadsByMonth[leadsByMonth.length - 1]?.count ?? 0}
-              </p>
-              <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Leads këtë muaj</p>
-            </div>
-          </div>
-        </div>
-
-        {topLeadSources.length > 0 && (
-          <div className="mt-5 border-t border-[var(--a-border)] pt-4">
-            <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Burimet kryesore</p>
-            <div className="flex flex-wrap gap-2">
-              {topLeadSources.map(([src, count]) => (
-                <span
-                  key={src}
-                  className="rounded-full border border-[var(--a-border)] bg-[var(--a-input)] px-2.5 py-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)]"
-                  title={src}
-                >
-                  {src} · {count}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Follow-ups */}
-      <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          Ndjekje urgjente ({followUps.length})
-        </p>
-        {followUps.length === 0 ? (
-          <EmptyState text="Asnjë ndjekje brenda 48 orëve të ardhshme." />
-        ) : (
-          <ul className="space-y-2">
-            {followUps.map((c) => {
-              const overdue = isOverdue(c);
-              const label = c.follow_up_date === today ? "Sot" : overdue ? "Vonuar" : formatDay(`${c.follow_up_date}T00:00:00`);
-              return (
-                <li key={c.id}>
-                  <button
-                    onClick={() => onGoToContact(c.email)}
-                    className="flex w-full items-center justify-between rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-left transition-colors hover:border-accent/50"
-                  >
-                    <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">
-                      {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.service}</span>
-                    </span>
-                    <span className={`text-[11px] font-semibold ${overdue ? "text-red-400" : "text-accent"}`}>{label}</span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
-
-      {/* Projects progress */}
-      <div className={CARD + " p-5"}>
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          Projektet
-        </p>
-        {projectsSummary.total === 0 ? (
-          <EmptyState text="Ende pa projekte." />
-        ) : (
-          <>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div>
-                <p className="font-display text-[1.7rem] font-bold text-accent">{projectsSummary.active}</p>
-                <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Projekte aktive</p>
-              </div>
-              <div>
-                <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{projectsSummary.total}</p>
-                <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Gjithsej</p>
-              </div>
-              <div>
-                <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">
-                  {projectsSummary.avgPct !== null ? `${projectsSummary.avgPct}%` : "—"}
-                </p>
-                <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Përfundimi mesatar i checklist-ave</p>
-              </div>
-            </div>
-            {projectsSummary.byPhase.size > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {Array.from(projectsSummary.byPhase.entries()).map(([phase, count]) => (
-                  <span
-                    key={phase}
-                    className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-accent"
-                  >
-                    {PROJECT_PHASE_LABELS[phase as keyof typeof PROJECT_PHASE_LABELS] ?? phase} · {count}
-                  </span>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* Scheduled newsletter broadcasts */}
-      {scheduledBroadcasts.length > 0 && (
-        <div className={CARD + " p-5"}>
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-            Broadcast-e të planifikuara ({scheduledBroadcasts.length})
-          </p>
-          <ul className="space-y-2">
-            {scheduledBroadcasts.map((b) => (
-              <li
-                key={b.id}
-                className="flex items-center justify-between rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5"
-              >
-                <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">{b.subject}</span>
-                <span className="text-[11px] font-semibold text-accent">
-                  {formatDate(b.scheduled_for!)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Recent activity */}
-      <div className="grid gap-5 md:grid-cols-2">
-        <div className={CARD + " p-5"}>
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">Kontaktet e fundit</p>
-          {recentContacts.length === 0 ? (
-            <EmptyState text="Ende pa kontakte." />
-          ) : (
-            <ul className="space-y-2">
-              {recentContacts.map((c) => (
-                <li key={c.id}>
-                  <button
-                    onClick={() => onGoToContact(c.email)}
-                    className="flex w-full items-center justify-between rounded-[10px] px-2 py-1.5 text-left transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)]"
-                  >
-                    <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.75)]">{c.name}</span>
-                    <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(c.created_at)}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        <div className={CARD + " p-5"}>
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">Hyrjet e fundit në admin</p>
-          {adminLogins.length === 0 ? (
-            <EmptyState text="Asnjë hyrje e regjistruar." />
-          ) : (
-            <ul className="space-y-2">
-              {adminLogins.slice(0, 5).map((l) => (
-                <li key={l.id} className="flex items-center justify-between text-[12px]">
-                  <span className={l.success ? "text-emerald-400/80" : "text-red-400/80"}>
-                    {l.success ? "✓ E suksesshme" : "✗ E dështuar"}
-                  </span>
-                  <span className="text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(l.created_at)}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+// Komentuar (jo fshirë) 2026-11-02 me kërkesë të pronarit; rikthe duke hequr prefiksin "// OverviewTab: ".
+// OverviewTab: export function OverviewTab({
+// OverviewTab:   contacts,
+// OverviewTab:   subscribers,
+// OverviewTab:   stats,
+// OverviewTab:   adminLogins,
+// OverviewTab:   projects,
+// OverviewTab:   quotes,
+// OverviewTab:   broadcasts,
+// OverviewTab:   onGoToContact,
+// OverviewTab:   onGoToQuote,
+// OverviewTab:   onGoToProject,
+// OverviewTab:   autoActivity,
+// OverviewTab: }: {
+// OverviewTab:   contacts: Contact[];
+// OverviewTab:   subscribers: Subscriber[];
+// OverviewTab:   stats: Stats;
+// OverviewTab:   adminLogins: AdminLogin[];
+// OverviewTab:   projects: ProjectRecord[];
+// OverviewTab:   quotes: QuoteRecord[];
+// OverviewTab:   broadcasts: BroadcastStat[];
+// OverviewTab:   onGoToContact: (term: string) => void;
+// OverviewTab:   onGoToQuote: (term: string) => void;
+// OverviewTab:   onGoToProject: (term: string) => void;
+// OverviewTab:   autoActivity: AutoActivity[];
+// OverviewTab: }) {
+// OverviewTab:   const today = localIsoDate();
+// OverviewTab: 
+// OverviewTab:   const overdueFollowUps = useMemo(() => contacts.filter(isOverdue).length, [contacts]);
+// OverviewTab: 
+// OverviewTab:   const overdueInvoices = useMemo(
+// OverviewTab:     () =>
+// OverviewTab:       quotes
+// OverviewTab:         .filter((q) => q.kind === "invoice" && q.status !== "paid" && q.status !== "draft" && q.due_at && q.due_at < today)
+// OverviewTab:         .sort((a, b) => (a.due_at! < b.due_at! ? -1 : 1)),
+// OverviewTab:     [quotes, today]
+// OverviewTab:   );
+// OverviewTab:   const overdueInvoicesTotal = useMemo(
+// OverviewTab:     () => overdueInvoices.reduce((sum, q) => sum + quoteTotals(q.items, q.discount, q.tax_rate).total, 0),
+// OverviewTab:     [overdueInvoices]
+// OverviewTab:   );
+// OverviewTab: 
+// OverviewTab:   const upcomingDeadlines = useMemo(() => {
+// OverviewTab:     const cutoff = new Date();
+// OverviewTab:     cutoff.setDate(cutoff.getDate() + 3);
+// OverviewTab:     const cutoffStr = localIsoDate(cutoff);
+// OverviewTab:     return projects
+// OverviewTab:       .filter((p) => p.status !== "done" && p.deadline && p.deadline <= cutoffStr)
+// OverviewTab:       .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1));
+// OverviewTab:   }, [projects]);
+// OverviewTab:   const overdueDeadlinesCount = useMemo(
+// OverviewTab:     () => upcomingDeadlines.filter((p) => p.deadline! < today).length,
+// OverviewTab:     [upcomingDeadlines, today]
+// OverviewTab:   );
+// OverviewTab: 
+// OverviewTab:   const needsAttention = overdueInvoices.length > 0 || overdueFollowUps > 0 || upcomingDeadlines.length > 0;
+// OverviewTab: 
+// OverviewTab:   const lastBackup = useMemo(
+// OverviewTab:     () => autoActivity.find((a) => a.action === "backup") ?? null,
+// OverviewTab:     [autoActivity]
+// OverviewTab:   );
+// OverviewTab:   const daysSinceBackup = lastBackup
+// OverviewTab:     ? Math.floor((Date.now() - new Date(lastBackup.created_at).getTime()) / 86400000)
+// OverviewTab:     : null;
+// OverviewTab:   const backupHealthy = daysSinceBackup !== null && daysSinceBackup <= 8;
+// OverviewTab: 
+// OverviewTab:   // SLA — koha mesatare deri sa admini hap kontaktin e ri për herë të parë
+// OverviewTab:   // (viewed_at), llogaritur nga kontaktet e 30 ditëve të fundit. Përdor vetëm
+// OverviewTab:   // të dhëna që ekzistojnë tashmë (viewed_at bulk-loaded), pa query të re.
+// OverviewTab:   const avgResponseHours = useMemo(() => {
+// OverviewTab:     const cutoff = Date.now() - 30 * 86400000;
+// OverviewTab:     const durations = contacts
+// OverviewTab:       .filter((c) => c.viewed_at && new Date(c.created_at).getTime() >= cutoff)
+// OverviewTab:       .map((c) => (new Date(c.viewed_at!).getTime() - new Date(c.created_at).getTime()) / 3600000)
+// OverviewTab:       .filter((h) => h >= 0);
+// OverviewTab:     if (durations.length === 0) return null;
+// OverviewTab:     return durations.reduce((sum, h) => sum + h, 0) / durations.length;
+// OverviewTab:   }, [contacts]);
+// OverviewTab:   const responseHealthy = avgResponseHours !== null && avgResponseHours <= 24;
+// OverviewTab: 
+// OverviewTab:   // KPI Marketing — leads/muaj (6 muajt e fundit), konvertimi ofertë→klient
+// OverviewTab:   // (oferta të dërguara që u pranuan/u paguan) dhe burimet kryesore të leads.
+// OverviewTab:   // Gjithçka nga contacts/quotes që ekzistojnë tashmë si props, pa query të re.
+// OverviewTab:   const leadsByMonth = useMemo(() => {
+// OverviewTab:     const counts = new Map<string, number>();
+// OverviewTab:     const months: string[] = [];
+// OverviewTab:     const ref = new Date();
+// OverviewTab:     for (let i = 5; i >= 0; i--) {
+// OverviewTab:       const d = new Date(ref.getFullYear(), ref.getMonth() - i, 1);
+// OverviewTab:       // Jo toISOString(): mesnata lokale e ditës 1 është ende muaji i kaluar në UTC
+// OverviewTab:       const key = localIsoDate(d).slice(0, 7);
+// OverviewTab:       months.push(key);
+// OverviewTab:       counts.set(key, 0);
+// OverviewTab:     }
+// OverviewTab:     for (const c of contacts) {
+// OverviewTab:       const key = localIsoDate(new Date(c.created_at)).slice(0, 7);
+// OverviewTab:       if (counts.has(key)) counts.set(key, (counts.get(key) ?? 0) + 1);
+// OverviewTab:     }
+// OverviewTab:     return months.map((key) => {
+// OverviewTab:       const monthIdx = Number(key.slice(5, 7)) - 1;
+// OverviewTab:       return { key, label: SHORT_MONTH_LABELS[monthIdx], count: counts.get(key) ?? 0 };
+// OverviewTab:     });
+// OverviewTab:   }, [contacts]);
+// OverviewTab:   const maxLeadsInMonth = Math.max(1, ...leadsByMonth.map((m) => m.count));
+// OverviewTab: 
+// OverviewTab:   const quoteConversion = useMemo(() => {
+// OverviewTab:     const sent = quotes.filter((q) => q.kind === "quote" && q.status !== "draft");
+// OverviewTab:     const won = sent.filter((q) => q.status === "accepted" || q.status === "paid");
+// OverviewTab:     return {
+// OverviewTab:       sent: sent.length,
+// OverviewTab:       won: won.length,
+// OverviewTab:       rate: sent.length > 0 ? (won.length / sent.length) * 100 : null,
+// OverviewTab:     };
+// OverviewTab:   }, [quotes]);
+// OverviewTab: 
+// OverviewTab:   const topLeadSources = useMemo(() => {
+// OverviewTab:     const counts = new Map<string, number>();
+// OverviewTab:     for (const c of contacts) {
+// OverviewTab:       const src = c.source_path?.trim() || "(i panjohur)";
+// OverviewTab:       counts.set(src, (counts.get(src) ?? 0) + 1);
+// OverviewTab:     }
+// OverviewTab:     return Array.from(counts.entries())
+// OverviewTab:       .sort((a, b) => b[1] - a[1])
+// OverviewTab:       .slice(0, 5);
+// OverviewTab:   }, [contacts]);
+// OverviewTab: 
+// OverviewTab:   const scheduledBroadcasts = useMemo(
+// OverviewTab:     () =>
+// OverviewTab:       broadcasts
+// OverviewTab:         .filter((b) => !b.sent_at && b.scheduled_for)
+// OverviewTab:         .sort((a, b) => (a.scheduled_for! < b.scheduled_for! ? -1 : 1)),
+// OverviewTab:     [broadcasts]
+// OverviewTab:   );
+// OverviewTab: 
+// OverviewTab:   const projectsSummary = useMemo(() => {
+// OverviewTab:     const active = projects.filter((p) => p.status === "active");
+// OverviewTab:     const withTasks = projects.filter((p) => p.tasks.length > 0);
+// OverviewTab:     const avgPct =
+// OverviewTab:       withTasks.length === 0
+// OverviewTab:         ? null
+// OverviewTab:         : Math.round(
+// OverviewTab:             (withTasks.reduce((sum, p) => sum + p.tasks.filter((t) => t.done).length / p.tasks.length, 0) /
+// OverviewTab:               withTasks.length) *
+// OverviewTab:               100
+// OverviewTab:           );
+// OverviewTab:     const byPhase = new Map<string, number>();
+// OverviewTab:     active.forEach((p) => byPhase.set(p.phase, (byPhase.get(p.phase) ?? 0) + 1));
+// OverviewTab:     return { active: active.length, total: projects.length, avgPct, byPhase };
+// OverviewTab:   }, [projects]);
+// OverviewTab: 
+// OverviewTab:   const followUps = useMemo(() => {
+// OverviewTab:     const cutoff = new Date();
+// OverviewTab:     cutoff.setDate(cutoff.getDate() + 2);
+// OverviewTab:     const cutoffStr = localIsoDate(cutoff);
+// OverviewTab:     return contacts
+// OverviewTab:       .filter((c) => !isClosedContactStatus(c.status) && c.follow_up_date && c.follow_up_date <= cutoffStr)
+// OverviewTab:       .sort((a, b) => (a.follow_up_date! < b.follow_up_date! ? -1 : 1));
+// OverviewTab:   }, [contacts]);
+// OverviewTab: 
+// OverviewTab:   const recentContacts = useMemo(
+// OverviewTab:     () => [...contacts].sort((a, b) => (a.created_at < b.created_at ? 1 : -1)).slice(0, 5),
+// OverviewTab:     [contacts]
+// OverviewTab:   );
+// OverviewTab: 
+// OverviewTab:   return (
+// OverviewTab:     <div className="space-y-5">
+// OverviewTab:       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+// OverviewTab:         <StatCard label="Kontakte gjithsej" value={stats.totalContacts} />
+// OverviewTab:         <StatCard label="Kjo javë" value={stats.contactsThisWeek} />
+// OverviewTab:         <StatCard label="Subscriber-a aktivë" value={subscribers.filter((s) => !s.unsubscribed).length} />
+// OverviewTab:         <StatCard label="Norma e konvertimit (%)" value={Math.round(stats.conversionRate)} featured />
+// OverviewTab:       </div>
+// OverviewTab: 
+// OverviewTab:       {/* Kërkon vëmendjen sot — bashkon fatura të vonuara, follow-up të vonuara dhe afate projektesh */}
+// OverviewTab:       <div className={`${CARD} p-5 ${needsAttention ? "border-red-400/25" : ""}`}>
+// OverviewTab:         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:           Kërkon vëmendjen sot
+// OverviewTab:         </p>
+// OverviewTab:         {!needsAttention ? (
+// OverviewTab:           <p className="text-[13px] text-emerald-300">✅ Asgjë urgjente — fatura, follow-up dhe afate janë në rregull.</p>
+// OverviewTab:         ) : (
+// OverviewTab:           <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+// OverviewTab:             <button
+// OverviewTab:               onClick={() => onGoToQuote("")}
+// OverviewTab:               disabled={overdueInvoices.length === 0}
+// OverviewTab:               className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
+// OverviewTab:                 overdueInvoices.length === 0
+// OverviewTab:                   ? "border-emerald-400/25 bg-emerald-400/5"
+// OverviewTab:                   : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
+// OverviewTab:               }`}
+// OverviewTab:             >
+// OverviewTab:               <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Fatura të vonuara</p>
+// OverviewTab:               <p className={`mt-1 text-[14px] font-semibold ${overdueInvoices.length === 0 ? "text-emerald-300" : "text-red-300"}`}>
+// OverviewTab:                 {overdueInvoices.length === 0
+// OverviewTab:                   ? "✅ Asnjë"
+// OverviewTab:                   : `🔴 ${overdueInvoices.length} · ${formatMoney(overdueInvoicesTotal)}`}
+// OverviewTab:               </p>
+// OverviewTab:             </button>
+// OverviewTab:             <button
+// OverviewTab:               onClick={() => onGoToContact("")}
+// OverviewTab:               disabled={overdueFollowUps === 0}
+// OverviewTab:               className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
+// OverviewTab:                 overdueFollowUps === 0
+// OverviewTab:                   ? "border-emerald-400/25 bg-emerald-400/5"
+// OverviewTab:                   : "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
+// OverviewTab:               }`}
+// OverviewTab:             >
+// OverviewTab:               <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Follow-up të vonuara</p>
+// OverviewTab:               <p className={`mt-1 text-[14px] font-semibold ${overdueFollowUps === 0 ? "text-emerald-300" : "text-red-300"}`}>
+// OverviewTab:                 {overdueFollowUps === 0 ? "✅ Asnjë" : `🔴 ${overdueFollowUps}`}
+// OverviewTab:               </p>
+// OverviewTab:             </button>
+// OverviewTab:             <button
+// OverviewTab:               onClick={() => onGoToProject("")}
+// OverviewTab:               disabled={upcomingDeadlines.length === 0}
+// OverviewTab:               className={`rounded-[10px] border px-4 py-3 text-left transition-colors ${
+// OverviewTab:                 upcomingDeadlines.length === 0
+// OverviewTab:                   ? "border-emerald-400/25 bg-emerald-400/5"
+// OverviewTab:                   : overdueDeadlinesCount > 0
+// OverviewTab:                     ? "border-red-400/25 bg-red-400/5 hover:border-red-400/45"
+// OverviewTab:                     : "border-yellow-400/25 bg-yellow-400/5 hover:border-yellow-400/45"
+// OverviewTab:               }`}
+// OverviewTab:             >
+// OverviewTab:               <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Afate projektesh (3 ditë)</p>
+// OverviewTab:               <p
+// OverviewTab:                 className={`mt-1 text-[14px] font-semibold ${
+// OverviewTab:                   upcomingDeadlines.length === 0 ? "text-emerald-300" : overdueDeadlinesCount > 0 ? "text-red-300" : "text-yellow-300"
+// OverviewTab:                 }`}
+// OverviewTab:               >
+// OverviewTab:                 {upcomingDeadlines.length === 0
+// OverviewTab:                   ? "✅ Asnjë"
+// OverviewTab:                   : `${overdueDeadlinesCount > 0 ? "🔴" : "⏳"} ${upcomingDeadlines.length}${overdueDeadlinesCount > 0 ? ` (${overdueDeadlinesCount} vonuar)` : ""}`}
+// OverviewTab:               </p>
+// OverviewTab:             </button>
+// OverviewTab:           </div>
+// OverviewTab:         )}
+// OverviewTab:       </div>
+// OverviewTab: 
+// OverviewTab:       {/* Shëndeti i sistemit */}
+// OverviewTab:       <div className={CARD + " p-5"}>
+// OverviewTab:         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:           Shëndeti i sistemit
+// OverviewTab:         </p>
+// OverviewTab:         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+// OverviewTab:           <div className={`rounded-[10px] border px-4 py-3 ${backupHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}>
+// OverviewTab:             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Backup javor</p>
+// OverviewTab:             <p className={`mt-1 text-[14px] font-semibold ${backupHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
+// OverviewTab:               {lastBackup
+// OverviewTab:                 ? `${backupHealthy ? "✅" : "⚠️"} ${daysSinceBackup === 0 ? "sot" : `${daysSinceBackup} ditë më parë`}`
+// OverviewTab:                 : "⚠️ Asnjë backup ende"}
+// OverviewTab:             </p>
+// OverviewTab:           </div>
+// OverviewTab:           <div
+// OverviewTab:             className={`rounded-[10px] border px-4 py-3 ${avgResponseHours === null ? "border-[var(--a-border)]" : responseHealthy ? "border-emerald-400/25 bg-emerald-400/5" : "border-yellow-400/25 bg-yellow-400/5"}`}
+// OverviewTab:             title="Koha mesatare deri sa admini hap kontaktin e ri për herë të parë, 30 ditët e fundit"
+// OverviewTab:           >
+// OverviewTab:             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">SLA · Koha e parë përgjigjeje</p>
+// OverviewTab:             <p className={`mt-1 text-[14px] font-semibold ${avgResponseHours === null ? "text-[var(--a-text)]" : responseHealthy ? "text-emerald-300" : "text-yellow-300"}`}>
+// OverviewTab:               {avgResponseHours === null
+// OverviewTab:                 ? "— pa të dhëna ende"
+// OverviewTab:                 : `${responseHealthy ? "✅" : "⚠️"} ${avgResponseHours < 1 ? "< 1 orë" : avgResponseHours < 24 ? `${Math.round(avgResponseHours)} orë` : `${Math.round(avgResponseHours / 24)} ditë`} mesatarisht`}
+// OverviewTab:             </p>
+// OverviewTab:           </div>
+// OverviewTab:           <div className="rounded-[10px] border border-[var(--a-border)] px-4 py-3">
+// OverviewTab:             <p className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Automatizimi i fundit</p>
+// OverviewTab:             <p className="mt-1 truncate text-[13px] font-medium text-[var(--a-text)]" title={autoActivity[0]?.label}>
+// OverviewTab:               {autoActivity[0] ? autoActivity[0].label : "Asnjë veprim ende"}
+// OverviewTab:             </p>
+// OverviewTab:           </div>
+// OverviewTab:         </div>
+// OverviewTab:       </div>
+// OverviewTab: 
+// OverviewTab:       {/* KPI Marketing */}
+// OverviewTab:       <div className={CARD + " p-5"}>
+// OverviewTab:         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:           KPI Marketing
+// OverviewTab:         </p>
+// OverviewTab:         <div className="grid gap-6 md:grid-cols-2">
+// OverviewTab:           <div>
+// OverviewTab:             <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:               Leads / muaj (6 muajt e fundit)
+// OverviewTab:             </p>
+// OverviewTab:             <div className="flex items-end gap-2.5" style={{ height: 84 }}>
+// OverviewTab:               {leadsByMonth.map((m) => (
+// OverviewTab:                 <div key={m.key} className="flex flex-1 flex-col items-center gap-1.5">
+// OverviewTab:                   <div
+// OverviewTab:                     className="w-full rounded-t-[2px] bg-accent/70"
+// OverviewTab:                     style={{ height: `${Math.max(4, (m.count / maxLeadsInMonth) * 56)}px` }}
+// OverviewTab:                     title={`${m.count} leads`}
+// OverviewTab:                   />
+// OverviewTab:                   <span className="text-[11.5px] font-semibold text-[var(--a-text)]">{m.count}</span>
+// OverviewTab:                   <span className="text-[11px] uppercase tracking-[0.1em] text-[rgb(var(--a-text-rgb)/0.35)]">{m.label}</span>
+// OverviewTab:                 </div>
+// OverviewTab:               ))}
+// OverviewTab:             </div>
+// OverviewTab:           </div>
+// OverviewTab: 
+// OverviewTab:           <div className="grid grid-cols-2 gap-4">
+// OverviewTab:             <div>
+// OverviewTab:               <p className="font-display text-[1.7rem] font-bold text-accent">
+// OverviewTab:                 {quoteConversion.rate !== null ? `${quoteConversion.rate.toFixed(0)}%` : "—"}
+// OverviewTab:               </p>
+// OverviewTab:               <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:                 Konvertimi ofertë→klient ({quoteConversion.won}/{quoteConversion.sent})
+// OverviewTab:               </p>
+// OverviewTab:             </div>
+// OverviewTab:             <div>
+// OverviewTab:               <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">
+// OverviewTab:                 {leadsByMonth[leadsByMonth.length - 1]?.count ?? 0}
+// OverviewTab:               </p>
+// OverviewTab:               <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Leads këtë muaj</p>
+// OverviewTab:             </div>
+// OverviewTab:           </div>
+// OverviewTab:         </div>
+// OverviewTab: 
+// OverviewTab:         {topLeadSources.length > 0 && (
+// OverviewTab:           <div className="mt-5 border-t border-[var(--a-border)] pt-4">
+// OverviewTab:             <p className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--a-text-rgb)/0.4)]">Burimet kryesore</p>
+// OverviewTab:             <div className="flex flex-wrap gap-2">
+// OverviewTab:               {topLeadSources.map(([src, count]) => (
+// OverviewTab:                 <span
+// OverviewTab:                   key={src}
+// OverviewTab:                   className="rounded-full border border-[var(--a-border)] bg-[var(--a-input)] px-2.5 py-1 text-[11px] text-[rgb(var(--a-text-rgb)/0.7)]"
+// OverviewTab:                   title={src}
+// OverviewTab:                 >
+// OverviewTab:                   {src} · {count}
+// OverviewTab:                 </span>
+// OverviewTab:               ))}
+// OverviewTab:             </div>
+// OverviewTab:           </div>
+// OverviewTab:         )}
+// OverviewTab:       </div>
+// OverviewTab: 
+// OverviewTab:       {/* Follow-ups */}
+// OverviewTab:       <div className={CARD + " p-5"}>
+// OverviewTab:         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:           Ndjekje urgjente ({followUps.length})
+// OverviewTab:         </p>
+// OverviewTab:         {followUps.length === 0 ? (
+// OverviewTab:           <EmptyState text="Asnjë ndjekje brenda 48 orëve të ardhshme." />
+// OverviewTab:         ) : (
+// OverviewTab:           <ul className="space-y-2">
+// OverviewTab:             {followUps.map((c) => {
+// OverviewTab:               const overdue = isOverdue(c);
+// OverviewTab:               const label = c.follow_up_date === today ? "Sot" : overdue ? "Vonuar" : formatDay(`${c.follow_up_date}T00:00:00`);
+// OverviewTab:               return (
+// OverviewTab:                 <li key={c.id}>
+// OverviewTab:                   <button
+// OverviewTab:                     onClick={() => onGoToContact(c.email)}
+// OverviewTab:                     className="flex w-full items-center justify-between rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5 text-left transition-colors hover:border-accent/50"
+// OverviewTab:                   >
+// OverviewTab:                     <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">
+// OverviewTab:                       {c.name} <span className="text-[rgb(var(--a-text-rgb)/0.35)]">· {c.service}</span>
+// OverviewTab:                     </span>
+// OverviewTab:                     <span className={`text-[11px] font-semibold ${overdue ? "text-red-400" : "text-accent"}`}>{label}</span>
+// OverviewTab:                   </button>
+// OverviewTab:                 </li>
+// OverviewTab:               );
+// OverviewTab:             })}
+// OverviewTab:           </ul>
+// OverviewTab:         )}
+// OverviewTab:       </div>
+// OverviewTab: 
+// OverviewTab:       {/* Projects progress */}
+// OverviewTab:       <div className={CARD + " p-5"}>
+// OverviewTab:         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:           Projektet
+// OverviewTab:         </p>
+// OverviewTab:         {projectsSummary.total === 0 ? (
+// OverviewTab:           <EmptyState text="Ende pa projekte." />
+// OverviewTab:         ) : (
+// OverviewTab:           <>
+// OverviewTab:             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+// OverviewTab:               <div>
+// OverviewTab:                 <p className="font-display text-[1.7rem] font-bold text-accent">{projectsSummary.active}</p>
+// OverviewTab:                 <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Projekte aktive</p>
+// OverviewTab:               </div>
+// OverviewTab:               <div>
+// OverviewTab:                 <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">{projectsSummary.total}</p>
+// OverviewTab:                 <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Gjithsej</p>
+// OverviewTab:               </div>
+// OverviewTab:               <div>
+// OverviewTab:                 <p className="font-display text-[1.7rem] font-bold text-[var(--a-text)]">
+// OverviewTab:                   {projectsSummary.avgPct !== null ? `${projectsSummary.avgPct}%` : "—"}
+// OverviewTab:                 </p>
+// OverviewTab:                 <p className="mt-1 text-[12px] text-[rgb(var(--a-text-rgb)/0.4)]">Përfundimi mesatar i checklist-ave</p>
+// OverviewTab:               </div>
+// OverviewTab:             </div>
+// OverviewTab:             {projectsSummary.byPhase.size > 0 && (
+// OverviewTab:               <div className="mt-4 flex flex-wrap gap-2">
+// OverviewTab:                 {Array.from(projectsSummary.byPhase.entries()).map(([phase, count]) => (
+// OverviewTab:                   <span
+// OverviewTab:                     key={phase}
+// OverviewTab:                     className="rounded-full border border-accent/30 bg-accent/8 px-2.5 py-0.5 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-accent"
+// OverviewTab:                   >
+// OverviewTab:                     {PROJECT_PHASE_LABELS[phase as keyof typeof PROJECT_PHASE_LABELS] ?? phase} · {count}
+// OverviewTab:                   </span>
+// OverviewTab:                 ))}
+// OverviewTab:               </div>
+// OverviewTab:             )}
+// OverviewTab:           </>
+// OverviewTab:         )}
+// OverviewTab:       </div>
+// OverviewTab: 
+// OverviewTab:       {/* Scheduled newsletter broadcasts */}
+// OverviewTab:       {scheduledBroadcasts.length > 0 && (
+// OverviewTab:         <div className={CARD + " p-5"}>
+// OverviewTab:           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
+// OverviewTab:             Broadcast-e të planifikuara ({scheduledBroadcasts.length})
+// OverviewTab:           </p>
+// OverviewTab:           <ul className="space-y-2">
+// OverviewTab:             {scheduledBroadcasts.map((b) => (
+// OverviewTab:               <li
+// OverviewTab:                 key={b.id}
+// OverviewTab:                 className="flex items-center justify-between rounded-[10px] border border-[var(--a-border)] bg-[var(--a-input)] px-4 py-2.5"
+// OverviewTab:               >
+// OverviewTab:                 <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.8)]">{b.subject}</span>
+// OverviewTab:                 <span className="text-[11px] font-semibold text-accent">
+// OverviewTab:                   {formatDate(b.scheduled_for!)}
+// OverviewTab:                 </span>
+// OverviewTab:               </li>
+// OverviewTab:             ))}
+// OverviewTab:           </ul>
+// OverviewTab:         </div>
+// OverviewTab:       )}
+// OverviewTab: 
+// OverviewTab:       {/* Recent activity */}
+// OverviewTab:       <div className="grid gap-5 md:grid-cols-2">
+// OverviewTab:         <div className={CARD + " p-5"}>
+// OverviewTab:           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">Kontaktet e fundit</p>
+// OverviewTab:           {recentContacts.length === 0 ? (
+// OverviewTab:             <EmptyState text="Ende pa kontakte." />
+// OverviewTab:           ) : (
+// OverviewTab:             <ul className="space-y-2">
+// OverviewTab:               {recentContacts.map((c) => (
+// OverviewTab:                 <li key={c.id}>
+// OverviewTab:                   <button
+// OverviewTab:                     onClick={() => onGoToContact(c.email)}
+// OverviewTab:                     className="flex w-full items-center justify-between rounded-[10px] px-2 py-1.5 text-left transition-colors hover:bg-[rgb(var(--a-text-rgb)/0.05)]"
+// OverviewTab:                   >
+// OverviewTab:                     <span className="text-[13px] text-[rgb(var(--a-text-rgb)/0.75)]">{c.name}</span>
+// OverviewTab:                     <span className="text-[11px] text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(c.created_at)}</span>
+// OverviewTab:                   </button>
+// OverviewTab:                 </li>
+// OverviewTab:               ))}
+// OverviewTab:             </ul>
+// OverviewTab:           )}
+// OverviewTab:         </div>
+// OverviewTab: 
+// OverviewTab:         <div className={CARD + " p-5"}>
+// OverviewTab:           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">Hyrjet e fundit në admin</p>
+// OverviewTab:           {adminLogins.length === 0 ? (
+// OverviewTab:             <EmptyState text="Asnjë hyrje e regjistruar." />
+// OverviewTab:           ) : (
+// OverviewTab:             <ul className="space-y-2">
+// OverviewTab:               {adminLogins.slice(0, 5).map((l) => (
+// OverviewTab:                 <li key={l.id} className="flex items-center justify-between text-[12px]">
+// OverviewTab:                   <span className={l.success ? "text-emerald-400/80" : "text-red-400/80"}>
+// OverviewTab:                     {l.success ? "✓ E suksesshme" : "✗ E dështuar"}
+// OverviewTab:                   </span>
+// OverviewTab:                   <span className="text-[rgb(var(--a-text-rgb)/0.3)]">{formatDate(l.created_at)}</span>
+// OverviewTab:                 </li>
+// OverviewTab:               ))}
+// OverviewTab:             </ul>
+// OverviewTab:           )}
+// OverviewTab:         </div>
+// OverviewTab:       </div>
+// OverviewTab:     </div>
+// OverviewTab:   );
+// OverviewTab: }
 
 // ── Chart ──────────────────────────────────────────────────────────────────
 function ContactsChart({ contacts }: { contacts: Contact[] }) {
