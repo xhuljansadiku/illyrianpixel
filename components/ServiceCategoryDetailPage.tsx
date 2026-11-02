@@ -395,9 +395,9 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
                   {category.slug === "seo-google-ads" ? (
                     <>{t("seoGoogleAds.finalHeadlinePre")}{" "}<span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("seoGoogleAds.finalHeadlineAccent")}</span>{" "}{t("seoGoogleAds.finalHeadlinePost")}</>
                   ) : category.slug === "branding-content" ? (
-                    <>{t("brandingContent.finalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("brandingContent.finalHeadlineAccent")}</span></>
+                    <>{t("brandingContent.finalHeadlineLine1")}{" "}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("brandingContent.finalHeadlineAccent")}</span></>
                   ) : (
-                    <>{t("defaultFinalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("defaultFinalHeadlineAccent")}</span></>
+                    <>{t("defaultFinalHeadlineLine1")}{" "}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("defaultFinalHeadlineAccent")}</span></>
                   )}
                 </h2>
                 <p className="mx-auto mt-6 max-w-[44ch] whitespace-pre-line text-[14px] leading-relaxed text-white/50">

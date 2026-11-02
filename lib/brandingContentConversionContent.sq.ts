@@ -18,7 +18,7 @@ export const brandingConversionLandingData: ConversionLandingData = {
         body: "Kur prezenca nuk mban të njëjtën peshë si cilësia, klienti i mirë largohet pa shpjegim: ai kërkon siguri, dhe siguria duket para se të dokumentohet.",
       },
       {
-        title: "Klientët gjykojnë në 10 sekonda, jo nga broshura",
+        title: "Klientët ju gjykojnë që në shikim të parë",
         body: "Nëse nuk ndiejnë qëndrueshmëri dhe kujdes në detaj, ata nuk ju vendosin në të njëjtin raft me referencën që paguajnë me kënaqësi.",
       },
       {
@@ -114,7 +114,7 @@ export const brandingConversionLandingData: ConversionLandingData = {
       { icon: "bPsyche", title: "Logo dhe identitet vizual profesional", body: "" },
       { icon: "bStory",  title: "Mesazh i qartë për çdo platformë", body: "" },
       { icon: "bTouch",  title: "Dizajn që krijon besim menjëherë", body: "" },
-      { icon: "bEdge",   title: "Brand i qëndrueshëm dhe i paharrueshëm", body: "" },
+      { icon: "bEdge",   title: "Brand që mbahet mend", body: "" },
     ],
   },
   processHeadline: "Proces i matur. Prani që mbetet.",

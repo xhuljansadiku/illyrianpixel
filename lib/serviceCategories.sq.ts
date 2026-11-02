@@ -404,15 +404,15 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "branding-content",
     title: "Branding & Content",
     headline: "Branding dhe identitet vizual profesional për biznese shqiptare.",
-    subheadline:
-      "Logo, identitet vizual dhe content që ndërtojnë besim dhe tërheqin klientët e duhur.",
+    // Text audit 2 (2026-11-02): subheadline hequr ("Logo, identitet vizual dhe content që ndërtojnë besim dhe tërheqin klientët e duhur.")
+    subheadline: "",
     short:
       "Pozicionim, identitet dhe përmbajtje për marka që duan status, besim dhe klientë më të përzgjedhur, jo thjesht më shumë dukshmëri.",
     description: "",
     icon: "◆",
     ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Shiko projektet",
-    trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
+    trustLine: "Përgjigje brenda 24 orësh",
     subServices: [
       "Logo & Identitet vizual",
       "Brand i qartë",
@@ -427,10 +427,10 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Logo dhe paleta e markës",
         ideal: "Logo profesionale dhe paleta e ngjyrave, themeli i identitetit tuaj vizual.",
         features: [
-          "Logo profesionale (koncepte + final)",
+          "Logo profesionale (disa koncepte + versioni final)",
           "Paleta e ngjyrave",
           "Versione për web dhe print",
-          "Guidelines bazë (PDF)",
+          "Udhëzues bazë i markës (PDF)",
         ],
       },
       {
@@ -440,21 +440,21 @@ export const serviceCategories: ServiceCategory[] = [
         ideal: "Logo, paleta dhe identitet vizual i plotë, gati për çdo material dhe platformë.",
         features: [
           "Gjithçka nga Basic",
-          "Identitet vizual i plotë (ikona, pattern, elementë grafikë)",
+          "Identitet vizual i plotë (ikona, motive, elementë grafikë)",
           "Paleta e zgjeruar (sekondare + neutrale)",
           "Kartëvizita",
-          "1 Template",
+          "1 shabllon",
         ],
         featured: true,
       },
       {
         name: "Premium",
         price: "€850",
-        tagline: "Design i plotë i markës",
-        ideal: "Logo, identitet vizual dhe design i plotë i markës, me paletë dhe brand kit për çdo skenë.",
+        tagline: "Dizajn i plotë i markës",
+        ideal: "Logo, identitet dhe të gjitha materialet e markës, gati për përdorim.",
         features: [
           "Gjithçka nga Standard",
-          "Design i plotë i materialeve (broshura, prezantime, packaging)",
+          "Dizajn i materialeve (broshura, prezantime, ambalazh)",
           "Brand Kit i plotë (PDF + Figma/Canva)",
           "Paleta e ngjyrave për çdo platformë",
           "Mbështetje pas dorëzimit",

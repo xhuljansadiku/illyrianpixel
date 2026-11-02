@@ -126,7 +126,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Çfarë merrni në fund?",
-      a: "Logon në versione për web dhe print, paletën e ngjyrave dhe guidelines bazë në PDF. Te Premium merrni edhe Brand Kit të plotë në PDF dhe Figma/Canva.",
+      a: "Logon në versione për web dhe print, paletën e ngjyrave dhe udhëzuesin bazë të markës në PDF. Te Premium merrni edhe Brand Kit të plotë në PDF dhe Figma/Canva.",
     },
     PAYMENT.sq,
   ],
