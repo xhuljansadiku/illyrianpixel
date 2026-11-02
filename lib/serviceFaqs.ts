@@ -365,7 +365,7 @@ export function getGoogleAdsFaqs(c: Pkgs, locale: Locale): ServiceFaq[] {
     },
     {
       q: "Si e matni rezultatin?",
-      a: "Çdo paketë përfshin tracking konvertimesh, që të numërojmë kërkesat dhe thirrjet, jo vetëm klikimet. Raporti vjen çdo muaj te Starter, çdo 2 javë me një call mujor te Growth, dhe çdo javë me 2 call mujore te Pro.",
+      a: "Çdo paketë përfshin matje të kërkesave, që të numërojmë kërkesat dhe thirrjet, jo vetëm klikimet. Raporti vjen çdo muaj te Starter, çdo 2 javë me një takim në muaj te Growth, dhe çdo javë me 2 takime në muaj te Pro.",
     },
   ];
 }
