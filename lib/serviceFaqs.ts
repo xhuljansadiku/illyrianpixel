@@ -53,7 +53,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "A përfshihen pagesat online?",
-      a: "Po. Çdo paketë përfshin pagesa të integruara dhe checkout të optimizuar, që klienti të blejë shpejt edhe nga telefoni.",
+      a: "Po. Çdo paketë përfshin pagesa të integruara dhe blerje me pak hapa, që klienti të blejë shpejt edhe nga telefoni.",
     },
     {
       q: "Sa zgjat ndërtimi i një dyqani online?",

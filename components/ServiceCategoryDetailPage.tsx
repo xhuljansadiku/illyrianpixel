@@ -308,7 +308,8 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
         )}
 
         {/* ── 3. PROOF ── */}
-        {category.slug !== "website" && category.slug !== "seo-google-ads" && category.slug !== "mirembajtja" && (testimonials.length > 0 || portfolioItems.length > 0) && (
+        {/* Text audit 2 (2026-11-02): e-commerce pa projekte — s'kemi ende dyqan real si provë */}
+        {category.slug !== "website" && category.slug !== "seo-google-ads" && category.slug !== "mirembajtja" && category.slug !== "ecommerce" && (testimonials.length > 0 || portfolioItems.length > 0) && (
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
               <div className="svc-reveal-heading">

@@ -123,19 +123,19 @@ export const serviceCategories: ServiceCategory[] = [
   {
     slug: "ecommerce",
     title: "E-Commerce",
-    headline: "Krijim dyqan online\n(e-commerce) që shet 24/7,\nçdo ditë, pa pushim.",
-    subheadline:
-      "Ndërtojmë dyqane online që konvertojnë, checkout i optimizuar dhe pagesa të integruara për më shumë shitje.",
+    headline: "Krijim dyqan online\n(e-commerce) që shet 24/7.",
+    // Text audit 2 (2026-11-02): subheadline hequr ("Ndërtojmë dyqane online që konvertojnë, checkout i optimizuar dhe pagesa të integruara për më shumë shitje.")
+    subheadline: "",
     short:
       "Dyqane online premium me checkout të optimizuar, pagesa dhe analitikë,\npër bizneset shqiptare që duan të shesin online.",
     description: "",
     icon: "◈",
-    ctaPrimary: "Fillo të shesësh online →",
-    ctaSecondary: "Punët tona",
-    trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
+    ctaPrimary: "Merr ofertë falas",
+    ctaSecondary: "Shiko projektet",
+    trustLine: "Përgjigje brenda 24 orësh",
     subServices: [
       "Shitje 24/7",
-      "Checkout që konverton",
+      "Blerje me pak hapa",
       "Pagesa të thjeshta",
       "Shitje pa ndalesë",
       "Analitikë shitjesh",
@@ -146,11 +146,11 @@ export const serviceCategories: ServiceCategory[] = [
         price: "€699",
         perk: "30 ditë rregullime falas pas publikimit (gabime teknike)",
         tagline: "Dyqan që fillon të shesë menjëherë",
-        ideal: "Hapi i parë i saktë online.\nProdukte, pagesa dhe checkout gati për shitje.",
+        ideal: "Hapi i parë i saktë online.\nProdukte dhe pagesa gati për shitje.",
         features: [
           "Deri në 30 produkte",
           "Pagesa të integruara",
-          "Checkout i optimizuar",
+          "Blerje me pak hapa",
           "I shpejtë në celular",
           "Form porosie + konfirmim automatik",
         ],
@@ -161,11 +161,11 @@ export const serviceCategories: ServiceCategory[] = [
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         giftValue: 147,
         tagline: "Dyqan që rrit shitjet çdo muaj",
-        ideal: "Struktura e duhur për të kthyer vizitorët në blerës dhe blerësit në klientë të rregullt.",
+        ideal: "Kthen vizitorët në blerës të rregullt.",
         features: [
           "Deri në 100 produkte",
           "Filtra, kategori dhe kërkim i avancuar",
-          "Checkout i optimizuar për konvertim",
+          "Blerje me pak hapa",
           "Analitikë shitjesh dhe Google Analytics",
           "SEO bazë për produkte dhe kategori",
         ],
@@ -177,7 +177,7 @@ export const serviceCategories: ServiceCategory[] = [
         gift: "3 muaj mirëmbajtje teknike falas (vlerë €147)",
         giftValue: 147,
         tagline: "Platformë e-commerce për shkallëzim",
-        ideal: "Sistem i plotë për bizneset që duan të rriten online pa kufizime teknike.",
+        ideal: "Rritje online pa kufizime teknike.",
         features: [
           "Pa limit produktesh",
           "Oferta shtesë & rekomandime që rrisin shitjen",
@@ -201,8 +201,8 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "▣",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punët tona",
-    trustLine: "Konsultim falas · Strategji brenda 24–48h · Pa detyrim",
+    ctaSecondary: "Shiko projektet",
+    trustLine: "Përgjigje brenda 24 orësh",
     subServices: [
       "iOS & Android nga një kod",
       "Dizajn i thjeshtë dhe modern",
@@ -340,7 +340,7 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "◉",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punët tona",
+    ctaSecondary: "Shiko projektet",
     trustLine: "Konsultim falas · Pa detyrim · Plan brenda 24–48h",
     subServices: [
       "Instagram & Facebook",
@@ -410,7 +410,7 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "◆",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punët tona",
+    ctaSecondary: "Shiko projektet",
     trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
     subServices: [
       "Logo & Identitet vizual",
@@ -474,7 +474,7 @@ export const serviceCategories: ServiceCategory[] = [
     description: "",
     icon: "◈",
     ctaPrimary: "Fillo sot →",
-    ctaSecondary: "Punët tona",
+    ctaSecondary: "Shiko projektet",
     trustLine: "Konsultim falas · Aktivizim brenda 24h · Pa obligim",
     subServices: [
       "Monitorim 24/7",
