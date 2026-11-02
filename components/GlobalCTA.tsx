@@ -30,9 +30,11 @@ export default function GlobalCTA({
           <Link href={primaryActionHref} data-magnetic="true" className="interactive-button ip-cta-primary">
             {primaryActionText ?? t("primaryActionText")}
           </Link>
+          {/* Text audit 2 (2026-11-02): butoni i dytë hequr, një CTA e vetme
           <Link href="/contact" className="luxury-link">
             {t("secondaryActionText")} <span aria-hidden>→</span>
           </Link>
+          */}
         </div>
       </div>
     </section>

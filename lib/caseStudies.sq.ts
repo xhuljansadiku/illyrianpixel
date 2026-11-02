@@ -130,7 +130,7 @@ export const caseStudies: CaseStudy[] = [
       "Projektet fotografike nuk kishin një prezantim të qartë online, duke humbur ritmin dhe efektin e punës.",
     solution:
       "Ndërtuam strukturë minimaliste, renditje të pastër dhe fokus të fortë te punimet për të rritur cilësinë e perceptimit.",
-    result: "Portofoli flet vetë, pa zhurmë, me ritëm dhe impakt.",
+    result: "Portofol që i lë fotot të flasin.",
     metrics: ["Galeri si revistë fotografike", "Navigim i qetë dhe i fokusuar", "Cilësia e punës në plan të parë"],
     tags: ["Fotografi", "Portofol", "Galeri"],
     heroImage: "/images/projects/ilirjana-shehu-photography.png",
@@ -149,7 +149,7 @@ export const caseStudies: CaseStudy[] = [
       "Mesazhi i shërbimeve ishte i shpërndarë dhe nuk theksonte mjaftueshëm pikat kyçe të diferencimit të kompanisë.",
     solution:
       "Riorganizuam përmbajtjen me seksione të qarta, butona kontakti të qartë dhe një stil elegant me ngjyra të errëta.",
-    result: "Oferta flet me autoritet dhe e orienton vizitorin drejt kontaktit.",
+    result: "Shërbime të qarta dhe kontakt me një klik.",
     metrics: ["Stil elegant dhe premium", "Seksione shërbimesh të qarta", "Kontakt pa hezitim"],
     tags: ["Ndërtim", "Korporativ", "Më shumë kërkesa"],
     heroImage: "/images/projects/suli-group-trockenbau.png",
