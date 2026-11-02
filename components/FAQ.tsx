@@ -15,19 +15,19 @@ const defaultFaqsSq: FaqItem[] = [
   },
   {
     q: "A përfshihet SEO?",
-    a: "Po, çdo website që ndërtojmë vjen me SEO bazë të instaluar: strukturë e saktë, faqe të shpejta dhe meta të optimizuara. SEO i avancuar dhe strategjia e përmbajtjes është shërbim i veçantë."
+    a: "Po, çdo website që ndërtojmë vjen me SEO bazë të instaluar: strukturë e saktë, faqe të shpejta dhe meta të optimizuara. SEO i avancuar dhe strategjia e përmbajtjes janë shërbime të veçanta."
   },
   {
     q: "A ofroni mirëmbajtje pas publikimit?",
-    a: "Po, ofrojmë paketa mirëmbajtjeje mujore që përfshijnë përditësime, monitorim sigurie dhe ndryshime të vogla.\nNuk ju lëmë vetëm pas lansimit."
+    a: "Po, ofrojmë paketa mirëmbajtjeje mujore që përfshijnë përditësime, monitorim sigurie dhe ndryshime të vogla."
   },
   {
     q: "A punoni me klientë ndërkombëtarë?",
-    a: "Po, kemi klientë në Gjermani, Itali, Angli, Suedi dhe SHBA, si edhe në Shqipëri e Kosovë.\nKomunikojmë në shqip, anglisht, gjermanisht dhe kroatisht.\nTakimet bëhen online, procesi është i njëjtë për të gjithë."
+    a: "Po, kemi klientë në 7 vende dhe flasim shqip, anglisht, gjermanisht e kroatisht.\nTakimet bëhen online dhe procesi është i njëjtë për të gjithë."
   },
   {
     q: "Si funksionon pagesa?",
-    a: "Për projektet deri në €1,000: 50% paradhënie për të nisur punën dhe 50% para publikimit.\nMbi €1,000: 3 këste, 40% në fillim, 30% kur aprovoni dizajnin dhe 30% para lansimit."
+    a: "Për projektet deri në €1,000: 50% paradhënie për të nisur punën dhe 50% para publikimit.\nMbi €1,000: 3 këste, 40% në fillim, 30% kur aprovoni dizajnin dhe 30% para publikimit."
   },
   {
     q: "Po sikur të mos më pëlqejë dizajni?",
@@ -35,7 +35,7 @@ const defaultFaqsSq: FaqItem[] = [
   },
   {
     q: "Çfarë kam nevojë të përgatis para fillimit?",
-    a: "Mjafton të na tregoni çfarë bën biznesi juaj, kë synoni të arrini dhe çfarë nuk ju pëlqen te prezenca juaj aktuale.\nPër pjesën tjetër kujdesemi ne: struktura, tekstet dhe dizajni."
+    a: "Mjafton të na tregoni çfarë bën biznesi juaj, cilët klientë doni të arrini dhe çfarë nuk ju pëlqen te prezenca juaj aktuale.\nPër pjesën tjetër kujdesemi ne: struktura, tekstet dhe dizajni."
   }
 ];
 

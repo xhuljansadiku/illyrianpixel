@@ -116,12 +116,14 @@ export default function HomeFinalCta({ whatsappHref }: { whatsappHref: string })
           </a>
         </div>
 
+        {/* Text audit 2 (2026-11-02): gjuhët shfaqen vetëm te FAQ
         <p className="mt-8 inline-flex flex-wrap items-center justify-center gap-2.5 text-[14px] text-white/55">
           {["al", "gb", "de", "hr"].map((code) => (
             <Image key={code} src={`/flags/4x3/${code}.svg`} alt="" width={20} height={15} className="h-[15px] w-5 rounded-[2px] object-cover" unoptimized />
           ))}
           <span className="ml-1">{t("languages")}</span>
         </p>
+        */}
       </div>
     </section>
   );

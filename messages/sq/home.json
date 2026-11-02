@@ -4,8 +4,8 @@
     "headlineLine1": "Ktheje biznesin në ",
     "headlineAccent": "brand.",
     "srSubtitle": "Website, SEO dhe Marketing për biznese shqiptare",
-    "paragraph1": "Ndërtojmë Website & E-Commerce moderne, ju ndihmojmë të gjendeni në Google me SEO dhe rrisim shitjet përmes Reklamave, Social Media & Branding.",
-    "paragraph2": "Plan konkret brenda 24–48 orëve, 100% pa pagesë.",
+    "paragraph1": "Website dhe E-Commerce moderne, SEO që ju nxjerr në Google dhe reklama që sjellin shitje.",
+    "paragraph2": "Plan falas brenda 24–48 orëve.",
     "paragraph3": "Ju fokusohuni te biznesi. Ne kujdesemi që klientët t'ju gjejnë online.",
     "ctaPrimary": "Merr ofertë falas",
     "ctaSecondary": "Shiko projektet",
@@ -100,7 +100,7 @@
     "eyebrow": "Klientët tanë",
     "headline": "Marka dhe biznese që na besojnë",
     "googleRating": "5.0 në Google · Shiko vlerësimet",
-    "intro": "Nga Gjermania dhe Italia te Suedia, Anglia dhe SHBA: biznese që kërkojnë rritje dhe rezultate reale.",
+    "intro": "Biznese në 7 vende, nga Tirana te Nju Jorku.",
     "statYears": "vite eksperiencë",
     "statProjects": "projekte",
     "statBusinesses": "Biznese në 7 vende",
@@ -184,7 +184,7 @@
     "yourCode": "Kodi juaj",
     "codeSentLine1": "E-mail me kodin u dërgua.",
     "codeSentLine2": "Citoni kodin kur të kontaktoni për çdo shërbim.",
-    "bookConsult": "Rezervo konsultë →",
+    "bookConsult": "Merr ofertë falas →",
     "emailPlaceholder": "email@kompania.com",
     "submitting": "Duke dërguar…",
     "submitCta": "Merr 10% →",
@@ -267,8 +267,7 @@
     "promiseTitle": "Pa rrezik për ju",
     "promises": [
       "Plan dhe ofertë falas",
-      "50% në fillim, 50% para publikimit · mbi €1,000 në 3 këste",
-      "Flasim shqip, anglisht, gjermanisht dhe kroatisht"
+      "50% në fillim, 50% para publikimit · mbi €1,000 në 3 këste"
     ]
   },
   "finalCta": {
