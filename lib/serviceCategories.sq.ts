@@ -468,15 +468,15 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "mirembajtja",
     title: "Mirëmbajtja",
     headline: "Mirëmbajtje, optimizim dhe rindërtim website për biznese shqiptare.",
-    subheadline:
-      "Mbajmë faqen tuaj gjithmonë online, të shpejtë dhe të sigurt. Edhe faqe të vjetra i rindërtojmë dhe i optimizojmë.",
+    // Text audit 2 (2026-11-02): subheadline hequr, përsëriste H1
+    subheadline: "",
     short:
       "Faqja juaj online, e shpejtë dhe e sigurt, çdo ditë.",
     description: "",
     icon: "◈",
     ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Shiko projektet",
-    trustLine: "Konsultim falas · Aktivizim brenda 24h · Pa obligim",
+    trustLine: "Aktivizim brenda 24 orësh",
     subServices: [
       "Monitorim 24/7",
       "Optimizim i vazhdueshëm",
@@ -499,10 +499,10 @@ export const serviceCategories: ServiceCategory[] = [
           "Support email me përgjigje brenda 48h",
         ],
         featureBullets: [
-          { emphasis: "Monitorim 24/7", detail: "njoftohemi automatikisht nëse faqja bie." },
-          { emphasis: "Backup javor", detail: "kopje e plotë çdo javë, gati për rikthim shpejt." },
-          { emphasis: "Përditësime", detail: "mbajmë gjithçka të përditësuar dhe të sigurt." },
-          { emphasis: "Raport mujor", detail: "ju tregojmë çdo muaj si po shkon faqja." },
+          { emphasis: "Monitorim 24/7", detail: "njoftohemi menjëherë nëse faqja bie." },
+          { emphasis: "Backup javor", detail: "kopje e plotë çdo javë." },
+          { emphasis: "Përditësime", detail: "gjithçka e përditësuar dhe e sigurt." },
+          { emphasis: "Raport mujor", detail: "si po shkon faqja, çdo muaj." },
         ],
       },
       {
@@ -514,16 +514,16 @@ export const serviceCategories: ServiceCategory[] = [
         features: [
           "Monitorim uptime 24/7 me njoftime email dhe në telefon",
           "Backup ditor i automatizuar",
-          "Sigurim SSL, firewall dhe skanim malware",
+          "SSL, firewall dhe skanim virusesh",
           "Optimizim cache dhe shpejtësi çdo muaj",
           "Ndërhyrje teknike deri 2 orë/muaj",
           "Support prioritar me përgjigje brenda 24 orësh",
         ],
         featureBullets: [
           { emphasis: "Backup ditor", detail: "kopje e re çdo ditë, humbni maksimum një ditë pune." },
-          { emphasis: "Siguri e avancuar", detail: "firewall, skanim virusesh dhe SSL, faqja e mbrojtur mirë." },
+          { emphasis: "Siguri e avancuar", detail: "firewall, skanim virusesh dhe SSL." },
           { emphasis: "Optimizim shpejtësie", detail: "faqja bëhet më e shpejtë çdo muaj." },
-          { emphasis: "2h ndërhyrje/muaj", detail: "ndryshime dhe rregullime pa kosto shtesë, brenda 2 orëve në muaj." },
+          { emphasis: "2h ndërhyrje/muaj", detail: "ndryshime pa kosto shtesë." },
         ],
         featured: true,
       },
@@ -543,10 +543,10 @@ export const serviceCategories: ServiceCategory[] = [
           "Raport javor i performancës dhe sigurisë",
         ],
         featureBullets: [
-          { emphasis: "5h ndërhyrje/muaj", detail: "ndryshime teknike pa kosto shtesë, më shumë se dyfishi i Pro." },
-          { emphasis: "Siguri e nivelit më të lartë", detail: "mbrojtje nga sulmet përmes Vercel ose Cloudflare, si platformat e mëdha." },
-          { emphasis: "Optimizim për Google", detail: "faqja bëhet më e shpejtë, një nga sinjalet që Google vlerëson." },
-          { emphasis: "Përgjigje të njëjtën ditë", detail: "kërkesat tuaja trajtohen para të gjithave." },
+          { emphasis: "5h ndërhyrje/muaj", detail: "ndryshime pa kosto shtesë." },
+          { emphasis: "Siguri e nivelit më të lartë", detail: "mbrojtje nga sulmet (Cloudflare)." },
+          { emphasis: "Optimizim për Google", detail: "faqe më e shpejtë, që Google e vlerëson." },
+          { emphasis: "Përgjigje të njëjtën ditë", detail: "kërkesat tuaja kanë përparësi." },
         ],
       },
     ],
