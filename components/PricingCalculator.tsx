@@ -32,6 +32,9 @@ function formatEuro(value: number): string {
   return `€${value.toLocaleString("en-US")}`;
 }
 
+// Text audit 2 (2026-11-02): "Sa shpejt kthehet investimi?" i fikur nga pronari
+const SHOW_ROI_BLOCK: boolean = false;
+
 export default function PricingCalculator({ overrides }: { overrides?: PricingOverrides }) {
   const t = useTranslations("pricing.calculator");
   const tf = useTranslations("pricing.filters");
@@ -203,7 +206,8 @@ export default function PricingCalculator({ overrides }: { overrides?: PricingOv
               </span>
             </div>
 
-            {showRoi ? (
+            {/* Text audit 2 (2026-11-02): blloku ROI fikur, rikthe me SHOW_ROI_BLOCK = true */}
+            {SHOW_ROI_BLOCK && showRoi ? (
               <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
                 <p className="font-display text-[0.95rem] font-semibold text-white">{t("roiTitle")}</p>
                 <label className="mt-2 block text-[12px] leading-relaxed text-white/45">

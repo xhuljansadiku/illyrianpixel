@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ServiceCategory, ServicePackage } from "@/lib/serviceCategories";
-import { AVG_CLIENT_VALUE, formatEuro, priceFraming } from "@/lib/pricingPsychology";
+import { formatEuro, priceFraming } from "@/lib/pricingPsychology"; // Text audit 2: AVG_CLIENT_VALUE s'përdoret më (payback hequr)
 import { trackEvent } from "@/lib/track";
 import CountUpPrice from "@/components/CountUpPrice";
 
@@ -92,14 +92,16 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
           </div>
 
           {/* "≈ €X në ditë" — pill e artë menjëherë nën çmim (iluzioni i përballueshmërisë) */}
+          {/* Text audit 2 (2026-11-02): "≈ €X në ditë" hequr — çmimi i qartë mjafton
           {framing.perDay && (
             <p className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-accent/40 bg-accent/[0.12] px-3 py-1 font-ui text-[12px] font-semibold text-accentLight">
               {t(framing.perDayYear ? "card.perDayYear" : "card.perDay", { amount: formatEuro(framing.perDay) })}
             </p>
           )}
+          */}
 
           {/* Framing (2026-10-20): si paguhet + çfarë kthen — nga çmimi real, kurrë i shpikur */}
-          {(framing.plan || framing.payback) && (
+          {framing.plan && (
             <div className="mt-3 space-y-0.5 font-ui text-[12px] leading-snug">
               {framing.plan?.kind === "split" && (
                 <p className="text-white/70">
@@ -115,7 +117,9 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
                   })}
                 </p>
               )}
+              {/* Text audit 2 (2026-11-02): payback hequr — e bën kalkulatori
               {framing.payback && <p className="text-accent/90">{t("card.payback", { count: framing.payback, value: formatEuro(AVG_CLIENT_VALUE) })}</p>}
+              */}
             </div>
           )}
 
@@ -133,6 +137,7 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
                 <span aria-hidden>🎁</span>
                 <span>{pkg.gift}</span>
               </p>
+              {/* Text audit 2 (2026-11-02): "Vlera që merrni / Ju paguani" hequr — përsëriste dhuratën
               {framing.totalValue && (
                 <div className="mt-2.5 space-y-1 border-t border-accent/20 pt-2.5 text-[12px]">
                   <p className="flex items-center justify-between text-white/65">
@@ -145,10 +150,11 @@ export default function ServicePackageCard({ pkg, slug, recurring = false, highl
                   </p>
                 </div>
               )}
+              */}
             </div>
           )}
 
-          <p className="font-ui mt-2 md:whitespace-pre-line text-[12px] font-normal leading-[1.6] text-text">{pkg.ideal}</p>
+          <p className="font-ui mt-2 md:whitespace-pre-line text-[12px] font-normal leading-[1.6] text-text">{pkg.ideal.split("\n")[0]}</p>
 
           <div className="my-5 h-px bg-white/[0.07]" />
 

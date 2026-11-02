@@ -31,6 +31,10 @@ export default async function CmimetPage(props: Props) {
     getPricingOverrides().catch(() => ({})),
     getVisibleFaqs(locale).catch(() => []),
   ]);
-  const faqItems = faqRows.map((f) => ({ q: f.question, a: f.answer, category: f.category }));
+  // Text audit 2 (2026-11-02): këtu vetëm pyetjet për çmimin (SEO, pagesa, garancia) — të tjerat janë te kryefaqja.
+  // Rreshtat në Supabase "faqs": 2 = SEO, 5 = pagesa, 7 = garancia.
+  const PRICING_FAQ_IDS = [2, 5, 7];
+  const pricingFaqs = faqRows.filter((f) => PRICING_FAQ_IDS.includes(Number(f.id)));
+  const faqItems = (pricingFaqs.length > 0 ? pricingFaqs : faqRows).map((f) => ({ q: f.question, a: f.answer, category: f.category }));
   return <AllPackagesPageClient overrides={overrides} faqItems={faqItems} />;
 }

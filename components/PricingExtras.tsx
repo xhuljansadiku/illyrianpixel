@@ -16,9 +16,10 @@ export function CustomPackageRow({ pkg, slug }: { pkg: ServicePackage; slug: str
   return (
     <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-5 md:flex-row md:items-center">
       <p className="text-[14px] leading-relaxed text-white/75">
-        <span className="font-semibold text-white">{t("lead")}</span> {pkg.ideal.replace(/\n/g, " ")}{" "}
+        {/* Text audit 2 (2026-11-02): pa përshkrimin (pkg.ideal), vetëm çmimi + këstet */}
+        <span className="font-semibold text-white">{t("lead")}</span>{" "}
         <span className="whitespace-nowrap font-semibold text-accent">{pkg.price}</span>
-        <span className="text-white/55"> · {t("installments")}</span>
+        <span className="text-white/55">, {t("installments")}</span>
       </p>
       <Link
         href="/contact"

@@ -44,7 +44,7 @@ export default function CountUpPrice({ price, className = "" }: { price: string;
 
   return (
     <span ref={ref} className={`inline-grid tabular-nums ${className}`}>
-      <span aria-hidden className="invisible [grid-area:1/1]">{price}</span>
+      <span aria-hidden data-size={price} className="invisible [grid-area:1/1] before:content-[attr(data-size)]" />
       <span className="[grid-area:1/1]">{shown}</span>
     </span>
   );
