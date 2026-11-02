@@ -6,7 +6,7 @@ import TiltCard from "@/components/TiltCard";
 import type { Locale } from "@/i18n/routing";
 
 const LABELS: Record<Locale, { caseStudy: string; live: string; soon: string }> = {
-  sq: { caseStudy: "Lexo rastin", live: "Vizito site-in", soon: "Së shpejti online" },
+  sq: { caseStudy: "Lexo rastin", live: "Vizito faqen", soon: "Së shpejti online" },
   en: { caseStudy: "Read case study", live: "Visit website", soon: "Going live soon" },
 };
 
