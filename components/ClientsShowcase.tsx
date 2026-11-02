@@ -13,6 +13,7 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { getCaseStudies } from "@/lib/caseStudies";
 import { CLIENT_COUNTRIES } from "@/lib/clientLocations";
 import SectionMark from "@/components/SectionMark";
+import { GOOGLE_BUSINESS_URL } from "@/lib/socialLinks";
 import LazyMount from "@/components/LazyMount";
 import type { GlobeFocus } from "@/components/ClientGlobe";
 
@@ -74,6 +75,17 @@ export default function ClientsShowcase() {
           <p className="cs-reveal mt-4 max-w-[480px] font-body text-[0.94rem] font-light leading-relaxed tracking-[0.02em] text-white/45">
             {t("intro")}
           </p>
+          {/* Vlerësimi në Google — vetëm nota + lidhje, pa emra (2026-11-02) */}
+          <a
+            href={GOOGLE_BUSINESS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cs-reveal mt-5 inline-flex items-center gap-2.5 rounded-full border border-accent/30 px-4 py-2 font-ui text-[13px] text-white/80 transition-colors hover:border-accent/60 hover:text-white"
+          >
+            <span className="tracking-[0.15em] text-accentLight" aria-hidden>★★★★★</span>
+            <span>{t("googleRating")}</span>
+            <span aria-hidden>↗</span>
+          </a>
 
           {/* Logot */}
           <ul className="cs-reveal mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
