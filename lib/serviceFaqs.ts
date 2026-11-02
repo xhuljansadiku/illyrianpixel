@@ -86,7 +86,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
   "seo-google-ads": (c) => [
     {
       q: "Sa kushton SEO dhe Google Ads?",
-      a: `Starter ${price(c, "Starter")}, Growth ${price(c, "Growth")} dhe Pro ${price(c, "Pro")}. Buxheti i reklamave nuk përfshihet: e paguani ju, direkt te Google.`,
+      a: `Starter ${price(c, "Starter")}, Growth ${price(c, "Growth")} dhe Pro ${price(c, "Pro")}.`,
     },
     {
       q: "Kur shihen rezultatet?",

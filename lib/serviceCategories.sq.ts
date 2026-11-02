@@ -261,9 +261,9 @@ export const serviceCategories: ServiceCategory[] = [
   {
     slug: "seo-google-ads",
     title: "SEO & Google Ads",
-    headline: "SEO dhe Google Ads, që sjellin klientë, jo vetëm klikime.",
-    subheadline:
-      "SEO teknik dhe fushata Google Ads, ndërtuar si sistem konvertimi për biznese shqiptare.",
+    headline: "SEO dhe Google Ads në një paketë, me kosto më të ulët.",
+    // Text audit 2 (2026-11-02): subheadline hequr ("SEO teknik dhe fushata Google Ads, ndërtuar si sistem konvertimi për biznese shqiptare.")
+    subheadline: "",
     short:
       "Më shumë thirrje, mesazhe dhe shitje, jo më shumë pritje.\nSEO + Google Ads + faqe që konvertojnë, matur në para.",
     description: "",
@@ -280,13 +280,14 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Starter",
         price: euro(BUNDLE_MONTHLY.starter),
         priceNote: "/ muaj",
-        perk: `Kursen €${bundleSavings("starter")}/muaj kundrejt SEO + Google Ads veç e veç`,
-        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
+        perk: `Kurseni €${bundleSavings("starter")} në muaj`,
+        // Text audit 2 (2026-11-02): buxheti thuhet te FAQ
+        // notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
         ideal: "Filloni me Google Ads sot, plus bazat e SEO.\nBuxhet i vogël, të dhënat e para brenda muajit.",
         features: [
           "Vendosja e Google Ads",
           "1 fushatë aktive",
-          "SEO bazë (on-page)",
+          "SEO bazë",
           "Ndjekje e rezultateve",
           "Raport çdo muaj",
         ],
@@ -296,13 +297,14 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Growth",
         price: euro(BUNDLE_MONTHLY.growth),
         priceNote: "/ muaj",
-        perk: `Kursen €${bundleSavings("growth")}/muaj kundrejt SEO + Google Ads veç e veç`,
-        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
+        perk: `Kurseni €${bundleSavings("growth")} në muaj`,
+        // Text audit 2 (2026-11-02): buxheti thuhet te FAQ
+        // notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
         ideal: "Google Ads optimizohen çdo javë, SEO ju ndihmon të ngjiteni në Google.\nÇdo kërkesë e matur, buxheti nën kontroll.",
         features: [
           "Google Ads i avancuar",
           "2–3 fushata aktive",
-          "SEO i plotë (on-page)",
+          "SEO i plotë",
           "Optimizim i buxhetit çdo javë",
           "Raport çdo 2 javë + 1 takim në muaj",
         ],
@@ -313,14 +315,15 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Pro",
         price: euro(BUNDLE_MONTHLY.pro),
         priceNote: "/ muaj",
-        perk: `Kursen €${bundleSavings("pro")}/muaj kundrejt SEO + Google Ads veç e veç`,
-        notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
+        perk: `Kurseni €${bundleSavings("pro")} në muaj`,
+        // Text audit 2 (2026-11-02): buxheti thuhet te FAQ
+        // notIncluded: ["Buxheti i reklamave (e paguani ju, direkt te Google)"],
         ideal: "Google Ads i plotë, SEO teknik dhe teste A/B.\nÇdo vendim mbështetet në numra, jo në mendim.",
         features: [
           "Google Ads i plotë (Search + Display)",
           "SEO teknik i avancuar",
           "Teste A/B për fushatat",
-          "Optimizim i kostos për klient (CPA/ROAS)",
+          "Ulje e kostos për klient",
           "Raport çdo javë + 2 takime në muaj",
         ],
         cta: "Merr ofertë falas",
