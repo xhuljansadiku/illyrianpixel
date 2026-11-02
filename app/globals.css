@@ -91,8 +91,8 @@ body {
   --a-card: rgba(22, 18, 13, 0.62);
   --a-card2: rgba(16, 13, 9, 0.55);
   --a-input: #0a0a0a;
-  --a-border: #262626;
-  --a-card-border: rgba(171, 131, 57, 0.14);
+  --a-border: #2e2c28;
+  --a-card-border: rgba(171, 131, 57, 0.2);
   --a-card-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
   --a-glow: rgba(171, 131, 57, 0.08);
   /* Off-white, not pure #fff — same reasoning as the public site's
@@ -147,16 +147,16 @@ body {
 }
 
 .admin-shell[data-theme="light"] {
-  --a-bg: #f7f1e6;
+  --a-bg: #f1eadc;
   --a-card: #fffdf8;
   --a-card2: rgba(255, 253, 248, 0.85);
   --a-input: #ffffff;
-  --a-border: #e0ddd4;
-  --a-card-border: rgba(171, 131, 57, 0.22);
+  --a-border: #d6d0c2;
+  --a-card-border: rgba(171, 131, 57, 0.3);
   --a-card-shadow: 0 1px 2px rgba(60, 42, 16, 0.05), 0 10px 28px rgba(60, 42, 16, 0.06);
   --a-glow: rgba(171, 131, 57, 0.05);
-  --a-text: #18170f;
-  --a-text-rgb: 24 23 15;
+  --a-text: #14120c;
+  --a-text-rgb: 20 18 12;
 }
 
 /* Ambient gold glow — pure CSS, no particles. Place on a positioned
@@ -186,6 +186,35 @@ body {
 .admin-shell[data-theme="light"] .text-yellow-400 {
   color: #a16207;
 }
+/* Opacity variants (text-red-400/80, text-emerald-400/80 …) are separate
+   class names, so match them by substring and give them the same solid,
+   readable shade. */
+.admin-shell[data-theme="light"] [class*="text-red-300"],
+.admin-shell[data-theme="light"] [class*="text-red-400/"] {
+  color: #b91c1c;
+}
+.admin-shell[data-theme="light"] [class*="text-emerald-400/"] {
+  color: #047857;
+}
+.admin-shell[data-theme="light"] [class*="text-amber-300"],
+.admin-shell[data-theme="light"] [class*="text-amber-400"] {
+  color: #92400e;
+}
+
+/* Gold text: #ab8339 is only ~3:1 on the cream card — deepen it in light
+   mode (~6:1), and lift it slightly in dark mode for small labels. The
+   Brand tab renders its own dark preview (bg-bg), so it keeps true gold. */
+.admin-shell[data-theme="light"] .text-accent:not(.bg-bg .text-accent),
+.admin-shell[data-theme="light"] .hover\:text-accent:hover:not(.bg-bg *) {
+  color: #7a5617;
+}
+.admin-shell[data-theme="light"] .text-accentLight:not(.bg-bg .text-accentLight) {
+  color: #7a5617;
+}
+.admin-shell:not([data-theme="light"]) .text-accent:not(.bg-bg .text-accent) {
+  color: #c9a052;
+}
+
 .admin-shell[data-theme="light"] .border-blue-400\/30 {
   border-color: rgb(29 78 216 / 0.35);
 }
@@ -211,7 +240,7 @@ body {
 .admin-shell:not([data-theme="light"]) [class*="text-[rgb(var(--a-text-rgb)/0.3)"],
 .admin-shell:not([data-theme="light"]) [class*="text-[rgb(var(--a-text-rgb)/0.35)"],
 .admin-shell:not([data-theme="light"]) [class*="text-[rgb(var(--a-text-rgb)/0.4)"] {
-  color: rgb(var(--a-text-rgb) / 0.58) !important;
+  color: rgb(var(--a-text-rgb) / 0.64) !important;
 }
 
 .admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.25)"],
@@ -221,7 +250,7 @@ body {
 .admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.45)"],
 .admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.5)"],
 .admin-shell[data-theme="light"] [class*="text-[rgb(var(--a-text-rgb)/0.55)"] {
-  color: rgb(var(--a-text-rgb) / 0.7) !important;
+  color: rgb(var(--a-text-rgb) / 0.74) !important;
 }
 
 body {
