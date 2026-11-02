@@ -236,7 +236,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "social-media-menaxhim-shqiperi",
     title: "Social Media Menaxhim në Shqipëri: çmime dhe çfarë të prisni",
-    category: "Social Media",
+    category: "Marketing",
     excerpt: "Çmimet e menaxhimit profesional të social media në Shqipëri, platformat kryesore dhe si të zgjidhni agjencinë e duhur.",
     date: "Maj 2026",
     content: [
@@ -253,7 +253,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "si-te-rrisesh-klientet-online",
     title: "Keni trafikun. Por ku janë klientët?",
-    category: "Rritje",
+    category: "Marketing",
     excerpt:
       "Shumica e bizneseve shpenzojnë para për të sjellë njerëz në faqe dhe i humbin menjëherë.\nJo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj.",
     date: "Prill 2026",
@@ -266,7 +266,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "gabimet-kryesore-ne-website",
     title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)",
-    category: "UX",
+    category: "Web Design",
     excerpt: "Një listë e shkurtër e gabimeve që ulin besimin dhe shtyjnë klientin të largohet.",
     date: "Prill 2026",
     content: [
@@ -278,7 +278,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "pse-seo-eshte-kritik",
     title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)",
-    category: "Strategji",
+    category: "SEO",
     excerpt:
       "Të kesh një website të bukur që nuk shfaqet në Google është si të hapësh një dyqan luksoz në mes të shkretëtirës.\nAskush nuk e gjen, askush nuk blen.",
     date: "Prill 2026",

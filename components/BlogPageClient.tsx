@@ -31,6 +31,8 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
   const [active, setActive] = useState(allLabel);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
+  // Text audit 2 (2026-11-02): në karta vetëm fjalia e parë; teksti i plotë mbetet meta description.
+  const firstSentence = (s: string) => s.split("\n")[0].split(/(?<=[.!?])\s/)[0];
   const categories = [allLabel, ...Array.from(new Set(allPosts.map((p) => p.category)))];
 
   const filtered =
@@ -107,9 +109,11 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
               </h1>
             </div>
             <div className="hero-divider mt-10 h-px w-14 bg-gradient-to-r from-accent/60 to-transparent" />
+            {/* Text audit 2 (2026-11-02): nëntitulli hequr, H1 e thotë vetë
             <p className="hero-subtext mt-6 font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
               {t("subtitle")}
             </p>
+            */}
           </div>
         </section>
 
@@ -154,7 +158,7 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
                       {featuredPost.title}
                     </h2>
                     <p className="relative z-[1] mt-4 max-w-2xl whitespace-pre-line text-[15px] leading-relaxed text-white/60">
-                      {featuredPost.excerpt}
+                      {firstSentence(featuredPost.excerpt)}
                     </p>
                     <span className="luxury-link relative z-[1] mt-6 inline-flex">
                       {t("readArticle")} <span aria-hidden>→</span>
@@ -192,7 +196,7 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
                                 {post.title}
                               </h3>
                               <p className="mt-2 max-w-2xl line-clamp-2 whitespace-pre-line text-sm text-white/55">
-                                {post.excerpt}
+                                {firstSentence(post.excerpt)}
                               </p>
                             </div>
 
