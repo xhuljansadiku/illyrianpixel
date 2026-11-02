@@ -68,19 +68,19 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
   "aplikacione-mobile": () => [
     {
       q: "Sa kushton një aplikacion mobile?",
-      a: "Çmimi jepet me ofertë, sipas numrit të ekraneve dhe funksioneve: Starter deri në 6 ekrane, Business deri në 12 ekrane me login dhe njoftime push, Premium me pagesa, backend të personalizuar dhe dizajn 100% custom. Fillimisht diskutojmë çfarë ju duhet, pastaj ju japim çmimin. Konsultimi është falas.",
+      a: "Çmimi jepet me ofertë, sipas numrit të ekraneve dhe funksioneve: Starter deri në 6 ekrane, Business deri në 12 ekrane me login dhe njoftime push, Premium me pagesa, sistem të personalizuar dhe dizajn 100% të personalizuar. Fillimisht diskutojmë çfarë ju duhet, pastaj ju japim çmimin. Konsultimi është falas.",
     },
     {
       q: "A funksionon aplikacioni në iOS dhe Android?",
-      a: "Po. Ndërtojmë aplikacione cross-platform: një kod i vetëm për të dyja platformat, me dizajn modern për iOS dhe Android.",
+      a: "Po. Një kod i vetëm punon në të dyja (cross-platform), me dizajn modern për iOS dhe Android.",
     },
     {
       q: "A e publikoni aplikacionin në App Store dhe Google Play?",
       a: "Po, publikimi në App Store dhe Google Play përfshihet në çdo paketë.",
     },
     {
-      q: "Çfarë ndodh pas lançimit?",
-      a: "Paketa Starter përfshin 30 ditë mbështetje pas lançimit. Më pas ofrojmë mirëmbajtje, dhe nëse ju duhen funksione të reja ose upgrade, ju japim çmim të veçantë për to.",
+      q: "Çfarë ndodh pas publikimit?",
+      a: "Paketa Starter përfshin 30 ditë mbështetje pas publikimit. Më pas ofrojmë mirëmbajtje, dhe nëse ju duhen funksione të reja ose përmirësime, ju japim çmim të veçantë për to.",
     },
   ],
   "seo-google-ads": (c) => [

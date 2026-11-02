@@ -193,9 +193,9 @@ export const serviceCategories: ServiceCategory[] = [
   {
     slug: "aplikacione-mobile",
     title: "Aplikacione Mobile",
-    headline: "Zhvillim aplikacionesh mobile për iOS dhe Android, që sjellin biznesin tuaj në xhepin e klientit.",
-    subheadline:
-      "Ndërtojmë aplikacione mobile cross-platform (një kod, të dyja platformat), nga ideja deri te App Store dhe Google Play.",
+    headline: "Zhvillim aplikacionesh mobile për iOS dhe Android.",
+    // Text audit 2 (2026-11-02): subheadline hequr ("Ndërtojmë aplikacione mobile cross-platform (një kod, të dyja platformat), nga ideja deri te App Store dhe Google Play.")
+    subheadline: "",
     short:
       "Aplikacione mobile profesionale për iOS dhe Android,\npër biznese që duan të jenë gjithmonë pranë klientit.",
     description: "",
@@ -208,20 +208,20 @@ export const serviceCategories: ServiceCategory[] = [
       "Dizajn i thjeshtë dhe modern",
       "Njoftime push",
       "Publikim në App Store & Google Play",
-      "Mbështetje pas lançimit",
+      "Mbështetje pas publikimit",
     ],
     packages: [
       {
         name: "Starter",
         price: "Ofertë",
-        tagline: "App bazë, gati për lançim",
+        tagline: "Aplikacion bazë, gati për publikim",
         ideal: "Aplikacion i thjeshtë me funksionet thelbësore, për të testuar idenë tuaj në treg.",
         features: [
           "Deri në 6 ekrane",
           "Dizajn modern iOS + Android",
           "Lidhje me website/API ekzistues",
           "Publikim në App Store & Google Play",
-          "Mbështetje 30 ditë pas lançimit",
+          "Mbështetje 30 ditë pas publikimit",
         ],
         cta: "Kërko Ofertë",
       },
@@ -244,7 +244,7 @@ export const serviceCategories: ServiceCategory[] = [
         name: "Premium",
         price: "Ofertë",
         tagline: "App i plotë, i personalizuar",
-        ideal: "Aplikacion kompleks me pagesa, integrime dhe dizajn 100% custom, sipas specifikave tuaja.",
+        ideal: "Aplikacion kompleks me pagesa, integrime dhe dizajn 100% i personalizuar, sipas nevojave tuaja.",
         features: [
           "Gjithçka nga Business",
           "Pagesa të integruara",
