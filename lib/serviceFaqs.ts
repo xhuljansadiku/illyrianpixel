@@ -108,7 +108,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Kush e krijon përmbajtjen?",
-      a: "Ne. Fillojmë me disa shembuj postimesh sipas identitetit tuaj; kur ju pëlqejnë, vazhdojmë me dizajnin, caption-et, hashtag-et dhe publikimin. Sa shpesh i aprovoni postimet më pas, e caktojmë bashkë sipas marrëveshjes.",
+      a: "Ne. Fillojmë me disa shembuj postimesh sipas identitetit tuaj; kur ju pëlqejnë, vazhdojmë me dizajnin, tekstet, hashtag-et dhe publikimin. Sa shpesh i aprovoni postimet më pas, e caktojmë bashkë sipas marrëveshjes.",
     },
     {
       q: "A përfshihen reklamat me pagesë?",

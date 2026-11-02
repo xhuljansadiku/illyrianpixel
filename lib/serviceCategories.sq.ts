@@ -200,7 +200,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Aplikacione mobile profesionale për iOS dhe Android,\npër biznese që duan të jenë gjithmonë pranë klientit.",
     description: "",
     icon: "▣",
-    ctaPrimary: "Fillo sot →",
+    ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Shiko projektet",
     trustLine: "Përgjigje brenda 24 orësh",
     subServices: [
@@ -336,15 +336,15 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "smm",
     title: "Social Media",
     headline: "Menaxhim social media profesional për biznese shqiptare.",
-    subheadline:
-      "Content, dizajn dhe posting të rregullt në Instagram, Facebook dhe TikTok, për biznese që duan të rriten online.",
+    // Text audit 2 (2026-11-02): subheadline hequr (gjysmë anglisht, përsëriste H1)
+    subheadline: "",
     short:
       "Menaxhim i plotë i social media: content, dizajn, posting dhe angazhim, për bizneset shqiptare që duan prani të rregullt dhe profesionale.",
     description: "",
     icon: "◉",
-    ctaPrimary: "Fillo sot →",
+    ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Shiko projektet",
-    trustLine: "Konsultim falas · Pa detyrim · Plan brenda 24–48h",
+    trustLine: "Përgjigje brenda 24 orësh",
     subServices: [
       "Instagram & Facebook",
       "Reels & TikTok",
@@ -360,7 +360,7 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Prani e rregullt dhe profesionale",
         ideal: "10 postime + 2 Reels çdo muaj.\nGjithçka gati: dizajn, caption, posting.",
         features: [
-          "10 postime/muaj (feed + caption)",
+          "10 postime/muaj me tekst",
           "2 Reels/muaj",
           "2 platforma (Instagram + Facebook)",
           "Dizajn grafik sipas identitetit tuaj",
@@ -375,10 +375,9 @@ export const serviceCategories: ServiceCategory[] = [
         tagline: "Content që rrit audiencën çdo muaj",
         ideal: "15 postime + 3 Reels në 3 platforma.\nAngazhim aktiv dhe raportim 2-javësh.",
         features: [
-          "15 postime/muaj (feed + caption)",
+          "15 postime/muaj me tekst",
           "3 Reels/muaj",
-          "3 platforma\n(Instagram + Facebook + Threads)",
-          "Hashtags strategjikë",
+          "3 platforma\n(Instagram + Facebook + TikTok)",
           "Raport çdo 2 javë",
         ],
         featured: true,
@@ -394,7 +393,6 @@ export const serviceCategories: ServiceCategory[] = [
           "5 Reels / Video",
           "Të gjitha platformat",
           "Menaxhim bazë i reklamave (Meta Ads)",
-          "Hashtags strategjikë",
           "Takim strategjik çdo muaj + raport javor",
         ],
       },
@@ -412,7 +410,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Pozicionim, identitet dhe përmbajtje për marka që duan status, besim dhe klientë më të përzgjedhur, jo thjesht më shumë dukshmëri.",
     description: "",
     icon: "◆",
-    ctaPrimary: "Fillo sot →",
+    ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Shiko projektet",
     trustLine: "Konsultim falas · Pa detyrim · Përgjigje brenda 24h",
     subServices: [
@@ -476,7 +474,7 @@ export const serviceCategories: ServiceCategory[] = [
       "Faqja juaj online, e shpejtë dhe e sigurt, çdo ditë.",
     description: "",
     icon: "◈",
-    ctaPrimary: "Fillo sot →",
+    ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Shiko projektet",
     trustLine: "Konsultim falas · Aktivizim brenda 24h · Pa obligim",
     subServices: [
