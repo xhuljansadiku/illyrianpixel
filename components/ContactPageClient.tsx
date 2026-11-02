@@ -2,13 +2,13 @@
 
 import { FormEvent, KeyboardEvent as ReactKeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+// Text audit 2: import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPrefill";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { GuaranteeNote } from "@/components/PricingExtras";
-import { CONTACT_BUDGETS, CONTACT_TIMELINES } from "@/lib/leadScore";
+import { CONTACT_BUDGETS } from "@/lib/leadScore"; // Text audit 2: CONTACT_TIMELINES s'përdoret (afati fshehur)
 import { trackEvent } from "@/lib/track";
 import { GOOGLE_BUSINESS_URL } from "@/lib/socialLinks";
 
@@ -37,7 +37,8 @@ export default function ContactPageClient() {
   // Asnjë zgjedhje e parazgjedhur (2026-10-21): buxheti/afati i paprekur ruhet bosh, jo si vlerë e rreme
   const serviceOptions = services.map((s) => ({ value: s, label: s }));
   const budgetOptions = CONTACT_BUDGETS.map((b) => ({ value: b.value, label: t(`budgets.${b.key}`) }));
-  const timelineOptions = CONTACT_TIMELINES.map((tl) => ({ value: tl.value, label: t(`timelines.${tl.key}`) }));
+  // Text audit 2: afati fshehur —
+  //   const timelineOptions = CONTACT_TIMELINES.map((tl) => ({ value: tl.value, label: t(`timelines.${tl.key}`) }));
   const heroRef = useRef<HTMLElement>(null);
   const [success, setSuccess] = useState(false);
 
@@ -231,9 +232,11 @@ export default function ContactPageClient() {
               />
 
               <div className="relative z-[1] p-7 md:p-9">
+                {/* Text audit 2 (2026-11-02): "Kërkesë projekti" hequr, përsëriste H1
                 <p className="ip-eyebrow">
                   {locale === "en" ? "Project inquiry" : "Kërkesë projekti"}
                 </p>
+                */}
 
                 {success ? (
                   <div role="status" className="mt-8 rounded-sm border border-accent/30 bg-accent/6 px-5 py-5">
@@ -306,6 +309,7 @@ export default function ContactPageClient() {
                       />
                     </div>
 
+                    {/* Text audit 2 (2026-11-02): "Afati kohor" fshehur, më pak fusha = më shumë kërkesa
                     <LuxSelect
                       label={t("form.timelineLabel")}
                       value={form.timeline}
@@ -313,6 +317,7 @@ export default function ContactPageClient() {
                       options={timelineOptions}
                       placeholder={t("form.selectPlaceholder")}
                     />
+                    */}
 
                     <label className="block">
                       <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
@@ -360,6 +365,7 @@ export default function ContactPageClient() {
                       {discountStatus === "invalid" && (
                         <p className="mt-1.5 text-[12px] text-red-400/75">{t("form.discountInvalid")}</p>
                       )}
+                      {/* Text audit 2 (2026-11-02): lidhja për te newsletter hequr, e nxirrte vizitorin nga formulari
                       {discountStatus === "idle" && (
                         <p className="mt-1.5 text-[12px] text-white/28">
                           {t("form.noDiscountCode")}{" "}&#8202;&#8202;
@@ -371,6 +377,7 @@ export default function ContactPageClient() {
                           </Link>
                         </p>
                       )}
+                      */}
                     </div>
 
                     {error && (
