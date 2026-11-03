@@ -13,13 +13,13 @@ import type { DiasporaCountryContent } from "@/lib/diasporaShared";
 
 const COPY = {
   sq: {
-    startChat: "Fillo bisedën",
+    startChat: "Merr ofertë falas",
     calcPrice: "Llogarit çmimin",
     nextStep: "Hapi tjetër",
     closingLine1: "Gati për një website",
     closingAccent: "që punon edhe kur ju s'jeni atje?",
-    closingBody: "Konsultim falas, pa detyrime. Ju dërgojmë plan konkret brenda 24–48 orëve.",
-    startProject: "Nis projektin",
+    closingBody: "Përgjigje brenda 24 orësh.",
+    startProject: "Merr ofertë falas",
     writeWhatsapp: "Shkruaj në WhatsApp",
     readMore: "Lexo më shumë",
     back: "← Kthehu te Diaspora",

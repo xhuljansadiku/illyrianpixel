@@ -23,25 +23,25 @@ function buildDiasporaWhatsAppHref(countryLine: string): string {
 const DIASPORA_PROCESS = [
   {
     step: "1",
-    title: "Konsultë pa kufij",
-    desc: "Flasim online, në orarin që ju vjen mirë, pavarësisht diferencës së kohës.\nKuptojmë biznesin dhe tregun ku operoni.",
+    title: "Bisedë online",
+    desc: "Flasim online, në orarin që ju vjen mirë.",
   },
   {
     step: "2",
     title: "Dizajni & struktura",
-    desc: "Ndërtojmë strukturën dhe pamjen.\nShihni progresin hap pas hapi, pa surpriza në fund.",
+    desc: "Shihni progresin hap pas hapi, pa surpriza.",
   },
   {
     step: "3",
     title: "Zhvillimi",
-    desc: "E kthejmë në website të shpejtë e funksional.\nGati për klientët tuaj, kudo që ndodhen.",
+    desc: "Website i shpejtë, gati për klientët tuaj.",
   },
   {
     step: "4",
     title: "Publikimi & dorëzimi",
     // Q-15 (2026-10-22): s'ka panel për klientin — ndryshimet i bëjmë ne (2026-10-25)
     // desc: "E hedhim live dhe ju japim akses admin të thjeshtë.\nBëni vetë ndryshime, pa pritur askënd.",
-    desc: "E hedhim live dhe kujdesemi ne për ndryshimet.\nNa shkruani çfarë duhet ndryshuar dhe e bëjmë ne.",
+    desc: "E publikojmë dhe ndryshimet i bëjmë ne.",
   },
 ] as const;
 
@@ -56,9 +56,9 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadline: "Biznesi juaj në Gjermani, i menaxhuar",
     heroHeadlineAccent: "nga kudo.",
     heroIntro:
-      "Ndërtojmë website profesionale për biznese shqiptare që operojnë në Gjermani, pavarësisht nëse jeni vetë atje apo e drejtoni nga Shqipëria. Në shqip, thjeshtë, pa telefonata të pafundme.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Klientë realë në Gjermani",
-    hookLine: "Website për biznese shqiptare në Gjermani, me klientë realë si provë.",
+      "Website profesionale për biznese shqiptare në Gjermani. Në shqip, thjeshtë, pa telefonata të pafundme.",
+    heroTrustLine: "Përgjigje brenda 24 orësh · Klientë në Gjermani",
+    hookLine: "Website për biznese shqiptare në Gjermani.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -75,19 +75,19 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       headingBefore: "Një website që punon",
       headingAccent: "edhe kur ju flini.",
       items: [
-        { title: "WhatsApp & formular gjithmonë aktiv", body: "Klientët ju gjejnë dhe ju kontaktojnë 24/7, pa pritur orarin tuaj të punës." },
-        { title: "Dizajn që përshtatet me standardet gjermane", body: "Strukturë e qartë, profesionale, që krijon besim që në 5 sekondat e para." },
+        { title: "WhatsApp & formular gjithmonë aktiv", body: "Klientët ju kontaktojnë 24/7, edhe jashtë orarit tuaj." },
+        { title: "Dizajn që përshtatet me standardet gjermane", body: "Strukturë e qartë që krijon besim që në shikim të parë." },
         // Q-15: { title: "Admin panel i thjeshtë", body: "Ndryshoni vetë çmime, foto dhe tekste, pa varësi nga dikush tjetër." },
-        { title: "Ndryshimet i bëjmë ne", body: "Na shkruani në WhatsApp ose email çfarë duhet ndryshuar (çmime, foto, tekste) dhe e përditësojmë faqen me paketën e mirëmbajtjes." },
+        { title: "Ndryshimet i bëjmë ne", body: "Na shkruani çfarë duhet ndryshuar dhe e përditësojmë ne." },
       ],
     },
     whyUs: {
       ...whyUsHero,
       items: [
-        { icon: "convert", title: "CTA që sjellin kërkesa reale", body: "Çdo faqe ndërtohet për të kthyer vizitorët në klientë, jo thjesht për të dukur mirë." },
+        { icon: "convert", title: "Faqe që sjell kërkesa reale", body: "Çdo faqe ndërtohet për të kthyer vizitorët në klientë, jo thjesht për të dukur mirë." },
         { icon: "support", title: "Komunikim 100% në shqip", body: "Flasim gjuhën tuaj, kuptojmë kontekstin e biznesit shqiptar jashtë vendit." },
-        { icon: "seo", title: "Gjetshëm nga klientët e duhur", body: "SEO bazë i përfshirë, që të gjeteni si nga shqiptarë ashtu edhe nga tregu lokal gjerman." },
-        { icon: "speed", title: "Shpejtë, pa humbje kohe", body: "Plan brenda 24–48 orëve, faqja gati brenda javëve, jo muajve." },
+        { icon: "seo", title: "Gjetshëm nga klientët e duhur", body: "SEO bazë i përfshirë, për shqiptarët dhe tregun gjerman." },
+        { icon: "speed", title: "Shpejtë, pa humbje kohe", body: "Faqja gati brenda javësh, jo muajsh." },
       ],
     },
     process: DIASPORA_PROCESS,
@@ -110,9 +110,9 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadline: "Biznesi juaj në Britaninë e Madhe,",
     heroHeadlineAccent: "gati për klientë të rinj.",
     heroIntro:
-      "Ndërtojmë website profesionale për biznese shqiptare në Angli, Skoci e Uells, që ju vendosin krah për krah me konkurrentët britanikë, jo pas tyre.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Klient real në Londër",
-    hookLine: "Website për biznese shqiptare në UK, me rezultate reale, jo premtime.",
+      "Website profesionale për biznese shqiptare në Britani, në nivel me konkurrentët vendas.",
+    heroTrustLine: "Përgjigje brenda 24 orësh · Klient në Londër",
+    hookLine: "Website për biznese shqiptare në Britani.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -120,7 +120,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       headingAccent: "standarde shumë të larta.",
       items: [
         { title: "Konkurrentët lokalë duken më profesionalë", body: "Kompani britanike me sit modern fitojnë besimin para se ju të merrni telefonin." },
-        { title: "Diferenca e orarit e bën komunikimin të vështirë", body: "~2 orë diferencë me Shqipërinë e bëjnë raportimin e projektit të ngadaltë nëse gjithçka varet nga telefonata." },
+        { title: "Komunikimi nga larg zvarritet", body: "Kur gjithçka varet nga telefonatat, projekti ecën ngadalë." },
         { title: "Facebook nuk mjafton më", body: "Klientët britanikë presin një website, jo vetëm një faqe sociale, para se të kontaktojnë." },
       ],
     },
@@ -130,14 +130,14 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       headingAccent: "jo që ndjek.",
       items: [
         { title: "Dizajn i nivelit ndërkombëtar", body: "Website që duket dhe funksionon si i kompanive më të mira britanike të sektorit tuaj." },
-        { title: "Raportim i qartë, jo telefonata të pafundme", body: "Përditësim me shkrim, screenshot dhe progres të dukshëm, komunikim që s'varet nga ora e ditës." },
-        { title: "Google Ads kur ju duhet më shumë se organiku", body: "Kur SEO organike nuk mjafton, shtojmë fushata të targetuara direkt për zonën tuaj në UK." },
+        { title: "Raportim i qartë, jo telefonata të pafundme", body: "Përditësime me shkrim dhe pamje të progresit, kur t'ju vijë mirë." },
+        { title: "Google Ads kur ju duhet më shumë se organiku", body: "Fushata të targetuara për zonën tuaj në Britani." },
       ],
     },
     whyUs: {
       ...whyUsHero,
       items: [
-        { icon: "convert", title: "CTA që sjellin kërkesa reale", body: "Struktura e faqes çon vizitorin drejt kontaktit, jo drejt konfuzionit." },
+        { icon: "convert", title: "Faqe që sjell kërkesa reale", body: "Struktura e faqes çon vizitorin drejt kontaktit, jo drejt konfuzionit." },
         { icon: "support", title: "Komunikim i qartë në shqip dhe anglisht", body: "Ju shpjegojmë çdo hap thjeshtë, pa zhargon teknik." },
         { icon: "seo", title: "Gjetshëm në Google UK dhe nga shqiptarët", body: "Optimizim që mbulon të dyja audiencat tuaja njëherësh." },
         { icon: "speed", title: "Plan brenda 24–48 orësh", body: "S'humbisni kohë, e dini shpejt çfarë përfshin projekti dhe sa kushton." },
@@ -163,9 +163,9 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadline: "Standard zviceran,",
     heroHeadlineAccent: "shërbim shqiptar.",
     heroIntro:
-      "Ndërtojmë website profesionale për biznese shqiptare në Zvicër, me cilësinë që pret ky treg dhe komunikimin e thjeshtë që ju duhet nga larg.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Komunikim 100% në shqip",
-    hookLine: "Website i nivelit zviceran, i menaxhuar thjeshtë në shqip.",
+      "Website profesionale për biznese shqiptare në Zvicër, me cilësinë që pret ky treg.",
+    heroTrustLine: "Përgjigje brenda 24 orësh · Komunikim në shqip",
+    hookLine: "Website i nivelit zviceran, në shqip.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -217,9 +217,9 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadline: "Afërsia gjeografike nuk mjafton,",
     heroHeadlineAccent: "duhet prezencë profesionale.",
     heroIntro:
-      "Ndërtojmë website dygjuhëshe (shqip/italisht) për biznese shqiptare në Itali, që flasin njëkohësisht me tregun italian dhe komunitetin shqiptar.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Klient real në Milano",
-    hookLine: "Website dygjuhësh për biznese shqiptare në Itali, me klient real si provë.",
+      "Website dygjuhëshe (shqip/italisht) për biznese shqiptare në Itali.",
+    heroTrustLine: "Përgjigje brenda 24 orësh · Klient në Milano",
+    hookLine: "Website dygjuhësh për biznese shqiptare në Itali.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -239,7 +239,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { title: "Sit dygjuhësh shqip/italisht", body: "Të njëjtin mesazh profesional, në gjuhën që flet secili vizitor." },
         { title: "Dizajn që krijon besim menjëherë", body: "Strukturë e qartë që e bën vizitorin të marrë vendim shpejt." },
         // Q-15: { title: "Admin i thjeshtë për ndryshime vetë", body: "Ndryshoni çmime, foto e orare pa pritur dikë tjetër." },
-        { title: "Ndryshimet i bëjmë ne", body: "Na shkruani çfarë duhet ndryshuar (çmime, foto, orare) dhe e përditësojmë faqen me paketën e mirëmbajtjes." },
+        { title: "Ndryshimet i bëjmë ne", body: "Na shkruani çfarë duhet ndryshuar dhe e përditësojmë ne." },
       ],
     },
     whyUs: {
@@ -271,9 +271,9 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadline: "Diferenca e orës s'duhet të ndalojë",
     heroHeadlineAccent: "biznesin tuaj.",
     heroIntro:
-      "Ndërtojmë website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini, me raportim të qartë dhe pa varësi nga telefonata.",
-    heroTrustLine: "Konsultim falas · Plan brenda 24–48h · Komunikim 100% në shqip",
-    hookLine: "Website që punon 24/7, edhe me 6-9 orë diferencë kohe.",
+      "Website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini.",
+    heroTrustLine: "Përgjigje brenda 24 orësh · Komunikim në shqip",
+    hookLine: "Website që punon 24/7, edhe me 6–9 orë diferencë.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -293,8 +293,8 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
         { title: "Website + WhatsApp, gjithmonë aktiv", body: "Klientët ju gjejnë dhe kontaktojnë pavarësisht orarit, faqja punon edhe kur ju flini." },
         // Q-15 (2026-10-22): s'ka ende panel ku klienti ndryshon vetë përmbajtjen
         // { title: "Dashboard i thjeshtë për kontroll nga distanca", body: "Shihni dhe ndryshoni informacionin e biznesit vetë, pa pritur vizitën tjetër në shtëpi." },
-        { title: "Ndryshimet i bëjmë ne, nga distanca", body: "Na shkruani në WhatsApp ose email çfarë duhet ndryshuar (çmime, orar, foto) dhe e përditësojmë faqen me paketën e mirëmbajtjes, pa pritur vizitën tjetër në shtëpi." },
-        { title: "Komunikim asinkron, i qartë", body: "Përditësime me shkrim dhe screenshot, jo varësi nga një orar i përbashkët telefonik." },
+        { title: "Ndryshimet i bëjmë ne, nga distanca", body: "Na shkruani çfarë duhet ndryshuar dhe e përditësojmë ne, pa pritur vizitën në shtëpi." },
+        { title: "Komunikim asinkron, i qartë", body: "Përditësime me shkrim dhe pamje të progresit, pa orar të përbashkët." },
       ],
     },
     whyUs: {
