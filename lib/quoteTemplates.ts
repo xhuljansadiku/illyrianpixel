@@ -47,7 +47,7 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
       { description: "Website Business — deri në 8 faqe, 1–2 gjuhë, strukturë e optimizuar për konvertim", qty: 1, price: business.price },
       ...giftItems(business.gift),
     ],
-    notes: `Përfshihet: dizajn profesional, formular kontakti, SEO bazë, Google Analytics, optimizim për celular dhe shpejtësi.\n${paymentNote(business.price)}\nAfati: 2–4 javë nga miratimi i dizajnit.`,
+    notes: `Përfshihet: dizajn profesional, formular kontakti, SEO bazë, Google Analytics, optimizim për celular dhe shpejtësi.\n${paymentNote(business.price)}\nAfati: 2–3 javë nga miratimi i dizajnit.`,
   },
   {
     id: "website-premium",
@@ -57,7 +57,7 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
       { description: "Website Premium — dizajn 100% i personalizuar, deri në 8 faqe, 1–2 gjuhë", qty: 1, price: premium.price },
       ...giftItems(premium.gift),
     ],
-    notes: `Përfshihet: SEO i avancuar (on-page), integrime (WhatsApp, booking etj.), funnel dhe CTA strategjike, Google Analytics, optimizim për celular dhe shpejtësi.\n${paymentNote(premium.price)}\nAfati: 2–4 javë nga miratimi i dizajnit.`,
+    notes: `Përfshihet: SEO i avancuar (on-page), integrime (WhatsApp, booking etj.), funnel dhe CTA strategjike, Google Analytics, optimizim për celular dhe shpejtësi.\n${paymentNote(premium.price)}\nAfati: 3–4 javë nga miratimi i dizajnit.`,
   },
   {
     id: "ecommerce",
@@ -67,7 +67,7 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
       { description: "Dyqan online Growth — deri në 100 produkte, filtra, kategori dhe kërkim", qty: 1, price: shop.price },
       ...giftItems(shop.gift),
     ],
-    notes: `Përfshihet: pagesa të integruara, checkout i optimizuar për konvertim, analitikë shitjesh dhe Google Analytics, SEO bazë për produkte dhe kategori.\n${paymentNote(shop.price)}\nAfati: 4–6 javë.`,
+    notes: `Përfshihet: pagesa të integruara, checkout i optimizuar për konvertim, analitikë shitjesh dhe Google Analytics, SEO bazë për produkte dhe kategori.\n${paymentNote(shop.price)}\nAfati: 3–4 javë.`,
   },
   {
     id: "seo-mujor",
