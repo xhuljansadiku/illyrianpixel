@@ -190,10 +190,10 @@ export default async function Page(props: Props) {
         <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
           <p className="font-display text-[1.1rem] text-white">Drejtoni biznes në atdhe ndërsa jetoni jashtë?</p>
           <p className="mt-2 text-[0.95rem] text-white/65">
-            {"Në një bisedë të shkurtër ju tregojmë çfarë do t'i duhej realisht biznesit tuaj. Konsultim falas, pa asnjë obligim."}
+            {"Në një bisedë të shkurtër ju tregojmë çfarë do t'i duhej realisht biznesit tuaj. Përgjigje brenda 24 orësh."}
           </p>
           <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
-            Na kontaktoni këtu →
+            Merr ofertë falas →
           </Link>
         </div>
       </BlogArticleLayout>

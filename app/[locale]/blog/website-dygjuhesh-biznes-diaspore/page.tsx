@@ -202,10 +202,10 @@ export default async function Page(props: Props) {
         <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 md:p-9">
           <p className="font-display text-[1.1rem] text-white">Ende me website vetëm në një gjuhë në diasporë?</p>
           <p className="mt-2 text-[0.95rem] text-white/65">
-            {"Dygjuhësia e vërtetë (jo përkthim automatik) është investim i vogël krahasuar me numrin e klientëve që hapni prej saj. Konsultim falas, pa asnjë obligim."}
+            {"Dygjuhësia e vërtetë (jo përkthim automatik) është investim i vogël krahasuar me numrin e klientëve që hapni prej saj. Përgjigje brenda 24 orësh."}
           </p>
           <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
-            Na kontaktoni këtu →
+            Merr ofertë falas →
           </Link>
         </div>
       </BlogArticleLayout>

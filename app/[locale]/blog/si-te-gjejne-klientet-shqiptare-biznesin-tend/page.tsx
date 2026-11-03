@@ -207,7 +207,7 @@ export default async function Page(props: Props) {
           <p className="font-display text-[1.1rem] text-white">Doni të arrini gjithë tregun shqipfolës, jo vetëm një fetë të tij?</p>
           <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
           <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
-            Na kontaktoni këtu →
+            Merr ofertë falas →
           </Link>
         </div>
       </BlogArticleLayout>

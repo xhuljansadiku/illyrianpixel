@@ -177,7 +177,7 @@ export default async function Page(props: Props) {
         <h2 className="font-display text-[clamp(1.4rem,2.8vw,1.9rem)] leading-tight text-white">
           Çfarë të shmangni kur zgjidhni çmimin
         </h2>
-        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Oferta nën 250 €.</strong>{"\nZakonisht template i lirë pa SEO dhe pa mbështetje pas lansimit."}</p>
+        <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Oferta nën 250 €.</strong>{"\nZakonisht template i lirë pa SEO dhe pa mbështetje pas publikimit."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Kontratat pa specifikime.</strong>{"\nNëse faqet, funksionet dhe afati s'listohen saktë, pritni surpriza me kosto shtesë."}</p>
         <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-white/68"><strong className="text-white">Premtime për &ldquo;#1 në Google&rdquo; brenda javësh.</strong>{"\nAsnjëri s'mund ta garantojë me ndershmëri këtë afat."}</p>
       </section>
@@ -195,7 +195,7 @@ export default async function Page(props: Props) {
         <p className="font-display text-[1.1rem] text-white">Doni të diskutoni projektin tuaj?</p>
         <p className="mt-2 text-[0.95rem] text-white/65">Konsultimi i parë është falas, pa asnjë obligim.</p>
         <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg mt-5 inline-flex">
-          Na kontaktoni këtu →
+          Merr ofertë falas →
         </Link>
       </div>
     </BlogArticleLayout>

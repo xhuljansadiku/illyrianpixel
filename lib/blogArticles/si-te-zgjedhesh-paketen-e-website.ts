@@ -33,7 +33,7 @@ const article: StructuredArticlePair = {
       { p: "Me këto përgjigje në dorë, zgjedhja bëhet shumë më e thjeshtë." },
 
       { h2: "Basic (€349): kur ju duhet prezencë e pastër dhe serioze" },
-      { p: "Deri në 5 faqe, formular kontakti, SEO bazë dhe dizajn që punon mirë në telefon. Përfshin edhe 30 ditë rregullime falas për gabime teknike pas lansimit." },
+      { p: "Deri në 5 faqe, formular kontakti, SEO bazë dhe dizajn që punon mirë në telefon. Përfshin edhe 30 ditë rregullime falas për gabime teknike pas publikimit." },
       { p: "**Për kë është:** biznese me një ose dy shërbime të qarta që duan të duken profesionale kur dikush i kërkon në Google: një zyrë kontabiliteti, një elektricist, një studio e vogël. Nëse sot s'keni fare faqe, ose keni vetëm një profil Facebook, ky është hapi i parë i arsyeshëm." },
       { p: "**Kur s'mjafton:** kur keni shumë shërbime që duan shpjegim, kur ju duhet faqja në dy gjuhë, ose kur doni të matni nga vijnë kërkesat." },
 
