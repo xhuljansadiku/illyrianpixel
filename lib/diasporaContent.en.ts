@@ -60,7 +60,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "from anywhere.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses operating in Germany, whether you are there yourself or run it from Albania. In Albanian, simply, without endless phone calls.",
-    heroTrustLine: "Free consultation · Plan within 24–48h · Real clients in Germany",
+    heroTrustLine: "Reply within 24 hours · Clients in Germany",
     hookLine: "Websites for Albanian businesses in Germany, with real clients as proof.",
     trustStats,
     painSection: {
@@ -87,7 +87,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     whyUs: {
       ...whyUsHero,
       items: [
-        { icon: "convert", title: "CTAs that bring real inquiries", body: "Every page is built to turn visitors into clients, not just to look good." },
+        { icon: "convert", title: "Pages that bring real inquiries", body: "Every page is built to turn visitors into clients, not just to look good." },
         { icon: "support", title: "100% communication in Albanian", body: "We speak your language and understand the context of an Albanian business abroad." },
         { icon: "seo", title: "Found by the right clients", body: "Basic SEO included, so you are found both by Albanians and by the local German market." },
         { icon: "speed", title: "Fast, no wasted time", body: "A plan within 24–48 hours, the site ready in weeks, not months." },
@@ -114,7 +114,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "ready for new clients.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses in England, Scotland and Wales that put you side by side with British competitors, not behind them.",
-    heroTrustLine: "Free consultation · Plan within 24–48h · Real client in London",
+    heroTrustLine: "Reply within 24 hours · Client in London",
     hookLine: "Websites for Albanian businesses in the UK, with real results, not promises.",
     trustStats,
     painSection: {
@@ -123,7 +123,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
       headingAccent: "very high standards.",
       items: [
         { title: "Local competitors look more professional", body: "British companies with modern sites win trust before you even pick up the phone." },
-        { title: "The time difference makes communication harder", body: "Being ~2 hours apart from Albania slows project updates down if everything depends on phone calls." },
+        { title: "Remote communication drags", body: "When everything depends on phone calls, the project moves slowly." },
         { title: "Facebook is no longer enough", body: "British clients expect a website, not just a social page, before they get in touch." },
       ],
     },
@@ -140,7 +140,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     whyUs: {
       ...whyUsHero,
       items: [
-        { icon: "convert", title: "CTAs that bring real inquiries", body: "The page structure leads visitors to get in touch, not to get confused." },
+        { icon: "convert", title: "Pages that bring real inquiries", body: "The page structure leads visitors to get in touch, not to get confused." },
         { icon: "support", title: "Clear communication in Albanian and English", body: "We explain every step simply, without technical jargon." },
         { icon: "seo", title: "Found on Google UK and by Albanians", body: "Optimisation that covers both of your audiences at once." },
         { icon: "speed", title: "A plan within 24–48 hours", body: "No wasted time: you quickly know what the project includes and what it costs." },
@@ -167,7 +167,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "Albanian service.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses in Switzerland, with the quality this market expects and the simple communication you need from afar.",
-    heroTrustLine: "Free consultation · Plan within 24–48h · 100% communication in Albanian",
+    heroTrustLine: "Reply within 24 hours · We speak Albanian",
     hookLine: "A Swiss-level website, managed simply in Albanian.",
     trustStats,
     painSection: {
@@ -221,7 +221,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "you need a professional presence.",
     heroIntro:
       "We build bilingual websites (Albanian/Italian) for Albanian-owned businesses in Italy that speak to the Italian market and the Albanian community at the same time.",
-    heroTrustLine: "Free consultation · Plan within 24–48h · Real client in Milan",
+    heroTrustLine: "Reply within 24 hours · Client in Milan",
     hookLine: "Bilingual websites for Albanian businesses in Italy, with a real client as proof.",
     trustStats,
     painSection: {
@@ -275,7 +275,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroHeadlineAccent: "your business.",
     heroIntro:
       "We build professional websites for Albanian-owned businesses in the USA and Canada that keep working while you sleep, with clear reporting and no dependence on phone calls.",
-    heroTrustLine: "Free consultation · Plan within 24–48h · 100% communication in Albanian",
+    heroTrustLine: "Reply within 24 hours · We speak Albanian",
     hookLine: "A website that works 24/7, even with a 6–9 hour time difference.",
     trustStats,
     painSection: {

@@ -23,7 +23,7 @@
     "brandTitleLine1": "Turn your business into a ",
     "brandTitleAccent": "brand.",
     "tagline": "Turn your business into a BRAND.",
-    "bookConsult": "Book a consultation",
+    "bookConsult": "Get a free quote",
     "navHeading": "Navigate",
     "nav": {
       "services": "Services",
@@ -62,7 +62,7 @@
   "globalCta": {
     "label": "NEXT STEP",
     "title": "Ready for the next step?",
-    "body": "Book a call and let's turn direction into a concrete plan with clear priorities.",
+    "body": "Reply within 24 hours.",
     "primaryActionText": "Start the Conversation",
     "secondaryActionText": "Contact Us"
   },
@@ -73,7 +73,7 @@
     "eyebrow": "Before you go",
     "title": "Get a free consultation today.",
     "text": "Tell us about your project and we'll put together a concrete plan at no cost, no obligation.",
-    "cta": "Free consultation →"
+    "cta": "Get a free quote →"
   },
   "backToTop": {
     "label": "Back to top"

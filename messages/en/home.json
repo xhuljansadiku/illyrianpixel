@@ -41,7 +41,7 @@
     "headlineAccent": "your business.",
     "subtext": "We don't just build websites. We build digital systems that bring your business real clients, leads, and growth.",
     "quote": "The solution that works for your business starts here.",
-    "cta": "Book a free consultation →",
+    "cta": "Get a free quote →",
     "panels": [
       {
         "number": "01",
@@ -67,13 +67,13 @@
   },
   "ctaAfterFaq": {
     "title": "Ready for more clients?",
-    "body": "Book a free consultation and let's start with a clear plan.",
-    "cta": "Book a consultation"
+    "body": "Reply within 24 hours.",
+    "cta": "Get a free quote"
   },
   "miniSales": {
     "line1": "Your next clients are searching for you on Google right now.",
     "line2": "Are they finding you?",
-    "cta": "Book a consultation"
+    "cta": "Get a free quote"
   },
   "seoBoostLine": "Digital agency for Albanian businesses: Website, E-Commerce, SEO, Google Ads, Branding and Social Media Marketing for the local market and the diaspora.",
   "servicesSection": {
@@ -184,7 +184,7 @@
     "yourCode": "Your code",
     "codeSentLine1": "An email with the code has been sent.",
     "codeSentLine2": "Quote the code when you contact us for any service.",
-    "bookConsult": "Book a consultation →",
+    "bookConsult": "Get a free quote →",
     "emailPlaceholder": "email@company.com",
     "submitting": "Sending…",
     "submitCta": "Get 10% →",

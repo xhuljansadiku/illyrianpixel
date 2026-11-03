@@ -29,7 +29,7 @@ export const heroVariantAggressive: WebHeroVariant = {
   description: "",
   ctaPrimary: "Start your project →",
   ctaSecondary: "See our work",
-  trustLine: "Free consultation · No obligation · Reply within 24h",
+  trustLine: "Reply within 24 hours",
   subServices: [
     "Premium website",
     "SEO that brings clients",
@@ -47,7 +47,7 @@ export const heroVariantMinimal: WebHeroVariant = {
     "We build digital systems that are clean, fast and effective, no noise, no excess. Just what works.",
   ctaPrimary: "Start the Project",
   ctaSecondary: "See the Work",
-  trustLine: "Free consultation · Total transparency · No obligation",
+  trustLine: "Reply within 24 hours",
   subServices: [
     "Clear & fast web",
     "Clean E-Commerce",

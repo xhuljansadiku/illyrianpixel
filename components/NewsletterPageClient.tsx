@@ -191,7 +191,7 @@ export default function NewsletterPageClient() {
                       href="/contact"
                       className="interactive-button ip-cta-primary mt-7 inline-flex"
                     >
-                      {locale === "en" ? "Book a consultation →" : "Merr ofertë falas →"}
+                      {locale === "en" ? "Get a free quote →" : "Merr ofertë falas →"}
                     </Link>
                   </div>
                 ) : (

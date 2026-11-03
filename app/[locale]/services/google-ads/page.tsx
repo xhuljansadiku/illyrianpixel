@@ -138,9 +138,9 @@ const CONTENT: Record<Locale, {
     subtitle: (
       <>We manage the campaigns.<br className="hidden md:block" /> You pay the ad budget directly to Google.</>
     ),
-    ctaPrimary: "Free consultation →",
+    ctaPrimary: "Get a free quote",
     ctaSecondary: "All packages",
-    trustLine: "Free consultation · No obligation · Measurable results",
+    trustLine: "Reply within 24 hours",
     seeAlso: "See also:",
     seeAlsoSeo: "SEO",
     seeAlsoBoth: "SEO & Google Ads",
@@ -181,7 +181,7 @@ const CONTENT: Record<Locale, {
           "Conversion tracking",
           "Clear monthly report",
         ],
-        cta: "Start the project",
+        cta: "Get a free quote",
       },
       {
         name: "Growth",
@@ -197,7 +197,7 @@ const CONTENT: Record<Locale, {
           "Bi-weekly report + monthly call",
         ],
         featured: true,
-        cta: "Start the project",
+        cta: "Get a free quote",
       },
       {
         name: "Pro",
@@ -212,7 +212,7 @@ const CONTENT: Record<Locale, {
           "Ongoing funnel optimization",
           "Weekly report + 2 monthly calls",
         ],
-        cta: "Start the project",
+        cta: "Get a free quote",
       },
     ],
   },

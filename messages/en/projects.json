@@ -8,7 +8,7 @@
   },
   "cta": {
     "title": "Ready to build something extraordinary?",
-    "body": "Book a free call and we'll send you a concrete plan within 24–48 hours."
+    "body": "Reply within 24 hours."
   },
   "detailCta": {
     "title": "Let's build your next case study."
@@ -23,6 +23,6 @@
     "viewLive": "View the live project",
     "comingSoon": "Coming soon",
     "backToProjects": "Back to projects",
-    "startToday": "Start today"
+    "startToday": "Get a free quote"
   }
 }
