@@ -1,6 +1,7 @@
 import { localBusinessSchema, organizationSchema, websiteSchema, jsonLd } from "@/lib/seo";
 import { bodyClassName } from "@/lib/fonts";
 import { consentGateScript } from "@/lib/consent";
+import { goldThreadScript } from "@/lib/goldThread";
 import WebVitals from "@/components/WebVitals";
 import PageViewTracker from "@/components/PageViewTracker";
 import Analytics from "@/components/Analytics";
@@ -18,6 +19,9 @@ export default function RootDocument({ lang, children }: { lang: string; childre
         {/* Para paint-it: shfaq banner-in e cookies nga HTML-ja e serverit nëse s'ka pëlqim */}
         {/* eslint-disable-next-line react/no-danger */}
         <script dangerouslySetInnerHTML={{ __html: consentGateScript() }} />
+        {/* Pas consent-it (e lexon atributin e tij): "Fija e artë" një herë për sesion */}
+        {/* eslint-disable-next-line react/no-danger */}
+        <script dangerouslySetInnerHTML={{ __html: goldThreadScript() }} />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />

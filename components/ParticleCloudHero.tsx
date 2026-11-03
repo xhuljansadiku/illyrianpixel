@@ -111,6 +111,8 @@ export default function ParticleCloudHero() {
             duration: 0.9,
             delay: 0.1 + Math.min(0.45, s.chars.length * 0.016),
             ease: "power4.out",
+            // Fija e artë: në desktop fjala ndizet vetëm pasi ka mbërritur (CSS te globals.css)
+            onComplete: () => headlineRef.current?.querySelector(".hero-brand-word")?.classList.add("brand-landed"),
           });
           return;
         } catch {
