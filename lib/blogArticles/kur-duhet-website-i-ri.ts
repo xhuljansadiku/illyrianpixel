@@ -16,7 +16,7 @@ const article: StructuredArticlePair = {
     date: "Tetor 2026",
     readTime: "7 min lexim",
     related: [
-      { slug: "gabimet-kryesore-ne-website", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)", category: "UX" },
+      { slug: "gabimet-kryesore-ne-website", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)", category: "Web Design" },
       { slug: "sa-kushton-website-shqiperi", title: "Sa kushton një website profesional në Shqipëri në 2026?", category: "Web Design" },
     ],
     blocks: [

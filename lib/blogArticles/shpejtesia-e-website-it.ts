@@ -16,7 +16,7 @@ const article: StructuredArticlePair = {
     readTime: "8 min lexim",
     related: [
       { slug: "mirembajtja-e-website-it", title: "Mirëmbajtja e website-it: çfarë duhet bërë çdo muaj (dhe pse s'është luks)", category: "Web Design" },
-      { slug: "gabimet-kryesore-ne-website", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)", category: "UX" },
+      { slug: "gabimet-kryesore-ne-website", title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)", category: "Web Design" },
     ],
     blocks: [
       { p: "Mendoni herën e fundit që hapët një faqe në telefon dhe ekrani mbeti bosh. Sa sekonda pritët para se të ktheheshit prapa? Vizitorët tuaj bëjnë saktësisht të njëjtën gjë, dhe s'ju thonë pse s'ju shkruan." },
