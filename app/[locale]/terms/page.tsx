@@ -68,7 +68,7 @@ Vonesa në pagesë mbi 14 ditë mund të rezultojë në pezullim të punës. Sip
       {
         title: "5. Ekzekutimi dhe Afatet",
         body: `Afatet e projektit vendosen me marrëveshje të shkruar. Afatet janë të kushtëzuara nga:
-• Dorëzimi në kohë i materialeve nga klienti (logo, tekste, imazhe, kredenciale)
+• Dorëzimi në kohë i materialeve nga klienti (informacion për biznesin, logo, imazhe, kredenciale)
 • Dhënia e feedbackut brenda 5 ditëve pune nga çdo dorëzim
 • Pagesa sipas afateve të rëna dakord
 

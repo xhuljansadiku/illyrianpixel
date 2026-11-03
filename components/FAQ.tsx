@@ -11,7 +11,7 @@ export type FaqItem = { q: string; a: string; category?: string | null };
 const defaultFaqsSq: FaqItem[] = [
   {
     q: "Sa zgjat ndërtimi i një website?",
-    a: "Mesatarisht 2–4 javë, varësisht kompleksitetit dhe sasisë së përmbajtjes.\nProjektet me funksione të avancuara mund të zgjasin deri në 6 javë.\nNë fazën e planifikimit ju japim një afat të saktë."
+    a: "Website Basic është gati brenda 5–10 ditëve. Paketat e tjera zgjasin 2–6 javë, sipas kompleksitetit. Në fazën e planifikimit ju japim një afat të saktë."
   },
   {
     q: "A përfshihet SEO?",
@@ -42,7 +42,7 @@ const defaultFaqsSq: FaqItem[] = [
 const defaultFaqsEn: FaqItem[] = [
   {
     q: "How long does building a website take?",
-    a: "On average 2–4 weeks, depending on complexity and amount of content.\nProjects with advanced features can take up to 6 weeks.\nWe give you an exact timeline during the planning phase."
+    a: "A Basic website is ready within 5–10 days. Other packages take 2–6 weeks, depending on complexity. We give you an exact timeline during the planning phase."
   },
   {
     q: "Is SEO included?",

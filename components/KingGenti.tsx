@@ -220,7 +220,7 @@ function buildEnglishReply(text: string, data: AssistantData | null, ctx: Conver
   if (EN_TIME.test(text)) {
     return {
       role: "bot",
-      text: "It depends on the project: a Basic website is usually ready within 5–10 days, while bigger projects (e-commerce, full branding) take 2–4 weeks. Send us the details and we'll give you an exact timeline.",
+      text: "It depends on the project: a Basic website is usually ready within 5–10 days, online stores 2–6 weeks and branding 1–3 weeks. Send us the details and we'll give you an exact timeline.",
     };
   }
 
@@ -363,7 +363,7 @@ function buildReply(
   if (TIME_WORDS.test(text)) {
     return {
       role: "bot",
-      text: "Kohëzgjatja varet nga projekti: një website Basic zakonisht gati brenda 5–10 ditëve, ndërsa projekte më komplekse (e-commerce, branding i plotë) marrin 2–4 javë. Na shkruani detajet dhe ju japim një afat të saktë.",
+      text: "Kohëzgjatja varet nga projekti: një website Basic zakonisht gati brenda 5–10 ditëve, dyqanet online 2–6 javë dhe branding-u 1–3 javë. Na shkruani detajet dhe ju japim një afat të saktë.",
     };
   }
 
