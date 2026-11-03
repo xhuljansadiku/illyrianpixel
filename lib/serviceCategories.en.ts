@@ -84,8 +84,8 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "ecommerce",
     title: "E-Commerce",
     headline: "An online store\n(e-commerce) that sells 24/7,\nevery day, without a break.",
-    subheadline:
-      "We build online stores that convert, with optimized checkout and integrated payments for more sales.",
+    // Text audit 2 EN (2026-11-04): subheadline removed ("We build online stores that convert, with optimized checkout and integrated payments for more sales.")
+    subheadline: "",
     short:
       "Premium online stores with optimized checkout, payments and analytics,\nfor Albanian businesses that want to sell online.",
     description: "",
@@ -154,8 +154,8 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "aplikacione-mobile",
     title: "Mobile Apps",
     headline: "Mobile app development for iOS and Android, bringing your business into your client's pocket.",
-    subheadline:
-      "We build cross-platform mobile apps (one codebase, both platforms), from idea to the App Store and Google Play.",
+    // Text audit 2 EN (2026-11-04): subheadline removed ("We build cross-platform mobile apps (one codebase, both platforms), from idea to the App Store and Google Play.")
+    subheadline: "",
     short:
       "Professional mobile apps for iOS and Android,\nfor businesses that want to stay close to their clients.",
     description: "",
@@ -222,8 +222,8 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "seo-google-ads",
     title: "SEO & Google Ads",
     headline: "SEO and Google Ads that bring clients, not just clicks.",
-    subheadline:
-      "Technical SEO and Google Ads campaigns, built as a conversion system for Albanian businesses.",
+    // Text audit 2 EN (2026-11-04): subheadline removed ("Technical SEO and Google Ads campaigns, built as a conversion system for Albanian businesses.")
+    subheadline: "",
     short:
       "More calls, messages and sales, not more waiting.\nSEO + Google Ads + pages that convert, measured in money.",
     description: "",
@@ -293,8 +293,8 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "smm",
     title: "Social Media",
     headline: "Professional social media management for Albanian businesses.",
-    subheadline:
-      "Content, design and regular posting on Instagram, Facebook and TikTok, for businesses that want to grow online.",
+    // Text audit 2 EN (2026-11-04): subheadline removed ("Content, design and regular posting on Instagram, Facebook and TikTok, for businesses that want to grow online.")
+    subheadline: "",
     short:
       "Complete social media management: content, design, posting and engagement, for Albanian businesses that want a consistent, professional presence.",
     description: "",
@@ -363,8 +363,8 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "branding-content",
     title: "Branding & Content",
     headline: "Professional branding and visual identity for Albanian businesses.",
-    subheadline:
-      "Logo, visual identity and content that build trust and attract the right clients.",
+    // Text audit 2 EN (2026-11-04): subheadline removed ("Logo, visual identity and content that build trust and attract the right clients.")
+    subheadline: "",
     short:
       "Positioning, identity and content for brands that want status, trust and better-fit clients, not just more visibility.",
     description: "",
@@ -427,8 +427,8 @@ export const serviceCategories: ServiceCategory[] = [
     slug: "mirembajtja",
     title: "Maintenance",
     headline: "Maintenance, optimization and rebuilds for Albanian business websites.",
-    subheadline:
-      "We keep your site always online, fast and secure. We also rebuild and optimize older sites.",
+    // Text audit 2 EN (2026-11-04): subheadline removed ("We keep your site always online, fast and secure. We also rebuild and optimize older sites.")
+    subheadline: "",
     short:
       "Your site online, fast and secure, every day.",
     description: "",

@@ -12,7 +12,7 @@
     "eyebrow": "PRICING & PACKAGES",
     "titleLine1": "Every package",
     "titleLine2": "in one place.",
-    "subtext": "Compare packages for Website, E-Commerce, Marketing, Branding and Social Media.\nEvery offer is customized for free."
+    "subtext": "Compare packages for Website, E-Commerce, Marketing, Branding and Social Media."
   },
   "billing": {
     "monthly": "Monthly",
@@ -29,11 +29,11 @@
   },
   "vatNote": "All prices exclude VAT · The initial consultation is always free",
   "mostChosenBadge": "Most popular",
-  "defaultCta": "Start Now",
+  "defaultCta": "Get a free quote",
   "calculator": {
     "eyebrow": "PRICE CALCULATOR",
     "title": "Estimate your investment",
-    "intro": "Pick what you need and get a ballpark estimate in seconds. No email, no obligation.",
+    "intro": "An estimate in seconds, no email needed.",
     "stepService": "What do you need?",
     "stepOptions": "Tailor it to your business",
     "stepResult": "Your estimate",
@@ -63,7 +63,7 @@
       "website": [
         "Up to 5 pages (presentation)",
         "6 to 8 pages (business)",
-        "Up to 8 pages, 100% custom design (premium)",
+        "Up to 8 pages, 100% tailored design (premium)",
         "Platform / custom"
       ],
       "ecommerce": [
@@ -135,11 +135,11 @@
   "customRow": {
     "lead": "Bigger project?",
     "cta": "Request a quote",
-    "installments": "Payable in 3 instalments."
+    "installments": "in 3 instalments."
   },
   "ideaCard": {
     "title": "Tell us your idea.",
-    "text": "Every app is different. Tell us what you have in mind and within 24–48 hours we'll send you a plan and an exact price, for free.",
+    "text": "Tell us your idea and within 24–48 hours we'll send you a plan and price, for free.",
     "cta": "Send your idea →"
   },
   "guarantee": {

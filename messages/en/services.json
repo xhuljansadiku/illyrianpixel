@@ -11,7 +11,7 @@
   "nextStepEyebrow": "Next Step",
   "backToServices": "← Back to services",
   "contactUs": "Contact us",
-  "secondaryCtaFallback": "Our work",
+  "secondaryCtaFallback": "See our work",
   "seoMicroLine": "A service for businesses in Albania and the diaspora.",
   "oldSite": {
     "line1": "Old website?",
@@ -29,23 +29,23 @@
       "No maintenance after launch"
     ],
     "heroCtaFallback": "Get a free quote",
-    "trustLineFallback": "0 cost · 0 obligation · Real strategy within 24–48 hours"
+    "trustLineFallback": "Reply within 24 hours"
   },
   "seoGoogleAds": {
     "heroCta": "Get a free quote",
     "trustLine": "Reply within 24 hours.",
-    "finalHeadlinePre": "Tomorrow will be",
-    "finalHeadlineAccent": "more expensive",
-    "finalHeadlinePost": "than today.",
-    "finalSubtext": "Every day without a system, someone else gets your client.\nTalk to us today, at no cost.",
+    "finalHeadlinePre": "A free plan",
+    "finalHeadlineAccent": "for more clients.",
+    "finalHeadlinePost": "",
+    "finalSubtext": "Reply within 24 hours.",
     "finalCta": "Get a free quote"
   },
   "brandingContent": {
-    "heroCtaFallback": "Transform the impression",
+    "heroCtaFallback": "Get a free quote",
     "finalHeadlineLine1": "Your presence deserves",
     "finalHeadlineAccent": "the same level as your work.",
     "finalSubtext": "Reply within 24 hours.",
-    "finalCta": "Book your first session →"
+    "finalCta": "Get a free quote"
   },
   "overview": {
     "heroEyebrow": "SERVICES",
@@ -55,22 +55,26 @@
     "howWeWorkEyebrow": "How we work",
     "howWeWorkHeadline": "One service or a complete system.",
     "howWeWorkHeadlineAccent": "You choose.",
-    "howWeWorkSubtext": "When website, SEO and marketing work together, results multiply.",
+    "howWeWorkSubtext": "When website, SEO and marketing work together, results are better.",
     "ctaEyebrow": "Next step",
     "ctaHeadline": "Ready to grow your business?",
-    "ctaSubtext": "Reply within 24 hours.",
-    "ctaPrimary": "Start the Conversation",
+    "ctaSubtext": "Free plan within 24–48 hours, no obligation.",
+    "ctaPrimary": "Get a free quote",
     "ctaSecondary": "Contact Us",
     "ctaFootnote": "Reply within 24 hours.",
     "seoLine": "Digital agency for Albanian businesses: Website, E-Commerce, SEO, Google Ads, Branding and Social Media Marketing for the local market and the diaspora.",
     "cardLinkLabel": "View service"
   },
-  "smm": { "heroCtaFallback": "Start Now" },
-  "mirembajtja": { "heroCtaFallback": "Start Maintenance" },
-  "defaultHeroCta": "Book Now",
+  "smm": {
+    "heroCtaFallback": "Get a free quote"
+  },
+  "mirembajtja": {
+    "heroCtaFallback": "Get a free quote"
+  },
+  "defaultHeroCta": "Get a free quote",
   "defaultTrustLine": "Reply within 24 hours.",
-  "defaultFinalHeadlineLine1": "A free conversation.",
-  "defaultFinalHeadlineAccent": "A clear plan for more clients.",
-  "defaultFinalSubtext": "30 minutes · no obligation · reply within 24 hours.",
-  "defaultFinalCta": "Start Today →"
+  "defaultFinalHeadlineLine1": "A free plan",
+  "defaultFinalHeadlineAccent": "for more clients.",
+  "defaultFinalSubtext": "Reply within 24 hours.",
+  "defaultFinalCta": "Get a free quote"
 }

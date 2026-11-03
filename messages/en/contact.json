@@ -1,8 +1,8 @@
 {
   "hero": {
     "eyebrow": "CONTACT",
-    "title": "Start growing your business today.",
-    "subtext": "Fill out the form for a consultation.\nWe'll get back to you within 24 hours."
+    "title": "Get a free quote.",
+    "subtext": "We reply within 24 hours."
   },
   "timelines": {
     "asap": "ASAP",
@@ -22,10 +22,10 @@
     "namePlaceholder": "Your full name",
     "emailLabel": "E-mail",
     "emailPlaceholder": "Your email",
-    "phoneLabel": "Phone / WhatsApp",
-    "phoneOptional": "(optional, for a faster reply)",
+    "phoneLabel": "WhatsApp",
+    "phoneOptional": "(optional)",
     "selectPlaceholder": "Choose…",
-    "businessNameLabel": "Business name (if you have one)",
+    "businessNameLabel": "Business name (optional)",
     "businessNamePlaceholder": "Your company name...",
     "serviceLabel": "Service",
     "budgetLabel": "Budget",
@@ -40,7 +40,7 @@
     "noDiscountCode": "Don't have a code?",
     "getDiscountCta": "Get 10% off here →",
     "submitting": "Sending...",
-    "submit": "Send Request →"
+    "submit": "Get a free quote →"
   },
   "errors": {
     "validation": "Please fill in your name, email and message.",
