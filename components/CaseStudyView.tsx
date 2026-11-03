@@ -37,7 +37,7 @@ const L: Record<Locale, Record<string, string>> = {
     next: "Next project",
     ctaTitle: "Your business deserves the same result.",
     ctaBody: "Tell us about your project, we reply within 24 hours.",
-    ctaBtn: "Start the conversation",
+    ctaBtn: "Get a free quote",
   },
 };
 

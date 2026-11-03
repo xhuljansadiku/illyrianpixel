@@ -120,9 +120,9 @@ const CONTENT: Record<Locale, {
     subtitle: (
       <>Sustainable organic ranking.<br className="hidden md:block" /> Clients find you when they search for your service.</>
     ),
-    ctaPrimary: "Free consultation →",
+    ctaPrimary: "Get a free quote",
     ctaSecondary: "All packages",
-    trustLine: "Free consultation · No obligation · Monthly progress report",
+    trustLine: "Reply within 24 hours · Monthly progress report",
     seeAlso: "See also:",
     seeAlsoGoogleAds: "Google Ads",
     seeAlsoBoth: "SEO & Google Ads",
