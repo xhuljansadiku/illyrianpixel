@@ -156,7 +156,7 @@ export default function SherbimetPageClient() {
           <div className="section-wrap py-20 md:py-28">
             <p className="ip-eyebrow sp-eyebrow">{t("howWeWorkEyebrow")}</p>
             <h2 className="sp-headline mt-5 font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-white">
-              {t("howWeWorkHeadline")}
+              {t("howWeWorkHeadline")}{" "}
               <br className="hidden md:block" />
               <span className="block text-accent md:inline">{t("howWeWorkHeadlineAccent")}</span>
             </h2>
@@ -183,10 +183,12 @@ export default function SherbimetPageClient() {
               <Link href="/contact" className="interactive-button ip-cta-primary ip-cta-primary--lg">
                 {t("ctaPrimary")}
               </Link>
+              {/* Text audit 2 (2026-11-02): butoni i dytë hequr, i tepërt
               <Link href="/contact" className="group inline-flex items-center gap-2 font-body text-[0.875rem] font-light tracking-[0.08em] text-white/50 transition-colors duration-300 hover:text-white">
                 {t("ctaSecondary")}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
+              */}
             </div>
             <p className="mt-8 font-mono text-[10px] tracking-[0.15em] text-white/22">
               {t("ctaFootnote")}

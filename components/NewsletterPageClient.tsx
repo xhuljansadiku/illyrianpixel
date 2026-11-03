@@ -8,27 +8,27 @@ import Footer from "@/components/Footer";
 
 type State = "idle" | "loading" | "success" | "error";
 
-const PERKS: Record<string, { label: string; icon: string }[]> = {
-  sq: [
-    { label: "Website & E-Commerce", icon: "◈" },
-    { label: "SEO & Google Ads", icon: "◈" },
-    { label: "Branding & Dizajn", icon: "◈" },
-    { label: "Social Media", icon: "◈" },
-  ],
-  en: [
-    { label: "Website & E-Commerce", icon: "◈" },
-    { label: "SEO & Google Ads", icon: "◈" },
-    { label: "Branding & Design", icon: "◈" },
-    { label: "Social Media", icon: "◈" },
-  ],
-};
+// Text audit 2 (2026-11-02): PERKS s'shfaqen më
+// const PERKS: Record<string, { label: string; icon: string }[]> = {
+//   sq: [
+//     { label: "Website & E-Commerce", icon: "◈" },
+//     { label: "SEO & Google Ads", icon: "◈" },
+//     { label: "Branding & Dizajn", icon: "◈" },
+//     { label: "Social Media", icon: "◈" },
+//   ],
+//   en: [
+//     { label: "Website & E-Commerce", icon: "◈" },
+//     { label: "SEO & Google Ads", icon: "◈" },
+//     { label: "Branding & Design", icon: "◈" },
+//     { label: "Social Media", icon: "◈" },
+//   ],
+// };
 
 const STEPS: Record<string, string[]> = {
   sq: [
-    "Shkruani email-in tuaj",
-    "Merrni kodin menjëherë në inbox",
-    "Shkruani kodin te formulari i kontaktit",
-    "Zbritja 10% llogaritet në ofertën tuaj",
+    "Shkruani email-in",
+    "Merrni kodin menjëherë",
+    "Përdoreni te formulari i kontaktit për 10% zbritje",
   ],
   en: [
     "Enter your email",
@@ -40,7 +40,8 @@ const STEPS: Record<string, string[]> = {
 
 export default function NewsletterPageClient() {
   const locale = useLocale();
-  const perks = PERKS[locale] ?? PERKS.sq;
+  // Text audit 2 (2026-11-02): lista "Çfarë përfshihet" hequr — H1 thotë "për çdo shërbim"
+  // const perks = PERKS[locale] ?? PERKS.sq;
   const steps = STEPS[locale] ?? STEPS.sq;
   const [state, setState] = useState<State>("idle");
   const [code, setCode]   = useState("");
@@ -112,7 +113,7 @@ export default function NewsletterPageClient() {
             <p className="mt-6 max-w-md font-body text-[1rem] font-light leading-[1.75] text-white/42">
               {locale === "en"
                 ? "Subscribe and get your exclusive code sent straight to your email."
-                : "Abonohuni dhe merrni kodin tuaj ekskluziv direkt në email."}
+                : "Abonohuni dhe merrni kodin në email."}
             </p>
           </div>
         </section>
@@ -123,6 +124,7 @@ export default function NewsletterPageClient() {
 
             {/* Left — perks */}
             <div>
+              {/* Text audit 2 (2026-11-02): "Çfarë përfshihet" hequr
               <p className="ip-eyebrow mb-7">
                 {locale === "en" ? "What's included" : "Çfarë përfshihet"}
               </p>
@@ -134,8 +136,9 @@ export default function NewsletterPageClient() {
                   </li>
                 ))}
               </ul>
+              */}
 
-              <div className="mt-10 rounded-2xl border border-white/[0.07] bg-white/[0.025] px-6 py-6">
+              <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] px-6 py-6">
                 <p className="font-display text-[1.05rem] font-semibold text-white leading-[1.4]">
                   {locale === "en" ? "How does it work?" : "Si funksionon?"}
                 </p>
@@ -188,14 +191,16 @@ export default function NewsletterPageClient() {
                       href="/contact"
                       className="interactive-button ip-cta-primary mt-7 inline-flex"
                     >
-                      {locale === "en" ? "Book a consultation →" : "Rezervo konsultë →"}
+                      {locale === "en" ? "Book a consultation →" : "Merr ofertë falas →"}
                     </Link>
                   </div>
                 ) : (
                   <>
+                    {/* Text audit 2 (2026-11-02): titulli i formularit hequr, përsëritej me butonin
                     <p className="ip-eyebrow mb-6">
                       {locale === "en" ? "Get your code" : "Merrni kodin tuaj"}
                     </p>
+                    */}
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div>
                         <label className="font-display mb-2 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">

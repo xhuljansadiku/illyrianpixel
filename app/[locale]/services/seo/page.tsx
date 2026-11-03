@@ -15,7 +15,7 @@ type Props = { params: Promise<{ locale: string }> };
 const META: Record<Locale, { title: string; desc: string }> = {
   sq: {
     title: "SEO për Biznese Shqiptare — Pozicionim në Google",
-    desc: "SEO strategjik që ju sjell klientë organikë nga Google. Keywords, on-page dhe link building për bizneset shqiptare.",
+    desc: "SEO strategjik që ju sjell klientë organikë nga Google. Fjalë kyçe, optimizim i faqeve dhe lidhje për bizneset shqiptare.",
   },
   en: {
     title: "SEO for Albanian Businesses — Google Ranking",
@@ -49,11 +49,11 @@ const CONTENT: Record<Locale, {
     badge: "SEO · MARKETING",
     h1: ["SEO që ju sjell klientë", "nga Google"],
     subtitle: (
-      <>Pozicionim organik i qëndrueshëm.<br className="hidden md:block" /> Klientët ju gjejnë kur kërkojnë shërbimin tuaj.</>
+      <>Klientët ju gjejnë kur kërkojnë shërbimin tuaj.</>
     ),
-    ctaPrimary: "Konsultim falas →",
+    ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Të gjitha paketat",
-    trustLine: "Konsultim falas · Pa detyrim · Raport progresi çdo muaj",
+    trustLine: "Raport progresi çdo muaj",
     seeAlso: "Shiko edhe:",
     seeAlsoGoogleAds: "Google Ads",
     seeAlsoBoth: "SEO & Google Ads",
@@ -70,30 +70,30 @@ const CONTENT: Record<Locale, {
         ideal: "Optimizimi i parë i saktë.\nFaqja juaj fillon të gjendet nga klientët e duhur.",
         features: [
           "Kërkim i 10–15 fjalëve kyçe",
-          "Optimizim on-page (title, meta, H1)",
-          "Google Search Console setup",
-          "Struktura URL + internal links",
+          "Optimizim i titujve dhe përshkrimeve",
+          "Lidhje me Google Search Console",
+          "Adresa të qarta dhe lidhje të brendshme",
           "Raport mujor i pozicioneve",
         ],
-        cta: "Merr ofertë",
+        cta: "Merr ofertë falas",
       },
       {
         name: "Growth",
         price: euro(SEO_MONTHLY.growth),
         priceNote: "/ muaj",
         tagline: "Rritje organike e qëndrueshme",
-        ideal: "Keywords të shumta, link building dhe SEO teknik. Punë e vazhdueshme për pozicion më të mirë.",
+        ideal: "Më shumë fjalë kyçe dhe SEO teknik.",
         features: [
-          "Keywords 20–30 + analiza konkurrencës",
+          "20–30 fjalë kyçe + analizë e konkurrencës",
           // Q-10 (2026-10-22): s'ofrohet si numër fiks në muaj
           // "Link building bazë (5–10 backlinks/muaj)",
           "Regjistrim në direktori dhe lista lokale të besueshme",
           "SEO teknik (shpejtësi, schema, sitemap)",
-          "Optimizim i Core Web Vitals",
-          "Raport 2-javësh i detajuar",
+          "Shpejtësi sipas standardeve të Google",
+          "Raport çdo 2 javë",
         ],
         featured: true,
-        cta: "Merr ofertë",
+        cta: "Merr ofertë falas",
       },
       {
         name: "Pro",
@@ -102,15 +102,15 @@ const CONTENT: Record<Locale, {
         tagline: "Autoritet dhe rritje organike afatgjatë",
         ideal: "Sistem SEO i plotë.\nShkallëzim, autoritet domeni dhe rezultate afatgjata.",
         features: [
-          "Keywords të pakufizuara",
+          "Fjalë kyçe pa limit",
           // Q-10 (2026-10-22): s'ofrohet si numër fiks në muaj
           // "Link building i avancuar (15–20/muaj)",
           "Lidhje nga partnerë dhe media lokale, sipas mundësive",
           "SEO lokal + ndërkombëtar",
           "Optimizim mujor i përmbajtjes",
-          "Call strategjik mujor",
+          "Takim strategjik çdo muaj",
         ],
-        cta: "Merr ofertë",
+        cta: "Merr ofertë falas",
       },
     ],
   },

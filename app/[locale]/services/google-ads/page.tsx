@@ -50,13 +50,13 @@ const CONTENT: Record<Locale, {
 }> = {
   sq: {
     badge: "GOOGLE ADS · MARKETING",
-    h1: ["Reklama që sjellin klientë,", "jo vetëm klikime"],
+    h1: ["Google Ads që sjell klientë,", "jo vetëm klikime."],
     subtitle: (
       <>Ne menaxhojmë fushatat.<br className="hidden md:block" /> Ju paguani buxhetin e reklamave drejtpërdrejt tek Google.</>
     ),
-    ctaPrimary: "Konsultim falas →",
+    ctaPrimary: "Merr ofertë falas",
     ctaSecondary: "Të gjitha paketat",
-    trustLine: "Konsultim falas · Pa detyrim · Rezultate të matshme",
+    trustLine: "Raport i qartë çdo muaj",
     seeAlso: "Shiko edhe:",
     seeAlsoSeo: "SEO",
     seeAlsoBoth: "SEO & Google Ads",
@@ -81,7 +81,7 @@ const CONTENT: Record<Locale, {
     packagesEyebrow: "TARIFA MENAXHIMI",
     packagesTitle: "Zgjidhni nivelin e duhur",
     packagesSubtitle: "Buxheti i reklamave nuk përfshihet, paguhet nga ju direkt tek Google.",
-    packagesNote: "Çmimet e mësipërme janë tarifa menaxhimi pa TVSH · Buxheti i reklamave paguhet nga klienti direkt tek Google",
+    packagesNote: "Çmimet pa TVSH · Buxheti i reklamave paguhet te Google",
     backLink: "← Kthehu te të gjitha paketat",
     packages: [
       {
@@ -89,15 +89,15 @@ const CONTENT: Record<Locale, {
         price: euro(ADS_MONTHLY.starter),
         priceNote: "/ muaj",
         tagline: "Reklamat e para me rezultat real",
-        ideal: "Setup i plotë dhe fushatë aktive.\nKlientët ju gjejnë kur kërkojnë shërbimin tuaj.",
+        ideal: "Fushata juaj e parë, gati shpejt.",
         features: [
-          "Setup Google Ads (Search)",
+          "Ngritja e Google Ads në kërkim",
           "1 fushatë aktive",
           "Targetim lokal i saktë",
-          "Tracking konvertimesh",
+          "Matje e kërkesave dhe thirrjeve",
           "Raport mujor i qartë",
         ],
-        cta: "Fillo projektin",
+        cta: "Merr ofertë falas",
       },
       {
         name: "Growth",
@@ -107,28 +107,28 @@ const CONTENT: Record<Locale, {
         ideal: "2–3 fushata të optimizuara çdo javë.\nRemarketing që i rikthen vizitorët si klientë.",
         features: [
           "2–3 fushata aktive (Search + Display)",
-          "Remarketing i konfiguruar",
-          "Optimizim javor CPA / ROAS",
-          "Audienca & targetim i avancuar",
-          "Raport 2-javësh + call mujor",
+          "Remarketing që rikthen vizitorët",
+          "Ulje e kostos për klient çdo javë",
+          "Targetim i avancuar",
+          "Raport çdo 2 javë + takim çdo muaj",
         ],
         featured: true,
-        cta: "Fillo projektin",
+        cta: "Merr ofertë falas",
       },
       {
         name: "Pro",
         price: euro(ADS_MONTHLY.pro),
         priceNote: "/ muaj",
         tagline: "Sistem i plotë Google Ads",
-        ideal: "Të gjitha formatet, A/B testing dhe strategji funnel. Çdo fushatë matet dhe përmirësohet me të dhëna reale.",
+        ideal: "Të gjitha formatet e Google, të matura me të dhëna reale.",
         features: [
           "Search + Display + YouTube Ads",
           "Shopping Ads (për e-commerce)",
-          "A/B testing i reklamave",
-          "Optimizim i vazhdueshëm funnel",
-          "Raport javor + 2 call mujore",
+          "Testim i reklamave (A/B)",
+          "Optimizim i vazhdueshëm i fushatave",
+          "Raport çdo javë + 2 takime në muaj",
         ],
-        cta: "Fillo projektin",
+        cta: "Merr ofertë falas",
       },
     ],
   },
@@ -234,7 +234,7 @@ export default async function GoogleAdsPage(props: Props) {
           <div className="section-wrap relative z-[2] py-28 md:py-36">
             <p className="ip-eyebrow">{c.badge}</p>
             <h1 className="mt-6 max-w-3xl font-display text-[clamp(2.4rem,5vw,3.8rem)] font-bold leading-[1.08] tracking-[-0.02em] text-white">
-              {c.h1[0]}
+              {c.h1[0]}{" "}
               <br />
               <span className="text-accent">{c.h1[1]}</span>
             </h1>
@@ -262,7 +262,7 @@ export default async function GoogleAdsPage(props: Props) {
           </div>
         </section>
 
-        {/* How it works */}
+        {/* Text audit 2 (2026-11-02): kutitë "Tarifa jonë / Buxheti / Transparencë" hequr — buxheti thuhet te nëntitulli, shënimi dhe FAQ
         <section className="relative z-[1] border-b border-white/[0.06]">
           <div className="section-wrap py-12 md:py-16">
             <div className="grid gap-4 sm:grid-cols-3">
@@ -276,6 +276,7 @@ export default async function GoogleAdsPage(props: Props) {
             </div>
           </div>
         </section>
+        */}
 
         {/* Packages */}
         <section className="relative z-[1]">
@@ -284,9 +285,11 @@ export default async function GoogleAdsPage(props: Props) {
             <h2 className="mt-3 font-display text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.06] tracking-[-0.02em] text-white">
               {c.packagesTitle}
             </h2>
+            {/* Text audit 2 (2026-11-02): packagesSubtitle hequr (përsëriste buxhetin)
             <p className="mt-2 text-[13px] text-white/40">
               {c.packagesSubtitle}
             </p>
+            */}
             <div className="mt-12 grid items-stretch gap-5 md:grid-cols-3">
               {c.packages.map((pkg) => (
                 <ServicePackageCard key={pkg.name} pkg={pkg} />

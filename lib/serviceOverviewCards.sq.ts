@@ -43,7 +43,7 @@ export const SERVICE_OVERVIEW_CARDS: ServiceOverviewCard[] = [
 export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "01",
-    title: "Website Premium",
+    title: "Website",
     desc: "Website i shpejtë, profesional dhe i optimizuar për Google. Ndërtuar për të kthyer vizitorët në klientë, jo vetëm për t'u dukur mirë.",
     href: "/services/website",
     visualVariant: "web",
@@ -52,7 +52,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "02",
     title: "E-Commerce",
-    desc: "Dyqan online që shet 24/7. Checkout i optimizuar, pagesa të integruara dhe analitikë e plotë, sistemi juaj i shitjeve automatike.",
+    desc: "Dyqan online që shet 24/7, me pagesa me kartë, PayPal ose në dorëzim.",
     href: "/services/ecommerce",
     visualVariant: "ecommerce",
     cta: "Shiko shërbimin →"
@@ -60,7 +60,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "03",
     title: "Aplikacione Mobile",
-    desc: "Zhvillim aplikacionesh mobile për iOS dhe Android, nga ideja deri te App Store dhe Google Play, që sjellin biznesin tuaj në xhepin e klientit.",
+    desc: "Aplikacione për iOS dhe Android, nga ideja deri në App Store dhe Google Play.",
     href: "/services/aplikacione-mobile",
     visualVariant: "web",
     cta: "Shiko shërbimin →"
@@ -84,7 +84,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "06",
     title: "Branding & Content",
-    desc: "Logo, identitet vizual dhe design, bëjmë brandin tuaj të duket serioz dhe të ndërtojë besim që në shikim të parë.",
+    desc: "Logo dhe identitet vizual që e bëjnë brandin tuaj serioz që në shikim të parë.",
     href: "/services/branding-content",
     visualVariant: "branding",
     cta: "Shiko shërbimin →"
@@ -92,7 +92,7 @@ export const SHERBIMET_PAGE_CARDS: ServiceOverviewCard[] = [
   {
     ordinal: "07",
     title: "Mirëmbajtja",
-    desc: "Mirëmbajtje për website dhe e-commerce të ndërtuar nga ne ose nga të tjerë. Shpejtësi, siguri dhe përditësime të vazhdueshme me monitorim automatik 24/7.",
+    desc: "Shpejtësi, siguri dhe përditësime për çdo website, edhe nëse nuk e kemi ndërtuar ne.",
     href: "/services/mirembajtja",
     visualVariant: "maintenance",
     cta: "Shiko shërbimin →"

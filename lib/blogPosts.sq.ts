@@ -164,7 +164,7 @@ export const blogPosts: BlogPost[] = [
       "Tre faktorët kryesorë që ndikojnë çmimin janë: lloji i faqes, niveli i personalizimit dhe kapaciteti teknik i kërkuar. Një faqe prezantuese me 5–7 seksione kushton mesatarisht 600–1.500 €. Një dyqan online me katalog produktesh, sistem pagese dhe panel administrimi fillon nga 1.800 € dhe ngjitet lehtë mbi 5.000 € sipas kompleksitetit.",
       "Kujdes me ofertat nën 300 €. Në shumicën e rasteve, çmime të tilla nënkuptojnë template të lirë nga WordPress ose Wix, pa strategji, pa optimizim SEO dhe pa mbështetje pas dorëzimit. Faqja do të duket 'e bërë' por nuk do të sjellë klientë, dhe pas 6 muajsh do të keni nevojë ta ribëni.",
       "Çfarë duhet të përfshijë çmimi i një website serioz: dizajn të personalizuar (jo template të blerë), programim të pastër dhe të sigurt, optimizim bazë SEO on-page, faqe të shpejta dhe responsive për mobile, panel administrimi intuitiv dhe trajnim të shkurtër se si ta përdorni vetë.",
-      "Kostot e vazhdueshme pas lansimit shpesh harrohen nga bizneset. Hosting i mirë kushton 80–200 € në vit. Domain-i 10–15 € në vit. Nëse keni kontratë mirëmbajtjeje (update-e, ndryshime të vogla, backup), shtoni 50–150 € në muaj. Këto janë investime të domosdoshme, jo opsionale.",
+      "Kostot e vazhdueshme pas publikimit shpesh harrohen nga bizneset. Hosting i mirë kushton 80–200 € në vit. Domain-i 10–15 € në vit. Nëse keni kontratë mirëmbajtjeje (update-e, ndryshime të vogla, backup), shtoni 50–150 € në muaj. Këto janë investime të domosdoshme, jo opsionale.",
       "Pyetja e saktë nuk është 'Sa të lirë mund ta gjej?' por 'Çfarë kthimi do të marr nga ky investim?' Një website 2.000 € që sjell 3 klientë të rinj në muaj ka ROI pozitiv brenda muajve të parë. Një website 300 € që nuk rankohet në Google dhe nuk konverton vizitorë është para e hedhur.",
       "Rekomandimi ynë: para nënshkrimit të ndonjë kontrate, kërkoni të shikoni punë reale të mëparshme të agjencisë (jo mockup-e), referenca nga klientë ekzistues dhe një plan të qartë se si faqja juaj do t'ju sjellë klientë, jo vetëm si do të duket."
     ]
@@ -228,15 +228,15 @@ export const blogPosts: BlogPost[] = [
       "Kriteri i parë dhe më i rëndësishëm: portfolio me projekte reale, jo mockup-e. Kërkoni të shikoni faqe të lansuara, jo imazhe të bëra në Photoshop. Vizitoni faqet personalisht dhe testoni shpejtësinë, dizajnin mobile dhe funksionalitetin. Nëse agjencia nuk ju jep URL-t e projekteve të mëparshme, ky është alarmi i parë.",
       "Pyetjet që duhet të bëni çdo agjensie para nënshkrimit: Kush konkretisht do ta bëjë projektin tim (in-house apo outsource)? Sa kohë do të marrë dhe cili është procesi hap pas hapi? Çfarë ndodh nëse rezultati nuk plotëson standardet? Kush do të posedojë kodin dhe domain-in pas projektit? A përfshihet trajnim se si ta menaxhoj vetë?",
       "Shenjat paralajmëruese (red flags): premtojnë numra konkretë të vizitorëve ose renditje specifike në Google (askush nuk mund ta garantojë këtë); çmim shumë i ulët pa shpjegim të qartë se çfarë përfshihet; kontratë e paqartë ose pa afat dorëzimi; nuk kanë rrjet social aktiv ose prezencë online të tyre (pse t'u besoni ata të bëjnë marketing digital?); komunikim i vonuar gjatë fazës para-kontratës.",
-      "Procesi i saktë i punës me agjencinë: faza e briefimit ku ju shpjegoni biznesin, klientët dhe qëllimet; faza e strategjisë dhe arkitekturës; dizajni i faqeve kryesore me mundësi komentesh; zhvillimi dhe testimi; lansimi dhe trajnimi. Nëse agjencia kalon direkt në dizajn pa ju pyetur thellë rreth biznesit tuaj, kjo tregon mungesë procesi.",
+      "Procesi i saktë i punës me agjencinë: faza e briefimit ku ju shpjegoni biznesin, klientët dhe qëllimet; faza e strategjisë dhe arkitekturës; dizajni i faqeve kryesore me mundësi komentesh; zhvillimi dhe testimi; publikimi dhe trajnimi. Nëse agjencia kalon direkt në dizajn pa ju pyetur thellë rreth biznesit tuaj, kjo tregon mungesë procesi.",
       "Çmimi nuk është kriteri kryesor, por është tregues. Agjenci serioze me ekip të trajnuar dhe proceso të qartë nuk mund të ofrojnë faqe professionale nën 800–1.000 €. Nëse çmimi është shumë i ulët, dikush paguan çmimin, zakonisht ju, me kohën e humbur dhe nevojën për të ribërë gjithçka.",
-      "Marrëdhënia me agjencinë nuk përfundon pas lansimit. Pyesni nëse ofrojnë mbështetje pas lansimit, si funksionon procesi i ndryshimeve dhe update-ve, dhe nëse keni kontakt të vetëm pikë (account manager) ose komunikoni me persona të ndryshëm çdo herë. Agjencia e duhur është partner afatgjatë, jo vetëm ofrues i shërbimit njëherësh."
+      "Marrëdhënia me agjencinë nuk përfundon pas publikimit. Pyesni nëse ofrojnë mbështetje pas publikimit, si funksionon procesi i ndryshimeve dhe update-ve, dhe nëse keni kontakt të vetëm pikë (account manager) ose komunikoni me persona të ndryshëm çdo herë. Agjencia e duhur është partner afatgjatë, jo vetëm ofrues i shërbimit njëherësh."
     ]
   },
   {
     slug: "social-media-menaxhim-shqiperi",
     title: "Social Media Menaxhim në Shqipëri: çmime dhe çfarë të prisni",
-    category: "Social Media",
+    category: "Marketing",
     excerpt: "Çmimet e menaxhimit profesional të social media në Shqipëri, platformat kryesore dhe si të zgjidhni agjencinë e duhur.",
     date: "Maj 2026",
     content: [
@@ -253,7 +253,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "si-te-rrisesh-klientet-online",
     title: "Keni trafikun. Por ku janë klientët?",
-    category: "Rritje",
+    category: "Marketing",
     excerpt:
       "Shumica e bizneseve shpenzojnë para për të sjellë njerëz në faqe dhe i humbin menjëherë.\nJo sepse oferta është e keqe, por sepse faqja nuk po bën punën e saj.",
     date: "Prill 2026",
@@ -266,7 +266,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "gabimet-kryesore-ne-website",
     title: "Gabimet që bëjnë bizneset në website (dhe si i rregullojmë)",
-    category: "UX",
+    category: "Web Design",
     excerpt: "Një listë e shkurtër e gabimeve që ulin besimin dhe shtyjnë klientin të largohet.",
     date: "Prill 2026",
     content: [
@@ -278,7 +278,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "pse-seo-eshte-kritik",
     title: "Pse SEO është kritik për biznese serioze (dhe jo një opsion)",
-    category: "Strategji",
+    category: "SEO",
     excerpt:
       "Të kesh një website të bukur që nuk shfaqet në Google është si të hapësh një dyqan luksoz në mes të shkretëtirës.\nAskush nuk e gjen, askush nuk blen.",
     date: "Prill 2026",

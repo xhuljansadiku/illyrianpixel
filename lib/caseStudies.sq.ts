@@ -73,7 +73,7 @@ export const caseStudies: CaseStudy[] = [
       "Krijuam një faqe kryesore të rregullt, ndarje të qarta të shërbimeve dhe butona kontakti të drejtpërdrejtë për kontakt të menjëhershëm.",
     result: "Klientët lokalë gjejnë shërbimin dhe nisin kontaktin direkt.",
     metrics: ["Shërbime të dalluara qartë", "Kontakt me një klik", "Kërkesa me pritshmëri të sakta"],
-    tags: ["Shërbime lokale", "Më shumë kërkesa", "Qartësi"],
+    tags: ["Website", "Shërbime lokale", "Përmbajtje"],
     heroImage: "/images/projects/hauswerk-niederbayern.avif",
     liveUrl: "https://hauswerk-niederbayern.de/"
   },
@@ -113,7 +113,7 @@ export const caseStudies: CaseStudy[] = [
       "Ndërtuam faqe të veçanta për çdo shërbim dhe zonë, butona telefonate në çdo ekran, formular oferte me datë të preferuar dhe galeri me punë para/pas.",
     result: "Klientët gjejnë shërbimin në zonën e tyre dhe telefonojnë direkt.",
     metrics: ["Faqe për çdo zonë shërbimi", "Telefonatë me një klik", "Formular oferte i thjeshtë"],
-    tags: ["Website", "SEO lokale", "Më shumë kërkesa"],
+    tags: ["Website", "SEO lokale"],
     heroImage: "/images/projects/roofon-nyc.webp",
     liveUrl: "https://www.roofonnyc.com/"
   },
@@ -130,9 +130,9 @@ export const caseStudies: CaseStudy[] = [
       "Projektet fotografike nuk kishin një prezantim të qartë online, duke humbur ritmin dhe efektin e punës.",
     solution:
       "Ndërtuam strukturë minimaliste, renditje të pastër dhe fokus të fortë te punimet për të rritur cilësinë e perceptimit.",
-    result: "Portofoli flet vetë, pa zhurmë, me ritëm dhe impakt.",
+    result: "Portofol që i lë fotot të flasin.",
     metrics: ["Galeri si revistë fotografike", "Navigim i qetë dhe i fokusuar", "Cilësia e punës në plan të parë"],
-    tags: ["Fotografi", "Portofol", "Galeri"],
+    tags: ["Website portofoli", "Galeri fotografike"],
     heroImage: "/images/projects/ilirjana-shehu-photography.png",
     liveUrl: "https://www.ilirjanashehu.com/"
   },
@@ -149,9 +149,9 @@ export const caseStudies: CaseStudy[] = [
       "Mesazhi i shërbimeve ishte i shpërndarë dhe nuk theksonte mjaftueshëm pikat kyçe të diferencimit të kompanisë.",
     solution:
       "Riorganizuam përmbajtjen me seksione të qarta, butona kontakti të qartë dhe një stil elegant me ngjyra të errëta.",
-    result: "Oferta flet me autoritet dhe e orienton vizitorin drejt kontaktit.",
+    result: "Shërbime të qarta dhe kontakt me një klik.",
     metrics: ["Stil elegant dhe premium", "Seksione shërbimesh të qarta", "Kontakt pa hezitim"],
-    tags: ["Ndërtim", "Korporativ", "Më shumë kërkesa"],
+    tags: ["Website korporativ", "Përmbajtje"],
     heroImage: "/images/projects/suli-group-trockenbau.png",
     liveUrl: ""
   },

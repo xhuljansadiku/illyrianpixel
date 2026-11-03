@@ -70,9 +70,11 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
             <p className="hero-subtext mt-6 max-w-3xl font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
               {t("hero.subtext1")}
             </p>
+            {/* Text audit 2 (2026-11-02): subtext2 hequr
             <p className="hero-subtext mt-5 max-w-3xl font-body text-[1rem] font-light leading-[1.75] tracking-[0.01em] text-white/42">
               {t("hero.subtext2")}
             </p>
+            */}
           </div>
         </section>
 

@@ -213,9 +213,11 @@ export default function ParticleCloudHero() {
             <p className="font-body text-[0.9rem] font-medium tracking-[0.02em] text-accent/85 text-center lg:text-left">
               {t("paragraph2")}
             </p>
+            {/* Text audit 2 (2026-11-02): paragraph3 hequr nga pronari, ruajtur këtu
             <p className="font-body text-[0.83rem] font-light tracking-[0.02em] text-white/38 text-center lg:text-left">
               {t("paragraph3")}
             </p>
+            */}
           </div>
 
           <div ref={ctaRef} className="particle-hero-cta hero-cta-row justify-center lg:justify-start">

@@ -1,6 +1,6 @@
 // CTA i fundit (2026-10-16): titulli "A po ju gjejnë?" + 3 mënyra kontakti (WhatsApp, formular, email).
 // Zëvendësoi bllokun "Mini Sales" me një buton të vetëm.
-import Image from "next/image";
+// Text audit 2: import Image from "next/image"; (përdorej vetëm te flamujt e gjuhëve)
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
@@ -116,12 +116,14 @@ export default function HomeFinalCta({ whatsappHref }: { whatsappHref: string })
           </a>
         </div>
 
+        {/* Text audit 2 (2026-11-02): gjuhët shfaqen vetëm te FAQ
         <p className="mt-8 inline-flex flex-wrap items-center justify-center gap-2.5 text-[14px] text-white/55">
           {["al", "gb", "de", "hr"].map((code) => (
             <Image key={code} src={`/flags/4x3/${code}.svg`} alt="" width={20} height={15} className="h-[15px] w-5 rounded-[2px] object-cover" unoptimized />
           ))}
           <span className="ml-1">{t("languages")}</span>
         </p>
+        */}
       </div>
     </section>
   );

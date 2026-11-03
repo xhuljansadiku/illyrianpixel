@@ -16,7 +16,7 @@ const price = (cat: { packages: ServicePackage[] }, name: string) => {
 const PAYMENT: Record<Locale, ServiceFaq> = {
   sq: {
     q: "Si funksionon pagesa?",
-    a: "Për projektet deri në €1,000: 50% paradhënie për të nisur punën dhe 50% para publikimit. Mbi €1,000: 3 këste, 40% në fillim, 30% kur aprovoni dizajnin dhe 30% para lansimit.",
+    a: "Për projektet deri në €1,000: 50% paradhënie për të nisur punën dhe 50% para publikimit. Mbi €1,000: 3 këste, 40% në fillim, 30% kur aprovoni dizajnin dhe 30% para publikimit.",
   },
   en: {
     q: "How does payment work?",
@@ -30,7 +30,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
   website: (c) => [
     {
       q: "Sa kushton një website?",
-      a: `Paketat janë Basic ${price(c, "Basic")} (deri në 5 faqe), Business ${price(c, "Business")} (deri në 8 faqe, 1–2 gjuhë) dhe Premium ${price(c, "Premium")} (dizajn 100% custom, SEO i avancuar). Për e-commerce ose funksione speciale, oferta e personalizuar fillon ${price(c, "Custom").toLowerCase()}.`,
+      a: `Paketat janë Basic ${price(c, "Basic")} (deri në 5 faqe), Business ${price(c, "Business")} (deri në 8 faqe, 1–2 gjuhë) dhe Premium ${price(c, "Premium")} (dizajn 100% i personalizuar, SEO i avancuar). Për e-commerce ose funksione speciale, oferta e personalizuar fillon ${price(c, "Custom").toLowerCase()}.`,
     },
     {
       q: "Sa zgjat ndërtimi i një website-i?",
@@ -38,7 +38,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "A përfshihet SEO?",
-      a: "Po, çdo website vjen me SEO bazë: strukturë e saktë, faqe të shpejta dhe meta të optimizuara. Paketa Premium përfshin SEO të avancuar on-page; strategjia e vazhdueshme SEO është shërbim i veçantë.",
+      a: "Po, çdo website vjen me SEO bazë: strukturë e saktë, faqe të shpejta dhe meta të optimizuara. Paketa Premium përfshin SEO të avancuar; strategjia e vazhdueshme SEO është shërbim i veçantë.",
     },
     PAYMENT.sq,
     {
@@ -53,7 +53,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "A përfshihen pagesat online?",
-      a: "Po. Çdo paketë përfshin pagesa të integruara dhe checkout të optimizuar, që klienti të blejë shpejt edhe nga telefoni.",
+      a: "Po. Çdo paketë përfshin pagesa të integruara dhe blerje me pak hapa, që klienti të blejë shpejt edhe nga telefoni.",
     },
     {
       q: "Sa zgjat ndërtimi i një dyqani online?",
@@ -61,32 +61,32 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     PAYMENT.sq,
     {
-      q: "Çfarë ndodh pas lansimit?",
+      q: "Çfarë ndodh pas publikimit?",
       a: "Starter përfshin 30 ditë rregullime falas për gabime teknike. Growth dhe Advanced përfshijnë 3 muaj mirëmbajtje teknike falas.",
     },
   ],
   "aplikacione-mobile": () => [
     {
       q: "Sa kushton një aplikacion mobile?",
-      a: "Çmimi jepet me ofertë, sipas numrit të ekraneve dhe funksioneve: Starter deri në 6 ekrane, Business deri në 12 ekrane me login dhe njoftime push, Premium me pagesa, backend të personalizuar dhe dizajn 100% custom. Fillimisht diskutojmë çfarë ju duhet, pastaj ju japim çmimin. Konsultimi është falas.",
+      a: "Çmimi jepet me ofertë, sipas numrit të ekraneve dhe funksioneve: Starter deri në 6 ekrane, Business deri në 12 ekrane me login dhe njoftime push, Premium me pagesa, sistem të personalizuar dhe dizajn 100% të personalizuar. Fillimisht diskutojmë çfarë ju duhet, pastaj ju japim çmimin. Konsultimi është falas.",
     },
     {
       q: "A funksionon aplikacioni në iOS dhe Android?",
-      a: "Po. Ndërtojmë aplikacione cross-platform: një kod i vetëm për të dyja platformat, me dizajn modern për iOS dhe Android.",
+      a: "Po. Një kod i vetëm punon në të dyja (cross-platform), me dizajn modern për iOS dhe Android.",
     },
     {
       q: "A e publikoni aplikacionin në App Store dhe Google Play?",
       a: "Po, publikimi në App Store dhe Google Play përfshihet në çdo paketë.",
     },
     {
-      q: "Çfarë ndodh pas lançimit?",
-      a: "Paketa Starter përfshin 30 ditë mbështetje pas lançimit. Më pas ofrojmë mirëmbajtje, dhe nëse ju duhen funksione të reja ose upgrade, ju japim çmim të veçantë për to.",
+      q: "Çfarë ndodh pas publikimit?",
+      a: "Paketa Starter përfshin 30 ditë mbështetje pas publikimit. Më pas ofrojmë mirëmbajtje, dhe nëse ju duhen funksione të reja ose përmirësime, ju japim çmim të veçantë për to.",
     },
   ],
   "seo-google-ads": (c) => [
     {
       q: "Sa kushton SEO dhe Google Ads?",
-      a: `Starter ${price(c, "Starter")}, Growth ${price(c, "Growth")} dhe Pro ${price(c, "Pro")}. Buxheti i reklamave nuk përfshihet: e paguani ju, direkt te Google.`,
+      a: `Starter ${price(c, "Starter")}, Growth ${price(c, "Growth")} dhe Pro ${price(c, "Pro")}.`,
     },
     {
       q: "Kur shihen rezultatet?",
@@ -108,7 +108,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Kush e krijon përmbajtjen?",
-      a: "Ne. Fillojmë me disa shembuj postimesh sipas identitetit tuaj; kur ju pëlqejnë, vazhdojmë me dizajnin, caption-et, hashtag-et dhe publikimin. Sa shpesh i aprovoni postimet më pas, e caktojmë bashkë sipas marrëveshjes.",
+      a: "Ne. Fillojmë me disa shembuj postimesh sipas identitetit tuaj; kur ju pëlqejnë, vazhdojmë me dizajnin, tekstet, hashtag-et dhe publikimin. Sa shpesh i aprovoni postimet më pas, e caktojmë bashkë sipas marrëveshjes.",
     },
     {
       q: "A përfshihen reklamat me pagesë?",
@@ -116,7 +116,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Si e matni rezultatin?",
-      a: "Me raport të performancës: çdo muaj te Starter, çdo 2 javë te Growth, dhe çdo javë plus një call strategjik mujor te Pro.",
+      a: "Me raport të performancës: çdo muaj te Starter, çdo 2 javë te Growth, dhe çdo javë plus një takim strategjik mujor te Pro.",
     },
   ],
   "branding-content": (c) => [
@@ -126,7 +126,7 @@ const SQ: Record<ServiceCategory["slug"], Builder> = {
     },
     {
       q: "Çfarë merrni në fund?",
-      a: "Logon në versione për web dhe print, paletën e ngjyrave dhe guidelines bazë në PDF. Te Premium merrni edhe Brand Kit të plotë në PDF dhe Figma/Canva.",
+      a: "Logon në versione për web dhe print, paletën e ngjyrave dhe udhëzuesin bazë të markës në PDF. Te Premium merrni edhe Brand Kit të plotë në PDF dhe Figma/Canva.",
     },
     PAYMENT.sq,
   ],
@@ -315,16 +315,16 @@ export function getSeoFaqs(c: Pkgs, locale: Locale): ServiceFaq[] {
   return [
     {
       q: "Sa kushton SEO?",
-      a: `Basic ${price(c, "Basic")} (10–15 fjalë kyçe, optimizim on-page dhe Search Console), Growth ${price(c, "Growth")} (20–30 fjalë kyçe, analizë e konkurrencës dhe SEO teknik) dhe Pro ${price(c, "Pro")} (fjalë kyçe pa limit, SEO lokal + ndërkombëtar dhe optimizim përmbajtjeje çdo muaj). Çmimet janë pa TVSH.`,
+      a: `Basic ${price(c, "Basic")} (10–15 fjalë kyçe, optimizim i faqeve dhe Search Console), Growth ${price(c, "Growth")} (20–30 fjalë kyçe, analizë e konkurrencës dhe SEO teknik) dhe Pro ${price(c, "Pro")} (fjalë kyçe pa limit, SEO lokal + ndërkombëtar dhe optimizim përmbajtjeje çdo muaj). Çmimet janë pa TVSH.`,
     },
     SEO_TIMING.sq,
     {
-      q: "A ndërtoni backlinks?",
+      q: "A ndërtoni lidhje nga faqe të tjera (backlinks)?",
       a: "Po, si pjesë e punës, por nuk premtojmë një numër fiks në muaj. Growth përfshin regjistrim në direktori dhe lista lokale të besueshme; Pro shton lidhje nga partnerë dhe media lokale, sipas mundësive.",
     },
     {
       q: "Si raportoni progresin?",
-      a: "Çdo paketë ka raport progresi çdo muaj. Te Growth raporti vjen çdo 2 javë, dhe Pro shton një call strategjik mujor.",
+      a: "Çdo paketë ka raport progresi çdo muaj. Te Growth raporti vjen çdo 2 javë, dhe Pro shton një takim strategjik çdo muaj.",
     },
   ];
 }
@@ -365,7 +365,7 @@ export function getGoogleAdsFaqs(c: Pkgs, locale: Locale): ServiceFaq[] {
     },
     {
       q: "Si e matni rezultatin?",
-      a: "Çdo paketë përfshin tracking konvertimesh, që të numërojmë kërkesat dhe thirrjet, jo vetëm klikimet. Raporti vjen çdo muaj te Starter, çdo 2 javë me një call mujor te Growth, dhe çdo javë me 2 call mujore te Pro.",
+      a: "Çdo paketë përfshin matje të kërkesave, që të numërojmë kërkesat dhe thirrjet, jo vetëm klikimet. Raporti vjen çdo muaj te Starter, çdo 2 javë me një takim në muaj te Growth, dhe çdo javë me 2 takime në muaj te Pro.",
     },
   ];
 }

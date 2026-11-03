@@ -166,7 +166,7 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
               </p>
             )}
 
-            {/* Tags — 20-24px gap from trust, 13px, px-3.5 py-2 */}
+            {/* Text audit 2 (2026-11-02): shiriti i përfitimeve (subServices) hequr, përsëriste "Si e zgjidhim"
             <div className="mt-6 flex flex-wrap gap-2">
               {category.subServices.map((s) => (
                 <span key={s} className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-2 font-body text-[13px] font-light tracking-[0.03em] text-white/75 transition-colors duration-300 hover:border-accent/25 hover:text-white/90">
@@ -174,6 +174,7 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
                 </span>
               ))}
             </div>
+            */}
 
             {/* SEO micro-line */}
             <p className="mt-6 font-mono text-[10px] tracking-[0.2em] text-white/25">
@@ -307,7 +308,8 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
         )}
 
         {/* ── 3. PROOF ── */}
-        {category.slug !== "website" && category.slug !== "seo-google-ads" && category.slug !== "mirembajtja" && (testimonials.length > 0 || portfolioItems.length > 0) && (
+        {/* Text audit 2 (2026-11-02): e-commerce pa projekte — s'kemi ende dyqan real si provë */}
+        {category.slug !== "website" && category.slug !== "seo-google-ads" && category.slug !== "mirembajtja" && category.slug !== "ecommerce" && (testimonials.length > 0 || portfolioItems.length > 0) && (
           <section className="relative z-[1] border-b border-white/[0.06]">
             <div className="section-wrap py-20 md:py-28">
               <div className="svc-reveal-heading">
@@ -393,9 +395,9 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
                   {category.slug === "seo-google-ads" ? (
                     <>{t("seoGoogleAds.finalHeadlinePre")}{" "}<span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("seoGoogleAds.finalHeadlineAccent")}</span>{" "}{t("seoGoogleAds.finalHeadlinePost")}</>
                   ) : category.slug === "branding-content" ? (
-                    <>{t("brandingContent.finalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("brandingContent.finalHeadlineAccent")}</span></>
+                    <>{t("brandingContent.finalHeadlineLine1")}{" "}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("brandingContent.finalHeadlineAccent")}</span></>
                   ) : (
-                    <>{t("defaultFinalHeadlineLine1")}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("defaultFinalHeadlineAccent")}</span></>
+                    <>{t("defaultFinalHeadlineLine1")}{" "}<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent via-accentLight to-accent bg-clip-text text-transparent">{t("defaultFinalHeadlineAccent")}</span></>
                   )}
                 </h2>
                 <p className="mx-auto mt-6 max-w-[44ch] whitespace-pre-line text-[14px] leading-relaxed text-white/50">
@@ -412,9 +414,11 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
                       : category.slug === "branding-content" ? t("brandingContent.finalCta")
                       : t("defaultFinalCta")}
                   </Link>
+                  {/* Text audit 2 (2026-11-02): butoni i dytë hequr, një CTA e vetme
                   <Link href="/contact" className="group ip-cta-secondary ip-cta-secondary--lg">
                     {t("contactUs")} <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </Link>
+                  */}
                 </div>
 
                 <div className="mt-12">

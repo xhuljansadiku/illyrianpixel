@@ -32,7 +32,7 @@ const article: StructuredArticlePair = {
       { h2: "Kostot: çfarë paguani tani dhe çfarë më vonë" },
       { ol: [
         "**Çfarë përfshin saktësisht çmimi?** Sa faqe, sa gjuhë, a përfshihen tekstet, fotot, SEO bazë, formulari, Google Analytics. Një çmim pa listë është vetëm një numër.",
-        "**Cilat janë kostot vjetore pas lansimit?** Domain-i dhe hosting-u paguhen zakonisht çdo vit. Pyesni sa kushtojnë, kush i paguan dhe çfarë ndodh nëse s'paguhen.",
+        "**Cilat janë kostot vjetore pas publikimit?** Domain-i dhe hosting-u paguhen zakonisht çdo vit. Pyesni sa kushtojnë, kush i paguan dhe çfarë ndodh nëse s'paguhen.",
         "**Si bëhet pagesa?** Një ndarje e zakonshme është paradhënie në fillim dhe pjesa tjetër para publikimit. Kini kujdes me kërkesat për 100% përpara.",
       ] },
 
@@ -44,7 +44,7 @@ const article: StructuredArticlePair = {
         "**Çfarë ndodh nëse s'më pëlqen dizajni?** Disa ofrues kanë garanci, të tjerë jo. Është mirë ta dini para se të paguani paradhënien.",
       ] },
 
-      { h2: "Pas lansimit: pjesa që harrohet" },
+      { h2: "Pas publikimit: pjesa që harrohet" },
       { ol: [
         "**Kush e mirëmban faqen, dhe sa kushton?** Përditësime, backup, siguri. Nëse përgjigjja është \"s'ka nevojë\", kjo është shenjë e keqe për një faqe që do ta mbani vite. Më shumë te [udhëzuesi për mirëmbajtjen](/blog/mirembajtja-e-website-it).",
         "**Sa shpejt përgjigjeni kur diçka prishet?** Kërkoni një afat konkret, jo \"menjëherë\". Një afat realist që mbahet vlen më shumë se një premtim që s'mbahet.",

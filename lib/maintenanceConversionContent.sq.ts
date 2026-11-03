@@ -21,7 +21,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
         body: "Vizitorët ikin te konkurrenca. Nëse nuk monitorohet, mund të mos e kuptoni për orë të tëra.",
       },
       {
-        title: "Plugin-et e vjetra hapin rrugë për sulme",
+        title: "Shtesat (plugin) e vjetra hapin rrugë për sulme",
         body: "Shumica e sulmeve ndodhin nga përditësime të mungura. Pa mirëmbajtje, faqja juaj është e ekspozuar.",
       },
       {
@@ -40,7 +40,7 @@ export const maintenanceConversionLandingData: ConversionLandingData = {
     headingAccent: "gjithmonë online dhe e shpejtë.",
     intro: "",
     items: [
-      { icon: "support", title: "Monitorim automatik 24/7, reagim brenda 24–48 orësh sipas paketës", body: "" },
+      { icon: "support", title: "Monitorim 24/7 dhe reagim i shpejtë", body: "" },
       { icon: "speed",   title: "Faqja bëhet më e shpejtë çdo muaj", body: "" },
       { icon: "seo",     title: "Rindërtojmë faqe të vjetra nga e para", body: "" },
       { icon: "convert", title: "Ju fokusoheni te biznesi, ne te teknika", body: "" },

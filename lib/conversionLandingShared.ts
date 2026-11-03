@@ -73,8 +73,8 @@ export function getConversionTrustStatsDefault(locale: Locale): ConversionTrustS
 /** Shared “Pse ne” headline + intro, all service conversion landings */
 const CONVERSION_WHY_US_HERO: Record<Locale, { headingBefore: string; headingAccent: string; intro: string }> = {
   sq: {
-    headingBefore: "Zgjidhja =",
-    headingAccent: "Ne.",
+    headingBefore: "Si e",
+    headingAccent: "zgjidhim.",
     intro:
       "Punojmë me biznese shqiptare në Shqipëri dhe diasporë.\nProcese të qarta, komunikim profesional dhe rezultate reale, jo vetëm premtime.",
   },

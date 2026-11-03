@@ -12,7 +12,7 @@
     "eyebrow": "ÇMIMET & PAKETAT",
     "titleLine1": "Të gjitha paketat",
     "titleLine2": "në një vend.",
-    "subtext": "Krahaso paketat për Website, E-Commerce, Marketing, Branding dhe Social Media.\nÇdo ofertë personalizohet falas."
+    "subtext": "Krahaso paketat për Website, E-Commerce, Marketing, Branding dhe Social Media."
   },
   "billing": {
     "monthly": "Mujore",
@@ -29,11 +29,11 @@
   },
   "vatNote": "Të gjitha çmimet janë pa TVSH · Konsultimi fillestar është gjithmonë falas",
   "mostChosenBadge": "Më e zgjedhura",
-  "defaultCta": "Fillo Tani",
+  "defaultCta": "Merr ofertë falas",
   "calculator": {
     "eyebrow": "KALKULATORI I ÇMIMIT",
     "title": "Llogaritni investimin tuaj",
-    "intro": "Zgjidhni çfarë ju duhet dhe merrni një vlerësim orientues në sekonda. Pa email, pa detyrime.",
+    "intro": "Vlerësim në sekonda, pa email.",
     "stepService": "Çfarë ju duhet?",
     "stepOptions": "Përshtate sipas biznesit",
     "stepResult": "Vlerësimi juaj",
@@ -63,7 +63,7 @@
       "website": [
         "Deri 5 faqe (prezantuese)",
         "6 deri 8 faqe (biznes)",
-        "Deri 8 faqe, dizajn 100% custom (premium)",
+        "Deri 8 faqe, dizajn 100% i personalizuar (premium)",
         "Platformë / custom"
       ],
       "ecommerce": [
@@ -106,7 +106,7 @@
   },
   "card": {
     "recommendedBadge": "Rekomanduar për ty",
-    "split": "{now} tani · {launch} në lansim",
+    "split": "{now} tani · {launch} në publikim",
     "installments": "3 këste: {a} · {b} · {c}",
     "payback": "{count, plural, one {Kthehet me ~# klient të ri} other {Kthehet me ~# klientë të rinj}} ({value} fitim secili)",
     "perDay": "≈ {amount} në ditë",
@@ -135,11 +135,11 @@
   "customRow": {
     "lead": "Projekt më i madh?",
     "cta": "Kërko ofertë",
-    "installments": "Mundësi pagese me 3 këste."
+    "installments": "me 3 këste."
   },
   "ideaCard": {
     "title": "Na tregoni idenë tuaj.",
-    "text": "Çdo aplikacion është i ndryshëm. Na shkruani çfarë keni në mendje dhe brenda 24–48 orësh ju kthejmë një plan dhe një çmim të saktë, falas.",
+    "text": "Na shkruani idenë dhe brenda 24–48 orësh ju kthejmë plan dhe çmim, falas.",
     "cta": "Dërgo idenë →"
   },
   "guarantee": {
