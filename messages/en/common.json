@@ -15,7 +15,15 @@
     "langSwitchAria": "Choose language",
     "trustPrefix": "Clients in",
     "trustAll": "7 countries",
-    "trustCountries": { "de": "Germany", "it": "Italy", "gb": "the UK", "se": "Sweden", "us": "the USA", "al": "Albania", "xk": "Kosovo" },
+    "trustCountries": {
+      "de": "Germany",
+      "it": "Italy",
+      "gb": "the UK",
+      "se": "Sweden",
+      "us": "the USA",
+      "al": "Albania",
+      "xk": "Kosovo"
+    },
     "langAl": "Shqip",
     "langEn": "English"
   },
@@ -35,7 +43,7 @@
     },
     "servicesHeading": "Services",
     "services": {
-      "website": "Premium Website",
+      "website": "Website",
       "ecommerce": "E-Commerce",
       "seoAds": "SEO & Google Ads",
       "social": "Social Media",
@@ -44,7 +52,7 @@
       "mobileApp": "Mobile Apps"
     },
     "contactHeading": "Contact",
-    "contactNow": "Contact Us",
+    "contactNow": "Get a free quote",
     "whatsapp": "WhatsApp",
     "email": "info@illyrianpixel.com",
     "locationLine": "Tirana, Albania · Germany · Online",
@@ -63,7 +71,7 @@
     "label": "NEXT STEP",
     "title": "Ready for the next step?",
     "body": "Reply within 24 hours.",
-    "primaryActionText": "Start the Conversation",
+    "primaryActionText": "Get a free quote",
     "secondaryActionText": "Contact Us"
   },
   "exitPopup": {

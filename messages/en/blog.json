@@ -7,16 +7,16 @@
   },
   "index": {
     "allLabel": "All",
-    "eyebrow": "BLOG & INSIGHTS",
-    "titleLine1": "Ideas, news ",
-    "titleAccent": "& guides.",
+    "eyebrow": "BLOG",
+    "titleLine1": "Guides for websites, ",
+    "titleAccent": "SEO and marketing.",
     "subtitle": "Articles on UX, SEO and sustainable growth for serious businesses.",
     "latest": "Latest",
     "readArticle": "Read the article",
     "empty": "No articles in this category."
   },
   "preview": {
-    "title": "Ideas, news & guides.",
+    "title": "Guides for websites, SEO and marketing.",
     "subtitle": "Things worth knowing.",
     "viewAll": "View all",
     "readMore": "Read more"
