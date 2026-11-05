@@ -52,6 +52,13 @@ const HERO_IMAGES: Partial<Record<string, { src: string; alt: { sq: string; en: 
       en: "Laptop on a desk showing the Suli Group Trockenbau website, built by Illyrian Pixel",
     },
   },
+  ecommerce: {
+    src: "/images/services/ecommerce-hero-v1.avif",
+    alt: {
+      sq: "Shportë blerjesh dhe pagesë online me kartë në një dyqan online",
+      en: "Shopping cart and online card checkout in an online store",
+    },
+  },
 };
 
 export default function ServiceCategoryDetailPage({ category, faqs = [] }: { category: ServiceCategory; faqs?: ServiceFaq[] }) {
