@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ServiceOverviewCard } from "@/lib/serviceOverviewCards.sq";
 
@@ -15,12 +16,20 @@ const PHOTOS: Record<string, string> = {
   "/services/mirembajtja": "/images/services/maintenance-hero-v1.avif",
 };
 
+/** Etiketa: "Më i kërkuar" sipas përvojës së pronarit me klientët; Mirëmbajtja = oferta reale te çmimet */
+const BADGES: Record<string, { sq: string; en: string }> = {
+  "/services/website": { sq: "Më i kërkuar", en: "Most requested" },
+  "/services/smm": { sq: "Më i kërkuar", en: "Most requested" },
+  "/services/mirembajtja": { sq: "3 muaj falas me website", en: "3 months free with a website" },
+};
+
 /**
  * /sherbimet (2026-11-05, versioni C i demos): foto e madhe e ngjitur majtas,
  * lista djathtas; foto ndryshon sipas shërbimit aktiv. Në telefon: foto e vogël te çdo rresht.
  */
 export default function ServicesStickySplit({ cards }: { cards: ServiceOverviewCard[] }) {
   const [active, setActive] = useState(cards[0]?.href);
+  const locale = useLocale() === "en" ? "en" : "sq";
   return (
     <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
       <div className="relative hidden lg:block">
@@ -59,6 +68,11 @@ export default function ServicesStickySplit({ cards }: { cards: ServiceOverviewC
                   </h2>
                   <span aria-hidden className="text-white/60 transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </div>
+                {BADGES[c.href] && (
+                  <span className="mt-2 inline-block rounded-full border border-accent/40 bg-accent/[0.1] px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-[0.08em] text-accent">
+                    {BADGES[c.href][locale]}
+                  </span>
+                )}
                 <p className="mt-2 text-[14px] leading-relaxed text-white/55 md:text-[15px]">{c.desc}</p>
               </div>
             </Link>
