@@ -67,10 +67,10 @@ const HERO_IMAGES: Partial<Record<string, { src: string; alt: { sq: string; en: 
     },
   },
   "smm": {
-    src: "/images/services/smm-hero-v1.avif",
+    src: "/images/services/smm-hero-v2.avif",
     alt: {
-      sq: "Logo e Instagram në ekran, menaxhim i rrjeteve sociale për biznese",
-      en: "Instagram logo on screen, social media management for businesses",
+      sq: "Person që menaxhon rrjetet sociale të një biznesi nga telefoni",
+      en: "Person managing a business social media accounts from a phone",
     },
   },
   "branding-content": {
