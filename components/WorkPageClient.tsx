@@ -7,7 +7,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalCTA from "@/components/GlobalCTA";
 // import ProjectIndexList from "@/components/ProjectIndexList";
-import ProjectBrowserCards from "@/components/ProjectBrowserCards";
+// 2026-11-05: import ProjectBrowserCards from "@/components/ProjectBrowserCards";
+import ProjectLaptopCards from "@/components/ProjectLaptopCards";
 import type { Locale } from "@/i18n/routing";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
@@ -81,7 +82,10 @@ export default function WorkPageClient({ projects }: { projects: CaseStudy[] }) 
         <section className="relative z-[1]">
           <div className="section-wrap py-14 md:py-20">
             {/* <ProjectIndexList items={projects} /> */}
+            {/* 2026-11-05: kartat browser zëvendësuar me laptopët (versioni D i demos)
             <ProjectBrowserCards projects={projects} locale={locale} />
+            */}
+            <ProjectLaptopCards items={projects} />
           </div>
         </section>
 
