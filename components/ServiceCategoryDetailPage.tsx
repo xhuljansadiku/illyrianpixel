@@ -43,6 +43,17 @@ function conversionLandingForSlug(locale: Locale, slug: ServiceCategory["slug"])
   }
 }
 
+/** Foto e hero-s për çdo shërbim (foto Unsplash, licencë falas; ekrani me projekt real) */
+const HERO_IMAGES: Partial<Record<string, { src: string; alt: { sq: string; en: string } }>> = {
+  website: {
+    src: "/images/services/website-hero.avif",
+    alt: {
+      sq: "Laptop në tavolinë pune me website-in Hauswerk Niederbayern, ndërtuar nga Illyrian Pixel",
+      en: "Laptop on a desk showing the Hauswerk Niederbayern website, built by Illyrian Pixel",
+    },
+  },
+};
+
 export default function ServiceCategoryDetailPage({ category, faqs = [] }: { category: ServiceCategory; faqs?: ServiceFaq[] }) {
   const t = useTranslations("services");
   const locale = useLocale() as Locale;
@@ -76,6 +87,7 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
   const data = conversionLandingForSlug(locale, category.slug);
   const isConversionLanding = data !== null;
   const isWebPackages = category.slug === "website" || category.slug === "ecommerce";
+  const heroImage = HERO_IMAGES[category.slug];
 
   const painHeading = category.slug === "website"
     ? { before: t("website.painHeadingBefore"), accent: t("website.painHeadingAccent") }
@@ -109,7 +121,8 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
           <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]" />
           <div aria-hidden className="pointer-events-none absolute left-5 top-0 h-full w-px bg-gradient-to-b from-transparent via-accent/18 to-transparent md:left-10 lg:left-14" />
 
-          <div className="section-wrap relative z-[2] py-28 md:py-36">
+          <div className={`section-wrap relative z-[2] py-28 md:py-36 ${heroImage ? "lg:grid lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-14" : ""}`}>
+            <div>
             {/* Eyebrow */}
             <p className="ip-eyebrow">{eyebrow}</p>
 
@@ -180,6 +193,22 @@ export default function ServiceCategoryDetailPage({ category, faqs = [] }: { cat
             <p className="mt-6 font-mono text-[10px] tracking-[0.2em] text-white/25">
               {t("seoMicroLine")}
             </p>
+            </div>
+
+            {heroImage && (
+              <div className="relative mt-12 lg:mt-0">
+                <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[28px] bg-accent/[0.08] blur-3xl" />
+                <Image
+                  src={heroImage.src}
+                  alt={heroImage.alt[locale === "en" ? "en" : "sq"]}
+                  width={1600}
+                  height={1067}
+                  priority
+                  sizes="(min-width: 1024px) 48vw, 100vw"
+                  className="relative w-full rounded-2xl border border-white/[0.08] object-cover shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]"
+                />
+              </div>
+            )}
           </div>
         </section>
 
