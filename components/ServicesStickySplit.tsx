@@ -19,6 +19,7 @@ const PHOTOS: Record<string, string> = {
 /** Etiketa: "Më i kërkuar" sipas përvojës së pronarit me klientët; Mirëmbajtja = oferta reale te çmimet */
 const BADGES: Record<string, { sq: string; en: string }> = {
   "/services/website": { sq: "Më i kërkuar", en: "Most requested" },
+  "/services/seo-google-ads": { sq: "Më i kërkuar", en: "Most requested" },
   "/services/smm": { sq: "Më i kërkuar", en: "Most requested" },
   "/services/mirembajtja": { sq: "3 muaj falas me website", en: "3 months free with a website" },
 };
