@@ -11,7 +11,8 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 
 // Signature mood color per row — keeps the index feeling editorial
 // without relying on cover images, which blog posts don't have.
-const MOOD_COLORS = ["#ab8339", "#c2703d", "#3f8f86", "#4f6f93", "#9c4d4d", "#7a8450"];
+// 2026-11-05: përdorej nga lista e vjetër (tani e komentuar)
+// const MOOD_COLORS = ["#ab8339", "#c2703d", "#3f8f86", "#4f6f93", "#9c4d4d", "#7a8450"];
 
 type DbPost = {
   slug: string;
@@ -21,15 +22,27 @@ type DbPost = {
   date: string;
 };
 
+type ListedPost = DbPost & { content?: string[] };
+
+function PostMeta({ post }: { post: ListedPost }) {
+  const min = post.content ? Math.max(2, Math.round(post.content.join(" ").split(/\s+/).length / 200)) : null;
+  return (
+    <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">
+      <span className="text-accent">{post.category}</span> · {post.date}
+      {min && <> · {min} min</>}
+    </p>
+  );
+}
+
 export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] }) {
   const t = useTranslations("blog.index");
   const locale = useLocale() as Locale;
   const allLabel = t("allLabel");
   const heroRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const allPosts = [...dbPosts, ...getBlogPostsForLocale(locale)];
+  const allPosts: ListedPost[] = [...dbPosts, ...getBlogPostsForLocale(locale)];
   const [active, setActive] = useState(allLabel);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  // 2026-11-05: const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   // Text audit 2 (2026-11-02): në karta vetëm fjalia e parë; teksti i plotë mbetet meta description.
   const firstSentence = (s: string) => s.split("\n")[0].split(/(?<=[.!?])\s/)[0];
@@ -142,7 +155,7 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
               {filtered.length === 0 ? (
                 <p className="text-white/40 text-sm">{t("empty")}</p>
               ) : (
-                <>
+                <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
                   <Link
                     href={`/blog/${featuredPost.slug}`}
                     className="featured-post group relative block overflow-hidden rounded-[1.75rem] border border-accent/25 bg-[linear-gradient(135deg,rgba(171,131,57,0.12),rgba(171,131,57,0.02)_60%)] p-8 md:p-12"
@@ -165,6 +178,33 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
                     </span>
                   </Link>
 
+                  {/* 2026-11-05 (demo A): djathtas 6 artikujt e radhës */}
+                  {restPosts.length > 0 && (
+                    <ul className="divide-y divide-white/[0.07]">
+                      {restPosts.slice(0, 6).map((post) => (
+                        <li key={post.slug}>
+                          <Link href={`/blog/${post.slug}`} className="blog-row group block py-5 first:pt-0">
+                            <PostMeta post={post} />
+                            <h3 className="mt-2 font-display text-xl leading-snug text-white transition-colors duration-300 group-hover:text-accent">{post.title}</h3>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* poshtë: pjesa tjetër në 3 kolona */}
+                  {restPosts.length > 6 && (
+                    <div className="grid gap-x-10 gap-y-8 md:grid-cols-3 lg:col-span-2">
+                      {restPosts.slice(6).map((post) => (
+                        <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-row group block border-t border-white/[0.07] pt-5">
+                          <PostMeta post={post} />
+                          <h3 className="mt-2 font-display text-lg leading-snug text-white transition-colors duration-300 group-hover:text-accent">{post.title}</h3>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* 2026-11-05: lista e vjetër me rreshta zëvendësuar me revistën (demo A)
                   {restPosts.length > 0 && (
                     <div className="mt-12 border-t border-white/10">
                       {restPosts.map((post, idx) => {
@@ -214,7 +254,8 @@ export default function BlogPageClient({ dbPosts = [] }: { dbPosts?: DbPost[] })
                       })}
                     </div>
                   )}
-                </>
+                  */}
+                </div>
               )}
             </div>
           </div>
