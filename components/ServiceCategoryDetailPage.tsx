@@ -66,6 +66,34 @@ const HERO_IMAGES: Partial<Record<string, { src: string; alt: { sq: string; en: 
       en: "Screen with Google search, where SEO puts you in front of customers",
     },
   },
+  "smm": {
+    src: "/images/services/smm-hero-v1.avif",
+    alt: {
+      sq: "Logo e Instagram në ekran, menaxhim i rrjeteve sociale për biznese",
+      en: "Instagram logo on screen, social media management for businesses",
+    },
+  },
+  "branding-content": {
+    src: "/images/services/branding-hero-v1.avif",
+    alt: {
+      sq: "Ambalazhe të zeza me detaje të arta, identitet vizual i një marke",
+      en: "Black packaging with gold details, a brand visual identity",
+    },
+  },
+  "aplikacione-mobile": {
+    src: "/images/services/apps-hero-v1.avif",
+    alt: {
+      sq: "Telefon me aplikacione mobile mbi tastierë",
+      en: "Phone with mobile apps on a keyboard",
+    },
+  },
+  "mirembajtja": {
+    src: "/images/services/maintenance-hero-v1.avif",
+    alt: {
+      sq: "Laptop me kod, mirëmbajtje teknike e website-it",
+      en: "Laptop with code, technical website maintenance",
+    },
+  },
 };
 
 export default function ServiceCategoryDetailPage({ category, faqs = [] }: { category: ServiceCategory; faqs?: ServiceFaq[] }) {
