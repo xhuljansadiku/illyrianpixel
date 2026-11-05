@@ -46,10 +46,10 @@ function conversionLandingForSlug(locale: Locale, slug: ServiceCategory["slug"])
 /** Foto e hero-s për çdo shërbim (foto Unsplash, licencë falas; ekrani me projekt real) */
 const HERO_IMAGES: Partial<Record<string, { src: string; alt: { sq: string; en: string } }>> = {
   website: {
-    src: "/images/services/website-hero-v2.avif",
+    src: "/images/services/website-hero-v3.avif",
     alt: {
-      sq: "Laptop në tavolinë pune me website-in Hauswerk Niederbayern, ndërtuar nga Illyrian Pixel",
-      en: "Laptop on a desk showing the Hauswerk Niederbayern website, built by Illyrian Pixel",
+      sq: "Laptop në tavolinë pune me website-in Suli Group Trockenbau, ndërtuar nga Illyrian Pixel",
+      en: "Laptop on a desk showing the Suli Group Trockenbau website, built by Illyrian Pixel",
     },
   },
 };
