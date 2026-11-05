@@ -2345,6 +2345,9 @@ html[data-intro] .hero-brand-word.brand-landed { animation: introFlare 1s 0.3s e
 /* Kur mausi është mbi të rekomanduarën, të tjerat zbehen pak (kontrasti) */
 @media (hover: hover) {
   .price-grid:has(.is-featured:hover) .price-card-wrap:not(.is-featured) { opacity: 0.6; }
+  /* 2026-11-05 (demo B): e rekomanduara në qendër me shkëlqim të artë, të tjerat paksa të zbehta */
+  .price-grid:has(.is-featured) .price-card-wrap:not(.is-featured) { opacity: 0.86; }
+  .price-grid .is-featured { filter: drop-shadow(0 30px 60px rgba(171, 131, 57, 0.28)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .price-glow { animation: none; }

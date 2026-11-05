@@ -40,7 +40,9 @@ export default function PackageCarousel({ children, focusIndex = 0, columns = 3 
     setActive(best);
   };
 
-  const grid = columns >= 4 ? "md:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-3";
+  // 2026-11-05 (demo B): kur e rekomanduara është në mes, kolona e saj është më e gjerë ("spotlight")
+  const spotlight = columns === 3 && focusIndex === 1;
+  const grid = columns >= 4 ? "md:grid-cols-2 xl:grid-cols-4" : spotlight ? "md:grid-cols-[1fr_1.22fr_1fr] md:!items-center" : "md:grid-cols-3";
 
   return (
     <>
