@@ -59,6 +59,13 @@ const HERO_IMAGES: Partial<Record<string, { src: string; alt: { sq: string; en: 
       en: "Shopping cart and online card checkout in an online store",
     },
   },
+  "seo-google-ads": {
+    src: "/images/services/seo-hero-v1.avif",
+    alt: {
+      sq: "Ekran me kërkimin në Google, ku SEO ju nxjerr para klientëve",
+      en: "Screen with Google search, where SEO puts you in front of customers",
+    },
+  },
 };
 
 export default function ServiceCategoryDetailPage({ category, faqs = [] }: { category: ServiceCategory; faqs?: ServiceFaq[] }) {
