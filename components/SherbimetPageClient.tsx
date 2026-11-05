@@ -5,7 +5,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ServiceCompactCard from "@/components/ServiceCompactCard";
+// 2026-11-05: import ServiceCompactCard from "@/components/ServiceCompactCard";
+import ServicesStickySplit from "@/components/ServicesStickySplit";
 import AmbientServiceIcons, { type AmbientIconConfig } from "@/components/AmbientServiceIcons";
 import { getSherbimetPageCards } from "@/lib/serviceOverviewCards";
 import type { Locale } from "@/i18n/routing";
@@ -143,11 +144,14 @@ export default function SherbimetPageClient() {
         {/* Cards */}
         <section className="relative z-[1] border-b border-white/10">
           <div className="section-wrap py-14 md:py-20">
+            {/* 2026-11-05: kartat kompakte zëvendësuar me versionin C të demos (foto e ngjitur + listë)
             <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6">
               {sherbimetCards.map((service) => (
                 <ServiceCompactCard key={service.href} service={service} headingAs="h2" />
               ))}
             </div>
+            */}
+            <ServicesStickySplit cards={sherbimetCards} />
           </div>
         </section>
 
