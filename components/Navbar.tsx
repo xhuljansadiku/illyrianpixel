@@ -259,6 +259,7 @@ export default function Navbar() {
         active={active}
         onClose={() => setMobileOpen(false)}
         onNavigate={navigate}
+        onStart={() => setContactOpen(true)}
       />
     </>
   );
