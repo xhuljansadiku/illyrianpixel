@@ -43,8 +43,10 @@ vi.mock("@/lib/whatsapp", () => ({ sendWhatsAppMessage: async () => {} }));
 vi.mock("@/lib/activityLog", () => ({ logActivity: async () => {} }));
 
 const { POST } = await import("./route");
+const { createMathChallenge } = await import("@/lib/mathCheck");
 
-const valid = { name: "Test Klient", email: "test@example.com", message: "Dua një website për biznesin tim." };
+const ch = createMathChallenge();
+const valid = { name: "Test Klient", email: "test@example.com", message: "Dua një website për biznesin tim.", checkToken: ch.token, checkAnswer: String(ch.a + ch.b) };
 const post = (body: unknown) =>
   POST(new Request("http://localhost/api/contact", { method: "POST", body: JSON.stringify(body) }));
 
@@ -58,6 +60,15 @@ beforeEach(() => {
 });
 
 describe("POST /api/contact", () => {
+  it("0. pyetja me 2 numra gabim ose mungon → 400, asgjë s’ruhet", async () => {
+    for (const bad of [{ checkAnswer: String(ch.a + ch.b + 1) }, { checkToken: undefined }, { checkToken: "1.x.y" }]) {
+      const res = await post({ ...valid, ...bad });
+      expect(res.status).toBe(400);
+    }
+    expect(state.inserted).toHaveLength(0);
+    expect(state.telegram).toHaveLength(0);
+  });
+
   it("1. dërgim i vlefshëm pa telefon → 200, ruhet, 2 email-e", async () => {
     const res = await post(valid);
     expect(res.status).toBe(200);

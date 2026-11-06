@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { FormEvent, KeyboardEvent as ReactKeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 // Text audit 2: import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
@@ -10,25 +10,16 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { GuaranteeNote } from "@/components/PricingExtras";
 import { CONTACT_BUDGETS } from "@/lib/leadScore"; // Text audit 2: CONTACT_TIMELINES s'përdoret (afati fshehur)
 import { trackEvent } from "@/lib/track";
+import BrandDropdown, { type DropdownOption } from "@/components/BrandDropdown";
 import { GOOGLE_BUSINESS_URL } from "@/lib/socialLinks";
 
 const services = ["Websites", "E-commerce", "Marketing", "SEO", "Branding"];
-type DropdownOption = {
-  value: string;
-  label: string;
-};
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_E164;
 
 const CARD =
   "relative overflow-hidden rounded-3xl border border-[#262626] bg-[rgba(10,10,10,0.72)] backdrop-blur-[12px]";
 
-function normalizeDropdownText(value: string) {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-}
 
 export default function ContactPageClient() {
   const t = useTranslations("contact");
@@ -69,6 +60,17 @@ export default function ContactPageClient() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
+  // Pyetja me 2 numra kundër bot-eve (2026-11-06)
+  const [check, setCheck] = useState<{ a: number; b: number; token: string } | null>(null);
+  const [checkAnswer, setCheckAnswer] = useState("");
+  const loadCheck = () => {
+    setCheckAnswer("");
+    fetch("/api/contact/challenge", { cache: "no-store" })
+      .then((r) => r.json())
+      .then(setCheck)
+      .catch(() => {});
+  };
+  useEffect(loadCheck, []);
   const [discountStatus, setDiscountStatus] = useState<"idle" | "valid" | "invalid">("idle");
   const [form, setForm] = useState({
     name: "",
@@ -110,8 +112,10 @@ export default function ContactPageClient() {
     () =>
       form.name.trim().length > 1 &&
       /\S+@\S+\.\S+/.test(form.email) &&
-      form.message.trim().length > 6,
-    [form]
+      form.message.trim().length > 6 &&
+      checkAnswer.trim() !== "" &&
+      check !== null,
+    [form, checkAnswer, check]
   );
 
   const set = (key: keyof typeof form) => (v: string) =>
@@ -146,6 +150,8 @@ export default function ContactPageClient() {
           discountCode: discountStatus === "valid" ? "ILLYRIAN10" : undefined,
           sourcePath: typeof window !== "undefined" ? window.location.pathname : undefined,
           website: form.website,
+          checkToken: check?.token,
+          checkAnswer,
         }),
       });
 
@@ -175,6 +181,10 @@ export default function ContactPageClient() {
         });
         setDiscountCode("");
         setDiscountStatus("idle");
+        loadCheck();
+      } else if (data.code === "check") {
+        setError(locale === "en" ? "The answer is not correct. Try the new question." : "Përgjigjja nuk është e saktë. Provoni pyetjen e re.");
+        loadCheck();
       } else {
         setError(t("errors.generic"));
       }
@@ -380,6 +390,24 @@ export default function ContactPageClient() {
                       */}
                     </div>
 
+                    {/* Pyetja me 2 numra kundër bot-eve */}
+                    <label className="block">
+                      <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
+                        {locale === "en" ? "Quick check: " : "Verifikim i shpejtë: "}
+                        <span className="text-accent">{check ? `${check.a} + ${check.b} = ?` : "…"}</span>
+                      </span>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="off"
+                        maxLength={3}
+                        value={checkAnswer}
+                        onChange={(e) => setCheckAnswer(e.target.value.replace(/\D/g, ""))}
+                        placeholder={locale === "en" ? "Your answer" : "Përgjigjja"}
+                        className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-muted/55 focus:border-accent"
+                      />
+                    </label>
+
                     {error && (
                       <p role="alert" className="font-ui text-[12px] font-light tracking-[0.3px] text-red-400/75">
                         {error}
@@ -476,306 +504,6 @@ function LuxInput({
   );
 }
 
-function BrandDropdown({
-  value,
-  onChange,
-  options,
-  placeholder,
-  label,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  options: DropdownOption[];
-  placeholder?: string;
-  label: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const searchBufferRef = useRef("");
-  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Pa vlerë → placeholder (më parë binte te opsioni i parë dhe dukej si zgjedhje e bërë)
-  const selected = options.find((option) => option.value === value);
-  const selectedIndex = Math.max(
-    0,
-    options.findIndex((option) => option.value === selected?.value)
-  );
-  const [activeIndex, setActiveIndex] = useState(selectedIndex);
-
-  const clearSearchBuffer = () => {
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-      searchTimeoutRef.current = null;
-    }
-
-    searchBufferRef.current = "";
-  };
-
-  const scrollOptionIntoView = (index: number) => {
-    optionRefs.current[index]?.scrollIntoView({ block: "nearest" });
-  };
-
-  const updateActiveIndex = (index: number) => {
-    setActiveIndex(index);
-
-    if (open) {
-      requestAnimationFrame(() => scrollOptionIntoView(index));
-    }
-  };
-
-  const findMatchingOptionIndex = (query: string, startIndex: number) => {
-    if (!query) return -1;
-
-    const normalizedQuery = normalizeDropdownText(query);
-    const isRepeatedCharacter =
-      normalizedQuery.length > 1 &&
-      normalizedQuery.split("").every((char) => char === normalizedQuery[0]);
-    const effectiveQuery = isRepeatedCharacter ? normalizedQuery[0] : normalizedQuery;
-
-    for (let offset = 0; offset < options.length; offset += 1) {
-      const index = (startIndex + offset) % options.length;
-      const label = normalizeDropdownText(options[index].label);
-
-      if (label.startsWith(effectiveQuery)) {
-        return index;
-      }
-    }
-
-    return -1;
-  };
-
-  const runTypeahead = (key: string) => {
-    const nextBuffer = `${searchBufferRef.current}${key}`;
-    searchBufferRef.current = nextBuffer;
-
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-
-    searchTimeoutRef.current = setTimeout(() => {
-      searchBufferRef.current = "";
-      searchTimeoutRef.current = null;
-    }, 650);
-
-    const startIndex = open ? activeIndex + 1 : selectedIndex + 1;
-    const matchIndex = findMatchingOptionIndex(nextBuffer, startIndex);
-
-    if (matchIndex === -1) return;
-
-    if (open) {
-      updateActiveIndex(matchIndex);
-      return;
-    }
-
-    onChange(options[matchIndex].value);
-  };
-
-  const handleKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-
-      if (!open) {
-        setOpen(true);
-        setActiveIndex(selectedIndex);
-        return;
-      }
-
-      updateActiveIndex((activeIndex + 1) % options.length);
-      return;
-    }
-
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-
-      if (!open) {
-        setOpen(true);
-        setActiveIndex(selectedIndex);
-        return;
-      }
-
-      updateActiveIndex((activeIndex - 1 + options.length) % options.length);
-      return;
-    }
-
-    if (event.key === "Home") {
-      event.preventDefault();
-
-      if (!open) {
-        onChange(options[0].value);
-        return;
-      }
-
-      updateActiveIndex(0);
-      return;
-    }
-
-    if (event.key === "End") {
-      event.preventDefault();
-
-      if (!open) {
-        onChange(options[options.length - 1].value);
-        return;
-      }
-
-      updateActiveIndex(options.length - 1);
-      return;
-    }
-
-    if (event.key === "Enter") {
-      event.preventDefault();
-
-      if (!open) {
-        setOpen(true);
-        setActiveIndex(selectedIndex);
-        return;
-      }
-
-      onChange(options[activeIndex].value);
-      setOpen(false);
-      return;
-    }
-
-    if (event.key === "Escape") {
-      if (open) {
-        event.preventDefault();
-        setOpen(false);
-      }
-      return;
-    }
-
-    if (event.key === " " && !open) {
-      event.preventDefault();
-      setOpen(true);
-      setActiveIndex(selectedIndex);
-      return;
-    }
-
-    if (
-      event.key.length === 1 &&
-      !event.altKey &&
-      !event.ctrlKey &&
-      !event.metaKey
-    ) {
-      event.preventDefault();
-      runTypeahead(event.key);
-    }
-  };
-
-  useEffect(() => {
-    if (!open) return;
-
-    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("touchstart", handlePointerDown);
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("touchstart", handlePointerDown);
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) {
-      setActiveIndex(selectedIndex);
-      return;
-    }
-
-    requestAnimationFrame(() => scrollOptionIntoView(activeIndex));
-  }, [activeIndex, open, selectedIndex]);
-
-  useEffect(() => () => clearSearchBuffer(), []);
-
-  return (
-    <div ref={rootRef} className="relative">
-      <button
-        ref={triggerRef}
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="listbox"
-        aria-label={`${label}: ${selected?.label ?? placeholder ?? ""}`}
-        onClick={() => setOpen((state) => !state)}
-        onKeyDown={handleKeyDown}
-        className={`font-ui flex w-full items-center gap-3 border-b bg-transparent py-3 text-left text-[14px] font-light tracking-[0.3px] outline-none transition-colors duration-300 ${
-          open
-            ? "border-accent"
-            : "border-[#262626] hover:border-accent/45 focus:border-accent"
-        }`}
-      >
-        <span className={`min-w-0 flex-1 truncate ${selected ? "text-white" : "text-muted/55"}`}>
-          {selected?.label ?? placeholder}
-        </span>
-        <span
-          aria-hidden
-          className={`shrink-0 text-[10px] transition-all duration-300 ${
-            open ? "translate-y-[1px] rotate-180 text-accent" : "text-muted"
-          }`}
-        >
-          ↓
-        </span>
-      </button>
-
-      {open ? (
-        <div className="absolute left-0 right-0 top-full z-40 pt-3">
-          <div className="overflow-hidden rounded-2xl border border-accent/20 bg-[rgba(10,10,10,0.98)] p-2 shadow-lift backdrop-blur-xl">
-            <div
-              className="max-h-72 overflow-y-auto pr-1"
-              role="listbox"
-              aria-activedescendant={`dropdown-option-${activeIndex}`}
-            >
-              {options.map((option, index) => {
-                const isSelected = option.value === selected?.value;
-                const isActive = index === activeIndex;
-
-                return (
-                  <button
-                    key={option.value}
-                    ref={(element) => {
-                      optionRefs.current[index] = element;
-                    }}
-                    id={`dropdown-option-${index}`}
-                    role="option"
-                    aria-selected={isSelected}
-                    type="button"
-                    onClick={() => {
-                      onChange(option.value);
-                      setOpen(false);
-                      clearSearchBuffer();
-                      triggerRef.current?.focus();
-                    }}
-                    onMouseEnter={() => setActiveIndex(index)}
-                    className={`font-ui flex w-full items-center gap-3 rounded-[0.9rem] px-3 py-3 text-left text-[14px] tracking-[0.3px] transition-colors duration-200 ${
-                      isActive
-                        ? "bg-accent/14 text-white"
-                        : isSelected
-                          ? "bg-accent/8 text-white/90"
-                          : "text-white/80 hover:bg-accent/10 hover:text-white"
-                    }`}
-                  >
-                    <span className="min-w-0 flex-1 truncate">{option.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 
 // ── Luxury ghost select ───────────────────────────────────────────────────────

@@ -6,6 +6,7 @@ import { sendTelegramMessage, escapeTelegramHtml } from "@/lib/telegram";
 import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { logActivity } from "@/lib/activityLog";
 import { PRIORITY_BUDGETS } from "@/lib/leadScore";
+import { verifyMathChallenge } from "@/lib/mathCheck";
 
 // Email-i i konfirmimit për klientin, në gjuhën e faqes nga e dërgoi (më parë vetëm shqip)
 const CONFIRMATION = {
@@ -110,6 +111,14 @@ export async function POST(req: Request) {
     if (name.length > 120 || email.length > 254 || phone.length > 30 || message.length > 4000) {
       return NextResponse.json(
         { success: false, error: "Të dhënat janë jashtë kufijve." },
+        { status: 400 }
+      );
+    }
+
+    // Pyetja me 2 numra (2026-11-06) — pa përgjigje të saktë s'ruajmë e s'njoftojmë asgjë
+    if (!verifyMathChallenge(body.checkToken, body.checkAnswer)) {
+      return NextResponse.json(
+        { success: false, error: "Përgjigjja e pyetjes nuk është e saktë.", code: "check" },
         { status: 400 }
       );
     }
