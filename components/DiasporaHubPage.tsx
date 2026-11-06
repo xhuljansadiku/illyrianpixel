@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ConversionTrustBar from "@/components/ConversionTrustBar";
+import DiasporaAnyCountryCard from "@/components/DiasporaAnyCountryCard";
 import DiasporaCountryCard from "@/components/DiasporaCountryCard";
 import { getConversionTrustStatsDefault } from "@/lib/conversionLandingShared";
 import type { CountrySlug } from "@/lib/diasporaShared";
@@ -14,9 +15,12 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 const COPY = {
   sq: {
     eyebrow: "PËR SHQIPTARËT JASHTË VENDIT",
-    headline: "Website për biznese shqiptare ",
+    headline: "Strategji dixhitale që sjell klientë për bizneset shqiptare ",
     headlineAccent: "në diasporë.",
-    intro: "Punojmë online me biznese shqiptare jashtë vendit. Zgjidhni shtetin tuaj.",
+    intro: "Website, SEO dhe reklama në Google, të ndërtuara për tregun ku jeni. Zgjidhni shtetin tuaj.",
+    anyTitle: "Çdo shtet tjetër",
+    anyHook: "Austri, Belgjikë, Holandë, Francë, Suedi e më gjerë. Punojmë online kudo.",
+    anyCta: "Na shkruani",
     trustAria: "Besim dhe përvojë",
     readMore: "Lexo më shumë",
     articlesHeading: "Artikuj për biznesin ",
@@ -34,9 +38,12 @@ const COPY = {
   },
   en: {
     eyebrow: "FOR ALBANIANS ABROAD",
-    headline: "Websites for Albanian businesses ",
+    headline: "A digital strategy that brings clients to Albanian businesses ",
     headlineAccent: "in the diaspora.",
-    intro: "We work online with Albanian-owned businesses abroad. Choose your country.",
+    intro: "Websites, SEO and Google Ads, built for the market you are in. Choose your country.",
+    anyTitle: "Any other country",
+    anyHook: "Austria, Belgium, the Netherlands, France, Sweden and beyond. We work online anywhere.",
+    anyCta: "Get in touch",
     trustAria: "Trust and experience",
     readMore: "Read more",
     articlesHeading: "Articles for businesses ",
@@ -135,6 +142,7 @@ export default function DiasporaHubPage({ countries }: { countries: HubCountry[]
                   hookLine={c.hookLine}
                 />
               ))}
+              <DiasporaAnyCountryCard title={t.anyTitle} hookLine={t.anyHook} cta={t.anyCta} />
             </div>
           </div>
         </section>
