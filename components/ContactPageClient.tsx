@@ -69,6 +69,17 @@ export default function ContactPageClient() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
+  // Pyetja me 2 numra kundër bot-eve (2026-11-06)
+  const [check, setCheck] = useState<{ a: number; b: number; token: string } | null>(null);
+  const [checkAnswer, setCheckAnswer] = useState("");
+  const loadCheck = () => {
+    setCheckAnswer("");
+    fetch("/api/contact/challenge", { cache: "no-store" })
+      .then((r) => r.json())
+      .then(setCheck)
+      .catch(() => {});
+  };
+  useEffect(loadCheck, []);
   const [discountStatus, setDiscountStatus] = useState<"idle" | "valid" | "invalid">("idle");
   const [form, setForm] = useState({
     name: "",
@@ -110,8 +121,10 @@ export default function ContactPageClient() {
     () =>
       form.name.trim().length > 1 &&
       /\S+@\S+\.\S+/.test(form.email) &&
-      form.message.trim().length > 6,
-    [form]
+      form.message.trim().length > 6 &&
+      checkAnswer.trim() !== "" &&
+      check !== null,
+    [form, checkAnswer, check]
   );
 
   const set = (key: keyof typeof form) => (v: string) =>
@@ -146,6 +159,8 @@ export default function ContactPageClient() {
           discountCode: discountStatus === "valid" ? "ILLYRIAN10" : undefined,
           sourcePath: typeof window !== "undefined" ? window.location.pathname : undefined,
           website: form.website,
+          checkToken: check?.token,
+          checkAnswer,
         }),
       });
 
@@ -175,6 +190,10 @@ export default function ContactPageClient() {
         });
         setDiscountCode("");
         setDiscountStatus("idle");
+        loadCheck();
+      } else if (data.code === "check") {
+        setError(locale === "en" ? "The answer is not correct. Try the new question." : "Përgjigjja nuk është e saktë. Provoni pyetjen e re.");
+        loadCheck();
       } else {
         setError(t("errors.generic"));
       }
@@ -379,6 +398,24 @@ export default function ContactPageClient() {
                       )}
                       */}
                     </div>
+
+                    {/* Pyetja me 2 numra kundër bot-eve */}
+                    <label className="block">
+                      <span className="font-display mb-2.5 block text-[0.88rem] font-medium tracking-[0.02em] text-white/78">
+                        {locale === "en" ? "Quick check: " : "Verifikim i shpejtë: "}
+                        <span className="text-accent">{check ? `${check.a} + ${check.b} = ?` : "…"}</span>
+                      </span>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="off"
+                        maxLength={3}
+                        value={checkAnswer}
+                        onChange={(e) => setCheckAnswer(e.target.value.replace(/\D/g, ""))}
+                        placeholder={locale === "en" ? "Your answer" : "Përgjigjja"}
+                        className="font-ui w-full border-b border-[#262626] bg-transparent py-3 text-[14px] font-light tracking-[0.3px] text-white outline-none transition-colors duration-300 placeholder:text-muted/55 focus:border-accent"
+                      />
+                    </label>
 
                     {error && (
                       <p role="alert" className="font-ui text-[12px] font-light tracking-[0.3px] text-red-400/75">
