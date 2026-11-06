@@ -9,6 +9,7 @@ import MobileMenu from "@/components/MobileMenu";
 // dropdown: import LanguageSwitcher from "@/components/LanguageSwitcher";
 import LanguageToggle from "@/components/LanguageToggle";
 import TrustRotator from "@/components/TrustRotator";
+import ContactModal from "@/components/ContactModal";
 
 export default function Navbar() {
   const t = useTranslations("common.nav");
@@ -42,6 +43,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [active, setActive] = useState(activeFromPath);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
 
   useLayoutEffect(() => {
     if (reduced) return;
@@ -191,8 +193,8 @@ export default function Navbar() {
           </button>
 
           <div ref={desktopNavRef} className="hidden items-center gap-8 lg:flex">
-            {/* Home is the logo and Contact is the CTA button, so both are left out here */}
-            {navItems.filter((item) => item.id !== "hero" && item.id !== "contact").map((item) => (
+            {/* Home is the logo, so it is left out here (2026-11-06: Kontakt shfaqet si link; CTA hap dritaren) */}
+            {navItems.filter((item) => item.id !== "hero").map((item) => (
               <Link
                 key={item.id}
                 href={item.href}
@@ -208,13 +210,16 @@ export default function Navbar() {
           </div>
 
           <div ref={actionsRef} className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
-            <Link
-              href="/contact"
+            {/* 2026-11-06: "Fillo sot" hap formularin e shkurtër në dritare, jo faqen /contact */}
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              aria-haspopup="dialog"
               data-magnetic="true"
               className="interactive-button ip-cta-primary ip-cta-navbar !hidden items-center justify-center self-center lg:!inline-flex"
             >
               {t("cta")}
-            </Link>
+            </button>
             {/* dropdown: <LanguageSwitcher /> */}
             <LanguageToggle />
             <button
@@ -245,6 +250,8 @@ export default function Navbar() {
           </div>
         </nav>
       </header>
+
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
 
       <MobileMenu
         isOpen={mobileOpen}
