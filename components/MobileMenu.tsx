@@ -17,7 +17,7 @@ type Props = {
   active: string;
   onClose: () => void;
   onNavigate: (item: NavItem) => void;
-  /** 2026-11-06: "Fillo sot" hap dritaren e kontaktit (si në desktop) */
+  /** 2026-11-06: "Fillo sot" hap dritaren e kontaktit në tablet; në celular shkon te /contact */
   onStart?: () => void;
 };
 
@@ -206,27 +206,20 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
             </div>
           </div>
 
-          {onStart ? (
-            <button
-              type="button"
-              aria-haspopup="dialog"
-              onClick={() => {
-                onClose();
+          {/* 2026-11-06: celular → faqja /contact; tablet (≥768px) → dritarja e kontaktit si në desktop */}
+          <Link
+            href="/contact"
+            onClick={(e) => {
+              onClose();
+              if (onStart && window.matchMedia("(min-width: 768px)").matches) {
+                e.preventDefault();
                 onStart();
-              }}
-              className="interactive-button ip-cta-primary inline-flex w-full justify-center"
-            >
-              {t("cta")}
-            </button>
-          ) : (
-            <Link
-              href="/contact"
-              onClick={() => onClose()}
-              className="interactive-button ip-cta-primary inline-flex w-full justify-center"
-            >
-              {t("cta")}
-            </Link>
-          )}
+              }
+            }}
+            className="interactive-button ip-cta-primary inline-flex w-full justify-center"
+          >
+            {t("cta")}
+          </Link>
         </div>
       </div>
     </div>
