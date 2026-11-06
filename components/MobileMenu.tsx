@@ -17,9 +17,11 @@ type Props = {
   active: string;
   onClose: () => void;
   onNavigate: (item: NavItem) => void;
+  /** 2026-11-06: "Fillo sot" hap dritaren e kontaktit (si në desktop) */
+  onStart?: () => void;
 };
 
-export default function MobileMenu({ isOpen, navItems, active, onClose, onNavigate }: Props) {
+export default function MobileMenu({ isOpen, navItems, active, onClose, onNavigate, onStart }: Props) {
   const t = useTranslations("common.nav");
   const tFooter = useTranslations("common.footer");
   const panelRef = useRef<HTMLDivElement>(null);
@@ -204,13 +206,27 @@ export default function MobileMenu({ isOpen, navItems, active, onClose, onNaviga
             </div>
           </div>
 
-          <Link
-            href="/contact"
-            onClick={() => onClose()}
-            className="interactive-button ip-cta-primary inline-flex w-full justify-center"
-          >
-            {t("cta")}
-          </Link>
+          {onStart ? (
+            <button
+              type="button"
+              aria-haspopup="dialog"
+              onClick={() => {
+                onClose();
+                onStart();
+              }}
+              className="interactive-button ip-cta-primary inline-flex w-full justify-center"
+            >
+              {t("cta")}
+            </button>
+          ) : (
+            <Link
+              href="/contact"
+              onClick={() => onClose()}
+              className="interactive-button ip-cta-primary inline-flex w-full justify-center"
+            >
+              {t("cta")}
+            </Link>
+          )}
         </div>
       </div>
     </div>
