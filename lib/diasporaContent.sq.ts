@@ -58,7 +58,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Website profesionale për biznese shqiptare në Gjermani. Në shqip, thjeshtë, pa telefonata të pafundme.",
     heroTrustLine: "Përgjigje brenda 24 orësh · Klientë në Gjermani",
-    hookLine: "Website për biznese shqiptare në Gjermani.",
+    hookLine: "Klientë të rinj në Gjermani, me projekte reale si provë.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -112,7 +112,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Website profesionale për biznese shqiptare në Britani, në nivel me konkurrentët vendas.",
     heroTrustLine: "Përgjigje brenda 24 orësh · Klient në Londër",
-    hookLine: "Website për biznese shqiptare në Britani.",
+    hookLine: "Prezencë dixhitale që ju gjen klientë në Britani.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -165,7 +165,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Website profesionale për biznese shqiptare në Zvicër, me cilësinë që pret ky treg.",
     heroTrustLine: "Përgjigje brenda 24 orësh · Komunikim në shqip",
-    hookLine: "Website i nivelit zviceran, në shqip.",
+    hookLine: "Cilësi zvicerane, e menaxhuar thjesht në shqip.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -219,7 +219,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Website dygjuhëshe (shqip/italisht) për biznese shqiptare në Itali.",
     heroTrustLine: "Përgjigje brenda 24 orësh · Klient në Milano",
-    hookLine: "Website dygjuhësh për biznese shqiptare në Itali.",
+    hookLine: "Dy gjuhë, dy tregje: klientë italianë dhe shqiptarë.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",
@@ -273,7 +273,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Website profesionale për biznese shqiptare në SHBA dhe Kanada, që punojnë edhe kur ju flini.",
     heroTrustLine: "Përgjigje brenda 24 orësh · Komunikim në shqip",
-    hookLine: "Website që punon 24/7, edhe me 6–9 orë diferencë.",
+    hookLine: "Biznesi juaj sjell klientë 24/7, edhe kur ju flini.",
     trustStats,
     painSection: {
       eyebrow: "SITUATA",

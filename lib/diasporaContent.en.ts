@@ -43,7 +43,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Professional websites for Albanian-owned businesses in Germany. In Albanian, simple, no endless phone calls.",
     heroTrustLine: "Reply within 24 hours · Clients in Germany",
-    hookLine: "Websites for Albanian businesses in Germany, with real clients as proof.",
+    hookLine: "New clients in Germany, with real projects as proof.",
     trustStats,
     painSection: {
       eyebrow: "THE SITUATION",
@@ -97,7 +97,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Professional websites for Albanian-owned businesses in the UK, on par with local competitors.",
     heroTrustLine: "Reply within 24 hours · Client in London",
-    hookLine: "Websites for Albanian businesses in the UK, with real results, not promises.",
+    hookLine: "A digital presence that finds you clients in the UK.",
     trustStats,
     painSection: {
       eyebrow: "THE SITUATION",
@@ -150,7 +150,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Professional websites for Albanian-owned businesses in Switzerland, with the quality this market expects.",
     heroTrustLine: "Reply within 24 hours · We speak Albanian",
-    hookLine: "A Swiss-level website, managed simply in Albanian.",
+    hookLine: "Swiss quality, managed simply in Albanian.",
     trustStats,
     painSection: {
       eyebrow: "THE SITUATION",
@@ -204,7 +204,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Bilingual (Albanian/Italian) websites for Albanian-owned businesses in Italy.",
     heroTrustLine: "Reply within 24 hours · Client in Milan",
-    hookLine: "Bilingual websites for Albanian businesses in Italy, with a real client as proof.",
+    hookLine: "Two languages, two markets: Italian and Albanian clients.",
     trustStats,
     painSection: {
       eyebrow: "THE SITUATION",
@@ -258,7 +258,7 @@ export const diasporaContent: Record<CountrySlug, DiasporaCountryContent> = {
     heroIntro:
       "Professional websites for Albanian-owned businesses in the USA and Canada that work while you sleep.",
     heroTrustLine: "Reply within 24 hours · We speak Albanian",
-    hookLine: "A website that works 24/7, even with a 6–9 hour time difference.",
+    hookLine: "Your business brings in clients 24/7, even while you sleep.",
     trustStats,
     painSection: {
       eyebrow: "THE SITUATION",
