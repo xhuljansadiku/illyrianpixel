@@ -1,18 +1,20 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { ensureGSAP, MOTION, useIsomorphicLayoutEffect, useReducedMotion } from "@/lib/gsap";
-import MobileMenu from "@/components/MobileMenu";
+// 2026-11-08: zëvendësuar nga DesktopMenuOverlay — import MobileMenu from "@/components/MobileMenu";
 // dropdown: import LanguageSwitcher from "@/components/LanguageSwitcher";
 import LanguageToggle from "@/components/LanguageToggle";
 import TrustRotator from "@/components/TrustRotator";
 import ContactModal from "@/components/ContactModal";
+import DesktopMenuOverlay from "@/components/DesktopMenuOverlay";
 
 export default function Navbar() {
   const t = useTranslations("common.nav");
+  const locale = useLocale();
   const navItems = [
     { id: "hero",          label: t("home"),     href: "/" },
     { id: "services",      label: t("services"), href: "/sherbimet" },
@@ -44,6 +46,7 @@ export default function Navbar() {
   const [active, setActive] = useState(activeFromPath);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
 
   useLayoutEffect(() => {
     if (reduced) return;
@@ -109,6 +112,8 @@ export default function Navbar() {
       ease: MOTION.ease.smooth
     });
   }, [isScrolled, reduced]);
+
+  const closeDesktopMenu = useCallback(() => setDesktopMenuOpen(false), []);
 
   const navigate = (item: (typeof navItems)[number]) => {
     router.push(item.href);
@@ -193,23 +198,14 @@ export default function Navbar() {
           </button>
 
           <div ref={desktopNavRef} className="hidden items-center gap-8 lg:flex">
-            {/* Home is the logo, so it is left out here (2026-11-06: Kontakt shfaqet si link; CTA hap dritaren) */}
-            {navItems.filter((item) => item.id !== "hero").map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={`ip-nav-link-inner font-ui text-[14px] font-bold tracking-[1px] transition-colors duration-300 ${
-                  active === item.id
-                    ? "text-accent hover:text-accentLight"
-                    : "text-white/64 hover:text-accentLight"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {/* 2026-11-07 (demo C): lidhjet u zhvendosën te menuja në ekran të plotë (DesktopMenuOverlay).
+                Më parë: navItems.filter((item) => item.id !== "hero").map((item) => <Link … className="ip-nav-link-inner …">{item.label}</Link>) */}
           </div>
 
           <div ref={actionsRef} className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
+            {/* 2026-11-08: gjuha e para (dytësore), pastaj Fillo sot + MENU bashkë */}
+            {/* dropdown: <LanguageSwitcher /> */}
+            <LanguageToggle />
             {/* 2026-11-06: "Fillo sot" hap formularin e shkurtër në dritare, jo faqen /contact */}
             <button
               type="button"
@@ -220,12 +216,28 @@ export default function Navbar() {
             >
               {t("cta")}
             </button>
-            {/* dropdown: <LanguageSwitcher /> */}
-            <LanguageToggle />
+            {/* 2026-11-07 (demo C): "MENU" hap menunë në ekran të plotë — 2026-11-08: në të gjitha madhësitë */}
+            <button
+              type="button"
+              onClick={() => setDesktopMenuOpen((v) => !v)}
+              aria-expanded={desktopMenuOpen}
+              aria-haspopup="dialog"
+              className="font-ui inline-flex h-10 items-center gap-2.5 rounded-full border border-white/15 px-4 text-[11px] font-bold tracking-[2px] text-white transition-colors duration-300 hover:border-accent/55 hover:text-accentLight md:gap-3 md:px-5 md:text-[12px]"
+            >
+              {desktopMenuOpen ? (locale === "en" ? "CLOSE ✕" : "MBYLL ✕") : "MENU"}
+              {!desktopMenuOpen && (
+                <span aria-hidden className="flex flex-col gap-1">
+                  <span className="h-px w-5 bg-current" />
+                  <span className="h-px w-3 bg-accent" />
+                </span>
+              )}
+            </button>
+            {/* 2026-11-08: ☰ i vjetër i celularit/tabletit, zëvendësuar nga "MENU" (DesktopMenuOverlay) */}
+            {false && (
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="inline-flex h-10 min-h-[40px] w-10 min-w-[40px] touch-manipulation items-center justify-center rounded-full border border-white/18 bg-white/[0.03] text-white/85 transition-colors duration-300 hover:border-accent/55 hover:bg-white/[0.06] hover:text-accentLight lg:hidden"
+              className="hidden h-10 min-h-[40px] w-10 min-w-[40px] touch-manipulation md:inline-flex items-center justify-center rounded-full border border-white/18 bg-white/[0.03] text-white/85 transition-colors duration-300 hover:border-accent/55 hover:bg-white/[0.06] hover:text-accentLight lg:hidden"
               aria-label={t("menuAria")}
               aria-expanded={mobileOpen}
             >
@@ -247,12 +259,23 @@ export default function Navbar() {
                 />
               </span>
             </button>
+            )}
           </div>
         </nav>
       </header>
 
       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
 
+      <DesktopMenuOverlay
+        open={desktopMenuOpen}
+        items={navItems}
+        active={active}
+        onClose={closeDesktopMenu}
+        onStart={() => setContactOpen(true)}
+        ctaLabel={t("cta")}
+      />
+
+      {/* 2026-11-08: menuja e vjetër e celularit u zëvendësua nga DesktopMenuOverlay (e njëjta kudo)
       <MobileMenu
         isOpen={mobileOpen}
         navItems={navItems}
@@ -261,6 +284,7 @@ export default function Navbar() {
         onNavigate={navigate}
         onStart={() => setContactOpen(true)}
       />
+      */}
     </>
   );
 }
