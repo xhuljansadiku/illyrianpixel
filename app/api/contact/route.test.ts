@@ -9,6 +9,14 @@ const state = vi.hoisted(() => ({
   emails: [] as { to: string; subject: string; html: string }[],
   emailThrows: false,
   telegram: [] as string[],
+  telegramHangs: false,
+  afterTasks: [] as (() => unknown)[],
+}));
+
+// `after()` kërkon runtime-in e Next: këtu detyrat mbahen në radhë që testi të zgjedhë kur ekzekutohen
+vi.mock("next/server", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("next/server")>()),
+  after: (task: () => unknown) => void state.afterTasks.push(task),
 }));
 
 vi.mock("@supabase/supabase-js", () => ({
@@ -36,7 +44,10 @@ vi.mock("@/lib/rateLimit", () => ({
   checkRateLimit: async () => state.rateAllowed,
 }));
 vi.mock("@/lib/telegram", () => ({
-  sendTelegramMessage: async (text: string) => void state.telegram.push(text),
+  sendTelegramMessage: async (text: string) => {
+    if (state.telegramHangs) await new Promise(() => {});
+    state.telegram.push(text);
+  },
   escapeTelegramHtml: (v: string) => v,
 }));
 vi.mock("@/lib/whatsapp", () => ({ sendWhatsAppMessage: async () => {} }));
@@ -47,10 +58,19 @@ const { createMathChallenge } = await import("@/lib/mathCheck");
 
 const ch = createMathChallenge();
 const valid = { name: "Test Klient", email: "test@example.com", message: "Dua një website për biznesin tim.", checkToken: ch.token, checkAnswer: String(ch.a + ch.b) };
-const post = (body: unknown) =>
+const send = (body: unknown) =>
   POST(new Request("http://localhost/api/contact", { method: "POST", body: JSON.stringify(body) }));
+const runAfterTasks = () => Promise.all(state.afterTasks.splice(0).map((task) => task()));
+// Përgjigjja + njoftimet që dalin pas saj
+const post = async (body: unknown) => {
+  const res = await send(body);
+  await runAfterTasks();
+  return res;
+};
 
 beforeEach(() => {
+  state.telegramHangs = false;
+  state.afterTasks = [];
   state.insertError = null;
   state.inserted = [];
   state.rateAllowed = true;
@@ -72,13 +92,32 @@ describe("POST /api/contact", () => {
   it("1. dërgim i vlefshëm pa telefon → 200, ruhet, 2 email-e", async () => {
     const res = await post(valid);
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ success: true });
+    expect(await res.json()).toEqual({ success: true, saved: true });
     expect(state.inserted).toHaveLength(1);
     expect(state.inserted[0]).toMatchObject({ phone: "", budget: "", timeline: "" });
     expect(state.emails).toHaveLength(2);
     // pa telefon → Telegram jep link email-i, jo wa.me bosh
     expect(state.telegram[0]).toContain("mailto:test@example.com");
     expect(state.telegram[0]).not.toContain("wa.me/\"");
+  });
+
+  it("përgjigjet pasi ruan kërkesën, pa pritur asnjë njoftim", async () => {
+    const res = await send(valid);
+    expect(await res.json()).toEqual({ success: true, saved: true });
+    expect(state.inserted).toHaveLength(1);
+    expect(state.emails).toHaveLength(0);
+    expect(state.telegram).toHaveLength(0);
+
+    await runAfterTasks();
+    expect(state.emails).toHaveLength(2);
+    expect(state.telegram).toHaveLength(1);
+  });
+
+  it("një njoftim që ngec nuk i ndalon email-et", async () => {
+    state.telegramHangs = true;
+    await send(valid);
+    void runAfterTasks();
+    await vi.waitFor(() => expect(state.emails).toHaveLength(2));
   });
 
   it("2. fushë e detyrueshme bosh → 400, asgjë s'ruhet", async () => {
@@ -101,6 +140,7 @@ describe("POST /api/contact", () => {
     expect(res.status).toBe(500);
     expect((await res.json()).success).toBe(false);
     expect(state.emails).toHaveLength(0);
+    expect(state.telegram).toHaveLength(0);
   });
 
   it("5. Resend dështon → kontakti ruhet, kthen sukses (lead-i s'humbet)", async () => {

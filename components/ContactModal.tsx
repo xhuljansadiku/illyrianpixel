@@ -127,7 +127,8 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
       const data = await res.json();
       if (data.success) {
         setSent(true);
-        trackEvent("generate_lead", { event_category: "contact_modal", event_label: form.service || "none", budget: form.budget || "none", value: 1 });
+        // Vetëm kur serveri e ruajti vërtet — honeypot-i kthen sukses të rremë pa `saved`
+        if (data.saved) trackEvent("generate_lead", { event_category: "contact_modal", event_label: form.service || "none", budget: form.budget || "none", value: 1 });
         setForm(EMPTY);
         setDiscount("");
         setStep(1);

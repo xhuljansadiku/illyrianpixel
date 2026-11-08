@@ -160,13 +160,15 @@ export default function ContactPageClient() {
       if (data.success) {
         setSuccess(true);
 
-        // Vetëm pas success:true nga serveri — një dërgim i dështuar s'numërohet kurrë si lead
-        trackEvent("generate_lead", {
-          event_category: "contact_form",
-          event_label: form.service || "none",
-          budget: form.budget || "none",
-          value: 1,
-        });
+        // Vetëm kur serveri e ruajti vërtet — as dërgimi i dështuar, as honeypot-i s'numërohen si lead
+        if (data.saved) {
+          trackEvent("generate_lead", {
+            event_category: "contact_form",
+            event_label: form.service || "none",
+            budget: form.budget || "none",
+            value: 1,
+          });
+        }
 
         setForm({
           name: "",
