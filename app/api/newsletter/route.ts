@@ -84,7 +84,8 @@ export async function POST(req: Request) {
       headers: unsubscribeHeaders(email),
     });
 
-    return NextResponse.json({ success: true, code: DISCOUNT_CODE });
+    // `isNew`: vetëm abonenti i ri numërohet në analitikë, jo ridërgimi te dikush që s'ka konfirmuar ende
+    return NextResponse.json({ success: true, code: DISCOUNT_CODE, isNew: !existing });
   } catch (err) {
     console.error("Newsletter error:", err);
     return NextResponse.json({ success: false, error: "Gabim i brendshëm. Provoni sërish." }, { status: 500 });

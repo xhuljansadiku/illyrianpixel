@@ -9,7 +9,7 @@ import { buildWhatsAppChatHref, DEFAULT_WHATSAPP_E164 } from "@/lib/whatsappPref
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { GuaranteeNote } from "@/components/PricingExtras";
 import { CONTACT_BUDGETS } from "@/lib/leadScore"; // Text audit 2: CONTACT_TIMELINES s'përdoret (afati fshehur)
-import { trackEvent } from "@/lib/track";
+import { trackLead } from "@/lib/track";
 import { getAttribution } from "@/lib/attribution";
 import { takeBrandDraft } from "@/lib/brandDraft";
 import BrandDropdown, { type DropdownOption } from "@/components/BrandDropdown";
@@ -167,14 +167,7 @@ export default function ContactPageClient() {
         setSuccess(true);
 
         // Vetëm kur serveri e ruajti vërtet — as dërgimi i dështuar, as honeypot-i s'numërohen si lead
-        if (data.saved) {
-          trackEvent("generate_lead", {
-            event_category: "contact_form",
-            event_label: form.service || "none",
-            budget: form.budget || "none",
-            value: 1,
-          });
-        }
+        if (data.saved) trackLead("page", { service: form.service, budget: form.budget, locale });
 
         setForm({
           name: "",

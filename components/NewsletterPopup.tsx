@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { CONSENT_SAVED_EVENT, readConsent } from "@/lib/consent";
+import { trackEvent } from "@/lib/track";
 
 const STORAGE_KEY = "ip_newsletter_popup_seen";
 const DELAY_MS = 7500;
@@ -84,6 +85,7 @@ export default function NewsletterPopup() {
         setCode(data.code);
         setState("success");
         localStorage.setItem(STORAGE_KEY, "1");
+        if (data.isNew) trackEvent("newsletter_signup", { location: "popup" });
       } else {
         setErrorMsg(data.error ?? t("errGeneric"));
         setState("error");

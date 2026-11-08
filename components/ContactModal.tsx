@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useLocale, useTranslations } from "next-intl";
 import { CONTACT_BUDGETS } from "@/lib/leadScore";
 import { Link } from "@/i18n/navigation";
-import { trackEvent } from "@/lib/track";
+import { trackEvent, trackLead } from "@/lib/track";
 import { getAttribution } from "@/lib/attribution";
 import BrandDropdown from "@/components/BrandDropdown";
 
@@ -64,7 +64,8 @@ const INPUT =
 const LABEL = "font-display mb-1.5 block text-[0.82rem] font-medium tracking-[0.02em] text-white/70";
 
 export default function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const t = COPY[useLocale() === "en" ? "en" : "sq"];
+  const locale = useLocale();
+  const t = COPY[locale === "en" ? "en" : "sq"];
   const tc = useTranslations("contact");
   const EMPTY = { name: "", email: "", phone: "", businessName: "", service: "", budget: "", message: "", website: "" };
   const [form, setForm] = useState(EMPTY);
@@ -88,6 +89,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
 
   useEffect(() => {
     if (!open) return;
+    trackEvent("contact_form_open", { form_type: "modal" });
     if (!check) loadCheck();
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -130,7 +132,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
       if (data.success) {
         setSent(true);
         // Vetëm kur serveri e ruajti vërtet — honeypot-i kthen sukses të rremë pa `saved`
-        if (data.saved) trackEvent("generate_lead", { event_category: "contact_modal", event_label: form.service || "none", budget: form.budget || "none", value: 1 });
+        if (data.saved) trackLead("modal", { service: form.service, budget: form.budget, locale });
         setForm(EMPTY);
         setDiscount("");
         setStep(1);

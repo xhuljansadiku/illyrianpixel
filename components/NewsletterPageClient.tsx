@@ -5,6 +5,7 @@ import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { trackEvent } from "@/lib/track";
 
 type State = "idle" | "loading" | "success" | "error";
 
@@ -67,6 +68,7 @@ export default function NewsletterPageClient() {
       if (data.success) {
         setCode(data.code);
         setState("success");
+        if (data.isNew) trackEvent("newsletter_signup", { location: "page" });
       } else {
         setErrorMsg(data.error ?? (locale === "en" ? "Something went wrong. Please try again." : "Diçka nuk funksionoi. Provoni sërish."));
         setState("error");

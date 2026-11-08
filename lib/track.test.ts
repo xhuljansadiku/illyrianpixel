@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { contactChannel, contactLocation, trackContactClick } from "@/lib/track";
+import { contactChannel, contactLocation, trackContactClick, trackLead } from "@/lib/track";
 
 // Element i rremë: `closest(selector)` kthen prindin që përputhet sipas hartës
 function fakeEl(matches: Record<string, unknown>) {
@@ -63,5 +63,15 @@ describe("trackContactClick", () => {
     click("/cmimet");
     click(null);
     expect(gtag).not.toHaveBeenCalled();
+  });
+
+  it("trackLead dërgon të njëjtat parametra nga çdo formular, pa value", () => {
+    trackLead("modal", { service: "SEO", budget: "", locale: "en" });
+    expect(gtag).toHaveBeenCalledWith("event", "generate_lead", {
+      form_type: "modal",
+      service: "SEO",
+      budget: "none",
+      site_language: "en",
+    });
   });
 });

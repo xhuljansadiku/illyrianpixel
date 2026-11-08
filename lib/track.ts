@@ -17,6 +17,20 @@ export function trackEvent(name: string, params: Params = {}) {
   }
 }
 
+// Kërkesë e ruajtur nga një formular kontakti — konvertimi kryesor. Të njëjtat parametra nga çdo formular,
+// pa `value` derisa të kemi një vlerë reale në euro. Asnjëherë emër, email ose telefon.
+export function trackLead(
+  formType: "page" | "modal",
+  lead: { service: string; budget: string; locale: string },
+) {
+  trackEvent("generate_lead", {
+    form_type: formType,
+    service: lead.service || "none",
+    budget: lead.budget || "none",
+    site_language: lead.locale,
+  });
+}
+
 // ── Klikimet e kontaktit (2026-10-21) ─────────────────────────────────────────
 // Një dëgjues i vetëm (te components/Analytics) kap çdo link wa.me / mailto: / tel: — edhe ata
 // në komponentë serveri — dhe dërgon `contact_click` { channel, location }. Kurrë href-in: linku
