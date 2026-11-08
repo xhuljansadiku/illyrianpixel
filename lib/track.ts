@@ -1,5 +1,6 @@
 // Ngjarje analitike të vogla (2026-10-20) — GA4 (gtag, respekton Consent Mode) + Microsoft Clarity.
-// S'bën asgjë nëse skriptet s'janë ngarkuar (p.sh. pa pëlqim për cookies).
+// Pa pëlqim `gtag` s'ekziston fare, ndaj ngjarja hidhet (s'mbahet në radhë). Me pëlqim, `gtag` krijohet
+// menjëherë dhe ngjarjet presin në dataLayer derisa të ngarkohet gtag.js (lib/consent.ts).
 type Params = Record<string, string | number | boolean | undefined>;
 
 export function trackEvent(name: string, params: Params = {}) {

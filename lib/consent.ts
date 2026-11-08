@@ -2,8 +2,8 @@
 //   • analytics — Google Analytics + Microsoft Clarity
 //   • marketing — Google Ads (matja e konvertimeve, reklama të personalizuara)
 //
-// • gtag ngarkohet gjithmonë, por me Google Consent Mode v2 në "denied" për të katër
-//   sinjalet: pa cookies e pa identifikues, derisa vizitori të pranojë.
+// • Basic Consent Mode v2 (2026-11-08): gtag.js ngarkohet VETËM pas pëlqimit për analitikë.
+//   Pa pëlqim s'ka asnjë script, kërkesë apo cookie të Google, dhe asgjë s'mbahet në radhë.
 // • Clarity (regjistron sesionet) ngarkohet VETËM pas pëlqimit për analitikë.
 // • Zgjedhja ruhet në localStorage si { v, analytics, marketing, ts } dhe skadon pas
 //   12 muajsh. Vlerat e vjetra "accepted"/"declined" s'vlejnë më ("declined" nuk
@@ -24,6 +24,10 @@ export const CONSENT_NEEDED_ATTR = "data-consent-needed";
 
 export const GA_ID = "G-82MBE7PY5B";
 const CLARITY_ID = "wnyi2atnrw";
+
+// Vetëm domeni i prodhimit i dërgon të dhëna pronës GA4 — jo localhost, jo preview-t e Vercel.
+// Hostname dhe jo env: s'varet nga cilësimet e projektit në Vercel, që prodhimi të mos prishet.
+const ANALYTICS_HOSTS = ["illyrianpixel.com", "www.illyrianpixel.com"];
 
 // Admini dhe faqet me token (oferta, portali i klientit, feedback): pa GA e pa Clarity —
 // URL-ja përmban token-in e aksesit të klientit, dhe Clarity do regjistronte të dhëna klientësh.
@@ -62,11 +66,63 @@ export function consentSignals({ analytics, marketing }: ConsentChoice) {
 }
 
 type AnalyticsWindow = Window & {
+  dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
   clarity?: ((...args: unknown[]) => void) & { q?: unknown[] };
 };
 
+// "stopped" zgjat deri në ringarkim: një gtag.js i ngarkuar s'hiqet dot nga faqja.
+let gaState: "off" | "running" | "stopped" = "off";
 let clarityLoaded = false;
+
+/** Pas `load` + kohë të lirë (si `lazyOnload` më parë), që GA të mos rëndojë ngarkimin e faqes. */
+function whenPageIsIdle(run: () => void) {
+  const schedule = () => {
+    if (window.requestIdleCallback) window.requestIdleCallback(run, { timeout: 3000 });
+    else setTimeout(run, 1);
+  };
+  if (document.readyState === "complete") schedule();
+  else window.addEventListener("load", schedule, { once: true });
+}
+
+/**
+ * Nis GA4 një herë të vetme, vetëm me pëlqim për analitikë dhe vetëm në domenin e prodhimit.
+ * `gtag` dhe dataLayer krijohen menjëherë: ngjarjet pas pëlqimit presin aty derisa të vijë gtag.js.
+ * Default "denied" + update me zgjedhjen, të dyja para script-it dhe para `config`.
+ */
+function startGoogleAnalytics(choice: ConsentChoice) {
+  if (!choice.analytics || gaState !== "off" || !ANALYTICS_HOSTS.includes(location.hostname)) return;
+  gaState = "running";
+
+  const w = window as AnalyticsWindow;
+  w.dataLayer = w.dataLayer || [];
+  // gtag.js njeh vetëm objektin `arguments`, jo një array
+  w.gtag = function () {
+    // eslint-disable-next-line prefer-rest-params
+    w.dataLayer!.push(arguments);
+  };
+  w.gtag("consent", "default", consentSignals({ analytics: false, marketing: false }));
+  w.gtag("consent", "update", consentSignals(choice));
+  w.gtag("js", new Date());
+  w.gtag("config", GA_ID, { anonymize_ip: true });
+
+  whenPageIsIdle(() => {
+    if (gaState !== "running") return; // pëlqimi u tërhoq para se të ngarkohej
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(script);
+  });
+}
+
+/** Ndal dërgimet menjëherë: flamuri zyrtar i Google + heqja e `gtag`. Pastaj ringarkohet faqja. */
+function stopGoogleAnalytics() {
+  const w = window as AnalyticsWindow;
+  (w as unknown as Record<string, unknown>)[`ga-disable-${GA_ID}`] = true;
+  w.gtag?.("consent", "update", consentSignals({ analytics: false, marketing: false }));
+  delete w.gtag;
+  gaState = "stopped";
+}
 
 export function loadClarity() {
   if (clarityLoaded) return;
@@ -100,8 +156,31 @@ function clearCookies(pattern: RegExp) {
   }
 }
 
+/**
+ * Zbaton një zgjedhje: nis ose përditëson GA dhe Clarity, ose i ndal dhe fshin cookies e kategorive
+ * të refuzuara. Thirret nga banner-i, në çdo ngarkim faqeje dhe kur zgjedhja ndryshon në një skedë tjetër.
+ * Kthen false kur faqja po ringarkohet: gtag.js dhe Clarity s'ndalen dot plotësisht ndryshe pasi janë ngarkuar.
+ */
+export function applyConsent(choice: ConsentChoice | null): boolean {
+  const { analytics, marketing } = choice ?? { analytics: false, marketing: false };
+  const withdrawn = !analytics && (gaState === "running" || clarityLoaded);
+
+  if (choice && analytics) {
+    if (gaState === "running") (window as AnalyticsWindow).gtag?.("consent", "update", consentSignals(choice));
+    else startGoogleAnalytics(choice);
+    loadClarity();
+  } else if (withdrawn) {
+    stopGoogleAnalytics();
+  }
+
+  if (!analytics) clearCookies(ANALYTICS_COOKIE);
+  if (!marketing) clearCookies(MARKETING_COOKIE);
+
+  if (withdrawn) location.reload();
+  return !withdrawn;
+}
+
 export function saveConsent(choice: ConsentChoice) {
-  const previous = readConsent();
   try {
     const value: StoredConsent = { v: CONSENT_VERSION, ...choice, ts: new Date().toISOString() };
     localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(value));
@@ -109,52 +188,35 @@ export function saveConsent(choice: ConsentChoice) {
     // localStorage i bllokuar — zgjedhja vlen vetëm për këtë faqe
   }
 
-  const w = window as AnalyticsWindow;
-  // Nëse gtag s'është ngarkuar ende, script-i "ga4-init" e lexon vetë zgjedhjen nga localStorage.
-  w.gtag?.("consent", "update", consentSignals(choice));
-
-  // Tërheqje e pëlqimit: fshij cookies e asaj kategorie
-  if (previous?.marketing && !choice.marketing) clearCookies(MARKETING_COOKIE);
-  if (choice.analytics) {
-    loadClarity();
-  } else if (previous?.analytics) {
-    clearCookies(ANALYTICS_COOKIE);
-    location.reload(); // Clarity s'ndalet dot ndryshe pasi është ngarkuar
-    return;
-  }
-
-  window.dispatchEvent(new Event(CONSENT_SAVED_EVENT));
+  if (applyConsent(choice)) window.dispatchEvent(new Event(CONSENT_SAVED_EVENT));
 }
 
-/**
- * Script-i inline i GA: vendos default-in "denied" PARA `config`, pastaj aplikon
- * zgjedhjen e ruajtur (vizitor që kthehet). Gjenerohet nga konstantet e mësipërme,
- * që të mos dalë nga sinkroni me readConsent().
- */
-export function gaInitScript() {
-  return `
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-      analytics_storage: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied'
-    });
-    try {
-      var c = JSON.parse(localStorage.getItem('${CONSENT_STORAGE_KEY}') || 'null');
-      // Të njëjtat kushte si readConsent(), përndryshe banner-i pyet ndërsa GA vepron sikur ka pëlqim
-      if (c && c.v === ${CONSENT_VERSION} && typeof c.analytics === 'boolean' && typeof c.marketing === 'boolean'
-          && Date.now() - Date.parse(c.ts) < ${CONSENT_MAX_AGE_MS}) {
-        var a = c.analytics === true ? 'granted' : 'denied';
-        var m = c.marketing === true ? 'granted' : 'denied';
-        gtag('consent', 'update', { analytics_storage: a, ad_storage: m, ad_user_data: m, ad_personalization: m });
-      }
-    } catch (e) {}
-    gtag('js', new Date());
-    gtag('config', '${GA_ID}', { anonymize_ip: true });
-  `;
-}
+// Advanced Consent Mode: ÇAKTIVIZUAR 2026-11-08 — gtag.js ngarkohej edhe pa pëlqim dhe dërgonte
+// sinjale pa cookies. Script-i inline u zëvendësua nga startGoogleAnalytics(). Për ta rikthyer,
+// hiq "// Advanced Consent Mode:" këtu dhe te components/Analytics.tsx.
+// Advanced Consent Mode: export function gaInitScript() {
+// Advanced Consent Mode:   return `
+// Advanced Consent Mode:     window.dataLayer = window.dataLayer || [];
+// Advanced Consent Mode:     function gtag(){dataLayer.push(arguments);}
+// Advanced Consent Mode:     gtag('consent', 'default', {
+// Advanced Consent Mode:       analytics_storage: 'denied',
+// Advanced Consent Mode:       ad_storage: 'denied',
+// Advanced Consent Mode:       ad_user_data: 'denied',
+// Advanced Consent Mode:       ad_personalization: 'denied'
+// Advanced Consent Mode:     });
+// Advanced Consent Mode:     try {
+// Advanced Consent Mode:       var c = JSON.parse(localStorage.getItem('${CONSENT_STORAGE_KEY}') || 'null');
+// Advanced Consent Mode:       if (c && c.v === ${CONSENT_VERSION} && typeof c.analytics === 'boolean' && typeof c.marketing === 'boolean'
+// Advanced Consent Mode:           && Date.now() - Date.parse(c.ts) < ${CONSENT_MAX_AGE_MS}) {
+// Advanced Consent Mode:         var a = c.analytics === true ? 'granted' : 'denied';
+// Advanced Consent Mode:         var m = c.marketing === true ? 'granted' : 'denied';
+// Advanced Consent Mode:         gtag('consent', 'update', { analytics_storage: a, ad_storage: m, ad_user_data: m, ad_personalization: m });
+// Advanced Consent Mode:       }
+// Advanced Consent Mode:     } catch (e) {}
+// Advanced Consent Mode:     gtag('js', new Date());
+// Advanced Consent Mode:     gtag('config', '${GA_ID}', { anonymize_ip: true });
+// Advanced Consent Mode:   `;
+// Advanced Consent Mode: }
 
 /**
  * Script-i inline në <head> (RootDocument): para paint-it të parë shënon <html> me

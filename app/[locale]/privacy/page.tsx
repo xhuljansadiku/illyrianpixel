@@ -31,7 +31,7 @@ const CONTENT: Record<Locale, {
   sq: {
     badge: "DOKUMENT LIGJOR · GDPR",
     title: "Politika e Privatësisë",
-    updated: "E fundit e përditësuar: Tetor 2026 · Illyrian Pixel, Tiranë, Shqipëri\nBazuar në Rregulloren (BE) 2016/679, GDPR",
+    updated: "E fundit e përditësuar: Nëntor 2026 · Illyrian Pixel, Tiranë, Shqipëri\nBazuar në Rregulloren (BE) 2016/679, GDPR",
     sections: [
       {
         title: "1. Identiteti i Kontrolluesit të të Dhënave",
@@ -97,7 +97,7 @@ Pas skadimit të afatit, të dhënat fshihen ose anonimizojnë në mënyrë të 
 • Analitika, Microsoft Clarity: _clck dhe _clsk (si dhe cookies të Microsoft), për analizën e përdorimit dhe regjistrimin e sesioneve; deri në 1 vit.
 • Marketing, Google Ads: _gcl_au (si dhe cookies të Google për reklama), për matjen e rezultateve të reklamave; deri në 90 ditë.
 
-Nëse nuk pranoni, Google merr vetëm sinjale teknike pa cookies (Google Consent Mode) për statistika të përmbledhura, ndërsa Microsoft Clarity nuk ngarkohet fare.
+Google Analytics ngarkohet vetëm pasi pranoni analitikën. Nëse nuk e pranoni, Google Analytics nuk ngarkohet dhe nuk i dërgohet asnjë e dhënë. Edhe Microsoft Clarity ngarkohet vetëm pas pëlqimit për analitikë.
 
 Në memorien e shfletuesit (localStorage/sessionStorage) ruajmë vetëm zgjedhje teknike: zgjedhjen tuaj për cookies (12 muaj), nëse keni mbyllur një dritare informuese dhe identifikuesin e sesionit të bisedës (fshihet kur mbyllni skedën).
 
@@ -134,7 +134,7 @@ Për të ushtruar çdo të drejtë, na kontaktoni: info@illyrianpixel.com. Do t'
   en: {
     badge: "LEGAL DOCUMENT · GDPR",
     title: "Privacy Policy",
-    updated: "Last updated: October 2026 · Illyrian Pixel, Tirana, Albania\nBased on Regulation (EU) 2016/679, GDPR",
+    updated: "Last updated: November 2026 · Illyrian Pixel, Tirana, Albania\nBased on Regulation (EU) 2016/679, GDPR",
     sections: [
       {
         title: "1. Identity of the Data Controller",
@@ -200,7 +200,7 @@ Once the retention period expires, data is securely deleted or anonymized.`,
 • Analytics, Microsoft Clarity: _clck and _clsk (plus Microsoft cookies), for usage analysis and session recording; up to 1 year.
 • Marketing, Google Ads: _gcl_au (plus Google advertising cookies), to measure ad results; up to 90 days.
 
-If you decline, Google only receives cookieless technical signals (Google Consent Mode) for aggregated statistics, while Microsoft Clarity is not loaded at all.
+Google Analytics is loaded only after you accept analytics. If you do not accept, Google Analytics is not loaded and no data is sent to it. Microsoft Clarity is also loaded only after consent for analytics.
 
 In your browser's storage (localStorage/sessionStorage) we only keep technical choices: your cookie choice (12 months), whether you closed an informational pop-up, and the chat session identifier (deleted when you close the tab).
 

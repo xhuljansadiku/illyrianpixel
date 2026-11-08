@@ -22,9 +22,11 @@ export default function RootDocument({ lang, children }: { lang: string; childre
         {/* Pas consent-it (e lexon atributin e tij): "Fija e artë" një herë për sesion */}
         {/* eslint-disable-next-line react/no-danger */}
         <script dangerouslySetInnerHTML={{ __html: goldThreadScript() }} />
+        {/* Basic Consent Mode (2026-11-08): pa lidhje me Google para pëlqimit, ndaj hiqen këto dy:
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        */}
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
 
         {/* ── Favicons — favicon.ico, icon.png dhe apple-icon.png i shton Next nga app/ ── */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

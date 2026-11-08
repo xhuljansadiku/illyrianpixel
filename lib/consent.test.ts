@@ -6,7 +6,6 @@ import {
   CONSENT_VERSION,
   consentGateScript,
   consentSignals,
-  gaInitScript,
   isPrivatePath,
   readConsent,
 } from "./consent";
@@ -80,41 +79,146 @@ describe("consentSignals", () => {
   });
 });
 
-// Ekzekuton script-in inline si në shfletues dhe kthen komandat consent që shtyn në dataLayer
-function runGaInit(storedValue: string | null) {
-  const context: Record<string, unknown> = {
-    localStorage: { getItem: () => storedValue },
-    Date,
-    JSON,
+// Shfletues i rremë për Basic Consent Mode. Moduli ka gjendje (GA niset një herë), ndaj importohet i ri çdo herë.
+async function browser({ hostname = "illyrianpixel.com", cookie = "" } = {}) {
+  vi.resetModules();
+  stubStorage();
+  const scripts: string[] = [];
+  const cookies = { value: cookie };
+  const reload = vi.fn();
+  const win: Record<string, unknown> = {
+    addEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+    requestIdleCallback: (run: () => void) => run(),
   };
-  context.window = context;
-  runInNewContext(gaInitScript(), context);
-  return (context.dataLayer as IArguments[])
-    .map((args) => Array.from(args))
-    .filter(([cmd]) => cmd === "consent")
-    .map(([, mode, signals]) => ({ mode, signals }));
+  vi.stubGlobal("window", win);
+  vi.stubGlobal("location", { hostname, reload });
+  vi.stubGlobal("document", {
+    readyState: "complete",
+    createElement: () => ({}),
+    head: { appendChild: (el: { src: string }) => void scripts.push(el.src) },
+    get cookie() {
+      return cookies.value;
+    },
+    set cookie(line: string) {
+      // Max-Age=0: cookie-ja fshihet
+      const name = line.split("=")[0];
+      cookies.value = cookies.value.split("; ").filter((c) => c.split("=")[0] !== name).join("; ");
+    },
+  });
+  const consent = await import("./consent");
+  const { trackEvent } = await import("./track");
+  const dataLayer = () => ((win.dataLayer as IArguments[] | undefined) ?? []).map((args) => Array.from(args));
+  const gtagScripts = () => scripts.filter((src) => src.includes("googletagmanager.com"));
+  return { consent, trackEvent, win, dataLayer, gtagScripts, cookies, reload };
 }
 
-describe("gaInitScript", () => {
-  it("applies a stored choice exactly when readConsent() accepts it", () => {
-    expect(runGaInit(null)).toHaveLength(1); // vetëm default
-    expect(runGaInit(stored(true, false))[1]).toEqual({
-      mode: "update",
-      signals: consentSignals({ analytics: true, marketing: false }),
-    });
-    // forma pa "marketing" → readConsent() = null → pa update
-    expect(runGaInit(JSON.stringify({ v: CONSENT_VERSION, analytics: true, ts: new Date().toISOString() }))).toHaveLength(1);
-    expect(runGaInit("accepted")).toHaveLength(1);
+describe("Basic Consent Mode", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("loads nothing from Google before a choice is made, and drops events instead of queueing them", async () => {
+    const b = await browser();
+    b.consent.applyConsent(b.consent.readConsent());
+    b.trackEvent("contact_click", { channel: "whatsapp" });
+    expect(b.win.gtag).toBeUndefined();
+    expect(b.win.dataLayer).toBeUndefined();
+    expect(b.gtagScripts()).toHaveLength(0);
   });
 
-  it("denies every signal by default before GA is configured", () => {
-    const script = gaInitScript();
-    const defaultAt = script.indexOf("'consent', 'default'");
-    expect(defaultAt).toBeGreaterThan(-1);
-    expect(defaultAt).toBeLessThan(script.indexOf("'config'"));
-    for (const signal of ["analytics_storage", "ad_storage", "ad_user_data", "ad_personalization"]) {
-      expect(script).toContain(`${signal}: 'denied'`);
-    }
+  it("loads nothing from Google when every optional category is rejected", async () => {
+    const b = await browser();
+    b.consent.saveConsent({ analytics: false, marketing: false });
+    expect(b.win.gtag).toBeUndefined();
+    expect(b.gtagScripts()).toHaveLength(0);
+    expect(b.reload).not.toHaveBeenCalled();
+  });
+
+  it("does not load GA for marketing without analytics", async () => {
+    const b = await browser();
+    b.consent.saveConsent({ analytics: false, marketing: true });
+    expect(b.win.gtag).toBeUndefined();
+    expect(b.gtagScripts()).toHaveLength(0);
+  });
+
+  it("sets denied defaults, then the choice, before config and before the script", async () => {
+    const b = await browser();
+    b.consent.saveConsent({ analytics: true, marketing: false });
+    const commands = b.dataLayer();
+    expect(commands.map(([cmd, arg]) => (cmd === "consent" ? `consent:${arg}` : cmd))).toEqual([
+      "consent:default",
+      "consent:update",
+      "js",
+      "config",
+    ]);
+    expect(commands[0][2]).toEqual(consentSignals({ analytics: false, marketing: false }));
+    expect(commands[1][2]).toEqual(consentSignals({ analytics: true, marketing: false }));
+    expect(commands[3][1]).toBe("G-82MBE7PY5B");
+    expect(b.gtagScripts()).toEqual(["https://www.googletagmanager.com/gtag/js?id=G-82MBE7PY5B"]);
+  });
+
+  it("grants marketing signals only when marketing is accepted", async () => {
+    const b = await browser();
+    b.consent.saveConsent({ analytics: true, marketing: true });
+    expect(b.dataLayer()[1][2]).toEqual(consentSignals({ analytics: true, marketing: true }));
+  });
+
+  it("initialises GA exactly once and updates consent on later changes", async () => {
+    const b = await browser();
+    b.consent.saveConsent({ analytics: true, marketing: false });
+    b.consent.applyConsent({ analytics: true, marketing: false });
+    b.consent.saveConsent({ analytics: true, marketing: true });
+    expect(b.gtagScripts()).toHaveLength(1);
+    expect(b.dataLayer().filter(([cmd]) => cmd === "config")).toHaveLength(1);
+    expect(b.dataLayer().at(-1)?.[2]).toEqual(consentSignals({ analytics: true, marketing: true }));
+    expect(b.reload).not.toHaveBeenCalled();
+  });
+
+  it("queues events after consent while gtag.js is still loading", async () => {
+    const b = await browser();
+    b.consent.saveConsent({ analytics: true, marketing: false });
+    b.trackEvent("generate_lead", { event_category: "contact_form" });
+    expect(b.dataLayer().at(-1)).toEqual(["event", "generate_lead", { event_category: "contact_form" }]);
+  });
+
+  it.each(["localhost", "127.0.0.1", "illyrianpixel-git-feat-x-xhuljan.vercel.app", "illyrianpixel.vercel.app"])(
+    "never starts GA on %s",
+    async (hostname) => {
+      const b = await browser({ hostname });
+      b.consent.saveConsent({ analytics: true, marketing: true });
+      expect(b.win.gtag).toBeUndefined();
+      expect(b.gtagScripts()).toHaveLength(0);
+    },
+  );
+
+  it("stops GA immediately on withdrawal, clears its cookies and reloads", async () => {
+    const b = await browser({ cookie: "_ga=1; _ga_82MBE7PY5B=2; _gcl_au=3; other=4" });
+    b.consent.saveConsent({ analytics: true, marketing: true });
+    b.consent.saveConsent({ analytics: false, marketing: false });
+    expect(b.win["ga-disable-G-82MBE7PY5B"]).toBe(true);
+    expect(b.win.gtag).toBeUndefined();
+    expect(b.cookies.value).toBe("other=4");
+    expect(b.reload).toHaveBeenCalledTimes(1);
+
+    const queued = b.dataLayer().length;
+    b.trackEvent("contact_click", { channel: "email" });
+    expect(b.dataLayer()).toHaveLength(queued);
+  });
+
+  it("clears leftover GA cookies on load when there is no analytics consent", async () => {
+    const b = await browser({ cookie: "_ga=1; _gcl_au=3" });
+    b.consent.applyConsent(null);
+    expect(b.cookies.value).toBe("");
+    expect(b.reload).not.toHaveBeenCalled();
+  });
+
+  it("keeps GA running but clears ad cookies when only marketing is withdrawn", async () => {
+    const b = await browser({ cookie: "_ga=1; _gcl_au=3" });
+    b.consent.saveConsent({ analytics: true, marketing: true });
+    b.consent.saveConsent({ analytics: true, marketing: false });
+    expect(b.win.gtag).toBeTypeOf("function");
+    expect(b.dataLayer().at(-1)?.[2]).toEqual(consentSignals({ analytics: true, marketing: false }));
+    expect(b.cookies.value).toBe("_ga=1");
+    expect(b.reload).not.toHaveBeenCalled();
   });
 });
 
