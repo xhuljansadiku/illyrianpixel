@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 // Advanced Consent Mode: import { GA_ID, gaInitScript, isPrivatePath, loadClarity, readConsent } from "@/lib/consent";
 import { applyConsent, CONSENT_STORAGE_KEY, isPrivatePath, readConsent } from "@/lib/consent";
 import { trackContactClick } from "@/lib/track";
+import { captureAttribution } from "@/lib/attribution";
 
 // GA4 (Basic Consent Mode v2) dhe Clarity ngarkohen vetëm pas pëlqimit për analitikë (lib/consent.ts).
 // Pëlqimi i ri jepet nga CookieConsent → saveConsent(); këtu trajtohet vizitori që kthehet.
@@ -13,9 +14,14 @@ export default function Analytics() {
   const pathname = usePathname();
   const isPrivate = isPrivatePath(pathname);
 
+  // Burimi i vizitorit për formularët: vetëm në memorie, s'varet nga pëlqimi dhe s'i dërgohet palëve të treta
+  useEffect(() => {
+    captureAttribution();
+  }, []);
+
   useEffect(() => {
     if (isPrivate) return;
-    const sync = () => applyConsent(readConsent());
+    const sync =() => applyConsent(readConsent());
     // Zgjedhja u ndryshua në një skedë tjetër (ose faqja u rikthye nga cache-i i shfletuesit)
     const onStorage = (event: StorageEvent) => {
       if (event.key === CONSENT_STORAGE_KEY || event.key === null) sync();

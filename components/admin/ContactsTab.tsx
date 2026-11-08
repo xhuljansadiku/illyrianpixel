@@ -14,6 +14,7 @@ import { CARD, EmptyState, Skeleton, STATUS_LABELS, formatDate, formatDay, isOve
 import { CONTACT_STATUSES, CONTACT_STATUS_LABELS, LOST_REASONS, LOST_REASON_LABELS, type LostReason } from "@/lib/contactStatus";
 import { formatMoney } from "@/lib/quotes";
 import { leadScore, LEAD_LABEL_STYLES, LEAD_LABEL_TEXT } from "@/lib/leadScore";
+import { leadSourceLabel } from "@/lib/attribution";
 import AttachmentsPanel from "@/components/admin/AttachmentsPanel";
 import type { Contact, TrashedContact } from "@/components/AdminDashboard";
 
@@ -973,7 +974,10 @@ export default function ContactsTab({
                             <div className="border-t border-[var(--a-border)] p-5 text-[13px] leading-relaxed text-[rgb(var(--a-text-rgb)/0.6)]">
                               <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Telefon:</span> {c.phone}</p>
                               {c.business_name && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Biznesi:</span> {c.business_name}</p>}
-                              {c.source_path && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Erdhi nga faqja:</span> {c.source_path}</p>}
+                              {leadSourceLabel(c) && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Burimi:</span> {leadSourceLabel(c)}</p>}
+                              {c.utm_campaign && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Fushata:</span> {c.utm_campaign}</p>}
+                              {c.landing_path && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Faqja e hyrjes:</span> {c.landing_path}</p>}
+                              {c.source_path && <p><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Formulari në faqen:</span> {c.source_path}</p>}
                               <p className="mt-3 whitespace-pre-wrap"><span className="text-[rgb(var(--a-text-rgb)/0.35)]">Mesazhi:</span> {c.message}</p>
 
                               {/* Quick actions */}

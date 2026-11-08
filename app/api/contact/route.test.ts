@@ -120,6 +120,28 @@ describe("POST /api/contact", () => {
     await vi.waitFor(() => expect(state.emails).toHaveLength(2));
   });
 
+  it("ruan burimin e vizitorit me kërkesën", async () => {
+    await post({ ...valid, attribution: { utm_source: "google", utm_medium: "cpc", landing_path: "/cmimet", referrer_host: "google.com", click_source: "google_ads" } });
+    expect(state.inserted[0]).toMatchObject({ utm_source: "google", utm_medium: "cpc", landing_path: "/cmimet", referrer_host: "google.com", click_source: "google_ads" });
+  });
+
+  it("ruan kërkesën edhe pa burim", async () => {
+    const res = await post(valid);
+    expect(res.status).toBe(200);
+    expect(state.inserted[0]).not.toHaveProperty("utm_source");
+  });
+
+  it("burimi i manipuluar s'prek fushat e tjera dhe s'e prish kërkesën", async () => {
+    const res = await post({ ...valid, attribution: { name: "Tjeter", deleted_at: "2020-01-01", utm_source: "<b>x</b>", click_source: "fake" } });
+    expect(res.status).toBe(200);
+    expect(state.inserted[0]).toMatchObject({ name: valid.name, utm_source: "bx/b" });
+    expect(state.inserted[0]).not.toHaveProperty("deleted_at");
+    expect(state.inserted[0]).not.toHaveProperty("click_source");
+
+    const notObject = await post({ ...valid, attribution: "tekst" });
+    expect(notObject.status).toBe(200);
+  });
+
   it("2. fushë e detyrueshme bosh → 400, asgjë s'ruhet", async () => {
     for (const missing of ["name", "email", "message"]) {
       const res = await post({ ...valid, [missing]: "" });

@@ -89,6 +89,14 @@ export type Contact = {
   tags: string[] | null;
   value: number | null;
   source_path: string | null;
+  utm_source?: string | null;
+  utm_medium?: string | null;
+  utm_campaign?: string | null;
+  utm_term?: string | null;
+  utm_content?: string | null;
+  click_source?: string | null;
+  landing_path?: string | null;
+  referrer_host?: string | null;
   viewed_at: string | null;
   portal_token: string | null;
 };

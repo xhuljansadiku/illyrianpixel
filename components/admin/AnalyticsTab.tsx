@@ -5,6 +5,7 @@ import { CARD, EmptyState, STATUS_LABELS, formatDate, formatSq, formatNumberSq }
 import { formatMoney, quoteTotals, type QuoteRecord, type RecurringInvoice } from "@/lib/quotes";
 import type { Contact, Stats } from "@/components/AdminDashboard";
 import { isClosedContactStatus } from "@/lib/contactStatus";
+import { leadSourceLabel } from "@/lib/attribution";
 
 function printMonthlyReport(contacts: Contact[], stats: Stats) {
   const now = new Date();
@@ -162,7 +163,8 @@ export default function AnalyticsTab({
   const sources = useMemo(() => {
     const map = new Map<string, number>();
     contacts.forEach((c) => {
-      const key = c.source_path || "(e panjohur)";
+      // Sipas faqes së formularit: const key = c.source_path || "(e panjohur)";
+      const key = leadSourceLabel(c) ?? "(e panjohur)";
       map.set(key, (map.get(key) ?? 0) + 1);
     });
     return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 7);
@@ -305,7 +307,7 @@ export default function AnalyticsTab({
       {/* Burimet e lead-eve */}
       <div className={CARD + " p-5"}>
         <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--a-text-rgb)/0.4)]">
-          Nga cilat faqe vijnë kontaktet
+          Nga vijnë kontaktet
         </p>
         {sources.length === 0 ? (
           <EmptyState text="Ende pa të dhëna burimi." />

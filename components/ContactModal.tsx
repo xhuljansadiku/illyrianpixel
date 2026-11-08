@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { CONTACT_BUDGETS } from "@/lib/leadScore";
 import { Link } from "@/i18n/navigation";
 import { trackEvent } from "@/lib/track";
+import { getAttribution } from "@/lib/attribution";
 import BrandDropdown from "@/components/BrandDropdown";
 
 // Formular kontakti në dritare (2026-11-06) — hapet nga "Fillo sot" te navbar; të njëjtat fusha si /contact.
@@ -120,6 +121,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
           ...form,
           discountCode: discountValid ? "ILLYRIAN10" : undefined,
           sourcePath: window.location.pathname,
+          attribution: getAttribution(),
           checkToken: check?.token,
           checkAnswer: answer,
         }),

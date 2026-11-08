@@ -7,6 +7,7 @@ import { sendWhatsAppMessage } from "@/lib/whatsapp";
 import { logActivity } from "@/lib/activityLog";
 import { PRIORITY_BUDGETS } from "@/lib/leadScore";
 import { verifyMathChallenge } from "@/lib/mathCheck";
+import { sanitizeAttribution } from "@/lib/attribution";
 
 // Email-i i konfirmimit për klientin, në gjuhën e faqes nga e dërgoi (më parë vetëm shqip)
 const CONFIRMATION = {
@@ -163,6 +164,7 @@ export async function POST(req: Request) {
         message,
         discount_code: discountCode || null,
         source_path: sourcePath.startsWith("/") ? sourcePath : null,
+        ...sanitizeAttribution(body.attribution),
       },
     ]);
 

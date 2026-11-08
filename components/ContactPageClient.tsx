@@ -10,6 +10,7 @@ import { ensureGSAP, useIsomorphicLayoutEffect } from "@/lib/gsap";
 import { GuaranteeNote } from "@/components/PricingExtras";
 import { CONTACT_BUDGETS } from "@/lib/leadScore"; // Text audit 2: CONTACT_TIMELINES s'përdoret (afati fshehur)
 import { trackEvent } from "@/lib/track";
+import { getAttribution } from "@/lib/attribution";
 import BrandDropdown, { type DropdownOption } from "@/components/BrandDropdown";
 import { GOOGLE_BUSINESS_URL } from "@/lib/socialLinks";
 
@@ -149,6 +150,7 @@ export default function ContactPageClient() {
           message: form.message,
           discountCode: discountStatus === "valid" ? "ILLYRIAN10" : undefined,
           sourcePath: typeof window !== "undefined" ? window.location.pathname : undefined,
+          attribution: getAttribution(),
           website: form.website,
           checkToken: check?.token,
           checkAnswer,

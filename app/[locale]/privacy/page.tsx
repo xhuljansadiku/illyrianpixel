@@ -43,6 +43,8 @@ const CONTENT: Record<Locale, {
 
 • Formulari i kontaktit: emri, email, telefoni, emri i biznesit, mesazhi dhe, nëse i plotësoni, shërbimi, buxheti dhe afati. Baza ligjore: Neni 6(1)(b) GDPR, masa paraprake me kërkesën tuaj.
 
+• Burimi i kërkesës: kur dërgoni formularin, ruajmë bashkë me të nga erdhët në faqe (parametrat e fushatës në link, llojin e reklamës, faqen e hyrjes dhe domenin që ju solli). Deri në dërgim mbahet vetëm në memorien e faqes, pa cookies, dhe nuk u jepet palëve të treta. Baza ligjore: Neni 6(1)(f) GDPR, interes legjitim për të kuptuar nga vijnë kërkesat.
+
 • Newsletter: email-i, data e abonimit dhe e konfirmimit (konfirmim i dyfishtë), si dhe nëse hapni email-et tona ose klikoni linket në to. Baza ligjore: Neni 6(1)(a) GDPR, pëlqimi. Mund të çabonoheni me një klik nga çdo email.
 
 • Asistenti King Genti: mesazhet që shkruani në bisedë, të lidhura vetëm me një identifikues të rastësishëm sesioni (pa emër dhe pa adresë IP). I përdorim për të përmirësuar përgjigjet. Baza ligjore: Neni 6(1)(f) GDPR, interes legjitim. Ju lutem mos shkruani të dhëna sensitive në bisedë.
@@ -145,6 +147,8 @@ Për të ushtruar çdo të drejtë, na kontaktoni: info@illyrianpixel.com. Do t'
         body: `We collect the following data:
 
 • Contact form: name, email, phone, business name, message and, if you fill them in, service, budget and timeline. Legal basis: Article 6(1)(b) GDPR, pre-contractual steps at your request.
+
+• Source of your enquiry: when you submit the form, we store with it how you reached the site (campaign parameters in the link, the type of ad, the landing page and the domain that referred you). Until you submit, this is kept only in the page's memory, without cookies, and it is not given to third parties. Legal basis: Article 6(1)(f) GDPR, legitimate interest in understanding where enquiries come from.
 
 • Newsletter: your email, the date you subscribed and confirmed (double opt-in), and whether you open our emails or click their links. Legal basis: Article 6(1)(a) GDPR, consent. You can unsubscribe with one click from any email.
 
