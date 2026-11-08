@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
+// page_view i rremë: import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionMark from "@/components/SectionMark";
@@ -66,8 +67,8 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
     { slug: "mirembajtja",      label: t("filters.maintenance") },
   ];
   const heroRef = useRef<HTMLElement>(null);
-  const router = useRouter();
-  const pathname = usePathname();
+  // page_view i rremë: const router = useRouter();
+  // page_view i rremë: const pathname = usePathname();
 
   const [active, setActive] = useState<ServiceCategory["slug"]>("website");
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
@@ -87,9 +88,10 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
     setActive(goal.slug);
     setHighlight({ slug: goal.slug, pkg: goal.pkg });
     trackEvent("pricing_goal", { goal: goal.key });
-    const params = new URLSearchParams(window.location.search);
-    params.set("kategori", goal.slug);
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    // Çdo ndryshim i URL-së numërohet nga GA4 si page_view më vete. `?kategori=` vazhdon të lexohet në hapje.
+    // page_view i rremë: const params = new URLSearchParams(window.location.search);
+    // page_view i rremë: params.set("kategori", goal.slug);
+    // page_view i rremë: router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     window.requestAnimationFrame(() =>
       document.getElementById(goal.slug)?.scrollIntoView({ behavior: "smooth", block: "start" })
     );
@@ -108,9 +110,9 @@ export default function AllPackagesPageClient({ overrides, faqItems }: { overrid
   function handleFilterClick(slug: ServiceCategory["slug"]) {
     setActive(slug);
     setHighlight(null);
-    const params = new URLSearchParams(window.location.search);
-    params.set("kategori", slug);
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    // page_view i rremë: const params = new URLSearchParams(window.location.search);
+    // page_view i rremë: params.set("kategori", slug);
+    // page_view i rremë: router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   useIsomorphicLayoutEffect(() => {

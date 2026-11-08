@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { setBrandDraft } from "@/lib/brandDraft";
 
 type Style = "elegant" | "modern" | "bold";
 
@@ -162,9 +163,10 @@ export default function HeroBrandBuilderLive() {
   const tagline = demo ? sample.tagline : t(`taglines.${style}`);
   const siteCta = demo ? sample.cta : t("siteCta");
   const items = demo ? sample.items : null;
-  const contactHref = !demo && name.trim()
-    ? `/contact?biznesi=${encodeURIComponent(name.trim())}&stili=${encodeURIComponent(t(`styles.${style}`))}`
-    : "/contact";
+  // URL me emrin e shkruar nga vizitori: shkonte te GA.
+  // const contactHref = !demo && name.trim()
+  //   ? `/contact?biznesi=${encodeURIComponent(name.trim())}&stili=${encodeURIComponent(t(`styles.${style}`))}`
+  //   : "/contact";
 
   return (
     <div ref={rootRef} className="w-full max-w-[560px] space-y-4 text-left">
@@ -284,7 +286,10 @@ export default function HeroBrandBuilderLive() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-[12px] text-white/55">{demo || !name.trim() ? t("hint") : ""}</p>
         <Link
-          href={contactHref}
+          href="/contact"
+          onClick={() => {
+            if (!demo && name.trim()) setBrandDraft({ business: name.trim(), style: t(`styles.${style}`) });
+          }}
           lang={locale}
           className="inline-flex items-center gap-2 border-b border-accent pb-1 text-[12px] font-semibold uppercase tracking-[0.16em] text-accent transition-colors hover:text-accentLight"
         >

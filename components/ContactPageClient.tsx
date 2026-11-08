@@ -11,6 +11,7 @@ import { GuaranteeNote } from "@/components/PricingExtras";
 import { CONTACT_BUDGETS } from "@/lib/leadScore"; // Text audit 2: CONTACT_TIMELINES s'përdoret (afati fshehur)
 import { trackEvent } from "@/lib/track";
 import { getAttribution } from "@/lib/attribution";
+import { takeBrandDraft } from "@/lib/brandDraft";
 import BrandDropdown, { type DropdownOption } from "@/components/BrandDropdown";
 import { GOOGLE_BUSINESS_URL } from "@/lib/socialLinks";
 
@@ -85,11 +86,14 @@ export default function ContactPageClient() {
     website: "", // honeypot — duhet të mbetet bosh; e mbushin vetëm bot-et
   });
 
-  // Nga "Ndërto brandin tënd" në Hero: /contact?biznesi=...&stili=... → mbush emrin e biznesit dhe mesazhin
+  // Nga "Ndërto brandin tënd" në Hero: mbush emrin e biznesit dhe mesazhin (nga memoria, jo nga URL-ja)
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const business = params.get("biznesi")?.trim().slice(0, 60);
-    const style = params.get("stili")?.trim().slice(0, 30);
+    // const params = new URLSearchParams(window.location.search);
+    // const business = params.get("biznesi")?.trim().slice(0, 60);
+    // const style = params.get("stili")?.trim().slice(0, 30);
+    const draft = takeBrandDraft();
+    const business = draft?.business.trim().slice(0, 60);
+    const style = draft?.style.trim().slice(0, 30);
     if (!business) return;
     const message =
       locale === "en"
